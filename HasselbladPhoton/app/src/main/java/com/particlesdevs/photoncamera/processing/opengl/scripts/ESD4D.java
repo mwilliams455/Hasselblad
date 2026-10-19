@@ -1,0 +1,1408 @@
+package com.particlesdevs.photoncamera.processing.opengl.scripts;
+
+import android.graphics.Point;
+import android.util.Pair;
+
+import com.particlesdevs.photoncamera.processing.cpu.HalideAlignment;
+import com.particlesdevs.photoncamera.processing.ml.KernelNetNcnnProcessor;
+import com.particlesdevs.photoncamera.processing.ml.KernelNetResult;
+import com.particlesdevs.photoncamera.processing.opengl.GLBuffer;
+import com.particlesdevs.photoncamera.settings.annotations.Tunable;
+import com.particlesdevs.photoncamera.util.Log;
+
+import com.particlesdevs.photoncamera.app.PhotonCamera;
+import com.particlesdevs.photoncamera.processing.ImageFrame;
+import com.particlesdevs.photoncamera.processing.opengl.GLCoreBlockProcessing;
+import com.particlesdevs.photoncamera.processing.opengl.GLDrawParams;
+import com.particlesdevs.photoncamera.processing.opengl.GLFormat;
+import com.particlesdevs.photoncamera.processing.opengl.GLOneScript;
+import com.particlesdevs.photoncamera.processing.opengl.GLProg;
+import com.particlesdevs.photoncamera.processing.opengl.GLTexture;
+import com.particlesdevs.photoncamera.processing.opengl.GLUtils;
+import com.particlesdevs.photoncamera.processing.render.NoiseModeler;
+import com.particlesdevs.photoncamera.processing.render.Parameters;
+import com.particlesdevs.photoncamera.settings.DynamicNoiseStore;
+import com.particlesdevs.photoncamera.util.Allocator;
+import com.particlesdevs.photoncamera.util.BufferUtils;
+import com.particlesdevs.photoncamera.util.Math2;
+
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.FloatBuffer;
+import java.nio.ShortBuffer;
+import java.util.ArrayList;
+import java.util.Objects;
+import java.util.concurrent.atomic.AtomicReference;
+
+import static android.opengl.GLES20.GL_CLAMP_TO_EDGE;
+import static android.opengl.GLES20.GL_LINEAR;
+import static android.opengl.GLES20.GL_MIRRORED_REPEAT;
+import static android.opengl.GLES20.GL_NEAREST;
+
+public class ESD4D extends GLOneScript {
+    public Parameters parameters;
+    ArrayList<ImageFrame> images;
+    //ByteBuffer alignment;
+    GLProg glProg;
+    GLUtils glUtils;
+    public ESD4D(Point size, ArrayList<ImageFrame> images) {
+        super(size, new GLCoreBlockProcessing(size,new GLFormat(GLFormat.DataType.FLOAT_16), GLDrawParams.Allocate.Direct),"", "ESD4D", true);
+        this.glProg = glOne.glProgram;
+        this.images = images;
+        //this.alignment = alignment;
+    }
+
+    /**
+     * KernelNet runs natively through ncnn on the Vulkan backend (see
+     * {@link KernelNetNcnnProcessor}).
+     */
+
+    @Override
+    public void Compile(){}
+    private int baseCnt = 0;
+
+    /**
+     * Alternates the combine write target between the two fixed rotation
+     * slots. The caller tracks the running accumulation separately (mergeAcc
+     * in Run()); reassigning base/baseAlter collapses the rotation onto one
+     * texture, making combine read and write it in the same dispatch.
+     */
+    private GLTexture getBase(){
+        if(baseCnt == 0){
+            baseCnt++;
+            return baseAlter;
+        } else {
+            baseCnt = 0;
+            return base;
+        }
+    }
+    float noiseS;
+    float noiseO;
+    GLBuffer hotPixelBuffer;
+    int hotPixelCount;
+    /** Frames averaged into the hot-pixel detection input (buildAveragedFrame). */
+    int hotAvgFrames = 1;
+    /** Sensor red-site offset ((cfa%2, cfa/2)); the packed grid is rawHalf + cfaShift. */
+    Point cfaShift;
+    /** Packed texture size (rawSize/2 + cfaShift) shared by all quad-packed stages. */
+    Point packedSize;
+    @Tunable(title = "Max hotPixels", category = "Merge", description = "Statistical cpu filtering count threshold", min = 16384, max = 262144, step = 1000, defaultValue = 65535)
+    int MAX_HOT_PIXELS;
+    @Tunable(title = "Max reasonable hotPixels", category = "Merge", description = "Statistical cpu filtering count threshold", min = 1000, max = 10000, step = 100, defaultValue = 2000)
+    int MAX_REASONABLE_HOTPIXELS;
+
+    @Tunable(title = "Enable hotPixel correction", category = "Merge", min = 0, max = 1, step = 1, defaultValue = 0)
+    boolean enableHotPixelCorrection;
+
+    /**
+     * Averages up to 10 frames (or fewer if not available) into a single rgba16f texture
+     * at rawHalf resolution. Uses incremental mix: mix(current, new, 1/(i+1)) which yields
+     * a proper running average without overflow.
+     */
+    private GLTexture buildAveragedFrame(int tile) {
+        int maxFrames = Math.min(10, images.size());
+        hotAvgFrames = maxFrames;
+
+        GLTexture avgA     = new GLTexture(packedSize, new GLFormat(GLFormat.DataType.FLOAT_16, 4), null, GL_NEAREST, GL_CLAMP_TO_EDGE);
+        GLTexture avgB     = new GLTexture(packedSize, new GLFormat(GLFormat.DataType.FLOAT_16, 4), null, GL_NEAREST, GL_CLAMP_TO_EDGE);
+        GLTexture tempFloat = new GLTexture(packedSize, new GLFormat(GLFormat.DataType.FLOAT_16, 4), null, GL_NEAREST, GL_CLAMP_TO_EDGE);
+        GLTexture tempRaw  = maxFrames > 1
+                ? new GLTexture(parameters.rawSize, new GLFormat(GLFormat.DataType.FLOAT_16, 1), null, GL_NEAREST, GL_CLAMP_TO_EDGE)
+                : null;
+
+        GLTexture avgCurrent = avgA;
+        GLTexture avgNext    = avgB;
+
+        for (int i = 0; i < maxFrames; i++) {
+            GLTexture rawSrc = (i == 0) ? inputBase : tempRaw;
+            if (i > 0) {
+                tempRaw.loadRawHalf(images.get(i).buffer);
+            }
+
+            // Convert raw Bayer -> normalized rgba16f vec4 (one texel per 2x2 Bayer quad)
+            glProg.setLayout(tile, tile, 1);
+            glProg.useAssetProgram("merge/merge00", true);
+            glProg.setVar("exposure", 1.0f / images.get(0).pair.layerMpy);
+            glProg.setVar("createDiff", 0);
+            glProg.setVar("cfaShift", cfaShift);
+            glProg.setTexture("inTexture", rawSrc);
+            glProg.setTextureCompute("outTexture", tempFloat, true);
+            glProg.computeAuto(packedSize, 1);
+
+            // Incremental mix: mix(currentAvg, newFrame, 1/(i+1))
+            // i=0 → weight=1.0 copies newFrame wholesale (currentAvg is uninitialised zeros)
+            float weight = 1.0f / (i + 1);
+            glProg.setLayout(tile, tile, 1);
+            glProg.useAssetProgram("merge/avermix", true);
+            glProg.setTextureCompute("currentTexture", avgCurrent, false);
+            glProg.setTextureCompute("newTexture",     tempFloat,  false);
+            glProg.setTextureCompute("outTexture",     avgNext,    true);
+            glProg.setVar("weight", weight);
+            glProg.computeAuto(packedSize, 1);
+
+            // Ping-pong: avgNext becomes the new accumulator
+            GLTexture swap = avgCurrent;
+            avgCurrent = avgNext;
+            avgNext    = swap;
+        }
+
+        avgNext.close();
+        tempFloat.close();
+        if (tempRaw != null) tempRaw.close();
+        Log.d(Name, "Averaged " + maxFrames + " frame(s) for hot pixel detection");
+        return avgCurrent; // caller must close
+    }
+
+    private GLBuffer detectHotPixels(GLTexture avgTex) {
+        GLBuffer res = new GLBuffer(MAX_HOT_PIXELS*4+1, new GLFormat(GLFormat.DataType.UNSIGNED_32));
+        glProg.setLayout(8,8,1);
+        glProg.useAssetProgram("merge/hotpixeldetect", true);
+        // avgTex averages hotAvgFrames frames, so its noise variance is
+        // (S*b + O)/n: divide both coefficients or the sigma threshold and
+        // z-scores run sqrt(n) (~3.2x at 10 frames) too insensitive.
+        glProg.setVar("noiseS", noiseS / hotAvgFrames);
+        glProg.setVar("noiseO", noiseO / hotAvgFrames);
+        glProg.setVar("detectThr", (float) detectThr);
+        glProg.setVar("maxCount", MAX_HOT_PIXELS);
+        glProg.setTexture("inTexture", avgTex);
+        glProg.setBufferCompute("HotPixelList",res);
+        glProg.computeAuto(base.mSize, 1);
+        int[] outputArr = res.readBufferIntegers(false);
+        int rawCount = Math.min(outputArr[0], MAX_HOT_PIXELS);
+        Log.d(Name, "Hot pixels detected (raw):" + rawCount);
+        
+        hotPixelCount = filterHotPixels(outputArr, rawCount, res);
+        Log.d(Name, "Hot pixels after filtering:" + hotPixelCount);
+        return res;
+    }
+    
+    private int filterHotPixels(int[] data, int count, GLBuffer buffer) {
+        if (count <= 0) return 0;
+        
+        // Structure: data[0] = count, then for each pixel: x, y, channels, strength
+        ArrayList<int[]> candidates = new ArrayList<>();
+        for (int i = 0; i < count; i++) {
+            int idx = 1 + i * 4;
+            int x = data[idx];
+            int y = data[idx + 1];
+            int ch = data[idx + 2];
+            int strength = data[idx + 3];
+            candidates.add(new int[]{x, y, ch, strength, i});
+        }
+        
+        // If too many detections, likely false positives - filter by strength
+        if (count > MAX_REASONABLE_HOTPIXELS) {
+            Log.d(Name, "Too many hot pixels, filtering by strength");
+            // Sort by strength (descending)
+            candidates.sort((a, b) -> Integer.compare(b[3], a[3]));
+            // Keep only the strongest
+            while (candidates.size() > MAX_REASONABLE_HOTPIXELS) {
+                candidates.remove(candidates.size() - 1);
+            }
+        }
+        
+        ArrayList<int[]> filtered = candidates;
+        
+        // Statistical outlier removal based on strength distribution
+        if (filtered.size() > 50) {
+            // Calculate mean and stddev of strength
+            double sum = 0, sumSq = 0;
+            for (int[] c : filtered) {
+                sum += c[3];
+                sumSq += (double)c[3] * c[3];
+            }
+            double mean = sum / filtered.size();
+            double variance = sumSq / filtered.size() - mean * mean;
+            double stddev = Math.sqrt(Math.max(variance, 1));
+            
+            // Remove weak outliers (strength < mean - 1.5*stddev)
+            double threshold = mean - 1.5 * stddev;
+            ArrayList<int[]> statistical = new ArrayList<>();
+            for (int[] c : filtered) {
+                if (c[3] >= threshold) {
+                    statistical.add(c);
+                }
+            }
+            Log.d(Name, "Statistical filtering: mean=" + (int)mean + " stddev=" + (int)stddev + " thr=" + (int)threshold);
+            Log.d(Name, "Removed " + (filtered.size() - statistical.size()) + " weak detections");
+            filtered = statistical;
+        }
+        
+        // Repack filtered results back into buffer
+        int finalCount = filtered.size();
+        data[0] = finalCount;
+        for (int i = 0; i < finalCount; i++) {
+            int[] c = filtered.get(i);
+            int idx = 1 + i * 4;
+            data[idx] = c[0];
+            data[idx + 1] = c[1];
+            data[idx + 2] = c[2];
+            data[idx + 3] = c[3];
+        }
+        buffer.uploadBuffer(data, finalCount * 4 + 1);
+        
+        return finalCount;
+    }
+
+    private void correctHotPixelsBase(GLBuffer buffer, int count){
+        if (count > 0) {
+            glProg.setLayout(64, 1, 1);
+            glProg.useAssetProgram("merge/hotpixelcorrect", true);
+            glProg.setBufferCompute("HotPixelList", buffer);
+            glProg.setTextureCompute("inTexture", base, false);
+            glProg.setTextureCompute("outTexture", base, true);
+            glProg.computeManual((count + 63) / 64, 1, 1);
+            Log.d(Name, "Hot pixels corrected in base:" + count);
+        }
+    }
+
+    private void correctHotPixelsInAlter(GLBuffer buffer, int count){
+        if (count > 0) {
+            glProg.setLayout(64, 1, 1);
+            glProg.useAssetProgram("merge/hotpixelcorrect", true);
+            glProg.setBufferCompute("HotPixelList", buffer);
+            glProg.setTextureCompute("inTexture", alter, false);
+            glProg.setTextureCompute("outTexture", alter, true);
+            glProg.computeManual((count + 63) / 64, 1, 1);
+            Log.d(Name, "Hot pixels corrected in alter:" + count);
+        }
+    }
+
+    private void hotPixels(){
+        GLTexture avgTex = buildAveragedFrame(8);
+        hotPixelBuffer = detectHotPixels(avgTex);
+        avgTex.close();
+        correctHotPixelsBase(hotPixelBuffer, hotPixelCount);
+    }
+
+    GLTexture inputBase;
+    GLTexture baseDiff;
+    /** Merge ping-pong rotation slots: fixed after allocation, only getBase()
+     * picks between them; the running accumulation is mergeAcc in Run(). */
+    GLTexture base;
+    GLTexture baseAlter;
+    //GLTexture;
+    GLTexture brightMap;
+    /** CPU copy of brightMap (float32 grayscale luma in [0,1]) set by {@link #exportBrightMap()}. */
+    public FloatBuffer brightMapCPU;
+    /** Unpacked size of {@link #brightMapCPU} (row-major, width*height floats). */
+    public Point brightMapCPUSize;
+    /** KernelNet half-res parameter texture (s1, s2, rho in RGBA16F) for the anisotropic filter. */
+    public GLTexture kernelsMap;
+    /** CPU copy of the KernelNet params (RGBA16F halves: s1, s2, rho, 1 per
+     * texel) for reuse in the post pipeline. Set by {@link #createKernelsMap}
+     * alongside the texture upload; a view, never freed. */
+    public ShortBuffer kernelsMapCPU;
+    /** Size of {@link #kernelsMapCPU}. */
+    public Point kernelsMapCPUSize;
+    /**
+     * Base direct buffer behind {@link #kernelsMapCPU} (the inference
+     * result). Single owner: whoever holds it frees it exactly once via
+     * {@code Allocator.free} after the GPU upload — views don't free.
+     */
+    public ByteBuffer kernelsMapBase;
+    /** Noise sigma fed to KernelNet (captured pre-merge-inflation). */
+    float kernelSigma;
+    GLTexture result;
+    GLTexture inputAlter;
+    GLTexture alter;
+    GLTexture alignmentTex;
+    /** Dense optical-flow alignment (FlowNet); non-null when useNcnnFlow ran. */
+    FlowNetAlignment flowNetAlignment;
+    @Tunable(title = "HotPixels detect threshold", category = "Merge", description = "Higher multiplier detects less hotpixels", min = 0.5f, max = 5.0f, step = 0.1f, defaultValue = 1.5f)
+    double detectThr;
+
+    @Tunable(title = "Enable Adaptive Noise Model", category = "Merge", description = "Creates noise multiplier based on stdev", min = 0, max = 1, step = 1, defaultValue = 1)
+    boolean enableAdaptiveNoise;
+
+    @Tunable(title = "Alignment start level", category = "Alignment", description = "Finest resolution fed to the block pyramid matcher: 0 = raw/2 (default), 1 = raw/4, 2 = raw/8. Each skipped level removes the most expensive matching pass (~4x faster alignment core per level) at the cost of a coarser alignment vector field", min = 0, max = 2, step = 1, defaultValue = 0)
+    int alignmentStartLevel;
+    @Tunable(
+            title = "Aligner",
+            description = "GL - GL block pyramid, FlowNet - network optical flow, Halide - Halide CPU",
+            category = "Alignment",
+            entries = {"Halide CPU neon", "PyramidAlign GPU", "FlowNet optical flow", "Off"},
+            entryValues = {"halide", "gl", "flownet", "off"},
+            defaultValue = 0
+    )
+    String alignerSelect = "halide";
+
+    @Tunable(title = "Aligner debug compare", category = "Alignment", description = "1 = when the Halide aligner runs, also run the GL block pyramid and log per-frame vector differences (diagnoses constant biases/shift conventions)", min = 0, max = 1, step = 1, defaultValue = 0)
+    int alignDebugCompare;
+
+    @Tunable(title = "Halide flow refinement", category = "Alignment", description = "Refine every frame's Halide alignment field onto the level-0 (raw/2) grid with a block Lucas-Kanade Gauss-Newton pass: denser sub-texel vectors, one per merge atlas cell, roughly doubling the alignment cost - gate on phone budget/ISO. Off = the plain hierarchical level-1 field broadcast 2x2 over atlas cells. Only applies when the Halide CPU aligner is selected", min = 0, max = 1, step = 1, defaultValue = 0)
+    boolean halideRefineFlow;
+
+    @Tunable(title = "Enable Adaptive Noise Storage", category = "Merge", description = "Persist fitted noise model into the dynamic multisample store", min = 0, max = 1, step = 1, defaultValue = 1)
+    boolean enableNoiseStore;
+
+    @Tunable(title = "Network merge noise multiplier", category = "Merge", description = "Scales the noise model fed to the kernel network", min = 0.1f, max = 20.0f, step = 0.05f, defaultValue = 1.0f)
+    float noiseMpy;
+
+    @Tunable(title = "Noise blend max frames", category = "Merge", description = "Frames combined into the deliberately misaligned progressive Gaussian blend used for noise estimation (blurs scene detail while noise only drops by a known factor)", min = 1, max = 9, step = 1, defaultValue = 9)
+    int noiseBlendMaxFrames;
+
+    @Tunable(title = "Noise blend calibration", category = "Merge", description = "Trim multiplier on the Monte-Carlo noise blend calibration table (1.0 = table value)", min = 0.5f, max = 2.0f, step = 0.05f, defaultValue = 1.0f)
+    float noiseBlendCalMpy;
+
+    @Tunable(title = "Noise scan subsample", category = "Merge", description = "Stride between texels evaluated by the noise histogram; the cheap difference operator supports a dense stride (was fixed 3 in the median-chain era)", min = 1, max = 8, step = 1, defaultValue = 3)
+    int noiseScanSubsample;
+
+    @Tunable(title = "Noise fit variance bins", category = "Merge", description = "Per-brightness-row cutoff on occupied variance bins kept by the noise fit pass 1 (lower rejects texture harder but undershoots on texture-free scenes; was fixed 45)", min = 8, max = 45, step = 1, defaultValue = 45)
+    int noiseFitVarBins;
+
+    @Tunable(title = "Noise fit gate", category = "Merge", description = "Adaptive per-brightness gate: pass 2 keeps only histogram bins whose implied variance is within this multiple of the pass-1 fitted noise (the per-brightness lower part; rejects texture and saturated bins). 0 disables", min = 0.0f, max = 5.0f, step = 0.25f, defaultValue = 2.0f)
+    float noiseFitGateMpy;
+
+    @Tunable(title = "Read noise floor multiplier", category = "Merge", description = "Multiplier on the analytic OPlace read-noise floor applied to fitted O; the legacy 3.0 compensated texture leakage that the noise blend now removes", min = 0.5f, max = 4.0f, step = 0.25f, defaultValue = 1.0f)
+    float noiseOFloorMpy;
+
+    @Tunable(title = "Fit O correction", category = "Merge", description = "Legacy fitO += 3/8*fitS^2 correction that compensated the under-rescaled fit; keep off with the calibrated blend", min = 0, max = 1, step = 1, defaultValue = 0)
+    boolean enableFitOCorrection;
+
+    @Tunable(title = "Adaptive fallback min", category = "Merge", description = "Lower clamp of the fallback adaptive multiplier (was 1.0, up-only)", min = 0.25f, max = 2.0f, step = 0.25f, defaultValue = 0.5f)
+    float adaptiveFallbackMin;
+
+    @Tunable(title = "Adaptive fallback max", category = "Merge", description = "Upper clamp of the fallback adaptive multiplier (was 4.0)", min = 1.0f, max = 4.0f, step = 0.25f, defaultValue = 2.0f)
+    float adaptiveFallbackMax;
+
+    @Tunable(title = "GPU sync profiling", category = "Merge", description = "Drain the GPU queue after every merge-loop stage so Stage[merge:*] logs measure true per-stage time (submit + GPU execution) instead of submit-only. Measurement only: serializes the pipeline and inflates the shot time", min = 0, max = 1, step = 1, defaultValue = 0)
+    boolean profileGpuSync;
+
+    /** Progressive noise-blend grid, must match BLEND_GRID in
+     * tools/noise-blend-calibration/mc.py: center first, then edges, then
+     * corners, so the first f slots give the temporal kernel shape for f
+     * frames (9 -> full 3x3 Gaussian, 5 -> plus, 2 -> two-tap, 1 -> identity). */
+    private static final int[][] BLEND_GRID = {
+            {0, 0}, {1, 0}, {-1, 0}, {0, 1}, {0, -1}, {1, 1}, {1, -1}, {-1, 1}, {-1, -1}};
+    /** End-to-end calibration for the luma difference operator
+     * |quad luma - kernel mean| (fixed full 3x3 Gaussian, sigma_g = 1) on
+     * the progressive temporal blend, folded for the two-pass fit with the
+     * default gate (noiseFitGateMpy = 2.0): E[noisehist "var"] =
+     * VAR_STAT[f-1] * sigma for white per-frame noise through the blend,
+     * the luma operator, the histogram binning and the gated weighted fit
+     * (frame count f = 1..9). Measured by
+     * tools/noise-blend-calibration/fixed_mc.py; trim with the
+     * noiseBlendCalMpy tunable if device measurements disagree. */
+    private static final float[] NOISE_BLEND_VAR_STAT = {
+            0.23862f, 0.17435f, 0.14193f, 0.12277f, 0.10907f, 0.10082f, 0.09468f, 0.08916f, 0.08433f};
+    /** Variance-axis anchor: bin 63 maps to sigma = SIGMA_REF for every frame
+     * count (varScale = 63 / (VAR_STAT[f-1] * SIGMA_REF)), keeping bin
+     * resolution in sigma terms constant and 2.4x-31x finer than the old
+     * fixed 384 scale. */
+    private static final float NOISE_BLEND_SIGMA_REF = 0.12f;
+
+    /**
+     * Builds the noise-estimation input: up to {@code noiseBlendMaxFrames}
+     * frames (spaced across the burst) each sampled at its own slot of the
+     * progressive 3x3 grid (one packed texel = one 2x2 Bayer quad = 2 raw px,
+     * CFA-periodic so channels stay aligned) with normalized Gaussian
+     * weights (sigma_g = 1 texel). Scene detail is correlated across frames,
+     * so the fixed offsets convolve it with the kernel (fine texture
+     * suppressed), while frame-independent noise only drops by the known
+     * factor sum(w_i^2). noisehist.glsl then applies the luma difference
+     * operator |quad luma - kernel mean| with a FIXED full 3x3 Gaussian
+     * (sigma_g = 1, filled into spatialKernel, independent of frame count -
+     * the temporal kernel is the only f-adaptive part): chroma structure
+     * cancels exactly in the luma mean, the luma noise variance equals
+     * S*b + O in quad-mean brightness for any white point, and the
+     * symmetric kernel annihilates planes (gradients) precisely. Exposure
+     * differences are
+     * harmless: the conversion is linear, so every frame's variance obeys
+     * the same variance = S*brightness + O in normalized units. Reuses
+     * {@code alter} as the per-frame conversion target and ping-pongs
+     * between {@code baseAlter} and one new texture (both unused until the
+     * merge loop) - returns the accumulator, which may be either of the
+     * two; close it only if it is not baseAlter.
+     */
+    private GLTexture buildNoiseBlendFrame(int tile, float[] spatialKernel) {
+        int frameCnt = Math.min(Math.min(noiseBlendMaxFrames, BLEND_GRID.length), images.size());
+        double[] weights = new double[frameCnt];
+        double wSum = 0;
+        for (int k = 0; k < frameCnt; k++) {
+            weights[k] = Math.exp(-(BLEND_GRID[k][0] * BLEND_GRID[k][0]
+                    + BLEND_GRID[k][1] * BLEND_GRID[k][1]) / 2.0);
+            wSum += weights[k];
+        }
+        java.util.Arrays.fill(spatialKernel, 0.0f);
+        double opSum = 0;
+        double[] opW = new double[BLEND_GRID.length];
+        for (int k = 0; k < BLEND_GRID.length; k++) {
+            opW[k] = Math.exp(-(BLEND_GRID[k][0] * BLEND_GRID[k][0]
+                    + BLEND_GRID[k][1] * BLEND_GRID[k][1]) / 2.0);
+            opSum += opW[k];
+        }
+        for (int k = 0; k < frameCnt; k++) {
+            weights[k] /= wSum;
+        }
+        for (int k = 0; k < BLEND_GRID.length; k++) {
+            int dx = BLEND_GRID[k][0], dy = BLEND_GRID[k][1];
+            spatialKernel[(dy + 1) * 3 + (dx + 1)] = (float) (opW[k] / opSum);
+        }
+
+        // P2 (H9): borrow baseDiff as the blend accumulator instead of a
+        // dedicated texture (-24 MB). Safe: noiseblend uses imageLoad/Store
+        // only (filter-agnostic), geometry is identically packedSize, and
+        // baseDiff is dead until the merge loop fully overwrites it. Owned by
+        // the ESD4D lifecycle - never closed here (see guards below).
+        GLTexture blendAcc = baseDiff;
+        GLTexture tempFloat = alter;
+        GLTexture tempRaw = frameCnt > 1
+                ? new GLTexture(parameters.rawSize, new GLFormat(GLFormat.DataType.FLOAT_16, 1), null, GL_NEAREST, GL_CLAMP_TO_EDGE)
+                : null;
+        GLTexture blendCurrent = baseAlter;
+        GLTexture blendNext = blendAcc;
+        for (int k = 0; k < frameCnt; k++) {
+            int idx = frameCnt == 1 ? 0
+                    : (int) Math.round((double) k * (images.size() - 1) / (frameCnt - 1));
+            GLTexture rawSrc = (idx == 0) ? inputBase : tempRaw;
+            if (idx > 0) tempRaw.loadRawHalf(images.get(idx).buffer);
+
+            // Convert raw Bayer -> normalized rgba16f vec4 (one texel per 2x2 quad)
+            glProg.setLayout(tile, tile, 1);
+            glProg.useAssetProgram("merge/merge00", true);
+            glProg.setVar("exposure", 1.0f / images.get(0).pair.layerMpy);
+            glProg.setVar("createDiff", 0);
+            glProg.setVar("cfaShift", cfaShift);
+            glProg.setTexture("inTexture", rawSrc);
+            glProg.setTextureCompute("outTexture", tempFloat, true);
+            glProg.computeAuto(packedSize, 1);
+
+            // Progressive temporal blend accumulate at this frame's grid slot
+            glProg.setLayout(tile, tile, 1);
+            glProg.useAssetProgram("merge/noiseblend", true);
+            glProg.setTextureCompute("currentTexture", blendCurrent, false);
+            glProg.setTextureCompute("newTexture", tempFloat, false);
+            glProg.setTextureCompute("outTexture", blendNext, true);
+            glProg.setVar("weight", (float) weights[k]);
+            glProg.setVar("offset", BLEND_GRID[k][0], BLEND_GRID[k][1]);
+            glProg.setVar("firstPass", k == 0 ? 1 : 0);
+            glProg.computeAuto(packedSize, 1);
+
+            GLTexture swap = blendCurrent;
+            blendCurrent = blendNext;
+            blendNext = swap;
+        }
+        // Borrowed baseDiff must survive (see above); nothing to free here.
+        if (tempRaw != null) tempRaw.close();
+        Log.d(Name, "Noise blend: " + frameCnt + " frame(s), sum(w^2)="
+                + String.format(java.util.Locale.ROOT, "%.4f", java.util.stream.DoubleStream.of(weights).map(w -> w * w).sum()));
+        return blendCurrent;
+    }
+
+    /**
+     * Profiling aid: drains the command queue so the enclosing Stage[merge:*]
+     * timer includes GPU execution, not just submit time (dispatches are
+     * queued asynchronously; without this the loop's timers read ~0-2 ms
+     * while the real cost surfaces later in a single drain). Off by default -
+     * it serializes the pipeline and inflates the shot time.
+     */
+    private void gpuSyncProfile() {
+        if (profileGpuSync) android.opengl.GLES30.glFinish();
+    }
+
+    @Override
+    public void Run() {
+        com.particlesdevs.photoncamera.settings.TunableInjector.inject(this);
+        if (profileGpuSync)
+            Log.d("ESD4D", "GPU sync profiling ON: Stage[merge:*] times now include GPU execution");
+        Log.d("ESD4D", "Noise multiplier: " + noiseMpy);
+            //Log.d("ESD4D", "Optical flow refinement: " + enableFlowRefinement + " maxShift: " + flowRefineMaxDisp);
+        glUtils = new GLUtils(glOne.glProcessing);
+
+        // Convert every frame once into white/black-level normalized fp16
+        // (RawF16, NEON). The swap is size-neutral (uint16 -> half float), the
+        // original raw is freed, and every later upload (merge00 / alignment
+        // normalize / flowRGB inputs) feeds FLOAT_16 textures directly - the
+        // shaders receive already-normalized floats and skip the
+        // whitelevel/blackLevel math.
+        long f16T = System.currentTimeMillis();
+        for (int i = 0; i < images.size(); i++) {
+            ImageFrame frame = images.get(i);
+            if (frame.fp16 || frame.buffer == null) continue;
+            ByteBuffer normalized;
+            if (frame.packedBits > 0) {
+                // Frame arrived as a packed bitstream (burst-memory saving):
+                // unpack to uint16 first — createF16 reads raw sample counts.
+                try (ImageFrame.Upload up = frame.upload()) {
+                    normalized = Allocator.createF16(up.buffer,
+                            parameters.rawSize.x, parameters.rawSize.y,
+                            parameters.whiteLevel, parameters.blackLevel);
+                }
+            } else {
+                normalized = Allocator.createF16(frame.buffer,
+                        parameters.rawSize.x, parameters.rawSize.y,
+                        parameters.whiteLevel, parameters.blackLevel);
+            }
+            if (normalized == null) {
+                throw new IllegalStateException("createF16 failed for frame " + i);
+            }
+            Allocator.free(frame.buffer);
+            frame.buffer = normalized;
+            frame.fp16 = true;
+            frame.packedBits = 0;
+        }
+        Log.d("ESD4D", "Stage[f16-convert] elapsed:" + (System.currentTimeMillis() - f16T) + " ms");
+
+        float minExp = 1.f;
+        int minExpIdx = 0;
+        int lowCnt = 0;
+        for (int i = 1; i < images.size(); i++) {
+            ImageFrame frame = images.get(i);
+            float exposure = 1.f/frame.pair.layerMpy;
+            Log.d("ESD4D", "exposure: " + exposure);
+            if(exposure < 0.95f) {
+                lowCnt++;
+            }
+            if(exposure < minExp) {
+                minExpIdx = i;
+                minExp = exposure;
+            }
+        }
+
+        if (parameters.tile != 16) {
+            // Custom tile sizes (set upstream) keep their own alignmentSize.
+            Log.d("ESD4D", "Alignment tile size: " + parameters.tile
+                    + " alignmentSize: " + parameters.alignmentSize.x + "x" + parameters.alignmentSize.y);
+        }
+        long texT = System.currentTimeMillis();
+        Point raw = parameters.rawSize;
+        Point rawHalf = new Point(parameters.rawSize.x/2,parameters.rawSize.y/2);
+        // merge00 green-normalizes all packed quads for any CFA: the quincunx
+        // sub-texel sampler needs the two greens on the anti-diagonal g/b
+        // slots. Only GRBG/GBRG carry their greens on the main diagonal - for
+        // those, quad origins are shifted back by the red-site offset and the
+        // packed grid grows by it. RGGB/BGGR already have greens on the
+        // anti-diagonal (R/B merely sit swapped for BGGR, which every merge
+        // stage treats channel-agnostically), so they get no shift, no filler
+        // and an unchanged grid. Real raw site X lives at packed rel = X +
+        // cfaShift; shifted out-of-range sites are edge duplicates, never
+        // read back on unpack.
+        int cfa = (int) parameters.cfaPattern;
+        if (cfa < 0 || cfa > 3) cfa = 0; // quad/monochrome modes: no normalization
+        cfaShift = (cfa == 1 || cfa == 2) ? new Point(cfa % 2, cfa / 2) : new Point(0, 0);
+        packedSize = new Point(rawHalf.x + cfaShift.x, rawHalf.y + cfaShift.y);
+        result = new GLTexture(raw,new GLFormat(GLFormat.DataType.FLOAT_16,1), null, GL_NEAREST, GL_CLAMP_TO_EDGE);
+        inputBase = new GLTexture(parameters.rawSize, new GLFormat(GLFormat.DataType.FLOAT_16,1), null, GL_NEAREST, GL_CLAMP_TO_EDGE);
+        inputBase.loadRawHalf(images.get(0).buffer);
+        // Pyramid diff
+        baseDiff = new GLTexture(packedSize,new GLFormat(GLFormat.DataType.FLOAT_16,4),null,GL_LINEAR,GL_CLAMP_TO_EDGE);
+        // Temporal result
+        base = new GLTexture(packedSize,new GLFormat(GLFormat.DataType.FLOAT_16,4),null,GL_LINEAR,GL_CLAMP_TO_EDGE);
+        baseAlter = new GLTexture(packedSize,new GLFormat(GLFormat.DataType.FLOAT_16,4),null,GL_LINEAR,GL_CLAMP_TO_EDGE);
+        alter = new GLTexture(packedSize,new GLFormat(GLFormat.DataType.FLOAT_16,4),null,GL_LINEAR,GL_CLAMP_TO_EDGE);
+        // Pack 4 horizontal luma samples per rgba16f texel (r16f image formats are
+        // rejected by some drivers) -> texture is 4x smaller in x.
+        Point brightMapSize = new Point((packedSize.x + 3) / 4, packedSize.y);
+        brightMap = new GLTexture(brightMapSize,new GLFormat(GLFormat.DataType.FLOAT_16,4));
+        brightMapCPUSize = new Point(brightMapSize.x * 4, brightMapSize.y);
+        float[] blackLevel = parameters.blackLevel;
+        //float[] blackLevel = new float[]{parameters.blackLevel[0]*0.5f, parameters.blackLevel[1]*0.5f, parameters.blackLevel[2]*0.5f, parameters.blackLevel[3]*0.5f};
+        //float bl = Math.max(Math.max(parameters.blackLevel[0], parameters.blackLevel[1]), Math.max(parameters.blackLevel[2], parameters.blackLevel[3]));
+        // Black/white-level normalization now happens on the CPU (createF16),
+        // so the shaders receive site-normalized fp16 directly; only the
+        // max-black estimate for mergeAlign's minLevel noise floor remains.
+        glOne.glProgram.setDefine("RAWSIZE",parameters.rawSize);
+        glOne.glProgram.setDefine("CFAPATTERN",(int)parameters.cfaPattern);
+
+        float[] analogBalance = new float[4];
+        switch (parameters.cfaPattern){
+            case 0: // RGGB
+                analogBalance[0] = 1.0f/parameters.whitePoint[0];
+                analogBalance[1] = 1.0f/parameters.whitePoint[1];
+                analogBalance[2] = 1.0f/parameters.whitePoint[1];
+                analogBalance[3] = 1.0f/parameters.whitePoint[2];
+                break;
+            case 1: // GRBG
+                analogBalance[0] = 1.0f/parameters.whitePoint[1];
+                analogBalance[1] = 1.0f/parameters.whitePoint[0];
+                analogBalance[2] = 1.0f/parameters.whitePoint[2];
+                analogBalance[3] = 1.0f/parameters.whitePoint[1];
+                break;
+            case 2: // GBRG
+                analogBalance[0] = 1.0f/parameters.whitePoint[1];
+                analogBalance[1] = 1.0f/parameters.whitePoint[2];
+                analogBalance[2] = 1.0f/parameters.whitePoint[0];
+                analogBalance[3] = 1.0f/parameters.whitePoint[1];
+                break;
+            case 3: // BGGR
+                analogBalance[0] = 1.0f/parameters.whitePoint[2];
+                analogBalance[1] = 1.0f/parameters.whitePoint[1];
+                analogBalance[2] = 1.0f/parameters.whitePoint[1];
+                analogBalance[3] = 1.0f/parameters.whitePoint[0];
+                break;
+        }
+        NoiseModeler modeler = parameters.noiseModeler;
+        noiseS = modeler.baseModel[0].first.floatValue() +
+                modeler.baseModel[1].first.floatValue() +
+                modeler.baseModel[2].first.floatValue();
+        noiseO = modeler.baseModel[0].second.floatValue() +
+                modeler.baseModel[1].second.floatValue() +
+                modeler.baseModel[2].second.floatValue();
+        noiseS /= 3.f;
+        noiseO /= 3.f;
+        //GLUtils glUtils = new GLUtils(glOne.glProcessing);
+        int tile = 8;
+        glProg.setLayout(tile,tile,1);
+        glProg.useAssetProgram("merge/merge00",true);
+        glProg.setVar("exposure", 1.f/images.get(0).pair.layerMpy);
+        glProg.setVar("createDiff", 0);
+        glProg.setVar("cfaShift", cfaShift);
+        glProg.setVar("analogBalance", analogBalance);
+        glProg.setVar("randF", (float)Math.random(), (float)Math.random());
+        // Test value if enabled in shader
+        //glProg.setVar("noiseS", 0.0013796629f);
+        //glProg.setVar("noiseO", 8.3751265E-6f);
+        //glProg.setVar("noiseS", 0.05f);
+        //glProg.setVar("noiseO", 0.0f);
+        glProg.setTexture("inTexture",inputBase);
+        glProg.setTextureCompute("outTexture",base, true);
+        glProg.computeAuto(new Point(base.mSize.x, base.mSize.y), 1);
+        Log.d("ESD4D", "Stage[textures+base] elapsed:" + (System.currentTimeMillis() - texT) + " ms");
+        //glUtils.convertVec4(base, "vec4(0.5)", base);
+        //var buff = glUtils.GenerateGLImage(base.mSize, 4);
+        //Log.d(Name, "Buffer first:" + buff.byteBuffer.get(0) + " " + buff.byteBuffer.get(1));
+        //glUtils.Result(base.mSize, "noiseInput", buff.byteBuffer);
+
+        double adaptiveNMpy = 1.0;
+        if (enableAdaptiveNoise) {
+            // 2D histogram: (brightness_bin * NUM_VARIANCE_BINS + variance_bin) -> count
+            // Model: variance = NoiseS * brightness + NoiseO  =>  sigma = sqrt(NoiseS*b + NoiseO)
+            final int numBrightnessBins = 64;
+            final int numVarianceBins = 64;
+            final int noiseScanBins = numBrightnessBins * numVarianceBins; // 4096
+            // Estimation input: progressive misaligned Gaussian blend of the
+            // burst (see buildNoiseBlendFrame). The blend blurs scene detail
+            // - the root cause of the old overestimation - while noise only
+            // drops by the calibrated factor varStat below.
+            int blendFrames = Math.min(Math.min(noiseBlendMaxFrames, BLEND_GRID.length), images.size());
+            final float varStat = NOISE_BLEND_VAR_STAT[blendFrames - 1] * noiseBlendCalMpy;
+            // Variance axis anchored so bin 63 = SIGMA_REF for every frame
+            // count (the old fixed 64*6 scale wasted most of the range at
+            // typical noise levels, quantizing low-ISO fits into 1-3 bins).
+            final float varianceScale = (numVarianceBins - 1) / (varStat * NOISE_BLEND_SIGMA_REF);
+            final float brightnessScale = 64.0f * (float)Math.sqrt(3.0f);
+            float[] spatialKernel = new float[9];
+            long blendT = System.currentTimeMillis();
+            GLTexture noiseInput = buildNoiseBlendFrame(8, spatialKernel);
+            Log.d("ESD4D", "Stage[noiseblend] elapsed:" + (System.currentTimeMillis() - blendT) + " ms");
+            GLHistogram noiseHist = new GLHistogram(glProg, noiseScanBins);
+            noiseHist.Custom = true;
+            noiseHist.Rc = true;
+            noiseHist.Gc = false;
+            noiseHist.Bc = false;
+            noiseHist.Ac = false;
+            noiseHist.exposure[0] = 1.0f;
+            noiseHist.exposure[1] = 1.0f;
+            noiseHist.exposure[2] = 1.0f;
+            noiseHist.exposure[3] = 1.0f;
+            noiseHist.CustomShader = "merge/noisehist";
+            noiseHist.input1 = brightnessScale;
+            noiseHist.input2 = varianceScale;
+            noiseHist.resize = noiseScanSubsample;
+            noiseHist.customKernel = spatialKernel;
+            long histT = System.currentTimeMillis();
+            int[][] noiseRes = noiseHist.Compute(noiseInput);
+            // The accumulator may be the borrowed baseDiff (odd frame counts):
+            // it must survive for the merge loop, which fully overwrites it.
+            if (noiseInput != baseAlter && noiseInput != baseDiff) noiseInput.close();
+            noiseHist.close();
+            Log.d("ESD4D", "Stage[noise-histogram] elapsed:" + (System.currentTimeMillis() - histT) + " ms");
+            int[] hist = noiseRes[0];
+            long fitT = System.currentTimeMillis();
+            // Weighted linear regression: variance = NoiseS * brightness + NoiseO,
+            // run in two passes. Pass 1 fits all bins kept by the per-row
+            // filter; pass 2 (adaptive gate, noiseFitGateMpy) keeps only bins
+            // whose implied variance is consistent with the pass-1 noise
+            // model - the per-brightness "lower part" that rejects texture
+            // and saturation-capped bins without a per-threshold
+            // calibration (see tools/noise-blend-calibration pct/gate runs).
+            double sumW = 0, sumWb = 0, sumWv = 0, sumWb2 = 0, sumWbv = 0;
+            int points = 0;
+            int varCnt = 0;
+            for (int i = 0; i < noiseScanBins; i++) {
+                int count = hist[i];
+                var bin = i / numVarianceBins;
+                var vin = i % numVarianceBins;
+                if(vin == 0) {
+                    varCnt = 0;
+                }
+                if (count <= 0 || bin == numBrightnessBins-1 || (varCnt >= 30 && vin == 63) || varCnt > noiseFitVarBins) continue;
+                varCnt++;
+                // Fit in the absolute quad-mean brightness domain the
+                // consumers use. (The old (b-minBr)/(1-minBr) rescale fit in
+                // scene-relative brightness and inflated S by 1/(1-minBr) on
+                // any scene without near-black content - snow, sky, low-key.)
+                double brightness = ((double)(bin) + 0.5) / ((double)brightnessScale);
+                brightness = Math.pow(brightness, 2.0);
+                double variance = (vin + 0.5) / varianceScale;
+                // The shader's "var" statistic (|center - kernel mean| after
+                // the temporal blend) is calibrated end-to-end - see
+                // NOISE_BLEND_VAR_STAT and tools/noise-blend-calibration -
+                // to varStat * sigma, so squaring and dividing by varStat^2
+                // recovers the per-frame variance.
+                variance = variance * variance / ((double) varStat * varStat);
+                double w = count * 1.0f;
+                sumW += w;
+                sumWb += w * brightness;
+                sumWv += w * variance;
+                sumWb2 += w * brightness * brightness;
+                sumWbv += w * brightness * variance;
+                points++;
+            }
+            //points = 9;
+            if (points >= 1) {
+                double denom = sumW * sumWb2 - sumWb * sumWb;
+                if (denom > 1e-20) {
+                    double passS = (sumW * sumWbv - sumWb * sumWv) / denom;
+                    double passO = (sumWv - passS * sumWb) / sumW;
+                    double fitS = passS;
+                    double fitO = passO;
+                    if (noiseFitGateMpy > 0.0f) {
+                        // Pass 2: keep only bins whose implied variance is
+                        // within the gate multiple of the pass-1 model.
+                        double gW = 0, gWb = 0, gWv = 0, gWb2 = 0, gWbv = 0;
+                        int gPoints = 0;
+                        varCnt = 0;
+                        for (int i = 0; i < noiseScanBins; i++) {
+                            int count = hist[i];
+                            var bin = i / numVarianceBins;
+                            var vin = i % numVarianceBins;
+                            if(vin == 0) {
+                                varCnt = 0;
+                            }
+                            if (count <= 0 || bin == numBrightnessBins-1 || (varCnt >= 30 && vin == 63) || varCnt > noiseFitVarBins) continue;
+                            varCnt++;
+                            double brightness = ((double)(bin) + 0.5) / ((double)brightnessScale);
+                            brightness = Math.pow(brightness, 2.0);
+                            double variance = (vin + 0.5) / varianceScale;
+                            variance = variance * variance / ((double) varStat * varStat);
+                            double gateVar = noiseFitGateMpy
+                                    * (Math.max(passS, 1e-12) * brightness + Math.max(passO, 0.0));
+                            if (variance > gateVar) continue;
+                            double w = count * 1.0f;
+                            gW += w;
+                            gWb += w * brightness;
+                            gWv += w * variance;
+                            gWb2 += w * brightness * brightness;
+                            gWbv += w * brightness * variance;
+                            gPoints++;
+                        }
+                        double gDenom = gW * gWb2 - gWb * gWb;
+                        if (gPoints >= 1 && gDenom > 1e-20) {
+                            fitS = (gW * gWbv - gWb * gWv) / gDenom;
+                            fitO = (gWv - fitS * gWb) / gW;
+                            Log.d("DynamicNoise", "Gate pass: " + gPoints + " bins kept of " + points);
+                        }
+                    }
+                    fitS = Math.max(fitS, 1e-10);
+                    Log.d("DynamicNoise",  "Fit S:" + fitS + " O:" + fitO);
+                    // Keep at least 5% of original read noise so we don't collapse to zero on noisy sensors
+                    double minO = 0.05 * noiseO;
+                    fitO = Math.max(fitO, minO);
+                    // Read-noise floor: O=S/7 overstates read noise now that the variance
+                    // estimator is unbiased (previously S carried a ~2.2x bias that made
+                    // S/7 a sane proxy). S/20 keeps a guard against O collapsing while no
+                    // longer dominating realistic sensors (O/S is typically < 0.05).
+                    //fitO = Math.max(fitO, fitS/20);
+                    //fitS = Math.max(fitS, parameters.noiseModeler.SPlace(parameters.iso));
+                    //fitO = Math.max(fitO, parameters.noiseModeler.OPlace(parameters.iso) * noiseOFloorMpy);
+                    // Commit the fitted S/O to the multisample noise map, then read
+                    // back the blended (moving-average) value. Committing before
+                    // reading makes the current estimation participate in the
+                    // average, while the store's measurement-list guard skips
+                    // duplicate scenes (same exposure/iso) to avoid bias. Using the
+                    // blended output smooths per-capture estimator fluctuations.
+                    double commitS = fitS;
+                    double commitO = fitO;
+                    DynamicNoiseStore.NoiseEstimate blended = null;
+                    if (enableNoiseStore) {
+                        blended = DynamicNoiseStore.dynamicNoiseStore.commitAndGet(
+                                parameters.physicalID, parameters.iso,
+                                parameters.noiseModeler.AnalogueISO,
+                                commitS, commitO, parameters.exposureTime);
+                    }
+                    if (blended != null) {
+                        fitS = blended.s;
+                        fitO = blended.o;
+                        // Re-apply floors defensively on the blended result.
+                        //fitS = Math.max(fitS, parameters.noiseModeler.SPlace(parameters.iso));
+                        //fitO = Math.max(fitO, parameters.noiseModeler.OPlace(parameters.iso));
+                        Log.d("DynamicNoise", "Blended noise model from store: S=" + fitS
+                                + " O=" + fitO + " for iso=" + parameters.iso);
+                    }
+                    // Legacy correction that compensated the old under-rescaled
+                    // fit; off by default now that the blend is calibrated.
+                    if (enableFitOCorrection) fitO += fitS*fitS * 3.0/8.0;
+                    noiseS = (float) fitS;
+                    noiseO = (float) fitO;
+                    Log.d("DynamicNoise",  "Fitted noise model: NoiseS=" + noiseS + " NoiseO=" + noiseO + " Half=" + Math.sqrt(noiseS * 0.5 + noiseO) + " (points=" + points + ")");
+                    parameters.noiseModeler.baseModel = new Pair[] {
+                            new Pair<>((double) noiseS, (double) noiseO),
+                            new Pair<>((double) noiseS, (double) noiseO),
+                            new Pair<>((double) noiseS, (double) noiseO)};
+                }
+                adaptiveNMpy = 1.0;
+            } else {
+                // Fallback: scale original model to match observed at mid-gray (same as before)
+                double modelSigmaMid = Math.sqrt(noiseS * 0.5 + noiseO);
+                if (modelSigmaMid > 1e-10) {
+                    double sumWeightedSigma = 0, sumWeightedCount = 0;
+                    for (int i = 0; i < noiseScanBins; i++) {
+                        int count = hist[i];
+                        if (count <= 0) continue;
+                        double sigma = ((i % numVarianceBins + 0.5) / varianceScale) / varStat;
+                        sumWeightedSigma += sigma * count;
+                        sumWeightedCount += count;
+                    }
+                    if (sumWeightedCount > 0) {
+                        double observedSigma = sumWeightedSigma / sumWeightedCount;
+                        adaptiveNMpy = observedSigma / modelSigmaMid;
+                        adaptiveNMpy = Math2.clamp(adaptiveNMpy, adaptiveFallbackMin, adaptiveFallbackMax);
+                    }
+                }
+                Log.d("DynamicNoise", "Adaptive Mpy (fallback): " + adaptiveNMpy + " (insufficient points=" + points + ")");
+            }
+            Log.d("ESD4D", "Stage[noise-fit] elapsed:" + (System.currentTimeMillis() - fitT) + " ms");
+        }
+        parameters.noiseModeler.setAdaptiveMpy(adaptiveNMpy);
+        double noisempy = Math.pow(2.0, PhotonCamera.getSettings().mergeStrength);
+        //double noiseMin = 1.0/(double)parameters.whiteLevel;
+        double noiseMin = 1e-10;
+        kernelSigma = (float) Math.sqrt(noiseS * 0.5 + noiseO);
+        // Pre-inflation noise model for the optical-flow significance gate
+        // (noiseS/noiseO below are merge-strength inflated).
+        float rawNoiseS = noiseS;
+        float rawNoiseO = noiseO;
+        noiseS = (float)Math.max(noiseS * noisempy * adaptiveNMpy * adaptiveNMpy,noiseMin);
+        noiseO = (float)Math.max(noiseO * noisempy * adaptiveNMpy * adaptiveNMpy,noiseMin);
+        if(enableHotPixelCorrection) {
+            long hotT = System.currentTimeMillis();
+            hotPixels();
+            Log.d("ESD4D", "Stage[hotpixels] elapsed:" + (System.currentTimeMillis() - hotT) + " ms");
+        }
+
+        long brightT = System.currentTimeMillis();
+        glProg.setLayout(tile,tile,1);
+        glProg.useAssetProgram("merge/mergeGrayscale",true);
+        glProg.setVar("inSize", packedSize);
+        glProg.setTextureCompute("inTexture",base, false);
+        glProg.setTextureCompute("outTexture",brightMap, true);
+        glProg.computeAuto(brightMap.mSize, 1);
+        exportBrightMap();
+        Log.d("ESD4D", "Stage[brightmap] elapsed:" + (System.currentTimeMillis() - brightT) + " ms");
+        // GPU copy consumed (the CPU copy feeds inference from here on):
+        // release now instead of AfterRun so it doesn't span alignment +
+        // the merge loop. Nulled; AfterRun null-guards it.
+        brightMap.close();
+        brightMap = null;
+        // KernelNet's input derives from the reference frame only, so its
+        // inference is independent of the alignment/merge loop below. Run it
+        // on a worker thread concurrently with alignment (merge00 / FlowNet /
+        // mergeAlign) and collect it just before the first combine pass needs
+        // kernelsMap. The inference (and the model load inside it) touches no
+        // GL state; the kernelsMap build/upload must rejoin the GL thread.
+        final float kernelSigmaArg = kernelSigma * noiseMpy;
+        final AtomicReference<KernelNetResult> kernelNetResult = new AtomicReference<>();
+        Thread kernelNetThread = new Thread(() -> {
+            try {
+                kernelNetResult.set(runKernelNetInference(kernelSigmaArg));
+            } catch (Throwable t) {
+                Log.e("ESD4D", "KernelNet worker failed", t);
+            }
+        }, "KernelNet-inference");
+        kernelNetThread.start();
+
+        // Alignment runs after the KernelNet worker is launched so the CPU
+        // ncnn inference overlaps the whole alignment pass (pyramid or FlowNet)
+        // instead of following it. Nothing between the worker start and the
+        // merge loop consumes alignmentTex, and this block only needs the
+        // reference-frame inputs already prepared above.
+        // The merge loop uploads each alter frame into inputAlter just before
+        // FlowNet consumes it, so create it up-front and share it (plus the
+        // already-uploaded inputBase) instead of letting FlowNet allocate and
+        // re-upload duplicates. -48 MB VRAM, -8 uploads; bit-exact (same
+        // texture object sampled identically).
+        inputAlter = new GLTexture(parameters.rawSize, new GLFormat(GLFormat.DataType.FLOAT_16, 1), null, GL_NEAREST, GL_MIRRORED_REPEAT);
+        // Merge tile size: parameters.tile (16 raw px) normally, doubled
+        // when the Halide aligner runs without flow refinement - its plain
+        // level-1 field carries one vector per 32 raw px, the alignment
+        // block below resizes the atlas to that native grid, and the merge
+        // then blends one vector per tile.
+        int mergeTile = parameters.tile;
+        Point alignmentOutputSize = new Point(parameters.alignmentSize.x * parameters.tilesX,
+                parameters.alignmentSize.y * ((images.size()-1)/parameters.tilesX + 1));
+        Log.d("Alignment", "alignment pipeline size: " + alignmentOutputSize.x + " " + alignmentOutputSize.y);
+        // Aligner selector: 0 = GL pyramid (disables FlowNet), 1 = FlowNet,
+        // 2 = Halide CPU. FlowNet keeps its init fallback to the pyramid.
+        if (Objects.equals(alignerSelect, "flownet")) {
+            FlowNetAlignment flowNetAlignmentTmp = new FlowNetAlignment(alignmentOutputSize, images, glProg, glUtils, this, minExpIdx);
+            flowNetAlignmentTmp.parameters = parameters;
+            flowNetAlignmentTmp.shareInputTextures(inputBase, inputAlter);
+            long startTime = System.currentTimeMillis();
+            boolean useNcnnFlow = flowNetAlignmentTmp.initFlow();
+            Log.d("ESD4D", "FlowNet alignment init time: " + (System.currentTimeMillis() - startTime) + "ms");
+            if (useNcnnFlow) {
+                flowNetAlignment = flowNetAlignmentTmp;
+                alignmentTex = flowNetAlignment.flowTex;
+            } else {
+                flowNetAlignmentTmp.close();
+                alignerSelect = "off";
+                Log.d("ESD4D", "FlowNet alignment disabled, using identity alignment");
+            }
+        }
+        if (Objects.equals(alignerSelect, "halide")) {
+            // CPU/NEON Halide path; identical Result
+            // atlas format, so the merge below is unchanged.
+            boolean halideRefine = halideRefineFlow;
+            if (!halideRefine && alignDebugCompare == 1) {
+                // The aligner debug compare indexes both aligners' atlases
+                // cell-by-cell on the shared raw/16 grid; the level-1-native
+                // atlas does not match it. Force the refined field for this
+                // run so the comparison stays meaningful.
+                Log.d("ESD4D", "alignDebugCompare: forcing Halide flow refinement on (raw/16 grid)");
+                halideRefine = true;
+            }
+            if (!halideRefine) {
+                // Plain level-1 field: one vector per 32 raw px. Resize the
+                // atlas to that native density so every vector is packed 1:1
+                // (no 2x2 duplication) and double the merge tile - each merge
+                // tile then consumes exactly one vector and mergeAlign's
+                // cosine windows cross-fade between genuinely adjacent
+                // vectors instead of duplicated copies.
+                parameters.alignmentSize = new Point(
+                        parameters.rawSize.x / (parameters.tile * 2) + 1,
+                        parameters.rawSize.y / (parameters.tile * 2) + 1);
+                alignmentOutputSize = new Point(parameters.alignmentSize.x * parameters.tilesX,
+                        parameters.alignmentSize.y * ((images.size() - 1) / parameters.tilesX + 1));
+                mergeTile = parameters.tile * 2;
+            }
+            HalideAlignment halideAlignment = new HalideAlignment(alignmentOutputSize, images);
+            halideAlignment.parameters = parameters;
+            halideAlignment.refineFlow = halideRefine;
+            long startTime = System.currentTimeMillis();
+            halideAlignment.Run();
+            Log.d("ESD4D", "Halide alignment time: " + (System.currentTimeMillis() - startTime) + "ms");
+            alignmentTex = halideAlignment.Result;
+            if (alignDebugCompare == 1) {
+                logAlignerCompare(alignmentOutputSize, images);
+            }
+            halideAlignment.close();
+        } else if (Objects.equals(alignerSelect, "gl")) {
+            PyramidAlignment pyramidAlignment = new PyramidAlignment(alignmentOutputSize, images, glProg, glUtils, this);
+            pyramidAlignment.parameters = parameters;
+            pyramidAlignment.startLevel = alignmentStartLevel;
+            pyramidAlignment.shareInputTextures(inputBase, inputAlter);
+            // P2 (H2): lend baseDiff as pyramid scratch. Valid only when the
+            // packed grid matches rawHalf exactly (cfaShift==0); otherwise the
+            // 1-px size mismatch would diverge border texels.
+            if (cfaShift.x == 0 && cfaShift.y == 0) pyramidAlignment.borrowTempTexture(baseDiff);
+            long startTime = System.currentTimeMillis();
+            pyramidAlignment.Run();
+            Log.d("ESD4D", "Alignment time: " + (System.currentTimeMillis() - startTime) + "ms");
+            alignmentTex = pyramidAlignment.Result;
+            pyramidAlignment.close();
+        } else if (Objects.equals(alignerSelect, "off")) {
+            alignmentTex = new GLTexture(alignmentOutputSize, new GLFormat(GLFormat.DataType.FLOAT_16, 4),
+                    BufferUtils.getFrom(new float[alignmentOutputSize.x * alignmentOutputSize.y * 4]),
+                    GL_NEAREST, GL_CLAMP_TO_EDGE);
+            Log.d("ESD4D", "Alignment disabled, using identity alignment");
+        }
+
+        //Point aSize = new Point(parameters.rawSize.x/(2*parameters.tile) + 1, parameters.rawSize.y/(2*parameters.tile) + 1);
+        Point border = new Point(16,16);
+        // NOTE: inputAlter is created above the alignment block (shared with FlowNet).
+        //alignmentTex = new GLTexture(aSize, new GLFormat(GLFormat.DataType.FLOAT_32, 2), alignment, GL_NEAREST, GL_MIRRORED_REPEAT);
+
+        //counter.put(1.0f,1.0f);
+        float cnt1 = 2.0f;
+
+        float cnt2 = 1.0f;
+        //Log.d("ESD4D", "alignment size: " + aSize.x + " " + aSize.y);
+        Log.d("ESD4D", "alignment size: " + parameters.alignmentSize.x + " " + parameters.alignmentSize.y);
+        float maxBlack = Math.max(blackLevel[0], Math.max(blackLevel[1], Math.max(blackLevel[2], blackLevel[3])));
+        float minLevel = (float) (1.0/(double)(parameters.whiteLevel-maxBlack));
+
+        // The base frame's pixels are on the GPU now (inputBase upload, shared
+        // with the alignment stage; synchronous). The loop below only touches
+        // its GPU texture and scalar pair metadata, and the base index is
+        // never loaded there, so release the native copy up-front: it would
+        // otherwise outlive the whole merge.
+        images.get(0).close();
+
+        // Running accumulation: starts at the merge00 conversion in base;
+        // each combine pass writes into the other slot (getBase) and adopts
+        // it here. The slot fields themselves never change - that is what
+        // keeps the rotation on two distinct textures.
+        GLTexture mergeAcc = base;
+
+        long mergeLoopT = System.currentTimeMillis();
+        for (int f = 0; f < images.size(); f++) {
+            startT();
+            if(f == minExpIdx) continue;
+            int ind = f;
+            if(ind == 0){
+                ind = minExpIdx;
+            }
+            ImageFrame frame = images.get(ind);
+            float exposure = 1.f/frame.pair.layerMpy;
+            Point shift = PyramidAlignment.alignmentShift(parameters, ind);
+            //int f = 1;
+            Log.d("ESD4D", "load:"+frame.pair.curlayer.name() + " " + frame.pair.layerMpy);
+            long stageT = System.currentTimeMillis();
+            inputAlter.loadRawHalf(frame.buffer);
+
+            GLTexture flowTex = null;
+            if(Objects.equals(alignerSelect, "flownet")) {
+                // Dense FlowNet optical flow for THIS alter frame, computed just
+                // in time (one pair at a time, no stored flow fields). Must run
+                // before the mergeAlign program is bound below.
+                flowTex = flowNetAlignment.computeFlow(ind);
+            }
+
+            // Convert inputAlter to alter (vec4 format)
+            stageT = System.currentTimeMillis();
+            glProg.setLayout(tile, tile, 1);
+            glProg.useAssetProgram("merge/merge00", true);
+            glProg.setVar("exposure", 1.f/images.get(0).pair.layerMpy);
+            glProg.setVar("createDiff", 0);
+            glProg.setVar("cfaShift", cfaShift);
+            glProg.setTexture("inTexture", inputAlter);
+            glProg.setTextureCompute("outTexture", alter, true);
+            glProg.computeAuto(new Point(alter.mSize.x, alter.mSize.y), 1);
+
+            correctHotPixelsInAlter(hotPixelBuffer, hotPixelCount);
+            //alignmentTex.loadData(alignment.position((ind-1)*(aSize.x*aSize.y*4*2)));
+            glProg.setDefine("TILE_AL", mergeTile);
+            stageT = System.currentTimeMillis();
+            glProg.setLayout(tile, tile, 1);
+            glProg.useAssetProgram(Objects.equals(alignerSelect, "flownet") ? "merge/mergeAlignFlow" : "merge/mergeAlign", true);
+            glProg.setVar("rawHalf", rawHalf);
+            glProg.setVar("whitePoint", parameters.whitePoint);
+            // Red-site origin shift for mergeAlign's noise-model repack
+            // (harmless no-op uniform for mergeAlignFlow).
+            glProg.setVar("cfaShift", cfaShift);
+            glProg.setVar("minLevel",minLevel);
+            glProg.setVar("exposure", exposure);
+            glProg.setVar("analogBalance", analogBalance);
+            if(exposure >= 0.95f) {
+                if(lowCnt > 1)
+                    glProg.setVar("exposureLow", minExp - 0.05f);
+                else {
+                    glProg.setVar("exposureLow", 0.0f);
+                }
+            } else {
+                glProg.setVar("exposureLow", 0.0f);
+            }
+            glProg.setVar("createDiff", 1);
+            glProg.setVar("noiseS", noiseS);
+            glProg.setVar("noiseO", noiseO);
+            glProg.setVar("border", border);
+            if(Objects.equals(alignerSelect, "flownet")) {
+                glProg.setTexture("alignmentTexture", flowTex);
+            } else {
+                glProg.setVar("shift", shift);
+                glProg.setVar("alignmentSize", parameters.alignmentSize);
+                glProg.setTexture("alignmentTexture", alignmentTex);
+            }
+            glProg.setTexture("inTexture", inputBase);
+            glProg.setTextureCompute("baseTexture",mergeAcc, false);
+            glProg.setTextureCompute("alterTexture", alter, false);
+            glProg.setTextureCompute("outTexture", baseDiff, true);
+            glProg.computeAuto(baseDiff.mSize, 1);
+            gpuSyncProfile();
+            Log.d("ESD4D", "Stage[merge:mergeAlign] elapsed:" + (System.currentTimeMillis() - stageT) + " ms f=" + f);
+
+            if (PhotonCamera.DEBUG)
+                Log.d("ESD4D", "create diff");
+
+            // First combine pass: collect the KernelNet result that has been
+            // running concurrently with alignment and this frame's merge00 /
+            // mergeAlign work. Waits only for any inference remainder; the
+            // texture build below needs the GL thread anyway.
+            stageT = System.currentTimeMillis();
+            if (kernelNetThread != null) {
+                try {
+                    kernelNetThread.join();
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+                kernelNetThread = null;
+                kernelsMap = createKernelsMap(kernelNetResult.get());
+                // Inference joined and params uploaded: both CPU copies are
+                // dead past this point (GPU textures carry on).
+                brightMapCPU = null;
+                brightMapCPUSize = null;
+                gpuSyncProfile();
+                Log.d("ESD4D", "Stage[merge:kernelnet-join] elapsed:" + (System.currentTimeMillis() - stageT) + " ms f=" + f);
+            }
+
+            glProg.setLayout(tile, tile, 1);
+            stageT = System.currentTimeMillis();
+            glProg.useAssetProgram("merge/mergeCombineWeight1", true);
+            glProg.setVar("cfaPattern", parameters.cfaPattern);
+            glProg.setTexture("inTex", inputBase);
+            glProg.setTexture("kernelsMap", kernelsMap);
+            // Optical flow refinement: brute-force diagonal candidate wins
+            // only when it beats the zero offset beyond the shader's gates.
+            //glProg.setVar("enableFlow", enableFlowRefinement ? 1 : 0);
+            glProg.setVar("flowNoiseS", rawNoiseS);
+            glProg.setVar("flowNoiseO", rawNoiseO);
+            glProg.setTextureCompute("inTexture", mergeAcc, false);
+            glProg.setTextureCompute("diffTexture", baseDiff, false);
+            mergeAcc = getBase();
+            glProg.setTextureCompute("outTexture", mergeAcc, true);
+            glProg.setVar("noiseS", noiseS);
+            glProg.setVar("noiseO", noiseO);
+            glProg.setVar("analogBalance", analogBalance);
+            glProg.setVar("exposure", exposure);
+            if(exposure >= 0.95f){
+                glProg.setVar("weight", 1.0f/cnt1);
+                //glProg.setVar("exposure", minExp);
+                cnt1+=1.0f;
+            } else {
+                glProg.setVar("weight", 1.0f/cnt2);
+                //glProg.setVar("exposure", 1.0f);
+                cnt2+=1.0f;
+            }
+            //glProg.setVar("exposure", exposure);
+            //glProg.setVar("weight",  1.0f);
+            glProg.computeAuto(mergeAcc.mSize, 1);
+            gpuSyncProfile();
+            Log.d("ESD4D", "Stage[merge:combine] elapsed:" + (System.currentTimeMillis() - stageT) + " ms f=" + f);
+            // This frame's pixels are on the GPU now: inputAlter.loadData()
+            // (and FlowNet's computeFlow()) upload synchronously, and
+            // everything above only touches GPU textures plus scalar pair
+            // metadata afterwards. Release the native copy so peak memory no
+            // longer holds the whole burst through the merge. close() is
+            // idempotent, so HdrxProcessor's post-merge loop stays a safe net.
+            images.get(ind).close();
+            endT();
+        }
+        Log.d("ESD4D", "Stage[merge-loop] elapsed:" + (System.currentTimeMillis() - mergeLoopT) + " ms");
+
+        // The merge result stays normalized fp16 end-to-end: merge2o unpacks
+        // the packed quads straight into the R16F output buffer (no uint16
+        // re-encode); PostPipeline consumes it as-is and the uint16 DNG save
+        // re-encodes on the CPU (Allocator.createU16FromF16).
+        // Temporal temporaries are dead past this point: merge2o below reads
+        // only mergeAcc + alignmentTex. Release ~530 MB (64 MP) before the output
+        // readback instead of AfterRun. Fields are nulled and AfterRun
+        // null-guards them, so a stale close can never delete a recycled ID.
+        long mergeOutT = System.currentTimeMillis();
+        baseDiff.close(); baseDiff = null;
+        alter.close(); alter = null;
+        inputAlter.close(); inputAlter = null;
+        inputBase.close(); inputBase = null;
+
+        glProg.setLayout(tile,tile,1);
+        glProg.useAssetProgram("merge/merge2o");
+        glProg.setVar("cfaShift", cfaShift); // uniform: GLProg clears defines after each load
+        glProg.setTexture("inTexture",mergeAcc);
+        glProg.setTexture("alignmentTexture", alignmentTex);
+        result.BufferLoad();
+        glOne.glProcessing.drawBlocksToOutput();
+        Output = glOne.glProcessing.mOutBuffer;
+        // The tiled glReadPixels inside drawBlocksToOutput drains every
+        // compute dispatch the merge loop queued asynchronously, so this
+        // stage carries the loop's real GPU execution time on top of the
+        // readback transfer itself.
+        Log.d("ESD4D", "Stage[merge2o+readback] elapsed:" + (System.currentTimeMillis() - mergeOutT) + " ms");
+        long teardownT = System.currentTimeMillis();
+        AfterRun();
+        Log.d("ESD4D", "Stage[afterrun] elapsed:" + (System.currentTimeMillis() - teardownT) + " ms");
+        com.particlesdevs.photoncamera.util.Allocator.logStage("ESD4D", "post-merge");
+    }
+
+    /**
+     * Reads brightMap back to CPU. The packed rgba16f texels decode directly to
+     * row-major grayscale luma (4 x-samples per texel), so reading the RGBA floats
+     * in order already yields the full-width buffer. Must be called while the GL
+     * context is current and before AfterRun() closes brightMap.
+     */
+    public FloatBuffer exportBrightMap() {
+        if (brightMap == null) return null;
+        brightMap.BufferLoad();
+        ByteBuffer raw = brightMap.textureBuffer(new GLFormat(GLFormat.DataType.FLOAT_32, 4), true);
+        raw.order(ByteOrder.nativeOrder());
+        brightMapCPU = raw.asFloatBuffer();
+        return brightMapCPU;
+    }
+
+    /**
+     * Runs the KernelNet parameter model on the previously exported {@link #brightMapCPU}
+     * (call {@link #exportBrightMap()} first). Returns half-resolution kernel params
+     * as RGBA-interleaved (s1, s2, rho, 1) floats, or null if the model isn't available.
+     * Takes ~40-170ms at high res; Run() calls this on a worker thread in
+     * parallel with the alignment loop and collects the result before the
+     * first mergeCombineWeight0 pass. Touches no GL state, so it is safe to
+     * call off the GL thread.
+     */
+    public KernelNetResult runKernelNetInference(float sigma) {
+        if (brightMapCPU == null || brightMapCPUSize == null) return null;
+        var ctx = PhotonCamera.getAppContext();
+        if (ctx == null) return null;
+        // Process-wide shared instance (kept warm across shots): do NOT
+        // close it here. runInference blocks until the model is ready.
+        KernelNetNcnnProcessor processor = KernelNetNcnnProcessor.start(ctx);
+        if (!processor.isReady()) return null;
+        return processor.runInference(brightMapCPU, brightMapCPUSize.x, brightMapCPUSize.y, sigma);
+    }
+
+    /**
+     * Uploads the KernelNet parameter map as an RGBA16F texture for the
+     * anisotropic Gaussian filter: texel = (s1, s2, rho, 1). The inference
+     * result already comes back as RGBA-interleaved fp16 halves in the exact
+     * GL_RGBA16F layout (see {@link KernelNetNcnnProcessor}), so it is
+     * uploaded with GL_HALF_FLOAT — no repack, no driver FLOAT->HALF
+     * conversion. Also publishes the same buffer as {@link #kernelsMapCPU}
+     * for the post pipeline. The texture is left open for downstream use;
+     * caller owns it.
+     */
+    public GLTexture createKernelsMap(KernelNetResult result) {
+        if (result == null) return null;
+        int w = result.width();
+        int h = result.height();
+        GLTexture map = new GLTexture(new Point(w, h), new GLFormat(GLFormat.DataType.FLOAT_16, 4), null);
+        // The inference result already comes back RGBA-interleaved fp16 (see
+        // {@link KernelNetNcnnProcessor}), so the buffer is uploaded as-is.
+        // Also publishes the same interleaved buffer as {@link #kernelsMapCPU}
+        // for the post pipeline; the malloc'd base buffer rides along via
+        // kernelsMapBase so the post pipeline can free it deterministically
+        // once uploaded (views don't free). The texture is left open for
+        // downstream use; caller owns it.
+        ByteBuffer halves = result.params();
+        halves.position(0);
+        try {
+            map.loadRawHalf(halves);
+        } catch (Throwable t) {
+            // Upload failed: the malloc'd result has no other owner yet.
+            com.particlesdevs.photoncamera.util.Allocator.free(result.params());
+            throw t;
+        }
+        kernelsMapCPU = halves.asShortBuffer();
+        kernelsMapCPUSize = new Point(w, h);
+        kernelsMapBase = halves;
+        return map;
+    }
+
+    @Override
+    public void AfterRun() {
+        // The unpack staging cache is only needed while frames are uploaded
+        // (this phase). Release it here so post-merge MemStage baselines are
+        // unchanged vs per-upload malloc/free.
+        ImageFrame.releaseUploadStaging();
+        if(hotPixelBuffer != null) hotPixelBuffer.close();
+        // baseDiff/alter/inputAlter/inputBase/brightMap may already be
+        // released post-loop (nulled there); guard so a stale close can
+        // never delete a recycled texture ID.
+        if (inputAlter != null) inputAlter.close();
+        if (alter != null) alter.close();
+        if (inputBase != null) inputBase.close();
+        if (baseDiff != null) baseDiff.close();
+        base.close();
+        baseAlter.close();
+        if (brightMap != null) brightMap.close();
+        // The kernel-params texture is only read by the merge passes above;
+        // downstream uses the fp32 CPU view. Free the GPU copy with the rest
+        // instead of leaving it registered until context teardown.
+        if (kernelsMap != null) {
+            kernelsMap.close();
+            kernelsMap = null;
+        }
+        result.close();
+        if(Objects.equals(alignerSelect, "flownet") && flowNetAlignment != null) {
+            // Closes flowTex (== alignmentTex), so drop the reference to avoid
+            // a double close below.
+            flowNetAlignment.close();
+            flowNetAlignment = null;
+            alignmentTex = null;
+        } else {
+            alignmentTex.close();
+        }
+        if(kernelsMap != null) kernelsMap.close();
+        GLTexture.notClosed();
+    }
+
+    /**
+     * Debug: runs the GL block-pyramid aligner in addition to the already
+     * computed Halide atlas (alignmentTex) and logs per-frame differences
+     * between the two vector fields. A constant offset reveals a packing or
+     * sign-convention bug; scene-scaled differences reveal a grid/phase
+     * mismatch; random differences are matcher noise.
+     */
+    private void logAlignerCompare(Point atlasSize, ArrayList<ImageFrame> images) {
+        try {
+            long t0 = System.currentTimeMillis();
+            PyramidAlignment pyramidAlignment = new PyramidAlignment(atlasSize, images, glProg, glUtils, this);
+            pyramidAlignment.parameters = parameters;
+            pyramidAlignment.startLevel = alignmentStartLevel;
+            pyramidAlignment.Run();
+            Log.d("AlignerCompare", "GL pyramid reference computed in "
+                    + (System.currentTimeMillis() - t0) + "ms");
+
+            Point rawHalf = new Point(parameters.rawSize.x / 2, parameters.rawSize.y / 2);
+            float[] halide = readAtlasFloats(alignmentTex, atlasSize);
+            float[] glpyr = readAtlasFloats(pyramidAlignment.Result, atlasSize);
+            pyramidAlignment.close();
+            if (halide == null || glpyr == null) return;
+
+            for (int f = 1; f < images.size(); f++) {
+                Point shift = PyramidAlignment.alignmentShift(parameters, f);
+                ArrayList<Float> dxs = new ArrayList<>();
+                ArrayList<Float> dys = new ArrayList<>();
+                float sdx = 0, sdy = 0;
+                for (int ty = 0; ty < parameters.alignmentSize.y; ty++) {
+                    for (int tx = 0; tx < parameters.alignmentSize.x; tx++) {
+                        int o = ((shift.y + ty) * atlasSize.x + shift.x + tx) * 4;
+                        if (o + 3 >= glpyr.length) continue;
+                        float hdx = decodeDx(halide, o, rawHalf.x), hdy = decodeDy(halide, o, rawHalf.y);
+                        float gdx = decodeDx(glpyr, o, rawHalf.x), gdy = decodeDy(glpyr, o, rawHalf.y);
+                        dxs.add(hdx - gdx);
+                        dys.add(hdy - gdy);
+                        sdx += hdx - gdx;
+                        sdy += hdy - gdy;
+                    }
+                }
+                int n = dxs.size();
+                // A few sample cells: center + four corners of the grid.
+                StringBuilder samples = new StringBuilder();
+                int[][] probe = {
+                        {parameters.alignmentSize.x / 2, parameters.alignmentSize.y / 2},
+                        {2, 2}, {parameters.alignmentSize.x - 3, 2},
+                        {2, parameters.alignmentSize.y - 3},
+                        {parameters.alignmentSize.x - 3, parameters.alignmentSize.y - 3}};
+                for (int[] pc : probe) {
+                    int o = ((shift.y + pc[1]) * atlasSize.x + shift.x + pc[0]) * 4;
+                    if (o + 3 >= glpyr.length) continue;
+                    samples.append(String.format(" [(%d,%d) h(%+.1f,%+.1f) g(%+.1f,%+.1f)]",
+                            pc[0], pc[1],
+                            decodeDx(halide, o, rawHalf.x), decodeDy(halide, o, rawHalf.y),
+                            decodeDx(glpyr, o, rawHalf.x), decodeDy(glpyr, o, rawHalf.y)));
+                }
+                Log.d("AlignerCompare", String.format(
+                        "frame %d: mean diff (%+.2f,%+.2f) rawHalf texels over %d cells%s",
+                        f, sdx / n, sdy / n, n, samples));
+            }
+        } catch (Throwable tr) {
+            Log.w("AlignerCompare", "comparison failed", tr);
+        }
+    }
+
+    private static float decodeDx(float[] atlas, int o, float rawHalf) {
+        return (float) Math.floor(atlas[o] * rawHalf + 0.5f) + atlas[o + 2];
+    }
+
+    private static float decodeDy(float[] atlas, int o, float rawHalf) {
+        return (float) Math.floor(atlas[o + 1] * rawHalf + 0.5f) + atlas[o + 3];
+    }
+
+    private static float[] readAtlasFloats(GLTexture tex, Point size) {
+        java.nio.ByteBuffer buf = tex.textureBuffer(tex.mFormat);
+        buf.order(java.nio.ByteOrder.nativeOrder());
+        java.nio.FloatBuffer fb = buf.asFloatBuffer();
+        float[] out = new float[size.x * size.y * 4];
+        fb.get(out);
+        return out;
+    }
+}

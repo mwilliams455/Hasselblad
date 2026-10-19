@@ -1,0 +1,104 @@
+PASS — 14/14 native checks passed
+WB primitive only; photographic rendering not connected
+
+Executing: portable C reconstruction through JNI
+Native library: libhasselblad_wb_jni.so
+Native ABI: x86_64 (host bridge check)
+Evidence firmware: Hasselblad X2D II 100C 1.3.16.2
+Original routine: scene_awb_result_recalib_unit
+Original ELF: libaaa.so
+Original routine address: 0x4a39a0 (56 bytes)
+Original ELF SHA-256: 7d6164eccc734de7087bb778ee72f17a0b3ccf6c0d1f20092c7ebe74a86574ba
+The original vendor library is not loaded by this check.
+
+10 original-routine output vectors and 4 adapter guard cases.
+Adapter status 1 rejects a zero divisor; status 2 rejects shift overflow.
+These are adapter statuses, not vendor return codes.
+
+PASS  Q12 unity
+Gain A/B: 4096 / 4096
+Calibration A/B: 4096 / 4096
+Expected output: 4096 / 4096
+Actual output: 4096 / 4096; adapter status 0
+
+PASS  Independent gain scales
+Gain A/B: 8192 / 12288
+Calibration A/B: 8192 / 6144
+Expected output: 4096 / 8192
+Actual output: 4096 / 8192; adapter status 0
+
+PASS  Fractional truncation
+Gain A/B: 5001 / 6001
+Calibration A/B: 3000 / 5000
+Expected output: 6828 / 4916
+Actual output: 6828 / 4916; adapter status 0
+
+PASS  Half and double calibration
+Gain A/B: 4096 / 4096
+Calibration A/B: 2048 / 8192
+Expected output: 8192 / 2048
+Actual output: 8192 / 2048; adapter status 0
+
+PASS  Zero gains
+Gain A/B: 0 / 0
+Calibration A/B: 4096 / 4096
+Expected output: 0 / 0
+Actual output: 0 / 0; adapter status 0
+
+PASS  Bounded gains
+Gain A/B: 65535 / 65535
+Calibration A/B: 4096 / 8192
+Expected output: 65535 / 32767
+Actual output: 65535 / 32767; adapter status 0
+
+PASS  One least-significant bit
+Gain A/B: 1 / 2
+Calibration A/B: 4096 / 4096
+Expected output: 1 / 2
+Actual output: 1 / 2; adapter status 0
+
+PASS  Asymmetric fraction
+Gain A/B: 12345 / 23456
+Calibration A/B: 7000 / 3333
+Expected output: 7223 / 28825
+Actual output: 7223 / 28825; adapter status 0
+
+PASS  Last inputs before shift overflow
+Gain A/B: 1048575 / 1048574
+Calibration A/B: 4096 / 4095
+Expected output: 1048575 / 1048830
+Actual output: 1048575 / 1048830; adapter status 0
+
+PASS  Large unsigned calibration
+Gain A/B: 65535 / 4096
+Calibration A/B: 4294967295 / 16777216
+Expected output: 0 / 1
+Actual output: 0 / 1; adapter status 0
+
+PASS  Guard: zero calibration A
+Gain A/B: 4096 / 4096
+Calibration A/B: 0 / 4096
+Expected output: 4096 / 4096
+Actual output: 4096 / 4096; adapter status 1
+
+PASS  Guard: zero calibration B
+Gain A/B: 4096 / 4096
+Calibration A/B: 4096 / 0
+Expected output: 4096 / 4096
+Actual output: 4096 / 4096; adapter status 1
+
+PASS  Guard: gain A shift overflow
+Gain A/B: 1048576 / 4096
+Calibration A/B: 4096 / 4096
+Expected output: 1048576 / 4096
+Actual output: 1048576 / 4096; adapter status 2
+
+PASS  Guard: gain B shift overflow
+Gain A/B: 4096 / 4294967295
+Calibration A/B: 4096 / 4096
+Expected output: 4096 / 4294967295
+Actual output: 4096 / 4294967295; adapter status 2
+
+
+HOST VERIFICATION PASS: 20 assertions, including 14 native vectors, 8 JNI range checks and 10 RAW-selection cases.
+This is a host JVM/JNI check, not Android device or camera validation.

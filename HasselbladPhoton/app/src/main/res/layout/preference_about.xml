@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:gravity="top"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/preference_row_min_height"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:paddingEnd="@dimen/preference_row_horizontal_padding"
+        android:paddingStart="@dimen/preference_row_horizontal_padding">
+
+    <ImageView
+            android:id="@android:id/icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|center"
+            android:importantForAccessibility="no"
+            android:contentDescription="@string/icon_string"
+            tools:src="@drawable/ic_splash"/>
+
+    <TextView
+            android:id="@android:id/title"
+            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+            android:textColor="?attr/colorOnSurface"
+            android:ellipsize="marquee"
+            android:fadingEdge="horizontal"
+            android:layout_gravity="top|center_horizontal"
+            android:paddingStart="@dimen/preference_icon_margin"
+            android:paddingEnd="@dimen/preference_icon_margin"
+            android:paddingBottom="4dp"
+            android:paddingTop="8dp"
+            android:textAlignment="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Title"/>
+
+    <TextView
+            android:id="@android:id/summary"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:paddingStart="@dimen/preference_icon_margin"
+            android:paddingEnd="@dimen/preference_icon_margin"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            tools:text="Summary"/>
+</LinearLayout>

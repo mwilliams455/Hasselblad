@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorAccent">@color/md_deep_purple_400</color>
+    <color name="White">#FFFFFF</color>
+    <!-- Fixed dark palette for the camera viewfinder chrome. The viewfinder is always dark,
+         independent of the app's light/dark Material You theme. -->
+    <color name="cam_surface">#CC121417</color>
+    <color name="cam_surface_container">#991E2227</color>
+    <color name="cam_surface_container_high">#E6262B31</color>
+    <color name="cam_on_surface">#F2FFFFFF</color>
+    <color name="cam_on_surface_variant">#B3FFFFFF</color>
+    <color name="cam_outline">#4DFFFFFF</color>
+    <color name="cam_primary">#FFA8C7FA</color>
+    <color name="cam_on_primary">#FF08305F</color>
+    <color name="cam_primary_container">#FF2B4A6F</color>
+    <color name="cam_on_primary_container">#FFD3E3FD</color>
+    <color name="cam_error">#FFFFB4AB</color>
+    <!-- Shared 40% scrim for all camera panel glass surfaces. -->
+    <color name="cam_panel_scrim">#66121417</color>
+
+    <color name="panel_transparency">@color/cam_surface_container_high</color>
+    <color name="white">#FFFFFF</color>
+    <color name="white_theme_background">#F0EEE9</color>
+    <!-- Neutral tone 70 of the palette generated from white_theme_background
+         (tone 94): the white theme has no hue to separate selected from
+         inactive surfaces, so the remembered manual control's pill
+         (colorSecondaryContainer) drops 24 tones instead. Lowest tone that
+         keeps its black on-container content readable (9.3:1). -->
+    <color name="white_theme_inactive">#ACABA7</color>
+</resources>

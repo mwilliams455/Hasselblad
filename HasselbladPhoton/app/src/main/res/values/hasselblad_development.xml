@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hasselblad_check_title" translatable="false">Hasselblad development check</string>
+    <string name="hasselblad_check_summary" translatable="false">Run the recovered X2D II WB calibration primitive through native code</string>
+    <string name="hasselblad_check_pending" translatable="false">Native check has not run</string>
+    <string name="hasselblad_check_scope" translatable="false">WB primitive only; photographic rendering not connected</string>
+    <string name="hasselblad_check_explanation" translatable="false">This runs a portable reconstruction of one verified firmware routine. Ten outputs are checked against original ARM64 execution, plus four adapter guards. Photo colour, white balance and tone still use Photon. The original vendor library is not loaded in this app.</string>
+    <string name="hasselblad_check_run" translatable="false">Run native check</string>
+    <string name="hasselblad_check_copy" translatable="false">Copy check report</string>
+    <string name="hasselblad_check_copied" translatable="false">Native check report copied</string>
+    <string name="hasselblad_single_frame_summary" translatable="false">Fixed to one RAW input frame for this development checkpoint. Photos use the existing Photon renderer.</string>
+    <string name="hasselblad_single_frame_title" translatable="false">Single RAW frame</string>
+</resources>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="BoldTextWithShadow">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:shadowColor">@android:color/black</item>
+        <item name="android:shadowDx">1</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">1</item>
+    </style>
+
+    <!-- Option labels in the manual bar sit on the bar's scrim / selection pill,
+         so they are flat (no drop shadow); the pill keeps the black-on-container
+         label crisp. -->
+    <style name="ManualOptionText">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="ManualModeKnobText" parent="BoldTextWithShadow">
+        <item name="android:textSize">@dimen/manual_knob_text_size</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/manual_icon_text</item>
+    </style>
+
+    <style name="ManualModeKnobTextSelected" parent="ManualModeKnobText">
+        <item name="android:textColor">?android:colorControlActivated</item>
+    </style>
+
+</resources>

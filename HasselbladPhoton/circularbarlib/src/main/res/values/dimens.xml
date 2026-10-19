@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="manual_knob_dash_length">8dp</dimen>
+    <dimen name="manual_knob_dash_padding">11dp</dimen>
+    <dimen name="manual_knob_icon_padding">10dp</dimen>
+    <dimen name="manual_knob_text_size">13sp</dimen>
+    <dimen name="manual_knob_icon_size">17dp</dimen>
+    <!-- Vertical extent of the selector dome grown out of the palette bubble;
+         raising it makes the dome taller (and its arc slightly tighter).
+         96dp matches the wheel's height before the M3E merge. -->
+    <dimen name="manual_knob_height">96dp</dimen>
+    <!-- Panel reveal/hide travel, mirroring the quick settings bar. -->
+    <dimen name="manual_panel_slide">125dp</dimen>
+    <dimen name="icon_size">35dp</dimen>
+
+</resources>

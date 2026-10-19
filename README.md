@@ -98,14 +98,25 @@ libarchive alignment exception is documented in the independent review.
 
 The inspected X2D II firmware is **1.3.16.2**. Original-code execution proved
 the bounded WB primitive and the preparation/interpolation of main colour
-profiles for CCT and sRGB/P3. A separate investigation proved a display-format
-LUT decoder and trilinear sampler. The MAIN photographic hardware's packing,
-input domain and interpolation remain unresolved. A display sampler must not
-be presented as a validated saved-image HNCS renderer.
+profiles for CCT and sRGB/P3.
+
+The **2026-10-19 MAIN colour checkpoint** adds a portable CCM coefficient
+preparer that matches **15,552 original scalar outputs**, and a gamma-coordinate
+primitive that matches **2,056 original coordinates**. It also verifies the
+kernel's MAIN LUT and gamma table writes, links the CCM register region, and
+traces the inspected RAW-to-RGB route to the camera's DSP framework. These
+research primitives are not yet connected to photographic rendering.
+
+A separate investigation proved a display-format LUT decoder and trilinear
+sampler. The MAIN photographic hardware's component layout, input conversion,
+pixel interpolation and CCM equation remain unresolved. The new register-write
+tests do not establish those hardware pixel operations, and the display sampler
+must not be presented as a validated saved-image HNCS renderer.
 
 - [WB/original runtime evidence](hasselblad_native_audit/README.md)
 - [Main photographic profile preparation](hasselblad_native_audit/photographic_path/PHOTOGRAPHIC_PATH_FINDINGS.md)
 - [MAIN hardware descriptor and display sampler boundary](hasselblad_native_audit/pixel_contract_20261019/PIXEL_CONTRACT_FINDINGS.md)
+- [New MAIN CCM, gamma, LUT and DSP checkpoint](hasselblad_native_audit/main_colour_20261019/MAIN_COLOUR_CHECKPOINT.md)
 - [Native1A independent review](build_evidence/native1a_native_review.json)
 
 This work remains separate from the M9, M10-R and Monochrome projects.

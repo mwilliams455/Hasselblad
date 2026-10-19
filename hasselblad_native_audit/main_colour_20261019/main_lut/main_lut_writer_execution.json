@@ -1,0 +1,651 @@
+{
+  "schema": 1,
+  "scope": "Complete original kernel register-writer instructions against synthetic RAM only",
+  "not_proved": [
+    "Any RGB pixel conversion",
+    "MAIN colour-table axes or grid knots",
+    "Hardware interpolation, rounding, saturation or timing"
+  ],
+  "module": {
+    "relative_path": "system/lib/modules/vcam_driver.ko",
+    "sha256": "29309a225f2dcd8327b6fdaca477425b2c21ba580daa83599c1ea8699b7e450e"
+  },
+  "function": {
+    "name": "lut_set_lut_info",
+    "section": ".text",
+    "section_offset": "0x31f48",
+    "bytes": 324,
+    "sha256": "d56ec8d675a29416ad0fca213aa4ff83e2b33cf5743453db1591fd7a045d3da4",
+    "relocations_in_body": 0
+  },
+  "emulator": {
+    "name": "Unicorn",
+    "version": "2.1.4",
+    "architecture": "AArch64",
+    "execution_state": "EL1h, IRQ mask tested both set and clear",
+    "mmio": "ordinary guarded emulator RAM; no device access"
+  },
+  "fixtures": {
+    "provenance": "Original deterministic synthetic full-width uint32 fixtures",
+    "pre_gamma_words": 33,
+    "lut_words": 6144,
+    "pre_gamma_sha256": "80ad7d04a59d794306244ec0cb54d7e2f07a812971cb92786cfcd7c45bb3a925",
+    "lut_sha256": "4dbe71e8886d7c115010a4ba7e6e2e33dcb97930edb96cd066b3137653777d03",
+    "initial_register_window_sha256": "48d689fbf59d8ed1cea62b6d4d3c058c24b04ce0e28433153c3c9f99c7dd5ed8"
+  },
+  "total_cases": 32,
+  "passed_cases": 32,
+  "total_lut_words_compared_after_copy": 49152,
+  "total_pre_gamma_words_compared_after_copy": 264,
+  "source_sha256": "c7e936d28491eac30640718b045d9aac74eb41a3374ecfbc55f1bf84a4023a04",
+  "cases": [
+    {
+      "module_enabled": false,
+      "pre_gamma_enabled": false,
+      "lut_enabled": false,
+      "shadow_id_valid": false,
+      "irq_masked_on_entry": false,
+      "checks": {
+        "returned_to_sentinel": true,
+        "full_register_window_equal": true,
+        "inputs_unchanged": true,
+        "data_accesses_bounded": true,
+        "exact_write_locations": true,
+        "daif_masks_restored": true
+      },
+      "register_word_writes": 3,
+      "pre_gamma_words_copied": 0,
+      "lut_words_copied": 0,
+      "output_window_sha256": "48d689fbf59d8ed1cea62b6d4d3c058c24b04ce0e28433153c3c9f99c7dd5ed8"
+    },
+    {
+      "module_enabled": false,
+      "pre_gamma_enabled": false,
+      "lut_enabled": false,
+      "shadow_id_valid": false,
+      "irq_masked_on_entry": true,
+      "checks": {
+        "returned_to_sentinel": true,
+        "full_register_window_equal": true,
+        "inputs_unchanged": true,
+        "data_accesses_bounded": true,
+        "exact_write_locations": true,
+        "daif_masks_restored": true
+      },
+      "register_word_writes": 3,
+      "pre_gamma_words_copied": 0,
+      "lut_words_copied": 0,
+      "output_window_sha256": "48d689fbf59d8ed1cea62b6d4d3c058c24b04ce0e28433153c3c9f99c7dd5ed8"
+    },
+    {
+      "module_enabled": false,
+      "pre_gamma_enabled": false,
+      "lut_enabled": false,
+      "shadow_id_valid": true,
+      "irq_masked_on_entry": false,
+      "checks": {
+        "returned_to_sentinel": true,
+        "full_register_window_equal": true,
+        "inputs_unchanged": true,
+        "data_accesses_bounded": true,
+        "exact_write_locations": true,
+        "daif_masks_restored": true
+      },
+      "register_word_writes": 3,
+      "pre_gamma_words_copied": 0,
+      "lut_words_copied": 0,
+      "output_window_sha256": "48d689fbf59d8ed1cea62b6d4d3c058c24b04ce0e28433153c3c9f99c7dd5ed8"
+    },
+    {
+      "module_enabled": false,
+      "pre_gamma_enabled": false,
+      "lut_enabled": false,
+      "shadow_id_valid": true,
+      "irq_masked_on_entry": true,
+      "checks": {
+        "returned_to_sentinel": true,
+        "full_register_window_equal": true,
+        "inputs_unchanged": true,
+        "data_accesses_bounded": true,
+        "exact_write_locations": true,
+        "daif_masks_restored": true
+      },
+      "register_word_writes": 3,
+      "pre_gamma_words_copied": 0,
+      "lut_words_copied": 0,
+      "output_window_sha256": "48d689fbf59d8ed1cea62b6d4d3c058c24b04ce0e28433153c3c9f99c7dd5ed8"
+    },
+    {
+      "module_enabled": false,
+      "pre_gamma_enabled": false,
+      "lut_enabled": true,
+      "shadow_id_valid": false,
+      "irq_masked_on_entry": false,
+      "checks": {
+        "returned_to_sentinel": true,
+        "full_register_window_equal": true,
+        "inputs_unchanged": true,
+        "data_accesses_bounded": true,
+        "exact_write_locations": true,
+        "daif_masks_restored": true
+      },
+      "register_word_writes": 3,
+      "pre_gamma_words_copied": 0,
+      "lut_words_copied": 0,
+      "output_window_sha256": "48d689fbf59d8ed1cea62b6d4d3c058c24b04ce0e28433153c3c9f99c7dd5ed8"
+    },
+    {
+      "module_enabled": false,
+      "pre_gamma_enabled": false,
+      "lut_enabled": true,
+      "shadow_id_valid": false,
+      "irq_masked_on_entry": true,
+      "checks": {
+        "returned_to_sentinel": true,
+        "full_register_window_equal": true,
+        "inputs_unchanged": true,
+        "data_accesses_bounded": true,
+        "exact_write_locations": true,
+        "daif_masks_restored": true
+      },
+      "register_word_writes": 3,
+      "pre_gamma_words_copied": 0,
+      "lut_words_copied": 0,
+      "output_window_sha256": "48d689fbf59d8ed1cea62b6d4d3c058c24b04ce0e28433153c3c9f99c7dd5ed8"
+    },
+    {
+      "module_enabled": false,
+      "pre_gamma_enabled": false,
+      "lut_enabled": true,
+      "shadow_id_valid": true,
+      "irq_masked_on_entry": false,
+      "checks": {
+        "returned_to_sentinel": true,
+        "full_register_window_equal": true,
+        "inputs_unchanged": true,
+        "data_accesses_bounded": true,
+        "exact_write_locations": true,
+        "daif_masks_restored": true
+      },
+      "register_word_writes": 3,
+      "pre_gamma_words_copied": 0,
+      "lut_words_copied": 0,
+      "output_window_sha256": "48d689fbf59d8ed1cea62b6d4d3c058c24b04ce0e28433153c3c9f99c7dd5ed8"
+    },
+    {
+      "module_enabled": false,
+      "pre_gamma_enabled": false,
+      "lut_enabled": true,
+      "shadow_id_valid": true,
+      "irq_masked_on_entry": true,
+      "checks": {
+        "returned_to_sentinel": true,
+        "full_register_window_equal": true,
+        "inputs_unchanged": true,
+        "data_accesses_bounded": true,
+        "exact_write_locations": true,
+        "daif_masks_restored": true
+      },
+      "register_word_writes": 3,
+      "pre_gamma_words_copied": 0,
+      "lut_words_copied": 0,
+      "output_window_sha256": "48d689fbf59d8ed1cea62b6d4d3c058c24b04ce0e28433153c3c9f99c7dd5ed8"
+    },
+    {
+      "module_enabled": false,
+      "pre_gamma_enabled": true,
+      "lut_enabled": false,
+      "shadow_id_valid": false,
+      "irq_masked_on_entry": false,
+      "checks": {
+        "returned_to_sentinel": true,
+        "full_register_window_equal": true,
+        "inputs_unchanged": true,
+        "data_accesses_bounded": true,
+        "exact_write_locations": true,
+        "daif_masks_restored": true
+      },
+      "register_word_writes": 3,
+      "pre_gamma_words_copied": 0,
+      "lut_words_copied": 0,
+      "output_window_sha256": "48d689fbf59d8ed1cea62b6d4d3c058c24b04ce0e28433153c3c9f99c7dd5ed8"
+    },
+    {
+      "module_enabled": false,
+      "pre_gamma_enabled": true,
+      "lut_enabled": false,
+      "shadow_id_valid": false,
+      "irq_masked_on_entry": true,
+      "checks": {
+        "returned_to_sentinel": true,
+        "full_register_window_equal": true,
+        "inputs_unchanged": true,
+        "data_accesses_bounded": true,
+        "exact_write_locations": true,
+        "daif_masks_restored": true
+      },
+      "register_word_writes": 3,
+      "pre_gamma_words_copied": 0,
+      "lut_words_copied": 0,
+      "output_window_sha256": "48d689fbf59d8ed1cea62b6d4d3c058c24b04ce0e28433153c3c9f99c7dd5ed8"
+    },
+    {
+      "module_enabled": false,
+      "pre_gamma_enabled": true,
+      "lut_enabled": false,
+      "shadow_id_valid": true,
+      "irq_masked_on_entry": false,
+      "checks": {
+        "returned_to_sentinel": true,
+        "full_register_window_equal": true,
+        "inputs_unchanged": true,
+        "data_accesses_bounded": true,
+        "exact_write_locations": true,
+        "daif_masks_restored": true
+      },
+      "register_word_writes": 3,
+      "pre_gamma_words_copied": 0,
+      "lut_words_copied": 0,
+      "output_window_sha256": "48d689fbf59d8ed1cea62b6d4d3c058c24b04ce0e28433153c3c9f99c7dd5ed8"
+    },
+    {
+      "module_enabled": false,
+      "pre_gamma_enabled": true,
+      "lut_enabled": false,
+      "shadow_id_valid": true,
+      "irq_masked_on_entry": true,
+      "checks": {
+        "returned_to_sentinel": true,
+        "full_register_window_equal": true,
+        "inputs_unchanged": true,
+        "data_accesses_bounded": true,
+        "exact_write_locations": true,
+        "daif_masks_restored": true
+      },
+      "register_word_writes": 3,
+      "pre_gamma_words_copied": 0,
+      "lut_words_copied": 0,
+      "output_window_sha256": "48d689fbf59d8ed1cea62b6d4d3c058c24b04ce0e28433153c3c9f99c7dd5ed8"
+    },
+    {
+      "module_enabled": false,
+      "pre_gamma_enabled": true,
+      "lut_enabled": true,
+      "shadow_id_valid": false,
+      "irq_masked_on_entry": false,
+      "checks": {
+        "returned_to_sentinel": true,
+        "full_register_window_equal": true,
+        "inputs_unchanged": true,
+        "data_accesses_bounded": true,
+        "exact_write_locations": true,
+        "daif_masks_restored": true
+      },
+      "register_word_writes": 3,
+      "pre_gamma_words_copied": 0,
+      "lut_words_copied": 0,
+      "output_window_sha256": "48d689fbf59d8ed1cea62b6d4d3c058c24b04ce0e28433153c3c9f99c7dd5ed8"
+    },
+    {
+      "module_enabled": false,
+      "pre_gamma_enabled": true,
+      "lut_enabled": true,
+      "shadow_id_valid": false,
+      "irq_masked_on_entry": true,
+      "checks": {
+        "returned_to_sentinel": true,
+        "full_register_window_equal": true,
+        "inputs_unchanged": true,
+        "data_accesses_bounded": true,
+        "exact_write_locations": true,
+        "daif_masks_restored": true
+      },
+      "register_word_writes": 3,
+      "pre_gamma_words_copied": 0,
+      "lut_words_copied": 0,
+      "output_window_sha256": "48d689fbf59d8ed1cea62b6d4d3c058c24b04ce0e28433153c3c9f99c7dd5ed8"
+    },
+    {
+      "module_enabled": false,
+      "pre_gamma_enabled": true,
+      "lut_enabled": true,
+      "shadow_id_valid": true,
+      "irq_masked_on_entry": false,
+      "checks": {
+        "returned_to_sentinel": true,
+        "full_register_window_equal": true,
+        "inputs_unchanged": true,
+        "data_accesses_bounded": true,
+        "exact_write_locations": true,
+        "daif_masks_restored": true
+      },
+      "register_word_writes": 3,
+      "pre_gamma_words_copied": 0,
+      "lut_words_copied": 0,
+      "output_window_sha256": "48d689fbf59d8ed1cea62b6d4d3c058c24b04ce0e28433153c3c9f99c7dd5ed8"
+    },
+    {
+      "module_enabled": false,
+      "pre_gamma_enabled": true,
+      "lut_enabled": true,
+      "shadow_id_valid": true,
+      "irq_masked_on_entry": true,
+      "checks": {
+        "returned_to_sentinel": true,
+        "full_register_window_equal": true,
+        "inputs_unchanged": true,
+        "data_accesses_bounded": true,
+        "exact_write_locations": true,
+        "daif_masks_restored": true
+      },
+      "register_word_writes": 3,
+      "pre_gamma_words_copied": 0,
+      "lut_words_copied": 0,
+      "output_window_sha256": "48d689fbf59d8ed1cea62b6d4d3c058c24b04ce0e28433153c3c9f99c7dd5ed8"
+    },
+    {
+      "module_enabled": true,
+      "pre_gamma_enabled": false,
+      "lut_enabled": false,
+      "shadow_id_valid": false,
+      "irq_masked_on_entry": false,
+      "checks": {
+        "returned_to_sentinel": true,
+        "full_register_window_equal": true,
+        "inputs_unchanged": true,
+        "data_accesses_bounded": true,
+        "exact_write_locations": true,
+        "daif_masks_restored": true
+      },
+      "register_word_writes": 7,
+      "pre_gamma_words_copied": 0,
+      "lut_words_copied": 0,
+      "output_window_sha256": "bad2e49238e940d2fc240638b07ec7038321f1eafbb014e3199101a90fd3fc67"
+    },
+    {
+      "module_enabled": true,
+      "pre_gamma_enabled": false,
+      "lut_enabled": false,
+      "shadow_id_valid": false,
+      "irq_masked_on_entry": true,
+      "checks": {
+        "returned_to_sentinel": true,
+        "full_register_window_equal": true,
+        "inputs_unchanged": true,
+        "data_accesses_bounded": true,
+        "exact_write_locations": true,
+        "daif_masks_restored": true
+      },
+      "register_word_writes": 7,
+      "pre_gamma_words_copied": 0,
+      "lut_words_copied": 0,
+      "output_window_sha256": "bad2e49238e940d2fc240638b07ec7038321f1eafbb014e3199101a90fd3fc67"
+    },
+    {
+      "module_enabled": true,
+      "pre_gamma_enabled": false,
+      "lut_enabled": false,
+      "shadow_id_valid": true,
+      "irq_masked_on_entry": false,
+      "checks": {
+        "returned_to_sentinel": true,
+        "full_register_window_equal": true,
+        "inputs_unchanged": true,
+        "data_accesses_bounded": true,
+        "exact_write_locations": true,
+        "daif_masks_restored": true
+      },
+      "register_word_writes": 8,
+      "pre_gamma_words_copied": 0,
+      "lut_words_copied": 0,
+      "output_window_sha256": "b7e5537c05db6fca01211b28523c959fbea3a6d6039c7479ef06b3cd9d28b061"
+    },
+    {
+      "module_enabled": true,
+      "pre_gamma_enabled": false,
+      "lut_enabled": false,
+      "shadow_id_valid": true,
+      "irq_masked_on_entry": true,
+      "checks": {
+        "returned_to_sentinel": true,
+        "full_register_window_equal": true,
+        "inputs_unchanged": true,
+        "data_accesses_bounded": true,
+        "exact_write_locations": true,
+        "daif_masks_restored": true
+      },
+      "register_word_writes": 8,
+      "pre_gamma_words_copied": 0,
+      "lut_words_copied": 0,
+      "output_window_sha256": "b7e5537c05db6fca01211b28523c959fbea3a6d6039c7479ef06b3cd9d28b061"
+    },
+    {
+      "module_enabled": true,
+      "pre_gamma_enabled": false,
+      "lut_enabled": true,
+      "shadow_id_valid": false,
+      "irq_masked_on_entry": false,
+      "checks": {
+        "returned_to_sentinel": true,
+        "full_register_window_equal": true,
+        "inputs_unchanged": true,
+        "data_accesses_bounded": true,
+        "exact_write_locations": true,
+        "daif_masks_restored": true
+      },
+      "register_word_writes": 6151,
+      "pre_gamma_words_copied": 0,
+      "lut_words_copied": 6144,
+      "output_window_sha256": "7665e9c244a387c0ee99e57f1a1f92d5b90b4c7325f4841bed82ad8f804b4398"
+    },
+    {
+      "module_enabled": true,
+      "pre_gamma_enabled": false,
+      "lut_enabled": true,
+      "shadow_id_valid": false,
+      "irq_masked_on_entry": true,
+      "checks": {
+        "returned_to_sentinel": true,
+        "full_register_window_equal": true,
+        "inputs_unchanged": true,
+        "data_accesses_bounded": true,
+        "exact_write_locations": true,
+        "daif_masks_restored": true
+      },
+      "register_word_writes": 6151,
+      "pre_gamma_words_copied": 0,
+      "lut_words_copied": 6144,
+      "output_window_sha256": "7665e9c244a387c0ee99e57f1a1f92d5b90b4c7325f4841bed82ad8f804b4398"
+    },
+    {
+      "module_enabled": true,
+      "pre_gamma_enabled": false,
+      "lut_enabled": true,
+      "shadow_id_valid": true,
+      "irq_masked_on_entry": false,
+      "checks": {
+        "returned_to_sentinel": true,
+        "full_register_window_equal": true,
+        "inputs_unchanged": true,
+        "data_accesses_bounded": true,
+        "exact_write_locations": true,
+        "daif_masks_restored": true
+      },
+      "register_word_writes": 6152,
+      "pre_gamma_words_copied": 0,
+      "lut_words_copied": 6144,
+      "output_window_sha256": "eaf9961bea0941beb8c54ae37855770fabcee10c9cef7f932a815212623c52ce"
+    },
+    {
+      "module_enabled": true,
+      "pre_gamma_enabled": false,
+      "lut_enabled": true,
+      "shadow_id_valid": true,
+      "irq_masked_on_entry": true,
+      "checks": {
+        "returned_to_sentinel": true,
+        "full_register_window_equal": true,
+        "inputs_unchanged": true,
+        "data_accesses_bounded": true,
+        "exact_write_locations": true,
+        "daif_masks_restored": true
+      },
+      "register_word_writes": 6152,
+      "pre_gamma_words_copied": 0,
+      "lut_words_copied": 6144,
+      "output_window_sha256": "eaf9961bea0941beb8c54ae37855770fabcee10c9cef7f932a815212623c52ce"
+    },
+    {
+      "module_enabled": true,
+      "pre_gamma_enabled": true,
+      "lut_enabled": false,
+      "shadow_id_valid": false,
+      "irq_masked_on_entry": false,
+      "checks": {
+        "returned_to_sentinel": true,
+        "full_register_window_equal": true,
+        "inputs_unchanged": true,
+        "data_accesses_bounded": true,
+        "exact_write_locations": true,
+        "daif_masks_restored": true
+      },
+      "register_word_writes": 40,
+      "pre_gamma_words_copied": 33,
+      "lut_words_copied": 0,
+      "output_window_sha256": "241634ef526ee300814aa826c2f9d57b8d3b0d4e7f512de75b61d5264c1bf3d4"
+    },
+    {
+      "module_enabled": true,
+      "pre_gamma_enabled": true,
+      "lut_enabled": false,
+      "shadow_id_valid": false,
+      "irq_masked_on_entry": true,
+      "checks": {
+        "returned_to_sentinel": true,
+        "full_register_window_equal": true,
+        "inputs_unchanged": true,
+        "data_accesses_bounded": true,
+        "exact_write_locations": true,
+        "daif_masks_restored": true
+      },
+      "register_word_writes": 40,
+      "pre_gamma_words_copied": 33,
+      "lut_words_copied": 0,
+      "output_window_sha256": "241634ef526ee300814aa826c2f9d57b8d3b0d4e7f512de75b61d5264c1bf3d4"
+    },
+    {
+      "module_enabled": true,
+      "pre_gamma_enabled": true,
+      "lut_enabled": false,
+      "shadow_id_valid": true,
+      "irq_masked_on_entry": false,
+      "checks": {
+        "returned_to_sentinel": true,
+        "full_register_window_equal": true,
+        "inputs_unchanged": true,
+        "data_accesses_bounded": true,
+        "exact_write_locations": true,
+        "daif_masks_restored": true
+      },
+      "register_word_writes": 41,
+      "pre_gamma_words_copied": 33,
+      "lut_words_copied": 0,
+      "output_window_sha256": "269c0acf1d90c527a4e64c3310a0f9519af6e696e8d4429a9b5f971e8d22f479"
+    },
+    {
+      "module_enabled": true,
+      "pre_gamma_enabled": true,
+      "lut_enabled": false,
+      "shadow_id_valid": true,
+      "irq_masked_on_entry": true,
+      "checks": {
+        "returned_to_sentinel": true,
+        "full_register_window_equal": true,
+        "inputs_unchanged": true,
+        "data_accesses_bounded": true,
+        "exact_write_locations": true,
+        "daif_masks_restored": true
+      },
+      "register_word_writes": 41,
+      "pre_gamma_words_copied": 33,
+      "lut_words_copied": 0,
+      "output_window_sha256": "269c0acf1d90c527a4e64c3310a0f9519af6e696e8d4429a9b5f971e8d22f479"
+    },
+    {
+      "module_enabled": true,
+      "pre_gamma_enabled": true,
+      "lut_enabled": true,
+      "shadow_id_valid": false,
+      "irq_masked_on_entry": false,
+      "checks": {
+        "returned_to_sentinel": true,
+        "full_register_window_equal": true,
+        "inputs_unchanged": true,
+        "data_accesses_bounded": true,
+        "exact_write_locations": true,
+        "daif_masks_restored": true
+      },
+      "register_word_writes": 6184,
+      "pre_gamma_words_copied": 33,
+      "lut_words_copied": 6144,
+      "output_window_sha256": "9861351ce38d3f97b66fb7564249ec57c7ee08ce836ead0b2ed2d85ca28ac0db"
+    },
+    {
+      "module_enabled": true,
+      "pre_gamma_enabled": true,
+      "lut_enabled": true,
+      "shadow_id_valid": false,
+      "irq_masked_on_entry": true,
+      "checks": {
+        "returned_to_sentinel": true,
+        "full_register_window_equal": true,
+        "inputs_unchanged": true,
+        "data_accesses_bounded": true,
+        "exact_write_locations": true,
+        "daif_masks_restored": true
+      },
+      "register_word_writes": 6184,
+      "pre_gamma_words_copied": 33,
+      "lut_words_copied": 6144,
+      "output_window_sha256": "9861351ce38d3f97b66fb7564249ec57c7ee08ce836ead0b2ed2d85ca28ac0db"
+    },
+    {
+      "module_enabled": true,
+      "pre_gamma_enabled": true,
+      "lut_enabled": true,
+      "shadow_id_valid": true,
+      "irq_masked_on_entry": false,
+      "checks": {
+        "returned_to_sentinel": true,
+        "full_register_window_equal": true,
+        "inputs_unchanged": true,
+        "data_accesses_bounded": true,
+        "exact_write_locations": true,
+        "daif_masks_restored": true
+      },
+      "register_word_writes": 6185,
+      "pre_gamma_words_copied": 33,
+      "lut_words_copied": 6144,
+      "output_window_sha256": "d095df84a0f3260fa39c742702edb93ec0ed34b4a390ea866b1628ff325af859"
+    },
+    {
+      "module_enabled": true,
+      "pre_gamma_enabled": true,
+      "lut_enabled": true,
+      "shadow_id_valid": true,
+      "irq_masked_on_entry": true,
+      "checks": {
+        "returned_to_sentinel": true,
+        "full_register_window_equal": true,
+        "inputs_unchanged": true,
+        "data_accesses_bounded": true,
+        "exact_write_locations": true,
+        "daif_masks_restored": true
+      },
+      "register_word_writes": 6185,
+      "pre_gamma_words_copied": 33,
+      "lut_words_copied": 6144,
+      "output_window_sha256": "d095df84a0f3260fa39c742702edb93ec0ed34b4a390ea866b1628ff325af859"
+    }
+  ]
+}

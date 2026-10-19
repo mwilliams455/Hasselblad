@@ -1,0 +1,43 @@
+{
+  "reviewer": "hasselblad_feasibility (independent of gamma author)",
+  "checkpoint": "2026-10-19",
+  "scope": "Read-only review of frozen MAIN gamma original-instruction slice, complete driver probe, report limits and package inventory",
+  "status": "pass",
+  "material_issues": [],
+  "source_changes": false,
+  "remote_actions": false,
+  "manifest_sha256": "3c78c1aecf3f11cb088b497ce64ccaafdfc37f1eec26efa976c02b7a2a5d9949",
+  "manifest_records_verified": 11,
+  "manifest_sizes_and_hashes_match": true,
+  "package_file_set_matches_manifest": true,
+  "independent_replays": [
+    {
+      "file": "gamma_knots_original_execution.json",
+      "byte_identical_to_frozen_result": true,
+      "sha256": "b69ef39c0987cca5500a5f2a4c940eb92cab10aa79772c0c3664da6bbde5923c"
+    },
+    {
+      "file": "gamma_driver_original_execution.json",
+      "byte_identical_to_frozen_result": true,
+      "sha256": "93d722bc2516cb9b51b5dd2a9873c0ae1f293f870037e0557e908bbfb8626301"
+    }
+  ],
+  "reviewed_entry_state": {
+    "original_x28_setup": [
+      "0x381bf0: SP+0x10000",
+      "0x381bfc: add0xca8"
+    ],
+    "original_w21_setup": "0x38634c sets0x100; W21 only feeds later resampling setup near slice end",
+    "division_live_ins": "Original load instructions at0x386684..0x3866a8 match suppliedW26,W25,W24,W23,W22,W20,W19",
+    "slice": "[0x3866b0,0x386d28); correct coordinate output atSP+0x144c0, 257uint32 words",
+    "guard_scope": "Code hook rejects out-of-slice execution; data hook admits only one pinned16-byte constant, saved context atSP+0x58 and bounded knot writes; complete stack compared"
+  },
+  "driver_review": {
+    "source": "vcam_driver.ko .text+0x31a50,796bytes,199instructions",
+    "elf_type": "AArch64 ET_REL; no relocation in body; exact full-module hash checked",
+    "calls": "No external or indirect calls accepted; complete original leaf executes to sentinel",
+    "validation": "Four original-code cases independently re-run; all199 instructions covered; exact full register image and guards, read-only parameters, stack, callee-saved registers and return0 agree",
+    "scope": "Synthetic mapped RAM only; no camera device, real MMIO side effects, hardware pixel processing or photographic arrays"
+  },
+  "claim_review": "Report accurately presents MAIN-linked positive-domain knot construction and parameter/register-word storage; preserves uncertainty for hardware interpolation, signed inputs, output quantization, saturation and dither. No saved-image gamma renderer is claimed."
+}

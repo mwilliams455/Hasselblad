@@ -1,0 +1,59 @@
+{
+  "result": "pass",
+  "review_date_utc": "2026-10-19T19:52:07.505918+00:00",
+  "reviewer": "photon_standalone_build independent review of parent-owned CCM work",
+  "reviewed_files": {
+    "ccm_prepare.h": "677f5d6a0e3a37e57b1d0a68d0360d88126d09490e01898d10e7163e0a701bf8",
+    "ccm_prepare.c": "ec86d90c8aef6453a73dd162431b09ed9e05dda7a7a7203b2b79c0987f31b46d",
+    "ccm_prepare_probe.c": "232bd087daa171087b5a3b036203b2aea79bef477e2deae9855de2136171d26b",
+    "inspect_ccm.py": "3910ca04006fd81ecf02070a91a0f2303be649566e7878a82715fdbebc9037b3",
+    "replay_ccm_probe.py": "a6bbda1df06efb1e2185ace9e0aa01b9c0912749a1c815690c371cbf917a4be2",
+    "inspect_ccm_metadata.c": "04b3ed610b41e0aef9c41e1bc7660a1a2abac9378fe20fdcd5e1b6cbdec369ba",
+    "ccm_static_evidence.json": "12eb6c37a110d0643f0b47289e091ce74fa8b716af3cf67700399a9d4c88697f",
+    "ccm_metadata_original_execution.json": "ce743634dcb8767b42e8c9513034fca80e90a6db786e23521bbe68e84c0e79ea",
+    "ccm_prepare_original_execution.json": "a8bb2797e9690e91d7b1c402f41b5379a26089c7f3f2469629675181c0578342"
+  },
+  "independent_contract_files": {
+    "ccm_adapter_contract.c": "6e671a03e873f8b8318181e09e141993f9a903f88052c800455caef35f77bb0a",
+    "verify_ccm_adapter_contract.py": "cbe858a55239d8836309a9968cc511d663999296a8d65cd43fdf0ec487dfe56d",
+    "ccm_adapter_contract_results.json": "61f25da0f5afd824eecb330292ab12da5cb61f3aeb3a5537a3211e4871db35ec"
+  },
+  "source_review": {
+    "original_leaf_instructions_independently_inspected": true,
+    "packed_index_q8_return_abi_matches": true,
+    "cct_fast_bank_indexing_matches": true,
+    "axis0_then_axis1_floor_rounding_matches": true,
+    "maximum_original_signed_multiply_magnitude_in_domain": 16776960,
+    "maximum_original_signed_multiply_below_int32_max": true,
+    "cct_clamps_and_index_bounds_safe": true,
+    "portable_error_paths_preserve_output": true,
+    "portable_staging_supports_source_output_alias": true,
+    "pixel_transform_claim_present": false,
+    "issues_requiring_source_change": []
+  },
+  "retained_original_execution_evidence_review": {
+    "method": "Reviewed retained original Bionic/QEMU execution results, exact script/source/header hashes and every recorded pass; did not duplicate the original native run",
+    "fixtures": 3,
+    "cases": 162,
+    "scalar_outputs": 15552,
+    "metadata_records": 46,
+    "register_families": 16,
+    "components_per_family": 6,
+    "first_coefficient_parent_physical_address": "0xf322c1cc",
+    "calc_dispatch_enum": 50,
+    "calc_dispatch_target_va": "0x3b9ea8",
+    "final_runtime_identity_checks_present": true
+  },
+  "additional_execution": {
+    "method": "Independent host execution of the owned portable adapter only, with GCC AddressSanitizer and UndefinedBehaviorSanitizer",
+    "cases": 20,
+    "result": "pass",
+    "leak_sanitizer": "Disabled because the workspace blocks /proc thread enumeration; adapter performs no heap allocation"
+  },
+  "scope_limits": [
+    "Coefficient preparation only, not pixel CCM application, coefficient fraction bits, channel order or clipping.",
+    "Secondary Q8 weights are supplied; high-ISO gain-to-weight code is statically inspected only.",
+    "Equivalence is bounded to signed16 source coefficients and Q8 weights0..256.",
+    "No original coefficient payloads or code bytes retained by this review."
+  ]
+}

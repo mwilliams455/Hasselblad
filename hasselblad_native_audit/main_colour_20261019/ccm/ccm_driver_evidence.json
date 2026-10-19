@@ -1,0 +1,381 @@
+{
+  "audit_date": "2026-10-19",
+  "bytes": 3150240,
+  "component_binding": {
+    "component_id": "0x4b",
+    "container_function": "plat_eagle2_probe_components",
+    "context_member": "0x510",
+    "probe_relocation": "R_AARCH64_CALL26 -> ccm_probe at .text+0x59fbc",
+    "register_base_member": "0x50",
+    "register_base_offset_verified": true,
+    "register_base_source": "[[platform_context+0x2a0]+0x48] +0x2c000",
+    "slice_bytes": 56,
+    "slice_sha256": "3f0afb56108be51bf41e454c831eaf5bcafd08bb4dc13a75718ce6377130c0d4",
+    "slice_text_offset": "0x59fbc",
+    "source_is_common_mapped_yuv_pp_base": "identified by the separate MAIN format audit"
+  },
+  "elf_machine": "EM_AARCH64",
+  "elf_type": "ET_REL",
+  "file": "system/lib/modules/vcam_driver.ko",
+  "firmware": "X2D II 1.3.16.2",
+  "functions": {
+    "ccm_probe": {
+      "bytes": 204,
+      "instruction_count": 51,
+      "mnemonics": [
+        "add",
+        "adrp",
+        "b",
+        "b.gt",
+        "bl",
+        "cbz",
+        "cmp",
+        "ldp",
+        "ldr",
+        "mov",
+        "ret",
+        "stp",
+        "str",
+        "uxtb"
+      ],
+      "relocations": [
+        {
+          "aarch64_type": 283,
+          "addend": "0x0",
+          "at_text_offset": "0x31540",
+          "symbol": "devm_kmalloc",
+          "symbol_section_index": "SHN_UNDEF"
+        },
+        {
+          "aarch64_type": 283,
+          "addend": "0x0",
+          "at_text_offset": "0x31558",
+          "symbol": "fc_component_init",
+          "symbol_section_index": "SHN_UNDEF"
+        },
+        {
+          "aarch64_type": 283,
+          "addend": "0x0",
+          "at_text_offset": "0x31568",
+          "symbol": "muse_mapping_peg_init",
+          "symbol_section_index": "SHN_UNDEF"
+        },
+        {
+          "aarch64_type": 275,
+          "addend": "0x31458",
+          "at_text_offset": "0x3156c",
+          "symbol": "",
+          "symbol_section_index": 2
+        },
+        {
+          "aarch64_type": 277,
+          "addend": "0x31458",
+          "at_text_offset": "0x31570",
+          "symbol": "",
+          "symbol_section_index": 2
+        },
+        {
+          "aarch64_type": 275,
+          "addend": "0x0",
+          "at_text_offset": "0x31578",
+          "symbol": "d_inf_level",
+          "symbol_section_index": 26
+        },
+        {
+          "aarch64_type": 285,
+          "addend": "0x0",
+          "at_text_offset": "0x3157c",
+          "symbol": "d_inf_level",
+          "symbol_section_index": 26
+        },
+        {
+          "aarch64_type": 275,
+          "addend": "0x1760",
+          "at_text_offset": "0x315b4",
+          "symbol": "",
+          "symbol_section_index": 12
+        },
+        {
+          "aarch64_type": 275,
+          "addend": "0xa198",
+          "at_text_offset": "0x315b8",
+          "symbol": "",
+          "symbol_section_index": 14
+        },
+        {
+          "aarch64_type": 275,
+          "addend": "0xa180",
+          "at_text_offset": "0x315bc",
+          "symbol": "",
+          "symbol_section_index": 14
+        },
+        {
+          "aarch64_type": 277,
+          "addend": "0x1760",
+          "at_text_offset": "0x315c0",
+          "symbol": "",
+          "symbol_section_index": 12
+        },
+        {
+          "aarch64_type": 275,
+          "addend": "0xa1b8",
+          "at_text_offset": "0x315c4",
+          "symbol": "",
+          "symbol_section_index": 14
+        },
+        {
+          "aarch64_type": 277,
+          "addend": "0xa180",
+          "at_text_offset": "0x315c8",
+          "symbol": "",
+          "symbol_section_index": 14
+        },
+        {
+          "aarch64_type": 277,
+          "addend": "0xa1b8",
+          "at_text_offset": "0x315d4",
+          "symbol": "",
+          "symbol_section_index": 14
+        },
+        {
+          "aarch64_type": 277,
+          "addend": "0xa198",
+          "at_text_offset": "0x315d8",
+          "symbol": "",
+          "symbol_section_index": 14
+        },
+        {
+          "aarch64_type": 283,
+          "addend": "0x0",
+          "at_text_offset": "0x315dc",
+          "symbol": "printk",
+          "symbol_section_index": "SHN_UNDEF"
+        }
+      ],
+      "sha256": "fb65faa80eb51faa7f29252978da10db92a226dc5d2df0c02de8cc3ee6ae5864",
+      "text_offset": "0x31518"
+    },
+    "ccm_set_fmt": {
+      "bytes": 80,
+      "instruction_count": 20,
+      "mnemonics": [
+        "add",
+        "adrp",
+        "b.ne",
+        "bl",
+        "cmp",
+        "ldp",
+        "ldr",
+        "mov",
+        "ret",
+        "stp",
+        "str"
+      ],
+      "relocations": [
+        {
+          "aarch64_type": 275,
+          "addend": "0x0",
+          "at_text_offset": "0x314d4",
+          "symbol": "__stack_chk_guard",
+          "symbol_section_index": "SHN_UNDEF"
+        },
+        {
+          "aarch64_type": 286,
+          "addend": "0x0",
+          "at_text_offset": "0x314e0",
+          "symbol": "__stack_chk_guard",
+          "symbol_section_index": "SHN_UNDEF"
+        },
+        {
+          "aarch64_type": 283,
+          "addend": "0x0",
+          "at_text_offset": "0x314f0",
+          "symbol": "ccm_set_fn0_config",
+          "symbol_section_index": 2
+        },
+        {
+          "aarch64_type": 286,
+          "addend": "0x0",
+          "at_text_offset": "0x314fc",
+          "symbol": "__stack_chk_guard",
+          "symbol_section_index": "SHN_UNDEF"
+        },
+        {
+          "aarch64_type": 283,
+          "addend": "0x0",
+          "at_text_offset": "0x31514",
+          "symbol": "__stack_chk_fail",
+          "symbol_section_index": "SHN_UNDEF"
+        }
+      ],
+      "sha256": "7cae7821515014fee7dee7f4fdf7474be90a0a24b74761464c445b1d84fcbca6",
+      "text_offset": "0x314c8"
+    },
+    "ccm_set_fn0_config": {
+      "bytes": 92,
+      "instruction_count": 23,
+      "mnemonics": [
+        "add",
+        "and",
+        "ldr",
+        "ldrh",
+        "orr",
+        "ret",
+        "str"
+      ],
+      "relocations": [],
+      "sha256": "fd7d0325242459f7569bfbd20fdc600019a57ea10c1e6b0ea0a83d2f4ff419d0",
+      "text_offset": "0x30e40"
+    },
+    "ccm_set_ig0_config": {
+      "bytes": 1280,
+      "instruction_count": 320,
+      "mnemonics": [
+        "add",
+        "and",
+        "b.ne",
+        "cmp",
+        "csel",
+        "cset",
+        "ldr",
+        "ldrb",
+        "ldrh",
+        "ldrsh",
+        "mov",
+        "orr",
+        "ret",
+        "str",
+        "uxtb"
+      ],
+      "relocations": [],
+      "sha256": "3e11af570f2524db2ef1265f23b937837ad67ede138a76b94f35091973fdf158",
+      "text_offset": "0x30e9c"
+    }
+  },
+  "limits": [
+    "Selected function bytes and relocations were inspected statically; the module was not loaded or executed",
+    "These functions program configuration registers; no RGB multiply/accumulate pixel implementation is present in the two setters",
+    "Nine fields are consistent with coefficient groups, but field names, combined representation, sign, Q scale, matrix order, input/output colour spaces and clamp rules remain unproven",
+    "The verified CCM mapping offset+0x2c000 and 96-word region+0x1cc..+0x348 match the separate MAIN lmtx physical descriptors; common physical base0xf3200000 is inferred from that cross-audit match, not from an absolute address literal in the binding slice",
+    "No inference is made from unrelated display or other-SoC headers"
+  ],
+  "manual_dataflow_findings": {
+    "fn0": "Two input fields are packed into low/high 16 bits of register +0x10; no channel-order enum or pixel arithmetic established",
+    "ig0_copy_loops": [
+      {
+        "count": 9,
+        "input_offset": "0x1e",
+        "input_read_bits": 16,
+        "input_stride": 2,
+        "loop_text_offset": "0x31068",
+        "register_bits_written": 8,
+        "register_start": "0x34c",
+        "register_stride": 4
+      },
+      {
+        "count": 9,
+        "input_offset": "0x30",
+        "input_read_bits": 16,
+        "input_stride": 2,
+        "loop_text_offset": "0x31094",
+        "register_bits_written": 16,
+        "register_start": "0x370",
+        "register_stride": 4
+      },
+      {
+        "count": 16,
+        "input_offset": "0x58",
+        "input_read_bits": 8,
+        "input_stride": 1,
+        "loop_text_offset": "0x31168",
+        "register_bits_written": 8,
+        "register_start": "0x28",
+        "register_stride": 4
+      },
+      {
+        "count": 16,
+        "input_offset": "0x68",
+        "input_read_bits": 16,
+        "input_stride": 2,
+        "loop_text_offset": "0x31194",
+        "register_bits_written": 16,
+        "register_start": "0x18c",
+        "register_stride": 4
+      },
+      {
+        "count": 25,
+        "input_offset": "0x8d",
+        "input_read_bits": 8,
+        "input_stride": 1,
+        "loop_text_offset": "0x31238",
+        "register_bits_written": 8,
+        "register_start": "0xac",
+        "register_stride": 4
+      },
+      {
+        "count": 25,
+        "input_offset": "0xa6",
+        "input_read_bits": 8,
+        "input_stride": 1,
+        "loop_text_offset": "0x31260",
+        "register_bits_written": 8,
+        "register_start": "0x110",
+        "register_stride": 4
+      }
+    ],
+    "ig0_end": "Updates register +0x39c low five bits to 1, sets bit0 of base register, returns 0",
+    "ig0_sign_extended_fields": "Input six int16 values at +0xcc..+0xd6 are sign-extended and repeated into 16 groups of six 32-bit registers at +0x1cc..+0x348",
+    "ig0_unrolled_array_transfers": [
+      {
+        "count": 3,
+        "input_offset": "0x10",
+        "input_read_bits": 8,
+        "input_stride": 1,
+        "note": "Input byte cannot set bit8; full9-bit destination field is cleared first",
+        "register_field_bits": 9,
+        "register_start": "0x7c",
+        "register_stride": 4
+      },
+      {
+        "count": 5,
+        "input_offset": "0x13",
+        "input_read_bits": 8,
+        "input_stride": 1,
+        "register_field_bits": 8,
+        "register_start": "0x14",
+        "register_stride": 4
+      },
+      {
+        "count": 6,
+        "input_offset": "0x48",
+        "input_read_bits": 16,
+        "input_stride": 2,
+        "register_field_bits": 16,
+        "register_start": "0x94",
+        "register_stride": 4
+      },
+      {
+        "count": 5,
+        "input_offset": "0x88",
+        "input_read_bits": 8,
+        "input_stride": 1,
+        "register_field_bits": 8,
+        "register_start": "0x68",
+        "register_stride": 4
+      },
+      {
+        "count": 6,
+        "input_offset": "0xc0",
+        "input_read_bits": 16,
+        "input_stride": 2,
+        "register_field_bits": 9,
+        "register_start": "0x174",
+        "register_stride": 4
+      }
+    ]
+  },
+  "schema": 1,
+  "script_sha256": "e076bc96f7c0623fe95a186ae825f32610a6bb77ffcd721cc2c5a9d25cc8ab53",
+  "section": ".text",
+  "sha256": "29309a225f2dcd8327b6fdaca477425b2c21ba580daa83599c1ea8699b7e450e"
+}

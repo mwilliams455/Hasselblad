@@ -1,0 +1,1083 @@
+{
+  "audit_date": "2026-10-19",
+  "configured_linux_to_dsp_channels": [
+    "/dev/icc_dev:ap0-dsp0-0.0",
+    "/dev/icc_dev:ap0-dsp0-0.1",
+    "/dev/icc_dev:ap0-dsp1-0.0",
+    "/dev/icc_dev:ap0-dsp1-0.1",
+    "/dev/icc_dev:ap0-dsp2-0.0",
+    "/dev/icc_dev:ap0-dsp2-0.1",
+    "/dev/icc_dev:ap0-dsp0-1.0",
+    "/dev/icc_dev:ap0-dsp1-1.0",
+    "/dev/icc_dev:ap0-dsp1-1.1",
+    "/dev/icc_dev:ap0-dsp2-1.0",
+    "/dev/icc_dev:ap0-dsp2-1.1",
+    "/dev/icc_dev:ap0-dsp0-2.0",
+    "/dev/icc_dev:ap0-dsp1-2.0",
+    "/dev/icc_dev:ap0-dsp2-2.0"
+  ],
+  "dependencies": {
+    "capstone": "5.0.9",
+    "cryptography": "50.0.2",
+    "pyelftools": "0.33"
+  },
+  "dsp_images": {
+    "vendor/firmware/dspf/ask_dsp.img": {
+      "all_tested_public_variants_failed_plaintext_checksum": true,
+      "architecture_byte": 0,
+      "auth_identifier": "PRAK",
+      "build_date_bcd": "0x20250616",
+      "chunks": [
+        {
+          "attributes": 0,
+          "bytes": 32,
+          "encrypted_by_format": true,
+          "id": "DATE",
+          "index": 0,
+          "load_address": "0xf3dc0000",
+          "padded_bytes": 32,
+          "payload_offset": 0
+        },
+        {
+          "attributes": 0,
+          "bytes": 32,
+          "encrypted_by_format": true,
+          "id": "DATE",
+          "index": 1,
+          "load_address": "0xf3dc0000",
+          "padded_bytes": 32,
+          "payload_offset": 32
+        },
+        {
+          "attributes": 0,
+          "bytes": 117740,
+          "encrypted_by_format": true,
+          "id": "CODI",
+          "index": 2,
+          "load_address": "0xf3d80000",
+          "padded_bytes": 117760,
+          "payload_offset": 64
+        },
+        {
+          "attributes": 0,
+          "bytes": 22388,
+          "encrypted_by_format": true,
+          "id": "DATI",
+          "index": 3,
+          "load_address": "0xf3da0000",
+          "padded_bytes": 22400,
+          "payload_offset": 117824
+        }
+      ],
+      "compression_byte": 0,
+      "encrypted_payload_hash_matches_header": true,
+      "encrypted_payload_sha256": "b5477224d29c83bf6441f762ad36433dd37a435fbac68ff580bc3a00dc1ecdba",
+      "encryption_identifier": "TBIE",
+      "exact_dsp_isa_established": false,
+      "header_bytes": 320,
+      "header_version": 2,
+      "image_name": "dspimage",
+      "image_type": "DIMG",
+      "os_byte": 0,
+      "payload_bytes": 140224,
+      "signature_bytes": 384,
+      "stored_plaintext_checksum": "0xfa01544a",
+      "tested_public_variants": [
+        {
+          "computed_plaintext_checksum": "0xf00dedf4",
+          "plaintext_checksum_match": false,
+          "public_key_label": "TBIE-2021-08"
+        },
+        {
+          "computed_plaintext_checksum": "0x136f50df",
+          "plaintext_checksum_match": false,
+          "public_key_label": "TBIE-2021-06"
+        },
+        {
+          "computed_plaintext_checksum": "0x6d2c8a90",
+          "plaintext_checksum_match": false,
+          "public_key_label": "TBIE-2020-04"
+        },
+        {
+          "computed_plaintext_checksum": "0x496f299d",
+          "plaintext_checksum_match": false,
+          "public_key_label": "TBIE-2020-02"
+        },
+        {
+          "computed_plaintext_checksum": "0x9bd9ccbe",
+          "plaintext_checksum_match": false,
+          "public_key_label": "TBIE-2019-11"
+        },
+        {
+          "computed_plaintext_checksum": "0xab244058",
+          "plaintext_checksum_match": false,
+          "public_key_label": "TBIE-2018-07"
+        }
+      ]
+    },
+    "vendor/firmware/dspf/ss_dsp0.fw": {
+      "all_tested_public_variants_failed_plaintext_checksum": true,
+      "architecture_byte": 0,
+      "auth_identifier": "PRAK",
+      "build_date_bcd": "0x20260730",
+      "chunks": [
+        {
+          "attributes": 0,
+          "bytes": 27712,
+          "encrypted_by_format": true,
+          "id": "CODI",
+          "index": 0,
+          "load_address": "0xf0200000",
+          "padded_bytes": 27712,
+          "payload_offset": 0
+        },
+        {
+          "attributes": 0,
+          "bytes": 524240,
+          "encrypted_by_format": true,
+          "id": "DATI",
+          "index": 1,
+          "load_address": "0xf0000000",
+          "padded_bytes": 524256,
+          "payload_offset": 27712
+        },
+        {
+          "attributes": 0,
+          "bytes": 4599392,
+          "encrypted_by_format": true,
+          "id": "CODE",
+          "index": 2,
+          "load_address": "0x20200000",
+          "padded_bytes": 4599392,
+          "payload_offset": 551968
+        },
+        {
+          "attributes": 0,
+          "bytes": 948416,
+          "encrypted_by_format": true,
+          "id": "DATE",
+          "index": 3,
+          "load_address": "0x20e00000",
+          "padded_bytes": 948416,
+          "payload_offset": 5151360
+        }
+      ],
+      "compression_byte": 0,
+      "encrypted_payload_hash_matches_header": true,
+      "encrypted_payload_sha256": "e81a9a784565897a6207327310ad40b6a1b6d7b046968fbc8b9419de1e8b8227",
+      "encryption_identifier": "TBIE",
+      "exact_dsp_isa_established": false,
+      "header_bytes": 320,
+      "header_version": 2,
+      "image_name": "dspimage",
+      "image_type": "DIMG",
+      "os_byte": 0,
+      "payload_bytes": 6099776,
+      "signature_bytes": 384,
+      "stored_plaintext_checksum": "0x5114dd2",
+      "tested_public_variants": [
+        {
+          "computed_plaintext_checksum": "0xe0635789",
+          "plaintext_checksum_match": false,
+          "public_key_label": "TBIE-2021-08"
+        },
+        {
+          "computed_plaintext_checksum": "0x283df9b8",
+          "plaintext_checksum_match": false,
+          "public_key_label": "TBIE-2021-06"
+        },
+        {
+          "computed_plaintext_checksum": "0x60b2f3a0",
+          "plaintext_checksum_match": false,
+          "public_key_label": "TBIE-2020-04"
+        },
+        {
+          "computed_plaintext_checksum": "0x318836f8",
+          "plaintext_checksum_match": false,
+          "public_key_label": "TBIE-2020-02"
+        },
+        {
+          "computed_plaintext_checksum": "0x5bb31429",
+          "plaintext_checksum_match": false,
+          "public_key_label": "TBIE-2019-11"
+        },
+        {
+          "computed_plaintext_checksum": "0xd8eb28c",
+          "plaintext_checksum_match": false,
+          "public_key_label": "TBIE-2018-07"
+        }
+      ]
+    },
+    "vendor/firmware/dspf/ss_dsp1.fw": {
+      "all_tested_public_variants_failed_plaintext_checksum": true,
+      "architecture_byte": 0,
+      "auth_identifier": "PRAK",
+      "build_date_bcd": "0x20260730",
+      "chunks": [
+        {
+          "attributes": 0,
+          "bytes": 27712,
+          "encrypted_by_format": true,
+          "id": "CODI",
+          "index": 0,
+          "load_address": "0xf0a00000",
+          "padded_bytes": 27712,
+          "payload_offset": 0
+        },
+        {
+          "attributes": 0,
+          "bytes": 262096,
+          "encrypted_by_format": true,
+          "id": "DATI",
+          "index": 1,
+          "load_address": "0xf0800000",
+          "padded_bytes": 262112,
+          "payload_offset": 27712
+        },
+        {
+          "attributes": 0,
+          "bytes": 4599392,
+          "encrypted_by_format": true,
+          "id": "CODE",
+          "index": 2,
+          "load_address": "0x21200000",
+          "padded_bytes": 4599392,
+          "payload_offset": 289824
+        },
+        {
+          "attributes": 0,
+          "bytes": 948416,
+          "encrypted_by_format": true,
+          "id": "DATE",
+          "index": 3,
+          "load_address": "0x21e00000",
+          "padded_bytes": 948416,
+          "payload_offset": 4889216
+        }
+      ],
+      "compression_byte": 0,
+      "encrypted_payload_hash_matches_header": true,
+      "encrypted_payload_sha256": "83f0277e1490c31583efadfa8a1c06767d30b33df7557c3301d7d2c226a08420",
+      "encryption_identifier": "TBIE",
+      "exact_dsp_isa_established": false,
+      "header_bytes": 320,
+      "header_version": 2,
+      "image_name": "dspimage",
+      "image_type": "DIMG",
+      "os_byte": 0,
+      "payload_bytes": 5837632,
+      "signature_bytes": 384,
+      "stored_plaintext_checksum": "0xfc4b9276",
+      "tested_public_variants": [
+        {
+          "computed_plaintext_checksum": "0x30a51080",
+          "plaintext_checksum_match": false,
+          "public_key_label": "TBIE-2021-08"
+        },
+        {
+          "computed_plaintext_checksum": "0xef3a274f",
+          "plaintext_checksum_match": false,
+          "public_key_label": "TBIE-2021-06"
+        },
+        {
+          "computed_plaintext_checksum": "0xf337b788",
+          "plaintext_checksum_match": false,
+          "public_key_label": "TBIE-2020-04"
+        },
+        {
+          "computed_plaintext_checksum": "0xb2ba441c",
+          "plaintext_checksum_match": false,
+          "public_key_label": "TBIE-2020-02"
+        },
+        {
+          "computed_plaintext_checksum": "0xf6dfea1d",
+          "plaintext_checksum_match": false,
+          "public_key_label": "TBIE-2019-11"
+        },
+        {
+          "computed_plaintext_checksum": "0x1305d77f",
+          "plaintext_checksum_match": false,
+          "public_key_label": "TBIE-2018-07"
+        }
+      ]
+    },
+    "vendor/firmware/dspf/ss_dsp2.fw": {
+      "all_tested_public_variants_failed_plaintext_checksum": true,
+      "architecture_byte": 0,
+      "auth_identifier": "PRAK",
+      "build_date_bcd": "0x20260730",
+      "chunks": [
+        {
+          "attributes": 0,
+          "bytes": 27712,
+          "encrypted_by_format": true,
+          "id": "CODI",
+          "index": 0,
+          "load_address": "0xf1200000",
+          "padded_bytes": 27712,
+          "payload_offset": 0
+        },
+        {
+          "attributes": 0,
+          "bytes": 262096,
+          "encrypted_by_format": true,
+          "id": "DATI",
+          "index": 1,
+          "load_address": "0xf1000000",
+          "padded_bytes": 262112,
+          "payload_offset": 27712
+        },
+        {
+          "attributes": 0,
+          "bytes": 4599392,
+          "encrypted_by_format": true,
+          "id": "CODE",
+          "index": 2,
+          "load_address": "0x22200000",
+          "padded_bytes": 4599392,
+          "payload_offset": 289824
+        },
+        {
+          "attributes": 0,
+          "bytes": 948416,
+          "encrypted_by_format": true,
+          "id": "DATE",
+          "index": 3,
+          "load_address": "0x22e00000",
+          "padded_bytes": 948416,
+          "payload_offset": 4889216
+        }
+      ],
+      "compression_byte": 0,
+      "encrypted_payload_hash_matches_header": true,
+      "encrypted_payload_sha256": "b7f31e8b2d526561377b429aea7c2ec375ea898e13ee0bb10f1fe6e62940d482",
+      "encryption_identifier": "TBIE",
+      "exact_dsp_isa_established": false,
+      "header_bytes": 320,
+      "header_version": 2,
+      "image_name": "dspimage",
+      "image_type": "DIMG",
+      "os_byte": 0,
+      "payload_bytes": 5837632,
+      "signature_bytes": 384,
+      "stored_plaintext_checksum": "0x5937851a",
+      "tested_public_variants": [
+        {
+          "computed_plaintext_checksum": "0xf70f6ab5",
+          "plaintext_checksum_match": false,
+          "public_key_label": "TBIE-2021-08"
+        },
+        {
+          "computed_plaintext_checksum": "0x8bba6f05",
+          "plaintext_checksum_match": false,
+          "public_key_label": "TBIE-2021-06"
+        },
+        {
+          "computed_plaintext_checksum": "0xa32da650",
+          "plaintext_checksum_match": false,
+          "public_key_label": "TBIE-2020-04"
+        },
+        {
+          "computed_plaintext_checksum": "0x7aaf25a0",
+          "plaintext_checksum_match": false,
+          "public_key_label": "TBIE-2020-02"
+        },
+        {
+          "computed_plaintext_checksum": "0x30134df2",
+          "plaintext_checksum_match": false,
+          "public_key_label": "TBIE-2019-11"
+        },
+        {
+          "computed_plaintext_checksum": "0x90060da8",
+          "plaintext_checksum_match": false,
+          "public_key_label": "TBIE-2018-07"
+        }
+      ]
+    }
+  },
+  "files": {
+    "system/bin/ss_dsp_manager": {
+      "bytes": 204352,
+      "host_elf_machine": "EM_AARCH64",
+      "sha256": "8b380e916f46f8fec9d974eb93ee5196c1d3abce16b9765c3a547a8d345e50fe"
+    },
+    "system/etc/dji.json": {
+      "bytes": 60038,
+      "sha256": "227de872ed7079fe9dedbe001f9a008d6d6acee7d46b99999cb4a973f899da2b"
+    },
+    "system/etc/dspf/json/dspf_icc_chnl_cfg.json": {
+      "bytes": 4113,
+      "sha256": "5da4cf07b089f5f623d879db37927b0616fedc5f879280a972c9ae3cd291bdf0"
+    },
+    "system/lib/modules/eagle_dsp.ko": {
+      "bytes": 53176,
+      "host_elf_machine": "EM_AARCH64",
+      "sha256": "080fb631390a92a45925a9353a906fa3789790576b9c39c25cd5b2c5a83af222"
+    },
+    "system/lib64/libdcam_pp.so": {
+      "bytes": 2504984,
+      "host_elf_machine": "EM_AARCH64",
+      "sha256": "bacca08dcf56e4a599cbfdfa041baf60a43754ec5a1a9d23dab89bd129ea41e9"
+    },
+    "system/lib64/libdcam_pp_base.so": {
+      "bytes": 594512,
+      "host_elf_machine": "EM_AARCH64",
+      "sha256": "72934142975fa88ee65e331767e8b9badd9ca40bc987e3c9a2a5cf0ff60b3f76"
+    },
+    "system/lib64/libdsp_frwk.so": {
+      "bytes": 206360,
+      "host_elf_machine": "EM_AARCH64",
+      "sha256": "4d82ab4602c063a52c53250344ea3a55fa6c4502f0a54d90ab8883ed7c5cbfff"
+    },
+    "system/lib64/libduml_hal.so": {
+      "bytes": 986368,
+      "host_elf_machine": "EM_AARCH64",
+      "sha256": "adfb1cf834584d5c2d3e7b8a49c8ff78a919f007b4fe4ee5442a658dafc71d20"
+    },
+    "system/lib64/libfw_util.so": {
+      "bytes": 68264,
+      "host_elf_machine": "EM_AARCH64",
+      "sha256": "3e56db44845b23905355b6ef8550ff618d6b786be9de1057588d6de53db9e24d"
+    },
+    "vendor/firmware/dspf/ask_dsp.img": {
+      "bytes": 140928,
+      "sha256": "bc64b8862f5e0eb2026eb90e20c6efb3e6d31ee2934bd20d93656747fde40128"
+    },
+    "vendor/firmware/dspf/ss_dsp0.fw": {
+      "bytes": 6100480,
+      "sha256": "5dd6da299227bca0d4bf3c1e92482ebcebf709216fc1e1e9efde8bd2cfab5344"
+    },
+    "vendor/firmware/dspf/ss_dsp1.fw": {
+      "bytes": 5838336,
+      "sha256": "03f08813e18b577219986495c653b8ad1b58ed9edaad10ffb86cab4c29890572"
+    },
+    "vendor/firmware/dspf/ss_dsp2.fw": {
+      "bytes": 5838336,
+      "sha256": "037fdd1476fcb0d738b1ce0f5933d8ddd64ce0a87862e0209dda394e5c6d8b5f"
+    }
+  },
+  "firmware": "X2D II 1.3.16.2",
+  "functions": {
+    "libdcam_pp.so": [
+      {
+        "bytes": 1160,
+        "name": "raw2rgb_proc",
+        "sha256": "771edf6b31f08f54f8dd7c7e93da07d5d0a8322868e101787b49f47170baaa47",
+        "va": "0x1d15a8"
+      },
+      {
+        "bytes": 116,
+        "name": "_raw2rgb_pull_buf_cb",
+        "sha256": "8083d4d97ac0851b73852411509695814d892c24b93ddf4642284b2959adb271",
+        "va": "0x1d1a30"
+      },
+      {
+        "bytes": 1308,
+        "name": "proc_hbl_calib",
+        "sha256": "96690ab2486a4d59a01219045d22fa19df5d970d270bc17d58a740f55d650f83",
+        "va": "0xd4ed8"
+      },
+      {
+        "bytes": 1700,
+        "name": "hbl_calib_build",
+        "sha256": "631dd142af1a24a515f199b61cb7b337de3d64b36ec5430c6047efcd1e47fde2",
+        "va": "0xd55a0"
+      },
+      {
+        "bytes": 2092,
+        "name": "min_ev_raw2rgb",
+        "sha256": "a0d866eba3f846104d724d2e9f63b033dec67f483397095a046fe44ca2faadc7",
+        "va": "0x1d9588"
+      },
+      {
+        "bytes": 1068,
+        "name": "med_ev_raw2rgb",
+        "sha256": "2d91c65e7b20d3f1ccbfecf5c72e00038ac6b3c158cb0e75e5fef4a52e27f543",
+        "va": "0x1daf70"
+      },
+      {
+        "bytes": 3040,
+        "name": "raw2rgb_hlrec_drc",
+        "sha256": "e9b0cb39c72b2adaafd22735aaa917affdcd4c21893d0f668a064aedf241ff0a",
+        "va": "0x1b6ae0"
+      },
+      {
+        "bytes": 1060,
+        "name": "raw2rgb",
+        "sha256": "6694e9bad6ca1d86bc8d8a67f709ec92c58f88d6b3d5163587c8f65fd475c5dc",
+        "va": "0x1def48"
+      }
+    ],
+    "libdcam_pp_base.so": [
+      {
+        "bytes": 1380,
+        "name": "message_trans_arm_proc_pull",
+        "sha256": "b41a89854ab181079e76be8a692b639693b952182b74f4a08d66a106c063041e",
+        "va": "0x3a220"
+      },
+      {
+        "bytes": 6280,
+        "name": "sl_message_trans_arm_proc_pull",
+        "sha256": "da5f6feb0472afa57f088935cda25ed201fa18a0570287a90fc40e7f85136aae",
+        "va": "0x38998"
+      },
+      {
+        "bytes": 1796,
+        "name": "pp_create_dsp_frwk_dev_ctx",
+        "sha256": "220e3173a1037f6f5fb17e0437e6848e09f8aedd6b0baa1d37e994e028a87008",
+        "va": "0x57ce8"
+      },
+      {
+        "bytes": 3496,
+        "name": "_pp_dsp_frwk_sl_process",
+        "sha256": "aa787915666ad8b7ac503493914d30419fc0fed77a9023103275ab090419924f",
+        "va": "0x5b598"
+      },
+      {
+        "bytes": 2776,
+        "name": "pp_new_ss_function_client",
+        "sha256": "37716376cb97e205f57f62685c25a7219d5df75922bee99198160171df582c6a",
+        "va": "0x6e350"
+      },
+      {
+        "bytes": 1308,
+        "name": "pp_call_ss_function_client",
+        "sha256": "c73e890412d650cb4e3b6d15962a21dc37d720c7bc14b0fefe2ee0fd8eaef6dd",
+        "va": "0x6ee60"
+      }
+    ],
+    "libdsp_frwk.so": [
+      {
+        "bytes": 860,
+        "name": "ss_dsp_function_client_new",
+        "sha256": "db89e269a85fd5e34fc15c31b6128a9b16025407618d962eaccddfae606301cd",
+        "va": "0xa6bc"
+      },
+      {
+        "bytes": 2012,
+        "name": "ss_dsp_function_client_call",
+        "sha256": "4cc158c9a79985f4f70ca8c1511a8d2177660e7d39f5f4b02e6498ff15cd5ea2",
+        "va": "0xaa18"
+      },
+      {
+        "bytes": 516,
+        "name": "ss_icc_dsp_function_rpc",
+        "sha256": "2b3fed467035f3db495c8af2d58bcb522004211c5ccdd91eea5706cb2dd2db67",
+        "va": "0xff10"
+      },
+      {
+        "bytes": 332,
+        "name": "ss_icc_dsp_function_rpc_async",
+        "sha256": "496dc3a4df9f696815f73491cb7a41a975161b1506ba304bff6d29ddb4d334e7",
+        "va": "0x10114"
+      },
+      {
+        "bytes": 236,
+        "name": "ss_icc_send_sync",
+        "sha256": "eee89ff0792b9beb93144bbb98942a0f7dc479bd35125d7c6872409582132e55",
+        "va": "0xd094"
+      },
+      {
+        "bytes": 1236,
+        "name": "ss_icc_send_sync_nowait",
+        "sha256": "5141adafcde1f3ea3f145e891eee528c8d5bcdc5de0611ae2a417eb8e5f3e106",
+        "va": "0xcbc0"
+      }
+    ],
+    "libduml_hal.so": [
+      {
+        "bytes": 44,
+        "name": "duss_hal_icc_send",
+        "sha256": "5029827d87a8e31cb692597532337245b8fb344d7cc45e89f0321a1262603ecc",
+        "va": "0x21fa8"
+      },
+      {
+        "bytes": 196,
+        "name": "duss_hal_attach_linux_icc",
+        "sha256": "1a5c541814adc22195325ca6f50700bde1521500051bbc01cf89cce6be598481",
+        "va": "0x358e0"
+      }
+    ],
+    "libfw_util.so": [
+      {
+        "bytes": 636,
+        "name": "plt_fw_load_file",
+        "sha256": "bd2d8a3f15a53a484924601b6ac598b16ed1c02b708e02fb346b9569361317db",
+        "va": "0x2600"
+      },
+      {
+        "bytes": 472,
+        "name": "plt_fw_load",
+        "sha256": "779564195acb2a49a3e6b44d1e82343123a26241dfb0e2a031d55128762baad2",
+        "va": "0x2428"
+      }
+    ],
+    "ss_dsp_manager": [
+      {
+        "bytes": 252,
+        "name": "ss_load_dsp_firmware",
+        "sha256": "616099b2c99417d3ea38aca4a76ebf7a823733805601eb5f2de0579015c7060f",
+        "va": "0x6f00"
+      },
+      {
+        "bytes": 448,
+        "name": "load_IMAGE_dsp_firmware",
+        "sha256": "9c6e2c9b71fb7e3bb78c7cf8aef200a2a3d7036795ed3c569cb24a23d5170437",
+        "va": "0x5958"
+      }
+    ]
+  },
+  "linux_icc_send_callback": {
+    "bounded_region_bytes": 208,
+    "bounded_region_sha256": "ddb4457084fa6b4882aeed848142d2639f6505a1ac221b28d4093edbf94970c7",
+    "ioctl_call_va": "0x3605c",
+    "name_is_analyst_assigned": true,
+    "slot": "0x20",
+    "table_va": "0xfd738",
+    "target_va": "0x36020"
+  },
+  "mode": "static metadata and optional in-memory published-variant checks; no vendor execution",
+  "public_imah_source": {
+    "blob_api_url": "https://api.github.com/repos/o-gs/dji-firmware-tools/git/blobs/aa8d75548db2958685cfb643f2ab0bc9c8b8b823",
+    "bytes": 74094,
+    "format_references": {
+      "chunk_decryption_and_plain_checksum": [
+        1143,
+        1235
+      ],
+      "header_and_chunks": [
+        511,
+        646
+      ],
+      "v2_crypto_parameters": [
+        769,
+        795
+      ]
+    },
+    "git_blob_sha1": "aa8d75548db2958685cfb643f2ab0bc9c8b8b823",
+    "path": "dji_imah_fwsig.py",
+    "repository": "o-gs/dji-firmware-tools",
+    "sha256": "534680d1fb0ced5f6425b276fcd421456a45a513cf625d73566b2150c2ed6760"
+  },
+  "public_variant_check_performed": true,
+  "schema": 1,
+  "scope": {
+    "ceva_evidence": "host strings refer to CEVA; exact DSP ISA/model not established",
+    "generic_dispatcher_all_possible_contexts_proven_dsp": false,
+    "key_test_limit": "Only the six TBIE variants in the pinned public source; no global claim about other keys",
+    "main_3dlut_or_main_hncs_inside_this_rpc_proven": false,
+    "operation_selector_is_not_the_resolved_rpc_function_id": true,
+    "remote_entry": "cam_libpp_function_entry",
+    "remote_function_id": "resolved from DSP name-to-ID map at runtime; numeric value not recovered",
+    "rsa_signature_authenticity_verified_here": false,
+    "saved_pixel_algorithm_implementation_recovered": false
+  },
+  "script_sha256": "3e68bb76736ab63d30dc382eb1977458c1a45ba5438e2876844cbb04df4a1ae8",
+  "selected_strings": {
+    "libdcam_pp_base.so": [
+      {
+        "text": "cam_libpp_function_entry",
+        "va": "0x820d9"
+      },
+      {
+        "text": "framework_sdk_e2_proxy_demo_op",
+        "va": "0x82189"
+      },
+      {
+        "text": "hardware/dji/common/camera/libpp_proxy/pp_proxy/platform/dspf10/pp_dspf_api.c",
+        "va": "0x81902"
+      }
+    ],
+    "ss_dsp_manager": [
+      {
+        "text": "/vendor/firmware/dspf/ss_dsp0.fw",
+        "va": "0x1ddfa"
+      },
+      {
+        "text": "/vendor/firmware/dspf/ss_dsp1.fw",
+        "va": "0x1de1b"
+      },
+      {
+        "text": "/vendor/firmware/dspf/ss_dsp2.fw",
+        "va": "0x1de3c"
+      },
+      {
+        "text": "ceva version:[%08x], build:%s ,time:%s \r\n",
+        "va": "0x200aa"
+      },
+      {
+        "text": "SS_CEVA_DMA",
+        "va": "0x20a4b"
+      }
+    ]
+  },
+  "verified_constant_construction": {
+    "hbl_calib_base_operation": {
+      "high_va": "0xd500c",
+      "low_va": "0xd5004",
+      "value": "0x2e0001"
+    },
+    "linux_icc_ioctl_request": {
+      "high_va": "0x36048",
+      "low_va": "0x36040",
+      "value": "0x40184905"
+    },
+    "raw2rgb_libpp_operation": {
+      "high_va": "0x1d15f4",
+      "low_va": "0x1d15f0",
+      "value": "0x110009"
+    }
+  },
+  "verified_direct_calls": {
+    "libdcam_pp.so": [
+      {
+        "call_va": "0x1d16b4",
+        "pass": true,
+        "target": "message_trans_arm_proc_pull@plt",
+        "target_va": "0x10fa0"
+      },
+      {
+        "call_va": "0x1d19d8",
+        "pass": true,
+        "target": "message_trans_arm_proc_pull@plt",
+        "target_va": "0x10fa0"
+      },
+      {
+        "call_va": "0xd5974",
+        "pass": true,
+        "target": "message_trans_arm_proc_pull@plt",
+        "target_va": "0x10fa0"
+      },
+      {
+        "call_va": "0xd5160",
+        "pass": true,
+        "target": "hbl_calib_build",
+        "target_va": "0xd55a0"
+      },
+      {
+        "call_va": "0xd529c",
+        "pass": true,
+        "target": "hbl_calib_build",
+        "target_va": "0xd55a0"
+      },
+      {
+        "call_va": "0x1d9700",
+        "pass": true,
+        "target": "raw2rgb_proc@plt",
+        "target_va": "0x12750"
+      },
+      {
+        "call_va": "0x1db030",
+        "pass": true,
+        "target": "raw2rgb_proc@plt",
+        "target_va": "0x12750"
+      },
+      {
+        "call_va": "0x1b6f18",
+        "pass": true,
+        "target": "raw2rgb_proc@plt",
+        "target_va": "0x12750"
+      },
+      {
+        "call_va": "0x1df040",
+        "pass": true,
+        "target": "raw2rgb_proc@plt",
+        "target_va": "0x12750"
+      },
+      {
+        "call_va": "0x1d1a64",
+        "pass": true,
+        "target": "memcpy@plt",
+        "target_va": "0x10f20"
+      },
+      {
+        "call_va": "0x1d1a78",
+        "pass": true,
+        "target": "memcpy@plt",
+        "target_va": "0x10f20"
+      },
+      {
+        "call_va": "0x1d1a8c",
+        "pass": true,
+        "target": "memcpy@plt",
+        "target_va": "0x10f20"
+      }
+    ],
+    "libdcam_pp_base.so": [
+      {
+        "call_va": "0x3a354",
+        "pass": true,
+        "target": "sl_message_trans_arm_proc_pull@plt",
+        "target_va": "0x74f0"
+      },
+      {
+        "call_va": "0x5b98c",
+        "pass": true,
+        "target": "pp_new_ss_function_client@plt",
+        "target_va": "0x7820"
+      },
+      {
+        "call_va": "0x5b9a4",
+        "pass": true,
+        "target": "pp_call_ss_function_client@plt",
+        "target_va": "0x7840"
+      },
+      {
+        "call_va": "0x6e4a0",
+        "pass": true,
+        "target": "ss_dsp_function_client_new@plt",
+        "target_va": "0x7a10"
+      },
+      {
+        "call_va": "0x6eec0",
+        "pass": true,
+        "target": "ss_dsp_function_client_call@plt",
+        "target_va": "0x7a20"
+      }
+    ],
+    "libdsp_frwk.so": [
+      {
+        "call_va": "0xafc4",
+        "pass": true,
+        "target": "ss_icc_dsp_function_rpc@plt",
+        "target_va": "0x5790"
+      },
+      {
+        "call_va": "0xb108",
+        "pass": true,
+        "target": "ss_icc_dsp_function_rpc_async@plt",
+        "target_va": "0x57a0"
+      },
+      {
+        "call_va": "0xb168",
+        "pass": true,
+        "target": "ss_icc_dsp_function_rpc_async@plt",
+        "target_va": "0x57a0"
+      },
+      {
+        "call_va": "0xfff4",
+        "pass": true,
+        "target": "ss_icc_send_sync@plt",
+        "target_va": "0x5510"
+      },
+      {
+        "call_va": "0x10200",
+        "pass": true,
+        "target": "ss_icc_send_sync_nowait@plt",
+        "target_va": "0x58c0"
+      },
+      {
+        "call_va": "0xd0c8",
+        "pass": true,
+        "target": "ss_icc_send_sync_nowait@plt",
+        "target_va": "0x58c0"
+      },
+      {
+        "call_va": "0xd10c",
+        "pass": true,
+        "target": "ss_icc_wait_ack@plt",
+        "target_va": "0x58d0"
+      },
+      {
+        "call_va": "0xcf4c",
+        "pass": true,
+        "target": "duss_hal_icc_send@plt",
+        "target_va": "0x58b0"
+      }
+    ],
+    "libduml_hal.so": [
+      {
+        "call_va": "0x3605c",
+        "pass": true,
+        "target": "ioctl@plt",
+        "target_va": "0x1cb08"
+      }
+    ],
+    "libfw_util.so": [
+      {
+        "call_va": "0x2760",
+        "pass": true,
+        "target": "fw_util_load@plt",
+        "target_va": "0x1580"
+      },
+      {
+        "call_va": "0x2560",
+        "pass": true,
+        "target": "fw_util_load@plt",
+        "target_va": "0x1580"
+      }
+    ],
+    "ss_dsp_manager": [
+      {
+        "call_va": "0x6f44",
+        "pass": true,
+        "target": "load_IMAGE_dsp_firmware",
+        "target_va": "0x5958"
+      },
+      {
+        "call_va": "0x6f70",
+        "pass": true,
+        "target": "load_IMAGE_dsp_firmware",
+        "target_va": "0x5958"
+      },
+      {
+        "call_va": "0x59f0",
+        "pass": true,
+        "target": "plt_fw_load_file@plt",
+        "target_va": "0x4d30"
+      },
+      {
+        "call_va": "0x5a64",
+        "pass": true,
+        "target": "duss_hal_dsp_launch@plt",
+        "target_va": "0x4d40"
+      }
+    ]
+  },
+  "verified_dispatch_callback_slots": [
+    {
+      "call_va": "0x38a4c",
+      "load_va": "0x38a48",
+      "pass": true,
+      "slot": "0x8"
+    },
+    {
+      "call_va": "0x38aa8",
+      "load_va": "0x38aa4",
+      "pass": true,
+      "slot": "0x18"
+    },
+    {
+      "call_va": "0x38bfc",
+      "load_va": "0x38bf8",
+      "pass": true,
+      "slot": "0x18"
+    },
+    {
+      "call_va": "0x38f9c",
+      "load_va": "0x38f98",
+      "pass": true,
+      "slot": "0x30"
+    },
+    {
+      "call_va": "0x39274",
+      "load_va": "0x39270",
+      "pass": true,
+      "slot": "0x38"
+    }
+  ],
+  "verified_dsp_device_callback_installation": {
+    "0x0": {
+      "store_va": "0x57d64",
+      "target_symbols": [
+        "_pp_dsp_frwk_acquire"
+      ],
+      "target_va": "0x583f0"
+    },
+    "0x10": {
+      "store_va": "0x57d80",
+      "target_symbols": [
+        "_pp_dsp_frwk_buf_trans"
+      ],
+      "target_va": "0x5b158"
+    },
+    "0x18": {
+      "store_va": "0x57d80",
+      "target_symbols": [
+        "_pp_dsp_frwk_sl_process"
+      ],
+      "target_va": "0x5b598"
+    },
+    "0x20": {
+      "store_va": "0x57d9c",
+      "target_symbols": [
+        "_pp_dsp_frwk_allspark_process"
+      ],
+      "target_va": "0x5c340"
+    },
+    "0x28": {
+      "store_va": "0x57d9c",
+      "target_symbols": [
+        "_pp_dsp_frwk_process"
+      ],
+      "target_va": "0x5cc48"
+    },
+    "0x30": {
+      "store_va": "0x57db8",
+      "target_symbols": [
+        "_pp_dsp_frwk_wait"
+      ],
+      "target_va": "0x5cf80"
+    },
+    "0x38": {
+      "store_va": "0x57db8",
+      "target_symbols": [
+        "_pp_dsp_frwk_sl_pull_buf"
+      ],
+      "target_va": "0x5d8f8"
+    },
+    "0x40": {
+      "store_va": "0x57dcc",
+      "target_symbols": [
+        "_pp_dsp_frwk_pull_buf"
+      ],
+      "target_va": "0x5e5c0"
+    },
+    "0x48": {
+      "store_va": "0x57dcc",
+      "target_symbols": [
+        "_pp_dsp_frwk_release"
+      ],
+      "target_va": "0x5e908"
+    },
+    "0x50": {
+      "store_va": "0x57df4",
+      "target_symbols": [
+        "_pp_dsp_frwk_tl_acquire"
+      ],
+      "target_va": "0x5f040"
+    },
+    "0x58": {
+      "store_va": "0x57df4",
+      "target_symbols": [
+        "_pp_dsp_frwk_tl_buf_trans"
+      ],
+      "target_va": "0x5fac8"
+    },
+    "0x60": {
+      "store_va": "0x57de0",
+      "target_symbols": [
+        "_pp_dsp_frwk_tl_process"
+      ],
+      "target_va": "0x60bd0"
+    },
+    "0x68": {
+      "store_va": "0x57de0",
+      "target_symbols": [
+        "_pp_dsp_frwk_tl_wait"
+      ],
+      "target_va": "0x61d38"
+    },
+    "0x70": {
+      "store_va": "0x57e28",
+      "target_symbols": [
+        "_pp_dsp_frwk_tl_pull_buf"
+      ],
+      "target_va": "0x61d40"
+    },
+    "0x78": {
+      "store_va": "0x57e28",
+      "target_symbols": [
+        "_pp_dsp_frwk_tl_release"
+      ],
+      "target_va": "0x626d8"
+    },
+    "0x8": {
+      "store_va": "0x57d64",
+      "target_symbols": [
+        "_pp_dsp_frwk_sl_buf_trans"
+      ],
+      "target_va": "0x59270"
+    }
+  }
+}

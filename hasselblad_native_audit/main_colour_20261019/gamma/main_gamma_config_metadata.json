@@ -1,0 +1,278 @@
+{
+  "result": "pass",
+  "firmware": "X2D II 100C 1.3.16.2",
+  "config_sha256": "2a4fd76e5299937a6607da8454add17e9746347c54adcf5da1360799de634286",
+  "schema_sha256": "59ec3b0d019b9e8873f3d005c041b4e3ca1a2b930c503c110c51531f8bd30e40",
+  "parser_sha256": "0d3c8a7c380502c2b904e380d64723523eb62060a2c4e31145104aa9445625ec",
+  "tool_sha256": "629300e3e77ea99b5d6a1905b322c747b700d07c0ee6225192544f4c3a988ad4",
+  "method": "Exact hash-pinned config parsed as inert data; only protocol controls, counts, ranges and table hashes retained",
+  "still_modes": [
+    {
+      "mode": "still0",
+      "data_index": 4,
+      "positive_curve": {
+        "count": 257,
+        "minimum": 0,
+        "maximum": 65535,
+        "all_zero": false,
+        "values_json_sha256": "5c5f69a4087f0aee9ee0068c8687b13e0922dc228550349398a019e468dbfb6f"
+      },
+      "negative_curve": {
+        "count": 9,
+        "minimum": 0,
+        "maximum": 0,
+        "all_zero": true,
+        "values_json_sha256": "2ec39b8e5281419b8e38ee0825032600b5f9708a1c3289347a7e3507991facae"
+      },
+      "lut_div": [
+        2,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "lut_div_minus_scale": 4,
+      "controls": {
+        "enable": 1,
+        "knee_en": 0,
+        "dither_enable": 1,
+        "dither_seed": 1
+      },
+      "knee_clip": 2048,
+      "dither_key_metadata": {
+        "dither_key_r": {
+          "count": 2,
+          "values_json_sha256": "c17f7120f830304c51fe538ab40f36a34e550cdb25dcc104311db74b99102d9f"
+        },
+        "dither_key_g": {
+          "count": 2,
+          "values_json_sha256": "6493a689b34105cbf21e964a636d887d5cab21320be718a514a68b0b85732ce8"
+        },
+        "dither_key_b": {
+          "count": 2,
+          "values_json_sha256": "4dd161ddc10d23be0ee36222535675fe31570568ba6f0d8a1e4d1fc33f757643"
+        }
+      }
+    },
+    {
+      "mode": "still1",
+      "data_index": 5,
+      "positive_curve": {
+        "count": 257,
+        "minimum": 0,
+        "maximum": 65535,
+        "all_zero": false,
+        "values_json_sha256": "5c5f69a4087f0aee9ee0068c8687b13e0922dc228550349398a019e468dbfb6f"
+      },
+      "negative_curve": {
+        "count": 9,
+        "minimum": 0,
+        "maximum": 0,
+        "all_zero": true,
+        "values_json_sha256": "2ec39b8e5281419b8e38ee0825032600b5f9708a1c3289347a7e3507991facae"
+      },
+      "lut_div": [
+        2,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "lut_div_minus_scale": 4,
+      "controls": {
+        "enable": 1,
+        "knee_en": 0,
+        "dither_enable": 1,
+        "dither_seed": 1
+      },
+      "knee_clip": 2048,
+      "dither_key_metadata": {
+        "dither_key_r": {
+          "count": 2,
+          "values_json_sha256": "c17f7120f830304c51fe538ab40f36a34e550cdb25dcc104311db74b99102d9f"
+        },
+        "dither_key_g": {
+          "count": 2,
+          "values_json_sha256": "6493a689b34105cbf21e964a636d887d5cab21320be718a514a68b0b85732ce8"
+        },
+        "dither_key_b": {
+          "count": 2,
+          "values_json_sha256": "4dd161ddc10d23be0ee36222535675fe31570568ba6f0d8a1e4d1fc33f757643"
+        }
+      }
+    },
+    {
+      "mode": "still2",
+      "data_index": 6,
+      "positive_curve": {
+        "count": 257,
+        "minimum": 0,
+        "maximum": 65535,
+        "all_zero": false,
+        "values_json_sha256": "5c5f69a4087f0aee9ee0068c8687b13e0922dc228550349398a019e468dbfb6f"
+      },
+      "negative_curve": {
+        "count": 9,
+        "minimum": 0,
+        "maximum": 0,
+        "all_zero": true,
+        "values_json_sha256": "2ec39b8e5281419b8e38ee0825032600b5f9708a1c3289347a7e3507991facae"
+      },
+      "lut_div": [
+        2,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "lut_div_minus_scale": 4,
+      "controls": {
+        "enable": 1,
+        "knee_en": 0,
+        "dither_enable": 1,
+        "dither_seed": 1
+      },
+      "knee_clip": 2048,
+      "dither_key_metadata": {
+        "dither_key_r": {
+          "count": 2,
+          "values_json_sha256": "c17f7120f830304c51fe538ab40f36a34e550cdb25dcc104311db74b99102d9f"
+        },
+        "dither_key_g": {
+          "count": 2,
+          "values_json_sha256": "6493a689b34105cbf21e964a636d887d5cab21320be718a514a68b0b85732ce8"
+        },
+        "dither_key_b": {
+          "count": 2,
+          "values_json_sha256": "4dd161ddc10d23be0ee36222535675fe31570568ba6f0d8a1e4d1fc33f757643"
+        }
+      }
+    },
+    {
+      "mode": "still3",
+      "data_index": 7,
+      "positive_curve": {
+        "count": 257,
+        "minimum": 0,
+        "maximum": 65535,
+        "all_zero": false,
+        "values_json_sha256": "5c5f69a4087f0aee9ee0068c8687b13e0922dc228550349398a019e468dbfb6f"
+      },
+      "negative_curve": {
+        "count": 9,
+        "minimum": 0,
+        "maximum": 0,
+        "all_zero": true,
+        "values_json_sha256": "2ec39b8e5281419b8e38ee0825032600b5f9708a1c3289347a7e3507991facae"
+      },
+      "lut_div": [
+        2,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "lut_div_minus_scale": 4,
+      "controls": {
+        "enable": 1,
+        "knee_en": 0,
+        "dither_enable": 1,
+        "dither_seed": 1
+      },
+      "knee_clip": 2048,
+      "dither_key_metadata": {
+        "dither_key_r": {
+          "count": 2,
+          "values_json_sha256": "c17f7120f830304c51fe538ab40f36a34e550cdb25dcc104311db74b99102d9f"
+        },
+        "dither_key_g": {
+          "count": 2,
+          "values_json_sha256": "6493a689b34105cbf21e964a636d887d5cab21320be718a514a68b0b85732ce8"
+        },
+        "dither_key_b": {
+          "count": 2,
+          "values_json_sha256": "4dd161ddc10d23be0ee36222535675fe31570568ba6f0d8a1e4d1fc33f757643"
+        }
+      }
+    },
+    {
+      "mode": "still4",
+      "data_index": 8,
+      "positive_curve": {
+        "count": 257,
+        "minimum": 0,
+        "maximum": 65535,
+        "all_zero": false,
+        "values_json_sha256": "5c5f69a4087f0aee9ee0068c8687b13e0922dc228550349398a019e468dbfb6f"
+      },
+      "negative_curve": {
+        "count": 9,
+        "minimum": 0,
+        "maximum": 0,
+        "all_zero": true,
+        "values_json_sha256": "2ec39b8e5281419b8e38ee0825032600b5f9708a1c3289347a7e3507991facae"
+      },
+      "lut_div": [
+        2,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "lut_div_minus_scale": 4,
+      "controls": {
+        "enable": 1,
+        "knee_en": 1,
+        "dither_enable": 1,
+        "dither_seed": 1
+      },
+      "knee_clip": 4095,
+      "dither_key_metadata": {
+        "dither_key_r": {
+          "count": 2,
+          "values_json_sha256": "c17f7120f830304c51fe538ab40f36a34e550cdb25dcc104311db74b99102d9f"
+        },
+        "dither_key_g": {
+          "count": 2,
+          "values_json_sha256": "6493a689b34105cbf21e964a636d887d5cab21320be718a514a68b0b85732ce8"
+        },
+        "dither_key_b": {
+          "count": 2,
+          "values_json_sha256": "4dd161ddc10d23be0ee36222535675fe31570568ba6f0d8a1e4d1fc33f757643"
+        }
+      }
+    }
+  ],
+  "module_metadata": {
+    "gamma_lut": {
+      "type": "simple_lut_mem",
+      "group": "mode_frame",
+      "mem_cfgen": 1
+    },
+    "gamma_minus_lut": {
+      "type": "simple_lut_mem",
+      "group": "mode_frame",
+      "mem_cfgen": 1
+    },
+    "lut_div": {
+      "type": "simple_val_idx_v5",
+      "group": "mode_frame",
+      "total": 7
+    },
+    "lut_div_minus_scale": {
+      "type": "simple_val",
+      "group": "mode_frame"
+    }
+  },
+  "limits": "Static selected configuration, not a capture trace; curve word range does not establish the hardware pixel input/output precision"
+}

@@ -1,0 +1,290 @@
+{
+  "schema": 1,
+  "checkpoint": "2026-10-19 MAIN colour preparation",
+  "base_repository_commit": "336c0425e2ea88d8a04f40e459c5de4760dbf7d9",
+  "application_checkpoint": "Native1A",
+  "application_tree_sha1": "0d2c2a4af093525493b408536ab6e7e8892cf85f",
+  "application_source_changed": false,
+  "photographic_hasselblad_renderer_connected": false,
+  "files": [
+    {
+      "path": "MAIN_COLOUR_CHECKPOINT.md",
+      "bytes": 10406,
+      "sha256": "b6e80af19e3d9789db03e22d379017c70e88a7c1ce56e343eb70798f7cd76548",
+      "kind": "derived evidence or report"
+    },
+    {
+      "path": "ccm/CCM_DRIVER_BOUNDARY.md",
+      "bytes": 6983,
+      "sha256": "a97c3af18ba704a4201713d0934d02172fd142b2c17c8e6ca556d06d9a8b633a",
+      "kind": "derived evidence or report"
+    },
+    {
+      "path": "ccm/CCM_FINDINGS.md",
+      "bytes": 10115,
+      "sha256": "7667302f405d7b1439c9f3f3eb2c03a50bb485b38c535a268cd11e52cbe8354b",
+      "kind": "derived evidence or report"
+    },
+    {
+      "path": "ccm/ccm_driver_evidence.json",
+      "bytes": 10879,
+      "sha256": "845212d4aa458fc3ffd200dd019a03cc50c8213dc758a32b6e6292cadd29dd59",
+      "kind": "derived evidence or report"
+    },
+    {
+      "path": "ccm/ccm_metadata_original_execution.json",
+      "bytes": 27209,
+      "sha256": "ce743634dcb8767b42e8c9513034fca80e90a6db786e23521bbe68e84c0e79ea",
+      "kind": "derived evidence or report"
+    },
+    {
+      "path": "ccm/ccm_prepare.c",
+      "bytes": 1919,
+      "sha256": "ec86d90c8aef6453a73dd162431b09ed9e05dda7a7a7203b2b79c0987f31b46d",
+      "kind": "original source"
+    },
+    {
+      "path": "ccm/ccm_prepare.h",
+      "bytes": 1023,
+      "sha256": "677f5d6a0e3a37e57b1d0a68d0360d88126d09490e01898d10e7163e0a701bf8",
+      "kind": "original source"
+    },
+    {
+      "path": "ccm/ccm_prepare_original_execution.json",
+      "bytes": 93286,
+      "sha256": "a8bb2797e9690e91d7b1c402f41b5379a26089c7f3f2469629675181c0578342",
+      "kind": "derived evidence or report"
+    },
+    {
+      "path": "ccm/ccm_prepare_probe.c",
+      "bytes": 5341,
+      "sha256": "232bd087daa171087b5a3b036203b2aea79bef477e2deae9855de2136171d26b",
+      "kind": "original source"
+    },
+    {
+      "path": "ccm/ccm_static_evidence.json",
+      "bytes": 23474,
+      "sha256": "12eb6c37a110d0643f0b47289e091ce74fa8b716af3cf67700399a9d4c88697f",
+      "kind": "derived evidence or report"
+    },
+    {
+      "path": "ccm/inspect_ccm.py",
+      "bytes": 10465,
+      "sha256": "3910ca04006fd81ecf02070a91a0f2303be649566e7878a82715fdbebc9037b3",
+      "kind": "original source"
+    },
+    {
+      "path": "ccm/inspect_ccm_driver.py",
+      "bytes": 11030,
+      "sha256": "e076bc96f7c0623fe95a186ae825f32610a6bb77ffcd721cc2c5a9d25cc8ab53",
+      "kind": "original source"
+    },
+    {
+      "path": "ccm/inspect_ccm_metadata.c",
+      "bytes": 4805,
+      "sha256": "04b3ed610b41e0aef9c41e1bc7660a1a2abac9378fe20fdcd5e1b6cbdec369ba",
+      "kind": "original source"
+    },
+    {
+      "path": "ccm/replay_ccm_probe.py",
+      "bytes": 9562,
+      "sha256": "a6bbda1df06efb1e2185ace9e0aa01b9c0912749a1c815690c371cbf917a4be2",
+      "kind": "original source"
+    },
+    {
+      "path": "ccm_independent_review/ccm_adapter_contract.c",
+      "bytes": 3811,
+      "sha256": "6e671a03e873f8b8318181e09e141993f9a903f88052c800455caef35f77bb0a",
+      "kind": "original source"
+    },
+    {
+      "path": "ccm_independent_review/ccm_adapter_contract_results.json",
+      "bytes": 3156,
+      "sha256": "61f25da0f5afd824eecb330292ab12da5cb61f3aeb3a5537a3211e4871db35ec",
+      "kind": "derived evidence or report"
+    },
+    {
+      "path": "ccm_independent_review/ccm_independent_review.json",
+      "bytes": 3340,
+      "sha256": "db314872f2b5b120b38e68cf63ec56dc3eb98c326e3530f30a7fd17eb505026b",
+      "kind": "derived evidence or report"
+    },
+    {
+      "path": "ccm_independent_review/verify_ccm_adapter_contract.py",
+      "bytes": 3112,
+      "sha256": "cbe858a55239d8836309a9968cc511d663999296a8d65cd43fdf0ec487dfe56d",
+      "kind": "original source"
+    },
+    {
+      "path": "dispatch/DISPATCH_FINDINGS.md",
+      "bytes": 14579,
+      "sha256": "679d1f02092820383395320acc81eb31dc3f7e3cf67f44e3a5c6fb077ee16e71",
+      "kind": "derived evidence or report"
+    },
+    {
+      "path": "dispatch/dispatch_evidence.json",
+      "bytes": 30481,
+      "sha256": "86a562132bd29d010ec01c0d1831e42c5143d64b3386e344fd38eae4e2bffc9b",
+      "kind": "derived evidence or report"
+    },
+    {
+      "path": "dispatch/inspect_dispatch.py",
+      "bytes": 22818,
+      "sha256": "3e68bb76736ab63d30dc382eb1977458c1a45ba5438e2876844cbb04df4a1ae8",
+      "kind": "original source"
+    },
+    {
+      "path": "gamma/MAIN_GAMMA_FINDINGS.md",
+      "bytes": 12404,
+      "sha256": "d8dd18d3ad879aa4a9443481ffca76075857b866c9ae6d43f35023bdc8a6c18e",
+      "kind": "derived evidence or report"
+    },
+    {
+      "path": "gamma/gamma_checkpoint_manifest.json",
+      "bytes": 2362,
+      "sha256": "3c78c1aecf3f11cb088b497ce64ccaafdfc37f1eec26efa976c02b7a2a5d9949",
+      "kind": "derived evidence or report"
+    },
+    {
+      "path": "gamma/gamma_driver_original_execution.json",
+      "bytes": 9299,
+      "sha256": "93d722bc2516cb9b51b5dd2a9873c0ae1f293f870037e0557e908bbfb8626301",
+      "kind": "derived evidence or report"
+    },
+    {
+      "path": "gamma/gamma_knots.py",
+      "bytes": 1411,
+      "sha256": "4a0aa14218794a77c58a22baf27269f881f97548bc484350cea0ec8590342567",
+      "kind": "original source"
+    },
+    {
+      "path": "gamma/gamma_knots_original_execution.json",
+      "bytes": 8756,
+      "sha256": "b69ef39c0987cca5500a5f2a4c940eb92cab10aa79772c0c3664da6bbde5923c",
+      "kind": "derived evidence or report"
+    },
+    {
+      "path": "gamma/inspect_main_gamma_config.py",
+      "bytes": 5133,
+      "sha256": "629300e3e77ea99b5d6a1905b322c747b700d07c0ee6225192544f4c3a988ad4",
+      "kind": "original source"
+    },
+    {
+      "path": "gamma/inspect_main_gamma_metadata.c",
+      "bytes": 5221,
+      "sha256": "b2ed20584282781f5dfcdf80682369cc4b49bc7e9e737bcad50ba877cbf1758c",
+      "kind": "original source"
+    },
+    {
+      "path": "gamma/main_gamma_config_metadata.json",
+      "bytes": 7693,
+      "sha256": "f9f14b9ae1ee9499b3851efa8ed8df3d2b8ea32b7c1feabbe390e233e4a34453",
+      "kind": "derived evidence or report"
+    },
+    {
+      "path": "gamma/main_gamma_register_metadata.json",
+      "bytes": 34031,
+      "sha256": "e56e725a3866b85430fefacbad8ae467c345d63c243fb381acad31f13fb82039",
+      "kind": "derived evidence or report"
+    },
+    {
+      "path": "gamma/replay_main_gamma_metadata.py",
+      "bytes": 8053,
+      "sha256": "4a10751dcb96c39e62032bddb5f81f982c9ae11e082ce88d947167c3104290c4",
+      "kind": "original source"
+    },
+    {
+      "path": "gamma/verify_gamma_driver.py",
+      "bytes": 11185,
+      "sha256": "c44264ad160f01207ad578fb7a5fc9299adb889463fd213d8f44fcf0b6c4dc1f",
+      "kind": "original source"
+    },
+    {
+      "path": "gamma/verify_gamma_knots.py",
+      "bytes": 11622,
+      "sha256": "6b22143c9360c3271cadd6f572efcf4defabde21f540b59987e4a61d97cd702b",
+      "kind": "original source"
+    },
+    {
+      "path": "independent_reviews/gamma_review.json",
+      "bytes": 2507,
+      "sha256": "58e0595c4462f7936e716f4f9932d09098f3cf56b1a25b83894199baca110736",
+      "kind": "derived evidence or report"
+    },
+    {
+      "path": "independent_reviews/main_lut_review.json",
+      "bytes": 5909,
+      "sha256": "cd55dc2bca873ea3da300e39bc60a052e6e146d18bd0924e87df73e5375160db",
+      "kind": "derived evidence or report"
+    },
+    {
+      "path": "main_lut/MAIN_LUT_FINDINGS.json",
+      "bytes": 2684,
+      "sha256": "68f722543ef4589b3fc9cae864b3f11f27c75779b970c52a25b0fb7334861e20",
+      "kind": "derived evidence or report"
+    },
+    {
+      "path": "main_lut/MAIN_LUT_FINDINGS.md",
+      "bytes": 10836,
+      "sha256": "b7b8d71c1b3d96aee7b05e5f75171489fd178d3105753aecefb69688a38fad65",
+      "kind": "derived evidence or report"
+    },
+    {
+      "path": "main_lut/SOURCE_BUNDLE_MANIFEST.json",
+      "bytes": 1684,
+      "sha256": "75676b70a6ccf76f2e5435fa543982f2505df4c1542fd4e3267f4b3ee966e64d",
+      "kind": "derived evidence or report"
+    },
+    {
+      "path": "main_lut/inspect_main_lut_sources.py",
+      "bytes": 14736,
+      "sha256": "0d565a5f961c99b139307e50ff017c7eb3333e2394f37a1cfe84345cb326a7cb",
+      "kind": "original source"
+    },
+    {
+      "path": "main_lut/main_lut_static_evidence.json",
+      "bytes": 19203,
+      "sha256": "7507c3fc84ac139dfae827a88298e143633193ebf2a377ddb0fd0bea872660af",
+      "kind": "derived evidence or report"
+    },
+    {
+      "path": "main_lut/main_lut_writer_execution.json",
+      "bytes": 21560,
+      "sha256": "17aee3083b984d6151e326ab6642447d05304efcd991268862e87d08e2552ae5",
+      "kind": "derived evidence or report"
+    },
+    {
+      "path": "main_lut/probe_main_lut_register_writer.py",
+      "bytes": 11595,
+      "sha256": "c7e936d28491eac30640718b045d9aac74eb41a3374ecfbc55f1bf84a4023a04",
+      "kind": "original source"
+    }
+  ],
+  "file_count_excluding_manifest": 42,
+  "total_bytes_excluding_manifest": 515678,
+  "verification": {
+    "all_retained_files_utf8_text": true,
+    "python_sources_parse": true,
+    "json_reports_parse": true,
+    "relative_markdown_links_checked": 32,
+    "nested_source_manifests_match": true,
+    "ccm_independent_source_and_result_hashes_match": true,
+    "ccm_original_cases": 162,
+    "ccm_original_scalar_outputs": 15552,
+    "ccm_adapter_contract_cases": 20,
+    "gamma_original_coordinate_cases": 8,
+    "gamma_original_coordinates": 2056,
+    "gamma_driver_cases": 4,
+    "main_lut_driver_cases": 32,
+    "three_independent_reviews_pass": true
+  },
+  "excluded": [
+    "Original firmware and extracted vendor binaries",
+    "Vendor tuning, LUT and calibration payloads",
+    "Disassembly or original instruction bytes",
+    "User photographs",
+    "Generated probe binaries and Python bytecode",
+    "APK or Android build outputs"
+  ],
+  "self_hash_excluded": true
+}

@@ -1,0 +1,698 @@
+{
+  "schema": 1,
+  "scope": "MAIN camera register consumer and exact pre-gamma register/config provenance",
+  "sources": [
+    {
+      "relative_path": "system/lib/modules/vcam_driver.ko",
+      "bytes": 3150240,
+      "sha256": "29309a225f2dcd8327b6fdaca477425b2c21ba580daa83599c1ea8699b7e450e"
+    },
+    {
+      "relative_path": "system/lib/modules/cam_vreg.ko",
+      "bytes": 72400,
+      "sha256": "26cf2246d56a36a5f7d107799ddced307ed94e53ac22c9928962a0fcff920ff6"
+    },
+    {
+      "relative_path": "system/lib/modules/kheaders.ko",
+      "bytes": 3784232,
+      "sha256": "b7cbbd598da206e828b96d8103650f790ef7508bd0e1835ab3485c04aad9621b"
+    },
+    {
+      "relative_path": "system/lib64/librcam.so",
+      "bytes": 5846216,
+      "sha256": "3dd5b37b3db18b3e6b54271e1501b4dd337e101c06cdd386a896b1547b662f66"
+    },
+    {
+      "relative_path": "system/lib64/libdcam_dump_register.so",
+      "bytes": 68512,
+      "sha256": "657cadb8d39b141aad22f432a9df9151ac1feab8b4289ee35465230dfe4d3f0d"
+    },
+    {
+      "relative_path": "system/etc/iq/hb722_config.json",
+      "bytes": 27277188,
+      "sha256": "2a4fd76e5299937a6607da8454add17e9746347c54adcf5da1360799de634286"
+    }
+  ],
+  "vcam_functions": [
+    {
+      "name": "lut_set_lut_info",
+      "section": ".text",
+      "section_offset": "0x31f48",
+      "bytes": 324,
+      "code_sha256": "d56ec8d675a29416ad0fca213aa4ff83e2b33cf5743453db1591fd7a045d3da4",
+      "instruction_count": 81,
+      "instruction_mnemonic_counts": {
+        "add": 14,
+        "and": 7,
+        "b": 2,
+        "b.eq": 1,
+        "b.ne": 2,
+        "cbz": 4,
+        "cmp": 5,
+        "csel": 2,
+        "cset": 1,
+        "ldr": 15,
+        "mov": 3,
+        "mrs": 1,
+        "msr": 2,
+        "nop": 1,
+        "orr": 7,
+        "ret": 2,
+        "str": 11,
+        "tst": 1
+      },
+      "resolved_external_call_relocations": []
+    },
+    {
+      "name": "lut_set_format",
+      "section": ".text",
+      "section_offset": "0x32188",
+      "bytes": 116,
+      "code_sha256": "a84c6e2158323443bcc0cb8c9daa9f21dbe2a335a503410567ce767ef1dc984b",
+      "instruction_count": 29,
+      "instruction_mnemonic_counts": {
+        "add": 5,
+        "adrp": 5,
+        "b": 1,
+        "b.le": 1,
+        "bl": 2,
+        "cbz": 1,
+        "cmp": 1,
+        "ldp": 1,
+        "ldr": 3,
+        "mov": 6,
+        "ret": 1,
+        "stp": 1,
+        "str": 1
+      },
+      "resolved_external_call_relocations": [
+        {
+          "call_section_offset": "0x321a4",
+          "target": "lut_set_size",
+          "target_section_offset": "0x3208c",
+          "target_addend": 0
+        },
+        {
+          "call_section_offset": "0x321f4",
+          "target": "printk",
+          "target_section_offset": "0x0",
+          "target_addend": 0
+        }
+      ]
+    },
+    {
+      "name": "lut_set_size",
+      "section": ".text",
+      "section_offset": "0x3208c",
+      "bytes": 96,
+      "code_sha256": "a6111229e6dcdceb12a14f6962716a980f6b14d0fd07fae9de3841fe8b9fcae0",
+      "instruction_count": 24,
+      "instruction_mnemonic_counts": {
+        "add": 2,
+        "and": 5,
+        "b.ne": 1,
+        "ldr": 5,
+        "orr": 4,
+        "ret": 1,
+        "str": 5,
+        "tst": 1
+      },
+      "resolved_external_call_relocations": []
+    },
+    {
+      "name": "lut_init_seq",
+      "section": ".text",
+      "section_offset": "0x14abc",
+      "bytes": 60,
+      "code_sha256": "ca743e611a98b779f378b10f88836a90701311fefa4ac487d1f1b2b23dfdeade",
+      "instruction_count": 15,
+      "instruction_mnemonic_counts": {
+        "add": 2,
+        "and": 4,
+        "ldr": 4,
+        "ret": 1,
+        "str": 4
+      },
+      "resolved_external_call_relocations": []
+    },
+    {
+      "name": "lut_probe",
+      "section": ".text",
+      "section_offset": "0x321fc",
+      "bytes": 140,
+      "code_sha256": "d1096712da5c5e671cdeb10e7c73854546f441ef4a1e95a73edcc78ae4431904",
+      "instruction_count": 35,
+      "instruction_mnemonic_counts": {
+        "add": 3,
+        "adrp": 1,
+        "bl": 3,
+        "cbz": 1,
+        "ldp": 6,
+        "mov": 13,
+        "ret": 2,
+        "stp": 3,
+        "str": 1,
+        "uxtb": 2
+      },
+      "resolved_external_call_relocations": [
+        {
+          "call_section_offset": "0x32224",
+          "target": "devm_kmalloc",
+          "target_section_offset": "0x0",
+          "target_addend": 0
+        },
+        {
+          "call_section_offset": "0x3223c",
+          "target": "fc_component_init",
+          "target_section_offset": "0x0",
+          "target_addend": 0
+        },
+        {
+          "call_section_offset": "0x3224c",
+          "target": "muse_mapping_peg_init",
+          "target_section_offset": "0x0",
+          "target_addend": 0
+        }
+      ]
+    }
+  ],
+  "camera_vreg_functions": [
+    {
+      "name": "_vreg_get_access_addr",
+      "section": ".text",
+      "section_offset": "0xa98",
+      "bytes": 524,
+      "code_sha256": "e6ef6195ce684d7d2d360892ef52ae53e0d76ddd396248bf35a2580972f73d02",
+      "instruction_count": 131,
+      "instruction_mnemonic_counts": {
+        "add": 14,
+        "adr": 1,
+        "adrp": 1,
+        "b.ls": 1,
+        "bl": 2,
+        "br": 1,
+        "brk": 6,
+        "cbz": 9,
+        "cmp": 5,
+        "csel": 4,
+        "ldp": 12,
+        "ldr": 23,
+        "ldrb": 1,
+        "mov": 17,
+        "ret": 6,
+        "stp": 2,
+        "str": 18,
+        "sub": 8
+      },
+      "resolved_external_call_relocations": [
+        {
+          "call_section_offset": "0xabc",
+          "target": "rcam_sys_mem_base_addr",
+          "target_section_offset": "0x3978",
+          "target_addend": 0
+        },
+        {
+          "call_section_offset": "0xac8",
+          "target": "rcam_sys_mem_base_physical_addr",
+          "target_section_offset": "0x39ec",
+          "target_addend": 0
+        }
+      ]
+    },
+    {
+      "name": "_sync_single_data_node",
+      "section": ".text",
+      "section_offset": "0x11c0",
+      "bytes": 692,
+      "code_sha256": "488983f25c5ac1602945636028109ca4939d34a617628376b5b1ee199e7d128d",
+      "instruction_count": 173,
+      "instruction_mnemonic_counts": {
+        "add": 24,
+        "adrp": 3,
+        "and": 1,
+        "b": 7,
+        "b.eq": 2,
+        "b.ge": 1,
+        "b.ls": 1,
+        "b.ne": 7,
+        "bl": 5,
+        "blr": 4,
+        "brk": 1,
+        "cbnz": 1,
+        "cbz": 4,
+        "cmp": 10,
+        "ldp": 5,
+        "ldr": 40,
+        "ldrh": 6,
+        "lsr": 1,
+        "mov": 26,
+        "movk": 1,
+        "mrs": 1,
+        "ret": 1,
+        "stp": 5,
+        "str": 8,
+        "sub": 4,
+        "tst": 1,
+        "umaddl": 1,
+        "umull": 1,
+        "uxth": 1
+      },
+      "resolved_external_call_relocations": [
+        {
+          "call_section_offset": "0x1440",
+          "target": "__stack_chk_fail",
+          "target_section_offset": "0x0",
+          "target_addend": 0
+        },
+        {
+          "call_section_offset": "0x1468",
+          "target": "printk",
+          "target_section_offset": "0x0",
+          "target_addend": 0
+        }
+      ]
+    },
+    {
+      "name": "_vreg_io_if_write32",
+      "section": ".text",
+      "section_offset": "0xfc0",
+      "bytes": 200,
+      "code_sha256": "d3c0dc53ae70ca6e6aae54b282da91864f9346a489a20649bc824297738e8d87",
+      "instruction_count": 50,
+      "instruction_mnemonic_counts": {
+        "add": 1,
+        "adrp": 1,
+        "and": 2,
+        "b": 3,
+        "b.eq": 3,
+        "b.ne": 4,
+        "bic": 1,
+        "bl": 1,
+        "cbnz": 1,
+        "cbz": 2,
+        "cmn": 1,
+        "cmp": 2,
+        "ldp": 2,
+        "ldr": 8,
+        "lsr": 2,
+        "mov": 1,
+        "orr": 1,
+        "ret": 1,
+        "stp": 1,
+        "str": 7,
+        "subs": 4,
+        "tbnz": 1
+      },
+      "resolved_external_call_relocations": [
+        {
+          "call_section_offset": "0x1084",
+          "target": "__stack_chk_fail",
+          "target_section_offset": "0x0",
+          "target_addend": 0
+        }
+      ]
+    }
+  ],
+  "component_binding_calls": [
+    {
+      "section_offset": "0x59fbc",
+      "target": "ccm_probe",
+      "target_section_offset": "0x31518"
+    },
+    {
+      "section_offset": "0x5a0f4",
+      "target": "gamma_probe",
+      "target_section_offset": "0x31ebc"
+    },
+    {
+      "section_offset": "0x5a190",
+      "target": "lut_probe",
+      "target_section_offset": "0x321fc"
+    },
+    {
+      "section_offset": "0x5c300",
+      "target": "platform_get_resource_byname",
+      "target_section_offset": "0x0"
+    },
+    {
+      "section_offset": "0x5c310",
+      "target": "devm_ioremap_resource",
+      "target_section_offset": "0x0"
+    },
+    {
+      "section_offset": "0x6ea18",
+      "target": "lut_set_format",
+      "target_section_offset": "0x32188"
+    }
+  ],
+  "component_binding_observations": {
+    "mapped_platform_resource": "yuv_pp_base",
+    "resource_lookup_call": ".text+0x5c300",
+    "resource_mapping_call": ".text+0x5c310",
+    "mapping_result_field": "resource object+0x48; object saved at platform context+0x2a0",
+    "lut_component_id": 78,
+    "lut_binding": ".text+0x5a1a4..0x5a1c0: component ID0x4e; base is mapped yuv_pp_base",
+    "ccm_component_id": 75,
+    "ccm_binding": ".text+0x59fd0..0x59ff0: component ID0x4b; base is mapped yuv_pp_base+0x2c000",
+    "gamma_component_id": 77,
+    "gamma_binding": ".text+0x5a108..0x5a128: component ID0x4d; base is mapped yuv_pp_base+0x2e000",
+    "precision_limit": "lut_set_format forwards width and height to lut_set_size; these functions contain no RGB precision or grid-axis selector"
+  },
+  "librcam_main_register_descriptors": [
+    {
+      "register_id": 2967,
+      "name": "MAIN_3DLUT control word",
+      "descriptor_va": "0x4f2540",
+      "descriptor_type": 2,
+      "virtual_byte_offset": "0x16a9c",
+      "physical_address": "0xf320001c",
+      "word_count": 1
+    },
+    {
+      "register_id": 2968,
+      "name": "tlut_en",
+      "descriptor_va": "0x4f2550",
+      "descriptor_type": 3,
+      "virtual_byte_offset": "0x16a9c",
+      "containing_register_id_high16": 2967,
+      "bit_position": 0,
+      "mask": "0x1"
+    },
+    {
+      "register_id": 2969,
+      "name": "enable_pre_gamma",
+      "descriptor_va": "0x4f2560",
+      "descriptor_type": 3,
+      "virtual_byte_offset": "0x16a9c",
+      "containing_register_id_high16": 2967,
+      "bit_position": 1,
+      "mask": "0x2"
+    },
+    {
+      "register_id": 2970,
+      "name": "module_en_lut",
+      "descriptor_va": "0x4f2570",
+      "descriptor_type": 3,
+      "virtual_byte_offset": "0x16a9c",
+      "containing_register_id_high16": 2967,
+      "bit_position": 2,
+      "mask": "0x4"
+    },
+    {
+      "register_id": 2996,
+      "name": "pre_gamma containing register array",
+      "descriptor_va": "0x4f2710",
+      "descriptor_type": 2,
+      "virtual_byte_offset": "0x16ac4",
+      "physical_address": "0xf3207f7c",
+      "word_count": 33
+    },
+    {
+      "register_id": 2997,
+      "name": "pre_gamma element field",
+      "descriptor_va": "0x4f2720",
+      "descriptor_type": 3,
+      "virtual_byte_offset": "0x16ac4",
+      "containing_register_id_high16": 2996,
+      "bit_position": 0,
+      "mask": "0x1fff"
+    },
+    {
+      "register_id": 2998,
+      "name": "lut_data",
+      "descriptor_va": "0x4f2730",
+      "descriptor_type": 1,
+      "virtual_byte_offset": "0x16b80",
+      "physical_address": "0xf3208000",
+      "word_count": 6144
+    }
+  ],
+  "kernel_headers": {
+    "xz_bytes": 3778928,
+    "xz_sha256": "e0a474714b6980b41d9d7701a6bd768240a63d0889d8b37ae726f976d3199c27",
+    "archive_member_count": 9329,
+    "regular_file_bytes": 30049604,
+    "scan_patterns": {
+      "main_lut_name_or_address": "MAIN_3DLUT|main_3dlut|0x[fF]320[0-9a-fA-F]{4}",
+      "lut_name": "3d[_ -]?lut|lut[_ -]?3d|tlut"
+    },
+    "hit_headers": [
+      {
+        "path": "./include/dt-bindings/clock/e1e.h",
+        "bytes": 21427,
+        "sha256": "8a11fb706d56b3455ae218898a5147e108cece2b7ffe4f149d3ec3705b476d7e",
+        "pattern_counts": {
+          "main_lut_name_or_address": 0,
+          "lut_name": 1
+        }
+      },
+      {
+        "path": "./include/dt-bindings/clock/eagle.h",
+        "bytes": 19785,
+        "sha256": "a7a87995fc45f1b364c0b5c7690357b9ff5a11949cc642dbf3102931c447f010",
+        "pattern_counts": {
+          "main_lut_name_or_address": 0,
+          "lut_name": 1
+        }
+      },
+      {
+        "path": "./include/media/dji/cs_isp_sc.h",
+        "bytes": 55280,
+        "sha256": "167a49611369cf6fc96427eb93c865a4eead421a8de9339d551b69c250ffdd02",
+        "pattern_counts": {
+          "main_lut_name_or_address": 0,
+          "lut_name": 24
+        }
+      },
+      {
+        "path": "./include/soc/dji/display/dji_e4_disp_lut3d.h",
+        "bytes": 19987,
+        "sha256": "eb9787e65e80dbe2ae15c48c5838adc1ea57203767534b217267c733a46c0e92",
+        "pattern_counts": {
+          "main_lut_name_or_address": 0,
+          "lut_name": 344
+        }
+      },
+      {
+        "path": "./include/soc/dji/display/dji_e4_disp_lut3d_v2.h",
+        "bytes": 22273,
+        "sha256": "2f9d9d391bcd28d8f023df12249cd75b50d6afd94c209f826d6c85d741c47b19",
+        "pattern_counts": {
+          "main_lut_name_or_address": 0,
+          "lut_name": 346
+        }
+      },
+      {
+        "path": "./include/soc/dji/display/dji_lcdc_e2.h",
+        "bytes": 407167,
+        "sha256": "3a2fc3d4e7b79f0aeb310774a1f7be7704f08c53e60bc7a938888dca1e72a363",
+        "pattern_counts": {
+          "main_lut_name_or_address": 0,
+          "lut_name": 16
+        }
+      },
+      {
+        "path": "./include/soc/dji/display/dji_lcdc_e4.h",
+        "bytes": 49712,
+        "sha256": "e2f1b5ab75e19c851cd2a6097ee67e60dc0b73d4d29665022716468a797a54c7",
+        "pattern_counts": {
+          "main_lut_name_or_address": 0,
+          "lut_name": 12
+        }
+      },
+      {
+        "path": "./include/soc/dji/display/dji_lcdc_reg_e4.h",
+        "bytes": 4882,
+        "sha256": "622d438aa75e079341ed2be7957de1017e9b8bf61f501b6df0df85450f8a7164",
+        "pattern_counts": {
+          "main_lut_name_or_address": 0,
+          "lut_name": 1
+        }
+      },
+      {
+        "path": "./include/uapi/dji/display/dji_lcdc_common_uapi.h",
+        "bytes": 21532,
+        "sha256": "17d981c5963ec0b80a57b9dab18b4195c4a4dddace8e594fe5ee11348a75f666",
+        "pattern_counts": {
+          "main_lut_name_or_address": 0,
+          "lut_name": 18
+        }
+      },
+      {
+        "path": "./include/uapi/drm/dji_drm.h",
+        "bytes": 2604,
+        "sha256": "7ff0f0b989169d997f117312ab6ba01d81599ebcd4de5c2d11a51ab3fcbe24c2",
+        "pattern_counts": {
+          "main_lut_name_or_address": 0,
+          "lut_name": 2
+        }
+      },
+      {
+        "path": "./include/video/dji_disp_util.h",
+        "bytes": 6789,
+        "sha256": "5ab945793d3ccfaaf0af123ae5c7456d4c9afa5eacc76c66e098d1bd6e56f1ea",
+        "pattern_counts": {
+          "main_lut_name_or_address": 0,
+          "lut_name": 1
+        }
+      }
+    ],
+    "selected_headers": [
+      {
+        "path": "./include/media/dji/cs_isp_sc.h",
+        "bytes": 55280,
+        "sha256": "167a49611369cf6fc96427eb93c865a4eead421a8de9339d551b69c250ffdd02",
+        "pattern_counts": {
+          "main_lut_name_or_address": 0,
+          "lut_name": 24
+        }
+      },
+      {
+        "path": "./include/soc/dji/display/dji_lcdc_e2.h",
+        "bytes": 407167,
+        "sha256": "3a2fc3d4e7b79f0aeb310774a1f7be7704f08c53e60bc7a938888dca1e72a363",
+        "pattern_counts": {
+          "main_lut_name_or_address": 0,
+          "lut_name": 16
+        }
+      },
+      {
+        "path": "./include/soc/dji/display/dji_lcdc_reg.h",
+        "bytes": 12809,
+        "sha256": "9b16e22c8c728fe6d17879c30fbf2d49d161703e0b8f00b03ec6a8046beba99a",
+        "pattern_counts": {
+          "main_lut_name_or_address": 0,
+          "lut_name": 0
+        }
+      },
+      {
+        "path": "./include/uapi/dji/display/dji_lcdc_common_uapi.h",
+        "bytes": 21532,
+        "sha256": "17d981c5963ec0b80a57b9dab18b4195c4a4dddace8e594fe5ee11348a75f666",
+        "pattern_counts": {
+          "main_lut_name_or_address": 0,
+          "lut_name": 18
+        }
+      }
+    ],
+    "display_only_macros": [
+      {
+        "name": "LCDC_V3_MIPI0_TLUT_OFFSET",
+        "integer_value": 0,
+        "line": 7424
+      },
+      {
+        "name": "LCDC_V3_MIPI0_TLUT_MASK",
+        "integer_value": 4294967295,
+        "line": 7425
+      },
+      {
+        "name": "LCDC_V3_MIPI0_TLUT_ADDRESS",
+        "integer_value": 32768,
+        "line": 7426
+      },
+      {
+        "name": "LCDC_V3_MIPI0_TLUT_NUM",
+        "integer_value": 6144,
+        "line": 7427
+      },
+      {
+        "name": "LCDC_V3_HDMI_TLUT_ADDRESS",
+        "integer_value": 98304,
+        "line": 7431
+      },
+      {
+        "name": "LCDC_V3_HDMI_TLUT_NUM",
+        "integer_value": 6144,
+        "line": 7432
+      }
+    ],
+    "limitation": "Matching display TLUT extent is not MAIN packing, domain or interpolation evidence; E4 headers also occur in this multi-platform archive."
+  },
+  "actual_config_pre_gamma": {
+    "pre_gamma_descriptor": {
+      "type": "simple_lut_reg",
+      "group": "global"
+    },
+    "pre_gamma_enable_descriptor": {
+      "type": "simple_val",
+      "group": "global"
+    },
+    "selected_mode_values": [
+      {
+        "mode": "global",
+        "enable_pre_gamma": [
+          0
+        ],
+        "pre_gamma_summary": {
+          "word_count": 33,
+          "minimum": 0,
+          "maximum": 81,
+          "json_array_sha256": "654c9c4d1d198cb28159f4041b3ea9e9eb4e07db5b417e54552886014a9af118",
+          "uint32_little_endian_sha256": "a00be6d9558f935928a2164ceae1672bd66aff09d1f4e47d7fa64adb536e47b8"
+        }
+      },
+      {
+        "mode": "still0",
+        "module_en_lut": [
+          1
+        ],
+        "tlut_en": [
+          1
+        ]
+      },
+      {
+        "mode": "still1",
+        "module_en_lut": [
+          1
+        ],
+        "tlut_en": [
+          1
+        ]
+      },
+      {
+        "mode": "still2",
+        "module_en_lut": [
+          1
+        ],
+        "tlut_en": [
+          1
+        ]
+      },
+      {
+        "mode": "still3",
+        "module_en_lut": [
+          1
+        ],
+        "tlut_en": [
+          1
+        ]
+      },
+      {
+        "mode": "still4",
+        "module_en_lut": [
+          1
+        ],
+        "tlut_en": [
+          1
+        ]
+      }
+    ],
+    "parser_relative_path": "../../photographic_path/inspect_iq_config.py",
+    "parser_sha256": "0d3c8a7c380502c2b904e380d64723523eb62060a2c4e31145104aa9445625ec"
+  },
+  "optional_register_map": {
+    "library": "system/lib64/libdcam_dump_register.so",
+    "path": "/system/etc/cam_dump_register.json",
+    "path_string_file_offset": "0x79fe",
+    "present_in_extracted_system": false
+  },
+  "not_established": [
+    "MAIN RGB/component bank order",
+    "MAIN grid-axis strides and knot positions",
+    "MAIN input/output normalization or transfer domain",
+    "MAIN hardware interpolation, integer rounding or saturation",
+    "A CPU pixel sampler linked to this MAIN table"
+  ],
+  "source_sha256": "0d565a5f961c99b139307e50ff017c7eb3333e2394f37a1cfe84345cb326a7cb"
+}

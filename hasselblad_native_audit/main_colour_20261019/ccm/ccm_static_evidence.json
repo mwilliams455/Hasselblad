@@ -1,0 +1,862 @@
+{
+  "firmware": "Hasselblad X2D II 100C 1.3.16.2",
+  "library_sha256": "3dd5b37b3db18b3e6b54271e1501b4dd337e101c06cdd386a896b1547b662f66",
+  "schema_sha256": "59ec3b0d019b9e8873f3d005c041b4e3ca1a2b930c503c110c51531f8bd30e40",
+  "config_sha256": "2a4fd76e5299937a6607da8454add17e9746347c54adcf5da1360799de634286",
+  "parser_sha256": "0d3c8a7c380502c2b904e380d64723523eb62060a2c4e31145104aa9445625ec",
+  "symbol_helper_sha256": "2192ab10f74cc4dd2fcf38a569912995d5b9ca7e5183fbf01563d8f443ef497b",
+  "inspector_sha256": "3910ca04006fd81ecf02070a91a0f2303be649566e7878a82715fdbebc9037b3",
+  "functions": [
+    {
+      "name": "dcam_isp_vreg_get_type",
+      "va": "0x54b88",
+      "bytes": 4,
+      "code_sha256": "d412c8440ba36b30e1fd97ed6d92b9fbc6bc182ccbff3d5e8ccf05fca40e0864",
+      "direct_calls": [
+        {
+          "site": "0x54b88",
+          "target_va": "0x251a08",
+          "target": "DjiIsp_Reg_GetType",
+          "tail_branch": true
+        }
+      ]
+    },
+    {
+      "name": "mm_get_coeff",
+      "va": "0x2bac00",
+      "bytes": 160,
+      "code_sha256": "68754a8d484850dc37a03dedd36b17fa309f3f76fcdc7c2f21472400e6a192bf",
+      "direct_calls": []
+    },
+    {
+      "name": "mm_lerp",
+      "va": "0x2baca0",
+      "bytes": 44,
+      "code_sha256": "9a4737f87587fbe4c587a24d4cd3e85d110d30d58f0367c2fde2036ee17b6c93",
+      "direct_calls": []
+    },
+    {
+      "name": "mm_mx_lerp_gap",
+      "va": "0x2bb138",
+      "bytes": 1228,
+      "code_sha256": "23ecdbe5819b25bbf11001359c80dbf0a846f083c09e61647cd37b217ac833f8",
+      "direct_calls": [
+        {
+          "site": "0x2bb600",
+          "target_va": "0x4a4e0",
+          "target": "__stack_chk_fail@plt",
+          "tail_branch": false
+        }
+      ]
+    },
+    {
+      "name": "DIQ_iq_main_ccm_lmtx_fw",
+      "va": "0x33f960",
+      "bytes": 64,
+      "code_sha256": "5fdfdd951360f8a4949434183dd3f28de1ec401f08126acf1d97cd1618b4240e",
+      "direct_calls": []
+    },
+    {
+      "name": "DIQ_mod_main_ccm_lmtx_fw",
+      "va": "0x33f9a0",
+      "bytes": 60,
+      "code_sha256": "f9ea958f3ab2261f82bc95461a1aec20716a9dd5ceafe608a5db0fe6bcb91c8f",
+      "direct_calls": []
+    },
+    {
+      "name": "main_ccm_init",
+      "va": "0x39d6f0",
+      "bytes": 332,
+      "code_sha256": "0a82257a3d38f2f0d5f6991192b4b17d78037f3c4a0c7caa440363c07d5cfb52",
+      "direct_calls": [
+        {
+          "site": "0x39d7a0",
+          "target_va": "0xd9610",
+          "target": "adj_register_calc_cond_module_and_param_set",
+          "tail_branch": false
+        },
+        {
+          "site": "0x39d7fc",
+          "target_va": "0xd9610",
+          "target": "adj_register_calc_cond_module_and_param_set",
+          "tail_branch": false
+        },
+        {
+          "site": "0x39d818",
+          "target_va": "0x2e3df8",
+          "target": "adj_register_calc_cond_non_vreg_module",
+          "tail_branch": false
+        }
+      ]
+    },
+    {
+      "name": "main_ccm_calc_global",
+      "va": "0x39d840",
+      "bytes": 1048,
+      "code_sha256": "8c5ad712796210d69fd868cd72e4dd67c8366b621423edf6b1629bb2a5f7c53a",
+      "direct_calls": [
+        {
+          "site": "0x39da28",
+          "target_va": "0x3b3e98",
+          "target": "rcam_adj_calc_common",
+          "tail_branch": false
+        },
+        {
+          "site": "0x39da44",
+          "target_va": "0x251e20",
+          "target": "DjiIsp_ValidateDataNodeByAttr",
+          "tail_branch": false
+        },
+        {
+          "site": "0x39da8c",
+          "target_va": "0x251a68",
+          "target": "DjiIsp_Reg_Set",
+          "tail_branch": false
+        },
+        {
+          "site": "0x39daa0",
+          "target_va": "0x251e20",
+          "target": "DjiIsp_ValidateDataNodeByAttr",
+          "tail_branch": false
+        },
+        {
+          "site": "0x39dba4",
+          "target_va": "0x3b3e98",
+          "target": "rcam_adj_calc_common",
+          "tail_branch": false
+        },
+        {
+          "site": "0x39dbc0",
+          "target_va": "0x251e20",
+          "target": "DjiIsp_ValidateDataNodeByAttr",
+          "tail_branch": false
+        },
+        {
+          "site": "0x39dbe4",
+          "target_va": "0x251a68",
+          "target": "DjiIsp_Reg_Set",
+          "tail_branch": false
+        },
+        {
+          "site": "0x39dc04",
+          "target_va": "0x251e20",
+          "target": "DjiIsp_ValidateDataNodeByAttr",
+          "tail_branch": false
+        },
+        {
+          "site": "0x39dc54",
+          "target_va": "0x4a4e0",
+          "target": "__stack_chk_fail@plt",
+          "tail_branch": false
+        }
+      ]
+    },
+    {
+      "name": "main_ccm_calc_frame",
+      "va": "0x39e4b0",
+      "bytes": 2148,
+      "code_sha256": "3eae4f3082360613dcd1d1041ea76099cf002f16f8b36e282a5f02fbf6ad3cf0",
+      "direct_calls": [
+        {
+          "site": "0x39e934",
+          "target_va": "0x3b3e98",
+          "target": "rcam_adj_calc_common",
+          "tail_branch": false
+        },
+        {
+          "site": "0x39e950",
+          "target_va": "0x251e20",
+          "target": "DjiIsp_ValidateDataNodeByAttr",
+          "tail_branch": false
+        },
+        {
+          "site": "0x39e998",
+          "target_va": "0x251a68",
+          "target": "DjiIsp_Reg_Set",
+          "tail_branch": false
+        },
+        {
+          "site": "0x39ec44",
+          "target_va": "0x3b3e98",
+          "target": "rcam_adj_calc_common",
+          "tail_branch": false
+        },
+        {
+          "site": "0x39ec60",
+          "target_va": "0x251e20",
+          "target": "DjiIsp_ValidateDataNodeByAttr",
+          "tail_branch": false
+        },
+        {
+          "site": "0x39ec84",
+          "target_va": "0x251a68",
+          "target": "DjiIsp_Reg_Set",
+          "tail_branch": false
+        },
+        {
+          "site": "0x39eca4",
+          "target_va": "0x251e20",
+          "target": "DjiIsp_ValidateDataNodeByAttr",
+          "tail_branch": false
+        },
+        {
+          "site": "0x39ed08",
+          "target_va": "0x2c25d8",
+          "target": "assert_handler_noarg",
+          "tail_branch": false
+        },
+        {
+          "site": "0x39ed10",
+          "target_va": "0x4a4e0",
+          "target": "__stack_chk_fail@plt",
+          "tail_branch": false
+        }
+      ]
+    },
+    {
+      "name": "post_scap3_calc_ccm",
+      "va": "0x2f2698",
+      "bytes": 820,
+      "code_sha256": "45c73e0b1bac13af2b1228a353dd25ba4fec6e1d7452743699252f3df78315f4",
+      "direct_calls": [
+        {
+          "site": "0x2f28c4",
+          "target_va": "0x3b3e98",
+          "target": "rcam_adj_calc_common",
+          "tail_branch": false
+        },
+        {
+          "site": "0x2f29ac",
+          "target_va": "0x3b3e98",
+          "target": "rcam_adj_calc_common",
+          "tail_branch": false
+        },
+        {
+          "site": "0x2f29c8",
+          "target_va": "0x4a4e0",
+          "target": "__stack_chk_fail@plt",
+          "tail_branch": false
+        }
+      ]
+    },
+    {
+      "name": "_Calc_GetLerpInfo",
+      "va": "0x3b2cd0",
+      "bytes": 440,
+      "code_sha256": "da277e6576218dc8db60892a24ea498a852e0fbcb3d20de249dd2ce7ad0f9ecc",
+      "direct_calls": [
+        {
+          "site": "0x3b2d7c",
+          "target_va": "0x3b42a8",
+          "target": "_Calc_GetCoeff",
+          "tail_branch": false
+        },
+        {
+          "site": "0x3b2ddc",
+          "target_va": "0x2c2140",
+          "target": "assert_handler",
+          "tail_branch": false
+        },
+        {
+          "site": "0x3b2e74",
+          "target_va": "0x2c2140",
+          "target": "assert_handler",
+          "tail_branch": false
+        },
+        {
+          "site": "0x3b2e84",
+          "target_va": "0x4a4e0",
+          "target": "__stack_chk_fail@plt",
+          "tail_branch": false
+        }
+      ]
+    },
+    {
+      "name": "_Calc_GetCoeff",
+      "va": "0x3b42a8",
+      "bytes": 5840,
+      "code_sha256": "6244d7ab4ffeb88a0e23183e52fced4214eed7ef556e1a576d68227c8eecdb4e",
+      "direct_calls": [
+        {
+          "site": "0x3b4e1c",
+          "target_va": "0x2bf4e8",
+          "target": "mm_get_index",
+          "tail_branch": false
+        },
+        {
+          "site": "0x3b4f90",
+          "target_va": "0x4a490",
+          "target": "log_mgr_check@plt",
+          "tail_branch": false
+        },
+        {
+          "site": "0x3b4f98",
+          "target_va": "0x4a4a0",
+          "target": "co_thread_get@plt",
+          "tail_branch": false
+        },
+        {
+          "site": "0x3b4fb8",
+          "target_va": "0x4a4b0",
+          "target": "co_thread_get_current_co_name_co_id@plt",
+          "tail_branch": false
+        },
+        {
+          "site": "0x3b4fe0",
+          "target_va": "0x4a4c0",
+          "target": "duss_log_gen_head@plt",
+          "tail_branch": false
+        },
+        {
+          "site": "0x3b5008",
+          "target_va": "0x4a4d0",
+          "target": "duss_log_print@plt",
+          "tail_branch": false
+        },
+        {
+          "site": "0x3b5038",
+          "target_va": "0x4a4c0",
+          "target": "duss_log_gen_head@plt",
+          "tail_branch": false
+        },
+        {
+          "site": "0x3b5048",
+          "target_va": "0x2c2038",
+          "target": "log_get_task_name",
+          "tail_branch": false
+        },
+        {
+          "site": "0x3b5098",
+          "target_va": "0x2bac00",
+          "target": "mm_get_coeff",
+          "tail_branch": false
+        },
+        {
+          "site": "0x3b5188",
+          "target_va": "0x4a4c0",
+          "target": "duss_log_gen_head@plt",
+          "tail_branch": false
+        },
+        {
+          "site": "0x3b51b0",
+          "target_va": "0x4a4d0",
+          "target": "duss_log_print@plt",
+          "tail_branch": false
+        },
+        {
+          "site": "0x3b51d8",
+          "target_va": "0x4a4c0",
+          "target": "duss_log_gen_head@plt",
+          "tail_branch": false
+        },
+        {
+          "site": "0x3b51e0",
+          "target_va": "0x2c2038",
+          "target": "log_get_task_name",
+          "tail_branch": false
+        },
+        {
+          "site": "0x3b52b8",
+          "target_va": "0x2baca0",
+          "target": "mm_lerp",
+          "tail_branch": false
+        },
+        {
+          "site": "0x3b53cc",
+          "target_va": "0x4a490",
+          "target": "log_mgr_check@plt",
+          "tail_branch": false
+        },
+        {
+          "site": "0x3b53d4",
+          "target_va": "0x4a4a0",
+          "target": "co_thread_get@plt",
+          "tail_branch": false
+        },
+        {
+          "site": "0x3b53f4",
+          "target_va": "0x4a4b0",
+          "target": "co_thread_get_current_co_name_co_id@plt",
+          "tail_branch": false
+        },
+        {
+          "site": "0x3b541c",
+          "target_va": "0x4a4c0",
+          "target": "duss_log_gen_head@plt",
+          "tail_branch": false
+        },
+        {
+          "site": "0x3b5444",
+          "target_va": "0x4a4d0",
+          "target": "duss_log_print@plt",
+          "tail_branch": false
+        },
+        {
+          "site": "0x3b5474",
+          "target_va": "0x4a4c0",
+          "target": "duss_log_gen_head@plt",
+          "tail_branch": false
+        },
+        {
+          "site": "0x3b5484",
+          "target_va": "0x2c2038",
+          "target": "log_get_task_name",
+          "tail_branch": false
+        },
+        {
+          "site": "0x3b54f0",
+          "target_va": "0x4a4c0",
+          "target": "duss_log_gen_head@plt",
+          "tail_branch": false
+        },
+        {
+          "site": "0x3b5518",
+          "target_va": "0x4a4d0",
+          "target": "duss_log_print@plt",
+          "tail_branch": false
+        },
+        {
+          "site": "0x3b5540",
+          "target_va": "0x4a4c0",
+          "target": "duss_log_gen_head@plt",
+          "tail_branch": false
+        },
+        {
+          "site": "0x3b5548",
+          "target_va": "0x2c2038",
+          "target": "log_get_task_name",
+          "tail_branch": false
+        },
+        {
+          "site": "0x3b5580",
+          "target_va": "0x4a4d0",
+          "target": "duss_log_print@plt",
+          "tail_branch": false
+        },
+        {
+          "site": "0x3b55a0",
+          "target_va": "0x4a490",
+          "target": "log_mgr_check@plt",
+          "tail_branch": false
+        },
+        {
+          "site": "0x3b55a8",
+          "target_va": "0x4a4a0",
+          "target": "co_thread_get@plt",
+          "tail_branch": false
+        },
+        {
+          "site": "0x3b55c8",
+          "target_va": "0x4a4b0",
+          "target": "co_thread_get_current_co_name_co_id@plt",
+          "tail_branch": false
+        },
+        {
+          "site": "0x3b55f0",
+          "target_va": "0x4a4c0",
+          "target": "duss_log_gen_head@plt",
+          "tail_branch": false
+        },
+        {
+          "site": "0x3b5618",
+          "target_va": "0x4a4d0",
+          "target": "duss_log_print@plt",
+          "tail_branch": false
+        },
+        {
+          "site": "0x3b5750",
+          "target_va": "0x3c3f50",
+          "target": "_Calc_GetZoomCoeff",
+          "tail_branch": false
+        },
+        {
+          "site": "0x3b5844",
+          "target_va": "0x2bac00",
+          "target": "mm_get_coeff",
+          "tail_branch": false
+        },
+        {
+          "site": "0x3b58d0",
+          "target_va": "0x4a4c0",
+          "target": "duss_log_gen_head@plt",
+          "tail_branch": false
+        },
+        {
+          "site": "0x3b58f8",
+          "target_va": "0x4a4d0",
+          "target": "duss_log_print@plt",
+          "tail_branch": false
+        },
+        {
+          "site": "0x3b5920",
+          "target_va": "0x4a4c0",
+          "target": "duss_log_gen_head@plt",
+          "tail_branch": false
+        },
+        {
+          "site": "0x3b5928",
+          "target_va": "0x2c2038",
+          "target": "log_get_task_name",
+          "tail_branch": false
+        },
+        {
+          "site": "0x3b596c",
+          "target_va": "0x2c25d8",
+          "target": "assert_handler_noarg",
+          "tail_branch": false
+        },
+        {
+          "site": "0x3b5974",
+          "target_va": "0x4a4e0",
+          "target": "__stack_chk_fail@plt",
+          "tail_branch": false
+        }
+      ]
+    },
+    {
+      "name": "_calc_lerp_mx_lut_reg_idx_v5",
+      "va": "0x3b9ea8",
+      "bytes": 464,
+      "code_sha256": "b74fb879ec69f532f8b9d312c7b976630b02dc8a0c3ea22ac8f85f9d1e105111",
+      "direct_calls": [
+        {
+          "site": "0x3b9f3c",
+          "target_va": "0x2c25d8",
+          "target": "assert_handler_noarg",
+          "tail_branch": false
+        },
+        {
+          "site": "0x3b9f6c",
+          "target_va": "0x2c2140",
+          "target": "assert_handler",
+          "tail_branch": false
+        },
+        {
+          "site": "0x3b9f80",
+          "target_va": "0x251a08",
+          "target": "DjiIsp_Reg_GetType",
+          "tail_branch": false
+        },
+        {
+          "site": "0x3b9f98",
+          "target_va": "0x251a10",
+          "target": "DjiIsp_Reg_GetGroupNum",
+          "tail_branch": false
+        },
+        {
+          "site": "0x3b9fb4",
+          "target_va": "0x3b2cd0",
+          "target": "_Calc_GetLerpInfo",
+          "tail_branch": false
+        },
+        {
+          "site": "0x3b9ff8",
+          "target_va": "0x2bb138",
+          "target": "mm_mx_lerp_gap",
+          "tail_branch": false
+        },
+        {
+          "site": "0x3ba01c",
+          "target_va": "0x251a68",
+          "target": "DjiIsp_Reg_Set",
+          "tail_branch": false
+        },
+        {
+          "site": "0x3ba074",
+          "target_va": "0x4a4e0",
+          "target": "__stack_chk_fail@plt",
+          "tail_branch": false
+        }
+      ]
+    },
+    {
+      "name": "_calc_lerp_mx_lut_reg_idx_v5_enh",
+      "va": "0x3c3ad8",
+      "bytes": 484,
+      "code_sha256": "da7d9652e53f7d7db0a95f5b5ded8715d00b88961a7539407725c4b2c14e8cdd",
+      "direct_calls": [
+        {
+          "site": "0x3c3b94",
+          "target_va": "0x2c2140",
+          "target": "assert_handler",
+          "tail_branch": false
+        },
+        {
+          "site": "0x3c3bc0",
+          "target_va": "0x2c2140",
+          "target": "assert_handler",
+          "tail_branch": false
+        },
+        {
+          "site": "0x3c3bd4",
+          "target_va": "0x251a10",
+          "target": "DjiIsp_Reg_GetGroupNum",
+          "tail_branch": false
+        },
+        {
+          "site": "0x3c3bf4",
+          "target_va": "0x3b2cd0",
+          "target": "_Calc_GetLerpInfo",
+          "tail_branch": false
+        },
+        {
+          "site": "0x3c3c50",
+          "target_va": "0x2bb138",
+          "target": "mm_mx_lerp_gap",
+          "tail_branch": false
+        },
+        {
+          "site": "0x3c3cb8",
+          "target_va": "0x4a4e0",
+          "target": "__stack_chk_fail@plt",
+          "tail_branch": false
+        }
+      ]
+    },
+    {
+      "name": "_update_ccm_debug_func",
+      "va": "0x31af98",
+      "bytes": 1132,
+      "code_sha256": "21fe334160d3d0fea886eacf05315b868146ebfeb8860464953bdf1a4249447e",
+      "direct_calls": [
+        {
+          "site": "0x31b000",
+          "target_va": "0x251a18",
+          "target": "DjiIsp_Reg_GetLut",
+          "tail_branch": false
+        },
+        {
+          "site": "0x31b0c8",
+          "target_va": "0x251a18",
+          "target": "DjiIsp_Reg_GetLut",
+          "tail_branch": false
+        },
+        {
+          "site": "0x31b13c",
+          "target_va": "0x251ab8",
+          "target": "DjiIsp_Reg_Get",
+          "tail_branch": false
+        },
+        {
+          "site": "0x31b154",
+          "target_va": "0x251ab8",
+          "target": "DjiIsp_Reg_Get",
+          "tail_branch": false
+        },
+        {
+          "site": "0x31b16c",
+          "target_va": "0x251ab8",
+          "target": "DjiIsp_Reg_Get",
+          "tail_branch": false
+        },
+        {
+          "site": "0x31b184",
+          "target_va": "0x251a18",
+          "target": "DjiIsp_Reg_GetLut",
+          "tail_branch": false
+        },
+        {
+          "site": "0x31b1e0",
+          "target_va": "0x251a18",
+          "target": "DjiIsp_Reg_GetLut",
+          "tail_branch": false
+        },
+        {
+          "site": "0x31b23c",
+          "target_va": "0x251a18",
+          "target": "DjiIsp_Reg_GetLut",
+          "tail_branch": false
+        },
+        {
+          "site": "0x31b288",
+          "target_va": "0x251a18",
+          "target": "DjiIsp_Reg_GetLut",
+          "tail_branch": false
+        },
+        {
+          "site": "0x31b2a8",
+          "target_va": "0x4a620",
+          "target": "memcpy@plt",
+          "tail_branch": false
+        },
+        {
+          "site": "0x31b2c0",
+          "target_va": "0x251a18",
+          "target": "DjiIsp_Reg_GetLut",
+          "tail_branch": false
+        },
+        {
+          "site": "0x31b2e0",
+          "target_va": "0x4a620",
+          "target": "memcpy@plt",
+          "tail_branch": false
+        },
+        {
+          "site": "0x31b330",
+          "target_va": "0x2c2140",
+          "target": "assert_handler",
+          "tail_branch": false
+        },
+        {
+          "site": "0x31b358",
+          "target_va": "0x2c2140",
+          "target": "assert_handler",
+          "tail_branch": false
+        },
+        {
+          "site": "0x31b380",
+          "target_va": "0x2c2140",
+          "target": "assert_handler",
+          "tail_branch": false
+        },
+        {
+          "site": "0x31b3a8",
+          "target_va": "0x2c2140",
+          "target": "assert_handler",
+          "tail_branch": false
+        },
+        {
+          "site": "0x31b3d0",
+          "target_va": "0x2c2140",
+          "target": "assert_handler",
+          "tail_branch": false
+        },
+        {
+          "site": "0x31b3f8",
+          "target_va": "0x2c2140",
+          "target": "assert_handler",
+          "tail_branch": false
+        },
+        {
+          "site": "0x31b400",
+          "target_va": "0x4a4e0",
+          "target": "__stack_chk_fail@plt",
+          "tail_branch": false
+        }
+      ]
+    },
+    {
+      "name": "DjiIsp_Reg_GetGroupNum",
+      "va": "0x251a10",
+      "bytes": 4,
+      "code_sha256": "fe0c81171110c6c2e1cfce4cb2b4b958979cb04eb6951f1c2544a011fd28611c",
+      "direct_calls": [
+        {
+          "site": "0x251a10",
+          "target_va": "0x2771d0",
+          "target": "isp_drv_reg_get_group_num",
+          "tail_branch": true
+        }
+      ]
+    },
+    {
+      "name": "isp_drv_reg_get_group_num",
+      "va": "0x2771d0",
+      "bytes": 64,
+      "code_sha256": "95e2c0175fc60547835c7926612067c8579e63897395a966af42f3d0d7e637a5",
+      "direct_calls": []
+    }
+  ],
+  "parameter": {
+    "type": "lerp_1d_lut_reg_idx_v5",
+    "group": "global_frame",
+    "axis": [
+      "cc_color_temp",
+      "color_hiso"
+    ],
+    "total": 16
+  },
+  "calc_enum": 50,
+  "cct_axis": [
+    2400,
+    3050,
+    5550,
+    9100
+  ],
+  "axis_dispatch": {
+    "cc_color_temp": {
+      "enum": 6,
+      "target_va": "0x3b45e4"
+    },
+    "color_hiso": {
+      "enum": 17,
+      "target_va": "0x3b445c"
+    }
+  },
+  "source": {
+    "encoding": "little-endian int32 slots containing signed16 coefficients",
+    "values": 768,
+    "bytes": 3072,
+    "sha256": "59d1b6c8a291280a8749f5ca190370e5dbff8ce0e6694a7da779ae5488ae641e",
+    "profiles": 8,
+    "values_per_profile": 96,
+    "all_values_within_signed16": true,
+    "each_profile_has_16_equal_six_coefficient_rows": true,
+    "secondary_banks_identical": true
+  },
+  "color_hiso_gain_rate": [
+    {
+      "color_hiso_gain": 0,
+      "color_hiso_rate": 0
+    },
+    {
+      "color_hiso_gain": 18,
+      "color_hiso_rate": 0
+    },
+    {
+      "color_hiso_gain": 20,
+      "color_hiso_rate": 0
+    },
+    {
+      "color_hiso_gain": 42,
+      "color_hiso_rate": 256
+    }
+  ],
+  "disabled_in_global_data0": {
+    "enable_lpf": true,
+    "enable_hue_mod": true,
+    "enable_desaturation": true,
+    "enable_level_ctrl": true
+  },
+  "static_witnesses": [
+    {
+      "site": "0x3b9fa4",
+      "meaning": "Register group count multiplied by parameter total gives coefficient stride."
+    },
+    {
+      "site": "0x3b9fb4",
+      "meaning": "_Calc_GetLerpInfo multiplies axis sizes to validate the complete source extent."
+    },
+    {
+      "site": "0x3b9ff8",
+      "meaning": "Original mm_mx_lerp_gap is called once per register-group component."
+    },
+    {
+      "site": "0x3ba01c",
+      "meaning": "Each scalar is written through DjiIsp_Reg_Set."
+    },
+    {
+      "site": "0x3b52b4",
+      "meaning": "color_hiso resets its interval index to zero before interpolating two gain-selected rates."
+    },
+    {
+      "site": "0x3b52b8",
+      "meaning": "Original mm_lerp calculates the secondary Q8 weight."
+    },
+    {
+      "site": "0x3b52bc",
+      "meaning": "color_hiso returns axis size two, independently of the four gain/rate records."
+    },
+    {
+      "function": "_update_ccm_debug_func",
+      "meaning": "Requires 96 values and sign-extends 16-bit register coefficients for debug inspection."
+    }
+  ],
+  "coefficients_published": false,
+  "pixel_ccm_formula_proven": false,
+  "limits": [
+    "Source/config linkage is static plus relocated metadata, not a recorded camera capture.",
+    "Six coefficients per group do not establish a conventional 3x3 matrix, fraction bits, channel order or clamp rule.",
+    "The two identical secondary banks are a property of this exact global still table."
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "checkpoint": "2026-10-19",
+  "firmware": "Hasselblad X2D II 100C 1.3.16.2",
+  "status": "bounded research complete; MAIN pixel-rendering gate remains open",
+  "report": "MAIN_LUT_FINDINGS.md",
+  "proved_this_checkpoint": [
+    "Eagle2 camera component bindings share mapped yuv_pp_base: MAIN LUT+0, CCM+0x2c000, gamma+0x2e000",
+    "librcam MAIN control/pre-gamma/LUT descriptors match kernel writer offsets+0x1c,+0x7f7c,+0x8000",
+    "MAIN pre-gamma element descriptor has13-bit mask0x1fff; containing register array has33words",
+    "Actual global pre-gamma table has33words and is disabled in audited still configuration",
+    "Complete original kernel register writer copies full uint32 words without component unpacking or rescaling",
+    "32 guarded original-instruction synthetic cases pass against independent submission-state oracle"
+  ],
+  "unresolved": [
+    "MAIN RGB/component bank order",
+    "MAIN grid-axis strides and knot positions",
+    "MAIN input/output normalization or transfer domain",
+    "MAIN hardware interpolation, integer rounding or saturation",
+    "A CPU pixel sampler linked to this MAIN table"
+  ],
+  "prior_proofs_unchanged": [
+    "../../photographic_path/PHOTOGRAPHIC_PATH_FINDINGS.md",
+    "../../pixel_contract_20261019/PIXEL_CONTRACT_FINDINGS.md"
+  ],
+  "evidence_files": [
+    {
+      "path": "main_lut_static_evidence.json",
+      "sha256": "7507c3fc84ac139dfae827a88298e143633193ebf2a377ddb0fd0bea872660af",
+      "bytes": 19203
+    },
+    {
+      "path": "main_lut_writer_execution.json",
+      "sha256": "17aee3083b984d6151e326ab6642447d05304efcd991268862e87d08e2552ae5",
+      "bytes": 21560
+    }
+  ],
+  "execution_summary": {
+    "total_cases": 32,
+    "passed_cases": 32,
+    "total_lut_words_compared_after_copy": 49152,
+    "total_pre_gamma_words_compared_after_copy": 264
+  },
+  "repro_commands": [
+    "python inspect_main_lut_sources.py --firmware-root /path/to/extracted --output main_lut_static_evidence.json",
+    "python probe_main_lut_register_writer.py --firmware-root /path/to/extracted --output main_lut_writer_execution.json"
+  ],
+  "runtime_dependencies": [
+    "Python3",
+    "pyelftools",
+    "capstone",
+    "unicorn",
+    "separately supplied exact-hash firmware",
+    "frozen photographic_path/inspect_iq_config.py"
+  ],
+  "excluded": [
+    "vendor modules and binaries",
+    "vendor LUT/configuration arrays",
+    "vendor kernel header payloads",
+    "full disassembly",
+    "photographs"
+  ],
+  "app_changes": false,
+  "pixel_renderer_implemented": false,
+  "recommended_next_gate": "MAIN-linked component order, axis/grid/input-domain and hardware interpolation/rounding definition or executable oracle"
+}

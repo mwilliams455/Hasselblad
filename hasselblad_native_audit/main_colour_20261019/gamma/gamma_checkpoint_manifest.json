@@ -1,0 +1,72 @@
+{
+  "scope": "MAIN gamma investigation; no Photon or frozen evidence changes",
+  "result": "pass",
+  "files": [
+    {
+      "path": "MAIN_GAMMA_FINDINGS.md",
+      "bytes": 12404,
+      "sha256": "d8dd18d3ad879aa4a9443481ffca76075857b866c9ae6d43f35023bdc8a6c18e"
+    },
+    {
+      "path": "gamma_driver_original_execution.json",
+      "bytes": 9299,
+      "sha256": "93d722bc2516cb9b51b5dd2a9873c0ae1f293f870037e0557e908bbfb8626301"
+    },
+    {
+      "path": "gamma_knots.py",
+      "bytes": 1411,
+      "sha256": "4a0aa14218794a77c58a22baf27269f881f97548bc484350cea0ec8590342567"
+    },
+    {
+      "path": "gamma_knots_original_execution.json",
+      "bytes": 8756,
+      "sha256": "b69ef39c0987cca5500a5f2a4c940eb92cab10aa79772c0c3664da6bbde5923c"
+    },
+    {
+      "path": "inspect_main_gamma_config.py",
+      "bytes": 5133,
+      "sha256": "629300e3e77ea99b5d6a1905b322c747b700d07c0ee6225192544f4c3a988ad4"
+    },
+    {
+      "path": "inspect_main_gamma_metadata.c",
+      "bytes": 5221,
+      "sha256": "b2ed20584282781f5dfcdf80682369cc4b49bc7e9e737bcad50ba877cbf1758c"
+    },
+    {
+      "path": "main_gamma_config_metadata.json",
+      "bytes": 7693,
+      "sha256": "f9f14b9ae1ee9499b3851efa8ed8df3d2b8ea32b7c1feabbe390e233e4a34453"
+    },
+    {
+      "path": "main_gamma_register_metadata.json",
+      "bytes": 34031,
+      "sha256": "e56e725a3866b85430fefacbad8ae467c345d63c243fb381acad31f13fb82039"
+    },
+    {
+      "path": "replay_main_gamma_metadata.py",
+      "bytes": 8053,
+      "sha256": "4a10751dcb96c39e62032bddb5f81f982c9ae11e082ce88d947167c3104290c4"
+    },
+    {
+      "path": "verify_gamma_driver.py",
+      "bytes": 11185,
+      "sha256": "c44264ad160f01207ad578fb7a5fc9299adb889463fd213d8f44fcf0b6c4dc1f"
+    },
+    {
+      "path": "verify_gamma_knots.py",
+      "bytes": 11622,
+      "sha256": "6b22143c9360c3271cadd6f572efcf4defabde21f540b59987e4a61d97cd702b"
+    }
+  ],
+  "gates": {
+    "positive_knots_cases": 8,
+    "positive_coordinates_compared": 2056,
+    "portable_metadata_guard_cases": 8,
+    "original_driver_cases": 4,
+    "original_driver_instructions_covered": 199,
+    "relocated_metadata_records": 34,
+    "relocated_parameter_records": 30,
+    "config_modes": 5
+  },
+  "excluded": "No original firmware/code/disassembly/LUT arrays/dither-key payloads/photos; only owned tooling, hashes, metadata and findings"
+}

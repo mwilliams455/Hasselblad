@@ -1,0 +1,54 @@
+{
+  "schema": 1,
+  "checkpoint": "2026-10-19",
+  "directory": "hasselblad_native_audit/main_colour_20261019/main_lut",
+  "scope": "original scripts and derived MAIN LUT register-submission findings only",
+  "files": [
+    {
+      "path": "MAIN_LUT_FINDINGS.md",
+      "bytes": 10836,
+      "sha256": "b7b8d71c1b3d96aee7b05e5f75171489fd178d3105753aecefb69688a38fad65",
+      "kind": "derived report"
+    },
+    {
+      "path": "MAIN_LUT_FINDINGS.json",
+      "bytes": 2684,
+      "sha256": "68f722543ef4589b3fc9cae864b3f11f27c75779b970c52a25b0fb7334861e20",
+      "kind": "derived report"
+    },
+    {
+      "path": "inspect_main_lut_sources.py",
+      "bytes": 14736,
+      "sha256": "0d565a5f961c99b139307e50ff017c7eb3333e2394f37a1cfe84345cb326a7cb",
+      "kind": "original research source"
+    },
+    {
+      "path": "probe_main_lut_register_writer.py",
+      "bytes": 11595,
+      "sha256": "c7e936d28491eac30640718b045d9aac74eb41a3374ecfbc55f1bf84a4023a04",
+      "kind": "original research source"
+    },
+    {
+      "path": "main_lut_static_evidence.json",
+      "bytes": 19203,
+      "sha256": "7507c3fc84ac139dfae827a88298e143633193ebf2a377ddb0fd0bea872660af",
+      "kind": "derived report"
+    },
+    {
+      "path": "main_lut_writer_execution.json",
+      "bytes": 21560,
+      "sha256": "17aee3083b984d6151e326ab6642447d05304efcd991268862e87d08e2552ae5",
+      "kind": "derived report"
+    }
+  ],
+  "file_count_excluding_manifest": 6,
+  "total_bytes_excluding_manifest": 80614,
+  "excluded": [
+    "vendor modules and binaries",
+    "vendor LUT/configuration arrays",
+    "vendor kernel header payloads",
+    "full disassembly",
+    "photographs"
+  ],
+  "frozen": true
+}

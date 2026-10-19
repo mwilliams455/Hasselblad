@@ -1,0 +1,119 @@
+{
+  "result": "pass",
+  "method": "Independent owned synthetic data; host GCC address/undefined-behavior sanitizers; no original firmware execution",
+  "build_command": [
+    "cc",
+    "-std=c11",
+    "-O2",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-fsanitize=address,undefined",
+    "-fno-sanitize-recover=all",
+    "-I",
+    "/workspace/scratch/f4dc23366b1f/HasselbladGitHub/hasselblad_native_audit/main_colour_20261019/ccm",
+    "/workspace/scratch/f4dc23366b1f/HasselbladGitHub/hasselblad_native_audit/main_colour_20261019/ccm_independent_review/ccm_adapter_contract.c",
+    "/workspace/scratch/f4dc23366b1f/HasselbladGitHub/hasselblad_native_audit/main_colour_20261019/ccm/ccm_prepare.c",
+    "-o",
+    "/tmp/hb-ccm-adapter-contract-89dtic_p/contract"
+  ],
+  "compiler_version": "cc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0",
+  "binary_sha256": "9958a27b92f708458ccd760d1b68d847ac4097a0dd83234f54542a288c8330cc",
+  "source_sha256": {
+    "ccm_adapter_contract.c": "6e671a03e873f8b8318181e09e141993f9a903f88052c800455caef35f77bb0a",
+    "ccm_prepare.c": "ec86d90c8aef6453a73dd162431b09ed9e05dda7a7a7203b2b79c0987f31b46d",
+    "ccm_prepare.h": "677f5d6a0e3a37e57b1d0a68d0360d88126d09490e01898d10e7163e0a701bf8",
+    "verify_ccm_adapter_contract.py": "cbe858a55239d8836309a9968cc511d663999296a8d65cd43fdf0ec487dfe56d"
+  },
+  "cases": [
+    {
+      "case": "short_source",
+      "pass": true
+    },
+    {
+      "case": "long_source",
+      "pass": true
+    },
+    {
+      "case": "maximum_source_length",
+      "pass": true
+    },
+    {
+      "case": "short_output",
+      "pass": true
+    },
+    {
+      "case": "long_output",
+      "pass": true
+    },
+    {
+      "case": "maximum_output_length",
+      "pass": true
+    },
+    {
+      "case": "negative_weight",
+      "pass": true
+    },
+    {
+      "case": "excess_weight",
+      "pass": true
+    },
+    {
+      "case": "null_source",
+      "pass": true
+    },
+    {
+      "case": "null_output",
+      "pass": true
+    },
+    {
+      "case": "positive_out_of_range",
+      "pass": true
+    },
+    {
+      "case": "negative_out_of_range",
+      "pass": true
+    },
+    {
+      "case": "minimum_int32_cct_clamp",
+      "pass": true
+    },
+    {
+      "case": "maximum_int32_cct_clamp",
+      "pass": true
+    },
+    {
+      "case": "exact_cct_knot",
+      "pass": true
+    },
+    {
+      "case": "secondary_quarter_weight",
+      "pass": true
+    },
+    {
+      "case": "two_axis_midpoint",
+      "pass": true
+    },
+    {
+      "case": "exact_source_output_alias",
+      "pass": true
+    },
+    {
+      "case": "partial_source_output_alias",
+      "pass": true
+    },
+    {
+      "case": "last_profile_output_alias",
+      "pass": true
+    }
+  ],
+  "case_count": 20,
+  "exit": 0,
+  "stderr": "",
+  "sanitizer_options": {
+    "ASAN_OPTIONS": "detect_leaks=0:halt_on_error=1",
+    "UBSAN_OPTIONS": "halt_on_error=1"
+  },
+  "leak_check": "Disabled because /proc thread enumeration is restricted; tested adapter uses stack storage only",
+  "limits": "Verifies the owned adapter's declared guards, clamps and alias behavior; the separate original Bionic probe supplies arithmetic equivalence evidence"
+}

@@ -1,0 +1,111 @@
+{
+  "schema": 1,
+  "audit_date": "2026-10-19",
+  "reviewer_role": "independent dispatch/CCM driver audit agent",
+  "result": "PASS",
+  "blocking_findings": [],
+  "reviewed_directory": "hasselblad_native_audit/main_colour_20261019/main_lut",
+  "scope": "Read-only review of the frozen MAIN LUT submission package; no additional pixel-renderer research or application changes",
+  "source_manifest_sha256": "75676b70a6ccf76f2e5435fa543982f2505df4c1542fd4e3267f4b3ee966e64d",
+  "reviewed_files": [
+    {
+      "path": "MAIN_LUT_FINDINGS.md",
+      "sha256": "b7b8d71c1b3d96aee7b05e5f75171489fd178d3105753aecefb69688a38fad65"
+    },
+    {
+      "path": "MAIN_LUT_FINDINGS.json",
+      "sha256": "68f722543ef4589b3fc9cae864b3f11f27c75779b970c52a25b0fb7334861e20"
+    },
+    {
+      "path": "inspect_main_lut_sources.py",
+      "sha256": "0d565a5f961c99b139307e50ff017c7eb3333e2394f37a1cfe84345cb326a7cb"
+    },
+    {
+      "path": "probe_main_lut_register_writer.py",
+      "sha256": "c7e936d28491eac30640718b045d9aac74eb41a3374ecfbc55f1bf84a4023a04"
+    },
+    {
+      "path": "main_lut_static_evidence.json",
+      "sha256": "7507c3fc84ac139dfae827a88298e143633193ebf2a377ddb0fd0bea872660af"
+    },
+    {
+      "path": "main_lut_writer_execution.json",
+      "sha256": "17aee3083b984d6151e326ab6642447d05304efcd991268862e87d08e2552ae5"
+    }
+  ],
+  "independent_reproduction": {
+    "main_lut_static_evidence.json": {
+      "sha256": "7507c3fc84ac139dfae827a88298e143633193ebf2a377ddb0fd0bea872660af",
+      "independent_repeat_byte_identical": true
+    },
+    "main_lut_writer_execution.json": {
+      "sha256": "17aee3083b984d6151e326ab6642447d05304efcd991268862e87d08e2552ae5",
+      "independent_repeat_byte_identical": true
+    }
+  },
+  "original_instruction_checks": {
+    "module_sha256": "29309a225f2dcd8327b6fdaca477425b2c21ba580daa83599c1ea8699b7e450e",
+    "function": {
+      "name": "lut_set_lut_info",
+      "section": ".text",
+      "section_offset": "0x31f48",
+      "bytes": 324,
+      "sha256": "d56ec8d675a29416ad0fca213aa4ff83e2b33cf5743453db1591fd7a045d3da4",
+      "relocations_in_body": 0
+    },
+    "full_body_copied_from_hash_pinned_module": true,
+    "no_instruction_replacements_or_call_stubs": true,
+    "no_relocations_in_body_verified": true,
+    "all_branch_targets_in_the_inspected_body": true,
+    "original_body_review": "Scalar register setup, whole-word copy loops, conditional shadow update, DAIF save/restore, and return; no RGB pixel arithmetic"
+  },
+  "execution_review": {
+    "emulator": {
+      "name": "Unicorn",
+      "version": "2.1.4",
+      "architecture": "AArch64",
+      "execution_state": "EL1h, IRQ mask tested both set and clear",
+      "mmio": "ordinary guarded emulator RAM; no device access"
+    },
+    "passed_cases": 32,
+    "total_cases": 32,
+    "total_lut_words_compared": 49152,
+    "total_pre_gamma_words_compared": 264,
+    "guarding": "Original instructions execute only in Unicorn; source pages are read-only, permitted data ranges checked, input ends meet unmapped guards, output compared over full64KiB RAM window; count100000 and timeout5seconds bound each case",
+    "abi": "x0 ordinary register-window RAM; w1 zero/nonzero module flag; x2 two valid input pointers; w3 valid8bit or sentinel shadow ID; x30 sentinel; EL1h PSTATE",
+    "daif": "Both IRQ-mask entry states are exercised; all DAIF mask bits are checked for restoration for those states. This is emulated privilege state, not host interrupt manipulation",
+    "writes": "Exact set of allowed32bit register locations and complete final RAM image verified. Temporal hardware behaviour and asynchronous application are not emulated",
+    "fixtures": "Deterministic synthetic full-width words, not vendor LUT contents or photographs"
+  },
+  "static_link_review": {
+    "et_rel": "Call targets are resolved through actual R_AARCH64_CALL26 relocations, not unrelocated branch immediates",
+    "lut_binding": "Independently inspected .text+0x5a190..0x5a1c0: lut_probe relocation; componentID0x4e; component+0x50 receives mapped parent pointer from [[context+0x2a0]+0x48]",
+    "mapped_resource": "Bounded .text+0x5c2d8..0x5c318 slice resolves platform_get_resource_byname and devm_ioremap_resource and stores result at resource+0x48; source report identifies yuv_pp_base",
+    "physical_link": "librcam descriptors control0xf320001c, pre-gamma0xf3207f7c/33words, LUT0xf3208000/6144words agree with the original writer relative offsets; inferred parent physical base0xf3200000",
+    "main_pixel_meaning": "No bank ordering, grid, input/output normalization, interpolation or rounding is inferred from register extents"
+  },
+  "public_payload_review": {
+    "all_manifest_entries_verified": true,
+    "original_modules_or_headers_in_package": false,
+    "vendor_colour_arrays_in_package": false,
+    "photographic_pixels_in_package": false,
+    "full_disassembly_in_package": false
+  },
+  "combined_checkpoint_review": {
+    "path": "MAIN_COLOUR_CHECKPOINT.md",
+    "reviewed_sha256": "d5107d734c0d7393162098f215fe83afffbcafcecaf0c24faba0eca893e90693",
+    "dispatch_claims_and_counts_supported": true,
+    "app_scope_remains_native1a_photon_renderer": true,
+    "recommended_scope_refinements": [
+      "Use Generated probe binaries rather than Native binaries for the cleanup statement; separately supplied original firmware binaries remain inputs",
+      "State that which MAIN modules, if any, this particular RPC applies is unestablished, rather than only saying it has not been proved to apply every module"
+    ],
+    "other_domains": "CCM and gamma mathematical results are separately independently reviewed; this review checked their stated scope but did not repeat those probes"
+  },
+  "limits": [
+    "No physical camera or ISP execution",
+    "No validation of photographed colour",
+    "No full RPC handler or DSP ISA recovered",
+    "No new APK or app processing path"
+  ]
+}

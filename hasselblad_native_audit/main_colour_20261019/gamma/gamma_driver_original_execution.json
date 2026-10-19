@@ -1,0 +1,262 @@
+{
+  "result": "pass",
+  "firmware": "X2D II 100C 1.3.16.2",
+  "provenance": {
+    "module_sha256": "29309a225f2dcd8327b6fdaca477425b2c21ba580daa83599c1ea8699b7e450e",
+    "function": "gamma_set_info",
+    "section": ".text",
+    "section_offset": "0x31a50",
+    "function_bytes": 796,
+    "function_sha256": "8fd9ddc62e0a918fd2b5f72401a212d72e83475a4695a56bdc2e27b471b02ef3",
+    "relocations_in_function": 0
+  },
+  "method": "Full original leaf gamma_set_info executed in Unicorn; MMIO replaced by owned synthetic RAM; no kernel module loaded and no camera/hardware execution",
+  "inferred_abi": {
+    "x0": "mapped register base",
+    "x1": "input parameter object, 0x6c4 bytes read when enabled",
+    "return_w0": "0"
+  },
+  "cases": [
+    {
+      "name": "disabled",
+      "enable_input": 0,
+      "knee_enable_input": 4294967295,
+      "synthetic_seed": 160118,
+      "result": "pass",
+      "return": 0,
+      "exact_register_image_and_guards_match": true,
+      "parameters_and_stack_unchanged": true,
+      "callee_saved_registers_preserved": true,
+      "unique_instructions_executed": 17,
+      "memory_reads": 4,
+      "memory_writes": 3,
+      "synthetic_register_image_sha256": "a1f2841b54b02b4ff2c97374f4b0cff4798b119946389ebe033bfc5f2d4d553e",
+      "tables": []
+    },
+    {
+      "name": "enabled_without_knee",
+      "enable_input": 1,
+      "knee_enable_input": 0,
+      "synthetic_seed": 1826,
+      "result": "pass",
+      "return": 0,
+      "exact_register_image_and_guards_match": true,
+      "parameters_and_stack_unchanged": true,
+      "callee_saved_registers_preserved": true,
+      "unique_instructions_executed": 194,
+      "memory_reads": 463,
+      "memory_writes": 448,
+      "synthetic_register_image_sha256": "584e61bfdee04784a3c2662dba25e30d2b367155f045f470658123b4b183c709",
+      "tables": [
+        {
+          "input_offset": "0x1c",
+          "register_offset": "0x800",
+          "words": 257,
+          "synthetic_source_sha256": "44242f5a90c2e8cde609984cc504a2dd44de5cd8332b5bda4e0abf69302db913",
+          "full_u32_copy_verified": true
+        },
+        {
+          "input_offset": "0x420",
+          "register_offset": "0x1000",
+          "words": 9,
+          "synthetic_source_sha256": "08d131e689f00ef06cd9a4b78f1c95a7398b75d4d76b8fc37d43429882c6bc48",
+          "full_u32_copy_verified": true
+        },
+        {
+          "input_offset": "0x444",
+          "register_offset": "0x1080",
+          "words": 32,
+          "synthetic_source_sha256": "b6ad5907d157e995bbc911d8389a77d3511ab48c385e1deff1ced2f61ebb0bbe",
+          "full_u32_copy_verified": true
+        },
+        {
+          "input_offset": "0x4c4",
+          "register_offset": "0x1100",
+          "words": 32,
+          "synthetic_source_sha256": "10e73a4660edc3eedd881a50a4a19f80ee06eaec66fd5316ca1ce00222108924",
+          "full_u32_copy_verified": true
+        },
+        {
+          "input_offset": "0x544",
+          "register_offset": "0x1180",
+          "words": 32,
+          "synthetic_source_sha256": "e363813d86257b9eba2094809c4fdd683a43fbda614f2c05c37c81ee86838a6f",
+          "full_u32_copy_verified": true
+        },
+        {
+          "input_offset": "0x5c4",
+          "register_offset": "0x1200",
+          "words": 32,
+          "synthetic_source_sha256": "216da9bba7a82c00fa2ac60fb8df9a0d8c7e70fcee636d3949d2cac7c9cc50da",
+          "full_u32_copy_verified": true
+        },
+        {
+          "input_offset": "0x644",
+          "register_offset": "0x1280",
+          "words": 32,
+          "synthetic_source_sha256": "52be456eef1c6f938f019749995064e5b4aee908ea7988d6a3bdd157e27adc78",
+          "full_u32_copy_verified": true
+        }
+      ]
+    },
+    {
+      "name": "nonboolean_enable_and_knee",
+      "enable_input": 4294967295,
+      "knee_enable_input": 2147483648,
+      "synthetic_seed": 11259375,
+      "result": "pass",
+      "return": 0,
+      "exact_register_image_and_guards_match": true,
+      "parameters_and_stack_unchanged": true,
+      "callee_saved_registers_preserved": true,
+      "unique_instructions_executed": 194,
+      "memory_reads": 463,
+      "memory_writes": 448,
+      "synthetic_register_image_sha256": "11c4abb23d8433c255d9f4710f9711d7feb31416996df724b7fb176fc3fbf1af",
+      "tables": [
+        {
+          "input_offset": "0x1c",
+          "register_offset": "0x800",
+          "words": 257,
+          "synthetic_source_sha256": "fab9afc3a9a100798c7df53c77a50ded540d7284bdbde28ee02d367378f7751f",
+          "full_u32_copy_verified": true
+        },
+        {
+          "input_offset": "0x420",
+          "register_offset": "0x1000",
+          "words": 9,
+          "synthetic_source_sha256": "23b610607cd5ec1bdaee41cbf7c3c3c10fd8a0db2d9ce19fbb771ab8844cedd3",
+          "full_u32_copy_verified": true
+        },
+        {
+          "input_offset": "0x444",
+          "register_offset": "0x1080",
+          "words": 32,
+          "synthetic_source_sha256": "a6fb4402f63fa76d2f4e0b1a547f3250856fb46d3df460b092e088d32ce33824",
+          "full_u32_copy_verified": true
+        },
+        {
+          "input_offset": "0x4c4",
+          "register_offset": "0x1100",
+          "words": 32,
+          "synthetic_source_sha256": "75579a355d22433ea009e8d2f2431c22d2e0b91dc94b3bbb5553e35f6e32152e",
+          "full_u32_copy_verified": true
+        },
+        {
+          "input_offset": "0x544",
+          "register_offset": "0x1180",
+          "words": 32,
+          "synthetic_source_sha256": "1bbf483079248a8433fa0e675e859e5aaac81351758753dee3b1f921e7944643",
+          "full_u32_copy_verified": true
+        },
+        {
+          "input_offset": "0x5c4",
+          "register_offset": "0x1200",
+          "words": 32,
+          "synthetic_source_sha256": "77de81fcef435f8c884c4a8635dc270249af2f4769caffe5e13a66f95b1784da",
+          "full_u32_copy_verified": true
+        },
+        {
+          "input_offset": "0x644",
+          "register_offset": "0x1280",
+          "words": 32,
+          "synthetic_source_sha256": "b9dcd8f792198191c948b8e0de739cd7a1085f6be1e9d6259d12543eb5ab111f",
+          "full_u32_copy_verified": true
+        }
+      ]
+    },
+    {
+      "name": "enabled_with_knee",
+      "enable_input": 1,
+      "knee_enable_input": 1,
+      "synthetic_seed": 4266,
+      "result": "pass",
+      "return": 0,
+      "exact_register_image_and_guards_match": true,
+      "parameters_and_stack_unchanged": true,
+      "callee_saved_registers_preserved": true,
+      "unique_instructions_executed": 194,
+      "memory_reads": 463,
+      "memory_writes": 448,
+      "synthetic_register_image_sha256": "f97cb4b512db398b55e39b39d504277d9045f3e17b3e381570be0c8fc86d4abf",
+      "tables": [
+        {
+          "input_offset": "0x1c",
+          "register_offset": "0x800",
+          "words": 257,
+          "synthetic_source_sha256": "50fd9c0b24961a63985d567992c4f004753cad09e92ce38d755b95f984394ccc",
+          "full_u32_copy_verified": true
+        },
+        {
+          "input_offset": "0x420",
+          "register_offset": "0x1000",
+          "words": 9,
+          "synthetic_source_sha256": "48d2bcf64f9a495ab68ad7ba8b33455e67eded2e71a3c513f6a6e04ad0ad8cb5",
+          "full_u32_copy_verified": true
+        },
+        {
+          "input_offset": "0x444",
+          "register_offset": "0x1080",
+          "words": 32,
+          "synthetic_source_sha256": "27240217bc432d610d570ed8052b5657914d38b800ee3e9704a8bb970bcdc3f6",
+          "full_u32_copy_verified": true
+        },
+        {
+          "input_offset": "0x4c4",
+          "register_offset": "0x1100",
+          "words": 32,
+          "synthetic_source_sha256": "ad6234833910a6cda88a0f4ef82228677ef619263158f0d27f0dc7ecaf2c322a",
+          "full_u32_copy_verified": true
+        },
+        {
+          "input_offset": "0x544",
+          "register_offset": "0x1180",
+          "words": 32,
+          "synthetic_source_sha256": "a331cb258af5407f6a60ecfa03e6e77d3f1fe88206e89487409ddfeb8d7881c5",
+          "full_u32_copy_verified": true
+        },
+        {
+          "input_offset": "0x5c4",
+          "register_offset": "0x1200",
+          "words": 32,
+          "synthetic_source_sha256": "f15ccc9470317a31a12dd0b679c94eb620f5866cf65ccc93d63bb0706cc57904",
+          "full_u32_copy_verified": true
+        },
+        {
+          "input_offset": "0x644",
+          "register_offset": "0x1280",
+          "words": 32,
+          "synthetic_source_sha256": "9e4ae069828c45dd211c42365147d150fab78a9f72469757eb22eb65f4f1e463",
+          "full_u32_copy_verified": true
+        }
+      ]
+    }
+  ],
+  "case_count": 4,
+  "unique_instructions_executed": 199,
+  "available_instructions": 199,
+  "field_contract": {
+    "division_register_offset": "0x1c",
+    "division_input_offsets": "0x8..0xf",
+    "division_field_bits": 4,
+    "division_field_shifts": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      24,
+      28
+    ],
+    "knee_clip_bits": 12,
+    "knee_y_coefficient_bits": 10,
+    "knee_blend_bits": 8
+  },
+  "limits": "Proves parameter packing and complete 32-bit table-word writes only; physical MMIO side effects, gamma interpolation, numerical output precision and dither are not emulated",
+  "tool_sha256": "c44264ad160f01207ad578fb7a5fc9299adb889463fd213d8f44fcf0b6c4dc1f",
+  "versions": {
+    "unicorn": "2.1.4",
+    "capstone": "5.0.7"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "method": "Read the original linker-relocated dispatch slot in the successful matching Android/Bionic process; wrapper not invoked",
+  "library_sha256": "3dd5b37b3db18b3e6b54271e1501b4dd337e101c06cdd386a896b1547b662f66",
+  "schema_enum": "calc::lerp_lut_mem_3d",
+  "schema_sha256": "59ec3b0d019b9e8873f3d005c041b4e3ca1a2b930c503c110c51531f8bd30e40",
+  "verified_entries": [
+    {
+      "event": "calc_dispatch_read",
+      "table_va": "0x59c240",
+      "index": 37,
+      "target_va": "0x3b8c78",
+      "matches": true
+    }
+  ],
+  "target_symbol": "_Calc_LerpLutMem3d",
+  "source_result": "lut_profile_native_execution.json",
+  "other_entries_not_audited": true
+}

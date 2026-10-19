@@ -1,0 +1,526 @@
+{
+  "artifact": {
+    "filename": "HasselbladPhoton_Native1A_debug.apk",
+    "bytes": 70736496,
+    "sha256": "1db5da91841b632c3a148a556e7efc403493a558f0a2dfadb880421742cb3c70"
+  },
+  "result": "pass",
+  "method": "Rehash every final APK native payload and recompute local ZIP data offsets. Reuse prior ELF evidence only for matching hashes. Independently parse the two changed DNG writer ELFs with pyelftools.",
+  "prior_review": {
+    "filename": "native1_native_review.json",
+    "sha256": "eabb0b116090a8daeff1e3ee11328f6f4aaa24b989be4c12073aaf1231c7de74",
+    "artifact": {
+      "filename": "HasselbladPhoton_Native1_debug.apk",
+      "bytes": 70736504,
+      "sha256": "94440d675ff9f92f5fdf11a7608d3fdc586a511cfd2da12eddc19ad7810d8e4d",
+      "version_code": 27174
+    }
+  },
+  "native_library_count": 17,
+  "unchanged_payload_count": 15,
+  "changed_payloads": [
+    "lib/arm64-v8a/libdngCreator.so",
+    "lib/armeabi-v7a/libdngCreator.so"
+  ],
+  "all_native_zip_offsets_align16k": true,
+  "all_arm64_elfs_pass_static16k": true,
+  "all_bundled_elfs_pass_static16k": false,
+  "retained_architecture_exception": {
+    "path": "lib/armeabi-v7a/libarchive-jni.so",
+    "origin": "inherited dependency, not the new WB core/JNI",
+    "finding": "4 KB ELF LOAD alignment, with .data/.bss sharing rounded RELRO pages when evaluated for 16 KB protection",
+    "scope": "ARMv7 variant only. ARM64 variant of libarchive-jni passes. Do not describe every bundled ELF as 16 KB-compatible; this does not change the ARM64-selected native set.",
+    "severity_for_arm64_development_checkpoint": "documentation/architecture-specific limitation, not a new JNI defect"
+  },
+  "libraries": [
+    {
+      "path": "lib/arm64-v8a/liballocator.so",
+      "elf_class": 64,
+      "machine": "EM_AARCH64",
+      "sha256": "1df60d9355b8267fe93d74a8c99beaa94e969e1473879b79aaf66e90632650eb",
+      "load_alignments": [
+        16384
+      ],
+      "elf_load_alignment_16k": true,
+      "zip_compression": "stored",
+      "zip_data_offset": 7733248,
+      "zip_data_alignment_16k": true,
+      "relro_writable_page_overlap_at_16k": [],
+      "needed": [
+        "liblog.so",
+        "libjnigraphics.so",
+        "libm.so",
+        "libdl.so",
+        "libc.so"
+      ],
+      "payload_identical_to_prior_review": true,
+      "bytes": 29112,
+      "previous_payload_sha256": "1df60d9355b8267fe93d74a8c99beaa94e969e1473879b79aaf66e90632650eb"
+    },
+    {
+      "path": "lib/arm64-v8a/libarchive-jni.so",
+      "elf_class": 64,
+      "machine": "EM_AARCH64",
+      "sha256": "92332de41e661c2a5ce05df65c8a0a6367a99a2cb201e3b3eec7039c9cbc669e",
+      "load_alignments": [
+        16384
+      ],
+      "elf_load_alignment_16k": true,
+      "zip_compression": "stored",
+      "zip_data_offset": 7766016,
+      "zip_data_alignment_16k": true,
+      "relro_writable_page_overlap_at_16k": [],
+      "needed": [
+        "liblog.so",
+        "libm.so",
+        "libdl.so",
+        "libc.so"
+      ],
+      "payload_identical_to_prior_review": true,
+      "bytes": 2031592,
+      "previous_payload_sha256": "92332de41e661c2a5ce05df65c8a0a6367a99a2cb201e3b3eec7039c9cbc669e"
+    },
+    {
+      "path": "lib/arm64-v8a/libcamera2native.so",
+      "elf_class": 64,
+      "machine": "EM_AARCH64",
+      "sha256": "f97a0eba58b4c530f8e6ea57096bcb0fd11e4edbf1a66fc2986a267282e8755d",
+      "load_alignments": [
+        16384
+      ],
+      "elf_load_alignment_16k": true,
+      "zip_compression": "stored",
+      "zip_data_offset": 9814016,
+      "zip_data_alignment_16k": true,
+      "relro_writable_page_overlap_at_16k": [],
+      "needed": [
+        "liblog.so",
+        "libm.so",
+        "libdl.so",
+        "libc.so"
+      ],
+      "payload_identical_to_prior_review": true,
+      "bytes": 476800,
+      "previous_payload_sha256": "f97a0eba58b4c530f8e6ea57096bcb0fd11e4edbf1a66fc2986a267282e8755d"
+    },
+    {
+      "path": "lib/arm64-v8a/libdngCreator.so",
+      "elf_class": 64,
+      "machine": "EM_AARCH64",
+      "load_alignments": [
+        16384
+      ],
+      "elf_load_alignment_16k": true,
+      "load_segments": [
+        {
+          "offset": 0,
+          "virtual_address": 0,
+          "file_bytes": 1139104,
+          "memory_bytes": 1139104,
+          "flags": 5,
+          "alignment": 16384
+        },
+        {
+          "offset": 1139104,
+          "virtual_address": 1155488,
+          "file_bytes": 35512,
+          "memory_bytes": 36448,
+          "flags": 6,
+          "alignment": 16384
+        },
+        {
+          "offset": 1174616,
+          "virtual_address": 1207384,
+          "file_bytes": 480,
+          "memory_bytes": 8600,
+          "flags": 6,
+          "alignment": 16384
+        }
+      ],
+      "relro_writable_page_overlap_at_16k": [],
+      "needed": [
+        "liblog.so",
+        "libdl.so",
+        "libm.so",
+        "libc.so"
+      ],
+      "selected_dynamic_symbols": [
+        "_ZN13tinydngwriter8DNGImage21SetWhiteLevelRationalEjPKd",
+        "_ZN10DngCreator9createDngEPviiRm",
+        "_ZN13tinydngwriter8DNGImage19SetCustomFieldULongEtj"
+      ],
+      "new_white_level_error_marker_present": true,
+      "sha256": "4031c350b5531d64196057d7d6f046ed0ae04f7558a0145909685deb434fa826",
+      "bytes": 1177304,
+      "payload_identical_to_prior_review": false,
+      "previous_payload_sha256": "cca1ce148da7a36f6ecf72ecfa5bef997755c9d51a090857d2152d795ee1fdc4",
+      "zip_compression": "stored",
+      "zip_data_offset": 10305536,
+      "zip_data_alignment_16k": true
+    },
+    {
+      "path": "lib/arm64-v8a/libflacRecorder.so",
+      "elf_class": 64,
+      "machine": "EM_AARCH64",
+      "sha256": "b22a614ebbaace59b622aecc3ff7573026d31f5d50dfafaaa06bf8482d8bb9d0",
+      "load_alignments": [
+        16384
+      ],
+      "elf_load_alignment_16k": true,
+      "zip_compression": "stored",
+      "zip_data_offset": 11485184,
+      "zip_data_alignment_16k": true,
+      "relro_writable_page_overlap_at_16k": [],
+      "needed": [
+        "liblog.so",
+        "libm.so",
+        "libdl.so",
+        "libc.so"
+      ],
+      "payload_identical_to_prior_review": true,
+      "bytes": 320016,
+      "previous_payload_sha256": "b22a614ebbaace59b622aecc3ff7573026d31f5d50dfafaaa06bf8482d8bb9d0"
+    },
+    {
+      "path": "lib/arm64-v8a/libhalidealign.so",
+      "elf_class": 64,
+      "machine": "EM_AARCH64",
+      "sha256": "d825602d095155dfdb896c2637e6a0ffecc6c89a247303266db1814caff9e69f",
+      "load_alignments": [
+        16384
+      ],
+      "elf_load_alignment_16k": true,
+      "zip_compression": "stored",
+      "zip_data_offset": 11812864,
+      "zip_data_alignment_16k": true,
+      "relro_writable_page_overlap_at_16k": [],
+      "needed": [
+        "liblog.so",
+        "libdl.so",
+        "libm.so",
+        "libc.so"
+      ],
+      "payload_identical_to_prior_review": true,
+      "bytes": 721176,
+      "previous_payload_sha256": "d825602d095155dfdb896c2637e6a0ffecc6c89a247303266db1814caff9e69f"
+    },
+    {
+      "path": "lib/arm64-v8a/libhasselblad_wb_jni.so",
+      "elf_class": 64,
+      "machine": "EM_AARCH64",
+      "sha256": "717a5c898eb7659621af6113db6877c578f433157bd2de3088c108e3999a5b96",
+      "load_alignments": [
+        16384
+      ],
+      "elf_load_alignment_16k": true,
+      "zip_compression": "stored",
+      "zip_data_offset": 12550144,
+      "zip_data_alignment_16k": true,
+      "relro_writable_page_overlap_at_16k": [],
+      "needed": [
+        "libm.so",
+        "libdl.so",
+        "libc.so"
+      ],
+      "jni_exports": [
+        "Java_com_particlesdevs_photoncamera_hasselblad_HasselbladNativeCheck_nativeRecalibrate",
+        "Java_com_particlesdevs_photoncamera_hasselblad_HasselbladNativeCheck_nativeProvenance"
+      ],
+      "expected_original_hash_present": true,
+      "portable_execution_provenance_present": true,
+      "payload_identical_to_prior_review": true,
+      "bytes": 6752,
+      "previous_payload_sha256": "717a5c898eb7659621af6113db6877c578f433157bd2de3088c108e3999a5b96"
+    },
+    {
+      "path": "lib/arm64-v8a/libmcraw.so",
+      "elf_class": 64,
+      "machine": "EM_AARCH64",
+      "sha256": "a3fa82b3deba90b704dc68cb56bee7e4359342bfa2c01b3bbb7e12dcb13504f2",
+      "load_alignments": [
+        16384
+      ],
+      "elf_load_alignment_16k": true,
+      "zip_compression": "stored",
+      "zip_data_offset": 12566528,
+      "zip_data_alignment_16k": true,
+      "relro_writable_page_overlap_at_16k": [],
+      "needed": [
+        "liblog.so",
+        "libm.so",
+        "libdl.so",
+        "libc.so"
+      ],
+      "payload_identical_to_prior_review": true,
+      "bytes": 433800,
+      "previous_payload_sha256": "a3fa82b3deba90b704dc68cb56bee7e4359342bfa2c01b3bbb7e12dcb13504f2"
+    },
+    {
+      "path": "lib/arm64-v8a/libncnnMl.so",
+      "elf_class": 64,
+      "machine": "EM_AARCH64",
+      "sha256": "7f563de15c369d2a5dc7f0331a8d26b244a8918d630af45b501434decbbe21af",
+      "load_alignments": [
+        16384
+      ],
+      "elf_load_alignment_16k": true,
+      "zip_compression": "stored",
+      "zip_data_offset": 13008896,
+      "zip_data_alignment_16k": true,
+      "relro_writable_page_overlap_at_16k": [],
+      "needed": [
+        "libandroid.so",
+        "liblog.so",
+        "libm.so",
+        "libdl.so",
+        "libc.so"
+      ],
+      "payload_identical_to_prior_review": true,
+      "bytes": 10747528,
+      "previous_payload_sha256": "7f563de15c369d2a5dc7f0331a8d26b244a8918d630af45b501434decbbe21af"
+    },
+    {
+      "path": "lib/armeabi-v7a/liballocator.so",
+      "elf_class": 32,
+      "machine": "EM_ARM",
+      "sha256": "768ea52ceb20a7a0f773f7fae98fa477aabc179a366925f37424b9bbb7d077ad",
+      "load_alignments": [
+        16384
+      ],
+      "elf_load_alignment_16k": true,
+      "zip_compression": "stored",
+      "zip_data_offset": 23756800,
+      "zip_data_alignment_16k": true,
+      "relro_writable_page_overlap_at_16k": [],
+      "needed": [
+        "liblog.so",
+        "libjnigraphics.so",
+        "libm.so",
+        "libdl.so",
+        "libc.so"
+      ],
+      "payload_identical_to_prior_review": true,
+      "bytes": 19492,
+      "previous_payload_sha256": "768ea52ceb20a7a0f773f7fae98fa477aabc179a366925f37424b9bbb7d077ad"
+    },
+    {
+      "path": "lib/armeabi-v7a/libarchive-jni.so",
+      "elf_class": 32,
+      "machine": "EM_ARM",
+      "sha256": "d8168c8e2e82fd7795ba8e0631fd3ca6a7614dec36e9e168c77eac0e38628cb9",
+      "load_alignments": [
+        4096
+      ],
+      "elf_load_alignment_16k": false,
+      "zip_compression": "stored",
+      "zip_data_offset": 23789568,
+      "zip_data_alignment_16k": true,
+      "relro_writable_page_overlap_at_16k": [
+        {
+          "section": ".data",
+          "section_start": "0x182a78",
+          "section_end": "0x183678",
+          "relro_start": "0x17e560",
+          "relro_end": "0x182000",
+          "rounded_protection_start": "0x17c000",
+          "rounded_protection_end": "0x184000"
+        },
+        {
+          "section": ".bss",
+          "section_start": "0x183680",
+          "section_end": "0x185f18",
+          "relro_start": "0x17e560",
+          "relro_end": "0x182000",
+          "rounded_protection_start": "0x17c000",
+          "rounded_protection_end": "0x184000"
+        }
+      ],
+      "needed": [
+        "liblog.so",
+        "libm.so",
+        "libdl.so",
+        "libc.so"
+      ],
+      "payload_identical_to_prior_review": true,
+      "bytes": 1580400,
+      "previous_payload_sha256": "d8168c8e2e82fd7795ba8e0631fd3ca6a7614dec36e9e168c77eac0e38628cb9"
+    },
+    {
+      "path": "lib/armeabi-v7a/libcamera2native.so",
+      "elf_class": 32,
+      "machine": "EM_ARM",
+      "sha256": "2f9b1a0da3af07de69bc7da953a81118470e51802774d67877458c6c28ec4e8c",
+      "load_alignments": [
+        16384
+      ],
+      "elf_load_alignment_16k": true,
+      "zip_compression": "stored",
+      "zip_data_offset": 25378816,
+      "zip_data_alignment_16k": true,
+      "relro_writable_page_overlap_at_16k": [],
+      "needed": [
+        "liblog.so",
+        "libm.so",
+        "libdl.so",
+        "libc.so"
+      ],
+      "payload_identical_to_prior_review": true,
+      "bytes": 283256,
+      "previous_payload_sha256": "2f9b1a0da3af07de69bc7da953a81118470e51802774d67877458c6c28ec4e8c"
+    },
+    {
+      "path": "lib/armeabi-v7a/libdngCreator.so",
+      "elf_class": 32,
+      "machine": "EM_ARM",
+      "load_alignments": [
+        16384
+      ],
+      "elf_load_alignment_16k": true,
+      "load_segments": [
+        {
+          "offset": 0,
+          "virtual_address": 0,
+          "file_bytes": 703200,
+          "memory_bytes": 703200,
+          "flags": 5,
+          "alignment": 16384
+        },
+        {
+          "offset": 703200,
+          "virtual_address": 719584,
+          "file_bytes": 17892,
+          "memory_bytes": 21792,
+          "flags": 6,
+          "alignment": 16384
+        },
+        {
+          "offset": 721092,
+          "virtual_address": 753860,
+          "file_bytes": 200,
+          "memory_bytes": 2873,
+          "flags": 6,
+          "alignment": 16384
+        }
+      ],
+      "relro_writable_page_overlap_at_16k": [],
+      "needed": [
+        "liblog.so",
+        "libdl.so",
+        "libm.so",
+        "libc.so"
+      ],
+      "selected_dynamic_symbols": [
+        "_ZN13tinydngwriter8DNGImage21SetWhiteLevelRationalEjPKd",
+        "_ZN10DngCreator9createDngEPviiRj",
+        "_ZN13tinydngwriter8DNGImage19SetCustomFieldULongEtj"
+      ],
+      "new_white_level_error_marker_present": true,
+      "sha256": "feb1caa32968d7c5004da8892db412ea0e0ec95a172b992563c1f3e2f724fefd",
+      "bytes": 722852,
+      "payload_identical_to_prior_review": false,
+      "previous_payload_sha256": "2f37dc65f924468475f8eaa1fbe6eca643bf72b58733426af2f4ac1d253545ba",
+      "zip_compression": "stored",
+      "zip_data_offset": 25673728,
+      "zip_data_alignment_16k": true
+    },
+    {
+      "path": "lib/armeabi-v7a/libflacRecorder.so",
+      "elf_class": 32,
+      "machine": "EM_ARM",
+      "sha256": "346b6cee4a90e39177f419e77115c136277ba9fa9e2e472bd19c2cfd3bc103e9",
+      "load_alignments": [
+        16384
+      ],
+      "elf_load_alignment_16k": true,
+      "zip_compression": "stored",
+      "zip_data_offset": 26411008,
+      "zip_data_alignment_16k": true,
+      "relro_writable_page_overlap_at_16k": [],
+      "needed": [
+        "liblog.so",
+        "libm.so",
+        "libdl.so",
+        "libc.so"
+      ],
+      "payload_identical_to_prior_review": true,
+      "bytes": 185252,
+      "previous_payload_sha256": "346b6cee4a90e39177f419e77115c136277ba9fa9e2e472bd19c2cfd3bc103e9"
+    },
+    {
+      "path": "lib/armeabi-v7a/libhasselblad_wb_jni.so",
+      "elf_class": 32,
+      "machine": "EM_ARM",
+      "sha256": "6668664df849392689b818f7f01ffd88f7b39dc526d16e9c5d90a48823c90cd7",
+      "load_alignments": [
+        16384
+      ],
+      "elf_load_alignment_16k": true,
+      "zip_compression": "stored",
+      "zip_data_offset": 26607616,
+      "zip_data_alignment_16k": true,
+      "relro_writable_page_overlap_at_16k": [],
+      "needed": [
+        "libm.so",
+        "libdl.so",
+        "libc.so"
+      ],
+      "jni_exports": [
+        "Java_com_particlesdevs_photoncamera_hasselblad_HasselbladNativeCheck_nativeRecalibrate",
+        "Java_com_particlesdevs_photoncamera_hasselblad_HasselbladNativeCheck_nativeProvenance"
+      ],
+      "expected_original_hash_present": true,
+      "portable_execution_provenance_present": true,
+      "payload_identical_to_prior_review": true,
+      "bytes": 5340,
+      "previous_payload_sha256": "6668664df849392689b818f7f01ffd88f7b39dc526d16e9c5d90a48823c90cd7"
+    },
+    {
+      "path": "lib/armeabi-v7a/libmcraw.so",
+      "elf_class": 32,
+      "machine": "EM_ARM",
+      "sha256": "01966713dc9356bd062acc91f9409ffce51fdc29dc20f67bdbedf280403846b1",
+      "load_alignments": [
+        16384
+      ],
+      "elf_load_alignment_16k": true,
+      "zip_compression": "stored",
+      "zip_data_offset": 26624000,
+      "zip_data_alignment_16k": true,
+      "relro_writable_page_overlap_at_16k": [],
+      "needed": [
+        "liblog.so",
+        "libm.so",
+        "libdl.so",
+        "libc.so"
+      ],
+      "payload_identical_to_prior_review": true,
+      "bytes": 259716,
+      "previous_payload_sha256": "01966713dc9356bd062acc91f9409ffce51fdc29dc20f67bdbedf280403846b1"
+    },
+    {
+      "path": "lib/armeabi-v7a/libncnnMl.so",
+      "elf_class": 32,
+      "machine": "EM_ARM",
+      "sha256": "61eee20dd6f95fe4b1a2e1f21ad93cb4b3730d2c52e83c6431c39302755df0a8",
+      "load_alignments": [
+        16384
+      ],
+      "elf_load_alignment_16k": true,
+      "zip_compression": "stored",
+      "zip_data_offset": 26886144,
+      "zip_data_alignment_16k": true,
+      "relro_writable_page_overlap_at_16k": [],
+      "needed": [
+        "libandroid.so",
+        "liblog.so",
+        "libm.so",
+        "libdl.so",
+        "libc.so"
+      ],
+      "payload_identical_to_prior_review": true,
+      "bytes": 2783152,
+      "previous_payload_sha256": "61eee20dd6f95fe4b1a2e1f21ad93cb4b3730d2c52e83c6431c39302755df0a8"
+    }
+  ],
+  "scope": "Static package/ELF checks. The previous Native1 device result does not establish this changed DNG writer has run on the physical device."
+}

@@ -1,0 +1,93 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.11.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preDebugBuild UP-TO-DATE
+> Task :app:mergeDebugNativeDebugMetadata NO-SOURCE
+> Task :app:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :app:generateDebugResValues
+> Task :app:dataBindingMergeDependencyArtifactsDebug
+> Task :app:generateDebugResources
+> Task :circularbarlib:preBuild UP-TO-DATE
+> Task :circularbarlib:preDebugBuild UP-TO-DATE
+> Task :circularbarlib:generateDebugResValues
+> Task :circularbarlib:generateDebugResources
+> Task :circularbarlib:packageDebugResources
+> Task :app:dataBindingTriggerDebug
+> Task :app:generateDebugBuildConfig
+> Task :app:mergeDebugMlModels
+> Task :app:generateDebugMlModelClass
+> Task :circularbarlib:writeDebugAarMetadata
+> Task :app:mapDebugSourceSetPaths
+> Task :app:checkDebugAarMetadata
+> Task :app:createDebugCompatibleScreenManifests
+> Task :app:extractDeepLinksDebug
+> Task :circularbarlib:extractDeepLinksDebug
+> Task :circularbarlib:compileDebugLibraryResources
+> Task :circularbarlib:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :circularbarlib:processDebugManifest
+> Task :circularbarlib:javaPreCompileDebug
+> Task :circularbarlib:parseDebugLocalResources
+> Task :app:mergeDebugResources
+> Task :app:processDebugMainManifest
+> Task :app:dataBindingGenBaseClassesDebug
+> Task :app:processDebugManifest
+> Task :app:processDebugManifestForPackage
+> Task :app:javaPreCompileDebug
+> Task :app:mergeDebugShaders
+> Task :app:compileDebugShaders NO-SOURCE
+> Task :app:generateDebugAssets UP-TO-DATE
+> Task :circularbarlib:mergeDebugShaders
+> Task :circularbarlib:compileDebugShaders NO-SOURCE
+> Task :circularbarlib:generateDebugAssets UP-TO-DATE
+> Task :circularbarlib:mergeDebugAssets
+> Task :circularbarlib:generateDebugRFile
+> Task :app:mergeDebugAssets
+> Task :circularbarlib:compileDebugKotlin NO-SOURCE
+> Task :app:processDebugResources
+
+> Task :circularbarlib:compileDebugJavaWithJavac
+Note: Some input files use or override a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+
+> Task :circularbarlib:bundleLibCompileToJarDebug
+> Task :circularbarlib:bundleLibRuntimeToJarDebug
+> Task :app:desugarDebugFileDependencies
+> Task :app:compileDebugKotlin NO-SOURCE
+> Task :app:compressDebugAssets
+
+> Task :app:compileDebugJavaWithJavac
+Note: Some input files use or override a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+Note: Some input files use unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+> Task :app:dexBuilderDebug
+> Task :app:mergeDebugGlobalSynthetics
+> Task :app:processDebugJavaRes
+> Task :circularbarlib:processDebugJavaRes NO-SOURCE
+> Task :app:checkDebugDuplicateClasses
+> Task :circularbarlib:bundleLibRuntimeToDirDebug
+> Task :app:configureCMakeDebug[arm64-v8a]
+> Task :app:mergeLibDexDebug
+> Task :app:mergeDebugJavaResource
+> Task :app:mergeProjectDexDebug
+> Task :app:mergeExtDexDebug
+> Task :app:buildCMakeDebug[arm64-v8a]
+> Task :app:configureCMakeDebug[armeabi-v7a]
+> Task :app:buildCMakeDebug[armeabi-v7a]
+> Task :app:mergeDebugJniLibFolders
+> Task :circularbarlib:mergeDebugJniLibFolders
+> Task :circularbarlib:mergeDebugNativeLibs NO-SOURCE
+> Task :app:validateSigningDebug
+> Task :circularbarlib:copyDebugJniLibsProjectOnly
+> Task :app:writeDebugAppMetadata
+> Task :app:writeDebugSigningConfigVersions
+> Task :app:mergeDebugNativeLibs
+> Task :app:stripDebugDebugSymbols
+> Task :app:packageDebug
+> Task :app:createDebugApkListingFileRedirect
+> Task :app:assembleDebug
+[Incubating] Problems report is available at: file:///workspace/scratch/f4dc23366b1f/HasselbladPhoton/build/reports/problems/problems-report.html
+
+BUILD SUCCESSFUL in 57s
+61 actionable tasks: 61 executed

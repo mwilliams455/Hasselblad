@@ -1,0 +1,10 @@
+{
+  "firmware": "X2D II 1.3.16.2",
+  "library_sha256": "7d6164eccc734de7087bb778ee72f17a0b3ccf6c0d1f20092c7ebe74a86574ba",
+  "portable_c_sha256": "99d56c2ed9a72411d64b732100e016d40660bbc3ee75858dfb3de37bdc1fef5e",
+  "probe_sha256": "c77b665938f50b9c2b972a82a82e0e560d8fc73c6996327af0e3cc03dce49d7a",
+  "execution": "NDK r27 Android28 compiled portable C vs original libaaa through matching Bionic/QEMU",
+  "exit": 0,
+  "stdout": "{\"event\":\"android_portable_vs_original\",\"cases\":10000,\"failed\":0,\"seed\":\"0x20261019\",\"firmware\":\"X2D II 1.3.16.2\",\"full_awb_or_hncs_validated\":false}\n",
+  "stderr": ""
+}

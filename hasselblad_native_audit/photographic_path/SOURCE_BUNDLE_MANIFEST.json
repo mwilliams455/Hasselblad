@@ -1,0 +1,73 @@
+{
+  "scope": "Original research tools and findings; no firmware, camera IQ table payload, original machine-code dump, or binary executable included",
+  "files": [
+    {
+      "name": "PHOTOGRAPHIC_PATH_FINDINGS.md",
+      "bytes": 20756,
+      "sha256": "30bbcfde77a8218302c711bf2113968ac2cdccb22f53387da4119e95aec6fb08"
+    },
+    {
+      "name": "PHOTOGRAPHIC_PATH_FINDINGS.json",
+      "bytes": 31345,
+      "sha256": "e3ae50aa1ffc86c8ca32def9f0e97d00b9b7775b02d6cbbedb181f2bafd7f355"
+    },
+    {
+      "name": "lut_profile_native_execution.json",
+      "bytes": 13643,
+      "sha256": "24c901516fbc839e909b05972acb666a3b49142ad81c19c21cd66cceadfd0ef1"
+    },
+    {
+      "name": "lut_profile_real_asset_execution.json",
+      "bytes": 14211,
+      "sha256": "2158f224b01cf0ea6bb4ff02a4fdb1e2c09328e26c12c684486bfd0f51685502"
+    },
+    {
+      "name": "librcam_load_result.json",
+      "bytes": 491,
+      "sha256": "d60e7ab721c22925ed38c96701eb5a4c0887547851b0f95ca0a10101c9ec224e"
+    },
+    {
+      "name": "adj_dispatch_table.json",
+      "bytes": 669,
+      "sha256": "3b1f720a7c3fd274ad883b1e4d9d46b57696872d345a9974a6a464a0f5a66681"
+    },
+    {
+      "name": "lut_profile_probe.c",
+      "bytes": 12660,
+      "sha256": "662bde4c68e2750e033a1940e4428fea0e0cc43b70de7549056c6978d0a628ce"
+    },
+    {
+      "name": "replay_lut_probe.py",
+      "bytes": 9858,
+      "sha256": "7a0774c7ea68de508c2729087b7a1be68ccc0455c97def83a7906f8b4b47dc40"
+    },
+    {
+      "name": "inspect_iq_config.py",
+      "bytes": 6990,
+      "sha256": "0d3c8a7c380502c2b904e380d64723523eb62060a2c4e31145104aa9445625ec"
+    },
+    {
+      "name": "inspect_paths.py",
+      "bytes": 3529,
+      "sha256": "4f2862adb474dcbd28f0abf4541f8239ce27d7bf3ebef8d39904906dfb4c3a5b"
+    }
+  ],
+  "optional_call_inventory_dependencies": [
+    "pyelftools",
+    "capstone",
+    "../colour_audit/disassemble_colour.py"
+  ],
+  "native_replay_dependencies": [
+    "pyelftools",
+    "Android NDK aarch64-linux-android28-clang",
+    "QEMU AArch64 user mode",
+    "user-supplied exact X2D II 1.3.16.2 extracted runtime"
+  ],
+  "validation": {
+    "synthetic_cases": 12,
+    "full_camera_asset_cases": 10,
+    "full_camera_asset_lanes_checked": 122880,
+    "all_passed": true,
+    "per_pixel_renderer_validated": false
+  }
+}

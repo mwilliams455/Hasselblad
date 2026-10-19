@@ -1,0 +1,9 @@
+{
+  "library": "librcam.so",
+  "sha256": "3dd5b37b3db18b3e6b54271e1501b4dd337e101c06cdd386a896b1547b662f66",
+  "exit": 0,
+  "stdout": "{\"event\":\"probe_start\",\"pointer_bits\":64,\"page_size\":4096,\"library\":\"/workspace/scratch/f4dc23366b1f/hasselblad_native_audit/firmware/extracted/system/lib64/librcam.so\"}\n{\"event\":\"library_loaded\",\"photographic_routine_executed\":false}\n",
+  "stderr": "",
+  "runtime": "QEMU with original Android 9 Bionic",
+  "function_invoked": false
+}

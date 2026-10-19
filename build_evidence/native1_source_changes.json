@@ -1,0 +1,283 @@
+{
+  "upstream_repository": "https://github.com/eszdman/PhotonCamera",
+  "upstream_commit": "b2eff821a858033515eb2700e7292befecc95225",
+  "source_archive_path": "/tmp/photon-upstream-b2eff821.tar.gz",
+  "source_archive_bytes": 78893630,
+  "source_archive_sha256": "26396340dca501c5161bb843331c50eddab5810e6891bf40b5e5565d8fae5cf8",
+  "project_root": "/workspace/scratch/f4dc23366b1f/HasselbladPhoton",
+  "patch_path": "/workspace/scratch/f4dc23366b1f/hasselblad-build-artifacts/Native1_full_source.patch",
+  "patch_bytes": 342323,
+  "patch_sha256": "8c0a075b058385cf1ceb2970d0889923af55f60cd7d614db31abaa39969b665e",
+  "modified_files": 25,
+  "added_files": 19,
+  "deleted_files": 0,
+  "git_apply_check": "passed",
+  "git_apply_byte_comparison": "all changed/added files match source exactly",
+  "isolated_patch_check_directory": "/tmp/hasselblad-native1-patch-check-o9jfv5yq",
+  "changes": [
+    {
+      "path": "app/build.gradle",
+      "change": "modified",
+      "upstream_sha256": "194cb430e2174068e9e890caa9fa61807725b0e194d0846cef7a475afc54716f",
+      "native1_sha256": "08ff30a108c51d7e9302213aa192a32ae496192bba3ddc204453b1d9f2c32247"
+    },
+    {
+      "path": "app/src/main/AndroidManifest.xml",
+      "change": "modified",
+      "upstream_sha256": "84dbf7f844f110a0e302cbe9a122a72676f0948c3f749c30f8e700889e256962",
+      "native1_sha256": "327a88d5417c5478f7be360f4495386bf29bdc7e44ce01ceb7f0204b911d6710"
+    },
+    {
+      "path": "app/src/main/cpp/CMakeLists.txt",
+      "change": "modified",
+      "upstream_sha256": "f833d2e0d70d1f7231353e504d558b9ce59c739163b57fda79b5a3e6d2c5c983",
+      "native1_sha256": "6b9ab669e10daeaaf23dab8670c8ea891ce76405914285ed9445224f1a28f83e"
+    },
+    {
+      "path": "app/src/main/cpp/deps/archive.h",
+      "change": "added",
+      "upstream_sha256": null,
+      "native1_sha256": "ea01da96b4c5e3a0e7b07e70c5b1ea8cb73bb14075056a008dbb92cba31209a5"
+    },
+    {
+      "path": "app/src/main/cpp/deps/archive_entry.h",
+      "change": "added",
+      "upstream_sha256": null,
+      "native1_sha256": "a8d2e0f18bf9b2ebd9eace883616e481cd5c6ea4f437b23640f90a3331b4506f"
+    },
+    {
+      "path": "app/src/main/cpp/deps/technicallyflac.h",
+      "change": "added",
+      "upstream_sha256": null,
+      "native1_sha256": "7877dfd21152cd383812a860e18feab667ac8543c55a6b80118b9c1a5f654449"
+    },
+    {
+      "path": "app/src/main/cpp/deps/tiny_dng_writer.h",
+      "change": "added",
+      "upstream_sha256": null,
+      "native1_sha256": "0c68ee68914b949eaf194a20d83505d4debee9272d991e68e538e25611f289cc"
+    },
+    {
+      "path": "app/src/main/cpp/hasselblad/hb_awb_jni.c",
+      "change": "added",
+      "upstream_sha256": null,
+      "native1_sha256": "228bedd13d522fe78ef58f31167d549a63f964ff89c8ef77d380088f8ea64601"
+    },
+    {
+      "path": "app/src/main/cpp/hasselblad/hb_awb_recalib.c",
+      "change": "added",
+      "upstream_sha256": null,
+      "native1_sha256": "99d56c2ed9a72411d64b732100e016d40660bbc3ee75858dfb3de37bdc1fef5e"
+    },
+    {
+      "path": "app/src/main/cpp/hasselblad/hb_awb_recalib.h",
+      "change": "added",
+      "upstream_sha256": null,
+      "native1_sha256": "cfea84ae2528190e5e594c60abb25b073ffe60c2ae6012da3265979e1e562ea7"
+    },
+    {
+      "path": "app/src/main/java/com/particlesdevs/photoncamera/capture/CaptureController.java",
+      "change": "modified",
+      "upstream_sha256": "a7a6c44bedf24af9088455938c0852b857bf8f56403cebd69e43ef642d113b92",
+      "native1_sha256": "5d5a62940632a810c36d1d5fc88e83822c543d5e84d9245457645671da1c58af"
+    },
+    {
+      "path": "app/src/main/java/com/particlesdevs/photoncamera/gallery/files/GalleryFileOperations.java",
+      "change": "modified",
+      "upstream_sha256": "3cb53775f7b05f9f8c15f452e17ae97c79cf23b4c14611e6381e70b75429c3ca",
+      "native1_sha256": "4c1381af871cf616a6b8548738114b2986e4e2d8144841a883918cfd6aea2628"
+    },
+    {
+      "path": "app/src/main/java/com/particlesdevs/photoncamera/hasselblad/HasselbladDevelopmentActivity.java",
+      "change": "added",
+      "upstream_sha256": null,
+      "native1_sha256": "ab2fa916ba7b04908b0114d6a1449eedf3fdb3fb9a4523f880d65839f36c1318"
+    },
+    {
+      "path": "app/src/main/java/com/particlesdevs/photoncamera/hasselblad/HasselbladDevelopmentPolicy.java",
+      "change": "added",
+      "upstream_sha256": null,
+      "native1_sha256": "005e44e81315e9f7339f900f95174bc68f35c93be3ab73ead5aa4dd37bc09c44"
+    },
+    {
+      "path": "app/src/main/java/com/particlesdevs/photoncamera/hasselblad/HasselbladNativeCheck.java",
+      "change": "added",
+      "upstream_sha256": null,
+      "native1_sha256": "d7b0a08fd54f2b8bf86a7c0119b6c4200d73eb0b69c3c646ebbc961324e39f12"
+    },
+    {
+      "path": "app/src/main/java/com/particlesdevs/photoncamera/hasselblad/HasselbladRawSizeSelector.java",
+      "change": "added",
+      "upstream_sha256": null,
+      "native1_sha256": "ec7a9444890d3fe225554c9d15603273934a8f4cc51af71c31311c9e55c7427b"
+    },
+    {
+      "path": "app/src/main/java/com/particlesdevs/photoncamera/pro/SensorSpecifics.java",
+      "change": "modified",
+      "upstream_sha256": "d93a398f133af9311fa14b1dd6b8b6aac507f9f00d8641516cb8a98101c5592c",
+      "native1_sha256": "de965ec6f91182dc6eda703c0dfa8bdcf2d3f0262c059afe5c58897b0f269b46"
+    },
+    {
+      "path": "app/src/main/java/com/particlesdevs/photoncamera/pro/Specific.java",
+      "change": "modified",
+      "upstream_sha256": "0023a699c6ae1c9114676a503e303c4d017f8de7fa5dda60b5bcd7f404a9b7c9",
+      "native1_sha256": "362c9a9051f7ffd57382a2ab353f22008c2c46865e2ac9147fdc070cc0938324"
+    },
+    {
+      "path": "app/src/main/java/com/particlesdevs/photoncamera/pro/SupportedDevice.java",
+      "change": "modified",
+      "upstream_sha256": "c01b16a5dcf6f0157922df63c8b410e381b63ec1b8da711d933f08bf00446f00",
+      "native1_sha256": "bd2c878695396ec206801f4a1ae631826d9b19f78d8d6b4900d984bab027e76b"
+    },
+    {
+      "path": "app/src/main/java/com/particlesdevs/photoncamera/processing/RAW16Saver.java",
+      "change": "modified",
+      "upstream_sha256": "9d80578d343cf16df38f4083c21dd3cd204da93a1e89010cc8a2af86ad8d76ad",
+      "native1_sha256": "228382626312914b8f7e130cce6c2e9edff903fc752ece785d2b8a4c2cbb3b30"
+    },
+    {
+      "path": "app/src/main/java/com/particlesdevs/photoncamera/processing/render/Parameters.java",
+      "change": "modified",
+      "upstream_sha256": "633ae455052d0627479b9c99afcb340fa29b843f2adaa487e0b595152155877a",
+      "native1_sha256": "75b09b643dc3e5e7829daebfa8ab74401a31685924abb08bf410674253e7d64c"
+    },
+    {
+      "path": "app/src/main/java/com/particlesdevs/photoncamera/settings/BackupRestoreUtil.java",
+      "change": "modified",
+      "upstream_sha256": "b10ad5fbf1ebe5a5c4601c390b13ee4f6833cb83f0fea0b759b77c7fd40c0e6f",
+      "native1_sha256": "e9850051ab0843839af833a9d2a3b615dbe0404777f62dea8d0a6c8c31ca595c"
+    },
+    {
+      "path": "app/src/main/java/com/particlesdevs/photoncamera/settings/PreferenceKeys.java",
+      "change": "modified",
+      "upstream_sha256": "2d94a0bd230aa0dced70bcd253272ff55fcff6bcc50d35f7512fc5cba62c05ba",
+      "native1_sha256": "a8ffea99c949a5ca9cc97362e8e6405279dfbf0bb9fb53dcc9e06820cb1e25e6"
+    },
+    {
+      "path": "app/src/main/java/com/particlesdevs/photoncamera/ui/camera/CameraUIController.java",
+      "change": "modified",
+      "upstream_sha256": "c1f31e6f2f77652e590f6b6efd216e14ef5488a4483a6094e673e3cd03ade2f2",
+      "native1_sha256": "8e75ab6e2f9f0a176b3669831eb504f8c9e9bc696dbc920764418943c8e9c4a9"
+    },
+    {
+      "path": "app/src/main/java/com/particlesdevs/photoncamera/ui/camera/CameraUIViewImpl.java",
+      "change": "modified",
+      "upstream_sha256": "02d6dcb89ec3771ff660136591f0ce1c526e974b2b202215b9b7d61f5f0971d3",
+      "native1_sha256": "08cfaec15c5be94dee5fb42014683e71ee877b34343e12be3e3181f39207fe8b"
+    },
+    {
+      "path": "app/src/main/java/com/particlesdevs/photoncamera/ui/camera/viewmodel/SettingsBarEntryProvider.java",
+      "change": "modified",
+      "upstream_sha256": "d893b97bdbb2c03556c6d92f0ffbc3017bb53b36c04bf6072b5d9ad5ed20c491",
+      "native1_sha256": "d31a3c7d22f7e9a65a1ec66cb42faa3743e422c08613608a9efea300bf591c03"
+    },
+    {
+      "path": "app/src/main/java/com/particlesdevs/photoncamera/ui/settings/SettingsActivity.java",
+      "change": "modified",
+      "upstream_sha256": "aeadf5b7d5793156998959dc6d50c281f1e877323a82429a4de454f8691e1e20",
+      "native1_sha256": "87e28cc38bbe46bf71a400769be13f4fdef00e3da151ed337d1f74c0fa000362"
+    },
+    {
+      "path": "app/src/main/java/com/particlesdevs/photoncamera/util/FileManager.java",
+      "change": "modified",
+      "upstream_sha256": "a676962c5af98a7864593c124329bad680a957a86616ccf16344e24dad294f05",
+      "native1_sha256": "34ab6c02ddac3721667d3a959827bd9041eae7497d1f18708ae0ad4942c16722"
+    },
+    {
+      "path": "app/src/main/java/com/particlesdevs/photoncamera/util/Log.java",
+      "change": "modified",
+      "upstream_sha256": "c040dede29aea741280f92af65f98c7e1df37761b017635cb9a016a31adef432",
+      "native1_sha256": "85b69c381aa50c130b9c45f314694e5bc095ce7dcae7aa5dbd65798de5d16185"
+    },
+    {
+      "path": "app/src/main/java/com/particlesdevs/photoncamera/util/SimpleStorageHelper.java",
+      "change": "modified",
+      "upstream_sha256": "cc9a75dfea102ea6f237a099a0ae98f5b262f2620809270b6afd564054e4b6d2",
+      "native1_sha256": "e7f722fea442b9293c7ac6356fcca19674173dff3e0b5003d4dd63968291a4e7"
+    },
+    {
+      "path": "app/src/main/res/layout/activity_hasselblad_development.xml",
+      "change": "added",
+      "upstream_sha256": null,
+      "native1_sha256": "110cce7b6988ceac4f4981f0779a9f63435be59abf84f73342b0052e361cd8ed"
+    },
+    {
+      "path": "app/src/main/res/values-ko-rKR/strings.xml",
+      "change": "modified",
+      "upstream_sha256": "98d9071ca8cb34acbda3cdba9f7afa104bb3cff810bcd7d65290159841648e33",
+      "native1_sha256": "d0b5f44822b3aef37f0ce1c78110ddf7cec954db7037771f6b8cc0a793a868e5"
+    },
+    {
+      "path": "app/src/main/res/values-ru/strings.xml",
+      "change": "modified",
+      "upstream_sha256": "29a051428f639aed4b8ca34dbf0be908a98de111a93c261b9ce6ccaa265fc4ee",
+      "native1_sha256": "1368f67160e74a034f19d3321f5b065591c569efa80fa427550b0426a62f4e34"
+    },
+    {
+      "path": "app/src/main/res/values/default_prefs.xml",
+      "change": "modified",
+      "upstream_sha256": "3ad857f607ad89f89eb2f144ecc461c4a70d25623c808aa04e7bef95fbe2d94b",
+      "native1_sha256": "7420d9716bc55c3cc8936d42f4e93f47046935f6e9f5faa764450f3198b40051"
+    },
+    {
+      "path": "app/src/main/res/values/hasselblad_development.xml",
+      "change": "added",
+      "upstream_sha256": null,
+      "native1_sha256": "3f22889743ef2fc26d001714ba3d4b304cd150017441971253a73a8fde14a948"
+    },
+    {
+      "path": "app/src/main/res/values/strings.xml",
+      "change": "modified",
+      "upstream_sha256": "b69bc9d8c2e6cc45cd399fde7134b68731e7e53be9435830039ac5925617567e",
+      "native1_sha256": "00fcfd09f3177376371fc23ef879d17a8d3b3ec834b01b11ea1f630f3b18e94d"
+    },
+    {
+      "path": "app/src/main/res/xml/preferences.xml",
+      "change": "modified",
+      "upstream_sha256": "dadc273a1a1cd50aa9b202d867cc278acaf19d3bff204c047c7eae901d95bd60",
+      "native1_sha256": "2109e03deaee561017821e1ac30bcac5ce3963f1e36683f7cffcf5b23d00b203"
+    },
+    {
+      "path": "app/version.properties",
+      "change": "modified",
+      "upstream_sha256": "79d205940703ff30b122e5836df03f261389a71ed31af6cb5f681466f076425e",
+      "native1_sha256": "ed1881443b4a0660ad1acd3a18ee142c401d258aeca1b7e63cff00d617211b28"
+    },
+    {
+      "path": "development/hasselblad/ABI_EVIDENCE.md",
+      "change": "added",
+      "upstream_sha256": null,
+      "native1_sha256": "168a4de6fcbe1a385ffe26cee8ca448a2304793aa7ffe6ccf0c47041e9741e69"
+    },
+    {
+      "path": "development/hasselblad/BUILD_NATIVE1.md",
+      "change": "added",
+      "upstream_sha256": null,
+      "native1_sha256": "8ddc6b6f98f813e724f62f33a7511eb692d0c084f585c389ad01f578e5752749"
+    },
+    {
+      "path": "development/hasselblad/CheckpointVerification.java",
+      "change": "added",
+      "upstream_sha256": null,
+      "native1_sha256": "c9f3ed120baa48cb2bc5ebca6bc3dad001cb19b8a3fd0c552ffdb9f1aded6b8d"
+    },
+    {
+      "path": "development/hasselblad/HOST_CHECK_RESULT.txt",
+      "change": "added",
+      "upstream_sha256": null,
+      "native1_sha256": "f4d54c2d956821ec2f0c50054087b47c03045bc033a9fe63462dab143ea7009e"
+    },
+    {
+      "path": "development/hasselblad/PINNED_NATIVE_HEADERS.json",
+      "change": "added",
+      "upstream_sha256": null,
+      "native1_sha256": "6b833e7bfe2fb945a67c4ed11f1efbe57552fc7e3eb568f47ce5e8f98c4cf2dc"
+    },
+    {
+      "path": "development/hasselblad/verification.json",
+      "change": "added",
+      "upstream_sha256": null,
+      "native1_sha256": "3d9b058bdaa1ad5b020ee7c538f2c55e49389711a6da8b743c6f2ae023349571"
+    }
+  ]
+}

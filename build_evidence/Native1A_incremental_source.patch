@@ -1,0 +1,698 @@
+diff --git a/app/build.gradle b/app/build.gradle
+--- a/app/build.gradle
++++ b/app/build.gradle
+@@ -15,6 +15,7 @@
+     def versionBuild
+ 
+     buildFeatures {
++        buildConfig true
+         dataBinding true
+         mlModelBinding true
+     }
+@@ -48,7 +49,7 @@
+             //noinspection ChromeOsAbiSupport
+             abiFilters "arm64-v8a", "armeabi-v7a"
+         }
+-        versionName '0.1-hb-native1'
++        versionName '0.1-hb-native1a'
+         versionProps['VERSION_NAME'] = versionName
+         proguardFiles
+     }
+diff --git a/app/src/main/cpp/dngCreator.cpp b/app/src/main/cpp/dngCreator.cpp
+--- a/app/src/main/cpp/dngCreator.cpp
++++ b/app/src/main/cpp/dngCreator.cpp
+@@ -16,7 +16,7 @@
+ #include <unistd.h>
+ #include <sys/types.h>
+ #define TINY_DNG_WRITER_IMPLEMENTATION
+-#include "deps/tiny_dng_writer.h"
++#include "dngWhiteLevel.h"
+ #include "dngCreator.h"
+ 
+ // libarchive public headers — used for opaque types, constants, and function
+@@ -594,6 +594,11 @@
+     }
+ 
+     void* createDng(void* imageData, int width, int height, size_t &size) {
++        if (!photon_dng::isIntegralWhiteLevel(metadata.white_level)) {
++            LOGE("WhiteLevel cannot be represented as an unsigned TIFF LONG");
++            size = 0;
++            return nullptr;
++        }
+         metadata.original_width  = width;
+         metadata.original_height = height;
+ 
+@@ -644,7 +649,11 @@
+             if (encoding_table) {
+                 dng_image0->SetLinearizationTable(static_cast<unsigned int>(STORED_LEVELS_10), linearization_table);
+                 const double newLevel = 65535;
+-                dng_image0->SetWhiteLevelRational(1, &newLevel);
++                if (!photon_dng::setWhiteLevel(*dng_image0, newLevel)) {
++                    delete[] binnedData;
++                    size = 0;
++                    return nullptr;
++                }
+                 // set Black level too
+                 unsigned short compressedBlackLevel[4];
+                 for(int i =0; i<4;i++)
+@@ -653,7 +662,11 @@
+             }
+         } else {
+             dng_image0->SetBlackLevel(4, metadata.black_level);
+-            dng_image0->SetWhiteLevelRational(1, &metadata.white_level);
++            if (!photon_dng::setWhiteLevel(*dng_image0, metadata.white_level)) {
++                delete[] binnedData;
++                size = 0;
++                return nullptr;
++            }
+         }
+ 
+         // Set color matrices
+diff --git a/app/src/main/cpp/dngWhiteLevel.h b/app/src/main/cpp/dngWhiteLevel.h
+new file mode 100644
+--- /dev/null
++++ b/app/src/main/cpp/dngWhiteLevel.h
+@@ -0,0 +1,29 @@
++#ifndef PHOTONCAMERA_DNGWHITELEVEL_H
++#define PHOTONCAMERA_DNGWHITELEVEL_H
++
++#include <cmath>
++#include <limits>
++
++#include "deps/tiny_dng_writer.h"
++
++namespace photon_dng {
++
++// DNG WhiteLevel (50717) accepts SHORT or LONG, not RATIONAL. Camera2 levels
++// are integral; reject unrepresentable metadata instead of rounding the level.
++inline bool isIntegralWhiteLevel(double value) {
++    static_assert(std::numeric_limits<unsigned int>::digits == 32,
++                  "The retained TIFF writer requires a 32-bit unsigned LONG");
++    return std::isfinite(value) && value >= 0.0 &&
++           value <= std::numeric_limits<unsigned int>::max() &&
++           std::floor(value) == value;
++}
++
++inline bool setWhiteLevel(tinydngwriter::DNGImage& image, double value) {
++    return isIntegralWhiteLevel(value) && image.SetCustomFieldULong(
++            static_cast<unsigned short>(tinydngwriter::TIFFTAG_WHITE_LEVEL),
++            static_cast<unsigned int>(value));
++}
++
++}  // namespace photon_dng
++
++#endif  // PHOTONCAMERA_DNGWHITELEVEL_H
+diff --git a/app/src/main/java/com/particlesdevs/photoncamera/processing/DngCreator.java b/app/src/main/java/com/particlesdevs/photoncamera/processing/DngCreator.java
+--- a/app/src/main/java/com/particlesdevs/photoncamera/processing/DngCreator.java
++++ b/app/src/main/java/com/particlesdevs/photoncamera/processing/DngCreator.java
+@@ -3,6 +3,7 @@
+ import android.media.Image;
+ import android.os.Build;
+ 
++import com.particlesdevs.photoncamera.BuildConfig;
+ import com.particlesdevs.photoncamera.processing.render.Parameters;
+ 
+ import java.io.OutputStream;
+@@ -10,8 +11,6 @@
+ import java.text.SimpleDateFormat;
+ import java.util.Date;
+ import java.util.Locale;
+-
+-import de.hdodenhof.circleimageview.BuildConfig;
+ 
+ public class DngCreator {
+     private long nativePtr;
+@@ -467,7 +466,8 @@
+             blackLevel[i] = (short) parameters.blackLevel[i];
+         }
+         setDescription(parameters.toString());
+-        setSoftware("PhotonCamera v" + BuildConfig.VERSION_NAME+BuildConfig.VERSION_CODE);
++        setSoftware("Hasselblad Photon " + BuildConfig.VERSION_NAME
++                + " (" + BuildConfig.VERSION_CODE + ")");
+         
+         // Set current date and time
+         setDateTime(DATE_FORMAT.get().format(new Date()));
+diff --git a/app/version.properties b/app/version.properties
+--- a/app/version.properties
++++ b/app/version.properties
+@@ -1,3 +1,3 @@
+-#Mon Oct 19 19:37:04 CEST 2026
++#Mon Oct 19 20:14:54 CEST 2026
+ VERSION_NAME=0.93
+-VERSION_BUILD=27175
++VERSION_BUILD=27177
+diff --git a/development/hasselblad/BUILD_NATIVE1A.md b/development/hasselblad/BUILD_NATIVE1A.md
+new file mode 100644
+--- /dev/null
++++ b/development/hasselblad/BUILD_NATIVE1A.md
+@@ -0,0 +1,93 @@
++# Hasselblad Photon Native1A export correction
++
++Native1A is a narrow follow-up to the Native1 checkpoint described in
++[BUILD_NATIVE1.md](BUILD_NATIVE1.md). Its application ID, native primitive,
++single-frame/SDR capture policy, advertised RAW-size selection, and standalone
++storage/configuration isolation are unchanged.
++
++| Item | Native1A |
++| --- | --- |
++| Application ID | `com.mwilliams.hasselbladphoton` |
++| Version name | `0.1-hb-native1a` |
++| APK version code | `27176` |
++| APK filename | `HasselbladPhoton_Native1A_debug.apk` |
++| Native ABIs | `arm64-v8a`, `armeabi-v7a` |
++
++## Why this update exists
++
++The first user phone test of Native1 passed all 14 native checks on ARM64 and
++requested/delivered a 4096 × 3072 RAW16 buffer. Its returned DNG contained a
++readable uncompressed CFA strip and the expected one-frame capture description.
++The recovered Hasselblad WB primitive still has no connection to photographic
++rendering; that test confirms only the bounded JNI routine and its guards.
++
++The returned DNG exposed two inherited export defects:
++
++- WhiteLevel tag 50717 used TIFF RATIONAL. The DNG specification requires SHORT
++  or LONG. Native1A uses the retained writer's unsigned LONG API and preserves
++  the exact integer level, including the existing 65535 linearization-output
++  branch. Values that cannot be represented exactly are rejected through the
++  existing native-null / Java export-failure path, without rounding.
++- Software used `circleimageview.BuildConfig`, producing `PhotonCamera v-1`.
++  Native1A imports the application's BuildConfig and writes
++  `Hasselblad Photon 0.1-hb-native1a (27176)` for this build. The app's standard
++  BuildConfig generation is enabled so these are its own version constants.
++
++No RAW sample arithmetic, demosaic, colour, tone, exposure or lens calibration
++has been changed. The four retained native dependency headers remain unchanged.
++The user's original files and the earlier Native1 APK are preserved.
++
++## Writer verification
++
++[DNG_EXPORT_CHECK_RESULT.json](DNG_EXPORT_CHECK_RESULT.json) records six cases
++compiled from the actual old and new `dngCreator.cpp` with the retained TIFF
++writer. Only Android logging is stubbed for host execution. All image samples
++are deterministic synthetic data.
++
++The cases cover uncompressed RAW16 at levels 1023 and 65535, existing
++JPEG-compressed RAW16 at both levels, direct packed RAW10, and the existing
++10-bit linearization branch whose output WhiteLevel is 65535. Each repaired
++file contains a single LONG WhiteLevel with the exact expected value. All
++encoded strips match Native1 byte-for-byte, as do all other tag payloads apart
++from the necessarily relocated strip offset. Uncompressed RAW16 strips equal
++the original sample bytes exactly; both 16-bit modes leave their input buffer
++unchanged. The 10-bit modes preserve Native1's existing encoding/packing
++behavior and remain disabled by this checkpoint's capture policy.
++
++Twelve invalid-level native calls (NaN, positive/negative infinity, a negative
++value, a fractional value, and UINT32_MAX + 1, in both 16-bit and 10-bit modes)
++return null, set output size to zero, and leave the input unchanged. Four exact
++unsigned LONG boundary values pass the representability check. These guards
++establish representability; they do not validate physical sensor black/white
++calibration.
++
++The fixture lives in `development/hasselblad/dng_export_check/`. From the project
++root, with a C++17 compiler and JDK installed, it can be rerun as follows:
++
++```sh
++python3 development/hasselblad/dng_export_check/check_dng_export.py \
++  --baseline-source ../hasselblad_device_validation_20261019/pair_audit/native1_source_snapshot/app/src/main/cpp/dngCreator.cpp \
++  --work-dir /tmp/hasselblad-native1a-dng-fixtures \
++  --report /tmp/hasselblad-native1a-dng-fixtures/result.json \
++  --java-home /path/to/jdk17
++```
++
++The combined source/validation bundle contains the baseline snapshot at that
++sibling path. Fixture image files are synthetic; no user image payload is
++needed to reproduce this check. Compressed-payload equality tests the scope of
++this metadata change, and does not substitute for an independent codec audit.
++
++## Build and next phone check
++
++Native1A uses the same toolchain and development signing key as Native1. Its
++higher version code permits an update over the existing standalone installation.
++Build/signature/package evidence and the incremental/full source patches are
++provided separately with the APK.
++
++The new writer is verified on the host and compiled for both Android ABIs.
++Native1A itself still needs the next phone export to confirm the final on-device
++DNG metadata. One new DNG is sufficient for that check: inspect WhiteLevel for
++LONG/count 1/value 1023 on the previously tested camera, and Software for the
++Native1A app/version string. Other cameras may correctly report a different
++integer white level. The 14-vector development check remains available and
++unchanged.
+diff --git a/development/hasselblad/DNG_EXPORT_CHECK_RESULT.json b/development/hasselblad/DNG_EXPORT_CHECK_RESULT.json
+new file mode 100644
+--- /dev/null
++++ b/development/hasselblad/DNG_EXPORT_CHECK_RESULT.json
+@@ -0,0 +1,164 @@
++{
++  "checkpoint": "Native1A",
++  "result": "pass",
++  "fixture_cases": [
++    {
++      "name": "raw16_1023",
++      "result": "pass",
++      "white_level_type": "LONG",
++      "white_level_tiff_type": 4,
++      "white_level_count": 1,
++      "white_level_value": 1023,
++      "bits_per_sample": 16,
++      "compression": 1,
++      "encoded_strip_bytes": 1536,
++      "encoded_strip_sha256": "bb9797dca3bde4750a84b5d0d94b4877e5da27e79b05cc93fc97b9d64fe7cbc0",
++      "encoded_strip_identical_to_native1": true,
++      "all_other_metadata_payloads_identical_except_strip_offset": true,
++      "uncompressed_u16_strip_equals_input": true,
++      "input_sample_buffer_unchanged": true,
++      "existing_input_buffer_handling_matches_native1": true
++    },
++    {
++      "name": "raw16_65535",
++      "result": "pass",
++      "white_level_type": "LONG",
++      "white_level_tiff_type": 4,
++      "white_level_count": 1,
++      "white_level_value": 65535,
++      "bits_per_sample": 16,
++      "compression": 1,
++      "encoded_strip_bytes": 1536,
++      "encoded_strip_sha256": "ac2a5d9139c375d3a3ac7dd29fdbefd11c5eaf460659276f9a41cb58ecab72c0",
++      "encoded_strip_identical_to_native1": true,
++      "all_other_metadata_payloads_identical_except_strip_offset": true,
++      "uncompressed_u16_strip_equals_input": true,
++      "input_sample_buffer_unchanged": true,
++      "existing_input_buffer_handling_matches_native1": true
++    },
++    {
++      "name": "jpeg16_1023",
++      "result": "pass",
++      "white_level_type": "LONG",
++      "white_level_tiff_type": 4,
++      "white_level_count": 1,
++      "white_level_value": 1023,
++      "bits_per_sample": 16,
++      "compression": 7,
++      "encoded_strip_bytes": 838,
++      "encoded_strip_sha256": "85778ce1266c80a0c5991a65e328504b6be888d2818572834532fd7847020d6a",
++      "encoded_strip_identical_to_native1": true,
++      "all_other_metadata_payloads_identical_except_strip_offset": true,
++      "uncompressed_u16_strip_equals_input": null,
++      "input_sample_buffer_unchanged": true,
++      "existing_input_buffer_handling_matches_native1": true
++    },
++    {
++      "name": "jpeg16_65535",
++      "result": "pass",
++      "white_level_type": "LONG",
++      "white_level_tiff_type": 4,
++      "white_level_count": 1,
++      "white_level_value": 65535,
++      "bits_per_sample": 16,
++      "compression": 7,
++      "encoded_strip_bytes": 1320,
++      "encoded_strip_sha256": "a644bca4fe1651168d7fc86255fb4e0763627c2fd567faf556e5666a6bf1c63b",
++      "encoded_strip_identical_to_native1": true,
++      "all_other_metadata_payloads_identical_except_strip_offset": true,
++      "uncompressed_u16_strip_equals_input": null,
++      "input_sample_buffer_unchanged": true,
++      "existing_input_buffer_handling_matches_native1": true
++    },
++    {
++      "name": "raw10_1023",
++      "result": "pass",
++      "white_level_type": "LONG",
++      "white_level_tiff_type": 4,
++      "white_level_count": 1,
++      "white_level_value": 1023,
++      "bits_per_sample": 10,
++      "compression": 1,
++      "encoded_strip_bytes": 960,
++      "encoded_strip_sha256": "54817077dc9502ff7813194c3189dc3ba2b2d564169682b7b696df145656e760",
++      "encoded_strip_identical_to_native1": true,
++      "all_other_metadata_payloads_identical_except_strip_offset": true,
++      "uncompressed_u16_strip_equals_input": null,
++      "input_sample_buffer_unchanged": false,
++      "existing_input_buffer_handling_matches_native1": true
++    },
++    {
++      "name": "raw10_linearized_4095",
++      "result": "pass",
++      "white_level_type": "LONG",
++      "white_level_tiff_type": 4,
++      "white_level_count": 1,
++      "white_level_value": 65535,
++      "bits_per_sample": 10,
++      "compression": 1,
++      "encoded_strip_bytes": 960,
++      "encoded_strip_sha256": "f7f48a71215db8783caee6d9b99dfc0106f62c2ce4de9db2e48532ea4e5240fd",
++      "encoded_strip_identical_to_native1": true,
++      "all_other_metadata_payloads_identical_except_strip_offset": true,
++      "uncompressed_u16_strip_equals_input": null,
++      "input_sample_buffer_unchanged": false,
++      "existing_input_buffer_handling_matches_native1": true
++    }
++  ],
++  "guards": {
++    "invalid_native_calls_rejected": 12,
++    "representable_boundaries_accepted": 4
++  },
++  "compiler": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0",
++  "compile_commands": [
++    [
++      "/usr/bin/g++",
++      "-std=c++17",
++      "-O1",
++      "-fno-strict-aliasing",
++      "-I/workspace/scratch/f4dc23366b1f/HasselbladPhoton/development/hasselblad/dng_export_check/host_include",
++      "-I/workspace/scratch/f4dc23366b1f/HasselbladPhoton/app/src/main/cpp",
++      "-I/workspace/scratch/f4dc23366b1f/HasselbladPhoton/app/src/main/cpp/deps",
++      "-I/tmp/hasselblad-build-tools/jdk-17.0.20.1+1/include",
++      "-I/tmp/hasselblad-build-tools/jdk-17.0.20.1+1/include/linux",
++      "-DPHOTON_DNG_SOURCE=\"/workspace/scratch/f4dc23366b1f/hasselblad_device_validation_20261019/pair_audit/native1_source_snapshot/app/src/main/cpp/dngCreator.cpp\"",
++      "/workspace/scratch/f4dc23366b1f/HasselbladPhoton/development/hasselblad/dng_export_check/dng_export_fixture.cpp",
++      "-ldl",
++      "-o",
++      "/tmp/hasselblad-native1a-dng-fixtures/native1_fixture"
++    ],
++    [
++      "/usr/bin/g++",
++      "-std=c++17",
++      "-O1",
++      "-fno-strict-aliasing",
++      "-I/workspace/scratch/f4dc23366b1f/HasselbladPhoton/development/hasselblad/dng_export_check/host_include",
++      "-I/workspace/scratch/f4dc23366b1f/HasselbladPhoton/app/src/main/cpp",
++      "-I/workspace/scratch/f4dc23366b1f/HasselbladPhoton/app/src/main/cpp/deps",
++      "-I/tmp/hasselblad-build-tools/jdk-17.0.20.1+1/include",
++      "-I/tmp/hasselblad-build-tools/jdk-17.0.20.1+1/include/linux",
++      "-DPHOTON_DNG_SOURCE=\"/workspace/scratch/f4dc23366b1f/HasselbladPhoton/app/src/main/cpp/dngCreator.cpp\"",
++      "-DNATIVE1A_GUARDS=1",
++      "/workspace/scratch/f4dc23366b1f/HasselbladPhoton/development/hasselblad/dng_export_check/dng_export_fixture.cpp",
++      "-ldl",
++      "-o",
++      "/tmp/hasselblad-native1a-dng-fixtures/native1a_fixture"
++    ]
++  ],
++  "source_hashes": {
++    "/workspace/scratch/f4dc23366b1f/HasselbladPhoton/app/src/main/cpp/dngCreator.cpp": "bfb19fa79cc6fddca7cc4145984470bcace53f262af563e740932b79caff5fa3",
++    "/workspace/scratch/f4dc23366b1f/hasselblad_device_validation_20261019/pair_audit/native1_source_snapshot/app/src/main/cpp/dngCreator.cpp": "5e0c2bf20b25a6c2a6096029449658d0d187b711e1322224aeb3bd70c5460ee5",
++    "/workspace/scratch/f4dc23366b1f/HasselbladPhoton/app/src/main/cpp/dngWhiteLevel.h": "8665585e2c0b74b72297b4b3edb55de9928125fdf5169ee9d47d1a51beb13498",
++    "/workspace/scratch/f4dc23366b1f/HasselbladPhoton/app/src/main/cpp/deps/tiny_dng_writer.h": "0c68ee68914b949eaf194a20d83505d4debee9272d991e68e538e25611f289cc",
++    "/workspace/scratch/f4dc23366b1f/HasselbladPhoton/development/hasselblad/dng_export_check/dng_export_fixture.cpp": "3d56f6b96312f2aa5da995388d95fb367987bbef7ba763eaba6626456f320dd8",
++    "/workspace/scratch/f4dc23366b1f/HasselbladPhoton/development/hasselblad/dng_export_check/host_include/android/log.h": "a3559248e8493a234fd5d2fe0f8a62a59988030000e821bbf4ac7375ada6371e",
++    "/workspace/scratch/f4dc23366b1f/HasselbladPhoton/development/hasselblad/dng_export_check/check_dng_export.py": "a905b5efb4c5709bf677b96ae24178d5590f3072754c04d94ff3857bae2dfe8f"
++  },
++  "scope": "Actual production C++ creator and retained TIFF writer; Android logging stub only; all samples synthetic",
++  "limits": [
++    "Host execution, not a new phone capture",
++    "Compressed strip equality proves this metadata fix retains Native1 encoded payload; no new independent JPEG-lossless decoder test",
++    "Existing 10-bit encoding intentionally changes/repacks input samples; that branch is disabled by Native1 capture policy",
++    "Software provenance must also be checked in compiled Java/DEX and confirmed on the next phone DNG"
++  ]
++}
+diff --git a/development/hasselblad/dng_export_check/check_dng_export.py b/development/hasselblad/dng_export_check/check_dng_export.py
+new file mode 100644
+--- /dev/null
++++ b/development/hasselblad/dng_export_check/check_dng_export.py
+@@ -0,0 +1,147 @@
++#!/usr/bin/env python3
++"""Verify the actual app DNG writer against the preserved Native1 creator.
++
++All image samples are synthetic. Build outputs and small generated fixtures go
++to --work-dir; only the JSON report needs to be retained with the source.
++"""
++import argparse
++import hashlib
++import json
++import os
++from pathlib import Path
++import shutil
++import struct
++import subprocess
++import sys
++
++
++def sha(path):
++    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
++
++
++def parse_tiff(path):
++    data = Path(path).read_bytes()
++    if data[:4] != b"II*\0":
++        raise AssertionError("Expected classic little-endian TIFF")
++    offset = struct.unpack_from("<I", data, 4)[0]
++    fields = {}
++    count = struct.unpack_from("<H", data, offset)[0]
++    sizes = {1: 1, 2: 1, 3: 2, 4: 4, 5: 8, 7: 1, 9: 4, 10: 8, 11: 4, 12: 8}
++    for index in range(count):
++        start = offset + 2 + index * 12
++        tag, kind, n = struct.unpack_from("<HHI", data, start)
++        length = sizes[kind] * n
++        ptr = start + 8 if length <= 4 else struct.unpack_from("<I", data, start + 8)[0]
++        payload = data[ptr:ptr + length]
++        if len(payload) != length or tag in fields:
++            raise AssertionError("Truncated or duplicate TIFF tag")
++        fields[tag] = (kind, n, payload)
++
++    def integers(tag):
++        kind, n, payload = fields[tag]
++        return struct.unpack("<" + {3: "H", 4: "I"}[kind] * n, payload)
++
++    strip_offsets = integers(273)
++    strip_counts = integers(279)
++    strip = b"".join(data[pos:pos + n] for pos, n in zip(strip_offsets, strip_counts))
++    assert len(strip) == sum(strip_counts)
++    return fields, strip
++
++
++def main():
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument("--baseline-source", type=Path, required=True)
++    parser.add_argument("--work-dir", type=Path, required=True)
++    parser.add_argument("--report", type=Path, required=True)
++    parser.add_argument("--java-home", type=Path, default=os.environ.get("JAVA_HOME"))
++    parser.add_argument("--cxx", default="g++")
++    args = parser.parse_args()
++    assert sys.byteorder == "little", "This Android-equivalent fixture uses a little-endian host"
++    here = Path(__file__).resolve().parent
++    project = here.parents[2]
++    cpp = project / "app/src/main/cpp"
++    current = cpp / "dngCreator.cpp"
++    jdk = args.java_home
++    if jdk is None or not (jdk / "include/jni.h").is_file():
++        raise SystemExit("Pass --java-home pointing to a JDK with JNI headers")
++    compiler = shutil.which(args.cxx)
++    if compiler is None:
++        raise SystemExit("A C++17 compiler is required")
++    args.work_dir.mkdir(parents=True, exist_ok=True)
++    commands = []
++    for name, source in [("native1", args.baseline_source.resolve()), ("native1a", current)]:
++        executable = args.work_dir / (name + "_fixture")
++        command = [compiler, "-std=c++17", "-O1", "-fno-strict-aliasing",
++                   "-I" + str(here / "host_include"), "-I" + str(cpp),
++                   "-I" + str(cpp / "deps"), "-I" + str(jdk / "include"),
++                   "-I" + str(jdk / "include/linux"),
++                   '-DPHOTON_DNG_SOURCE="' + str(source) + '"']
++        if name == "native1a":
++            command.append("-DNATIVE1A_GUARDS=1")
++        command += [str(here / "dng_export_fixture.cpp"), "-ldl", "-o", str(executable)]
++        commands.append(command)
++        with (args.work_dir / (name + "_compile.log")).open("w") as stream:
++            subprocess.run(command, check=True, stdout=stream, stderr=subprocess.STDOUT)
++        with (args.work_dir / (name + "_execution.log")).open("w") as stream:
++            subprocess.run([str(executable), str(args.work_dir / name)], check=True,
++                           stdout=stream, stderr=subprocess.STDOUT)
++
++    cases = []
++    expected = [
++        ("raw16_1023", 1023, 16, 1), ("raw16_65535", 65535, 16, 1),
++        ("jpeg16_1023", 1023, 16, 7), ("jpeg16_65535", 65535, 16, 7),
++        ("raw10_1023", 1023, 10, 1), ("raw10_linearized_4095", 65535, 10, 1)
++    ]
++    for name, level, bits, compression in expected:
++        old_fields, old_strip = parse_tiff(args.work_dir / "native1" / (name + ".dng"))
++        fields, strip = parse_tiff(args.work_dir / "native1a" / (name + ".dng"))
++        assert old_fields[50717][:2] == (5, 1), "Baseline did not reproduce the RATIONAL defect"
++        numerator, denominator = struct.unpack("<II", old_fields[50717][2])
++        assert denominator and numerator / denominator == level
++        assert fields[50717] == (4, 1, struct.pack("<I", level)), "WhiteLevel must be LONG/count1/exact value"
++        assert struct.unpack("<H", fields[258][2])[0] == bits
++        assert struct.unpack("<H", fields[259][2])[0] == compression
++        assert strip == old_strip, "The export fix changed the encoded RAW strip"
++        # Offsets change because LONG fits inline and RATIONAL did not. Every
++        # other field payload, including the compression table, must match.
++        assert {k: v for k, v in fields.items() if k not in (50717, 273)} == {
++            k: v for k, v in old_fields.items() if k not in (50717, 273)}
++        before = (args.work_dir / "native1a" / (name + ".input.bin")).read_bytes()
++        after = (args.work_dir / "native1a" / (name + ".after.bin")).read_bytes()
++        old_after = (args.work_dir / "native1" / (name + ".after.bin")).read_bytes()
++        assert after == old_after, "The export fix changed the input-buffer handling"
++        if bits == 16:
++            assert before == after, "16-bit export modified input samples"
++        if bits == 16 and compression == 1:
++            assert strip == before, "Uncompressed RAW strip differs from input samples"
++        if "linearized" in name:
++            assert fields[50712][:2] == (3, 1024), "Expected the existing 10-bit linearization table"
++        cases.append({"name": name, "result": "pass", "white_level_type": "LONG",
++                      "white_level_tiff_type": 4, "white_level_count": 1, "white_level_value": level,
++                      "bits_per_sample": bits, "compression": compression,
++                      "encoded_strip_bytes": len(strip), "encoded_strip_sha256": hashlib.sha256(strip).hexdigest(),
++                      "encoded_strip_identical_to_native1": True,
++                      "all_other_metadata_payloads_identical_except_strip_offset": True,
++                      "uncompressed_u16_strip_equals_input": True if bits == 16 and compression == 1 else None,
++                      "input_sample_buffer_unchanged": before == after,
++                      "existing_input_buffer_handling_matches_native1": True})
++    guards = json.loads((args.work_dir / "native1a/guards.json").read_text())
++    assert guards == {"invalid_native_calls_rejected": 12, "representable_boundaries_accepted": 4}
++    report = {"checkpoint": "Native1A", "result": "pass", "fixture_cases": cases,
++              "guards": guards, "compiler": subprocess.check_output([compiler, "--version"], text=True).splitlines()[0],
++              "compile_commands": commands,
++              "source_hashes": {str(path): sha(path) for path in [current, args.baseline_source.resolve(),
++                    cpp / "dngWhiteLevel.h", cpp / "deps/tiny_dng_writer.h",
++                    here / "dng_export_fixture.cpp", here / "host_include/android/log.h", Path(__file__)]},
++              "scope": "Actual production C++ creator and retained TIFF writer; Android logging stub only; all samples synthetic",
++              "limits": ["Host execution, not a new phone capture",
++                         "Compressed strip equality proves this metadata fix retains Native1 encoded payload; no new independent JPEG-lossless decoder test",
++                         "Existing 10-bit encoding intentionally changes/repacks input samples; that branch is disabled by Native1 capture policy",
++                         "Software provenance must also be checked in compiled Java/DEX and confirmed on the next phone DNG"]}
++    args.report.parent.mkdir(parents=True, exist_ok=True)
++    args.report.write_text(json.dumps(report, indent=2) + "\n")
++    print(json.dumps({"result": report["result"], "cases": len(cases), "guards": guards, "report": str(args.report)}))
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/development/hasselblad/dng_export_check/dng_export_fixture.cpp b/development/hasselblad/dng_export_check/dng_export_fixture.cpp
+new file mode 100644
+--- /dev/null
++++ b/development/hasselblad/dng_export_check/dng_export_fixture.cpp
+@@ -0,0 +1,111 @@
++// Compile the actual app creator and retained TIFF writer on the host. Only
++// Android logging is stubbed; no sample-writing or metadata code is replaced.
++#include <filesystem>
++#include <fstream>
++#include <limits>
++#include <stdexcept>
++#include <vector>
++
++#include PHOTON_DNG_SOURCE
++
++extern "C" int __android_log_print(int, const char*, const char*, ...) {
++    return 0;
++}
++
++static void require(bool condition, const char* reason) {
++    if (!condition) throw std::runtime_error(reason);
++}
++
++static void writeFile(const std::filesystem::path& path, const void* data, size_t bytes) {
++    std::ofstream stream(path, std::ios::binary);
++    stream.write(static_cast<const char*>(data), static_cast<std::streamsize>(bytes));
++    require(stream.good(), "Could not write fixture output");
++}
++
++static void makeCase(const std::filesystem::path& dir, const char* name,
++                     double white, unsigned short bps, bool compressed) {
++    constexpr int width = 32;
++    constexpr int height = 24;
++    const unsigned int level = static_cast<unsigned int>(white);
++    std::vector<uint16_t> samples(width * height);
++    for (size_t i = 0; i < samples.size(); ++i) {
++        samples[i] = static_cast<uint16_t>((i * 97u + (i / width) * 13u) % (level + 1u));
++    }
++    samples[0] = 0;
++    samples[1] = 64;
++    samples[2] = static_cast<uint16_t>(level);
++    writeFile(dir / (std::string(name) + ".input.bin"), samples.data(), samples.size() * 2);
++
++    DngCreator creator;
++    creator.setWhiteLevel(white);
++    const unsigned short black[4] = {64, 64, 64, 64};
++    creator.setBlackLevel(black);
++    creator.setBitsPerSample(bps);
++    creator.setCompression(compressed);
++    creator.setOrientation(6);
++    creator.setCFAPattern(0);
++    creator.setMake("Fixture");
++    creator.setModel("Synthetic RAW samples");
++    creator.setUniqueCameraModel("Native1A export regression fixture");
++    creator.setSoftware("Hasselblad Photon writer fixture");
++    creator.setDateTime("2026:10:19 00:00:00");
++    size_t bytes = 0;
++    void* encoded = creator.createDng(samples.data(), width, height, bytes);
++    require(encoded != nullptr && bytes > 0, "Actual app DNG creation failed");
++    writeFile(dir / (std::string(name) + ".dng"), encoded, bytes);
++    std::free(encoded);
++    writeFile(dir / (std::string(name) + ".after.bin"), samples.data(), samples.size() * 2);
++}
++
++#ifdef NATIVE1A_GUARDS
++static void checkGuards(const std::filesystem::path& dir) {
++    const double invalid[] = {
++        std::numeric_limits<double>::quiet_NaN(),
++        std::numeric_limits<double>::infinity(),
++        -std::numeric_limits<double>::infinity(),
++        -1.0, 1023.5, 4294967296.0
++    };
++    int rejected = 0;
++    for (int bps : {16, 10}) {
++        for (double level : invalid) {
++            DngCreator creator;
++            creator.setBitsPerSample(bps);
++            creator.setCompression(false);
++            creator.setWhiteLevel(level);
++            std::vector<uint16_t> samples(16, 64);
++            size_t bytes = 123;
++            void* encoded = creator.createDng(samples.data(), 4, 4, bytes);
++            require(encoded == nullptr && bytes == 0,
++                    "Unrepresentable WhiteLevel was not rejected through the native failure path");
++            require(samples == std::vector<uint16_t>(16, 64),
++                    "Rejected metadata changed the input samples");
++            ++rejected;
++        }
++    }
++    int accepted = 0;
++    for (double level : {0.0, 1023.0, 65535.0, 4294967295.0}) {
++        require(photon_dng::isIntegralWhiteLevel(level),
++                "Representable unsigned LONG boundary was rejected");
++        ++accepted;
++    }
++    const std::string result = "{\"invalid_native_calls_rejected\":" + std::to_string(rejected)
++            + ",\"representable_boundaries_accepted\":" + std::to_string(accepted) + "}\n";
++    writeFile(dir / "guards.json", result.data(), result.size());
++}
++#endif
++
++int main(int argc, char** argv) {
++    require(argc == 2, "Usage: dng_export_fixture output-directory");
++    const std::filesystem::path dir(argv[1]);
++    std::filesystem::create_directories(dir);
++    makeCase(dir, "raw16_1023", 1023, 16, false);
++    makeCase(dir, "raw16_65535", 65535, 16, false);
++    makeCase(dir, "jpeg16_1023", 1023, 16, true);
++    makeCase(dir, "jpeg16_65535", 65535, 16, true);
++    makeCase(dir, "raw10_1023", 1023, 10, false);
++    makeCase(dir, "raw10_linearized_4095", 4095, 10, false);
++#ifdef NATIVE1A_GUARDS
++    checkGuards(dir);
++#endif
++    return 0;
++}
+diff --git a/development/hasselblad/dng_export_check/host_include/android/log.h b/development/hasselblad/dng_export_check/host_include/android/log.h
+new file mode 100644
+--- /dev/null
++++ b/development/hasselblad/dng_export_check/host_include/android/log.h
+@@ -0,0 +1,15 @@
++#ifndef PHOTON_DNG_FIXTURE_ANDROID_LOG_H
++#define PHOTON_DNG_FIXTURE_ANDROID_LOG_H
++
++#define ANDROID_LOG_DEBUG 3
++#define ANDROID_LOG_ERROR 6
++
++#ifdef __cplusplus
++extern "C" {
++#endif
++int __android_log_print(int priority, const char* tag, const char* format, ...);
++#ifdef __cplusplus
++}
++#endif
++
++#endif

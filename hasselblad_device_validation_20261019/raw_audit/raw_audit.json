@@ -1,0 +1,1731 @@
+{
+  "audit_method": "Bounded classic-TIFF metadata parsing and direct NumPy decoding of the declared uncompressed CFA strip. No demosaicing, colour conversion, gain-map application or image rewriting.",
+  "dng": {
+    "filename": "01-60784.dng",
+    "bytes": 25171227,
+    "sha256": "5d17b2119c7eefa01823b66bab5ee4d4ad3d5685183460e94d39ac50e11c0fb5",
+    "byte_order": "little-endian",
+    "ifd_count": 1,
+    "raw_ifd_offset": 25170693,
+    "width": 4096,
+    "height": 3072,
+    "sample_count": 12582912,
+    "stored_bits_per_sample": 16,
+    "compression": "none",
+    "cfa": "RGGB",
+    "cfa_repeat_dimensions": [
+      2,
+      2
+    ],
+    "orientation": 6,
+    "active_area_top_left_bottom_right": [
+      0,
+      0,
+      3072,
+      4096
+    ],
+    "explicit_crop_tags": {},
+    "absent_crop_tags": [
+      "DefaultScale",
+      "DefaultCropOrigin",
+      "DefaultCropSize"
+    ],
+    "black_repeat_dimensions": [
+      2,
+      2
+    ],
+    "black_levels": [
+      64,
+      64,
+      64,
+      64
+    ],
+    "white_level": 1023.0,
+    "white_level_tiff_type": "RATIONAL",
+    "declared_signal_normalization": "(sample - 64) / (1023.0 - 64) before optional clipping and subsequent processing",
+    "as_shot_neutral": [
+      0.576171875,
+      1.0,
+      0.376953125
+    ],
+    "reciprocal_neutral_relative_multipliers": [
+      1.735593220338983,
+      1.0,
+      2.6528497409326426
+    ],
+    "reciprocal_neutral_scope": "Arithmetic reciprocals normalized to green, not a proved mapping to the recovered Hasselblad Q12 recalibration inputs or a measured phone colour calibration.",
+    "calibration_illuminants": [
+      {
+        "tag": "CalibrationIlluminant1",
+        "value": 21,
+        "name": "D65"
+      },
+      {
+        "tag": "CalibrationIlluminant2",
+        "value": 17,
+        "name": "Standard light A"
+      }
+    ],
+    "exposure_time_seconds": 0.06126438081264496,
+    "f_number": 1.6299999952316284,
+    "iso": 627,
+    "focal_length_mm": 8.720000267028809,
+    "make": "Xiaomi",
+    "model": "25010PN30G",
+    "capture_time_tag": "2026:10:19 18:51:34",
+    "software_tag": "PhotonCamera v-1",
+    "image_description": "parameters:\n\n hasGainMap=true\n FrameCount=1\n CameraID=2\n DenoiseOn=false\n Sharp=0.20\n Sat=1.00\n Contrast=0.00\n ExpoCorrect=0.00\n Denoise=0.00\n Noise Merging=0.00\n Shadows=0.00\n Compressor=0.00\n Align=1\n Color=1\n PreviewFormat=0\n FocalL=8.72\n TotalProcessingTime=0ms\n Version=0.1-hb-native1(27174)",
+    "matrices": {
+      "ColorMatrix1": {
+        "rational_pairs_row_major": [
+          [
+            107,
+            128
+          ],
+          [
+            -11,
+            64
+          ],
+          [
+            -17,
+            128
+          ],
+          [
+            -15,
+            32
+          ],
+          [
+            179,
+            128
+          ],
+          [
+            3,
+            64
+          ],
+          [
+            -11,
+            128
+          ],
+          [
+            43,
+            128
+          ],
+          [
+            13,
+            32
+          ]
+        ],
+        "matrix": [
+          [
+            0.8359375,
+            -0.171875,
+            -0.1328125
+          ],
+          [
+            -0.46875,
+            1.3984375,
+            0.046875
+          ],
+          [
+            -0.0859375,
+            0.3359375,
+            0.40625
+          ]
+        ],
+        "determinant": 0.4346604347229004,
+        "condition_number_2norm": 4.176601983753957
+      },
+      "ColorMatrix2": {
+        "rational_pairs_row_major": [
+          [
+            41,
+            32
+          ],
+          [
+            -31,
+            64
+          ],
+          [
+            -29,
+            128
+          ],
+          [
+            -75,
+            128
+          ],
+          [
+            51,
+            32
+          ],
+          [
+            9,
+            64
+          ],
+          [
+            -3,
+            64
+          ],
+          [
+            23,
+            128
+          ],
+          [
+            45,
+            64
+          ]
+        ],
+        "matrix": [
+          [
+            1.28125,
+            -0.484375,
+            -0.2265625
+          ],
+          [
+            -0.5859375,
+            1.59375,
+            0.140625
+          ],
+          [
+            -0.046875,
+            0.1796875,
+            0.703125
+          ]
+        ],
+        "determinant": 1.2139649391174316,
+        "condition_number_2norm": 3.007713177482508
+      },
+      "CameraCalibration1": {
+        "rational_pairs_row_major": [
+          [
+            33,
+            32
+          ],
+          [
+            0,
+            16777216
+          ],
+          [
+            0,
+            16777216
+          ],
+          [
+            0,
+            16777216
+          ],
+          [
+            1,
+            1
+          ],
+          [
+            0,
+            16777216
+          ],
+          [
+            0,
+            16777216
+          ],
+          [
+            0,
+            16777216
+          ],
+          [
+            65,
+            64
+          ]
+        ],
+        "matrix": [
+          [
+            1.03125,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.015625
+          ]
+        ],
+        "determinant": 1.04736328125,
+        "condition_number_2norm": 1.03125
+      },
+      "CameraCalibration2": {
+        "rational_pairs_row_major": [
+          [
+            33,
+            32
+          ],
+          [
+            0,
+            16777216
+          ],
+          [
+            0,
+            16777216
+          ],
+          [
+            0,
+            16777216
+          ],
+          [
+            1,
+            1
+          ],
+          [
+            0,
+            16777216
+          ],
+          [
+            0,
+            16777216
+          ],
+          [
+            0,
+            16777216
+          ],
+          [
+            65,
+            64
+          ]
+        ],
+        "matrix": [
+          [
+            1.03125,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.015625
+          ]
+        ],
+        "determinant": 1.04736328125,
+        "condition_number_2norm": 1.03125
+      },
+      "ForwardMatrix1": {
+        "rational_pairs_row_major": [
+          [
+            81,
+            128
+          ],
+          [
+            7,
+            64
+          ],
+          [
+            7,
+            32
+          ],
+          [
+            7,
+            32
+          ],
+          [
+            97,
+            128
+          ],
+          [
+            3,
+            128
+          ],
+          [
+            -5,
+            128
+          ],
+          [
+            -29,
+            64
+          ],
+          [
+            169,
+            128
+          ]
+        ],
+        "matrix": [
+          [
+            0.6328125,
+            0.109375,
+            0.21875
+          ],
+          [
+            0.21875,
+            0.7578125,
+            0.0234375
+          ],
+          [
+            -0.0390625,
+            -0.453125,
+            1.3203125
+          ]
+        ],
+        "determinant": 0.5929837226867675,
+        "condition_number_2norm": 3.0164500623403327
+      },
+      "ForwardMatrix2": {
+        "rational_pairs_row_major": [
+          [
+            81,
+            128
+          ],
+          [
+            7,
+            64
+          ],
+          [
+            7,
+            32
+          ],
+          [
+            7,
+            32
+          ],
+          [
+            97,
+            128
+          ],
+          [
+            3,
+            128
+          ],
+          [
+            -5,
+            128
+          ],
+          [
+            -29,
+            64
+          ],
+          [
+            169,
+            128
+          ]
+        ],
+        "matrix": [
+          [
+            0.6328125,
+            0.109375,
+            0.21875
+          ],
+          [
+            0.21875,
+            0.7578125,
+            0.0234375
+          ],
+          [
+            -0.0390625,
+            -0.453125,
+            1.3203125
+          ]
+        ],
+        "determinant": 0.5929837226867675,
+        "condition_number_2norm": 3.0164500623403327
+      }
+    },
+    "noise_profile": [
+      0.00032682355521344,
+      8.052035411738214e-07,
+      0.0003280149518056506,
+      7.038407955329234e-07,
+      0.00032946537527788004,
+      8.188255486184265e-07
+    ]
+  },
+  "raw_integrity": {
+    "strip_offsets": [
+      4869
+    ],
+    "strip_byte_counts": [
+      25165824
+    ],
+    "expected_payload_bytes": 25165824,
+    "actual_payload_bytes": 25165824,
+    "payload_sha256": "b3beb5b39a524d11b3582659cf392aab49bb1f04e4ceb4f08228f8ab40074de4",
+    "all_strips_within_file": true,
+    "strip_payload_exactly_matches_dimensions": true,
+    "highest_set_bit_mask": "0x3ff",
+    "upper_six_bits_always_zero": true,
+    "distinct_sample_values": 944,
+    "bit_one_counts_0_through_15": [
+      6293594,
+      6311483,
+      6312301,
+      5889790,
+      5171394,
+      4260583,
+      9140055,
+      4094427,
+      1194544,
+      19125,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "constant_rows": 0,
+    "constant_columns": 0,
+    "identical_adjacent_same_parity_rows": 0,
+    "identical_adjacent_same_parity_columns": 0,
+    "observed_bit_scope": "The stored codes fit ten bits and the file declares white at 1023. This does not establish the physical sensor ADC depth, upstream ISP operations or scene dynamic range."
+  },
+  "raw_statistics": {
+    "all_samples": {
+      "sample_count": 12582912,
+      "minimum": 62,
+      "maximum": 1023,
+      "mean": 137.88624477386475,
+      "standard_deviation": 77.63764083446752,
+      "percentiles": {
+        "0": 62.0,
+        "0.01": 63.0,
+        "0.1": 64.0,
+        "1": 65.0,
+        "5": 67.0,
+        "25": 78.0,
+        "50": 109.0,
+        "75": 174.0,
+        "95": 293.0,
+        "99": 378.0,
+        "99.9": 533.0,
+        "99.99": 1023.0,
+        "100": 1023.0
+      },
+      "counts": {
+        "zero": 0,
+        "below_black": 1692,
+        "equal_black": 25363,
+        "at_or_above_white": 1311,
+        "above_white": 0
+      },
+      "percent_of_samples": {
+        "zero": 0.0,
+        "below_black": 0.013446807861328125,
+        "equal_black": 0.201567014058431,
+        "at_or_above_white": 0.010418891906738281,
+        "above_white": 0.0
+      },
+      "declared_black": 64,
+      "declared_white": 1023.0,
+      "mean_black_subtracted": 73.88624477386475,
+      "mean_normalized_to_declared_range": 0.0770450936119549
+    },
+    "cfa_channels": {
+      "R": {
+        "row_parity": 0,
+        "column_parity": 0,
+        "sample_count": 3145728,
+        "minimum": 62,
+        "maximum": 1023,
+        "mean": 123.65182399749756,
+        "standard_deviation": 56.855900824746875,
+        "percentiles": {
+          "0": 62.0,
+          "0.01": 63.0,
+          "0.1": 64.0,
+          "1": 65.0,
+          "5": 67.0,
+          "25": 77.0,
+          "50": 108.0,
+          "75": 154.0,
+          "95": 230.0,
+          "99": 311.0,
+          "99.9": 383.0,
+          "99.99": 743.0,
+          "100": 1023.0
+        },
+        "counts": {
+          "zero": 0,
+          "below_black": 445,
+          "equal_black": 6861,
+          "at_or_above_white": 42,
+          "above_white": 0
+        },
+        "percent_of_samples": {
+          "zero": 0.0,
+          "below_black": 0.014146169026692709,
+          "equal_black": 0.21810531616210938,
+          "at_or_above_white": 0.00133514404296875,
+          "above_white": 0.0
+        },
+        "declared_black": 64,
+        "declared_white": 1023.0,
+        "mean_black_subtracted": 59.65182399749756,
+        "mean_normalized_to_declared_range": 0.06220211052919453
+      },
+      "G_on_R_row": {
+        "row_parity": 0,
+        "column_parity": 1,
+        "sample_count": 3145728,
+        "minimum": 63,
+        "maximum": 1023,
+        "mean": 165.3750368754069,
+        "standard_deviation": 91.31965570003211,
+        "percentiles": {
+          "0": 63.0,
+          "0.01": 64.0,
+          "0.1": 65.0,
+          "1": 67.0,
+          "5": 70.0,
+          "25": 86.0,
+          "50": 143.0,
+          "75": 229.0,
+          "95": 325.0,
+          "99": 431.0,
+          "99.9": 566.0,
+          "99.99": 1023.0,
+          "100": 1023.0
+        },
+        "counts": {
+          "zero": 0,
+          "below_black": 21,
+          "equal_black": 431,
+          "at_or_above_white": 635,
+          "above_white": 0
+        },
+        "percent_of_samples": {
+          "zero": 0.0,
+          "below_black": 0.000667572021484375,
+          "equal_black": 0.013701121012369791,
+          "at_or_above_white": 0.020186106363932293,
+          "above_white": 0.0
+        },
+        "declared_black": 64,
+        "declared_white": 1023.0,
+        "mean_black_subtracted": 101.37503687540689,
+        "mean_normalized_to_declared_range": 0.10570911040188415
+      },
+      "G_on_B_row": {
+        "row_parity": 1,
+        "column_parity": 0,
+        "sample_count": 3145728,
+        "minimum": 63,
+        "maximum": 1023,
+        "mean": 165.26599025726318,
+        "standard_deviation": 91.18763251147764,
+        "percentiles": {
+          "0": 63.0,
+          "0.01": 64.0,
+          "0.1": 65.0,
+          "1": 67.0,
+          "5": 70.0,
+          "25": 86.0,
+          "50": 143.0,
+          "75": 229.0,
+          "95": 325.0,
+          "99": 430.0,
+          "99.9": 565.0,
+          "99.99": 1023.0,
+          "100": 1023.0
+        },
+        "counts": {
+          "zero": 0,
+          "below_black": 11,
+          "equal_black": 358,
+          "at_or_above_white": 634,
+          "above_white": 0
+        },
+        "percent_of_samples": {
+          "zero": 0.0,
+          "below_black": 0.0003496805826822917,
+          "equal_black": 0.011380513509114584,
+          "at_or_above_white": 0.020154317220052082,
+          "above_white": 0.0
+        },
+        "declared_black": 64,
+        "declared_white": 1023.0,
+        "mean_black_subtracted": 101.26599025726318,
+        "mean_normalized_to_declared_range": 0.10559540172811593
+      },
+      "B": {
+        "row_parity": 1,
+        "column_parity": 1,
+        "sample_count": 3145728,
+        "minimum": 62,
+        "maximum": 542,
+        "mean": 97.25212796529134,
+        "standard_deviation": 29.3993445669119,
+        "percentiles": {
+          "0": 62.0,
+          "0.01": 63.0,
+          "0.1": 64.0,
+          "1": 65.0,
+          "5": 66.0,
+          "25": 71.0,
+          "50": 89.0,
+          "75": 119.0,
+          "95": 150.0,
+          "99": 169.0,
+          "99.9": 213.0,
+          "99.99": 341.0,
+          "100": 542.0
+        },
+        "counts": {
+          "zero": 0,
+          "below_black": 1215,
+          "equal_black": 17713,
+          "at_or_above_white": 0,
+          "above_white": 0
+        },
+        "percent_of_samples": {
+          "zero": 0.0,
+          "below_black": 0.038623809814453125,
+          "equal_black": 0.5630811055501302,
+          "at_or_above_white": 0.0,
+          "above_white": 0.0
+        },
+        "declared_black": 64,
+        "declared_white": 1023.0,
+        "mean_black_subtracted": 33.252127965291336,
+        "mean_normalized_to_declared_range": 0.03467375178862496
+      }
+    },
+    "green_mean_difference_codes": 0.10904661814370797,
+    "scope": "Statistics of stored mosaic codes before lens shading and white balance. Scene-dependent channel means are not estimates of white-balance accuracy."
+  },
+  "opcode_list_2": {
+    "opcode_count": 4,
+    "parsed_bytes": 3908,
+    "declared_bytes": 3908,
+    "complete": true,
+    "opcodes": [
+      {
+        "index": 0,
+        "opcode_id": 9,
+        "minimum_version_hex": "0x01030000",
+        "flags": 1,
+        "payload_bytes": 960,
+        "payload_sha256": "8e40c5756f0aff4c57b7097af1d53ec92470858a06392d42d0dae82a561ba600",
+        "name": "GainMap",
+        "area": {
+          "top": 0,
+          "left": 0,
+          "bottom": 3072,
+          "right": 4096,
+          "first_plane": 0,
+          "planes": 1,
+          "row_pitch": 2,
+          "column_pitch": 2
+        },
+        "map_rows": 13,
+        "map_columns": 17,
+        "map_planes": 1,
+        "spacing_vertical": 0.08333333333333333,
+        "spacing_horizontal": 0.0625,
+        "origin_vertical": 0.0,
+        "origin_horizontal": 0.0,
+        "all_finite": true,
+        "all_positive": true,
+        "minimum": 1.0068359375,
+        "maximum": 2.6298828125,
+        "mean": 1.5306180715560913,
+        "center": [
+          1.0068359375
+        ],
+        "corners_top_left_top_right_bottom_left_bottom_right": [
+          [
+            2.6298828125
+          ],
+          [
+            2.587890625
+          ],
+          [
+            2.5888671875
+          ],
+          [
+            2.60546875
+          ]
+        ]
+      },
+      {
+        "index": 1,
+        "opcode_id": 9,
+        "minimum_version_hex": "0x01030000",
+        "flags": 1,
+        "payload_bytes": 960,
+        "payload_sha256": "0ac34927e25aefd012abf6fbcd6cf98f423ace17d4a0ffca8f1f2cdcdf0924bb",
+        "name": "GainMap",
+        "area": {
+          "top": 0,
+          "left": 1,
+          "bottom": 3072,
+          "right": 4096,
+          "first_plane": 0,
+          "planes": 1,
+          "row_pitch": 2,
+          "column_pitch": 2
+        },
+        "map_rows": 13,
+        "map_columns": 17,
+        "map_planes": 1,
+        "spacing_vertical": 0.08333333333333333,
+        "spacing_horizontal": 0.0625,
+        "origin_vertical": 0.0,
+        "origin_horizontal": 0.0,
+        "all_finite": true,
+        "all_positive": true,
+        "minimum": 1.0,
+        "maximum": 2.5654296875,
+        "mean": 1.4837652444839478,
+        "center": [
+          1.0
+        ],
+        "corners_top_left_top_right_bottom_left_bottom_right": [
+          [
+            2.5654296875
+          ],
+          [
+            2.5322265625
+          ],
+          [
+            2.51171875
+          ],
+          [
+            2.4990234375
+          ]
+        ]
+      },
+      {
+        "index": 2,
+        "opcode_id": 9,
+        "minimum_version_hex": "0x01030000",
+        "flags": 1,
+        "payload_bytes": 960,
+        "payload_sha256": "2113d4d454dd5bc4e01037b815c2488e6ea3e628362a83d7d107d1a69f7ff1dc",
+        "name": "GainMap",
+        "area": {
+          "top": 1,
+          "left": 0,
+          "bottom": 3072,
+          "right": 4096,
+          "first_plane": 0,
+          "planes": 1,
+          "row_pitch": 2,
+          "column_pitch": 2
+        },
+        "map_rows": 13,
+        "map_columns": 17,
+        "map_planes": 1,
+        "spacing_vertical": 0.08333333333333333,
+        "spacing_horizontal": 0.0625,
+        "origin_vertical": 0.0,
+        "origin_horizontal": 0.0,
+        "all_finite": true,
+        "all_positive": true,
+        "minimum": 1.0,
+        "maximum": 2.5654296875,
+        "mean": 1.4837652444839478,
+        "center": [
+          1.0
+        ],
+        "corners_top_left_top_right_bottom_left_bottom_right": [
+          [
+            2.5654296875
+          ],
+          [
+            2.5322265625
+          ],
+          [
+            2.51171875
+          ],
+          [
+            2.4990234375
+          ]
+        ]
+      },
+      {
+        "index": 3,
+        "opcode_id": 9,
+        "minimum_version_hex": "0x01030000",
+        "flags": 1,
+        "payload_bytes": 960,
+        "payload_sha256": "04e889028d99d93698c9cc229f8e9e58384cf13b515fdce3384815158d430c2c",
+        "name": "GainMap",
+        "area": {
+          "top": 1,
+          "left": 1,
+          "bottom": 3072,
+          "right": 4096,
+          "first_plane": 0,
+          "planes": 1,
+          "row_pitch": 2,
+          "column_pitch": 2
+        },
+        "map_rows": 13,
+        "map_columns": 17,
+        "map_planes": 1,
+        "spacing_vertical": 0.08333333333333333,
+        "spacing_horizontal": 0.0625,
+        "origin_vertical": 0.0,
+        "origin_horizontal": 0.0,
+        "all_finite": true,
+        "all_positive": true,
+        "minimum": 1.0068359375,
+        "maximum": 2.6748046875,
+        "mean": 1.5137072801589966,
+        "center": [
+          1.0087890625
+        ],
+        "corners_top_left_top_right_bottom_left_bottom_right": [
+          [
+            2.6748046875
+          ],
+          [
+            2.6025390625
+          ],
+          [
+            2.6162109375
+          ],
+          [
+            2.578125
+          ]
+        ]
+      }
+    ],
+    "interpretation": "OpcodeList2 CFA lens-shading gain maps; separate from Ultra HDR JPEG gain maps. No gains were applied by this audit."
+  },
+  "jpeg": {
+    "filename": "02-60785.jpg",
+    "bytes": 861035,
+    "sha256": "0f6e462d2b65f58cc2c9a42e187782e609c5df07588fdb81373bbe1409d62ea1",
+    "width": 1536,
+    "height": 2048,
+    "mode": "RGB",
+    "exif_entry_count": 0,
+    "icc_profile": {
+      "bytes": 456,
+      "sha256": "12afb4d9953adee0607d347daee5b78b18d6b3cab2d572b88970703f5edb37bc",
+      "description": "sRGB"
+    }
+  },
+  "metadata_ifds": [
+    {
+      "offset": 25170693,
+      "entry_count": 44,
+      "next_ifd": 0,
+      "tags": [
+        {
+          "tag": 254,
+          "name": "NewSubfileType",
+          "type": "LONG",
+          "type_id": 4,
+          "count": 1,
+          "data_offset": 25170703,
+          "byte_length": 4,
+          "value": [
+            0
+          ]
+        },
+        {
+          "tag": 256,
+          "name": "ImageWidth",
+          "type": "LONG",
+          "type_id": 4,
+          "count": 1,
+          "data_offset": 25170715,
+          "byte_length": 4,
+          "value": [
+            4096
+          ]
+        },
+        {
+          "tag": 257,
+          "name": "ImageLength",
+          "type": "LONG",
+          "type_id": 4,
+          "count": 1,
+          "data_offset": 25170727,
+          "byte_length": 4,
+          "value": [
+            3072
+          ]
+        },
+        {
+          "tag": 258,
+          "name": "BitsPerSample",
+          "type": "SHORT",
+          "type_id": 3,
+          "count": 1,
+          "data_offset": 25170739,
+          "byte_length": 2,
+          "value": [
+            16
+          ]
+        },
+        {
+          "tag": 259,
+          "name": "Compression",
+          "type": "SHORT",
+          "type_id": 3,
+          "count": 1,
+          "data_offset": 25170751,
+          "byte_length": 2,
+          "value": [
+            1
+          ]
+        },
+        {
+          "tag": 262,
+          "name": "PhotometricInterpretation",
+          "type": "SHORT",
+          "type_id": 3,
+          "count": 1,
+          "data_offset": 25170763,
+          "byte_length": 2,
+          "value": [
+            32803
+          ]
+        },
+        {
+          "tag": 270,
+          "name": "ImageDescription",
+          "type": "ASCII",
+          "type_id": 2,
+          "count": 297,
+          "data_offset": 8,
+          "byte_length": 297,
+          "value": "parameters:\n\n hasGainMap=true\n FrameCount=1\n CameraID=2\n DenoiseOn=false\n Sharp=0.20\n Sat=1.00\n Contrast=0.00\n ExpoCorrect=0.00\n Denoise=0.00\n Noise Merging=0.00\n Shadows=0.00\n Compressor=0.00\n Align=1\n Color=1\n PreviewFormat=0\n FocalL=8.72\n TotalProcessingTime=0ms\n Version=0.1-hb-native1(27174)"
+        },
+        {
+          "tag": 271,
+          "name": "Make",
+          "type": "ASCII",
+          "type_id": 2,
+          "count": 7,
+          "data_offset": 390,
+          "byte_length": 7,
+          "value": "Xiaomi"
+        },
+        {
+          "tag": 272,
+          "name": "Model",
+          "type": "ASCII",
+          "type_id": 2,
+          "count": 11,
+          "data_offset": 397,
+          "byte_length": 11,
+          "value": "25010PN30G"
+        },
+        {
+          "tag": 273,
+          "name": "StripOffsets",
+          "type": "LONG",
+          "type_id": 4,
+          "count": 1,
+          "data_offset": 25170811,
+          "byte_length": 4,
+          "value": [
+            4869
+          ]
+        },
+        {
+          "tag": 274,
+          "name": "Orientation",
+          "type": "SHORT",
+          "type_id": 3,
+          "count": 1,
+          "data_offset": 25170823,
+          "byte_length": 2,
+          "value": [
+            6
+          ]
+        },
+        {
+          "tag": 277,
+          "name": "SamplesPerPixel",
+          "type": "SHORT",
+          "type_id": 3,
+          "count": 1,
+          "data_offset": 25170835,
+          "byte_length": 2,
+          "value": [
+            1
+          ]
+        },
+        {
+          "tag": 278,
+          "name": "RowsPerStrip",
+          "type": "LONG",
+          "type_id": 4,
+          "count": 1,
+          "data_offset": 25170847,
+          "byte_length": 4,
+          "value": [
+            3072
+          ]
+        },
+        {
+          "tag": 279,
+          "name": "StripByteCounts",
+          "type": "LONG",
+          "type_id": 4,
+          "count": 1,
+          "data_offset": 25170859,
+          "byte_length": 4,
+          "value": [
+            25165824
+          ]
+        },
+        {
+          "tag": 282,
+          "name": "XResolution",
+          "type": "RATIONAL",
+          "type_id": 5,
+          "count": 1,
+          "data_offset": 4381,
+          "byte_length": 8,
+          "value": [
+            [
+              72,
+              1
+            ]
+          ]
+        },
+        {
+          "tag": 283,
+          "name": "YResolution",
+          "type": "RATIONAL",
+          "type_id": 5,
+          "count": 1,
+          "data_offset": 4389,
+          "byte_length": 8,
+          "value": [
+            [
+              72,
+              1
+            ]
+          ]
+        },
+        {
+          "tag": 284,
+          "name": "PlanarConfiguration",
+          "type": "SHORT",
+          "type_id": 3,
+          "count": 1,
+          "data_offset": 25170895,
+          "byte_length": 2,
+          "value": [
+            1
+          ]
+        },
+        {
+          "tag": 296,
+          "name": "ResolutionUnit",
+          "type": "SHORT",
+          "type_id": 3,
+          "count": 1,
+          "data_offset": 25170907,
+          "byte_length": 2,
+          "value": [
+            2
+          ]
+        },
+        {
+          "tag": 305,
+          "name": "Software",
+          "type": "ASCII",
+          "type_id": 2,
+          "count": 17,
+          "data_offset": 305,
+          "byte_length": 17,
+          "value": "PhotonCamera v-1"
+        },
+        {
+          "tag": 306,
+          "name": "DateTime",
+          "type": "ASCII",
+          "type_id": 2,
+          "count": 20,
+          "data_offset": 322,
+          "byte_length": 20,
+          "value": "2026:10:19 18:51:34"
+        },
+        {
+          "tag": 33421,
+          "name": "CFARepeatPatternDim",
+          "type": "SHORT",
+          "type_id": 3,
+          "count": 2,
+          "data_offset": 25170943,
+          "byte_length": 4,
+          "value": [
+            2,
+            2
+          ]
+        },
+        {
+          "tag": 33422,
+          "name": "CFAPattern",
+          "type": "BYTE",
+          "type_id": 1,
+          "count": 4,
+          "data_offset": 25170955,
+          "byte_length": 4,
+          "value": [
+            0,
+            1,
+            1,
+            2
+          ]
+        },
+        {
+          "tag": 33434,
+          "name": "ExposureTime",
+          "type": "RATIONAL",
+          "type_id": 5,
+          "count": 1,
+          "data_offset": 433,
+          "byte_length": 8,
+          "value": [
+            [
+              16445532,
+              268435456
+            ]
+          ]
+        },
+        {
+          "tag": 33437,
+          "name": "FNumber",
+          "type": "RATIONAL",
+          "type_id": 5,
+          "count": 1,
+          "data_offset": 449,
+          "byte_length": 8,
+          "value": [
+            [
+              13673431,
+              8388608
+            ]
+          ]
+        },
+        {
+          "tag": 34855,
+          "name": "ISOSpeedRatings",
+          "type": "SHORT",
+          "type_id": 3,
+          "count": 1,
+          "data_offset": 25170991,
+          "byte_length": 2,
+          "value": [
+            627
+          ]
+        },
+        {
+          "tag": 36864,
+          "name": "ExifVersion",
+          "type": "UNDEFINED",
+          "type_id": 7,
+          "count": 4,
+          "data_offset": 25171003,
+          "byte_length": 4,
+          "value": [
+            48,
+            50,
+            50,
+            48
+          ]
+        },
+        {
+          "tag": 37386,
+          "name": "FocalLength",
+          "type": "RATIONAL",
+          "type_id": 5,
+          "count": 1,
+          "data_offset": 441,
+          "byte_length": 8,
+          "value": [
+            [
+              9143583,
+              1048576
+            ]
+          ]
+        },
+        {
+          "tag": 50706,
+          "name": "DNGVersion",
+          "type": "BYTE",
+          "type_id": 1,
+          "count": 4,
+          "data_offset": 25171027,
+          "byte_length": 4,
+          "value": [
+            1,
+            3,
+            0,
+            0
+          ]
+        },
+        {
+          "tag": 50708,
+          "name": "UniqueCameraModel",
+          "type": "ASCII",
+          "type_id": 2,
+          "count": 25,
+          "data_offset": 408,
+          "byte_length": 25,
+          "value": "25010PN30G-Xiaomi-Xiaomi"
+        },
+        {
+          "tag": 50713,
+          "name": "BlackLevelRepeatDim",
+          "type": "SHORT",
+          "type_id": 3,
+          "count": 2,
+          "data_offset": 25171051,
+          "byte_length": 4,
+          "value": [
+            2,
+            2
+          ]
+        },
+        {
+          "tag": 50714,
+          "name": "BlackLevel",
+          "type": "SHORT",
+          "type_id": 3,
+          "count": 4,
+          "data_offset": 4397,
+          "byte_length": 8,
+          "value": [
+            64,
+            64,
+            64,
+            64
+          ]
+        },
+        {
+          "tag": 50717,
+          "name": "WhiteLevel",
+          "type": "RATIONAL",
+          "type_id": 5,
+          "count": 1,
+          "data_offset": 4405,
+          "byte_length": 8,
+          "value": [
+            [
+              1023,
+              1
+            ]
+          ]
+        },
+        {
+          "tag": 50721,
+          "name": "ColorMatrix1",
+          "type": "SRATIONAL",
+          "type_id": 10,
+          "count": 9,
+          "data_offset": 4413,
+          "byte_length": 72,
+          "value": [
+            [
+              107,
+              128
+            ],
+            [
+              -11,
+              64
+            ],
+            [
+              -17,
+              128
+            ],
+            [
+              -15,
+              32
+            ],
+            [
+              179,
+              128
+            ],
+            [
+              3,
+              64
+            ],
+            [
+              -11,
+              128
+            ],
+            [
+              43,
+              128
+            ],
+            [
+              13,
+              32
+            ]
+          ]
+        },
+        {
+          "tag": 50722,
+          "name": "ColorMatrix2",
+          "type": "SRATIONAL",
+          "type_id": 10,
+          "count": 9,
+          "data_offset": 4485,
+          "byte_length": 72,
+          "value": [
+            [
+              41,
+              32
+            ],
+            [
+              -31,
+              64
+            ],
+            [
+              -29,
+              128
+            ],
+            [
+              -75,
+              128
+            ],
+            [
+              51,
+              32
+            ],
+            [
+              9,
+              64
+            ],
+            [
+              -3,
+              64
+            ],
+            [
+              23,
+              128
+            ],
+            [
+              45,
+              64
+            ]
+          ]
+        },
+        {
+          "tag": 50723,
+          "name": "CameraCalibration1",
+          "type": "SRATIONAL",
+          "type_id": 10,
+          "count": 9,
+          "data_offset": 4701,
+          "byte_length": 72,
+          "value": [
+            [
+              33,
+              32
+            ],
+            [
+              0,
+              16777216
+            ],
+            [
+              0,
+              16777216
+            ],
+            [
+              0,
+              16777216
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              0,
+              16777216
+            ],
+            [
+              0,
+              16777216
+            ],
+            [
+              0,
+              16777216
+            ],
+            [
+              65,
+              64
+            ]
+          ]
+        },
+        {
+          "tag": 50724,
+          "name": "CameraCalibration2",
+          "type": "SRATIONAL",
+          "type_id": 10,
+          "count": 9,
+          "data_offset": 4773,
+          "byte_length": 72,
+          "value": [
+            [
+              33,
+              32
+            ],
+            [
+              0,
+              16777216
+            ],
+            [
+              0,
+              16777216
+            ],
+            [
+              0,
+              16777216
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              0,
+              16777216
+            ],
+            [
+              0,
+              16777216
+            ],
+            [
+              0,
+              16777216
+            ],
+            [
+              65,
+              64
+            ]
+          ]
+        },
+        {
+          "tag": 50728,
+          "name": "AsShotNeutral",
+          "type": "RATIONAL",
+          "type_id": 5,
+          "count": 3,
+          "data_offset": 4845,
+          "byte_length": 24,
+          "value": [
+            [
+              295,
+              512
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              193,
+              512
+            ]
+          ]
+        },
+        {
+          "tag": 50778,
+          "name": "CalibrationIlluminant1",
+          "type": "SHORT",
+          "type_id": 3,
+          "count": 1,
+          "data_offset": 25171147,
+          "byte_length": 2,
+          "value": [
+            21
+          ]
+        },
+        {
+          "tag": 50779,
+          "name": "CalibrationIlluminant2",
+          "type": "SHORT",
+          "type_id": 3,
+          "count": 1,
+          "data_offset": 25171159,
+          "byte_length": 2,
+          "value": [
+            17
+          ]
+        },
+        {
+          "tag": 50829,
+          "name": "ActiveArea",
+          "type": "LONG",
+          "type_id": 4,
+          "count": 4,
+          "data_offset": 4365,
+          "byte_length": 16,
+          "value": [
+            0,
+            0,
+            3072,
+            4096
+          ]
+        },
+        {
+          "tag": 50964,
+          "name": "ForwardMatrix1",
+          "type": "SRATIONAL",
+          "type_id": 10,
+          "count": 9,
+          "data_offset": 4557,
+          "byte_length": 72,
+          "value": [
+            [
+              81,
+              128
+            ],
+            [
+              7,
+              64
+            ],
+            [
+              7,
+              32
+            ],
+            [
+              7,
+              32
+            ],
+            [
+              97,
+              128
+            ],
+            [
+              3,
+              128
+            ],
+            [
+              -5,
+              128
+            ],
+            [
+              -29,
+              64
+            ],
+            [
+              169,
+              128
+            ]
+          ]
+        },
+        {
+          "tag": 50965,
+          "name": "ForwardMatrix2",
+          "type": "SRATIONAL",
+          "type_id": 10,
+          "count": 9,
+          "data_offset": 4629,
+          "byte_length": 72,
+          "value": [
+            [
+              81,
+              128
+            ],
+            [
+              7,
+              64
+            ],
+            [
+              7,
+              32
+            ],
+            [
+              7,
+              32
+            ],
+            [
+              97,
+              128
+            ],
+            [
+              3,
+              128
+            ],
+            [
+              -5,
+              128
+            ],
+            [
+              -29,
+              64
+            ],
+            [
+              169,
+              128
+            ]
+          ]
+        },
+        {
+          "tag": 51009,
+          "name": "OpcodeList2",
+          "type": "UNDEFINED",
+          "type_id": 7,
+          "count": 3908,
+          "data_offset": 457,
+          "byte_length": 3908,
+          "value": {
+            "bytes": 3908,
+            "sha256": "a0a4df73ea96656a4c2b36ef97f23cce6b9aead5a4d4f32e0f0dab4f658d74ac"
+          }
+        },
+        {
+          "tag": 51041,
+          "name": "NoiseProfile",
+          "type": "DOUBLE",
+          "type_id": 12,
+          "count": 6,
+          "data_offset": 342,
+          "byte_length": 48,
+          "value": [
+            0.00032682355521344,
+            8.052035411738214e-07,
+            0.0003280149518056506,
+            7.038407955329234e-07,
+            0.00032946537527788004,
+            8.188255486184265e-07
+          ]
+        }
+      ]
+    }
+  ],
+  "interpretation": {
+    "established": [
+      "The supplied DNG contains a complete nonconstant 4096 by 3072 RGGB raw payload with declared black/white levels and usable per-capture colour metadata.",
+      "The file capture description identifies one frame, camera ID 2 and version 0.1-hb-native1(27174).",
+      "Both colour-matrix illuminants, calibration and forward matrices, as-shot neutral and four finite positive lens-shading grids are available as phone-side metadata inputs.",
+      "The observed samples show no out-of-range-above-white values, no zero samples and no constant or duplicated same-parity rows or columns."
+    ],
+    "not_established": [
+      "A measured phone-to-Hasselblad sensor colour transform, correct HNCS pixel contract, or visual equivalence to an X2D II.",
+      "Accuracy of the embedded matrices, neutral or lens-shading maps under this illumination, or their validity across other scenes, cameras or RAW modes.",
+      "Physical sensor ADC precision, full-well capacity, scene dynamic range, absence of all upstream ISP processing, or the sensor binning/remosaic mechanism.",
+      "A mapping of phone white-balance metadata to the recovered two-scalar Hasselblad Q12 recalibration primitive.",
+      "Original full-size JPEG provenance or exact same-capture pairing from JPEG metadata: the uploaded JPEG has no EXIF."
+    ],
+    "white_level_type_check": {
+      "result": "fail",
+      "actual_type": "RATIONAL",
+      "actual_value": [
+        [
+          1023,
+          1
+        ]
+      ],
+      "allowed_types": [
+        "SHORT",
+        "LONG"
+      ],
+      "reference": "Adobe DNG Specification 1.7.1.0, printed page 29, WhiteLevel tag 50717",
+      "reference_url": "https://helpx.adobe.com/content/dam/help/en/camera-raw/digital-negative/jcr_content/root/content/flex/items/position/position-par/download_section_733958301/download-1/DNG_Spec_1_7_1_0.pdf",
+      "scope": "This is a concrete metadata type mismatch with possible strict-reader interoperability consequences. The stored raw array is readable and intact under this audit. It does not establish the cause of any upload/preprocessor error; original attachments were not changed."
+    },
+    "software_metadata_finding": "The Software tag says PhotonCamera v-1, whereas ImageDescription identifies version 0.1-hb-native1(27174); this is inconsistent writer-version metadata."
+  }
+}

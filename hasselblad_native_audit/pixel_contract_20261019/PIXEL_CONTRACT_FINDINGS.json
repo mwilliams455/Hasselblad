@@ -1,0 +1,163 @@
+{
+  "title": "X2D II pixel contract investigation",
+  "date": "2026-10-19",
+  "status": "complete_bounded_checkpoint_frozen",
+  "principal_conclusion": "Original display packed-LUT decoder and trilinear sampler proved on synthetic fixtures; MAIN_3DLUT hardware packing, transfer domain and interpolation remain unproved.",
+  "no_photographic_integration": true,
+  "no_user_image_processing": true,
+  "prior_photographic_path_left_unchanged": true,
+  "library_pins": {
+    "librcam.so": "3dd5b37b3db18b3e6b54271e1501b4dd337e101c06cdd386a896b1547b662f66",
+    "libduml_hal.so": "adfb1cf834584d5c2d3e7b8a49c8ff78a919f007b4fe4ee5442a658dafc71d20"
+  },
+  "main_hardware_descriptor": {
+    "verified_by": "native_descriptor_result.json and bounded original consumer disassembly",
+    "parameter_va": "0x5927c8",
+    "register_id": 2998,
+    "descriptor_va": "0x4f2730",
+    "type": 1,
+    "vreg_byte_offset": 93056,
+    "physical_lut_address": "0xf3208000",
+    "uint32_words": 6144,
+    "iq_getter": {
+      "name": "DIQ_iq_main_3dlut_lut_data",
+      "va": "0x337dd8"
+    },
+    "module_getter": {
+      "name": "DIQ_mod_main_3dlut_lut_data",
+      "va": "0x337e18"
+    },
+    "copy_consumer": {
+      "name": "DjiAdj_Calc_LutMemCopy",
+      "va": "0x3b30b0",
+      "observed_reorders_lanes": false
+    },
+    "proves_pixel_layout": false
+  },
+  "display_format": {
+    "proven_scope": "libduml_hal display utility with width16; not yet MAIN camera format",
+    "source_path_va": "0xaeaeb",
+    "source_path": "hardware/dji/duml/hal/disp/disp_3dlut_tools.cpp",
+    "valid_indices": [
+      0,
+      15
+    ],
+    "cube_width": 16,
+    "uint32_words": 6144,
+    "word_index": "128*r + 8*g + floor(b/2)",
+    "component_bank_offsets_words": {
+      "R": 0,
+      "G": 2048,
+      "B": 4096
+    },
+    "bit_shift": "16*(b & 1)",
+    "component_mask": 4095,
+    "normalization_divisor": 4095.0,
+    "lookup_args_order": [
+      "words",
+      "size_t *b",
+      "size_t *g",
+      "size_t *r",
+      "PixelRGB *out"
+    ],
+    "pixel_rgb_bytes": 24,
+    "pixel_rgb_fields": [
+      "double r",
+      "double g",
+      "double b"
+    ],
+    "return_pointer_is_output": true,
+    "sampler_proven_subset": {
+      "finite_input_range": [
+        0,
+        1
+      ],
+      "scale": 1,
+      "cube_width": 16,
+      "grid_coordinate": "15*component",
+      "interpolation": "trilinear double precision",
+      "callback": "original lookup_rgb_pixel_plt_fmt",
+      "return_code": 0
+    },
+    "index16_not_tested_or_supported": true
+  },
+  "original_function_evidence": [
+    {
+      "name": "_Z24lookup_rgb_pixel_plt_fmtPKvRKmS2_S2_R8PixelRGB",
+      "va": "0x74fb0",
+      "bytes": 148,
+      "code_sha256": "c86dc8845bde3dad493b02675f2edd5b9ef4b30eda0b392d914822ffd0299d50"
+    },
+    {
+      "name": "_Z14do_3dlut_transR8PixelRGBRKiPFS0_PKvRKmS6_S6_S0_ES4_m",
+      "va": "0x72dc0",
+      "bytes": 1564,
+      "code_sha256": "58f42e52395d2507f3810125fdde6a490c4714172a15288a01a5bbc0bdcad576"
+    },
+    {
+      "name": "_Z22get_plt_fmt_unit_3dlutPvRKm",
+      "va": "0x74e50",
+      "bytes": 348,
+      "code_sha256": "82b66158eac20c077ad52c503aa81590a8acd4a0b4db91952f849540fde6f147"
+    },
+    {
+      "name": "_Z28set_rgb_pixel_to_plt_fmt_lutPjRKjS1_S1_RKdS3_S3_",
+      "va": "0x74c88",
+      "bytes": 452,
+      "code_sha256": "40f480e3eb5e4969988d3cfe0c31ff5342b3f2ec7d298221e2510ecf59906596"
+    }
+  ],
+  "native_execution": {
+    "result_file": "display_sampler_native_execution.json",
+    "exit": 0,
+    "stderr": "",
+    "lookup_nodes": 4096,
+    "lookup_components": 12288,
+    "identity_control_nodes": 4096,
+    "identity_control_components": 12288,
+    "trilinear_cases": 20,
+    "trilinear_max_absolute_error": 1.1102230246251565e-16,
+    "all_source_output_guards_and_integrity_pass": true,
+    "reference_environment": "QEMU AArch64, original extracted Android9/API28 Bionic and linker",
+    "proves_phone_app_runtime": false
+  },
+  "bounded_relationship_search": {
+    "elfs_under_system_lib64": 374,
+    "exact_decoder_sampler_exports_found_in": [
+      "system/lib64/libduml_hal.so"
+    ],
+    "related_cube_conversion_exports_also_found_in": [
+      "system/lib64/weston/eagle-backend.so"
+    ],
+    "main_profile_byte_matches_with_lcdc_or_pyramid": 0,
+    "indirect_inlined_or_hardware_links_excluded": false,
+    "evidence_files": [
+      "pixel_contract_static_evidence.json",
+      "asset_format_relationship.json"
+    ]
+  },
+  "excluded_colour_matrix_lead": {
+    "function": "_ColorMatrix_Func",
+    "va": "0x395228",
+    "callee": "DjiMetadata_ProresRaw_GetCcmByCct",
+    "callee_va": "0x3c4140",
+    "source": "adj_mod_metadata_prores_raw.c",
+    "role": "ProRes RAW matrix metadata calculation, not observed still-image pixel transform"
+  },
+  "next_proven_portable_primitive": "Display-format node decoder; subsequently the tested trilinear sampler, isolated from saved photograph rendering",
+  "main_rendering_gate": [
+    "demonstrate MAIN bank and axis packing",
+    "prove knot coordinates and transfer domain",
+    "prove hardware interpolation and rounding",
+    "establish calibrated phone input into that domain"
+  ],
+  "vendor_inputs_redistributed": false,
+  "reproduction_sources": [
+    "inspect_lut_descriptor.c",
+    "replay_descriptor_probe.py",
+    "display_sampler_probe.c",
+    "replay_display_sampler.py",
+    "inspect_pixel_contract.py"
+  ],
+  "report": "PIXEL_CONTRACT_FINDINGS.md"
+}

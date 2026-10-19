@@ -1,0 +1,47 @@
+{
+  "input_filename": "02-60785.jpg",
+  "input_bytes": 861035,
+  "input_sha256": "0f6e462d2b65f58cc2c9a42e187782e609c5df07588fdb81373bbe1409d62ea1",
+  "decode_and_structure_verification": "passed",
+  "width": 1536,
+  "height": 2048,
+  "mode": "RGB",
+  "exif_entry_count": 0,
+  "icc_bytes": 456,
+  "icc_name": "sRGB",
+  "icc_description": "sRGB",
+  "pixel_count": 3145728,
+  "channel_order": [
+    "R",
+    "G",
+    "B"
+  ],
+  "channel_min": [
+    0,
+    0,
+    0
+  ],
+  "channel_max": [
+    255,
+    255,
+    255
+  ],
+  "channel_at_255_counts": [
+    2026,
+    1055,
+    706
+  ],
+  "all_channels_255_pixel_count": 141,
+  "channel_at_zero_counts": [
+    1655,
+    1018,
+    10780
+  ],
+  "all_channels_zero_pixel_count": 66,
+  "limitations": [
+    "This received JPEG has no EXIF capture metadata.",
+    "These dimensions describe the received file, not a verified original saved JPEG.",
+    "Clipping counts include the burned-in Photon watermark.",
+    "JPEG pixel values cannot prove RAW saturation, scene illuminant, or Hasselblad colour fidelity."
+  ]
+}

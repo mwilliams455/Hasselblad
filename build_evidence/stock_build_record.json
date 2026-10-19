@@ -1,0 +1,18 @@
+{
+  "upstream_repository": "https://github.com/eszdman/PhotonCamera",
+  "upstream_commit": "b2eff821a858033515eb2700e7292befecc95225",
+  "source_archive_sha256": "26396340dca501c5161bb843331c50eddab5810e6891bf40b5e5565d8fae5cf8",
+  "apk_path": "/workspace/scratch/f4dc23366b1f/hasselblad-build-artifacts/PhotonCamera_Stock_b2eff821_debug.apk",
+  "apk_bytes": 70696928,
+  "apk_sha256": "75ff0a98689f85098721f151fa67147cdc09f7e20babeb3bbfc2e5bc4b93d49b",
+  "original_output_name": "PhotonCamera-0.9727167-debug.apk",
+  "build_result": "BUILD SUCCESSFUL in 3m 2s; 70 tasks",
+  "tested_on_device": false,
+  "capture_render": "Unmodified upstream Photon; no Hasselblad photo processing",
+  "downloaded_native_headers": {
+    "app/src/main/cpp/deps/technicallyflac.h": "7877dfd21152cd383812a860e18feab667ac8543c55a6b80118b9c1a5f654449",
+    "app/src/main/cpp/deps/tiny_dng_writer.h": "0c68ee68914b949eaf194a20d83505d4debee9272d991e68e538e25611f289cc",
+    "app/src/main/cpp/deps/archive.h": "ea01da96b4c5e3a0e7b07e70c5b1ea8cb73bb14075056a008dbb92cba31209a5",
+    "app/src/main/cpp/deps/archive_entry.h": "a8d2e0f18bf9b2ebd9eace883616e481cd5c6ea4f437b23640f90a3331b4506f"
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "evidence_source": "Native1 check report pasted by the user on 2026-10-19",
+  "execution_observer": "user device report; not an attached-device run by the assistant",
+  "native_result": "PASS — 14/14 native checks passed",
+  "scope": "WB primitive only; photographic rendering not connected",
+  "implementation": "portable C reconstruction through JNI",
+  "library": "libhasselblad_wb_jni.so",
+  "abi": "arm64-v8a",
+  "evidence_firmware": "Hasselblad X2D II 100C 1.3.16.2",
+  "original_routine": "scene_awb_result_recalib_unit",
+  "original_elf": "libaaa.so",
+  "original_routine_virtual_address": "0x4a39a0",
+  "original_routine_bytes": 56,
+  "original_elf_sha256": "7d6164eccc734de7087bb778ee72f17a0b3ccf6c0d1f20092c7ebe74a86574ba",
+  "original_vendor_library_loaded": false,
+  "vectors": [
+    {"name":"Q12 unity","gains":[4096,4096],"calibration":[4096,4096],"expected":[4096,4096],"actual":[4096,4096],"adapter_status":0,"result":"PASS"},
+    {"name":"Independent gain scales","gains":[8192,12288],"calibration":[8192,6144],"expected":[4096,8192],"actual":[4096,8192],"adapter_status":0,"result":"PASS"},
+    {"name":"Fractional truncation","gains":[5001,6001],"calibration":[3000,5000],"expected":[6828,4916],"actual":[6828,4916],"adapter_status":0,"result":"PASS"},
+    {"name":"Half and double calibration","gains":[4096,4096],"calibration":[2048,8192],"expected":[8192,2048],"actual":[8192,2048],"adapter_status":0,"result":"PASS"},
+    {"name":"Zero gains","gains":[0,0],"calibration":[4096,4096],"expected":[0,0],"actual":[0,0],"adapter_status":0,"result":"PASS"},
+    {"name":"Bounded gains","gains":[65535,65535],"calibration":[4096,8192],"expected":[65535,32767],"actual":[65535,32767],"adapter_status":0,"result":"PASS"},
+    {"name":"One least-significant bit","gains":[1,2],"calibration":[4096,4096],"expected":[1,2],"actual":[1,2],"adapter_status":0,"result":"PASS"},
+    {"name":"Asymmetric fraction","gains":[12345,23456],"calibration":[7000,3333],"expected":[7223,28825],"actual":[7223,28825],"adapter_status":0,"result":"PASS"},
+    {"name":"Last inputs before shift overflow","gains":[1048575,1048574],"calibration":[4096,4095],"expected":[1048575,1048830],"actual":[1048575,1048830],"adapter_status":0,"result":"PASS"},
+    {"name":"Large unsigned calibration","gains":[65535,4096],"calibration":[4294967295,16777216],"expected":[0,1],"actual":[0,1],"adapter_status":0,"result":"PASS"},
+    {"name":"Guard: zero calibration A","gains":[4096,4096],"calibration":[0,4096],"expected":[4096,4096],"actual":[4096,4096],"adapter_status":1,"result":"PASS"},
+    {"name":"Guard: zero calibration B","gains":[4096,4096],"calibration":[4096,0],"expected":[4096,4096],"actual":[4096,4096],"adapter_status":1,"result":"PASS"},
+    {"name":"Guard: gain A shift overflow","gains":[1048576,4096],"calibration":[4096,4096],"expected":[1048576,4096],"actual":[1048576,4096],"adapter_status":2,"result":"PASS"},
+    {"name":"Guard: gain B shift overflow","gains":[4096,4294967295],"calibration":[4096,4096],"expected":[4096,4294967295],"actual":[4096,4294967295],"adapter_status":2,"result":"PASS"}
+  ],
+  "adapter_status_semantics": {
+    "0": "success",
+    "1": "zero divisor rejected",
+    "2": "shift overflow rejected",
+    "vendor_return_codes": false
+  },
+  "capture_policy_reported": {
+    "mode": "PHOTO",
+    "input_raw_frames": 1,
+    "output": "SDR",
+    "bracketing": false,
+    "stacking": false,
+    "video": false,
+    "maximum_resolution_modes": false
+  },
+  "requested_standard_raw": {"width":4096,"height":3072,"camera_id":"2"},
+  "latest_delivered_raw": {"width":4096,"height":3072,"format":32,"row_stride":8192,"pixel_stride":2,"sensor_timestamp_ns":8333176371666},
+  "calibration_validated_by_this_report": false,
+  "exact_match_between_report_sensor_timestamp_and_uploaded_dng_proven": false
+}

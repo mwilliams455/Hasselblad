@@ -1,0 +1,27 @@
+{
+  "checkpoint": "Native1",
+  "apk_sha256": "94440d675ff9f92f5fdf11a7608d3fdc586a511cfd2da12eddc19ad7810d8e4d",
+  "source_hashes": {
+    "app/src/main/java/com/particlesdevs/photoncamera/processing/RAW16Saver.java": "228382626312914b8f7e130cce6c2e9edff903fc752ece785d2b8a4c2cbb3b30",
+    "app/src/main/java/com/particlesdevs/photoncamera/processing/SaverImplementation.java": "f255348232bafd0a5d3b7d1b0a09d4acf543cfd8d5baf35ff43ca9401c644413",
+    "app/src/main/java/com/particlesdevs/photoncamera/processing/ImageFrame.java": "7baef4770f25723e4af422bdc4e5b0e1c27266987625a70ff6f3a7d174a25c28",
+    "app/src/main/cpp/allocator.cpp": "f5ab93d4c599bfd2c27273b03268d2015136f47f509af677097e99be60d65f0b",
+    "app/src/main/java/com/particlesdevs/photoncamera/processing/DefaultSaver.java": "c82af1b8eb3f1de711bca8ce78f7218631024b987f2cc8cf31f845efa471b4ae",
+    "app/src/main/java/com/particlesdevs/photoncamera/processing/ImageFrameDeblur.java": "82202bdf4e76aee6ed38d2f7d31a8b974aaf1645849c3b16fde62ba190a7da68",
+    "app/src/main/java/com/particlesdevs/photoncamera/processing/processor/HdrxProcessor.java": "61f342b3919466709ab9e5b502eae8ce044cb5a43ec6e3d90dea38eef64514bc",
+    "app/src/main/java/com/particlesdevs/photoncamera/processing/ImageSaver.java": "88ccf9f920fcf0001ef8abcfc3b82463b70b21b26fc1bd07e7d44a05a7e31924",
+    "app/src/main/cpp/dngCreator.cpp": "5e0c2bf20b25a6c2a6096029449658d0d187b711e1322224aeb3bd70c5460ee5",
+    "app/src/main/cpp/dngCreator.h": "917525fc1ffa96d2aad9d0dfebbab28d7c760b1e08a6da78420b7e38a4c31706",
+    "app/src/main/cpp/deps/tiny_dng_writer.h": "0c68ee68914b949eaf194a20d83505d4debee9272d991e68e538e25611f289cc",
+    "app/src/main/java/com/particlesdevs/photoncamera/processing/DngCreator.java": "2c4b3ec142affe276e9b52e0e5df2b1c90ee42d3212ac9c22068dd6ba967e850",
+    "app/src/main/java/com/particlesdevs/photoncamera/processing/render/Parameters.java": "75b09b643dc3e5e7829daebfa8ab74401a31685924abb08bf410674253e7d64c",
+    "app/src/main/java/com/particlesdevs/photoncamera/processing/opengl/postpipeline/PostPipeline.java": "3ae01a7d1f748fd560897b57674503852dd49604a4a626ca033235ea81dc0243",
+    "app/src/main/java/com/particlesdevs/photoncamera/processing/encoder/StillEncoder.java": "a20fea1f4ad0b22e65d0227dc475bdf52f4743e73b7e25894e997f72b21abe60",
+    "app/src/main/java/com/particlesdevs/photoncamera/processing/processor/ProcessorBase.java": "d39fa03f84ba14fe0f25af1c1a4774d6869555102b38a51392d093faaf0a1afc"
+  },
+  "user_reported_sensor_timestamp_ns": 8333176371666,
+  "timestamp_embedded_in_dng": false,
+  "direct_camera_buffer_byte_comparison_performed": false,
+  "raw_preservation_conclusion": "Supported by matched dimensions/strides, reported one-frame route, saved payload layout and source; original in-memory Camera2 buffer unavailable",
+  "source_scope": "Copied Camera2 RAW16 sample buffer saved before Photon rendering; HAL pre-delivery processing not established"
+}

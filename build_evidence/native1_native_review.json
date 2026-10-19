@@ -1,0 +1,506 @@
+{
+  "review_scope": "Independent read-only source, recorded host JNI verification, compiled ELF and final APK ZIP/native dependency inspection",
+  "reviewed_at_utc": "2026-10-19T17:44:47.985604+00:00",
+  "artifact": {
+    "filename": "HasselbladPhoton_Native1_debug.apk",
+    "bytes": 70736504,
+    "sha256": "94440d675ff9f92f5fdf11a7608d3fdc586a511cfd2da12eddc19ad7810d8e4d",
+    "version_code": 27174
+  },
+  "overall_result": "JNI/core pass; ARM64 native set and all APK native ZIP offsets pass static 16 KB checks; one inherited ARMv7 dependency exception",
+  "core_source_comparison": [
+    {
+      "path": "app/src/main/cpp/hasselblad/hb_awb_recalib.c",
+      "sha256": "99d56c2ed9a72411d64b732100e016d40660bbc3ee75858dfb3de37bdc1fef5e",
+      "identical_to_verified_core": true
+    },
+    {
+      "path": "app/src/main/cpp/hasselblad/hb_awb_recalib.h",
+      "sha256": "cfea84ae2528190e5e594c60abb25b073ffe60c2ae6012da3265979e1e562ea7",
+      "identical_to_verified_core": true
+    }
+  ],
+  "jni_review": {
+    "result": "pass",
+    "source": "app/src/main/cpp/hasselblad/hb_awb_jni.c",
+    "input_contract": "Four signed Java long arguments checked in 0..UINT32_MAX before casting; invalid values throw IllegalArgumentException",
+    "output_contract": "long[5]: adapter_status, original_called, original_status, output_A, output_B; unsigned 32-bit outputs widen safely to signed 64-bit Java longs",
+    "original_called_semantics": "false for this portable-only JNI bridge; original_status is not presented as an actual vendor return",
+    "gain_overflow_guard": "Input gains above 1,048,575 rejected before the left shift by 12; zero calibration rejected separately; input outputs retained on error",
+    "native_exports_present_for_both_abis": true,
+    "vendor_library_loaded_by_jni": false,
+    "portable_source_and_original_provenance_distinguished": true
+  },
+  "oracle_vectors_and_host_evidence": {
+    "source_review_result": "pass",
+    "oracle_output_vectors": 10,
+    "adapter_guard_vectors": 4,
+    "host_result_file": "development/hasselblad/HOST_CHECK_RESULT.txt",
+    "host_driver": "development/hasselblad/CheckpointVerification.java",
+    "host_jni_recorded_passed": true,
+    "jni_range_rejection_cases": 8,
+    "range_cases": "-1 and 4,294,967,296 independently supplied in each of four argument positions",
+    "meaningful_oracle_coverage": [
+      "Q12 unity",
+      "independent scaling",
+      "integer truncation",
+      "zero gains",
+      "uint32 calibration above INT32_MAX",
+      "last inputs before shift overflow"
+    ],
+    "repeated_full_core_oracle_tests": false
+  },
+  "ui_and_scope_review": {
+    "result": "pass",
+    "gain_labels": "A/B, not unproved channel names",
+    "describes_portable_reconstruction": true,
+    "states_photographic_rendering_not_connected": true,
+    "normal_photographs_use_photon_renderer": true,
+    "misleading_hncs_connection_claim_found": false
+  },
+  "native_packaging_summary": {
+    "abis": [
+      "arm64-v8a",
+      "armeabi-v7a"
+    ],
+    "native_library_count": 17,
+    "arm64_library_count": 9,
+    "both_new_jni_libraries_align16k": true,
+    "all_arm64_libraries_pass_static16k_checks": true,
+    "all_native_zip_data_offsets_align16k": true,
+    "all_bundled_elf_loads_align16k": false,
+    "vendor_libaaa_bundled": false,
+    "exception": {
+      "path": "lib/armeabi-v7a/libarchive-jni.so",
+      "origin": "inherited dependency, not the new WB core/JNI",
+      "finding": "4 KB ELF LOAD alignment, with .data/.bss sharing rounded RELRO pages when evaluated for 16 KB protection",
+      "scope": "ARMv7 variant only. ARM64 variant of libarchive-jni passes. Do not describe every bundled ELF as 16 KB-compatible; this does not change the ARM64-selected native set.",
+      "severity_for_arm64_development_checkpoint": "documentation/architecture-specific limitation, not a new JNI defect"
+    }
+  },
+  "libraries": [
+    {
+      "path": "lib/arm64-v8a/liballocator.so",
+      "elf_class": 64,
+      "machine": "EM_AARCH64",
+      "sha256": "1df60d9355b8267fe93d74a8c99beaa94e969e1473879b79aaf66e90632650eb",
+      "load_alignments": [
+        16384
+      ],
+      "elf_load_alignment_16k": true,
+      "zip_compression": "stored",
+      "zip_data_offset": 7733248,
+      "zip_data_alignment_16k": true,
+      "relro_writable_page_overlap_at_16k": [],
+      "needed": [
+        "liblog.so",
+        "libjnigraphics.so",
+        "libm.so",
+        "libdl.so",
+        "libc.so"
+      ],
+      "payload_identical_to_prior_review": true
+    },
+    {
+      "path": "lib/arm64-v8a/libarchive-jni.so",
+      "elf_class": 64,
+      "machine": "EM_AARCH64",
+      "sha256": "92332de41e661c2a5ce05df65c8a0a6367a99a2cb201e3b3eec7039c9cbc669e",
+      "load_alignments": [
+        16384
+      ],
+      "elf_load_alignment_16k": true,
+      "zip_compression": "stored",
+      "zip_data_offset": 7766016,
+      "zip_data_alignment_16k": true,
+      "relro_writable_page_overlap_at_16k": [],
+      "needed": [
+        "liblog.so",
+        "libm.so",
+        "libdl.so",
+        "libc.so"
+      ],
+      "payload_identical_to_prior_review": true
+    },
+    {
+      "path": "lib/arm64-v8a/libcamera2native.so",
+      "elf_class": 64,
+      "machine": "EM_AARCH64",
+      "sha256": "f97a0eba58b4c530f8e6ea57096bcb0fd11e4edbf1a66fc2986a267282e8755d",
+      "load_alignments": [
+        16384
+      ],
+      "elf_load_alignment_16k": true,
+      "zip_compression": "stored",
+      "zip_data_offset": 9814016,
+      "zip_data_alignment_16k": true,
+      "relro_writable_page_overlap_at_16k": [],
+      "needed": [
+        "liblog.so",
+        "libm.so",
+        "libdl.so",
+        "libc.so"
+      ],
+      "payload_identical_to_prior_review": true
+    },
+    {
+      "path": "lib/arm64-v8a/libdngCreator.so",
+      "elf_class": 64,
+      "machine": "EM_AARCH64",
+      "sha256": "cca1ce148da7a36f6ecf72ecfa5bef997755c9d51a090857d2152d795ee1fdc4",
+      "load_alignments": [
+        16384
+      ],
+      "elf_load_alignment_16k": true,
+      "zip_compression": "stored",
+      "zip_data_offset": 10305536,
+      "zip_data_alignment_16k": true,
+      "relro_writable_page_overlap_at_16k": [],
+      "needed": [
+        "liblog.so",
+        "libdl.so",
+        "libm.so",
+        "libc.so"
+      ],
+      "payload_identical_to_prior_review": true
+    },
+    {
+      "path": "lib/arm64-v8a/libflacRecorder.so",
+      "elf_class": 64,
+      "machine": "EM_AARCH64",
+      "sha256": "b22a614ebbaace59b622aecc3ff7573026d31f5d50dfafaaa06bf8482d8bb9d0",
+      "load_alignments": [
+        16384
+      ],
+      "elf_load_alignment_16k": true,
+      "zip_compression": "stored",
+      "zip_data_offset": 11485184,
+      "zip_data_alignment_16k": true,
+      "relro_writable_page_overlap_at_16k": [],
+      "needed": [
+        "liblog.so",
+        "libm.so",
+        "libdl.so",
+        "libc.so"
+      ],
+      "payload_identical_to_prior_review": true
+    },
+    {
+      "path": "lib/arm64-v8a/libhalidealign.so",
+      "elf_class": 64,
+      "machine": "EM_AARCH64",
+      "sha256": "d825602d095155dfdb896c2637e6a0ffecc6c89a247303266db1814caff9e69f",
+      "load_alignments": [
+        16384
+      ],
+      "elf_load_alignment_16k": true,
+      "zip_compression": "stored",
+      "zip_data_offset": 11812864,
+      "zip_data_alignment_16k": true,
+      "relro_writable_page_overlap_at_16k": [],
+      "needed": [
+        "liblog.so",
+        "libdl.so",
+        "libm.so",
+        "libc.so"
+      ],
+      "payload_identical_to_prior_review": true
+    },
+    {
+      "path": "lib/arm64-v8a/libhasselblad_wb_jni.so",
+      "elf_class": 64,
+      "machine": "EM_AARCH64",
+      "sha256": "717a5c898eb7659621af6113db6877c578f433157bd2de3088c108e3999a5b96",
+      "load_alignments": [
+        16384
+      ],
+      "elf_load_alignment_16k": true,
+      "zip_compression": "stored",
+      "zip_data_offset": 12550144,
+      "zip_data_alignment_16k": true,
+      "relro_writable_page_overlap_at_16k": [],
+      "needed": [
+        "libm.so",
+        "libdl.so",
+        "libc.so"
+      ],
+      "jni_exports": [
+        "Java_com_particlesdevs_photoncamera_hasselblad_HasselbladNativeCheck_nativeRecalibrate",
+        "Java_com_particlesdevs_photoncamera_hasselblad_HasselbladNativeCheck_nativeProvenance"
+      ],
+      "expected_original_hash_present": true,
+      "portable_execution_provenance_present": true,
+      "payload_identical_to_prior_review": true
+    },
+    {
+      "path": "lib/arm64-v8a/libmcraw.so",
+      "elf_class": 64,
+      "machine": "EM_AARCH64",
+      "sha256": "a3fa82b3deba90b704dc68cb56bee7e4359342bfa2c01b3bbb7e12dcb13504f2",
+      "load_alignments": [
+        16384
+      ],
+      "elf_load_alignment_16k": true,
+      "zip_compression": "stored",
+      "zip_data_offset": 12566528,
+      "zip_data_alignment_16k": true,
+      "relro_writable_page_overlap_at_16k": [],
+      "needed": [
+        "liblog.so",
+        "libm.so",
+        "libdl.so",
+        "libc.so"
+      ],
+      "payload_identical_to_prior_review": true
+    },
+    {
+      "path": "lib/arm64-v8a/libncnnMl.so",
+      "elf_class": 64,
+      "machine": "EM_AARCH64",
+      "sha256": "7f563de15c369d2a5dc7f0331a8d26b244a8918d630af45b501434decbbe21af",
+      "load_alignments": [
+        16384
+      ],
+      "elf_load_alignment_16k": true,
+      "zip_compression": "stored",
+      "zip_data_offset": 13008896,
+      "zip_data_alignment_16k": true,
+      "relro_writable_page_overlap_at_16k": [],
+      "needed": [
+        "libandroid.so",
+        "liblog.so",
+        "libm.so",
+        "libdl.so",
+        "libc.so"
+      ],
+      "payload_identical_to_prior_review": true
+    },
+    {
+      "path": "lib/armeabi-v7a/liballocator.so",
+      "elf_class": 32,
+      "machine": "EM_ARM",
+      "sha256": "768ea52ceb20a7a0f773f7fae98fa477aabc179a366925f37424b9bbb7d077ad",
+      "load_alignments": [
+        16384
+      ],
+      "elf_load_alignment_16k": true,
+      "zip_compression": "stored",
+      "zip_data_offset": 23756800,
+      "zip_data_alignment_16k": true,
+      "relro_writable_page_overlap_at_16k": [],
+      "needed": [
+        "liblog.so",
+        "libjnigraphics.so",
+        "libm.so",
+        "libdl.so",
+        "libc.so"
+      ],
+      "payload_identical_to_prior_review": true
+    },
+    {
+      "path": "lib/armeabi-v7a/libarchive-jni.so",
+      "elf_class": 32,
+      "machine": "EM_ARM",
+      "sha256": "d8168c8e2e82fd7795ba8e0631fd3ca6a7614dec36e9e168c77eac0e38628cb9",
+      "load_alignments": [
+        4096
+      ],
+      "elf_load_alignment_16k": false,
+      "zip_compression": "stored",
+      "zip_data_offset": 23789568,
+      "zip_data_alignment_16k": true,
+      "relro_writable_page_overlap_at_16k": [
+        {
+          "section": ".data",
+          "section_start": "0x182a78",
+          "section_end": "0x183678",
+          "relro_start": "0x17e560",
+          "relro_end": "0x182000",
+          "rounded_protection_start": "0x17c000",
+          "rounded_protection_end": "0x184000"
+        },
+        {
+          "section": ".bss",
+          "section_start": "0x183680",
+          "section_end": "0x185f18",
+          "relro_start": "0x17e560",
+          "relro_end": "0x182000",
+          "rounded_protection_start": "0x17c000",
+          "rounded_protection_end": "0x184000"
+        }
+      ],
+      "needed": [
+        "liblog.so",
+        "libm.so",
+        "libdl.so",
+        "libc.so"
+      ],
+      "payload_identical_to_prior_review": true
+    },
+    {
+      "path": "lib/armeabi-v7a/libcamera2native.so",
+      "elf_class": 32,
+      "machine": "EM_ARM",
+      "sha256": "2f9b1a0da3af07de69bc7da953a81118470e51802774d67877458c6c28ec4e8c",
+      "load_alignments": [
+        16384
+      ],
+      "elf_load_alignment_16k": true,
+      "zip_compression": "stored",
+      "zip_data_offset": 25378816,
+      "zip_data_alignment_16k": true,
+      "relro_writable_page_overlap_at_16k": [],
+      "needed": [
+        "liblog.so",
+        "libm.so",
+        "libdl.so",
+        "libc.so"
+      ],
+      "payload_identical_to_prior_review": true
+    },
+    {
+      "path": "lib/armeabi-v7a/libdngCreator.so",
+      "elf_class": 32,
+      "machine": "EM_ARM",
+      "sha256": "2f37dc65f924468475f8eaa1fbe6eca643bf72b58733426af2f4ac1d253545ba",
+      "load_alignments": [
+        16384
+      ],
+      "elf_load_alignment_16k": true,
+      "zip_compression": "stored",
+      "zip_data_offset": 25673728,
+      "zip_data_alignment_16k": true,
+      "relro_writable_page_overlap_at_16k": [],
+      "needed": [
+        "liblog.so",
+        "libdl.so",
+        "libm.so",
+        "libc.so"
+      ],
+      "payload_identical_to_prior_review": true
+    },
+    {
+      "path": "lib/armeabi-v7a/libflacRecorder.so",
+      "elf_class": 32,
+      "machine": "EM_ARM",
+      "sha256": "346b6cee4a90e39177f419e77115c136277ba9fa9e2e472bd19c2cfd3bc103e9",
+      "load_alignments": [
+        16384
+      ],
+      "elf_load_alignment_16k": true,
+      "zip_compression": "stored",
+      "zip_data_offset": 26411008,
+      "zip_data_alignment_16k": true,
+      "relro_writable_page_overlap_at_16k": [],
+      "needed": [
+        "liblog.so",
+        "libm.so",
+        "libdl.so",
+        "libc.so"
+      ],
+      "payload_identical_to_prior_review": true
+    },
+    {
+      "path": "lib/armeabi-v7a/libhasselblad_wb_jni.so",
+      "elf_class": 32,
+      "machine": "EM_ARM",
+      "sha256": "6668664df849392689b818f7f01ffd88f7b39dc526d16e9c5d90a48823c90cd7",
+      "load_alignments": [
+        16384
+      ],
+      "elf_load_alignment_16k": true,
+      "zip_compression": "stored",
+      "zip_data_offset": 26607616,
+      "zip_data_alignment_16k": true,
+      "relro_writable_page_overlap_at_16k": [],
+      "needed": [
+        "libm.so",
+        "libdl.so",
+        "libc.so"
+      ],
+      "jni_exports": [
+        "Java_com_particlesdevs_photoncamera_hasselblad_HasselbladNativeCheck_nativeRecalibrate",
+        "Java_com_particlesdevs_photoncamera_hasselblad_HasselbladNativeCheck_nativeProvenance"
+      ],
+      "expected_original_hash_present": true,
+      "portable_execution_provenance_present": true,
+      "payload_identical_to_prior_review": true
+    },
+    {
+      "path": "lib/armeabi-v7a/libmcraw.so",
+      "elf_class": 32,
+      "machine": "EM_ARM",
+      "sha256": "01966713dc9356bd062acc91f9409ffce51fdc29dc20f67bdbedf280403846b1",
+      "load_alignments": [
+        16384
+      ],
+      "elf_load_alignment_16k": true,
+      "zip_compression": "stored",
+      "zip_data_offset": 26624000,
+      "zip_data_alignment_16k": true,
+      "relro_writable_page_overlap_at_16k": [],
+      "needed": [
+        "liblog.so",
+        "libm.so",
+        "libdl.so",
+        "libc.so"
+      ],
+      "payload_identical_to_prior_review": true
+    },
+    {
+      "path": "lib/armeabi-v7a/libncnnMl.so",
+      "elf_class": 32,
+      "machine": "EM_ARM",
+      "sha256": "61eee20dd6f95fe4b1a2e1f21ad93cb4b3730d2c52e83c6431c39302755df0a8",
+      "load_alignments": [
+        16384
+      ],
+      "elf_load_alignment_16k": true,
+      "zip_compression": "stored",
+      "zip_data_offset": 26886144,
+      "zip_data_alignment_16k": true,
+      "relro_writable_page_overlap_at_16k": [],
+      "needed": [
+        "libandroid.so",
+        "liblog.so",
+        "libm.so",
+        "libdl.so",
+        "libc.so"
+      ],
+      "payload_identical_to_prior_review": true
+    }
+  ],
+  "verification_limits": [
+    "No physical Android device installation or camera capture was performed by this reviewer",
+    "ELF and ZIP checks establish static alignment properties, not complete device runtime compatibility",
+    "Host JVM/JNI execution does not replace an Android device test",
+    "No photographic HNCS image processing is connected or validated"
+  ],
+  "method_reference": "https://developer.android.com/guide/practices/page-sizes",
+  "documentation_followup": "The copied ABI_EVIDENCE.md names original audit runners; update their relative locations or identify the final audit-tool layout before source bundle publication.",
+  "final_artifact_revalidation": {
+    "result": "pass",
+    "previous_review_artifact": {
+      "filename": "HasselbladPhoton_Native1_debug.apk",
+      "bytes": 70736316,
+      "sha256": "7d20c135e142e9a0b4a80b759c72d90a6a20a0fb0b40915e117b7f72700fb6ed"
+    },
+    "method": "Recomputed the final APK hash, all 17 uncompressed native payload hashes and actual local ZIP header data offsets. Every payload is byte-identical to the previously inspected ELF, so the existing architecture, LOAD/RELRO, dependency, export and provenance evidence is reused. Checked portable core/header source hashes again.",
+    "matching_native_payload_count": 17,
+    "all_native_zip_offsets_rechecked_at_16k": true,
+    "source_core_hashes_unchanged": true,
+    "additional_native_execution_or_device_tests": false
+  },
+  "final_dex_review": {
+    "filename": "native1_dex_review.json",
+    "sha256": "4adc6feaff7691de0a227e0ee48de994bfc9a86d9e3b2cbf88058485cccb5bc8",
+    "result": "pass",
+    "apk_sha256": "94440d675ff9f92f5fdf11a7608d3fdc586a511cfd2da12eddc19ad7810d8e4d"
+  },
+  "documentation_followup_resolution": {
+    "status": "resolved",
+    "verified_by": "root",
+    "document": "HasselbladPhoton/development/hasselblad/ABI_EVIDENCE.md",
+    "finding": "The combined-bundle location note and corrected ../../../hasselblad_native_audit/ runner paths are present in the final frozen source."
+  }
+}

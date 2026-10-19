@@ -1,0 +1,696 @@
+{
+  "dng": {
+    "path": "/workspace/scratch/f4dc23366b1f/upload/01-60784.dng",
+    "bytes": 25171227,
+    "sha256": "5d17b2119c7eefa01823b66bab5ee4d4ad3d5685183460e94d39ac50e11c0fb5",
+    "byte_order": "little",
+    "directories": [
+      {
+        "label": "IFD0",
+        "offset": 25170693,
+        "tags": [
+          {
+            "tag": 254,
+            "name": "NewSubfileType",
+            "type": 4,
+            "count": 1,
+            "value": 0
+          },
+          {
+            "tag": 256,
+            "name": "ImageWidth",
+            "type": 4,
+            "count": 1,
+            "value": 4096
+          },
+          {
+            "tag": 257,
+            "name": "ImageLength",
+            "type": 4,
+            "count": 1,
+            "value": 3072
+          },
+          {
+            "tag": 258,
+            "name": "BitsPerSample",
+            "type": 3,
+            "count": 1,
+            "value": 16
+          },
+          {
+            "tag": 259,
+            "name": "Compression",
+            "type": 3,
+            "count": 1,
+            "value": 1
+          },
+          {
+            "tag": 262,
+            "name": "PhotometricInterpretation",
+            "type": 3,
+            "count": 1,
+            "value": 32803
+          },
+          {
+            "tag": 270,
+            "name": "ImageDescription",
+            "type": 2,
+            "count": 297,
+            "value": "parameters:\n\n hasGainMap=true\n FrameCount=1\n CameraID=2\n DenoiseOn=false\n Sharp=0.20\n Sat=1.00\n Contrast=0.00\n ExpoCorrect=0.00\n Denoise=0.00\n Noise Merging=0.00\n Shadows=0.00\n Compressor=0.00\n Align=1\n Color=1\n PreviewFormat=0\n FocalL=8.72\n TotalProcessingTime=0ms\n Version=0.1-hb-native1(27174)"
+          },
+          {
+            "tag": 271,
+            "name": "Make",
+            "type": 2,
+            "count": 7,
+            "value": "Xiaomi"
+          },
+          {
+            "tag": 272,
+            "name": "Model",
+            "type": 2,
+            "count": 11,
+            "value": "25010PN30G"
+          },
+          {
+            "tag": 273,
+            "name": "StripOffsets",
+            "type": 4,
+            "count": 1,
+            "value": 4869
+          },
+          {
+            "tag": 274,
+            "name": "Orientation",
+            "type": 3,
+            "count": 1,
+            "value": 6
+          },
+          {
+            "tag": 277,
+            "name": "SamplesPerPixel",
+            "type": 3,
+            "count": 1,
+            "value": 1
+          },
+          {
+            "tag": 278,
+            "name": "RowsPerStrip",
+            "type": 4,
+            "count": 1,
+            "value": 3072
+          },
+          {
+            "tag": 279,
+            "name": "StripByteCounts",
+            "type": 4,
+            "count": 1,
+            "value": 25165824
+          },
+          {
+            "tag": 282,
+            "name": "XResolution",
+            "type": 5,
+            "count": 1,
+            "value": {
+              "numerator": 72,
+              "denominator": 1,
+              "decimal": 72.0
+            }
+          },
+          {
+            "tag": 283,
+            "name": "YResolution",
+            "type": 5,
+            "count": 1,
+            "value": {
+              "numerator": 72,
+              "denominator": 1,
+              "decimal": 72.0
+            }
+          },
+          {
+            "tag": 284,
+            "name": "PlanarConfiguration",
+            "type": 3,
+            "count": 1,
+            "value": 1
+          },
+          {
+            "tag": 296,
+            "name": "ResolutionUnit",
+            "type": 3,
+            "count": 1,
+            "value": 2
+          },
+          {
+            "tag": 305,
+            "name": "Software",
+            "type": 2,
+            "count": 17,
+            "value": "PhotonCamera v-1"
+          },
+          {
+            "tag": 306,
+            "name": "DateTime",
+            "type": 2,
+            "count": 20,
+            "value": "2026:10:19 18:51:34"
+          },
+          {
+            "tag": 33421,
+            "name": "CFARepeatPatternDim",
+            "type": 3,
+            "count": 2,
+            "value": [
+              2,
+              2
+            ]
+          },
+          {
+            "tag": 33422,
+            "name": "CFAPattern",
+            "type": 1,
+            "count": 4,
+            "value": [
+              0,
+              1,
+              1,
+              2
+            ]
+          },
+          {
+            "tag": 33434,
+            "name": "ExposureTime",
+            "type": 5,
+            "count": 1,
+            "value": {
+              "numerator": 16445532,
+              "denominator": 268435456,
+              "decimal": 0.06126438081264496
+            }
+          },
+          {
+            "tag": 33437,
+            "name": "FNumber",
+            "type": 5,
+            "count": 1,
+            "value": {
+              "numerator": 13673431,
+              "denominator": 8388608,
+              "decimal": 1.6299999952316284
+            }
+          },
+          {
+            "tag": 34855,
+            "name": "ISOSpeedRatings",
+            "type": 3,
+            "count": 1,
+            "value": 627
+          },
+          {
+            "tag": 36864,
+            "name": "ExifVersion",
+            "type": 7,
+            "count": 4,
+            "value": {
+              "bytes": 4,
+              "hex": "30323230"
+            }
+          },
+          {
+            "tag": 37386,
+            "name": "FocalLength",
+            "type": 5,
+            "count": 1,
+            "value": {
+              "numerator": 9143583,
+              "denominator": 1048576,
+              "decimal": 8.720000267028809
+            }
+          },
+          {
+            "tag": 50706,
+            "name": "DNGVersion",
+            "type": 1,
+            "count": 4,
+            "value": [
+              1,
+              3,
+              0,
+              0
+            ]
+          },
+          {
+            "tag": 50708,
+            "name": "UniqueCameraModel",
+            "type": 2,
+            "count": 25,
+            "value": "25010PN30G-Xiaomi-Xiaomi"
+          },
+          {
+            "tag": 50713,
+            "name": "BlackLevelRepeatDim",
+            "type": 3,
+            "count": 2,
+            "value": [
+              2,
+              2
+            ]
+          },
+          {
+            "tag": 50714,
+            "name": "BlackLevel",
+            "type": 3,
+            "count": 4,
+            "value": [
+              64,
+              64,
+              64,
+              64
+            ]
+          },
+          {
+            "tag": 50717,
+            "name": "WhiteLevel",
+            "type": 5,
+            "count": 1,
+            "value": {
+              "numerator": 1023,
+              "denominator": 1,
+              "decimal": 1023.0
+            }
+          },
+          {
+            "tag": 50721,
+            "name": "ColorMatrix1",
+            "type": 10,
+            "count": 9,
+            "value": [
+              {
+                "numerator": 107,
+                "denominator": 128,
+                "decimal": 0.8359375
+              },
+              {
+                "numerator": -11,
+                "denominator": 64,
+                "decimal": -0.171875
+              },
+              {
+                "numerator": -17,
+                "denominator": 128,
+                "decimal": -0.1328125
+              },
+              {
+                "numerator": -15,
+                "denominator": 32,
+                "decimal": -0.46875
+              },
+              {
+                "numerator": 179,
+                "denominator": 128,
+                "decimal": 1.3984375
+              },
+              {
+                "numerator": 3,
+                "denominator": 64,
+                "decimal": 0.046875
+              },
+              {
+                "numerator": -11,
+                "denominator": 128,
+                "decimal": -0.0859375
+              },
+              {
+                "numerator": 43,
+                "denominator": 128,
+                "decimal": 0.3359375
+              },
+              {
+                "numerator": 13,
+                "denominator": 32,
+                "decimal": 0.40625
+              }
+            ]
+          },
+          {
+            "tag": 50722,
+            "name": "ColorMatrix2",
+            "type": 10,
+            "count": 9,
+            "value": [
+              {
+                "numerator": 41,
+                "denominator": 32,
+                "decimal": 1.28125
+              },
+              {
+                "numerator": -31,
+                "denominator": 64,
+                "decimal": -0.484375
+              },
+              {
+                "numerator": -29,
+                "denominator": 128,
+                "decimal": -0.2265625
+              },
+              {
+                "numerator": -75,
+                "denominator": 128,
+                "decimal": -0.5859375
+              },
+              {
+                "numerator": 51,
+                "denominator": 32,
+                "decimal": 1.59375
+              },
+              {
+                "numerator": 9,
+                "denominator": 64,
+                "decimal": 0.140625
+              },
+              {
+                "numerator": -3,
+                "denominator": 64,
+                "decimal": -0.046875
+              },
+              {
+                "numerator": 23,
+                "denominator": 128,
+                "decimal": 0.1796875
+              },
+              {
+                "numerator": 45,
+                "denominator": 64,
+                "decimal": 0.703125
+              }
+            ]
+          },
+          {
+            "tag": 50723,
+            "name": "CameraCalibration1",
+            "type": 10,
+            "count": 9,
+            "value": [
+              {
+                "numerator": 33,
+                "denominator": 32,
+                "decimal": 1.03125
+              },
+              {
+                "numerator": 0,
+                "denominator": 16777216,
+                "decimal": 0.0
+              },
+              {
+                "numerator": 0,
+                "denominator": 16777216,
+                "decimal": 0.0
+              },
+              {
+                "numerator": 0,
+                "denominator": 16777216,
+                "decimal": 0.0
+              },
+              {
+                "numerator": 1,
+                "denominator": 1,
+                "decimal": 1.0
+              },
+              {
+                "numerator": 0,
+                "denominator": 16777216,
+                "decimal": 0.0
+              },
+              {
+                "numerator": 0,
+                "denominator": 16777216,
+                "decimal": 0.0
+              },
+              {
+                "numerator": 0,
+                "denominator": 16777216,
+                "decimal": 0.0
+              },
+              {
+                "numerator": 65,
+                "denominator": 64,
+                "decimal": 1.015625
+              }
+            ]
+          },
+          {
+            "tag": 50724,
+            "name": "CameraCalibration2",
+            "type": 10,
+            "count": 9,
+            "value": [
+              {
+                "numerator": 33,
+                "denominator": 32,
+                "decimal": 1.03125
+              },
+              {
+                "numerator": 0,
+                "denominator": 16777216,
+                "decimal": 0.0
+              },
+              {
+                "numerator": 0,
+                "denominator": 16777216,
+                "decimal": 0.0
+              },
+              {
+                "numerator": 0,
+                "denominator": 16777216,
+                "decimal": 0.0
+              },
+              {
+                "numerator": 1,
+                "denominator": 1,
+                "decimal": 1.0
+              },
+              {
+                "numerator": 0,
+                "denominator": 16777216,
+                "decimal": 0.0
+              },
+              {
+                "numerator": 0,
+                "denominator": 16777216,
+                "decimal": 0.0
+              },
+              {
+                "numerator": 0,
+                "denominator": 16777216,
+                "decimal": 0.0
+              },
+              {
+                "numerator": 65,
+                "denominator": 64,
+                "decimal": 1.015625
+              }
+            ]
+          },
+          {
+            "tag": 50728,
+            "name": "AsShotNeutral",
+            "type": 5,
+            "count": 3,
+            "value": [
+              {
+                "numerator": 295,
+                "denominator": 512,
+                "decimal": 0.576171875
+              },
+              {
+                "numerator": 1,
+                "denominator": 1,
+                "decimal": 1.0
+              },
+              {
+                "numerator": 193,
+                "denominator": 512,
+                "decimal": 0.376953125
+              }
+            ]
+          },
+          {
+            "tag": 50778,
+            "name": "CalibrationIlluminant1",
+            "type": 3,
+            "count": 1,
+            "value": 21
+          },
+          {
+            "tag": 50779,
+            "name": "CalibrationIlluminant2",
+            "type": 3,
+            "count": 1,
+            "value": 17
+          },
+          {
+            "tag": 50829,
+            "name": "ActiveArea",
+            "type": 4,
+            "count": 4,
+            "value": [
+              0,
+              0,
+              3072,
+              4096
+            ]
+          },
+          {
+            "tag": 50964,
+            "name": "ForwardMatrix1",
+            "type": 10,
+            "count": 9,
+            "value": [
+              {
+                "numerator": 81,
+                "denominator": 128,
+                "decimal": 0.6328125
+              },
+              {
+                "numerator": 7,
+                "denominator": 64,
+                "decimal": 0.109375
+              },
+              {
+                "numerator": 7,
+                "denominator": 32,
+                "decimal": 0.21875
+              },
+              {
+                "numerator": 7,
+                "denominator": 32,
+                "decimal": 0.21875
+              },
+              {
+                "numerator": 97,
+                "denominator": 128,
+                "decimal": 0.7578125
+              },
+              {
+                "numerator": 3,
+                "denominator": 128,
+                "decimal": 0.0234375
+              },
+              {
+                "numerator": -5,
+                "denominator": 128,
+                "decimal": -0.0390625
+              },
+              {
+                "numerator": -29,
+                "denominator": 64,
+                "decimal": -0.453125
+              },
+              {
+                "numerator": 169,
+                "denominator": 128,
+                "decimal": 1.3203125
+              }
+            ]
+          },
+          {
+            "tag": 50965,
+            "name": "ForwardMatrix2",
+            "type": 10,
+            "count": 9,
+            "value": [
+              {
+                "numerator": 81,
+                "denominator": 128,
+                "decimal": 0.6328125
+              },
+              {
+                "numerator": 7,
+                "denominator": 64,
+                "decimal": 0.109375
+              },
+              {
+                "numerator": 7,
+                "denominator": 32,
+                "decimal": 0.21875
+              },
+              {
+                "numerator": 7,
+                "denominator": 32,
+                "decimal": 0.21875
+              },
+              {
+                "numerator": 97,
+                "denominator": 128,
+                "decimal": 0.7578125
+              },
+              {
+                "numerator": 3,
+                "denominator": 128,
+                "decimal": 0.0234375
+              },
+              {
+                "numerator": -5,
+                "denominator": 128,
+                "decimal": -0.0390625
+              },
+              {
+                "numerator": -29,
+                "denominator": 64,
+                "decimal": -0.453125
+              },
+              {
+                "numerator": 169,
+                "denominator": 128,
+                "decimal": 1.3203125
+              }
+            ]
+          },
+          {
+            "tag": 51009,
+            "name": "OpcodeList2",
+            "type": 7,
+            "count": 3908,
+            "value": {
+              "bytes": 3908,
+              "sha256": "a0a4df73ea96656a4c2b36ef97f23cce6b9aead5a4d4f32e0f0dab4f658d74ac",
+              "payload_omitted": "Original phone lens-shading calibration bytes omitted from this public copy."
+            }
+          },
+          {
+            "tag": 51041,
+            "name": "NoiseProfile",
+            "type": 12,
+            "count": 6,
+            "value": [
+              0.00032682355521344,
+              8.052035411738214e-07,
+              0.0003280149518056506,
+              7.038407955329234e-07,
+              0.00032946537527788004,
+              8.188255486184265e-07
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "jpeg": {
+    "path": "/workspace/scratch/f4dc23366b1f/upload/02-60785.jpg",
+    "bytes": 861035,
+    "sha256": "0f6e462d2b65f58cc2c9a42e187782e609c5df07588fdb81373bbe1409d62ea1",
+    "encoded_width": 1536,
+    "encoded_height": 2048,
+    "mode": "RGB",
+    "directories": [
+      {
+        "label": "IFD0",
+        "tags": []
+      }
+    ],
+    "icc_profile_bytes": 456,
+    "icc_profile_sha256": "12afb4d9953adee0607d347daee5b78b18d6b3cab2d572b88970703f5edb37bc"
+  }
+}

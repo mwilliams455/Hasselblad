@@ -1,0 +1,120 @@
+{
+  "schema_version": 1,
+  "reviewed_utc": "2026-10-19T18:51:40.788953+00:00",
+  "result": "PASS",
+  "review_scope": "Independent read-only review of the staged public Native1A source, fixed importer and GitHub Actions import workflow. No refs mutated; no imported app or firmware code executed.",
+  "stage_root": "/workspace/scratch/f4dc23366b1f/HasselbladGitHub",
+  "destination_repository": "mwilliams455/Hasselblad",
+  "reviewed_files": {
+    "tools/import_native1a.py": {
+      "sha256": "1d314ecb32bc141cf03062f9f0de4ff301dcb5ac18d0049a7fdd4bfc18b58ac9",
+      "bytes": 14025
+    },
+    ".github/workflows/import-native1a.yml": {
+      "sha256": "a0fb3743bb957cd663e5ef27d2f2aae0ea30490224f2161a36f1b1451d568d78",
+      "bytes": 2572
+    },
+    "sync/native1a-import.json": {
+      "sha256": "b2745d7978fe271b031daeda6e713a6bc9301d7548b681bc73d62533961bd83e",
+      "bytes": 802
+    },
+    "build_evidence/Native1A_full_source.patch": {
+      "sha256": "7b4d049a016a95c5b67e3ceb5fa6e0b0e87f59f6e8c9c38a96a76b78a5976f8e",
+      "bytes": 374319
+    },
+    "build_evidence/native1a_source_changes.json": {
+      "sha256": "275273792cafd06bcc4b00a8752e10e2b33b5e2927857642d38d872e0b22e5ae",
+      "bytes": 171146
+    },
+    "build_evidence/github_sync_record.json": {
+      "sha256": "e6474727669691adff671a289b1c5cdb9b738bbe1297419bbf1866c8d08b5967",
+      "bytes": 1975
+    },
+    "hasselblad_device_validation_20261019/pair_audit/pair_metadata.json": {
+      "sha256": "fef1a8c617aedfec79e38b41dded40fd89e96b5fdb0b806a9ed84afb1d26a242",
+      "bytes": 17804
+    },
+    "README.md": {
+      "sha256": "8acc3a5dac25ac44f4824559e69c5e5e8599ec029812eee8ff2943e1662353a6",
+      "bytes": 8151
+    }
+  },
+  "frozen_source": {
+    "inventory_files": 1092,
+    "actual_files": 1092,
+    "all_paths_and_sha256_match": true,
+    "independent_import_command": "python3 tools/import_native1a.py --archive /tmp/photon-upstream-b2eff821.tar.gz --verify-only",
+    "independent_import_exit_code": 0,
+    "independent_import_result": {
+      "result": "pass",
+      "mode": "verify-only",
+      "status": "already-identical",
+      "files": 1092
+    },
+    "executable_mode_verified_by_importer": true,
+    "expected_only_executable": "gradlew"
+  },
+  "importer_static_review": {
+    "manifest_archive_patch_inventory_are_exactly_pinned": true,
+    "archive_verified_before_extraction": true,
+    "manual_regular_file_directory_only_extraction": true,
+    "rejects_traversal_absolute_noncanonical_backslash_control_paths": true,
+    "rejects_links_sparse_special_files_duplicate_entries": true,
+    "bounded_download_and_expansion": true,
+    "applies_fixed_patch_in_temporary_tree_with_git_ceiling": true,
+    "existing_destination_uses_lexists_and_requires_exact_inventory": true,
+    "never_overwrites_nonidentical_destination": true,
+    "verifies_all_staged_blob_sha256_and_modes": true,
+    "does_not_build_or_execute_imported_app_or_vendor_code": true
+  },
+  "workflow_static_review": {
+    "events": [
+      "push to main affecting sync/native1a-import.json",
+      "workflow_dispatch"
+    ],
+    "job_repository_and_ref_guard": "mwilliams455/Hasselblad; refs/heads/main",
+    "top_level_permissions": {},
+    "job_permissions": {
+      "contents": "write"
+    },
+    "checkout_action_sha": "08c6903cd8c0fde910a37f88322edcfb5dd907a8",
+    "checkout_release": "v5.0.0 (Node24)",
+    "credential_path": "checkout-managed repository-scoped GITHUB_TOKEN; no PAT, local credentials, or token printing in custom code",
+    "checks_remote_main_before_work_and_before_push": true,
+    "stages_and_commits_only_HasselbladPhoton_subtree": true,
+    "actual_index_verified_before_commit": true,
+    "push_command": "git push origin HEAD:refs/heads/main",
+    "force_push": false,
+    "requires_normal_repository_write_policy": true,
+    "does_not_bypass_branch_protection": true
+  },
+  "public_inventory": {
+    "total_files": 1212,
+    "app_files": 1092,
+    "outside_app_files": 120,
+    "total_bytes": 245928836,
+    "symlinks": [],
+    "forbidden_payload_extension_matches": [],
+    "elf_magic_matches": [],
+    "image_payloads_outside_app": [],
+    "files_at_least_100_mib": [],
+    "private_key_or_token_pattern_files_outside_app": [],
+    "large_encoded_json_blobs_outside_app": [],
+    "numeric_json_arrays_at_least_32_outside_app": [],
+    "public_photon_assets_and_dependencies": "Frozen app includes inherited public Photon static libraries, model/assets, Gradle wrapper, and public development signing fixture. They match the reviewed inventory and are not Hasselblad vendor payload."
+  },
+  "public_opcode_sanitization": {
+    "tag": 51009,
+    "bytes": 3908,
+    "sha256": "a0a4df73ea96656a4c2b36ef97f23cce6b9aead5a4d4f32e0f0dab4f658d74ac",
+    "public_report_retains_only_size_hash_and_omission_note": true,
+    "original_report_sha256": "3005bbe483f06f6f0fcb2c054d1a4931d640264b263e6dd9147863ffa3a103fb",
+    "original_report_unchanged_and_still_retains_hex": true
+  },
+  "limitations": [
+    "GitHub workflow has not been executed by this reviewer; remote publishing and final remote verification remain with parent agent.",
+    "This source-import review does not change the prior Native1A APK or physical-device validation status.",
+    "The separate HNCS image pipeline remains research; no new photographic rendering claim is established."
+  ],
+  "blocking_findings": []
+}

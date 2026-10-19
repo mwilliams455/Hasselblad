@@ -1,0 +1,17 @@
+Verifies
+Verified using v1 scheme (JAR signing): false
+Verified using v2 scheme (APK Signature Scheme v2): true
+Verified using v3 scheme (APK Signature Scheme v3): false
+Verified using v3.1 scheme (APK Signature Scheme v3.1): false
+Verified using v4 scheme (APK Signature Scheme v4): false
+Verified for SourceStamp: false
+Number of signers: 1
+Signer #1 certificate DN: CN=PhotonCamera developers
+Signer #1 certificate SHA-256 digest: 255cb09eaddd26a9cc680786e4985372cf24d0e54bb120fc44d48f3273ff3956
+Signer #1 certificate SHA-1 digest: d3464207dba6848ce9b3291b1edb36c9acc7ceb1
+Signer #1 certificate MD5 digest: dd903aaec078ba4776d6e2754c080281
+Signer #1 key algorithm: RSA
+Signer #1 key size (bits): 2048
+Signer #1 public key SHA-256 digest: 2960291cba5722bdf80f09990586760714a5bb172db2b521b575f8f9b0dbeb07
+Signer #1 public key SHA-1 digest: f558cd01c9a77e6cf1cd7162df95cee4876af1e8
+Signer #1 public key MD5 digest: d68387a7272f566c1022a21e4dc87198

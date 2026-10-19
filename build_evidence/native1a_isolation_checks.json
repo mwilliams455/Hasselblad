@@ -1,0 +1,11 @@
+{
+  "apk_path": "/workspace/scratch/f4dc23366b1f/hasselblad-build-artifacts/HasselbladPhoton_Native1A_debug.apk",
+  "sha256": "1db5da91841b632c3a148a556e7efc403493a558f0a2dfadb880421742cb3c70",
+  "dex_isolation_checks": {
+    "no_old_external_root": true,
+    "standalone_root_present": true,
+    "pinned_specifics_url_present": true,
+    "no_moving_specifics_url": true,
+    "new_software_string_present": true
+  }
+}

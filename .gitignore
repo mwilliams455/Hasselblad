@@ -1,0 +1,27 @@
+# Generated application/tool output
+**/.gradle/
+**/.cxx/
+**/build/
+**/local.properties
+**/__pycache__/
+**/*.pyc
+**/.venv/
+*.apk
+*.aab
+*.cim
+
+# Camera firmware/runtime and original photographic inputs
+/upload/
+/hasselblad_native_audit/firmware/extracted/
+/hasselblad_native_audit/firmware/downloads/
+/hasselblad_native_audit/runtime/
+**/*_android28_arm64
+
+# Local import/verification work
+/native1a-import-result.json
+/native1a-import-verification.json
+/native1a-import-work/
+.DS_Store
+
+# Keep tracked public native archives, models, wrapper JAR, dependency headers,
+# development signing fixture, and firmware/manifests JSON.

@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "checkpoint": "Native1A",
+  "upstream_commit": "b2eff821a858033515eb2700e7292befecc95225",
+  "archive_url": "https://codeload.github.com/eszdman/PhotonCamera/tar.gz/b2eff821a858033515eb2700e7292befecc95225",
+  "archive_sha256": "26396340dca501c5161bb843331c50eddab5810e6891bf40b5e5565d8fae5cf8",
+  "archive_bytes": 78893630,
+  "archive_root": "PhotonCamera-b2eff821a858033515eb2700e7292befecc95225",
+  "patch_path": "build_evidence/Native1A_full_source.patch",
+  "patch_sha256": "7b4d049a016a95c5b67e3ceb5fa6e0b0e87f59f6e8c9c38a96a76b78a5976f8e",
+  "inventory_path": "build_evidence/native1a_source_changes.json",
+  "inventory_sha256": "275273792cafd06bcc4b00a8752e10e2b33b5e2927857642d38d872e0b22e5ae",
+  "destination": "HasselbladPhoton",
+  "expected_source_files": 1092
+}

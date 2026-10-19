@@ -1,0 +1,990 @@
+{
+  "apk": "HasselbladPhoton_Native1_debug.apk",
+  "apk_bytes": 70736504,
+  "apk_sha256": "94440d675ff9f92f5fdf11a7608d3fdc586a511cfd2da12eddc19ad7810d8e4d",
+  "method": "DEX class-definition inventory and Android SDK dexdump instruction inspection. Raw-string presence is recorded separately from executable const-string references.",
+  "missing_target_classes": [],
+  "old_executable_string_references": [],
+  "new_executable_string_references": [
+    {
+      "dex": "classes10.dex",
+      "class": "Lcom/particlesdevs/photoncamera/settings/BackupRestoreUtil;",
+      "method": "backupSettings",
+      "instruction": "01b620: 1a08 ab04                              |0196: const-string v8, \"Saved: DCIM/HasselbladPhoton/\" // string@04ab",
+      "old_target": false
+    },
+    {
+      "dex": "classes14.dex",
+      "class": "Lcom/particlesdevs/photoncamera/gallery/files/GalleryFileOperations;",
+      "method": "<clinit>",
+      "instruction": "00ad68: 1a02 1e00                              |0004: const-string v2, \"%DCIM/HasselbladPhoton/%\" // string@001e",
+      "old_target": false
+    },
+    {
+      "dex": "classes14.dex",
+      "class": "Lcom/particlesdevs/photoncamera/gallery/files/GalleryFileOperations;",
+      "method": "<clinit>",
+      "instruction": "00ad72: 1a02 1f00                              |0009: const-string v2, \"%DCIM/HasselbladPhoton/Raw/%\" // string@001f",
+      "old_target": false
+    },
+    {
+      "dex": "classes16.dex",
+      "class": "Lcom/particlesdevs/photoncamera/util/FileManager;",
+      "method": "<clinit>",
+      "instruction": "02f184: 1a02 7b01                              |0038: const-string v2, \"DCIM/HasselbladPhoton\" // string@017b",
+      "old_target": false
+    },
+    {
+      "dex": "classes16.dex",
+      "class": "Lcom/particlesdevs/photoncamera/util/Log;",
+      "method": "getLogFolderDocumentFile",
+      "instruction": "02ff9a: 1a05 7b01                              |0015: const-string v5, \"DCIM/HasselbladPhoton\" // string@017b",
+      "old_target": false
+    },
+    {
+      "dex": "classes16.dex",
+      "class": "Lcom/particlesdevs/photoncamera/util/SimpleStorageHelper;",
+      "method": "getPhotonCameraFolder",
+      "instruction": "031d9e: 1a03 7b01                              |000d: const-string v3, \"DCIM/HasselbladPhoton\" // string@017b",
+      "old_target": false
+    },
+    {
+      "dex": "classes16.dex",
+      "class": "Lcom/particlesdevs/photoncamera/util/SimpleStorageHelper;",
+      "method": "openInputStream",
+      "instruction": "0320aa: 1a01 7c01                              |0005: const-string v1, \"DCIM/HasselbladPhoton/\" // string@017c",
+      "old_target": false
+    },
+    {
+      "dex": "classes16.dex",
+      "class": "Lcom/particlesdevs/photoncamera/util/SimpleStorageHelper;",
+      "method": "openOutputStream",
+      "instruction": "032284: 1a02 5105                              |0078: const-string v2, \"No storage access to DCIM/HasselbladPhoton\" // string@0551",
+      "old_target": false
+    },
+    {
+      "dex": "classes23.dex",
+      "class": "Lcom/particlesdevs/photoncamera/pro/SensorSpecifics;",
+      "method": "loadLocal",
+      "instruction": "004aee: 1a01 6c00                              |0005: const-string v1, \"DCIM/HasselbladPhoton/Tuning/SensorSpecifics.txt\" // string@006c",
+      "old_target": false
+    },
+    {
+      "dex": "classes23.dex",
+      "class": "Lcom/particlesdevs/photoncamera/pro/SensorSpecifics;",
+      "method": "loadNetwork",
+      "instruction": "004bc4: 1a02 2f03                              |000a: const-string v2, \"https://raw.githubusercontent.com/eszdman/PhotonCamera/b2eff821a858033515eb2700e7292befecc95225/app/src/main/assets/specific/sensors/\" // string@032f",
+      "old_target": false
+    },
+    {
+      "dex": "classes23.dex",
+      "class": "Lcom/particlesdevs/photoncamera/pro/SensorSpecifics;",
+      "method": "loadSpecifics",
+      "instruction": "004ec4: 1a06 6c00                              |0052: const-string v6, \"DCIM/HasselbladPhoton/Tuning/SensorSpecifics.txt\" // string@006c",
+      "old_target": false
+    },
+    {
+      "dex": "classes23.dex",
+      "class": "Lcom/particlesdevs/photoncamera/pro/Specific;",
+      "method": "loadLocal",
+      "instruction": "005d1a: 1a01 6b00                              |0005: const-string v1, \"DCIM/HasselbladPhoton/Tuning/DeviceSpecific.txt\" // string@006b",
+      "old_target": false
+    },
+    {
+      "dex": "classes23.dex",
+      "class": "Lcom/particlesdevs/photoncamera/pro/Specific;",
+      "method": "loadNetwork",
+      "instruction": "005dd4: 1a02 2d03                              |000a: const-string v2, \"https://raw.githubusercontent.com/eszdman/PhotonCamera/b2eff821a858033515eb2700e7292befecc95225/app/src/main/assets/specific/\" // string@032d",
+      "old_target": false
+    },
+    {
+      "dex": "classes23.dex",
+      "class": "Lcom/particlesdevs/photoncamera/pro/Specific;",
+      "method": "loadSpecific",
+      "instruction": "0060a0: 1a06 6b00                              |006a: const-string v6, \"DCIM/HasselbladPhoton/Tuning/DeviceSpecific.txt\" // string@006b",
+      "old_target": false
+    },
+    {
+      "dex": "classes23.dex",
+      "class": "Lcom/particlesdevs/photoncamera/pro/SupportedDevice;",
+      "method": "loadSupportedDevicesList",
+      "instruction": "0067d0: 1a00 2e03                              |0000: const-string v0, \"https://raw.githubusercontent.com/eszdman/PhotonCamera/b2eff821a858033515eb2700e7292befecc95225/app/src/main/assets/specific/SupportedList.txt\" // string@032e",
+      "old_target": false
+    }
+  ],
+  "raw_old_path_or_url_present": false,
+  "policy_and_storage_instruction_snippets": [
+    {
+      "dex": "classes10.dex",
+      "class": "Lcom/particlesdevs/photoncamera/settings/BackupRestoreUtil;",
+      "method": "backupSettings",
+      "signature": "(Landroid/content/Context;Ljava/lang/String;)Ljava/lang/String;",
+      "lines": [
+        "01b610: 6e10 a004 0800                         |018e: invoke-virtual {v8}, Ljava/io/OutputStream;.close:()V // method@04a0",
+        "01b616: 2200 3301                              |0191: new-instance v0, Ljava/lang/StringBuilder; // type@0133",
+        "01b61a: 7010 0805 0000                         |0193: invoke-direct {v0}, Ljava/lang/StringBuilder;.<init>:()V // method@0508",
+        "01b620: 1a08 ab04                              |0196: const-string v8, \"Saved: DCIM/HasselbladPhoton/\" // string@04ab",
+        "01b624: 6e20 1005 8000                         |0198: invoke-virtual {v0, v8}, Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder; // method@0510",
+        "01b62a: 0c00                                   |019b: move-result-object v0",
+        "01b62c: 6e20 1005 4000                         |019c: invoke-virtual {v0, v4}, Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder; // method@0510",
+        "01b632: 0c00                                   |019f: move-result-object v0",
+        "01b634: 6e10 1205 0000                         |01a0: invoke-virtual {v0}, Ljava/lang/StringBuilder;.toString:()Ljava/lang/String; // method@0512",
+        "01b63a: 0c00                                   |01a3: move-result-object v0",
+        "01b63c: 1100                                   |01a4: return-object v0",
+        "01b63e: 0d00                                   |01a5: move-exception v0",
+        "01b666: 6e20 1f05 0900                         |01b9: invoke-virtual {v9, v0}, Ljava/lang/Throwable;.addSuppressed:(Ljava/lang/Throwable;)V // method@051f",
+        "01b66c: 2709                                   |01bc: throw v9",
+        "01b66e: 2200 0601                              |01bd: new-instance v0, Ljava/io/File; // type@0106",
+        "01b672: 6208 3002                              |01bf: sget-object v8, Lcom/particlesdevs/photoncamera/util/FileManager;.sPHOTON_DIR:Ljava/io/File; // field@0230",
+        "01b676: 7030 8604 8004                         |01c1: invoke-direct {v0, v8, v4}, Ljava/io/File;.<init>:(Ljava/io/File;Ljava/lang/String;)V // method@0486",
+        "01b67c: 0708                                   |01c4: move-object v8, v0",
+        "01b67e: 2200 0901                              |01c5: new-instance v0, Ljava/io/FileWriter; // type@0109",
+        "01b682: 7020 9704 8000                         |01c7: invoke-direct {v0, v8}, Ljava/io/FileWriter;.<init>:(Ljava/io/File;)V // method@0497",
+        "01b688: 0709                                   |01ca: move-object v9, v0",
+        "01b68a: 6200 4d01                              |01cb: sget-object v0, Lcom/particlesdevs/photoncamera/settings/BackupRestoreUtil;.GSON:Lcom/google/gson/Gson; // field@014d",
+        "01b68e: 6e30 de00 7009                         |01cd: invoke-virtual {v0, v7, v9}, Lcom/google/gson/Gson;.toJson:(Ljava/lang/Object;Ljava/lang/Appendable;)V // method@00de",
+        "01b694: 6e10 9804 0900                         |01d0: invoke-virtual {v9}, Ljava/io/FileWriter;.close:()V // method@0498"
+      ]
+    },
+    {
+      "dex": "classes10.dex",
+      "class": "Lcom/particlesdevs/photoncamera/settings/PreferenceKeys;",
+      "method": "getCameraModeOrdinal",
+      "signature": "()I",
+      "lines": [
+        "      insns size    : 30 16-bit code units",
+        "01ecb0:                                        |[01ecb0] com.particlesdevs.photoncamera.settings.PreferenceKeys.getCameraModeOrdinal:()I",
+        "01ecc0: 7100 a501 0000                         |0000: invoke-static {}, Lcom/particlesdevs/photoncamera/hasselblad/HasselbladDevelopmentPolicy;.isEnabled:()Z // method@01a5",
+        "01ecc6: 0a00                                   |0003: move-result v0",
+        "01ecc8: 3800 0900                              |0004: if-eqz v0, 000d // +0009",
+        "01eccc: 6200 3800                              |0006: sget-object v0, Lcom/particlesdevs/photoncamera/api/CameraMode;.PHOTO:Lcom/particlesdevs/photoncamera/api/CameraMode; // field@0038",
+        "01ecd0: 6e10 4001 0000                         |0008: invoke-virtual {v0}, Lcom/particlesdevs/photoncamera/api/CameraMode;.ordinal:()I // method@0140",
+        "01ecd6: 0a00                                   |000b: move-result v0",
+        "01ecd8: 0f00                                   |000c: return v0",
+        "01ecda: 6200 d601                              |000d: sget-object v0, Lcom/particlesdevs/photoncamera/settings/PreferenceKeys;.preferenceKeys:Lcom/particlesdevs/photoncamera/settings/PreferenceKeys; // field@01d6",
+        "01ecde: 5400 d701                              |000f: iget-object v0, v0, Lcom/particlesdevs/photoncamera/settings/PreferenceKeys;.settingsManager:Lcom/particlesdevs/photoncamera/settings/SettingsManager; // field@01d7",
+        "01ece2: 1a01 e006                              |0011: const-string v1, \"default_scope\" // string@06e0",
+        "01ece6: 6202 7801                              |0013: sget-object v2, Lcom/particlesdevs/photoncamera/settings/PreferenceKeys$Key;.CAMERA_MODE:Lcom/particlesdevs/photoncamera/settings/PreferenceKeys$Key; // field@0178",
+        "01ecea: 6e30 c603 1002                         |0015: invoke-virtual {v0, v1, v2}, Lcom/particlesdevs/photoncamera/settings/SettingsManager;.getInteger:(Ljava/lang/String;Lcom/particlesdevs/photoncamera/settings/PreferenceKeys$Key;)Ljava/lang/Integer; // method@03c6",
+        "01ecf0: 0c00                                   |0018: move-result-object v0",
+        "01ecf2: 6e10 d304 0000                         |0019: invoke-virtual {v0}, Ljava/lang/Integer;.intValue:()I // method@04d3",
+        "01ecf8: 0a00                                   |001c: move-result v0",
+        "01ecfa: 0f00                                   |001d: return v0"
+      ]
+    },
+    {
+      "dex": "classes10.dex",
+      "class": "Lcom/particlesdevs/photoncamera/settings/PreferenceKeys;",
+      "method": "getFrameCountValue",
+      "signature": "()I",
+      "lines": [
+        "      insns size    : 25 16-bit code units",
+        "01ee00:                                        |[01ee00] com.particlesdevs.photoncamera.settings.PreferenceKeys.getFrameCountValue:()I",
+        "01ee10: 7100 a501 0000                         |0000: invoke-static {}, Lcom/particlesdevs/photoncamera/hasselblad/HasselbladDevelopmentPolicy;.isEnabled:()Z // method@01a5",
+        "01ee16: 0a00                                   |0003: move-result v0",
+        "01ee18: 3800 0400                              |0004: if-eqz v0, 0008 // +0004",
+        "01ee1c: 1210                                   |0006: const/4 v0, #int 1 // #1",
+        "01ee1e: 0f00                                   |0007: return v0",
+        "01ee20: 6200 d601                              |0008: sget-object v0, Lcom/particlesdevs/photoncamera/settings/PreferenceKeys;.preferenceKeys:Lcom/particlesdevs/photoncamera/settings/PreferenceKeys; // field@01d6",
+        "01ee24: 5400 d701                              |000a: iget-object v0, v0, Lcom/particlesdevs/photoncamera/settings/PreferenceKeys;.settingsManager:Lcom/particlesdevs/photoncamera/settings/SettingsManager; // field@01d7",
+        "01ee28: 1a01 e006                              |000c: const-string v1, \"default_scope\" // string@06e0",
+        "01ee2c: 6202 9701                              |000e: sget-object v2, Lcom/particlesdevs/photoncamera/settings/PreferenceKeys$Key;.KEY_FRAME_COUNT:Lcom/particlesdevs/photoncamera/settings/PreferenceKeys$Key; // field@0197",
+        "01ee30: 6e30 c603 1002                         |0010: invoke-virtual {v0, v1, v2}, Lcom/particlesdevs/photoncamera/settings/SettingsManager;.getInteger:(Ljava/lang/String;Lcom/particlesdevs/photoncamera/settings/PreferenceKeys$Key;)Ljava/lang/Integer; // method@03c6",
+        "01ee36: 0c00                                   |0013: move-result-object v0",
+        "01ee38: 6e10 d304 0000                         |0014: invoke-virtual {v0}, Ljava/lang/Integer;.intValue:()I // method@04d3",
+        "01ee3e: 0a00                                   |0017: move-result v0",
+        "01ee40: 0f00                                   |0018: return v0"
+      ]
+    },
+    {
+      "dex": "classes10.dex",
+      "class": "Lcom/particlesdevs/photoncamera/settings/PreferenceKeys;",
+      "method": "isHdrXOn",
+      "signature": "()Z",
+      "lines": [
+        "      insns size    : 21 16-bit code units",
+        "01e550:                                        |[01e550] com.particlesdevs.photoncamera.settings.PreferenceKeys.isHdrXOn:()Z",
+        "01e560: 7100 a501 0000                         |0000: invoke-static {}, Lcom/particlesdevs/photoncamera/hasselblad/HasselbladDevelopmentPolicy;.isEnabled:()Z // method@01a5",
+        "01e566: 0a00                                   |0003: move-result v0",
+        "01e568: 3800 0400                              |0004: if-eqz v0, 0008 // +0004",
+        "01e56c: 1210                                   |0006: const/4 v0, #int 1 // #1",
+        "01e56e: 0f00                                   |0007: return v0",
+        "01e570: 6200 d601                              |0008: sget-object v0, Lcom/particlesdevs/photoncamera/settings/PreferenceKeys;.preferenceKeys:Lcom/particlesdevs/photoncamera/settings/PreferenceKeys; // field@01d6",
+        "01e574: 5400 d701                              |000a: iget-object v0, v0, Lcom/particlesdevs/photoncamera/settings/PreferenceKeys;.settingsManager:Lcom/particlesdevs/photoncamera/settings/SettingsManager; // field@01d7",
+        "01e578: 1a01 e006                              |000c: const-string v1, \"default_scope\" // string@06e0",
+        "01e57c: 6202 9901                              |000e: sget-object v2, Lcom/particlesdevs/photoncamera/settings/PreferenceKeys$Key;.KEY_HDRX:Lcom/particlesdevs/photoncamera/settings/PreferenceKeys$Key; // field@0199",
+        "01e580: 6e30 bc03 1002                         |0010: invoke-virtual {v0, v1, v2}, Lcom/particlesdevs/photoncamera/settings/SettingsManager;.getBoolean:(Ljava/lang/String;Lcom/particlesdevs/photoncamera/settings/PreferenceKeys$Key;)Z // method@03bc",
+        "01e586: 0a00                                   |0013: move-result v0",
+        "01e588: 0f00                                   |0014: return v0"
+      ]
+    },
+    {
+      "dex": "classes10.dex",
+      "class": "Lcom/particlesdevs/photoncamera/settings/PreferenceKeys;",
+      "method": "isUltraHdrOn",
+      "signature": "()Z",
+      "lines": [
+        "      insns size    : 21 16-bit code units",
+        "01e820:                                        |[01e820] com.particlesdevs.photoncamera.settings.PreferenceKeys.isUltraHdrOn:()Z",
+        "01e830: 7100 a501 0000                         |0000: invoke-static {}, Lcom/particlesdevs/photoncamera/hasselblad/HasselbladDevelopmentPolicy;.isEnabled:()Z // method@01a5",
+        "01e836: 0a00                                   |0003: move-result v0",
+        "01e838: 3800 0400                              |0004: if-eqz v0, 0008 // +0004",
+        "01e83c: 1200                                   |0006: const/4 v0, #int 0 // #0",
+        "01e83e: 0f00                                   |0007: return v0",
+        "01e840: 6200 d601                              |0008: sget-object v0, Lcom/particlesdevs/photoncamera/settings/PreferenceKeys;.preferenceKeys:Lcom/particlesdevs/photoncamera/settings/PreferenceKeys; // field@01d6",
+        "01e844: 5400 d701                              |000a: iget-object v0, v0, Lcom/particlesdevs/photoncamera/settings/PreferenceKeys;.settingsManager:Lcom/particlesdevs/photoncamera/settings/SettingsManager; // field@01d7",
+        "01e848: 1a01 e006                              |000c: const-string v1, \"default_scope\" // string@06e0",
+        "01e84c: 6202 b801                              |000e: sget-object v2, Lcom/particlesdevs/photoncamera/settings/PreferenceKeys$Key;.KEY_ULTRAHDR:Lcom/particlesdevs/photoncamera/settings/PreferenceKeys$Key; // field@01b8",
+        "01e850: 6e30 bc03 1002                         |0010: invoke-virtual {v0, v1, v2}, Lcom/particlesdevs/photoncamera/settings/SettingsManager;.getBoolean:(Ljava/lang/String;Lcom/particlesdevs/photoncamera/settings/PreferenceKeys$Key;)Z // method@03bc",
+        "01e856: 0a00                                   |0013: move-result v0",
+        "01e858: 0f00                                   |0014: return v0"
+      ]
+    },
+    {
+      "dex": "classes12.dex",
+      "class": "Lcom/particlesdevs/photoncamera/ui/camera/CameraUIViewImpl;",
+      "method": "initModeSwitcher",
+      "signature": "()V",
+      "lines": [
+        "      insns size    : 113 16-bit code units",
+        "018324:                                        |[018324] com.particlesdevs.photoncamera.ui.camera.CameraUIViewImpl.initModeSwitcher:()V",
+        "018334: 7100 a801 0000                         |0000: invoke-static {}, Lcom/particlesdevs/photoncamera/hasselblad/HasselbladDevelopmentPolicy;.isEnabled:()Z // method@01a8",
+        "01833a: 0a00                                   |0003: move-result v0",
+        "01833c: 1221                                   |0004: const/4 v1, #int 2 // #2",
+        "01833e: 3800 2b00                              |0005: if-eqz v0, 0030 // +002b",
+        "018342: 5450 1d02                              |0007: iget-object v0, v5, Lcom/particlesdevs/photoncamera/ui/camera/CameraUIViewImpl;.mModePicker:Lcom/particlesdevs/photoncamera/ui/camera/views/modeswitcher/wefika/horizontalpicker/HorizontalPicker; // field@021d",
+        "018346: 1212                                   |0009: const/4 v2, #int 1 // #1",
+        "018348: 2322 c301                              |000a: new-array v2, v2, [Ljava/lang/String; // type@01c3",
+        "01834c: 5453 1902                              |000c: iget-object v3, v5, Lcom/particlesdevs/photoncamera/ui/camera/CameraUIViewImpl;.cameraFragment:Lcom/particlesdevs/photoncamera/ui/camera/CameraFragment; // field@0219",
+        "018350: 1404 ef00 127f                         |000e: const v4, #float 1.94072e+38 // #7f1200ef"
+      ]
+    },
+    {
+      "dex": "classes12.dex",
+      "class": "Lcom/particlesdevs/photoncamera/ui/camera/CameraUIViewImpl;",
+      "method": "lambda$initModeSwitcher$2",
+      "signature": "(I)V",
+      "lines": [
+        "      insns size    : 6 16-bit code units",
+        "018494:                                        |[018494] com.particlesdevs.photoncamera.ui.camera.CameraUIViewImpl.lambda$initModeSwitcher$2:(I)V",
+        "0184a4: 6200 4100                              |0000: sget-object v0, Lcom/particlesdevs/photoncamera/api/CameraMode;.PHOTO:Lcom/particlesdevs/photoncamera/api/CameraMode; // field@0041",
+        "0184a8: 7020 d904 0100                         |0002: invoke-direct {v1, v0}, Lcom/particlesdevs/photoncamera/ui/camera/CameraUIViewImpl;.switchToMode:(Lcom/particlesdevs/photoncamera/api/CameraMode;)V // method@04d9",
+        "0184ae: 0e00                                   |0005: return-void"
+      ]
+    },
+    {
+      "dex": "classes15.dex",
+      "class": "Lcom/particlesdevs/photoncamera/hasselblad/HasselbladDevelopmentPolicy;",
+      "method": "applyPreferences",
+      "signature": "(Lcom/particlesdevs/photoncamera/settings/SettingsManager;)V",
+      "lines": [
+        "      insns size    : 68 16-bit code units",
+        "003e70:                                        |[003e70] com.particlesdevs.photoncamera.hasselblad.HasselbladDevelopmentPolicy.applyPreferences:(Lcom/particlesdevs/photoncamera/settings/SettingsManager;)V",
+        "003e80: 7100 d200 0000                         |0000: invoke-static {}, Lcom/particlesdevs/photoncamera/hasselblad/HasselbladDevelopmentPolicy;.isEnabled:()Z // method@00d2",
+        "003e86: 0a00                                   |0003: move-result v0",
+        "003e88: 3900 0300                              |0004: if-nez v0, 0007 // +0003",
+        "003e8c: 0e00                                   |0006: return-void",
+        "003e8e: 1a00 d501                              |0007: const-string v0, \"default_scope\" // string@01d5",
+        "003e92: 6201 4a00                              |0009: sget-object v1, Lcom/particlesdevs/photoncamera/settings/PreferenceKeys$Key;.KEY_FRAME_COUNT:Lcom/particlesdevs/photoncamera/settings/PreferenceKeys$Key; // field@004a",
+        "003e96: 1212                                   |000b: const/4 v2, #int 1 // #1",
+        "003e98: 6e40 0101 0421                         |000c: invoke-virtual {v4, v0, v1, v2}, Lcom/particlesdevs/photoncamera/settings/SettingsManager;.set:(Ljava/lang/String;Lcom/particlesdevs/photoncamera/settings/PreferenceKeys$Key;I)V // method@0101",
+        "003e9e: 6201 4700                              |000f: sget-object v1, Lcom/particlesdevs/photoncamera/settings/PreferenceKeys$Key;.CAMERA_MODE:Lcom/particlesdevs/photoncamera/settings/PreferenceKeys$Key; // field@0047",
+        "003ea2: 6203 1e00                              |0011: sget-object v3, Lcom/particlesdevs/photoncamera/api/CameraMode;.PHOTO:Lcom/particlesdevs/photoncamera/api/CameraMode; // field@001e",
+        "003ea6: 6e10 ab00 0300                         |0013: invoke-virtual {v3}, Lcom/particlesdevs/photoncamera/api/CameraMode;.ordinal:()I // method@00ab",
+        "003eac: 0a03                                   |0016: move-result v3",
+        "003eae: 6e40 0101 0431                         |0017: invoke-virtual {v4, v0, v1, v3}, Lcom/particlesdevs/photoncamera/settings/SettingsManager;.set:(Ljava/lang/String;Lcom/particlesdevs/photoncamera/settings/PreferenceKeys$Key;I)V // method@0101",
+        "003eb4: 6201 4b00                              |001a: sget-object v1, Lcom/particlesdevs/photoncamera/settings/PreferenceKeys$Key;.KEY_HDRX:Lcom/particlesdevs/photoncamera/settings/PreferenceKeys$Key; // field@004b",
+        "003eb8: 6e40 0201 0421                         |001c: invoke-virtual {v4, v0, v1, v2}, Lcom/particlesdevs/photoncamera/settings/SettingsManager;.set:(Ljava/lang/String;Lcom/particlesdevs/photoncamera/settings/PreferenceKeys$Key;Z)V // method@0102",
+        "003ebe: 6201 4c00                              |001f: sget-object v1, Lcom/particlesdevs/photoncamera/settings/PreferenceKeys$Key;.KEY_HDRX_NR:Lcom/particlesdevs/photoncamera/settings/PreferenceKeys$Key; // field@004c",
+        "003ec2: 1202                                   |0021: const/4 v2, #int 0 // #0",
+        "003ec4: 6e40 0201 0421                         |0022: invoke-virtual {v4, v0, v1, v2}, Lcom/particlesdevs/photoncamera/settings/SettingsManager;.set:(Ljava/lang/String;Lcom/particlesdevs/photoncamera/settings/PreferenceKeys$Key;Z)V // method@0102",
+        "003eca: 6201 5000                              |0025: sget-object v1, Lcom/particlesdevs/photoncamera/settings/PreferenceKeys$Key;.KEY_ULTRAHDR:Lcom/particlesdevs/photoncamera/settings/PreferenceKeys$Key; // field@0050",
+        "003ece: 6e40 0201 0421                         |0027: invoke-virtual {v4, v0, v1, v2}, Lcom/particlesdevs/photoncamera/settings/SettingsManager;.set:(Ljava/lang/String;Lcom/particlesdevs/photoncamera/settings/PreferenceKeys$Key;Z)V // method@0102",
+        "003ed4: 6201 4900                              |002a: sget-object v1, Lcom/particlesdevs/photoncamera/settings/PreferenceKeys$Key;.KEY_BRACKETING_MODE:Lcom/particlesdevs/photoncamera/settings/PreferenceKeys$Key; // field@0049",
+        "003ed8: 6e40 0101 0421                         |002c: invoke-virtual {v4, v0, v1, v2}, Lcom/particlesdevs/photoncamera/settings/SettingsManager;.set:(Ljava/lang/String;Lcom/particlesdevs/photoncamera/settings/PreferenceKeys$Key;I)V // method@0101",
+        "003ede: 6201 4d00                              |002f: sget-object v1, Lcom/particlesdevs/photoncamera/settings/PreferenceKeys$Key;.KEY_QUAD_BAYER:Lcom/particlesdevs/photoncamera/settings/PreferenceKeys$Key; // field@004d",
+        "003ee2: 6e40 0201 0421                         |0031: invoke-virtual {v4, v0, v1, v2}, Lcom/particlesdevs/photoncamera/settings/SettingsManager;.set:(Ljava/lang/String;Lcom/particlesdevs/photoncamera/settings/PreferenceKeys$Key;Z)V // method@0102",
+        "003ee8: 6201 4e00                              |0034: sget-object v1, Lcom/particlesdevs/photoncamera/settings/PreferenceKeys$Key;.KEY_REMOSAIC:Lcom/particlesdevs/photoncamera/settings/PreferenceKeys$Key; // field@004e",
+        "003eec: 6e40 0201 0421                         |0036: invoke-virtual {v4, v0, v1, v2}, Lcom/particlesdevs/photoncamera/settings/SettingsManager;.set:(Ljava/lang/String;Lcom/particlesdevs/photoncamera/settings/PreferenceKeys$Key;Z)V // method@0102",
+        "003ef2: 6201 4800                              |0039: sget-object v1, Lcom/particlesdevs/photoncamera/settings/PreferenceKeys$Key;.KEY_BINNING:Lcom/particlesdevs/photoncamera/settings/PreferenceKeys$Key; // field@0048",
+        "003ef6: 6e40 0201 0421                         |003b: invoke-virtual {v4, v0, v1, v2}, Lcom/particlesdevs/photoncamera/settings/SettingsManager;.set:(Ljava/lang/String;Lcom/particlesdevs/photoncamera/settings/PreferenceKeys$Key;Z)V // method@0102",
+        "003efc: 6201 4f00                              |003e: sget-object v1, Lcom/particlesdevs/photoncamera/settings/PreferenceKeys$Key;.KEY_SAVE_HEIC:Lcom/particlesdevs/photoncamera/settings/PreferenceKeys$Key; // field@004f",
+        "003f00: 6e40 0201 0421                         |0040: invoke-virtual {v4, v0, v1, v2}, Lcom/particlesdevs/photoncamera/settings/SettingsManager;.set:(Ljava/lang/String;Lcom/particlesdevs/photoncamera/settings/PreferenceKeys$Key;Z)V // method@0102",
+        "003f06: 0e00                                   |0043: return-void"
+      ]
+    },
+    {
+      "dex": "classes15.dex",
+      "class": "Lcom/particlesdevs/photoncamera/hasselblad/HasselbladDevelopmentPolicy;",
+      "method": "chooseInitialRawSize",
+      "signature": "([Landroid/util/Size;)Landroid/util/Size;",
+      "lines": [
+        "      insns size    : 45 16-bit code units",
+        "003d60:                                        |[003d60] com.particlesdevs.photoncamera.hasselblad.HasselbladDevelopmentPolicy.chooseInitialRawSize:([Landroid/util/Size;)Landroid/util/Size;",
+        "003d70: 1200                                   |0000: const/4 v0, #int 0 // #0",
+        "003d72: 3905 0300                              |0001: if-nez v5, 0004 // +0003",
+        "003d76: 1100                                   |0003: return-object v0",
+        "003d78: 2151                                   |0004: array-length v1, v5",
+        "003d7a: 2311 a300                              |0005: new-array v1, v1, [[I // type@00a3",
+        "003d7e: 1202                                   |0007: const/4 v2, #int 0 // #0",
+        "003d80: 2153                                   |0008: array-length v3, v5",
+        "003d82: 3532 1b00                              |0009: if-ge v2, v3, 0024 // +001b",
+        "003d86: 4603 0502                              |000b: aget-object v3, v5, v2",
+        "003d8a: 3803 1400                              |000d: if-eqz v3, 0021 // +0014",
+        "003d8e: 4603 0502                              |000f: aget-object v3, v5, v2",
+        "003d92: 6e10 8600 0300                         |0011: invoke-virtual {v3}, Landroid/util/Size;.getWidth:()I // method@0086",
+        "003d98: 0a03                                   |0014: move-result v3",
+        "003d9a: 4604 0502                              |0015: aget-object v4, v5, v2",
+        "003d9e: 6e10 8500 0400                         |0017: invoke-virtual {v4}, Landroid/util/Size;.getHeight:()I // method@0085",
+        "003da4: 0a04                                   |001a: move-result v4",
+        "003da6: 2420 9e00 4300                         |001b: filled-new-array {v3, v4}, [I // type@009e",
+        "003dac: 0c03                                   |001e: move-result-object v3",
+        "003dae: 4d03 0102                              |001f: aput-object v3, v1, v2",
+        "003db2: d802 0201                              |0021: add-int/lit8 v2, v2, #int 1 // #01",
+        "003db6: 28e5                                   |0023: goto 0008 // -001b",
+        "003db8: 7110 e000 0100                         |0024: invoke-static {v1}, Lcom/particlesdevs/photoncamera/hasselblad/HasselbladRawSizeSelector;.chooseIndex:([[I)I // method@00e0",
+        "003dbe: 0a02                                   |0027: move-result v2",
+        "003dc0: 3a02 0400                              |0028: if-ltz v2, 002c // +0004",
+        "003dc4: 4600 0502                              |002a: aget-object v0, v5, v2",
+        "003dc8: 1100                                   |002c: return-object v0"
+      ]
+    },
+    {
+      "dex": "classes15.dex",
+      "class": "Lcom/particlesdevs/photoncamera/hasselblad/HasselbladDevelopmentPolicy;",
+      "method": "isEnabled",
+      "signature": "()Z",
+      "lines": [
+        "      insns size    : 2 16-bit code units",
+        "003dcc:                                        |[003dcc] com.particlesdevs.photoncamera.hasselblad.HasselbladDevelopmentPolicy.isEnabled:()Z",
+        "003ddc: 1210                                   |0000: const/4 v0, #int 1 // #1",
+        "003dde: 0f00                                   |0001: return v0"
+      ]
+    },
+    {
+      "dex": "classes16.dex",
+      "class": "Lcom/particlesdevs/photoncamera/util/FileManager;",
+      "method": "<clinit>",
+      "signature": "()V",
+      "lines": [
+        "02f178: 6900 a203                              |0032: sput-object v0, Lcom/particlesdevs/photoncamera/util/FileManager;.sEXTERNAL_DIR:Ljava/io/File; // field@03a2",
+        "02f17c: 2200 4801                              |0034: new-instance v0, Ljava/io/File; // type@0148",
+        "02f180: 6201 a203                              |0036: sget-object v1, Lcom/particlesdevs/photoncamera/util/FileManager;.sEXTERNAL_DIR:Ljava/io/File; // field@03a2",
+        "02f184: 1a02 7b01                              |0038: const-string v2, \"DCIM/HasselbladPhoton\" // string@017b",
+        "02f188: 7030 0a05 1002                         |003a: invoke-direct {v0, v1, v2}, Ljava/io/File;.<init>:(Ljava/io/File;Ljava/lang/String;)V // method@050a",
+        "02f18e: 6900 a303                              |003d: sput-object v0, Lcom/particlesdevs/photoncamera/util/FileManager;.sPHOTON_DIR:Ljava/io/File; // field@03a3",
+        "02f192: 2200 4801                              |003f: new-instance v0, Ljava/io/File; // type@0148",
+        "02f196: 6201 a303                              |0041: sget-object v1, Lcom/particlesdevs/photoncamera/util/FileManager;.sPHOTON_DIR:Ljava/io/File; // field@03a3",
+        "02f19a: 1a02 ad05                              |0043: const-string v2, \"Raw\" // string@05ad",
+        "02f19e: 7030 0a05 1002                         |0045: invoke-direct {v0, v1, v2}, Ljava/io/File;.<init>:(Ljava/io/File;Ljava/lang/String;)V // method@050a",
+        "02f1a4: 6900 a403                              |0048: sput-object v0, Lcom/particlesdevs/photoncamera/util/FileManager;.sPHOTON_RAW_DIR:Ljava/io/File; // field@03a4",
+        "02f1a8: 2200 4801                              |004a: new-instance v0, Ljava/io/File; // type@0148",
+        "02f1ac: 6201 a303                              |004c: sget-object v1, Lcom/particlesdevs/photoncamera/util/FileManager;.sPHOTON_DIR:Ljava/io/File; // field@03a3",
+        "02f1b0: 1a02 7c06                              |004e: const-string v2, \"Tuning\" // string@067c",
+        "02f1b4: 7030 0a05 1002                         |0050: invoke-direct {v0, v1, v2}, Ljava/io/File;.<init>:(Ljava/io/File;Ljava/lang/String;)V // method@050a",
+        "02f1ba: 6900 a503                              |0053: sput-object v0, Lcom/particlesdevs/photoncamera/util/FileManager;.sPHOTON_TUNING_DIR:Ljava/io/File; // field@03a5",
+        "02f1be: 2200 4801                              |0055: new-instance v0, Ljava/io/File; // type@0148",
+        "02f1c2: 2201 6f01                              |0057: new-instance v1, Ljava/lang/StringBuilder; // type@016f",
+        "02f1c6: 7010 7705 0100                         |0059: invoke-direct {v1}, Ljava/lang/StringBuilder;.<init>:()V // method@0577",
+        "02f1cc: 6202 a203                              |005c: sget-object v2, Lcom/particlesdevs/photoncamera/util/FileManager;.sEXTERNAL_DIR:Ljava/io/File; // field@03a2",
+        "02f1d0: 6e20 7e05 2100                         |005e: invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;.append:(Ljava/lang/Object;)Ljava/lang/StringBuilder; // method@057e"
+      ]
+    },
+    {
+      "dex": "classes16.dex",
+      "class": "Lcom/particlesdevs/photoncamera/util/Log;",
+      "method": "getLogFolderDocumentFile",
+      "signature": "()Landroidx/documentfile/provider/DocumentFile;",
+      "lines": [
+        "02ff90: 6202 1d00                              |0010: sget-object v2, Lcom/anggrayudi/storage/file/DocumentFileType;.FOLDER:Lcom/anggrayudi/storage/file/DocumentFileType; // field@001d",
+        "02ff94: 1213                                   |0012: const/4 v3, #int 1 // #1",
+        "02ff96: 1a04 970d                              |0013: const-string v4, \"primary\" // string@0d97",
+        "02ff9a: 1a05 7b01                              |0015: const-string v5, \"DCIM/HasselbladPhoton\" // string@017b",
+        "02ff9e: 7153 ef00 4025                         |0017: invoke-static {v0, v4, v5, v2, v3}, Lcom/anggrayudi/storage/file/DocumentFileCompat;.fromSimplePath:(Landroid/content/Context;Ljava/lang/String;Ljava/lang/String;Lcom/anggrayudi/storage/file/DocumentFileType;Z)Landroidx/documentfile/provider/DocumentFile; // method@00ef",
+        "02ffa4: 0c00                                   |001a: move-result-object v0",
+        "02ffa6: 3800 1d00                              |001b: if-eqz v0, 0038 // +001d",
+        "02ffaa: 6e10 bb00 0000                         |001d: invoke-virtual {v0}, Landroidx/documentfile/provider/DocumentFile;.exists:()Z // method@00bb",
+        "02ffb0: 0a02                                   |0020: move-result v2",
+        "02ffb2: 3902 0300                              |0021: if-nez v2, 0024 // +0003",
+        "02ffb6: 2815                                   |0023: goto 0038 // +0015",
+        "02ffb8: 1a01 9205                              |0024: const-string v1, \"PhotonLog\" // string@0592"
+      ]
+    },
+    {
+      "dex": "classes16.dex",
+      "class": "Lcom/particlesdevs/photoncamera/util/SimpleStorageHelper;",
+      "method": "getPhotonCameraFolder",
+      "signature": "(Landroid/content/Context;)Landroidx/documentfile/provider/DocumentFile;",
+      "lines": [
+        "031d94: 6200 1d00                              |0008: sget-object v0, Lcom/anggrayudi/storage/file/DocumentFileType;.FOLDER:Lcom/anggrayudi/storage/file/DocumentFileType; // field@001d",
+        "031d98: 1211                                   |000a: const/4 v1, #int 1 // #1",
+        "031d9a: 1a02 970d                              |000b: const-string v2, \"primary\" // string@0d97",
+        "031d9e: 1a03 7b01                              |000d: const-string v3, \"DCIM/HasselbladPhoton\" // string@017b",
+        "031da2: 7151 ef00 2403                         |000f: invoke-static {v4, v2, v3, v0, v1}, Lcom/anggrayudi/storage/file/DocumentFileCompat;.fromSimplePath:(Landroid/content/Context;Ljava/lang/String;Ljava/lang/String;Lcom/anggrayudi/storage/file/DocumentFileType;Z)Landroidx/documentfile/provider/DocumentFile; // method@00ef",
+        "031da8: 0c00                                   |0012: move-result-object v0",
+        "031daa: 1100                                   |0013: return-object v0"
+      ]
+    },
+    {
+      "dex": "classes16.dex",
+      "class": "Lcom/particlesdevs/photoncamera/util/SimpleStorageHelper;",
+      "method": "openInputStream",
+      "signature": "(Landroid/content/Context;Ljava/lang/String;)Ljava/io/InputStream;",
+      "lines": [
+        "032090:                                        |[032090] com.particlesdevs.photoncamera.util.SimpleStorageHelper.openInputStream:(Landroid/content/Context;Ljava/lang/String;)Ljava/io/InputStream;",
+        "0320a0: 2200 6f01                              |0000: new-instance v0, Ljava/lang/StringBuilder; // type@016f",
+        "0320a4: 7010 7705 0000                         |0002: invoke-direct {v0}, Ljava/lang/StringBuilder;.<init>:()V // method@0577",
+        "0320aa: 1a01 7c01                              |0005: const-string v1, \"DCIM/HasselbladPhoton/\" // string@017c",
+        "0320ae: 6e20 7f05 1000                         |0007: invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder; // method@057f",
+        "0320b4: 0c00                                   |000a: move-result-object v0",
+        "0320b6: 6e20 7f05 3000                         |000b: invoke-virtual {v0, v3}, Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder; // method@057f",
+        "0320bc: 0c00                                   |000e: move-result-object v0",
+        "0320be: 6e10 8105 0000                         |000f: invoke-virtual {v0}, Ljava/lang/StringBuilder;.toString:()Ljava/lang/String; // method@0581",
+        "0320c4: 0c00                                   |0012: move-result-object v0",
+        "0320c6: 7120 c504 0200                         |0013: invoke-static {v2, v0}, Lcom/particlesdevs/photoncamera/util/SimpleStorageHelper;.openInputStreamByPath:(Landroid/content/Context;Ljava/lang/String;)Ljava/io/InputStream; // method@04c5",
+        "0320cc: 0c00                                   |0016: move-result-object v0"
+      ]
+    },
+    {
+      "dex": "classes16.dex",
+      "class": "Lcom/particlesdevs/photoncamera/util/SimpleStorageHelper;",
+      "method": "openOutputStream",
+      "signature": "(Landroid/content/Context;Ljava/lang/String;)Ljava/io/OutputStream;",
+      "lines": [
+        "032278: 7020 4205 2100                         |0072: invoke-direct {v1, v2}, Ljava/lang/IllegalArgumentException;.<init>:(Ljava/lang/String;)V // method@0542",
+        "03227e: 2701                                   |0075: throw v1",
+        "032280: 2201 6b01                              |0076: new-instance v1, Ljava/lang/SecurityException; // type@016b",
+        "032284: 1a02 5105                              |0078: const-string v2, \"No storage access to DCIM/HasselbladPhoton\" // string@0551",
+        "032288: 7020 6305 2100                         |007a: invoke-direct {v1, v2}, Ljava/lang/SecurityException;.<init>:(Ljava/lang/String;)V // method@0563",
+        "03228e: 2701                                   |007d: throw v1"
+      ]
+    },
+    {
+      "dex": "classes18.dex",
+      "class": "Lcom/particlesdevs/photoncamera/processing/render/Parameters;",
+      "method": "ReCalcColor",
+      "signature": "(ZLandroid/hardware/camera2/CaptureResult;)V",
+      "lines": [
+        "00863a: 541d 9800                              |04d7: iget-object v13, v1, Lcom/particlesdevs/photoncamera/processing/render/Parameters;.sensorToProPhoto:[F // field@0098",
+        "00863e: 7130 8500 300d                         |04d9: invoke-static {v0, v3, v13}, Lcom/particlesdevs/photoncamera/processing/render/Converter;.multiply:([F[F[F)V // method@0085",
+        "008644: 2200 5b00                              |04dc: new-instance v0, Ljava/io/File; // type@005b",
+        "008648: 620d ca00                              |04de: sget-object v13, Lcom/particlesdevs/photoncamera/util/FileManager;.sPHOTON_DIR:Ljava/io/File; // field@00ca",
+        "00864c: 082a 0300                              |04e0: move-object/from16 v42, v3",
+        "008650: 1a03 fa01                              |04e2: const-string v3, \"customCCT.txt\" // string@01fa",
+        "008654: 7030 af00 d003                         |04e4: invoke-direct {v0, v13, v3}, Ljava/io/File;.<init>:(Ljava/io/File;Ljava/lang/String;)V // method@00af",
+        "00865a: 0703                                   |04e7: move-object v3, v0",
+        "00865c: 6200 1900                              |04e8: sget-object v0, Landroid/hardware/camera2/CaptureResult;.COLOR_CORRECTION_TRANSFORM:Landroid/hardware/camera2/CaptureResult$Key; // field@0019",
+        "008660: 6e20 1000 0200                         |04ea: invoke-virtual {v2, v0}, Landroid/hardware/camera2/CaptureResult;.get:(Landroid/hardware/camera2/CaptureResult$Key;)Ljava/lang/Object; // method@0010",
+        "008666: 0c00                                   |04ed: move-result-object v0",
+        "008668: 070d                                   |04ee: move-object v13, v0",
+        "00866a: 1f0d 1300                              |04ef: check-cast v13, Landroid/hardware/camera2/params/ColorSpaceTransform; // type@0013",
+        "00866e: 3808 e201                              |04f1: if-eqz v8, 06d3 // +01e2"
+      ]
+    },
+    {
+      "dex": "classes21.dex",
+      "class": "Lcom/particlesdevs/photoncamera/capture/CaptureController;",
+      "method": "getCameraOutputSize",
+      "signature": "([Landroid/util/Size;Landroid/util/Size;)Landroid/util/Size;",
+      "lines": [
+        "00c68c: 21b0                                   |0002: array-length v0, v11",
+        "00c68e: 3900 0400                              |0003: if-nez v0, 0007 // +0004",
+        "00c692: 2900 e600                              |0005: goto/16 00eb // +00e6",
+        "00c696: 7100 cf02 0000                         |0007: invoke-static {}, Lcom/particlesdevs/photoncamera/hasselblad/HasselbladDevelopmentPolicy;.isEnabled:()Z // method@02cf",
+        "00c69c: 0a00                                   |000a: move-result v0",
+        "00c69e: 3800 3c00                              |000b: if-eqz v0, 0047 // +003c",
+        "00c6a2: 6000 1e01                              |000d: sget v0, Lcom/particlesdevs/photoncamera/capture/CaptureController;.mTargetFormat:I // field@011e",
+        "00c6a6: 1301 2000                              |000f: const/16 v1, #int 32 // #20",
+        "00c6aa: 3310 3600                              |0011: if-ne v0, v1, 0047 // +0036",
+        "00c6ae: 7110 ce02 0b00                         |0013: invoke-static {v11}, Lcom/particlesdevs/photoncamera/hasselblad/HasselbladDevelopmentPolicy;.chooseInitialRawSize:([Landroid/util/Size;)Landroid/util/Size; // method@02ce",
+        "00c6b4: 0c00                                   |0016: move-result-object v0",
+        "00c6b6: 3800 3000                              |0017: if-eqz v0, 0047 // +0030",
+        "00c6ba: 5ba0 3701                              |0019: iput-object v0, v10, Lcom/particlesdevs/photoncamera/capture/CaptureController;.target:Landroid/util/Size; // field@0137",
+        "00c6be: 54a1 3301                              |001b: iget-object v1, v10, Lcom/particlesdevs/photoncamera/capture/CaptureController;.physicalID:Ljava/lang/String; // field@0133",
+        "00c6c2: 7120 d002 1000                         |001d: invoke-static {v0, v1}, Lcom/particlesdevs/photoncamera/hasselblad/HasselbladDevelopmentPolicy;.recordRequestedRawSize:(Landroid/util/Size;Ljava/lang/String;)V // method@02d0",
+        "00c6c8: 6201 ca00                              |0020: sget-object v1, Lcom/particlesdevs/photoncamera/capture/CaptureController;.TAG:Ljava/lang/String; // field@00ca",
+        "00c6cc: 2202 2101                              |0022: new-instance v2, Ljava/lang/StringBuilder; // type@0121",
+        "00c6d0: 7010 3004 0200                         |0024: invoke-direct {v2}, Ljava/lang/StringBuilder;.<init>:()V // method@0430",
+        "00c6d6: 1a03 d901                              |0027: const-string v3, \"Hasselblad development RAW request: \" // string@01d9",
+        "00c6da: 6e20 3704 3200                         |0029: invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder; // method@0437",
+        "00c6e0: 0c02                                   |002c: move-result-object v2",
+        "00c6e2: 6e20 3604 0200                         |002d: invoke-virtual {v2, v0}, Ljava/lang/StringBuilder;.append:(Ljava/lang/Object;)Ljava/lang/StringBuilder; // method@0436",
+        "00c6e8: 0c02                                   |0030: move-result-object v2"
+      ]
+    },
+    {
+      "dex": "classes23.dex",
+      "class": "Lcom/particlesdevs/photoncamera/pro/SensorSpecifics;",
+      "method": "loadLocal",
+      "signature": "(Landroid/content/Context;)Ljava/util/ArrayList;",
+      "lines": [
+        "004ad4:                                        |[004ad4] com.particlesdevs.photoncamera.pro.SensorSpecifics.loadLocal:(Landroid/content/Context;)Ljava/util/ArrayList;",
+        "004ae4: 2200 c300                              |0000: new-instance v0, Ljava/util/ArrayList; // type@00c3",
+        "004ae8: 7010 8f02 0000                         |0002: invoke-direct {v0}, Ljava/util/ArrayList;.<init>:()V // method@028f",
+        "004aee: 1a01 6c00                              |0005: const-string v1, \"DCIM/HasselbladPhoton/Tuning/SensorSpecifics.txt\" // string@006c",
+        "004af2: 7120 3c02 1800                         |0007: invoke-static {v8, v1}, Lcom/particlesdevs/photoncamera/util/SimpleStorageHelper;.openInputStreamByPath:(Landroid/content/Context;Ljava/lang/String;)Ljava/io/InputStream; // method@023c",
+        "004af8: 0c01                                   |000a: move-result-object v1",
+        "004afa: 2202 a500                              |000b: new-instance v2, Ljava/io/BufferedReader; // type@00a5",
+        "004afe: 2203 ab00                              |000d: new-instance v3, Ljava/io/InputStreamReader; // type@00ab",
+        "004b02: 7020 5002 1300                         |000f: invoke-direct {v3, v1}, Ljava/io/InputStreamReader;.<init>:(Ljava/io/InputStream;)V // method@0250",
+        "004b08: 7020 3d02 3200                         |0012: invoke-direct {v2, v3}, Ljava/io/BufferedReader;.<init>:(Ljava/io/Reader;)V // method@023d",
+        "004b0e: 6e10 3f02 0200                         |0015: invoke-virtual {v2}, Ljava/io/BufferedReader;.readLine:()Ljava/lang/String; // method@023f",
+        "004b14: 0c03                                   |0018: move-result-object v3"
+      ]
+    },
+    {
+      "dex": "classes23.dex",
+      "class": "Lcom/particlesdevs/photoncamera/pro/SensorSpecifics;",
+      "method": "loadNetwork",
+      "signature": "(Ljava/lang/String;)Ljava/util/ArrayList;",
+      "lines": [
+        "004bb4: 7010 8f02 0000                         |0002: invoke-direct {v0}, Ljava/util/ArrayList;.<init>:()V // method@028f",
+        "004bba: 2201 bc00                              |0005: new-instance v1, Ljava/lang/StringBuilder; // type@00bc",
+        "004bbe: 7010 7e02 0100                         |0007: invoke-direct {v1}, Ljava/lang/StringBuilder;.<init>:()V // method@027e",
+        "004bc4: 1a02 2f03                              |000a: const-string v2, \"https://raw.githubusercontent.com/eszdman/PhotonCamera/b2eff821a858033515eb2700e7292befecc95225/app/src/main/assets/specific/sensors/\" // string@032f",
+        "004bc8: 6e20 8302 2100                         |000c: invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder; // method@0283",
+        "004bce: 0c01                                   |000f: move-result-object v1",
+        "004bd0: 6e20 8302 7100                         |0010: invoke-virtual {v1, v7}, Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder; // method@0283",
+        "004bd6: 0c01                                   |0013: move-result-object v1",
+        "004bd8: 1a02 4000                              |0014: const-string v2, \".txt\" // string@0040",
+        "004bdc: 6e20 8302 2100                         |0016: invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder; // method@0283",
+        "004be2: 0c01                                   |0019: move-result-object v1",
+        "004be4: 6e10 8502 0100                         |001a: invoke-virtual {v1}, Ljava/lang/StringBuilder;.toString:()Ljava/lang/String; // method@0285"
+      ]
+    },
+    {
+      "dex": "classes23.dex",
+      "class": "Lcom/particlesdevs/photoncamera/pro/SensorSpecifics;",
+      "method": "loadSpecifics",
+      "signature": "(Lcom/particlesdevs/photoncamera/settings/SettingsManager;Landroid/content/Context;)V",
+      "lines": [
+        "004eb8: 0c00                                   |004c: move-result-object v0",
+        "004eba: 2205 c300                              |004d: new-instance v5, Ljava/util/ArrayList; // type@00c3",
+        "004ebe: 7010 8f02 0500                         |004f: invoke-direct {v5}, Ljava/util/ArrayList;.<init>:()V // method@028f",
+        "004ec4: 1a06 6c00                              |0052: const-string v6, \"DCIM/HasselbladPhoton/Tuning/SensorSpecifics.txt\" // string@006c",
+        "004ec8: 7120 3a02 6b00                         |0054: invoke-static {v11, v6}, Lcom/particlesdevs/photoncamera/util/SimpleStorageHelper;.fileExistsByPath:(Landroid/content/Context;Ljava/lang/String;)Z // method@023a",
+        "004ece: 0a06                                   |0057: move-result v6",
+        "004ed0: 3806 0d00                              |0058: if-eqz v6, 0065 // +000d",
+        "004ed4: 1a06 9101                              |005a: const-string v6, \"Loading from local file\" // string@0191",
+        "004ed8: 7120 3402 6400                         |005c: invoke-static {v4, v6}, Lcom/particlesdevs/photoncamera/util/Log;.d:(Ljava/lang/String;Ljava/lang/String;)V // method@0234",
+        "004ede: 6e20 b900 b900                         |005f: invoke-virtual {v9, v11}, Lcom/particlesdevs/photoncamera/pro/SensorSpecifics;.loadLocal:(Landroid/content/Context;)Ljava/util/ArrayList; // method@00b9",
+        "004ee4: 0c06                                   |0062: move-result-object v6",
+        "004ee6: 0765                                   |0063: move-object v5, v6"
+      ]
+    },
+    {
+      "dex": "classes23.dex",
+      "class": "Lcom/particlesdevs/photoncamera/pro/Specific;",
+      "method": "loadLocal",
+      "signature": "(Landroid/content/Context;)Ljava/util/ArrayList;",
+      "lines": [
+        "005d00:                                        |[005d00] com.particlesdevs.photoncamera.pro.Specific.loadLocal:(Landroid/content/Context;)Ljava/util/ArrayList;",
+        "005d10: 2200 c300                              |0000: new-instance v0, Ljava/util/ArrayList; // type@00c3",
+        "005d14: 7010 8f02 0000                         |0002: invoke-direct {v0}, Ljava/util/ArrayList;.<init>:()V // method@028f",
+        "005d1a: 1a01 6b00                              |0005: const-string v1, \"DCIM/HasselbladPhoton/Tuning/DeviceSpecific.txt\" // string@006b",
+        "005d1e: 7120 3c02 1700                         |0007: invoke-static {v7, v1}, Lcom/particlesdevs/photoncamera/util/SimpleStorageHelper;.openInputStreamByPath:(Landroid/content/Context;Ljava/lang/String;)Ljava/io/InputStream; // method@023c",
+        "005d24: 0c01                                   |000a: move-result-object v1",
+        "005d26: 2202 a500                              |000b: new-instance v2, Ljava/io/BufferedReader; // type@00a5",
+        "005d2a: 2203 ab00                              |000d: new-instance v3, Ljava/io/InputStreamReader; // type@00ab",
+        "005d2e: 7020 5002 1300                         |000f: invoke-direct {v3, v1}, Ljava/io/InputStreamReader;.<init>:(Ljava/io/InputStream;)V // method@0250",
+        "005d34: 7020 3d02 3200                         |0012: invoke-direct {v2, v3}, Ljava/io/BufferedReader;.<init>:(Ljava/io/Reader;)V // method@023d",
+        "005d3a: 6e10 3f02 0200                         |0015: invoke-virtual {v2}, Ljava/io/BufferedReader;.readLine:()Ljava/lang/String; // method@023f",
+        "005d40: 0c03                                   |0018: move-result-object v3"
+      ]
+    },
+    {
+      "dex": "classes23.dex",
+      "class": "Lcom/particlesdevs/photoncamera/pro/Specific;",
+      "method": "loadNetwork",
+      "signature": "(Ljava/lang/String;)Ljava/util/ArrayList;",
+      "lines": [
+        "005dc4: 7010 8f02 0000                         |0002: invoke-direct {v0}, Ljava/util/ArrayList;.<init>:()V // method@028f",
+        "005dca: 2201 bc00                              |0005: new-instance v1, Ljava/lang/StringBuilder; // type@00bc",
+        "005dce: 7010 7e02 0100                         |0007: invoke-direct {v1}, Ljava/lang/StringBuilder;.<init>:()V // method@027e",
+        "005dd4: 1a02 2d03                              |000a: const-string v2, \"https://raw.githubusercontent.com/eszdman/PhotonCamera/b2eff821a858033515eb2700e7292befecc95225/app/src/main/assets/specific/\" // string@032d",
+        "005dd8: 6e20 8302 2100                         |000c: invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder; // method@0283",
+        "005dde: 0c01                                   |000f: move-result-object v1",
+        "005de0: 6e20 8302 6100                         |0010: invoke-virtual {v1, v6}, Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder; // method@0283",
+        "005de6: 0c01                                   |0013: move-result-object v1",
+        "005de8: 1a02 2a02                              |0014: const-string v2, \"_specificsettings.txt\" // string@022a",
+        "005dec: 6e20 8302 2100                         |0016: invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder; // method@0283",
+        "005df2: 0c01                                   |0019: move-result-object v1",
+        "005df4: 6e10 8502 0100                         |001a: invoke-virtual {v1}, Ljava/lang/StringBuilder;.toString:()Ljava/lang/String; // method@0285"
+      ]
+    },
+    {
+      "dex": "classes23.dex",
+      "class": "Lcom/particlesdevs/photoncamera/pro/Specific;",
+      "method": "loadSpecific",
+      "signature": "(Landroid/content/Context;)V",
+      "lines": [
+        "006096: 6e10 8502 0100                         |0065: invoke-virtual {v1}, Ljava/lang/StringBuilder;.toString:()Ljava/lang/String; // method@0285",
+        "00609c: 0c01                                   |0068: move-result-object v1",
+        "00609e: 1205                                   |0069: const/4 v5, #int 0 // #0",
+        "0060a0: 1a06 6b00                              |006a: const-string v6, \"DCIM/HasselbladPhoton/Tuning/DeviceSpecific.txt\" // string@006b",
+        "0060a4: 7120 3a02 6a00                         |006c: invoke-static {v10, v6}, Lcom/particlesdevs/photoncamera/util/SimpleStorageHelper;.fileExistsByPath:(Landroid/content/Context;Ljava/lang/String;)Z // method@023a",
+        "0060aa: 0a06                                   |006f: move-result v6",
+        "0060ac: 3806 0d00                              |0070: if-eqz v6, 007d // +000d",
+        "0060b0: 1a06 9101                              |0072: const-string v6, \"Loading from local file\" // string@0191",
+        "0060b4: 7120 3402 6200                         |0074: invoke-static {v2, v6}, Lcom/particlesdevs/photoncamera/util/Log;.d:(Ljava/lang/String;Ljava/lang/String;)V // method@0234",
+        "0060ba: 6e20 c100 a900                         |0077: invoke-virtual {v9, v10}, Lcom/particlesdevs/photoncamera/pro/Specific;.loadLocal:(Landroid/content/Context;)Ljava/util/ArrayList; // method@00c1",
+        "0060c0: 0c06                                   |007a: move-result-object v6",
+        "0060c2: 0765                                   |007b: move-object v5, v6"
+      ]
+    },
+    {
+      "dex": "classes23.dex",
+      "class": "Lcom/particlesdevs/photoncamera/pro/SupportedDevice;",
+      "method": "loadSupportedDevicesList",
+      "signature": "()V",
+      "lines": [
+        "      insns size    : 41 16-bit code units",
+        "0067c0:                                        |[0067c0] com.particlesdevs.photoncamera.pro.SupportedDevice.loadSupportedDevicesList:()V",
+        "0067d0: 1a00 2e03                              |0000: const-string v0, \"https://raw.githubusercontent.com/eszdman/PhotonCamera/b2eff821a858033515eb2700e7292befecc95225/app/src/main/assets/specific/SupportedList.txt\" // string@032e",
+        "0067d4: 1301 fa00                              |0002: const/16 v1, #int 250 // #fa",
+        "0067d8: 7120 3302 1000                         |0004: invoke-static {v0, v1}, Lcom/particlesdevs/photoncamera/util/HttpLoader;.readURL:(Ljava/lang/String;I)Ljava/io/BufferedReader; // method@0233",
+        "0067de: 0c00                                   |0007: move-result-object v0",
+        "0067e0: 6e10 3f02 0000                         |0008: invoke-virtual {v0}, Ljava/io/BufferedReader;.readLine:()Ljava/lang/String; // method@023f",
+        "0067e6: 0c01                                   |000b: move-result-object v1",
+        "0067e8: 0712                                   |000c: move-object v2, v1",
+        "0067ea: 3801 0800                              |000d: if-eqz v1, 0015 // +0008",
+        "0067ee: 5461 5f00                              |000f: iget-object v1, v6, Lcom/particlesdevs/photoncamera/pro/SupportedDevice;.mSupportedDevicesSet:Ljava/util/Set; // field@005f"
+      ]
+    }
+  ],
+  "dex_files": [
+    {
+      "dex": "classes.dex",
+      "bytes": 9215172,
+      "sha256": "def3e806bb14faa7a9d8691741351230055b06466ec9f9692e7e1b6ced51178e",
+      "target_classes": [],
+      "raw_string_counts": {
+        "DCIM/PhotonCamera": 0,
+        "DCIM//PhotonCamera": 0,
+        "PhotonCamera/dev/app/src/main/assets/specific/": 0,
+        "DCIM/HasselbladPhoton": 0,
+        "PhotonCamera/b2eff821a858033515eb2700e7292befecc95225/app/src/main/assets/specific/": 0
+      }
+    },
+    {
+      "dex": "classes10.dex",
+      "bytes": 282712,
+      "sha256": "92a4f62edafc900e1c80cd47ce248932a79b030ea5ca6fffefa6d3dd8aeb05d0",
+      "target_classes": [
+        "Lcom/particlesdevs/photoncamera/settings/BackupRestoreUtil;",
+        "Lcom/particlesdevs/photoncamera/settings/PreferenceKeys;"
+      ],
+      "raw_string_counts": {
+        "DCIM/PhotonCamera": 0,
+        "DCIM//PhotonCamera": 0,
+        "PhotonCamera/dev/app/src/main/assets/specific/": 0,
+        "DCIM/HasselbladPhoton": 1,
+        "PhotonCamera/b2eff821a858033515eb2700e7292befecc95225/app/src/main/assets/specific/": 0
+      }
+    },
+    {
+      "dex": "classes11.dex",
+      "bytes": 101040,
+      "sha256": "15c0834cd21c191b9a532503ac1545662ac06a7c8fc63acb9a899d8ddfcf9273",
+      "target_classes": [],
+      "raw_string_counts": {
+        "DCIM/PhotonCamera": 0,
+        "DCIM//PhotonCamera": 0,
+        "PhotonCamera/dev/app/src/main/assets/specific/": 0,
+        "DCIM/HasselbladPhoton": 0,
+        "PhotonCamera/b2eff821a858033515eb2700e7292befecc95225/app/src/main/assets/specific/": 0
+      }
+    },
+    {
+      "dex": "classes12.dex",
+      "bytes": 196672,
+      "sha256": "88a3de7da80dde367260b41bc3aa57bff27dfa5122cdc4079c6da97512b04d04",
+      "target_classes": [
+        "Lcom/particlesdevs/photoncamera/ui/camera/CameraUIViewImpl$$ExternalSyntheticLambda4;",
+        "Lcom/particlesdevs/photoncamera/ui/camera/CameraUIViewImpl;"
+      ],
+      "raw_string_counts": {
+        "DCIM/PhotonCamera": 0,
+        "DCIM//PhotonCamera": 0,
+        "PhotonCamera/dev/app/src/main/assets/specific/": 0,
+        "DCIM/HasselbladPhoton": 0,
+        "PhotonCamera/b2eff821a858033515eb2700e7292befecc95225/app/src/main/assets/specific/": 0
+      }
+    },
+    {
+      "dex": "classes13.dex",
+      "bytes": 63232,
+      "sha256": "2e51f09f70210f4e1ebd2fe5569436817b99ce2630b871a15ae07e2f823be40b",
+      "target_classes": [],
+      "raw_string_counts": {
+        "DCIM/PhotonCamera": 0,
+        "DCIM//PhotonCamera": 0,
+        "PhotonCamera/dev/app/src/main/assets/specific/": 0,
+        "DCIM/HasselbladPhoton": 0,
+        "PhotonCamera/b2eff821a858033515eb2700e7292befecc95225/app/src/main/assets/specific/": 0
+      }
+    },
+    {
+      "dex": "classes14.dex",
+      "bytes": 128908,
+      "sha256": "f1ed6ebe1c7a3cdcf83c3b791ea14383c4757649e36eedf93367bc2c0b43837b",
+      "target_classes": [],
+      "raw_string_counts": {
+        "DCIM/PhotonCamera": 0,
+        "DCIM//PhotonCamera": 0,
+        "PhotonCamera/dev/app/src/main/assets/specific/": 0,
+        "DCIM/HasselbladPhoton": 2,
+        "PhotonCamera/b2eff821a858033515eb2700e7292befecc95225/app/src/main/assets/specific/": 0
+      }
+    },
+    {
+      "dex": "classes15.dex",
+      "bytes": 67948,
+      "sha256": "12b560dc2ebbba6c5f29079bc8a2c2e7e559592dd857646ab2735b151ce86137",
+      "target_classes": [
+        "Lcom/particlesdevs/photoncamera/hasselblad/HasselbladDevelopmentPolicy;"
+      ],
+      "raw_string_counts": {
+        "DCIM/PhotonCamera": 0,
+        "DCIM//PhotonCamera": 0,
+        "PhotonCamera/dev/app/src/main/assets/specific/": 0,
+        "DCIM/HasselbladPhoton": 0,
+        "PhotonCamera/b2eff821a858033515eb2700e7292befecc95225/app/src/main/assets/specific/": 0
+      }
+    },
+    {
+      "dex": "classes16.dex",
+      "bytes": 375392,
+      "sha256": "9ad0be377d277914fa4f976536055233d58ebcb6e54fc14f5eeb9fa1a43b2c0e",
+      "target_classes": [
+        "Lcom/particlesdevs/photoncamera/util/FileManager;",
+        "Lcom/particlesdevs/photoncamera/util/Log;",
+        "Lcom/particlesdevs/photoncamera/util/SimpleStorageHelper;"
+      ],
+      "raw_string_counts": {
+        "DCIM/PhotonCamera": 0,
+        "DCIM//PhotonCamera": 0,
+        "PhotonCamera/dev/app/src/main/assets/specific/": 0,
+        "DCIM/HasselbladPhoton": 3,
+        "PhotonCamera/b2eff821a858033515eb2700e7292befecc95225/app/src/main/assets/specific/": 0
+      }
+    },
+    {
+      "dex": "classes17.dex",
+      "bytes": 96764,
+      "sha256": "63bfa5ae6b0f7560efec945cdda9e69433eecd56aee401192f32e404f1ebecac",
+      "target_classes": [],
+      "raw_string_counts": {
+        "DCIM/PhotonCamera": 0,
+        "DCIM//PhotonCamera": 0,
+        "PhotonCamera/dev/app/src/main/assets/specific/": 0,
+        "DCIM/HasselbladPhoton": 0,
+        "PhotonCamera/b2eff821a858033515eb2700e7292befecc95225/app/src/main/assets/specific/": 0
+      }
+    },
+    {
+      "dex": "classes18.dex",
+      "bytes": 59844,
+      "sha256": "db4c3ec8427a3abc8bc90d0d01f0d5d7b79aff1f1733f29db72e281c12dbc915",
+      "target_classes": [
+        "Lcom/particlesdevs/photoncamera/processing/render/Parameters;"
+      ],
+      "raw_string_counts": {
+        "DCIM/PhotonCamera": 0,
+        "DCIM//PhotonCamera": 0,
+        "PhotonCamera/dev/app/src/main/assets/specific/": 0,
+        "DCIM/HasselbladPhoton": 0,
+        "PhotonCamera/b2eff821a858033515eb2700e7292befecc95225/app/src/main/assets/specific/": 0
+      }
+    },
+    {
+      "dex": "classes19.dex",
+      "bytes": 112776,
+      "sha256": "ae0946f6a0be5f2554f262c4b37a8154a155f4feed8419a30a1fb837a7da282d",
+      "target_classes": [],
+      "raw_string_counts": {
+        "DCIM/PhotonCamera": 0,
+        "DCIM//PhotonCamera": 0,
+        "PhotonCamera/dev/app/src/main/assets/specific/": 0,
+        "DCIM/HasselbladPhoton": 0,
+        "PhotonCamera/b2eff821a858033515eb2700e7292befecc95225/app/src/main/assets/specific/": 0
+      }
+    },
+    {
+      "dex": "classes2.dex",
+      "bytes": 29452,
+      "sha256": "48d0e4560e2ffa4364f0d0c09559300fe3d1c0625b0c6d70617bd940dd0ff661",
+      "target_classes": [],
+      "raw_string_counts": {
+        "DCIM/PhotonCamera": 0,
+        "DCIM//PhotonCamera": 0,
+        "PhotonCamera/dev/app/src/main/assets/specific/": 0,
+        "DCIM/HasselbladPhoton": 0,
+        "PhotonCamera/b2eff821a858033515eb2700e7292befecc95225/app/src/main/assets/specific/": 0
+      }
+    },
+    {
+      "dex": "classes20.dex",
+      "bytes": 32996,
+      "sha256": "2158837f2171699d10e1e647093bddd9290fc4f9a5ef326f5efee7a6400759e7",
+      "target_classes": [],
+      "raw_string_counts": {
+        "DCIM/PhotonCamera": 0,
+        "DCIM//PhotonCamera": 0,
+        "PhotonCamera/dev/app/src/main/assets/specific/": 0,
+        "DCIM/HasselbladPhoton": 0,
+        "PhotonCamera/b2eff821a858033515eb2700e7292befecc95225/app/src/main/assets/specific/": 0
+      }
+    },
+    {
+      "dex": "classes21.dex",
+      "bytes": 228572,
+      "sha256": "9b65e33cbcdba3af0da3dba59aa5f3635a51901cb0666b287a3393eed69d85fa",
+      "target_classes": [
+        "Lcom/particlesdevs/photoncamera/capture/CaptureController;"
+      ],
+      "raw_string_counts": {
+        "DCIM/PhotonCamera": 0,
+        "DCIM//PhotonCamera": 0,
+        "PhotonCamera/dev/app/src/main/assets/specific/": 0,
+        "DCIM/HasselbladPhoton": 0,
+        "PhotonCamera/b2eff821a858033515eb2700e7292befecc95225/app/src/main/assets/specific/": 0
+      }
+    },
+    {
+      "dex": "classes22.dex",
+      "bytes": 133556,
+      "sha256": "25c81f8f8807ac8f33e12ddf3c9f75e4f439ab2eb76acbbcaa202280dba72999",
+      "target_classes": [],
+      "raw_string_counts": {
+        "DCIM/PhotonCamera": 0,
+        "DCIM//PhotonCamera": 0,
+        "PhotonCamera/dev/app/src/main/assets/specific/": 0,
+        "DCIM/HasselbladPhoton": 0,
+        "PhotonCamera/b2eff821a858033515eb2700e7292befecc95225/app/src/main/assets/specific/": 0
+      }
+    },
+    {
+      "dex": "classes23.dex",
+      "bytes": 94604,
+      "sha256": "8b4c3e2f2b68832c5ac54216db3d09ae9064b46f5b653354b7d6cf45dcfbdac0",
+      "target_classes": [
+        "Lcom/particlesdevs/photoncamera/pro/SensorSpecifics;",
+        "Lcom/particlesdevs/photoncamera/pro/Specific;",
+        "Lcom/particlesdevs/photoncamera/pro/SupportedDevice;"
+      ],
+      "raw_string_counts": {
+        "DCIM/PhotonCamera": 0,
+        "DCIM//PhotonCamera": 0,
+        "PhotonCamera/dev/app/src/main/assets/specific/": 0,
+        "DCIM/HasselbladPhoton": 2,
+        "PhotonCamera/b2eff821a858033515eb2700e7292befecc95225/app/src/main/assets/specific/": 3
+      }
+    },
+    {
+      "dex": "classes24.dex",
+      "bytes": 6819500,
+      "sha256": "16a977d84b2edae3517f8c7bcbad3220dd3dd8f236ef5cd177c68463ae610cb9",
+      "target_classes": [],
+      "raw_string_counts": {
+        "DCIM/PhotonCamera": 0,
+        "DCIM//PhotonCamera": 0,
+        "PhotonCamera/dev/app/src/main/assets/specific/": 0,
+        "DCIM/HasselbladPhoton": 0,
+        "PhotonCamera/b2eff821a858033515eb2700e7292befecc95225/app/src/main/assets/specific/": 0
+      }
+    },
+    {
+      "dex": "classes3.dex",
+      "bytes": 2636,
+      "sha256": "811a70e193c6bd7a2ea82f012fef773376e44995f98acb4a6158c6ce98cc3923",
+      "target_classes": [],
+      "raw_string_counts": {
+        "DCIM/PhotonCamera": 0,
+        "DCIM//PhotonCamera": 0,
+        "PhotonCamera/dev/app/src/main/assets/specific/": 0,
+        "DCIM/HasselbladPhoton": 0,
+        "PhotonCamera/b2eff821a858033515eb2700e7292befecc95225/app/src/main/assets/specific/": 0
+      }
+    },
+    {
+      "dex": "classes4.dex",
+      "bytes": 5924,
+      "sha256": "5e46e86d90c8a1e3c77aaabea4e8d6d9c4f31985ae50b8c6641e19a04c49be8e",
+      "target_classes": [],
+      "raw_string_counts": {
+        "DCIM/PhotonCamera": 0,
+        "DCIM//PhotonCamera": 0,
+        "PhotonCamera/dev/app/src/main/assets/specific/": 0,
+        "DCIM/HasselbladPhoton": 0,
+        "PhotonCamera/b2eff821a858033515eb2700e7292befecc95225/app/src/main/assets/specific/": 0
+      }
+    },
+    {
+      "dex": "classes5.dex",
+      "bytes": 7576,
+      "sha256": "347eda008c2aa686f1b57ba873625766e6e990a59483b1b2f32ae04a90b739a1",
+      "target_classes": [],
+      "raw_string_counts": {
+        "DCIM/PhotonCamera": 0,
+        "DCIM//PhotonCamera": 0,
+        "PhotonCamera/dev/app/src/main/assets/specific/": 0,
+        "DCIM/HasselbladPhoton": 0,
+        "PhotonCamera/b2eff821a858033515eb2700e7292befecc95225/app/src/main/assets/specific/": 0
+      }
+    },
+    {
+      "dex": "classes6.dex",
+      "bytes": 22392,
+      "sha256": "cad5b79b23fab0b84dfbfb5269f71b9976fe832101a252cf96e33a38deaab352",
+      "target_classes": [],
+      "raw_string_counts": {
+        "DCIM/PhotonCamera": 0,
+        "DCIM//PhotonCamera": 0,
+        "PhotonCamera/dev/app/src/main/assets/specific/": 0,
+        "DCIM/HasselbladPhoton": 0,
+        "PhotonCamera/b2eff821a858033515eb2700e7292befecc95225/app/src/main/assets/specific/": 0
+      }
+    },
+    {
+      "dex": "classes7.dex",
+      "bytes": 31456,
+      "sha256": "f330038c3388eb9b18244a88cbb00ddb2380da145f8f439e7729c9a1f4ad4413",
+      "target_classes": [],
+      "raw_string_counts": {
+        "DCIM/PhotonCamera": 0,
+        "DCIM//PhotonCamera": 0,
+        "PhotonCamera/dev/app/src/main/assets/specific/": 0,
+        "DCIM/HasselbladPhoton": 0,
+        "PhotonCamera/b2eff821a858033515eb2700e7292befecc95225/app/src/main/assets/specific/": 0
+      }
+    },
+    {
+      "dex": "classes8.dex",
+      "bytes": 2596,
+      "sha256": "ca148487bc1eb28149446b424c12bf4a3f914f13c5721bc6af5dac503ff76d12",
+      "target_classes": [],
+      "raw_string_counts": {
+        "DCIM/PhotonCamera": 0,
+        "DCIM//PhotonCamera": 0,
+        "PhotonCamera/dev/app/src/main/assets/specific/": 0,
+        "DCIM/HasselbladPhoton": 0,
+        "PhotonCamera/b2eff821a858033515eb2700e7292befecc95225/app/src/main/assets/specific/": 0
+      }
+    },
+    {
+      "dex": "classes9.dex",
+      "bytes": 898252,
+      "sha256": "8f1cce22e6ee217b0cbc0bdd607dde4f46596a12a952f36cd8fddd685aa36a4c",
+      "target_classes": [],
+      "raw_string_counts": {
+        "DCIM/PhotonCamera": 0,
+        "DCIM//PhotonCamera": 0,
+        "PhotonCamera/dev/app/src/main/assets/specific/": 0,
+        "DCIM/HasselbladPhoton": 0,
+        "PhotonCamera/b2eff821a858033515eb2700e7292befecc95225/app/src/main/assets/specific/": 0
+      }
+    }
+  ],
+  "scope": "Static inspection of specified compiled policy/storage/configuration paths only; no device or camera execution."
+}

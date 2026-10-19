@@ -1,0 +1,72 @@
+name: Import reviewed Native1A source
+
+"on":
+  push:
+    branches: [main]
+    paths: [sync/native1a-import.json]
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: native1a-import-main
+  cancel-in-progress: false
+
+jobs:
+  import:
+    if: github.repository == 'mwilliams455/Hasselblad' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      contents: write
+    steps:
+      - name: Check out the triggering commit
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0, Node24
+        with:
+          fetch-depth: 1
+          persist-credentials: true
+
+      - name: Require main to match the triggering commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          remote_sha="$(git ls-remote --exit-code --heads origin refs/heads/main | cut -f1)"
+          if [ "$remote_sha" != "$GITHUB_SHA" ]; then
+            printf '%s\n' 'main moved after this workflow was queued; refusing to import.'
+            exit 1
+          fi
+
+      - name: Reconstruct and verify the pinned app
+        run: python3 tools/import_native1a.py
+
+      - name: Stage the app and verify its Git blobs
+        shell: bash
+        run: |
+          set -euo pipefail
+          git -c core.autocrlf=false add --force -- HasselbladPhoton/
+          python3 tools/import_native1a.py --verify-index
+
+      - name: Commit only the reviewed app and fast-forward main
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git diff --cached --quiet; then
+            printf '%s\n' 'The reviewed Native1A source is already committed.'
+            exit 0
+          fi
+          python3 - <<'PY'
+          import subprocess
+          paths = subprocess.check_output(["git", "diff", "--cached", "--name-only", "-z"]).split(b"\0")
+          if any(path and not path.startswith(b"HasselbladPhoton/") for path in paths):
+              raise SystemExit("Refusing to commit staged files outside HasselbladPhoton/")
+          PY
+          git -c user.name='github-actions[bot]' \
+              -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
+              commit --message 'sync reviewed Native1A'
+          remote_sha="$(git ls-remote --exit-code --heads origin refs/heads/main | cut -f1)"
+          if [ "$remote_sha" != "$GITHUB_SHA" ]; then
+            printf '%s\n' 'main moved during import; leaving the remote unchanged.'
+            exit 1
+          fi
+          git push origin HEAD:refs/heads/main

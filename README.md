@@ -129,6 +129,11 @@ The source-bundle manifest and checkpoint notes in `build_evidence/` describe
 the original downloadable checkpoint before this repository sync. Its temporary
 packaging utility is not a repository build dependency.
 
+The public copy of `pair_metadata.json` replaces the phone's embedded
+`OpcodeList2` lens-shading bytes with their length and SHA-256. The original
+archived report remains unchanged; this public-copy adjustment is recorded in
+[github_sync_record.json](build_evidence/github_sync_record.json).
+
 ## Included material and licences
 
 This repository contains source code, required public Photon build inputs,

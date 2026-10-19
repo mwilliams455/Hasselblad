@@ -1,0 +1,211 @@
+{
+  "review_scope": "Independent static inspection of final APK executable capture-policy, storage-isolation and tuning-URL paths",
+  "reviewed_at_utc": "2026-10-19T17:44:47.985604+00:00",
+  "artifact": {
+    "filename": "HasselbladPhoton_Native1_debug.apk",
+    "bytes": 70736504,
+    "sha256": "94440d675ff9f92f5fdf11a7608d3fdc586a511cfd2da12eddc19ad7810d8e4d",
+    "version_code": 27174
+  },
+  "apk_sha256": "94440d675ff9f92f5fdf11a7608d3fdc586a511cfd2da12eddc19ad7810d8e4d",
+  "overall_result": "pass",
+  "checks": [
+    {
+      "check": "development_policy_active",
+      "result": "pass",
+      "conclusion": "Compiled isEnabled() returns true.",
+      "method_evidence": [
+        {
+          "dex": "classes15.dex",
+          "class": "Lcom/particlesdevs/photoncamera/hasselblad/HasselbladDevelopmentPolicy;",
+          "method": "isEnabled",
+          "signature": "()Z"
+        }
+      ]
+    },
+    {
+      "check": "one_raw_input_frame",
+      "result": "pass",
+      "conclusion": "The active development-policy branch returns integer 1 before the settings fallback.",
+      "method_evidence": [
+        {
+          "dex": "classes15.dex",
+          "class": "Lcom/particlesdevs/photoncamera/hasselblad/HasselbladDevelopmentPolicy;",
+          "method": "isEnabled",
+          "signature": "()Z"
+        },
+        {
+          "dex": "classes10.dex",
+          "class": "Lcom/particlesdevs/photoncamera/settings/PreferenceKeys;",
+          "method": "getFrameCountValue",
+          "signature": "()I"
+        }
+      ]
+    },
+    {
+      "check": "raw_input_selected",
+      "result": "pass",
+      "conclusion": "The active development-policy branch returns true. In this Photon source HDRX chooses RAW input; it does not assert HDR output.",
+      "method_evidence": [
+        {
+          "dex": "classes15.dex",
+          "class": "Lcom/particlesdevs/photoncamera/hasselblad/HasselbladDevelopmentPolicy;",
+          "method": "isEnabled",
+          "signature": "()Z"
+        },
+        {
+          "dex": "classes10.dex",
+          "class": "Lcom/particlesdevs/photoncamera/settings/PreferenceKeys;",
+          "method": "isHdrXOn",
+          "signature": "()Z"
+        }
+      ]
+    },
+    {
+      "check": "ultra_hdr_disabled",
+      "result": "pass",
+      "conclusion": "The active development-policy branch returns false before the settings fallback.",
+      "method_evidence": [
+        {
+          "dex": "classes15.dex",
+          "class": "Lcom/particlesdevs/photoncamera/hasselblad/HasselbladDevelopmentPolicy;",
+          "method": "isEnabled",
+          "signature": "()Z"
+        },
+        {
+          "dex": "classes10.dex",
+          "class": "Lcom/particlesdevs/photoncamera/settings/PreferenceKeys;",
+          "method": "isUltraHdrOn",
+          "signature": "()Z"
+        }
+      ]
+    },
+    {
+      "check": "photo_mode_preference",
+      "result": "pass",
+      "conclusion": "The enabled branch returns the PHOTO enum ordinal.",
+      "method_evidence": [
+        {
+          "dex": "classes10.dex",
+          "class": "Lcom/particlesdevs/photoncamera/settings/PreferenceKeys;",
+          "method": "getCameraModeOrdinal",
+          "signature": "()I"
+        }
+      ]
+    },
+    {
+      "check": "development_preferences_present",
+      "result": "pass",
+      "conclusion": "Reviewed compiled manager.set calls persist one frame and PHOTO/RAW input, with HDRX NR, Ultra HDR, bracketing, quad Bayer, remosaic, binning and HEIC disabled.",
+      "method_evidence": [
+        {
+          "dex": "classes15.dex",
+          "class": "Lcom/particlesdevs/photoncamera/hasselblad/HasselbladDevelopmentPolicy;",
+          "method": "applyPreferences",
+          "signature": "(Lcom/particlesdevs/photoncamera/settings/SettingsManager;)V"
+        }
+      ]
+    },
+    {
+      "check": "advertised_raw_size_selector_connected",
+      "result": "pass",
+      "conclusion": "For enabled RAW_SENSOR (32) requests, a non-null chosen advertised Size is assigned, recorded and returned before the generic size fallback. The policy maps dimensions to a selector index and retrieves that element from the supplied Size array. This proves request selection, not the device-delivered buffer dimensions.",
+      "method_evidence": [
+        {
+          "dex": "classes21.dex",
+          "class": "Lcom/particlesdevs/photoncamera/capture/CaptureController;",
+          "method": "getCameraOutputSize",
+          "signature": "([Landroid/util/Size;Landroid/util/Size;)Landroid/util/Size;"
+        },
+        {
+          "dex": "classes15.dex",
+          "class": "Lcom/particlesdevs/photoncamera/hasselblad/HasselbladDevelopmentPolicy;",
+          "method": "chooseInitialRawSize",
+          "signature": "([Landroid/util/Size;)Landroid/util/Size;"
+        }
+      ]
+    },
+    {
+      "check": "photo_only_picker_and_callback",
+      "result": "pass",
+      "conclusion": "The active picker branch creates a one-element label array, selects item zero and returns before the multi-mode fallback. Its registered callback was traced through ExternalSyntheticLambda4 and the generated R8 bridge to the handler that calls switchToMode(CameraMode.PHOTO).",
+      "method_evidence": [
+        {
+          "dex": "classes12.dex",
+          "class": "Lcom/particlesdevs/photoncamera/ui/camera/CameraUIViewImpl;",
+          "method": "initModeSwitcher",
+          "signature": "()V"
+        },
+        {
+          "dex": "classes12.dex",
+          "class": "Lcom/particlesdevs/photoncamera/ui/camera/CameraUIViewImpl$$ExternalSyntheticLambda4;",
+          "method": "onItemSelected",
+          "signature": "(I)V"
+        },
+        {
+          "dex": "classes12.dex",
+          "class": "Lcom/particlesdevs/photoncamera/ui/camera/CameraUIViewImpl;",
+          "method": "$r8$lambda$DBqvL4kv1ll1Gomi0bwVHjax_Mw",
+          "signature": "(Lcom/particlesdevs/photoncamera/ui/camera/CameraUIViewImpl;I)V"
+        },
+        {
+          "dex": "classes12.dex",
+          "class": "Lcom/particlesdevs/photoncamera/ui/camera/CameraUIViewImpl;",
+          "method": "lambda$initModeSwitcher$2",
+          "signature": "(I)V"
+        }
+      ]
+    },
+    {
+      "check": "custom_cct_storage_isolated",
+      "result": "pass",
+      "conclusion": "FileManager constructs sPHOTON_DIR from external storage plus DCIM/HasselbladPhoton. Parameters.ReCalcColor constructs customCCT.txt with that File parent. The separate conventional DCIM/Camera gallery path is not the tuning parent.",
+      "method_evidence": [
+        {
+          "dex": "classes16.dex",
+          "class": "Lcom/particlesdevs/photoncamera/util/FileManager;",
+          "method": "<clinit>",
+          "signature": "()V"
+        },
+        {
+          "dex": "classes18.dex",
+          "class": "Lcom/particlesdevs/photoncamera/processing/render/Parameters;",
+          "method": "ReCalcColor",
+          "signature": "(ZLandroid/hardware/camera2/CaptureResult;)V"
+        }
+      ]
+    },
+    {
+      "check": "obsolete_path_and_moving_url_absent",
+      "result": "pass",
+      "conclusion": "All 24 packaged DEX files were inventoried. None contains DCIM/PhotonCamera, DCIM//PhotonCamera or PhotonCamera/dev/app/src/main/assets/specific/; no executable const-string references to these targets were found.",
+      "method_evidence": []
+    },
+    {
+      "check": "isolated_paths_and_pinned_urls_executable",
+      "result": "pass",
+      "conclusion": "New standalone paths are present in actual compiled backup, FileManager, SAF/log and local tuning methods. Network tuning and supported-device methods use Photon commit b2eff821a858033515eb2700e7292befecc95225, not a moving branch. Full const-string locations are retained in the evidence report.",
+      "method_evidence": []
+    }
+  ],
+  "dex_file_count": 24,
+  "selected_method_count": 29,
+  "missing_target_classes": [],
+  "old_executable_string_references": [],
+  "raw_old_path_or_url_present": false,
+  "evidence_files": [
+    {
+      "filename": "native1_dex_policy_review.json",
+      "sha256": "c7c793600071b354c6075e208585fbc6ee49403e688a6aee4cbf6b6b381728d7"
+    },
+    {
+      "filename": "native1_dex_policy_review_methods.json",
+      "sha256": "e197a458286c2e45b0367e1c1e35ecbff31d158c0ad1de84adbc1567749fb69a"
+    }
+  ],
+  "scope_limits": [
+    "Static instructions and control flow were inspected; this does not establish a physical Android device launch, camera-session success or delivered RAW dimensions.",
+    "This is a development capture policy and portable AWB arithmetic checkpoint. Photographic HNCS rendering is not connected.",
+    "The prior version 27173 contained stale executable DEX and was rejected. This review pins only clean final version 27174 and its exact SHA256."
+  ]
+}

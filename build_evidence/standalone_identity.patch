@@ -1,0 +1,49 @@
+--- a/app/build.gradle
++++ b/app/build.gradle
+@@ -39,7 +39,7 @@
+ 
+     defaultConfig {
+         compileSdk 36
+-        applicationId 'com.particlesdevs.photoncamera'
++        applicationId 'com.mwilliams.hasselbladphoton'
+         minSdkVersion 26
+         targetSdkVersion 35
+         versionCode versionBuild
+@@ -96,7 +96,7 @@
+     namespace 'com.particlesdevs.photoncamera'
+     applicationVariants.all {
+         variant -> variant.outputs.all {
+-            outputFileName = "PhotonCamera-${versionName}${versionBuild}-${variant.name}.apk"
++            outputFileName = "HasselbladPhoton-${versionName}${versionBuild}-${variant.name}.apk"
+         }
+     }
+     testOptions {
+--- a/app/src/main/res/values/strings.xml
++++ b/app/src/main/res/values/strings.xml
+@@ -3,8 +3,8 @@
+     <string name="iso" translatable="false">"ISO "</string>
+     <string name="icon_string" translatable="false">Icon</string>
+     <string name="backup_file_name" translatable="false">PCAM_BKP_%1$s</string>
+-    <string name="app_name" translatable="false">PhotonCamera</string>
+-    <string name="gallery_name" translatable="false">PGallery</string>
++    <string name="app_name" translatable="false">Hasselblad Photon (Development)</string>
++    <string name="gallery_name" translatable="false">Hasselblad Gallery (Development)</string>
+     <string name="device_support" translatable="false">PhotonCamera Pro</string>
+     <string name="request_permission">This app needs camera permission.</string>
+     <string name="camera_error">This device doesn\'t support Camera2 API.</string>
+--- a/app/src/main/AndroidManifest.xml
++++ b/app/src/main/AndroidManifest.xml
+@@ -145,7 +145,7 @@
+ 
+         <!-- Activity alias for launcher icon - can be enabled/disabled programmatically -->
+         <activity-alias
+-                android:name="com.particlesdevs.photoncamera.gallery.ui.GalleryActivityLauncher"
++                android:name="${applicationId}.gallery.ui.GalleryActivityLauncher"
+                 android:targetActivity="com.particlesdevs.photoncamera.gallery.ui.GalleryActivity"
+                 android:label="@string/gallery_name"
+                 android:icon="@mipmap/ic_gallery_launcher"
+@@ -179,4 +179,4 @@
+             android:name="firebase_performance_logcat_enabled"
+             android:value="false" />
+     </application>
+-</manifest>+</manifest>

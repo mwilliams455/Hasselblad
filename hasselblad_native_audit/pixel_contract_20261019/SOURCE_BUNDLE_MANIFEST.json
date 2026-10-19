@@ -1,0 +1,82 @@
+{
+  "checkpoint": "pixel_contract_20261019",
+  "status": "frozen",
+  "date": "2026-10-19",
+  "allowed_content": "Original audit source and reports/results, no original firmware or camera LUT payload",
+  "excluded_content": [
+    "vendor firmware",
+    "vendor configuration payloads",
+    "original LUT arrays",
+    "vendor ELFs",
+    "compiled probe binaries",
+    "full disassembly dumps"
+  ],
+  "files": [
+    {
+      "path": "PIXEL_CONTRACT_FINDINGS.md",
+      "bytes": 15027,
+      "sha256": "ecf5da22931a3b282104f6e24bb2bb7ec82062b591acd2951ff3bd127b676a9b",
+      "role": "findings report"
+    },
+    {
+      "path": "PIXEL_CONTRACT_FINDINGS.json",
+      "bytes": 5428,
+      "sha256": "6c184e98105644d6c5ed352cd61bd10982447657acc49e77af6258c5d629e8da",
+      "role": "machine-readable findings"
+    },
+    {
+      "path": "inspect_lut_descriptor.c",
+      "bytes": 4412,
+      "sha256": "f6960b25f3d105ad2b46e744215a7c12cf4af89d955627e2d11ca46140e6c221",
+      "role": "original bounded metadata probe source"
+    },
+    {
+      "path": "replay_descriptor_probe.py",
+      "bytes": 2179,
+      "sha256": "7383085c0940252e49336841142b3a8532e68c4ebab104ed106405cfe1cb54fa",
+      "role": "original exact-hash metadata probe runner"
+    },
+    {
+      "path": "native_descriptor_result.json",
+      "bytes": 5535,
+      "sha256": "c3e79eff915e951ec1a0e1404af2b6a334859d8184d79369638095fad5a98f24",
+      "role": "original runtime metadata results"
+    },
+    {
+      "path": "display_sampler_probe.c",
+      "bytes": 9000,
+      "sha256": "7445810dc676986d681468ba72d70e6e80a7bcf71e9637969f9997b8ff5f544e",
+      "role": "original guarded synthetic lookup/sampler probe source"
+    },
+    {
+      "path": "replay_display_sampler.py",
+      "bytes": 2670,
+      "sha256": "91f655ae11f983e6cdf62610e8db56384a10d7f0f7b1f6de3458b9dc85e85cd7",
+      "role": "original exact-hash display probe runner"
+    },
+    {
+      "path": "display_sampler_native_execution.json",
+      "bytes": 14436,
+      "sha256": "e02726cacc60d907fde9f7b8506d3c4ae7c2648cd495e56272dfe2d5b429166b",
+      "role": "synthetic original-code execution results"
+    },
+    {
+      "path": "inspect_pixel_contract.py",
+      "bytes": 6305,
+      "sha256": "9cd09ebb64beb902e770f858ad3b945b93abdd6e2d7b01213bd75924fac87898",
+      "role": "original metadata and hash comparison tool"
+    },
+    {
+      "path": "pixel_contract_static_evidence.json",
+      "bytes": 3294,
+      "sha256": "3caa0b51ced5ed1476f2b24679234439012db6300d80a1549fe0e880104ff8b3",
+      "role": "symbol/hash/reference evidence without original code bytes"
+    },
+    {
+      "path": "asset_format_relationship.json",
+      "bytes": 4986,
+      "sha256": "57169753336b246d1665ab8241e773bfa32254761aa109c5956bb34878173c88",
+      "role": "camera LUT hash/equality evidence without LUT payloads"
+    }
+  ]
+}

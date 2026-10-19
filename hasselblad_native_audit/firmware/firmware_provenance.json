@@ -1,0 +1,9 @@
+{
+  "source_url": "https://cdn.hasselblad.com/firmware/X2D_II_100C_Firmware/1.3.16.2/X2DII_100C_v1_3_16_2(1).cim",
+  "source_api": "https://api.hasselblad.com/products/downloads/173/firmware",
+  "version": "1.3.16.2",
+  "path": "/workspace/scratch/f4dc23366b1f/hasselblad_native_audit/firmware/X2DII_100C_v1_3_16_2.cim",
+  "size": 364814336,
+  "sha256": "9789d6a9843d388034bc12341ad9a97585c25cb98cf11a0da8b768399b4842f6",
+  "expected_sha256_source": "https://github.com/derrickyau9/Hasselblad-X-System-QEMU-DevKit/blob/d82dc3b0faa6456c260378df6352a07f929caed2/devkit/firmware.py"
+}

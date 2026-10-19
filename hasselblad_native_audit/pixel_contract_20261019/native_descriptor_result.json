@@ -1,0 +1,117 @@
+{
+  "library_sha256": "3dd5b37b3db18b3e6b54271e1501b4dd337e101c06cdd386a896b1547b662f66",
+  "source_sha256": "f6960b25f3d105ad2b46e744215a7c12cf4af89d955627e2d11ca46140e6c221",
+  "probe_sha256": "4a29c83ff22a535bd8a3abe643070db11159cda75bcaab2c085d865cab9139cc",
+  "runner_sha256": "7383085c0940252e49336841142b3a8532e68c4ebab104ed106405cfe1cb54fa",
+  "method": "Read original linker-relocated metadata; no camera function invoked",
+  "build_command": [
+    "/tmp/hasselblad-build-tools/android-sdk/ndk/27.0.12077973/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android28-clang",
+    "-O2",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "/workspace/scratch/f4dc23366b1f/hasselblad_native_audit/pixel_contract_20261019/inspect_lut_descriptor.c",
+    "-ldl",
+    "-o",
+    "/workspace/scratch/f4dc23366b1f/hasselblad_native_audit/pixel_contract_20261019/inspect_lut_descriptor_android28_arm64"
+  ],
+  "run_command": [
+    "/tmp/hasselblad-arm64-runtime/qemu-aarch64-static",
+    "-L",
+    "/workspace/scratch/f4dc23366b1f/hasselblad_native_audit/firmware/extracted",
+    "/workspace/scratch/f4dc23366b1f/hasselblad_native_audit/pixel_contract_20261019/inspect_lut_descriptor_android28_arm64",
+    "/workspace/scratch/f4dc23366b1f/hasselblad_native_audit/firmware/extracted/system/lib64/librcam.so"
+  ],
+  "exit": 0,
+  "stdout": "{\"event\":\"main_3dlut_metadata\",\"register_table_va\":\"0x4e6bd0\",\"groups_va\":\"0x5927b0\",\"group_count\":1}\n{\"event\":\"parameter_group\",\"group\":0,\"params_va\":\"0x5926f0\",\"count\":4,\"register_group_id\":2954}\n{\"event\":\"parameter\",\"group\":0,\"index\":0,\"parameter_va\":\"0x5926f0\",\"register_id\":2970,\"iq_getter_va\":\"0x337bd8\",\"module_getter_va\":\"0x337c18\",\"descriptor_va\":\"0x4f2570\",\"type\":3,\"descriptor_word0\":194445315,\"virtual_byte_offset\":92828,\"descriptor_word2\":\"0x00000002\",\"descriptor_word3\":4}\n{\"event\":\"parameter\",\"group\":0,\"index\":1,\"parameter_va\":\"0x592720\",\"register_id\":2968,\"iq_getter_va\":\"0x337c58\",\"module_getter_va\":\"0x337c98\",\"descriptor_va\":\"0x4f2550\",\"type\":3,\"descriptor_word0\":194445315,\"virtual_byte_offset\":92828,\"descriptor_word2\":\"0x00000000\",\"descriptor_word3\":1}\n{\"event\":\"parameter\",\"group\":0,\"index\":2,\"parameter_va\":\"0x592750\",\"register_id\":2969,\"iq_getter_va\":\"0x337cd8\",\"module_getter_va\":\"0x337d18\",\"descriptor_va\":\"0x4f2560\",\"type\":3,\"descriptor_word0\":194445315,\"virtual_byte_offset\":92828,\"descriptor_word2\":\"0x00000001\",\"descriptor_word3\":2}\n{\"event\":\"parameter\",\"group\":0,\"index\":3,\"parameter_va\":\"0x592780\",\"register_id\":2997,\"iq_getter_va\":\"0x337d58\",\"module_getter_va\":\"0x337d98\",\"descriptor_va\":\"0x4f2720\",\"type\":3,\"descriptor_word0\":196345859,\"virtual_byte_offset\":92868,\"descriptor_word2\":\"0x00000000\",\"descriptor_word3\":8191}\n{\"event\":\"non_vreg_parameter\",\"index\":0,\"parameter_va\":\"0x5927c8\",\"register_id\":2998,\"iq_getter_va\":\"0x337dd8\",\"module_getter_va\":\"0x337e18\",\"descriptor_va\":\"0x4f2730\",\"type\":1,\"descriptor_word0\":1,\"virtual_byte_offset\":93056,\"descriptor_word2\":\"0xf3208000\",\"descriptor_word3\":6144}\n",
+  "stderr": "",
+  "records": [
+    {
+      "event": "main_3dlut_metadata",
+      "register_table_va": "0x4e6bd0",
+      "groups_va": "0x5927b0",
+      "group_count": 1
+    },
+    {
+      "event": "parameter_group",
+      "group": 0,
+      "params_va": "0x5926f0",
+      "count": 4,
+      "register_group_id": 2954
+    },
+    {
+      "event": "parameter",
+      "group": 0,
+      "index": 0,
+      "parameter_va": "0x5926f0",
+      "register_id": 2970,
+      "iq_getter_va": "0x337bd8",
+      "module_getter_va": "0x337c18",
+      "descriptor_va": "0x4f2570",
+      "type": 3,
+      "descriptor_word0": 194445315,
+      "virtual_byte_offset": 92828,
+      "descriptor_word2": "0x00000002",
+      "descriptor_word3": 4
+    },
+    {
+      "event": "parameter",
+      "group": 0,
+      "index": 1,
+      "parameter_va": "0x592720",
+      "register_id": 2968,
+      "iq_getter_va": "0x337c58",
+      "module_getter_va": "0x337c98",
+      "descriptor_va": "0x4f2550",
+      "type": 3,
+      "descriptor_word0": 194445315,
+      "virtual_byte_offset": 92828,
+      "descriptor_word2": "0x00000000",
+      "descriptor_word3": 1
+    },
+    {
+      "event": "parameter",
+      "group": 0,
+      "index": 2,
+      "parameter_va": "0x592750",
+      "register_id": 2969,
+      "iq_getter_va": "0x337cd8",
+      "module_getter_va": "0x337d18",
+      "descriptor_va": "0x4f2560",
+      "type": 3,
+      "descriptor_word0": 194445315,
+      "virtual_byte_offset": 92828,
+      "descriptor_word2": "0x00000001",
+      "descriptor_word3": 2
+    },
+    {
+      "event": "parameter",
+      "group": 0,
+      "index": 3,
+      "parameter_va": "0x592780",
+      "register_id": 2997,
+      "iq_getter_va": "0x337d58",
+      "module_getter_va": "0x337d98",
+      "descriptor_va": "0x4f2720",
+      "type": 3,
+      "descriptor_word0": 196345859,
+      "virtual_byte_offset": 92868,
+      "descriptor_word2": "0x00000000",
+      "descriptor_word3": 8191
+    },
+    {
+      "event": "non_vreg_parameter",
+      "index": 0,
+      "parameter_va": "0x5927c8",
+      "register_id": 2998,
+      "iq_getter_va": "0x337dd8",
+      "module_getter_va": "0x337e18",
+      "descriptor_va": "0x4f2730",
+      "type": 1,
+      "descriptor_word0": 1,
+      "virtual_byte_offset": 93056,
+      "descriptor_word2": "0xf3208000",
+      "descriptor_word3": 6144
+    }
+  ]
+}

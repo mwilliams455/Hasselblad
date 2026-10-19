@@ -1,0 +1,15 @@
+{
+  "upstream_commit": "b2eff821a858033515eb2700e7292befecc95225",
+  "application_id": "com.mwilliams.hasselbladphoton",
+  "app_label": "Hasselblad Photon (Development)",
+  "apk_path": "/workspace/scratch/f4dc23366b1f/hasselblad-build-artifacts/HasselbladPhoton_Baseline1_debug.apk",
+  "apk_bytes": 70697032,
+  "apk_sha256": "f425ced03b60694fcca6ba258d20a3c84b5efafce93ccd7fd8d7c4e6f4882a6d",
+  "original_output_name": "HasselbladPhoton-0.9727168-debug.apk",
+  "build_result": "BUILD SUCCESSFUL in 40s; 70 tasks, 14 executed and 56 up-to-date",
+  "tested_on_device": false,
+  "capture_render": "Unmodified upstream Photon; no Hasselblad photo processing",
+  "dex_and_native_entries_compared": 39,
+  "changed_dex_or_native_entries_from_stock": [],
+  "gallery_alias": "com.mwilliams.hasselbladphoton.gallery.ui.GalleryActivityLauncher"
+}

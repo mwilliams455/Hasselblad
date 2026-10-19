@@ -1,0 +1,361 @@
+{
+  "firmware": "Hasselblad X2D II 100C 1.3.16.2",
+  "library": "librcam.so",
+  "library_sha256": "3dd5b37b3db18b3e6b54271e1501b4dd337e101c06cdd386a896b1547b662f66",
+  "symbols": [
+    {
+      "name": "dcam_isp_vreg_get_type",
+      "va": "0x54b88",
+      "bytes": 4,
+      "exported": true,
+      "code_sha256": "d412c8440ba36b30e1fd97ed6d92b9fbc6bc182ccbff3d5e8ccf05fca40e0864"
+    },
+    {
+      "name": "mm_get_coeff",
+      "va": "0x2bac00",
+      "bytes": 160,
+      "exported": false,
+      "code_sha256": "68754a8d484850dc37a03dedd36b17fa309f3f76fcdc7c2f21472400e6a192bf"
+    },
+    {
+      "name": "mm_mx_lerp_vec_mix2",
+      "va": "0x2bbc08",
+      "bytes": 1784,
+      "exported": false,
+      "code_sha256": "2082f0f9f3db305022bee2e479adf4da94855ff049105a1b8fc816e12256c1cf"
+    }
+  ],
+  "method": "Original library functions through original Android 9 Bionic under QEMU user mode; no dependency stubs or replacement LUT function",
+  "fixture": "Original camera LUT: eight profiles, each 6144 packed signed-16-pair words; four CCT knots and both gamuts",
+  "source_sha256": "662bde4c68e2750e033a1940e4428fea0e0cc43b70de7549056c6978d0a628ce",
+  "probe_sha256": "08020a1f317f1174fb20f1b4287acc232f48f61b72856026320bf4aacf7db796",
+  "runner_sha256": "7a0774c7ea68de508c2729087b7a1be68ccc0455c97def83a7906f8b4b47dc40",
+  "runtime_sha256": {
+    "qemu": "dce64b2dc6b005485c7aa735a7ea39cb0006bf7e5badc28b324b2cd0c73d883f",
+    "linker64": "313d7a6d94cdeb9e2b2adb4be98a8b18240b08012b22f922acea7984f42ff35d",
+    "libc.so": "1af0737faf17f3589eb72e03efd31dc1316560b6c14b4c4e2f503d24287d13e4"
+  },
+  "build_command": [
+    "/tmp/hasselblad-build-tools/android-sdk/ndk/27.0.12077973/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android28-clang",
+    "-O2",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "/workspace/scratch/f4dc23366b1f/hasselblad_native_audit/photographic_path/lut_profile_probe.c",
+    "-ldl",
+    "-o",
+    "/workspace/scratch/f4dc23366b1f/hasselblad_native_audit/photographic_path/lut_profile_probe_android28_arm64"
+  ],
+  "run_command": [
+    "/tmp/hasselblad-arm64-runtime/qemu-aarch64-static",
+    "-L",
+    "/workspace/scratch/f4dc23366b1f/hasselblad_native_audit/firmware/extracted",
+    "/workspace/scratch/f4dc23366b1f/hasselblad_native_audit/photographic_path/lut_profile_probe_android28_arm64",
+    "/workspace/scratch/f4dc23366b1f/hasselblad_native_audit/firmware/extracted/system/lib64/librcam.so",
+    "/tmp/hb-native-lut-fjtuxhbp/camera_lut_words.bin",
+    "/tmp/hb-native-lut-fjtuxhbp/prepared_profiles.bin"
+  ],
+  "environment": {
+    "LD_LIBRARY_PATH": "/workspace/scratch/f4dc23366b1f/hasselblad_native_audit/firmware/extracted/system/lib64"
+  },
+  "bounds": {
+    "wall_timeout_seconds": 20,
+    "cpu_limit_seconds": 15,
+    "core_limit_bytes": 0
+  },
+  "exit": 0,
+  "stdout": "{\"event\":\"calc_dispatch_read\",\"table_va\":\"0x59c240\",\"index\":37,\"target_va\":\"0x3b8c78\",\"matches\":true}\n{\"case\":0,\"fixture\":\"original_camera_lut\",\"cct\":2400,\"gamut\":0,\"coefficients\":[[0,0],[0,0]],\"output_words\":6144,\"output_lanes\":12288,\"failed_lanes\":0,\"guards_ok\":true,\"source_unchanged\":true,\"coefficient_matches\":true,\"returned_destination_end\":true,\"passed\":true}\n{\"case\":1,\"fixture\":\"original_camera_lut\",\"cct\":2400,\"gamut\":1,\"coefficients\":[[0,0],[0,256]],\"output_words\":6144,\"output_lanes\":12288,\"failed_lanes\":0,\"guards_ok\":true,\"source_unchanged\":true,\"coefficient_matches\":true,\"returned_destination_end\":true,\"passed\":true}\n{\"case\":2,\"fixture\":\"original_camera_lut\",\"cct\":4300,\"gamut\":0,\"coefficients\":[[1,128],[0,0]],\"output_words\":6144,\"output_lanes\":12288,\"failed_lanes\":0,\"guards_ok\":true,\"source_unchanged\":true,\"coefficient_matches\":true,\"returned_destination_end\":true,\"passed\":true}\n{\"case\":3,\"fixture\":\"original_camera_lut\",\"cct\":4300,\"gamut\":1,\"coefficients\":[[1,128],[0,256]],\"output_words\":6144,\"output_lanes\":12288,\"failed_lanes\":0,\"guards_ok\":true,\"source_unchanged\":true,\"coefficient_matches\":true,\"returned_destination_end\":true,\"passed\":true}\n{\"case\":4,\"fixture\":\"original_camera_lut\",\"cct\":5550,\"gamut\":0,\"coefficients\":[[2,0],[0,0]],\"output_words\":6144,\"output_lanes\":12288,\"failed_lanes\":0,\"guards_ok\":true,\"source_unchanged\":true,\"coefficient_matches\":true,\"returned_destination_end\":true,\"passed\":true}\n{\"case\":5,\"fixture\":\"original_camera_lut\",\"cct\":5550,\"gamut\":1,\"coefficients\":[[2,0],[0,256]],\"output_words\":6144,\"output_lanes\":12288,\"failed_lanes\":0,\"guards_ok\":true,\"source_unchanged\":true,\"coefficient_matches\":true,\"returned_destination_end\":true,\"passed\":true}\n{\"case\":6,\"fixture\":\"original_camera_lut\",\"cct\":7001,\"gamut\":0,\"coefficients\":[[2,104],[0,0]],\"output_words\":6144,\"output_lanes\":12288,\"failed_lanes\":0,\"guards_ok\":true,\"source_unchanged\":true,\"coefficient_matches\":true,\"returned_destination_end\":true,\"passed\":true}\n{\"case\":7,\"fixture\":\"original_camera_lut\",\"cct\":7001,\"gamut\":1,\"coefficients\":[[2,104],[0,256]],\"output_words\":6144,\"output_lanes\":12288,\"failed_lanes\":0,\"guards_ok\":true,\"source_unchanged\":true,\"coefficient_matches\":true,\"returned_destination_end\":true,\"passed\":true}\n{\"case\":8,\"fixture\":\"original_camera_lut\",\"cct\":9100,\"gamut\":0,\"coefficients\":[[2,256],[0,0]],\"output_words\":6144,\"output_lanes\":12288,\"failed_lanes\":0,\"guards_ok\":true,\"source_unchanged\":true,\"coefficient_matches\":true,\"returned_destination_end\":true,\"passed\":true}\n{\"case\":9,\"fixture\":\"original_camera_lut\",\"cct\":9100,\"gamut\":1,\"coefficients\":[[2,256],[0,256]],\"output_words\":6144,\"output_lanes\":12288,\"failed_lanes\":0,\"guards_ok\":true,\"source_unchanged\":true,\"coefficient_matches\":true,\"returned_destination_end\":true,\"passed\":true}\n{\"event\":\"original_camera_profiles_prepared\",\"cases\":10,\"failed\":0,\"source_words\":49152,\"words_per_profile\":6144,\"profiles\":8,\"photographic_lut_values_used\":true,\"per_pixel_renderer_validated\":false}\n",
+  "stderr": "",
+  "cases": [
+    {
+      "case": 0,
+      "fixture": "original_camera_lut",
+      "cct": 2400,
+      "gamut": 0,
+      "coefficients": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      "output_words": 6144,
+      "output_lanes": 12288,
+      "failed_lanes": 0,
+      "guards_ok": true,
+      "source_unchanged": true,
+      "coefficient_matches": true,
+      "returned_destination_end": true,
+      "passed": true,
+      "output_sha256": "ed9fd193ea763ecb3defec69a73152ff250cb89e04292ee347dee6950cec66e1",
+      "python_reference_sha256": "ed9fd193ea763ecb3defec69a73152ff250cb89e04292ee347dee6950cec66e1",
+      "python_reference_all_bytes_match": true
+    },
+    {
+      "case": 1,
+      "fixture": "original_camera_lut",
+      "cct": 2400,
+      "gamut": 1,
+      "coefficients": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          256
+        ]
+      ],
+      "output_words": 6144,
+      "output_lanes": 12288,
+      "failed_lanes": 0,
+      "guards_ok": true,
+      "source_unchanged": true,
+      "coefficient_matches": true,
+      "returned_destination_end": true,
+      "passed": true,
+      "output_sha256": "295b3bea3fc1cf8d862cfe11815cec8b01d0e50bb0e366516976c185d3fc6220",
+      "python_reference_sha256": "295b3bea3fc1cf8d862cfe11815cec8b01d0e50bb0e366516976c185d3fc6220",
+      "python_reference_all_bytes_match": true
+    },
+    {
+      "case": 2,
+      "fixture": "original_camera_lut",
+      "cct": 4300,
+      "gamut": 0,
+      "coefficients": [
+        [
+          1,
+          128
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      "output_words": 6144,
+      "output_lanes": 12288,
+      "failed_lanes": 0,
+      "guards_ok": true,
+      "source_unchanged": true,
+      "coefficient_matches": true,
+      "returned_destination_end": true,
+      "passed": true,
+      "output_sha256": "ac0d3a33a8b50dff98917d9f7da56f983fd6176dd9574b6636858d4d8aee4067",
+      "python_reference_sha256": "ac0d3a33a8b50dff98917d9f7da56f983fd6176dd9574b6636858d4d8aee4067",
+      "python_reference_all_bytes_match": true
+    },
+    {
+      "case": 3,
+      "fixture": "original_camera_lut",
+      "cct": 4300,
+      "gamut": 1,
+      "coefficients": [
+        [
+          1,
+          128
+        ],
+        [
+          0,
+          256
+        ]
+      ],
+      "output_words": 6144,
+      "output_lanes": 12288,
+      "failed_lanes": 0,
+      "guards_ok": true,
+      "source_unchanged": true,
+      "coefficient_matches": true,
+      "returned_destination_end": true,
+      "passed": true,
+      "output_sha256": "e94d508251ab5572a269bc84e7c75873e8b1e4cfd3d8bc7aa02851560973539c",
+      "python_reference_sha256": "e94d508251ab5572a269bc84e7c75873e8b1e4cfd3d8bc7aa02851560973539c",
+      "python_reference_all_bytes_match": true
+    },
+    {
+      "case": 4,
+      "fixture": "original_camera_lut",
+      "cct": 5550,
+      "gamut": 0,
+      "coefficients": [
+        [
+          2,
+          0
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      "output_words": 6144,
+      "output_lanes": 12288,
+      "failed_lanes": 0,
+      "guards_ok": true,
+      "source_unchanged": true,
+      "coefficient_matches": true,
+      "returned_destination_end": true,
+      "passed": true,
+      "output_sha256": "de9ee466e2452d222fa0db4c330c709bebb6364a50584c902ff0b6169f4964bb",
+      "python_reference_sha256": "de9ee466e2452d222fa0db4c330c709bebb6364a50584c902ff0b6169f4964bb",
+      "python_reference_all_bytes_match": true
+    },
+    {
+      "case": 5,
+      "fixture": "original_camera_lut",
+      "cct": 5550,
+      "gamut": 1,
+      "coefficients": [
+        [
+          2,
+          0
+        ],
+        [
+          0,
+          256
+        ]
+      ],
+      "output_words": 6144,
+      "output_lanes": 12288,
+      "failed_lanes": 0,
+      "guards_ok": true,
+      "source_unchanged": true,
+      "coefficient_matches": true,
+      "returned_destination_end": true,
+      "passed": true,
+      "output_sha256": "3392785a7389c5827cfeb835eed8b271394331ec79c75967be05c0319a51022f",
+      "python_reference_sha256": "3392785a7389c5827cfeb835eed8b271394331ec79c75967be05c0319a51022f",
+      "python_reference_all_bytes_match": true
+    },
+    {
+      "case": 6,
+      "fixture": "original_camera_lut",
+      "cct": 7001,
+      "gamut": 0,
+      "coefficients": [
+        [
+          2,
+          104
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      "output_words": 6144,
+      "output_lanes": 12288,
+      "failed_lanes": 0,
+      "guards_ok": true,
+      "source_unchanged": true,
+      "coefficient_matches": true,
+      "returned_destination_end": true,
+      "passed": true,
+      "output_sha256": "ddf2aad8b9043098db16a7acd07d76b9a02fd32a08d2abd7f17215a781feed3c",
+      "python_reference_sha256": "ddf2aad8b9043098db16a7acd07d76b9a02fd32a08d2abd7f17215a781feed3c",
+      "python_reference_all_bytes_match": true
+    },
+    {
+      "case": 7,
+      "fixture": "original_camera_lut",
+      "cct": 7001,
+      "gamut": 1,
+      "coefficients": [
+        [
+          2,
+          104
+        ],
+        [
+          0,
+          256
+        ]
+      ],
+      "output_words": 6144,
+      "output_lanes": 12288,
+      "failed_lanes": 0,
+      "guards_ok": true,
+      "source_unchanged": true,
+      "coefficient_matches": true,
+      "returned_destination_end": true,
+      "passed": true,
+      "output_sha256": "83bfe0cb48a85385eabcd49662d79809c65714282fe9b7b65d3d348d0a13dc00",
+      "python_reference_sha256": "83bfe0cb48a85385eabcd49662d79809c65714282fe9b7b65d3d348d0a13dc00",
+      "python_reference_all_bytes_match": true
+    },
+    {
+      "case": 8,
+      "fixture": "original_camera_lut",
+      "cct": 9100,
+      "gamut": 0,
+      "coefficients": [
+        [
+          2,
+          256
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      "output_words": 6144,
+      "output_lanes": 12288,
+      "failed_lanes": 0,
+      "guards_ok": true,
+      "source_unchanged": true,
+      "coefficient_matches": true,
+      "returned_destination_end": true,
+      "passed": true,
+      "output_sha256": "12099cc658824d593bb2fbd6273089c719658b4177a00f2341f6b1169430397b",
+      "python_reference_sha256": "12099cc658824d593bb2fbd6273089c719658b4177a00f2341f6b1169430397b",
+      "python_reference_all_bytes_match": true
+    },
+    {
+      "case": 9,
+      "fixture": "original_camera_lut",
+      "cct": 9100,
+      "gamut": 1,
+      "coefficients": [
+        [
+          2,
+          256
+        ],
+        [
+          0,
+          256
+        ]
+      ],
+      "output_words": 6144,
+      "output_lanes": 12288,
+      "failed_lanes": 0,
+      "guards_ok": true,
+      "source_unchanged": true,
+      "coefficient_matches": true,
+      "returned_destination_end": true,
+      "passed": true,
+      "output_sha256": "f21ab71851421ab5b88c993ef2878ffe274fae44dd55a2b6249da169287ff55b",
+      "python_reference_sha256": "f21ab71851421ab5b88c993ef2878ffe274fae44dd55a2b6249da169287ff55b",
+      "python_reference_all_bytes_match": true
+    }
+  ],
+  "case_count": 10,
+  "all_passed": true,
+  "photographic_lut_payload_used": true,
+  "real_asset_validation": {
+    "config_sha256": "2a4fd76e5299937a6607da8454add17e9746347c54adcf5da1360799de634286",
+    "source_payload_words": 49152,
+    "source_payload_bytes": 196608,
+    "source_payload_sha256": "0e54912107eed71195a7231ab57ba3116ec469a9a70e05ad4889802c77247911",
+    "output_words_per_case": 6144,
+    "output_lanes_per_case": 12288,
+    "output_bytes_total": 245760,
+    "temporary_payload_files_deleted": true,
+    "photographic_payload_in_result": false
+  },
+  "per_pixel_colour_renderer_validated": false,
+  "limitations": [
+    "Only the bounded two-axis, positive-word-count domain is established.",
+    "The LUT-generation callers and camera assets are identified statically; no complete capture pipeline is executed.",
+    "Successful matching-runtime execution does not establish normal app linker-namespace compatibility on a modern phone."
+  ]
+}

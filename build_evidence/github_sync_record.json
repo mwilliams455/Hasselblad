@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "checkpoint": "Native1A",
+  "destination_repository": "mwilliams455/Hasselblad",
+  "source_bundle": {
+    "filename": "HasselbladPhoton_Native1A_Source_and_Validation.zip",
+    "bytes": 80952170,
+    "sha256": "b8be2a7e121eb20e677dc573e129a98b6011526d5a29905acdea02158afd653f"
+  },
+  "app_source": {
+    "file_count": 1092,
+    "inventory": "build_evidence/native1a_source_changes.json",
+    "sha256": "275273792cafd06bcc4b00a8752e10e2b33b5e2927857642d38d872e0b22e5ae",
+    "changes_from_reviewed_checkpoint": []
+  },
+  "bundle_layout_adjustments": [
+    {
+      "original": "README.txt",
+      "repository": "build_evidence/Native1A_checkpoint_notes.txt"
+    },
+    {
+      "original": "SOURCE_MANIFEST_SHA256.json",
+      "repository": "build_evidence/native1a_source_bundle_manifest.json"
+    },
+    {
+      "original": "package_checkpoint.py",
+      "repository": null,
+      "reason": "Workspace-specific archive packaging utility; not required to build or verify the app."
+    }
+  ],
+  "public_report_adjustments": [
+    {
+      "path": "hasselblad_device_validation_20261019/pair_audit/pair_metadata.json",
+      "original_sha256": "3005bbe483f06f6f0fcb2c054d1a4931d640264b263e6dd9147863ffa3a103fb",
+      "public_sha256": "fef1a8c617aedfec79e38b41dded40fd89e96b5fdb0b806a9ed84afb1d26a242",
+      "action": "Replace complete phone OpcodeList2 calibration payload with byte count and SHA-256; original archive unchanged.",
+      "payloads": [
+        {
+          "tag": 51009,
+          "name": "OpcodeList2",
+          "payload_bytes": 3908,
+          "payload_sha256": "a0a4df73ea96656a4c2b36ef97f23cce6b9aead5a4d4f32e0f0dab4f658d74ac"
+        }
+      ]
+    }
+  ],
+  "excluded_material": [
+    "Original user photographs",
+    "Original Hasselblad firmware/CIM",
+    "Extracted vendor ELFs/runtime",
+    "Original camera LUT/calibration arrays",
+    "Generated APKs and build directories"
+  ],
+  "sync_does_not_build_or_modify_apk": true
+}

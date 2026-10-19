@@ -1,0 +1,34 @@
+{
+  "metadata": {
+    "version": 3,
+    "artifactType": {
+      "type": "APK",
+      "kind": "Directory"
+    },
+    "applicationId": "com.mwilliams.hasselbladphoton",
+    "variantName": "debug",
+    "elements": [
+      {
+        "type": "SINGLE",
+        "filters": [],
+        "attributes": [],
+        "versionCode": 27174,
+        "versionName": "0.1-hb-native1",
+        "outputFile": "HasselbladPhoton-0.1-hb-native127174-debug.apk"
+      }
+    ],
+    "elementType": "File",
+    "minSdkVersionForDexing": 26
+  },
+  "source": "/workspace/scratch/f4dc23366b1f/HasselbladPhoton/app/build/outputs/apk/debug/HasselbladPhoton-0.1-hb-native127174-debug.apk",
+  "final": "/workspace/scratch/f4dc23366b1f/hasselblad-build-artifacts/HasselbladPhoton_Native1_debug.apk",
+  "bytes": 70736504,
+  "sha256": "94440d675ff9f92f5fdf11a7608d3fdc586a511cfd2da12eddc19ad7810d8e4d",
+  "verified_source_inputs": 980,
+  "dex_isolation_checks": {
+    "no_old_external_root": true,
+    "standalone_root_present": true,
+    "pinned_specifics_url_present": true,
+    "no_moving_specifics_url": true
+  }
+}

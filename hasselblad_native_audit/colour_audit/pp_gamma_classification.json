@@ -1,0 +1,64 @@
+{
+  "firmware": "Hasselblad X2D II 100C 1.3.16.2",
+  "library": "system/lib64/libdcam_pp.so",
+  "library_sha256": "bacca08dcf56e4a599cbfdfa041baf60a43754ec5a1a9d23dab89bd129ea41e9",
+  "method": "Static full-function disassembly and direct-call cross-references; functions not invoked in this audit",
+  "functions": [
+    {
+      "symbol": "GetGammaLut",
+      "va": "0x466e8",
+      "bytes": 320
+    },
+    {
+      "symbol": "GetDegammaLut",
+      "va": "0x46828",
+      "bytes": 332
+    }
+  ],
+  "abi_evidence": {
+    "output": "x0: pointer to uint16 destination; one strh per entry, pointer advanced by2",
+    "parameters": "x1: five contiguous 32-bit floats at offsets0,4,8,12,16, copied as20bytes by observed caller",
+    "input_offset": "w2: signed32, converted with scvtf; sample starts at negative input_offset",
+    "output_offset": "w3: signed32, converted with scvtf",
+    "bit_count": "w4: signed32 passed to ldexp(1.0,bits); returned power converted with fcvtzs w; sets loop count",
+    "return": "Callers discard return; no defined status/return established. Do not invent a return-value contract.",
+    "external_calls": [
+      "ldexp@plt",
+      "powf@plt"
+    ],
+    "output_extent": "2^bits uint16 elements, caller must provide capacity; leaf has no pointer/capacity validation",
+    "parameter_semantics": "Float array is threshold, linear slope, power scale, exponent, power offset. Degamma uses reciprocal exponent and corresponding inverse form; parameter arrays may differ.",
+    "normalization": "x=(sample-input_offset)/(2^bits-input_offset); result scaled by(2^bits-output_offset), shifted by output_offset, clamped0..2^bits-1, truncated and stored16bits"
+  },
+  "observed_call_route": [
+    {
+      "caller": "call_nndns",
+      "call_va": "0x72d5c",
+      "callee": "elldn_nn_config_gamma",
+      "context": "elldn_nn_acquire invoked immediately before at0x72d50"
+    },
+    {
+      "caller": "elldn_nn_config_gamma",
+      "call_va": "0x4a410",
+      "callee": "GetGammaLut",
+      "context": "params copied from caller-context offsets0x44..0x54; output at ctx+0x38 pointer"
+    },
+    {
+      "caller": "elldn_nn_config_gamma",
+      "call_va": "0x4a43c",
+      "callee": "GetDegammaLut",
+      "context": "params copied from offsets0x58..0x68; output at same pointer+0x20000"
+    }
+  ],
+  "embedded_source_path": {
+    "va": "0x20249e",
+    "text": "hardware/dji/common/camera/libpp_proxy/pp_proxy/nn_proxy/elldn/elldn_nn.c"
+  },
+  "classification": "CPU gamma/degamma LUT construction used by observed neural-denoise configuration path. Not established as photographic HNCS tone or main output colour rendering.",
+  "cross_library_search": "Only libdcam_pp.so contains the three symbol strings GetGammaLut/GetDegammaLut/elldn_nn_config_gamma in extracted system/lib64. This does not exclude computed/indirect users.",
+  "limits": [
+    "No live values recovered for this caller context in this audit",
+    "No image/output reference comparison performed",
+    "No MAIN_HNCS route established by these helper names"
+  ]
+}

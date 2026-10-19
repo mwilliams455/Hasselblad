@@ -1,0 +1,118 @@
+{
+  "scope": "Exact export metadata and bounded dynamic-symbol survey; missing imports do not rule out indirect/hardware links",
+  "library_pins": {
+    "librcam.so": "3dd5b37b3db18b3e6b54271e1501b4dd337e101c06cdd386a896b1547b662f66",
+    "libduml_hal.so": "adfb1cf834584d5c2d3e7b8a49c8ff78a919f007b4fe4ee5442a658dafc71d20"
+  },
+  "display_exports": [
+    {
+      "name": "_Z24lookup_rgb_pixel_plt_fmtPKvRKmS2_S2_R8PixelRGB",
+      "va": "0x74fb0",
+      "bytes": 148,
+      "code_sha256": "c86dc8845bde3dad493b02675f2edd5b9ef4b30eda0b392d914822ffd0299d50"
+    },
+    {
+      "name": "_Z14do_3dlut_transR8PixelRGBRKiPFS0_PKvRKmS6_S6_S0_ES4_m",
+      "va": "0x72dc0",
+      "bytes": 1564,
+      "code_sha256": "58f42e52395d2507f3810125fdde6a490c4714172a15288a01a5bbc0bdcad576"
+    },
+    {
+      "name": "_Z22get_plt_fmt_unit_3dlutPvRKm",
+      "va": "0x74e50",
+      "bytes": 348,
+      "code_sha256": "82b66158eac20c077ad52c503aa81590a8acd4a0b4db91952f849540fde6f147"
+    },
+    {
+      "name": "_Z28set_rgb_pixel_to_plt_fmt_lutPjRKjS1_S1_RKdS3_S3_",
+      "va": "0x74c88",
+      "bytes": 452,
+      "code_sha256": "40f480e3eb5e4969988d3cfe0c31ff5342b3f2ec7d298221e2510ecf59906596"
+    }
+  ],
+  "display_dependencies": [
+    "libduml_util.so",
+    "libduml_osal.so",
+    "libusb.so",
+    "libusbmuxd.so",
+    "libcutils.so",
+    "libion.so",
+    "liblog.so",
+    "libc++.so",
+    "libc.so",
+    "libm.so",
+    "libdl.so"
+  ],
+  "display_load_segments": [
+    {
+      "p_vaddr": 8192,
+      "p_offset": 0,
+      "p_filesz": 924948,
+      "p_memsz": 924948,
+      "p_flags": 5
+    },
+    {
+      "p_vaddr": 1037536,
+      "p_offset": 972000,
+      "p_filesz": 12001,
+      "p_memsz": 448772,
+      "p_flags": 6
+    }
+  ],
+  "system_lib64_elfs_scanned": 374,
+  "dynamic_symbol_references": [
+    {
+      "path": "system/lib64/libduml_hal.so",
+      "sha256": "adfb1cf834584d5c2d3e7b8a49c8ff78a919f007b4fe4ee5442a658dafc71d20",
+      "symbols": [
+        {
+          "name": "duss_hal_cube_to_plt_fmt_vaddr",
+          "defined": true,
+          "va": "0x78848"
+        },
+        {
+          "name": "_Z28set_rgb_pixel_to_plt_fmt_lutPjRKjS1_S1_RKdS3_S3_",
+          "defined": true,
+          "va": "0x74c88"
+        },
+        {
+          "name": "_Z22get_plt_fmt_unit_3dlutPvRKm",
+          "defined": true,
+          "va": "0x74e50"
+        },
+        {
+          "name": "_Z24lookup_rgb_pixel_plt_fmtPKvRKmS2_S2_R8PixelRGB",
+          "defined": true,
+          "va": "0x74fb0"
+        },
+        {
+          "name": "duss_hal_tdlut_cube_to_bin",
+          "defined": true,
+          "va": "0x790a0"
+        },
+        {
+          "name": "_Z14do_3dlut_transR8PixelRGBRKiPFS0_PKvRKmS6_S6_S0_ES4_m",
+          "defined": true,
+          "va": "0x72dc0"
+        }
+      ]
+    },
+    {
+      "path": "system/lib64/weston/eagle-backend.so",
+      "sha256": "7d393c1b0cfecca355b7ca07d357003c25e16fecf8e111a1e03b311c07ab72ab",
+      "symbols": [
+        {
+          "name": "duss_hal_tdlut_cube_to_bin",
+          "defined": true,
+          "va": "0xc8fd8"
+        },
+        {
+          "name": "duss_hal_cube_to_plt_fmt_vaddr",
+          "defined": true,
+          "va": "0xc8780"
+        }
+      ]
+    }
+  ],
+  "tool_sha256": "9cd09ebb64beb902e770f858ad3b945b93abdd6e2d7b01213bd75924fac87898"
+}

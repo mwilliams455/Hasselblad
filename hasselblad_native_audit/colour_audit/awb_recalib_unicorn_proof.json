@@ -1,0 +1,524 @@
+{
+  "firmware": "Hasselblad X2D II 100C 1.3.16.2",
+  "library": "libaaa.so",
+  "library_sha256": "7d6164eccc734de7087bb778ee72f17a0b3ccf6c0d1f20092c7ebe74a86574ba",
+  "symbol": "scene_awb_result_recalib_unit",
+  "symbol_va": "0x4a39a0",
+  "symbol_size": 56,
+  "function_code_sha256": "8540aa5c812999a0d36e4e6256a950a72c7b9a9e501ddc8b41726f1208042779",
+  "method": "Unicorn AArch64 execution of exact original leaf instructions; no replacement function and no dependency stubs",
+  "abi": "uint32_t scene_awb_result_recalib_unit(uint32_t *gain_a_inout, uint32_t *gain_b_inout, uint32_t calib_a, uint32_t calib_b)",
+  "preconditions": "Two valid, distinct, aligned writable uint32 cells; for useful calibration calib_a/calib_b>0. Harness bounds gains to 0..65535. Original shifts wrap at uint32 width; larger inputs require separate adapter guards.",
+  "memory_model": "Only function code, guarded input/output page and private stack page are mapped. No firmware globals, dependency symbols, callbacks or system calls are present.",
+  "limits": "Proves only an AWB Q12 calibration leaf. Does not run scene_awb_lib_run, derive sensor-specific calibration, render RAW or establish HNCS.",
+  "caller_evidence": [
+    {
+      "symbol": "scene_awb_get_result",
+      "calls": [
+        "0x465dc8",
+        "0x465df8"
+      ],
+      "evidence": "x0/x1 point to separate 4-byte stack cells; w2/w3 loaded from calibration context; return checked with cbnz; outputs read as 32-bit cells."
+    },
+    {
+      "symbol": "scene_awb_get_recalib_res",
+      "calls": [
+        "0x474f94",
+        "0x474fc4",
+        "0x475000",
+        "0x475018"
+      ],
+      "evidence": "Scalar divisors selected from per-unit/e-ND calibration context; outputs fed to further Q12 WB normalization with unity0x1000."
+    }
+  ],
+  "disassembly": [
+    {
+      "va": "0x4a39a0",
+      "mnemonic": "mov",
+      "operands": "x8, x0"
+    },
+    {
+      "va": "0x4a39a4",
+      "mnemonic": "mov",
+      "operands": "w0, #0x59"
+    },
+    {
+      "va": "0x4a39a8",
+      "mnemonic": "cbz",
+      "operands": "w2, #0x4a39d4"
+    },
+    {
+      "va": "0x4a39ac",
+      "mnemonic": "cbz",
+      "operands": "w3, #0x4a39d4"
+    },
+    {
+      "va": "0x4a39b0",
+      "mnemonic": "ldr",
+      "operands": "w9, [x8]"
+    },
+    {
+      "va": "0x4a39b4",
+      "mnemonic": "mov",
+      "operands": "w0, wzr"
+    },
+    {
+      "va": "0x4a39b8",
+      "mnemonic": "lsl",
+      "operands": "w9, w9, #0xc"
+    },
+    {
+      "va": "0x4a39bc",
+      "mnemonic": "udiv",
+      "operands": "w9, w9, w2"
+    },
+    {
+      "va": "0x4a39c0",
+      "mnemonic": "str",
+      "operands": "w9, [x8]"
+    },
+    {
+      "va": "0x4a39c4",
+      "mnemonic": "ldr",
+      "operands": "w8, [x1]"
+    },
+    {
+      "va": "0x4a39c8",
+      "mnemonic": "lsl",
+      "operands": "w8, w8, #0xc"
+    },
+    {
+      "va": "0x4a39cc",
+      "mnemonic": "udiv",
+      "operands": "w8, w8, w3"
+    },
+    {
+      "va": "0x4a39d0",
+      "mnemonic": "str",
+      "operands": "w8, [x1]"
+    },
+    {
+      "va": "0x4a39d4",
+      "mnemonic": "ret",
+      "operands": ""
+    }
+  ],
+  "cases": [
+    {
+      "name": "q12_unity",
+      "input": {
+        "gain_a": 4096,
+        "gain_b": 4096,
+        "calib_a": 4096,
+        "calib_b": 4096
+      },
+      "status": 0,
+      "output": [
+        4096,
+        4096
+      ],
+      "instructions_executed": 14,
+      "instruction_vas": [
+        "0x4a39a0",
+        "0x4a39a4",
+        "0x4a39a8",
+        "0x4a39ac",
+        "0x4a39b0",
+        "0x4a39b4",
+        "0x4a39b8",
+        "0x4a39bc",
+        "0x4a39c0",
+        "0x4a39c4",
+        "0x4a39c8",
+        "0x4a39cc",
+        "0x4a39d0",
+        "0x4a39d4"
+      ],
+      "memory_accesses": [
+        {
+          "kind": "read",
+          "pointer": "a",
+          "bytes": 4
+        },
+        {
+          "kind": "write",
+          "pointer": "a",
+          "bytes": 4
+        },
+        {
+          "kind": "read",
+          "pointer": "b",
+          "bytes": 4
+        },
+        {
+          "kind": "write",
+          "pointer": "b",
+          "bytes": 4
+        }
+      ],
+      "result": "pass",
+      "guard_bytes_unchanged": true,
+      "callee_saved_registers_unchanged": true
+    },
+    {
+      "name": "independent_channel_scales",
+      "input": {
+        "gain_a": 8192,
+        "gain_b": 12288,
+        "calib_a": 8192,
+        "calib_b": 6144
+      },
+      "status": 0,
+      "output": [
+        4096,
+        8192
+      ],
+      "instructions_executed": 14,
+      "instruction_vas": [
+        "0x4a39a0",
+        "0x4a39a4",
+        "0x4a39a8",
+        "0x4a39ac",
+        "0x4a39b0",
+        "0x4a39b4",
+        "0x4a39b8",
+        "0x4a39bc",
+        "0x4a39c0",
+        "0x4a39c4",
+        "0x4a39c8",
+        "0x4a39cc",
+        "0x4a39d0",
+        "0x4a39d4"
+      ],
+      "memory_accesses": [
+        {
+          "kind": "read",
+          "pointer": "a",
+          "bytes": 4
+        },
+        {
+          "kind": "write",
+          "pointer": "a",
+          "bytes": 4
+        },
+        {
+          "kind": "read",
+          "pointer": "b",
+          "bytes": 4
+        },
+        {
+          "kind": "write",
+          "pointer": "b",
+          "bytes": 4
+        }
+      ],
+      "result": "pass",
+      "guard_bytes_unchanged": true,
+      "callee_saved_registers_unchanged": true
+    },
+    {
+      "name": "fractional_truncation",
+      "input": {
+        "gain_a": 5001,
+        "gain_b": 6001,
+        "calib_a": 3000,
+        "calib_b": 5000
+      },
+      "status": 0,
+      "output": [
+        6828,
+        4916
+      ],
+      "instructions_executed": 14,
+      "instruction_vas": [
+        "0x4a39a0",
+        "0x4a39a4",
+        "0x4a39a8",
+        "0x4a39ac",
+        "0x4a39b0",
+        "0x4a39b4",
+        "0x4a39b8",
+        "0x4a39bc",
+        "0x4a39c0",
+        "0x4a39c4",
+        "0x4a39c8",
+        "0x4a39cc",
+        "0x4a39d0",
+        "0x4a39d4"
+      ],
+      "memory_accesses": [
+        {
+          "kind": "read",
+          "pointer": "a",
+          "bytes": 4
+        },
+        {
+          "kind": "write",
+          "pointer": "a",
+          "bytes": 4
+        },
+        {
+          "kind": "read",
+          "pointer": "b",
+          "bytes": 4
+        },
+        {
+          "kind": "write",
+          "pointer": "b",
+          "bytes": 4
+        }
+      ],
+      "result": "pass",
+      "guard_bytes_unchanged": true,
+      "callee_saved_registers_unchanged": true
+    },
+    {
+      "name": "one_q12_half_one_q12_double",
+      "input": {
+        "gain_a": 4096,
+        "gain_b": 4096,
+        "calib_a": 2048,
+        "calib_b": 8192
+      },
+      "status": 0,
+      "output": [
+        8192,
+        2048
+      ],
+      "instructions_executed": 14,
+      "instruction_vas": [
+        "0x4a39a0",
+        "0x4a39a4",
+        "0x4a39a8",
+        "0x4a39ac",
+        "0x4a39b0",
+        "0x4a39b4",
+        "0x4a39b8",
+        "0x4a39bc",
+        "0x4a39c0",
+        "0x4a39c4",
+        "0x4a39c8",
+        "0x4a39cc",
+        "0x4a39d0",
+        "0x4a39d4"
+      ],
+      "memory_accesses": [
+        {
+          "kind": "read",
+          "pointer": "a",
+          "bytes": 4
+        },
+        {
+          "kind": "write",
+          "pointer": "a",
+          "bytes": 4
+        },
+        {
+          "kind": "read",
+          "pointer": "b",
+          "bytes": 4
+        },
+        {
+          "kind": "write",
+          "pointer": "b",
+          "bytes": 4
+        }
+      ],
+      "result": "pass",
+      "guard_bytes_unchanged": true,
+      "callee_saved_registers_unchanged": true
+    },
+    {
+      "name": "zero_gain",
+      "input": {
+        "gain_a": 0,
+        "gain_b": 0,
+        "calib_a": 4096,
+        "calib_b": 4096
+      },
+      "status": 0,
+      "output": [
+        0,
+        0
+      ],
+      "instructions_executed": 14,
+      "instruction_vas": [
+        "0x4a39a0",
+        "0x4a39a4",
+        "0x4a39a8",
+        "0x4a39ac",
+        "0x4a39b0",
+        "0x4a39b4",
+        "0x4a39b8",
+        "0x4a39bc",
+        "0x4a39c0",
+        "0x4a39c4",
+        "0x4a39c8",
+        "0x4a39cc",
+        "0x4a39d0",
+        "0x4a39d4"
+      ],
+      "memory_accesses": [
+        {
+          "kind": "read",
+          "pointer": "a",
+          "bytes": 4
+        },
+        {
+          "kind": "write",
+          "pointer": "a",
+          "bytes": 4
+        },
+        {
+          "kind": "read",
+          "pointer": "b",
+          "bytes": 4
+        },
+        {
+          "kind": "write",
+          "pointer": "b",
+          "bytes": 4
+        }
+      ],
+      "result": "pass",
+      "guard_bytes_unchanged": true,
+      "callee_saved_registers_unchanged": true
+    },
+    {
+      "name": "bounded_maximum_gain",
+      "input": {
+        "gain_a": 65535,
+        "gain_b": 65535,
+        "calib_a": 4096,
+        "calib_b": 8192
+      },
+      "status": 0,
+      "output": [
+        65535,
+        32767
+      ],
+      "instructions_executed": 14,
+      "instruction_vas": [
+        "0x4a39a0",
+        "0x4a39a4",
+        "0x4a39a8",
+        "0x4a39ac",
+        "0x4a39b0",
+        "0x4a39b4",
+        "0x4a39b8",
+        "0x4a39bc",
+        "0x4a39c0",
+        "0x4a39c4",
+        "0x4a39c8",
+        "0x4a39cc",
+        "0x4a39d0",
+        "0x4a39d4"
+      ],
+      "memory_accesses": [
+        {
+          "kind": "read",
+          "pointer": "a",
+          "bytes": 4
+        },
+        {
+          "kind": "write",
+          "pointer": "a",
+          "bytes": 4
+        },
+        {
+          "kind": "read",
+          "pointer": "b",
+          "bytes": 4
+        },
+        {
+          "kind": "write",
+          "pointer": "b",
+          "bytes": 4
+        }
+      ],
+      "result": "pass",
+      "guard_bytes_unchanged": true,
+      "callee_saved_registers_unchanged": true
+    },
+    {
+      "name": "first_divisor_zero",
+      "input": {
+        "gain_a": 8192,
+        "gain_b": 6144,
+        "calib_a": 0,
+        "calib_b": 4096
+      },
+      "status": 89,
+      "output": [
+        8192,
+        6144
+      ],
+      "instructions_executed": 4,
+      "instruction_vas": [
+        "0x4a39a0",
+        "0x4a39a4",
+        "0x4a39a8",
+        "0x4a39d4"
+      ],
+      "memory_accesses": [],
+      "result": "pass",
+      "guard_bytes_unchanged": true,
+      "callee_saved_registers_unchanged": true
+    },
+    {
+      "name": "second_divisor_zero",
+      "input": {
+        "gain_a": 8192,
+        "gain_b": 6144,
+        "calib_a": 4096,
+        "calib_b": 0
+      },
+      "status": 89,
+      "output": [
+        8192,
+        6144
+      ],
+      "instructions_executed": 5,
+      "instruction_vas": [
+        "0x4a39a0",
+        "0x4a39a4",
+        "0x4a39a8",
+        "0x4a39ac",
+        "0x4a39d4"
+      ],
+      "memory_accesses": [],
+      "result": "pass",
+      "guard_bytes_unchanged": true,
+      "callee_saved_registers_unchanged": true
+    },
+    {
+      "name": "both_divisors_zero",
+      "input": {
+        "gain_a": 8192,
+        "gain_b": 6144,
+        "calib_a": 0,
+        "calib_b": 0
+      },
+      "status": 89,
+      "output": [
+        8192,
+        6144
+      ],
+      "instructions_executed": 4,
+      "instruction_vas": [
+        "0x4a39a0",
+        "0x4a39a4",
+        "0x4a39a8",
+        "0x4a39d4"
+      ],
+      "memory_accesses": [],
+      "result": "pass",
+      "guard_bytes_unchanged": true,
+      "callee_saved_registers_unchanged": true
+    }
+  ],
+  "case_count": 9,
+  "all_passed": true,
+  "unique_instructions_executed": 14,
+  "total_function_instructions": 14
+}

@@ -1,0 +1,1115 @@
+{
+  "schema_version": 1,
+  "finding": "Original native photographic profile interpolation executed on both synthetic fixtures and the full actual camera LUT; no per-pixel HNCS renderer established",
+  "firmware": {
+    "model": "X2D II 100C",
+    "version": "1.3.16.2",
+    "cim_sha256": "9789d6a9843d388034bc12341ad9a97585c25cb98cf11a0da8b768399b4842f6",
+    "official_url": "https://cdn.hasselblad.com/firmware/X2D_II_100C_Firmware/1.3.16.2/X2DII_100C_v1_3_16_2(1).cim"
+  },
+  "library_hashes": {
+    "librcam.so": "3dd5b37b3db18b3e6b54271e1501b4dd337e101c06cdd386a896b1547b662f66",
+    "libdcam_pp.so": "bacca08dcf56e4a599cbfdfa041baf60a43754ec5a1a9d23dab89bd129ea41e9",
+    "libalgo_share.so": "ef10d819b34ba0a3e10e38168b47c3111e1d75335a7187ad1b66ec9492af363a",
+    "libadj_base.so": "979d2b7f9b7d0368c73a94a609158aae8365ae64a777b9ca36f76c1c785d9405",
+    "libdcam_pp_base.so": "72934142975fa88ee65e331767e8b9badd9ca40bc987e3c9a2a5cf0ff60b3f76",
+    "libdcam_adj_product.so": "bd42b0ff4eae48cd9cc1637220d6b73dd97898c2190ae0d3d8f4fd93e26e60ea"
+  },
+  "config_provenance": {
+    "path": "system/etc/iq/hb722_config.json",
+    "bytes": 27277188,
+    "sha256": "2a4fd76e5299937a6607da8454add17e9746347c54adcf5da1360799de634286",
+    "schema_path": "system/etc/iq/config.fbs",
+    "schema_sha256": "59ec3b0d019b9e8873f3d005c041b4e3ca1a2b930c503c110c51531f8bd30e40",
+    "parser": "inspect_iq_config.py",
+    "parser_sha256": "0d3c8a7c380502c2b904e380d64723523eb62060a2c4e31145104aa9445625ec",
+    "parser_origin": "Original audit tool; strict inert tokenizer and recursive descent; comments, bare enum/key tokens, hex integers and trailing commas accepted; duplicate keys and trailing unparsed data rejected; exact source hash required",
+    "vendor_parser_executed": false
+  },
+  "topology_evidence": {
+    "type": "Static configuration, not a capture trace",
+    "selected_segments": [
+      {
+        "segment_name": "frog_raw_reprocess_2-r2y-still",
+        "module": [
+          "MAIN_WBC",
+          "MAIN_DEMOSAIC",
+          "MAIN_PFR",
+          "MAIN_CCM",
+          "MAIN_GAMMA",
+          "MAIN_3DLUT",
+          "MAIN_R2Y",
+          "MAIN_CFC444TO422_6K",
+          "MAIN_AE_STAT",
+          "MAIN_AWB_STAT"
+        ],
+        "bypass": [
+          "MAIN_RLTM",
+          "MAIN_CAC",
+          "MAIN_LSC",
+          "MAIN_HNCS",
+          "MAIN_GTM"
+        ]
+      },
+      {
+        "segment_name": "frog_raw_reprocess_2-r2y-still_scap3_enh_normal",
+        "module": [
+          "MAIN_WBC",
+          "MAIN_DEMOSAIC",
+          "MAIN_PFR",
+          "MAIN_CCM",
+          "MAIN_GAMMA",
+          "MAIN_3DLUT",
+          "MAIN_R2Y",
+          "MAIN_CFC444TO422_6K",
+          "MAIN_AE_STAT",
+          "MAIN_AWB_STAT"
+        ],
+        "bypass": [
+          "MAIN_RLTM",
+          "MAIN_CAC",
+          "MAIN_LSC",
+          "MAIN_HNCS",
+          "MAIN_GTM"
+        ]
+      },
+      {
+        "segment_name": "frog_raw_reprocess_2-r2y-still_scap3_enh_hdr",
+        "module": [
+          "MAIN_WBC",
+          "MAIN_DEMOSAIC",
+          "MAIN_PFR",
+          "MAIN_CCM",
+          "MAIN_GAMMA",
+          "MAIN_3DLUT",
+          "MAIN_R2Y",
+          "MAIN_CFC444TO422_6K",
+          "MAIN_AE_STAT",
+          "MAIN_AWB_STAT"
+        ],
+        "bypass": [
+          "MAIN_RLTM",
+          "MAIN_CAC",
+          "MAIN_LSC",
+          "MAIN_HNCS",
+          "MAIN_GTM"
+        ]
+      }
+    ],
+    "selected_mode_maps": [
+      {
+        "topo_name": "TPLG_IMX861BQR_STILL_14BIT",
+        "mode": "still0",
+        "topo_group": 1,
+        "ext_modules": [
+          "METADATA_DEBUG"
+        ],
+        "selected_segment_map": [
+          {
+            "segment_name": "frog_raw_reprocess_2-r2y-still",
+            "mode": "still3",
+            "topo_group": 2
+          },
+          {
+            "segment_name": "frog_raw_reprocess_2-r2y-still_scap3_enh_normal",
+            "mode": "still0",
+            "topo_group": 2
+          },
+          {
+            "segment_name": "frog_raw_reprocess_2-r2y-still_scap3_enh_hdr",
+            "mode": "still0",
+            "topo_group": 2
+          }
+        ]
+      },
+      {
+        "topo_name": "TPLG_IMX861BQR_STILL_16BIT",
+        "mode": "still0",
+        "topo_group": 1,
+        "ext_modules": [
+          "METADATA_DEBUG"
+        ],
+        "selected_segment_map": [
+          {
+            "segment_name": "frog_raw_reprocess_2-r2y-still",
+            "mode": "still3",
+            "topo_group": 2
+          },
+          {
+            "segment_name": "frog_raw_reprocess_2-r2y-still_scap3_enh_normal",
+            "mode": "still0",
+            "topo_group": 2
+          },
+          {
+            "segment_name": "frog_raw_reprocess_2-r2y-still_scap3_enh_hdr",
+            "mode": "still0",
+            "topo_group": 2
+          }
+        ]
+      },
+      {
+        "topo_name": "TPLG_IMX861BQR_STILL_14BIT_HS",
+        "mode": "still0",
+        "topo_group": 1,
+        "ext_modules": [
+          "METADATA_DEBUG"
+        ],
+        "selected_segment_map": [
+          {
+            "segment_name": "frog_raw_reprocess_2-r2y-still",
+            "mode": "still3",
+            "topo_group": 2
+          },
+          {
+            "segment_name": "frog_raw_reprocess_2-r2y-still_scap3_enh_normal",
+            "mode": "still0",
+            "topo_group": 2
+          },
+          {
+            "segment_name": "frog_raw_reprocess_2-r2y-still_scap3_enh_hdr",
+            "mode": "still0",
+            "topo_group": 2
+          }
+        ]
+      }
+    ],
+    "hncs_enabled_segments": [
+      "common_recording_still_1-raw_writer-ycc-sub_back-data_mux0",
+      "common_recording_still_1-raw_writer-ycc-sub_back-data_mux0-video"
+    ],
+    "interpretation": "The three explicitly mapped still reprocessing segments enable MAIN_CCM, MAIN_GAMMA and MAIN_3DLUT, and put MAIN_HNCS in bypass."
+  },
+  "photographic_lut": {
+    "config_path": "iq_table/data/0/main_3dlut/0/lut_data",
+    "metadata": {
+      "type": "lerp_lut_mem_3d",
+      "group": "global_frame",
+      "mem_cfgen": 1,
+      "axis": [
+        "cc_color_temp",
+        "color_gamut"
+      ]
+    },
+    "axis_order": [
+      "cc_color_temp",
+      "color_gamut"
+    ],
+    "cct_knots_k": [
+      2400,
+      3050,
+      5550,
+      9100
+    ],
+    "gamut_selectors": [
+      0,
+      1
+    ],
+    "gamut_names": {
+      "0": "sRGB",
+      "1": "P3"
+    },
+    "total_word_count": 49152,
+    "total_byte_count": 196608,
+    "profile_count": 8,
+    "words_per_profile": 6144,
+    "bytes_per_profile": 24576,
+    "packed_scalar_lanes_per_word": 2,
+    "scalar_lanes_per_profile": 12288,
+    "low_lane_range": [
+      0,
+      4095
+    ],
+    "high_lane_range": [
+      0,
+      4095
+    ],
+    "cumulative_axis_products": [
+      4,
+      8
+    ],
+    "profile_offset_rule": "profile_index = cct_index + 4 * gamut_index; source_word_offset = profile_index * 6144",
+    "derivation": "Observed source count 49152 / axis product 8. _Calc_GetLerpInfo computes cumulative products; _Calc_LerpLutMem3d checks source words == axis product \u00d7 destination words before the native call. Destination size 6144 is therefore the consistent config/caller contract, not an independently captured ISP register dump.",
+    "packed_words_sha256": "0e54912107eed71195a7231ab57ba3116ec469a9a70e05ad4889802c77247911",
+    "profiles": [
+      {
+        "profile_index": 0,
+        "cct_k": 2400,
+        "gamut_selector": 0,
+        "word_count": 6144,
+        "little_endian_packed_words_sha256": "ed9fd193ea763ecb3defec69a73152ff250cb89e04292ee347dee6950cec66e1"
+      },
+      {
+        "profile_index": 1,
+        "cct_k": 3050,
+        "gamut_selector": 0,
+        "word_count": 6144,
+        "little_endian_packed_words_sha256": "ed9fd193ea763ecb3defec69a73152ff250cb89e04292ee347dee6950cec66e1"
+      },
+      {
+        "profile_index": 2,
+        "cct_k": 5550,
+        "gamut_selector": 0,
+        "word_count": 6144,
+        "little_endian_packed_words_sha256": "de9ee466e2452d222fa0db4c330c709bebb6364a50584c902ff0b6169f4964bb"
+      },
+      {
+        "profile_index": 3,
+        "cct_k": 9100,
+        "gamut_selector": 0,
+        "word_count": 6144,
+        "little_endian_packed_words_sha256": "12099cc658824d593bb2fbd6273089c719658b4177a00f2341f6b1169430397b"
+      },
+      {
+        "profile_index": 4,
+        "cct_k": 2400,
+        "gamut_selector": 1,
+        "word_count": 6144,
+        "little_endian_packed_words_sha256": "295b3bea3fc1cf8d862cfe11815cec8b01d0e50bb0e366516976c185d3fc6220"
+      },
+      {
+        "profile_index": 5,
+        "cct_k": 3050,
+        "gamut_selector": 1,
+        "word_count": 6144,
+        "little_endian_packed_words_sha256": "295b3bea3fc1cf8d862cfe11815cec8b01d0e50bb0e366516976c185d3fc6220"
+      },
+      {
+        "profile_index": 6,
+        "cct_k": 5550,
+        "gamut_selector": 1,
+        "word_count": 6144,
+        "little_endian_packed_words_sha256": "3392785a7389c5827cfeb835eed8b271394331ec79c75967be05c0319a51022f"
+      },
+      {
+        "profile_index": 7,
+        "cct_k": 9100,
+        "gamut_selector": 1,
+        "word_count": 6144,
+        "little_endian_packed_words_sha256": "f21ab71851421ab5b88c993ef2878ffe274fae44dd55a2b6249da169287ff55b"
+      }
+    ],
+    "grid_candidate": {
+      "shape": "16 x 16 x 16, three scalar components per point",
+      "numerical_basis": "6144 words * 2 lanes = 12288 scalars = 16^3 * 3",
+      "status": "Candidate only; channel order, physical grid layout, sample coordinates and spatial interpolation are unproved"
+    },
+    "enable_pre_gamma": [
+      0
+    ],
+    "photographic_payload_copied_into_report": false,
+    "full_size_native_preparation_verified": true,
+    "full_size_native_preparation_note": "Ten full 6144-word outputs generated from all 49152 original source words under matching firmware runtime; all lanes matched the C reference and all bytes matched the independent Python reference. No ISP frame or per-pixel sampler executed."
+  },
+  "gamma_assets": [
+    {
+      "mode": "still0",
+      "module": "main_gamma_normal",
+      "gamma_lut_length": 257,
+      "gamma_lut_values_json_sha256": "5c5f69a4087f0aee9ee0068c8687b13e0922dc228550349398a019e468dbfb6f",
+      "lut_div": [
+        2,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "lut_div_minus_scale": [
+        4
+      ],
+      "knee_clip": [
+        2048
+      ]
+    },
+    {
+      "mode": "still0",
+      "module": "main_gamma_common",
+      "enable": [
+        1
+      ],
+      "knee_en": [
+        0
+      ]
+    },
+    {
+      "mode": "still1",
+      "module": "main_gamma_normal",
+      "gamma_lut_length": 257,
+      "gamma_lut_values_json_sha256": "5c5f69a4087f0aee9ee0068c8687b13e0922dc228550349398a019e468dbfb6f",
+      "lut_div": [
+        2,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "lut_div_minus_scale": [
+        4
+      ],
+      "knee_clip": [
+        2048
+      ]
+    },
+    {
+      "mode": "still1",
+      "module": "main_gamma_common",
+      "enable": [
+        1
+      ],
+      "knee_en": [
+        0
+      ]
+    },
+    {
+      "mode": "still2",
+      "module": "main_gamma_normal",
+      "gamma_lut_length": 257,
+      "gamma_lut_values_json_sha256": "5c5f69a4087f0aee9ee0068c8687b13e0922dc228550349398a019e468dbfb6f",
+      "lut_div": [
+        2,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "lut_div_minus_scale": [
+        4
+      ],
+      "knee_clip": [
+        2048
+      ]
+    },
+    {
+      "mode": "still2",
+      "module": "main_gamma_common",
+      "enable": [
+        1
+      ],
+      "knee_en": [
+        0
+      ]
+    },
+    {
+      "mode": "still3",
+      "module": "main_gamma_normal",
+      "gamma_lut_length": 257,
+      "gamma_lut_values_json_sha256": "5c5f69a4087f0aee9ee0068c8687b13e0922dc228550349398a019e468dbfb6f",
+      "lut_div": [
+        2,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "lut_div_minus_scale": [
+        4
+      ],
+      "knee_clip": [
+        2048
+      ]
+    },
+    {
+      "mode": "still3",
+      "module": "main_gamma_common",
+      "enable": [
+        1
+      ],
+      "knee_en": [
+        0
+      ]
+    },
+    {
+      "mode": "still4",
+      "module": "main_gamma_normal",
+      "gamma_lut_length": 257,
+      "gamma_lut_values_json_sha256": "5c5f69a4087f0aee9ee0068c8687b13e0922dc228550349398a019e468dbfb6f",
+      "lut_div": [
+        2,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "lut_div_minus_scale": [
+        4
+      ],
+      "knee_clip": [
+        4095
+      ]
+    },
+    {
+      "mode": "still4",
+      "module": "main_gamma_common",
+      "enable": [
+        1
+      ],
+      "knee_en": [
+        1
+      ]
+    }
+  ],
+  "functions": [
+    {
+      "library": "librcam.so",
+      "name": "post_scap3_calc_3dlut",
+      "va": "0x2f2d08",
+      "size": 820,
+      "calls": [
+        {
+          "va": "0x2f2f34",
+          "target_va": "0x3b3e98",
+          "symbol": "rcam_adj_calc_common"
+        },
+        {
+          "va": "0x2f301c",
+          "target_va": "0x3b3e98",
+          "symbol": "rcam_adj_calc_common"
+        }
+      ]
+    },
+    {
+      "library": "librcam.so",
+      "name": "post_hdr_calc_3dlut",
+      "va": "0x301b00",
+      "size": 820,
+      "calls": [
+        {
+          "va": "0x301d2c",
+          "target_va": "0x3b3e98",
+          "symbol": "rcam_adj_calc_common"
+        },
+        {
+          "va": "0x301e14",
+          "target_va": "0x3b3e98",
+          "symbol": "rcam_adj_calc_common"
+        }
+      ]
+    },
+    {
+      "library": "librcam.so",
+      "name": "_main_hncs_calc_frame",
+      "va": "0x34c678",
+      "size": 1656,
+      "calls": [
+        {
+          "va": "0x34c958",
+          "target_va": "0x3b3e98",
+          "symbol": "rcam_adj_calc_common"
+        },
+        {
+          "va": "0x34c9a4",
+          "target_va": "0x251a68",
+          "symbol": "DjiIsp_Reg_Set"
+        },
+        {
+          "va": "0x34cc48",
+          "target_va": "0x3b3e98",
+          "symbol": "rcam_adj_calc_common"
+        },
+        {
+          "va": "0x34cc88",
+          "target_va": "0x251a68",
+          "symbol": "DjiIsp_Reg_Set"
+        }
+      ]
+    },
+    {
+      "library": "librcam.so",
+      "name": "main_3dlut_calc_frame",
+      "va": "0x39ce88",
+      "size": 2148,
+      "calls": [
+        {
+          "va": "0x39d30c",
+          "target_va": "0x3b3e98",
+          "symbol": "rcam_adj_calc_common"
+        },
+        {
+          "va": "0x39d370",
+          "target_va": "0x251a68",
+          "symbol": "DjiIsp_Reg_Set"
+        },
+        {
+          "va": "0x39d61c",
+          "target_va": "0x3b3e98",
+          "symbol": "rcam_adj_calc_common"
+        },
+        {
+          "va": "0x39d65c",
+          "target_va": "0x251a68",
+          "symbol": "DjiIsp_Reg_Set"
+        }
+      ]
+    },
+    {
+      "library": "librcam.so",
+      "name": "main_ccm_calc_frame",
+      "va": "0x39e4b0",
+      "size": 2148,
+      "calls": [
+        {
+          "va": "0x39e934",
+          "target_va": "0x3b3e98",
+          "symbol": "rcam_adj_calc_common"
+        },
+        {
+          "va": "0x39e998",
+          "target_va": "0x251a68",
+          "symbol": "DjiIsp_Reg_Set"
+        },
+        {
+          "va": "0x39ec44",
+          "target_va": "0x3b3e98",
+          "symbol": "rcam_adj_calc_common"
+        },
+        {
+          "va": "0x39ec84",
+          "target_va": "0x251a68",
+          "symbol": "DjiIsp_Reg_Set"
+        }
+      ]
+    },
+    {
+      "library": "librcam.so",
+      "name": "main_gamma_normal_calc_frame",
+      "va": "0x3a2df8",
+      "size": 2148,
+      "calls": [
+        {
+          "va": "0x3a327c",
+          "target_va": "0x3b3e98",
+          "symbol": "rcam_adj_calc_common"
+        },
+        {
+          "va": "0x3a32e0",
+          "target_va": "0x251a68",
+          "symbol": "DjiIsp_Reg_Set"
+        },
+        {
+          "va": "0x3a358c",
+          "target_va": "0x3b3e98",
+          "symbol": "rcam_adj_calc_common"
+        },
+        {
+          "va": "0x3a35cc",
+          "target_va": "0x251a68",
+          "symbol": "DjiIsp_Reg_Set"
+        }
+      ]
+    },
+    {
+      "library": "librcam.so",
+      "name": "_Calc_GetCoeff",
+      "va": "0x3b42a8",
+      "size": 5840,
+      "calls": [
+        {
+          "va": "0x3b5098",
+          "target_va": "0x2bac00",
+          "symbol": "mm_get_coeff"
+        },
+        {
+          "va": "0x3b5844",
+          "target_va": "0x2bac00",
+          "symbol": "mm_get_coeff"
+        }
+      ]
+    },
+    {
+      "library": "librcam.so",
+      "name": "_Calc_GetLerpInfo",
+      "va": "0x3b2cd0",
+      "size": 440,
+      "calls": [
+        {
+          "va": "0x3b2d7c",
+          "target_va": "0x3b42a8",
+          "symbol": "_Calc_GetCoeff"
+        }
+      ]
+    },
+    {
+      "library": "librcam.so",
+      "name": "_Calc_LerpLutMem3d",
+      "va": "0x3b8c78",
+      "size": 408,
+      "calls": [
+        {
+          "va": "0x3b8cd0",
+          "target_va": "0x3b2cd0",
+          "symbol": "_Calc_GetLerpInfo"
+        },
+        {
+          "va": "0x3b8cf0",
+          "target_va": "0x251a18",
+          "symbol": "DjiIsp_Reg_GetLut"
+        },
+        {
+          "va": "0x3b8d20",
+          "target_va": "0x2bbc08",
+          "symbol": "mm_mx_lerp_vec_mix2"
+        },
+        {
+          "va": "0x3b8d68",
+          "target_va": "0x3b30b0",
+          "symbol": "DjiAdj_Calc_LutMemCopy"
+        }
+      ]
+    },
+    {
+      "library": "librcam.so",
+      "name": "_calc_lerp_lut_mem3d_enh",
+      "va": "0x3c3948",
+      "size": 208,
+      "calls": [
+        {
+          "va": "0x3c3980",
+          "target_va": "0x3b2cd0",
+          "symbol": "_Calc_GetLerpInfo"
+        },
+        {
+          "va": "0x3c39b8",
+          "target_va": "0x2bbc08",
+          "symbol": "mm_mx_lerp_vec_mix2"
+        }
+      ]
+    },
+    {
+      "library": "librcam.so",
+      "name": "mm_get_coeff",
+      "va": "0x2bac00",
+      "size": 160,
+      "calls": []
+    },
+    {
+      "library": "librcam.so",
+      "name": "mm_mx_lerp_vec_mix2",
+      "va": "0x2bbc08",
+      "size": 1784,
+      "calls": []
+    },
+    {
+      "library": "librcam.so",
+      "name": "rcam_adj_calc_common",
+      "va": "0x3b3e98",
+      "size": 660,
+      "calls": []
+    },
+    {
+      "library": "libdcam_pp.so",
+      "name": "GetGammaLut",
+      "va": "0x466e8",
+      "size": 320,
+      "calls": []
+    },
+    {
+      "library": "libdcam_pp.so",
+      "name": "call_nndns",
+      "va": "0x71d10",
+      "size": 6696,
+      "calls": []
+    },
+    {
+      "library": "libdcam_pp.so",
+      "name": "raw2rgb_proc",
+      "va": "0x1d15a8",
+      "size": 1160,
+      "calls": []
+    },
+    {
+      "library": "libdcam_pp.so",
+      "name": "GetDegammaLut",
+      "va": "0x46828",
+      "size": 332,
+      "calls": []
+    },
+    {
+      "library": "libdcam_pp.so",
+      "name": "elldn_nn_config_gamma",
+      "va": "0x4a3b0",
+      "size": 552,
+      "calls": []
+    },
+    {
+      "library": "libdcam_pp.so",
+      "name": "hbl_calib_build",
+      "va": "0xd55a0",
+      "size": 1700,
+      "calls": []
+    }
+  ],
+  "verified_runtime_dispatch": {
+    "event": "calc_dispatch_read",
+    "table_va": "0x59c240",
+    "index": 37,
+    "target_va": "0x3b8c78",
+    "matches": true
+  },
+  "native_probe": {
+    "result_file": "lut_profile_native_execution.json",
+    "case_count": 12,
+    "all_passed": true,
+    "exit": 0,
+    "symbols": [
+      {
+        "name": "dcam_isp_vreg_get_type",
+        "va": "0x54b88",
+        "bytes": 4,
+        "exported": true,
+        "code_sha256": "d412c8440ba36b30e1fd97ed6d92b9fbc6bc182ccbff3d5e8ccf05fca40e0864"
+      },
+      {
+        "name": "mm_get_coeff",
+        "va": "0x2bac00",
+        "bytes": 160,
+        "exported": false,
+        "code_sha256": "68754a8d484850dc37a03dedd36b17fa309f3f76fcdc7c2f21472400e6a192bf"
+      },
+      {
+        "name": "mm_mx_lerp_vec_mix2",
+        "va": "0x2bbc08",
+        "bytes": 1784,
+        "exported": false,
+        "code_sha256": "2082f0f9f3db305022bee2e479adf4da94855ff049105a1b8fc816e12256c1cf"
+      }
+    ],
+    "fixture_contains_photographic_payload": false,
+    "per_pixel_renderer_validated": false,
+    "fixture": "synthetic: seven words per profile, eight profiles"
+  },
+  "primitive_contract": {
+    "prototype": "uint32_t *mm_mx_lerp_vec_mix2(const uint32_t *profiles, uint32_t words_per_profile, const struct { uint32_t index; int32_t fraction_q8; } *coeff, const uint32_t *cumulative_axis_products, uint32_t dimensions, uint32_t *destination)",
+    "bounded_domain": "Two dimensions; four CCT knots and two gamut knots; source contains 8*words_per_profile words; tested words_per_profile=7 (synthetic) and 6144 (actual camera LUT); destination has words_per_profile writable words; fractions in [0,256]; indices returned by mm_get_coeff stay in [0,axis_length-2]; arrays do not alias.",
+    "return": "destination + words_per_profile",
+    "lane_arithmetic": "Interpret each halfword as signed int16; interpolate axis0 first and then axis1. Per lane lerp(a,b,f) = a + floor((b-a)*f/256); retain low 16 bits when repacking.",
+    "coefficient_helper": "uint64_t mm_get_coeff(const int32_t *ascending_axis, uint64_t count, int32_t value); low32=index, high32=fraction_q8; below first=(0,0), at/above last=(count-2,256); interior fraction=floor(256*(value-axis[index])/(axis[index+1]-axis[index]))."
+  },
+  "remaining_pixel_contract": [
+    "Map the 12288 scalar entries to component order, grid locations, bank/swizzle layout and any table padding.",
+    "Recover coordinate domain and knot spacing at MAIN_3DLUT input, including ordering relative to CCM/gamma and range normalization.",
+    "Identify spatial interpolation and rounding/clipping rules for applying the prepared LUT to a pixel; profile interpolation is a different operation.",
+    "Recover phone-sensor-to-Hasselblad colour-space/calibration adaptation before judging visual fidelity.",
+    "Establish ordinary Android app loading or a portable verified adapter for the native helper on the target device; matching firmware runtime success is not an APK namespace test."
+  ],
+  "excluded_leads": [
+    {
+      "symbols": [
+        "GetGammaLut",
+        "GetDegammaLut"
+      ],
+      "library": "libdcam_pp.so",
+      "classification": "elldn neural-denoise configuration; not identified saved-colour look",
+      "embedded_source_path": "hardware/dji/common/camera/libpp_proxy/pp_proxy/nn_proxy/elldn/elldn_nn.c",
+      "call_chain": "call_nndns -> elldn_nn_config_gamma -> GetGammaLut / GetDegammaLut"
+    },
+    {
+      "symbol": "MAIN_HNCS",
+      "classification": "Actual ISP module exists, but bypassed in the three saved-still reprocess segments. Its name alone does not define the X2D II photographic rendering path."
+    },
+    {
+      "symbols": [
+        "raw2rgb_proc",
+        "hbl_calib_build"
+      ],
+      "classification": "Observed work dispatch to message_trans_arm_proc_pull; not established standalone CPU image transforms."
+    }
+  ],
+  "real_asset_probe": {
+    "result_file": "lut_profile_real_asset_execution.json",
+    "case_count": 10,
+    "all_passed": true,
+    "exit": 0,
+    "input_words": 49152,
+    "output_words_per_case": 6144,
+    "lanes_verified": 122880,
+    "all_output_bytes_match_independent_python_reference": true,
+    "all_guards_intact": true,
+    "source_unchanged": true,
+    "camera_lut_payload_used": true,
+    "camera_payload_in_report": false,
+    "temporary_payload_files_deleted": true,
+    "source_payload_sha256": "0e54912107eed71195a7231ab57ba3116ec469a9a70e05ad4889802c77247911",
+    "case_metadata": [
+      {
+        "case": 0,
+        "fixture": "original_camera_lut",
+        "cct": 2400,
+        "gamut": 0,
+        "coefficients": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            0
+          ]
+        ],
+        "output_words": 6144,
+        "output_lanes": 12288,
+        "failed_lanes": 0,
+        "guards_ok": true,
+        "source_unchanged": true,
+        "coefficient_matches": true,
+        "returned_destination_end": true,
+        "passed": true,
+        "output_sha256": "ed9fd193ea763ecb3defec69a73152ff250cb89e04292ee347dee6950cec66e1",
+        "python_reference_sha256": "ed9fd193ea763ecb3defec69a73152ff250cb89e04292ee347dee6950cec66e1",
+        "python_reference_all_bytes_match": true
+      },
+      {
+        "case": 1,
+        "fixture": "original_camera_lut",
+        "cct": 2400,
+        "gamut": 1,
+        "coefficients": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            256
+          ]
+        ],
+        "output_words": 6144,
+        "output_lanes": 12288,
+        "failed_lanes": 0,
+        "guards_ok": true,
+        "source_unchanged": true,
+        "coefficient_matches": true,
+        "returned_destination_end": true,
+        "passed": true,
+        "output_sha256": "295b3bea3fc1cf8d862cfe11815cec8b01d0e50bb0e366516976c185d3fc6220",
+        "python_reference_sha256": "295b3bea3fc1cf8d862cfe11815cec8b01d0e50bb0e366516976c185d3fc6220",
+        "python_reference_all_bytes_match": true
+      },
+      {
+        "case": 2,
+        "fixture": "original_camera_lut",
+        "cct": 4300,
+        "gamut": 0,
+        "coefficients": [
+          [
+            1,
+            128
+          ],
+          [
+            0,
+            0
+          ]
+        ],
+        "output_words": 6144,
+        "output_lanes": 12288,
+        "failed_lanes": 0,
+        "guards_ok": true,
+        "source_unchanged": true,
+        "coefficient_matches": true,
+        "returned_destination_end": true,
+        "passed": true,
+        "output_sha256": "ac0d3a33a8b50dff98917d9f7da56f983fd6176dd9574b6636858d4d8aee4067",
+        "python_reference_sha256": "ac0d3a33a8b50dff98917d9f7da56f983fd6176dd9574b6636858d4d8aee4067",
+        "python_reference_all_bytes_match": true
+      },
+      {
+        "case": 3,
+        "fixture": "original_camera_lut",
+        "cct": 4300,
+        "gamut": 1,
+        "coefficients": [
+          [
+            1,
+            128
+          ],
+          [
+            0,
+            256
+          ]
+        ],
+        "output_words": 6144,
+        "output_lanes": 12288,
+        "failed_lanes": 0,
+        "guards_ok": true,
+        "source_unchanged": true,
+        "coefficient_matches": true,
+        "returned_destination_end": true,
+        "passed": true,
+        "output_sha256": "e94d508251ab5572a269bc84e7c75873e8b1e4cfd3d8bc7aa02851560973539c",
+        "python_reference_sha256": "e94d508251ab5572a269bc84e7c75873e8b1e4cfd3d8bc7aa02851560973539c",
+        "python_reference_all_bytes_match": true
+      },
+      {
+        "case": 4,
+        "fixture": "original_camera_lut",
+        "cct": 5550,
+        "gamut": 0,
+        "coefficients": [
+          [
+            2,
+            0
+          ],
+          [
+            0,
+            0
+          ]
+        ],
+        "output_words": 6144,
+        "output_lanes": 12288,
+        "failed_lanes": 0,
+        "guards_ok": true,
+        "source_unchanged": true,
+        "coefficient_matches": true,
+        "returned_destination_end": true,
+        "passed": true,
+        "output_sha256": "de9ee466e2452d222fa0db4c330c709bebb6364a50584c902ff0b6169f4964bb",
+        "python_reference_sha256": "de9ee466e2452d222fa0db4c330c709bebb6364a50584c902ff0b6169f4964bb",
+        "python_reference_all_bytes_match": true
+      },
+      {
+        "case": 5,
+        "fixture": "original_camera_lut",
+        "cct": 5550,
+        "gamut": 1,
+        "coefficients": [
+          [
+            2,
+            0
+          ],
+          [
+            0,
+            256
+          ]
+        ],
+        "output_words": 6144,
+        "output_lanes": 12288,
+        "failed_lanes": 0,
+        "guards_ok": true,
+        "source_unchanged": true,
+        "coefficient_matches": true,
+        "returned_destination_end": true,
+        "passed": true,
+        "output_sha256": "3392785a7389c5827cfeb835eed8b271394331ec79c75967be05c0319a51022f",
+        "python_reference_sha256": "3392785a7389c5827cfeb835eed8b271394331ec79c75967be05c0319a51022f",
+        "python_reference_all_bytes_match": true
+      },
+      {
+        "case": 6,
+        "fixture": "original_camera_lut",
+        "cct": 7001,
+        "gamut": 0,
+        "coefficients": [
+          [
+            2,
+            104
+          ],
+          [
+            0,
+            0
+          ]
+        ],
+        "output_words": 6144,
+        "output_lanes": 12288,
+        "failed_lanes": 0,
+        "guards_ok": true,
+        "source_unchanged": true,
+        "coefficient_matches": true,
+        "returned_destination_end": true,
+        "passed": true,
+        "output_sha256": "ddf2aad8b9043098db16a7acd07d76b9a02fd32a08d2abd7f17215a781feed3c",
+        "python_reference_sha256": "ddf2aad8b9043098db16a7acd07d76b9a02fd32a08d2abd7f17215a781feed3c",
+        "python_reference_all_bytes_match": true
+      },
+      {
+        "case": 7,
+        "fixture": "original_camera_lut",
+        "cct": 7001,
+        "gamut": 1,
+        "coefficients": [
+          [
+            2,
+            104
+          ],
+          [
+            0,
+            256
+          ]
+        ],
+        "output_words": 6144,
+        "output_lanes": 12288,
+        "failed_lanes": 0,
+        "guards_ok": true,
+        "source_unchanged": true,
+        "coefficient_matches": true,
+        "returned_destination_end": true,
+        "passed": true,
+        "output_sha256": "83bfe0cb48a85385eabcd49662d79809c65714282fe9b7b65d3d348d0a13dc00",
+        "python_reference_sha256": "83bfe0cb48a85385eabcd49662d79809c65714282fe9b7b65d3d348d0a13dc00",
+        "python_reference_all_bytes_match": true
+      },
+      {
+        "case": 8,
+        "fixture": "original_camera_lut",
+        "cct": 9100,
+        "gamut": 0,
+        "coefficients": [
+          [
+            2,
+            256
+          ],
+          [
+            0,
+            0
+          ]
+        ],
+        "output_words": 6144,
+        "output_lanes": 12288,
+        "failed_lanes": 0,
+        "guards_ok": true,
+        "source_unchanged": true,
+        "coefficient_matches": true,
+        "returned_destination_end": true,
+        "passed": true,
+        "output_sha256": "12099cc658824d593bb2fbd6273089c719658b4177a00f2341f6b1169430397b",
+        "python_reference_sha256": "12099cc658824d593bb2fbd6273089c719658b4177a00f2341f6b1169430397b",
+        "python_reference_all_bytes_match": true
+      },
+      {
+        "case": 9,
+        "fixture": "original_camera_lut",
+        "cct": 9100,
+        "gamut": 1,
+        "coefficients": [
+          [
+            2,
+            256
+          ],
+          [
+            0,
+            256
+          ]
+        ],
+        "output_words": 6144,
+        "output_lanes": 12288,
+        "failed_lanes": 0,
+        "guards_ok": true,
+        "source_unchanged": true,
+        "coefficient_matches": true,
+        "returned_destination_end": true,
+        "passed": true,
+        "output_sha256": "f21ab71851421ab5b88c993ef2878ffe274fae44dd55a2b6249da169287ff55b",
+        "python_reference_sha256": "f21ab71851421ab5b88c993ef2878ffe274fae44dd55a2b6249da169287ff55b",
+        "python_reference_all_bytes_match": true
+      }
+    ],
+    "per_pixel_renderer_validated": false
+  }
+}

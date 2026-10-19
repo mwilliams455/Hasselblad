@@ -1,0 +1,9 @@
+{
+  "library": "libaaa.so",
+  "sha256": "7d6164eccc734de7087bb778ee72f17a0b3ccf6c0d1f20092c7ebe74a86574ba",
+  "exit": 0,
+  "stdout": "{\"event\":\"probe_start\",\"pointer_bits\":64,\"page_size\":4096,\"library\":\"/workspace/scratch/f4dc23366b1f/hasselblad_native_audit/firmware/extracted/system/lib64/libaaa.so\"}\n{\"event\":\"library_loaded\",\"photographic_routine_executed\":false}\n",
+  "stderr": "",
+  "runtime": "QEMU user mode with extracted Android9 Bionic",
+  "photographic_routine_executed": false
+}

@@ -1,0 +1,279 @@
+Hasselblad Photon — Native1A standalone development checkpoint
+19 October 2026
+
+RESULT
+
+The first phone milestone passed: the supplied Native1 device report shows all
+14 JNI/native checks passing on arm64-v8a, and camera 2 delivered the requested
+4096 x 3072 RAW buffer. The supplied DNG contains the complete matching-sized
+single-frame mosaic. Its metadata exposed two inherited export bugs, which are
+corrected in the new Native1A APK below.
+
+Native1A is a verified metadata repair. The complete Hasselblad photographic
+renderer remains under development. Normal photographs still use Photon's
+colour/tone pipeline; the recovered WB primitive is an explicit diagnostic only.
+Work remains in the separate Hasselblad instance, before Leica integration.
+
+DOWNLOADS AND BUILD IDENTITY
+
+HasselbladPhoton_Native1A_debug.apk
+  App: Hasselblad Photon (Development)
+  Package: com.mwilliams.hasselbladphoton
+  Version: 0.1-hb-native1a (27176)
+  Size: 70,736,496 bytes
+  SHA-256: 1db5da91841b632c3a148a556e7efc403493a558f0a2dfadb880421742cb3c70
+  Minimum Android API: 26; target API: 35; compile API: 36
+  Native ABIs: arm64-v8a and armeabi-v7a
+  Debug development build, signed with the same existing public upstream
+  development key as Native1. The package and higher version code support
+  updating the existing standalone installation.
+
+HasselbladPhoton_Native1A_Source_and_Validation.zip
+  Complete matching source project, native C/JNI code, writer fixtures,
+  original-device capture audit, full and incremental patches, final APK
+  validation, firmware research and replay tools. A per-file SHA-256 manifest
+  identifies the contents. The user's original photographs, vendor firmware,
+  original camera libraries/LUT payloads and build caches are not included.
+
+WHAT THE DEVICE REPORT AND ORIGINAL DNG ESTABLISH
+
+Device evidence applies to Native1 0.1-hb-native1 (27174), the version used for
+the returned capture. It is not a claim that Native1A has run on the phone yet.
+
+Reported native check: PASS, 14/14 on arm64-v8a. The app executes a portable C
+reconstruction through libhasselblad_wb_jni.so. It does not load the original
+vendor libaaa.so. Ten fixed original-output vectors and four adapter guard
+cases passed. The adapter's zero-divisor and shift-overflow status codes are
+not vendor return codes.
+
+Requested and delivered RAW: 4096 x 3072, or 12.582912 megapixels, camera ID 2.
+The actual buffer report says format 32, row stride 8192 bytes and pixel stride
+2 bytes. The reported sensor timestamp is 8333176371666 ns; this timestamp is
+not independently tied to the DNG's writer wall-clock tag.
+
+The original 01-60784.dng is 25,171,227 bytes, SHA-256:
+5d17b2119c7eefa01823b66bab5ee4d4ad3d5685183460e94d39ac50e11c0fb5
+
+Its uncompressed RGGB strip contains 12,582,912 samples and exactly 25,165,824
+payload bytes. Full active area is 4096 x 3072. All strip bytes lie within the
+file. The payload SHA-256 is:
+b3beb5b39a524d11b3582659cf392aab49bb1f04e4ceb4f08228f8ab40074de4
+
+Storage is unsigned 16-bit, with declared black levels 64 and white level 1023.
+Observed codes span 62 through 1023; 944 distinct codes occur and the upper six
+storage bits are zero. These are encoding observations, not a measurement of
+physical sensor ADC depth or scene dynamic range. No samples are zero or above
+declared white. At white are 1,311 samples, about 0.01042%; below black are
+1,692 samples, about 0.01345%. No constant rows/columns or duplicated adjacent
+rows/columns of matching CFA parity were found. These checks establish useful
+integrity for this capture, not general sensor or all-lens certification.
+
+ImageDescription identifies one frame, camera 2 and the Native1 version. The
+source trace follows Camera2 buffer copying and single-frame DNG writing before
+Photon's normalization, demosaic and photographic rendering. That path preserves
+the delivered sample bytes in this mode. The original in-memory Camera2 buffer
+was not retained for a separate byte comparison, and processing inside the
+camera HAL before delivery is outside this evidence.
+
+The file reports approximately 1/16.32 second, ISO 627, f/1.63 and 8.72 mm. The
+TotalProcessingTime=0 field is a pre-render metadata snapshot, not a measured
+zero-duration pipeline.
+
+PHONE COLOUR METADATA AVAILABLE
+
+The DNG contains D65/A colour matrices, camera-calibration and forward matrices,
+and AsShotNeutral = [0.576171875, 1, 0.376953125]. All supplied matrices are finite
+and nonsingular. Four finite positive 13 x 17 spatial gain maps cover the CFA
+positions. They are lens-shading metadata, separate from Ultra HDR JPEG gain
+maps, and were not applied to the stored raw samples by this audit.
+
+These values give us a concrete phone-side starting point for a metadata-based
+colour conversion. They were written by Photon using its selected parameters,
+which can incorporate the pinned device/sensor settings. They are not an
+independent measured sensor calibration. The single scene does not verify their
+photographic accuracy, establish an X2D II sensor transform or map the phone's
+neutral values to the recovered two-scalar Q12 WB primitive.
+
+RECEIVED JPEG
+
+02-60785.jpg is 861,035 bytes, SHA-256:
+0f6e462d2b65f58cc2c9a42e187782e609c5df07588fdb81373bbe1409d62ea1
+
+It decodes successfully as an upright 1536 x 2048 RGB image with an sRGB ICC
+profile and no EXIF. Visual inspection found no obvious gross image-buffer
+corruption. The supplied JPEG has half the linear dimensions of the oriented
+RAW. The audited save path would normally create a 3072 x 4096 oriented bitmap
+and write EXIF; no half-size resize was found in that path. The received file
+is compatible with later resizing/re-encoding, but the available evidence does
+not identify where that occurred. Missing EXIF also prevents independent exact
+same-capture pairing. This does not block the original DNG integrity audit.
+
+The initial image-preprocessor message said the files were unavailable. Both
+actual attachments were subsequently read successfully. No cause was assigned
+to that message, and neither original attachment was modified.
+
+THE TWO NATIVE1A CORRECTIONS
+
+1. Correct WhiteLevel tag type.
+
+The old writer used TIFF RATIONAL for DNG tag 50717. Adobe's DNG specification
+allows SHORT or LONG. Native1A writes a single unsigned LONG, preserving the
+exact integral level. For the mode in this original capture that value is 1023;
+it is not changed to 65535 merely because sample storage is 16-bit. The existing
+10-bit linearization branch retains its intended output white level of 65535.
+
+The metadata guard rejects nonfinite, negative, fractional and out-of-range
+values before conversion. It does not round them. The guard checks integer
+representability, not physical calibration validity.
+
+2. Correct app Software provenance.
+
+The old Java source imported circleimageview.BuildConfig, yielding PhotonCamera
+v-1. Native1A enables the app's normal BuildConfig generation, imports its own
+constants, and writes exactly:
+  Hasselblad Photon 0.1-hb-native1a (27176)
+
+This repairs the export metadata; it does not add a photographic colour effect.
+The camera policy remains PHOTO, one RAW input frame, SDR output and standard
+advertised RAW size nearest 12.5 MP. Bracketing, stacking, maximum-resolution
+selection, remosaic/binning and video remain disabled for this checkpoint.
+
+VERIFICATION OF THE REPAIR
+
+Six deterministic fixtures compile and execute the actual old and new
+dngCreator.cpp with the retained TIFF writer; only Android logging is stubbed.
+They cover uncompressed RAW16, existing compressed RAW16, direct packed RAW10
+and the existing 10-bit linearization branch. All fixed files contain LONG,
+count 1, and the exact expected white-level value.
+
+Every encoded image strip remains byte-identical to Native1. All other tag
+payloads in the C++ fixtures are identical except the relocated strip offset.
+Uncompressed RAW16 payloads also equal the original input sample bytes exactly.
+Both 16-bit modes leave their input unchanged; the existing RAW10 packing
+behavior is preserved and is inactive in this checkpoint. Twelve invalid-level
+native calls return null with output size zero and intact input; four valid
+integer boundary values pass. A separate parser independently checked the
+actual generated DNGs. Compressed-payload equality verifies preservation of
+the previous output; it is not a new independent compression-codec audit.
+
+The Android build completed successfully with both ARM variants. The final
+APK's DEX was inspected: the correct app/version string is loaded and passed
+directly to setSoftware. The v2 signature and ZIP alignment passed. Only the
+two libdngCreator.so payloads changed; the other 15 native libraries, including
+both WB JNI variants, match Native1 byte for byte.
+
+All nine ARM64 libraries pass the static ELF LOAD/RELRO checks for 16 KB pages,
+and all 17 native ZIP offsets are 16 KB aligned. Both changed DNG writer ELFs
+pass. An inherited ARMv7 libarchive-jni.so remains 4 KB ELF-aligned; the ARM64
+variant passes. These packaging checks do not certify every Android device.
+
+Native1A's next on-device export remains to be checked. No extra 14-vector WB
+run is necessary for this metadata change because the WB core/JNI is unchanged.
+
+HASSELBLAD COLOUR RESEARCH: WHAT ADVANCED
+
+Previous original-code execution established CCT selection and interpolation
+for eight main camera colour profiles: 2400, 3050, 5550 and 9100 K, for each of
+sRGB and P3. Each prepared profile has 6,144 packed 32-bit words. Ten full-size
+profile comparisons matched all 122,880 output lanes, in addition to synthetic
+profile tests. This earlier evidence remains unchanged in photographic_path/.
+
+The new pixel_contract_20261019/ checkpoint independently confirms the MAIN
+hardware table descriptor: register 2998, 6,144 words / 24,576 bytes, physical
+LUT address 0xf3208000. The audited camera copy path preserves the prepared
+word order and submits it to hardware. It contains no CPU pixel sampler.
+
+Separately, original libduml_hal.so display functions now execute under the
+matching Android 9 AArch64 Bionic runtime in QEMU. The display node decoder
+matched all 4,096 synthetic nodes / 12,288 components exactly. The original
+trilinear sampler passed 20 asymmetric RGB cases, including endpoints, with
+maximum absolute difference 1.11e-16 against the reference. The original
+identity generator independently confirmed the axes over another 4,096 nodes.
+Source protection, guard pages, output guards and return-value checks passed.
+
+For this proven display utility, a 16 x 16 x 16 cube uses separate R/G/B banks,
+B varying fastest, then G, then R, with two 12-bit values per word. The sampler
+proof is bounded to finite normalized RGB, scale 1 and cube width 16. This is
+an executable candidate for the camera format, not proof that MAIN hardware
+uses the same packing, transfer function or interpolation.
+
+The still-photo table's connection to the display format remains unresolved.
+The exact display exports were found only in libduml_hal in the surveyed camera
+system libraries; related converters occur in Weston. MAIN profiles do not
+exactly match LCDC or pyramid chunks. The still configurations also contain
+matrix and gamma stages, whose input/output relationship matters for rendering.
+A nearby RGB-to-XYZ matrix lead was identified as ProRes RAW metadata rather
+than an observed still-image pixel transform.
+
+The next rendering work is therefore to establish MAIN's bank/axis packing,
+knot coordinates, transfer domain and interpolation/rounding, then feed it with
+the phone's calibrated working-space data. No camera LUT was applied to the
+user's photograph during this investigation. Photographic HNCS is not connected
+in Native1A.
+
+NEXT PHONE CHECK
+
+1. Install Native1A over the current Hasselblad Photon development app.
+2. Use the same tested camera and PHOTO mode, then save one new DNG. Any scene
+   is sufficient for this metadata check; matching the previous scene is not
+   required. Wait for saving to complete.
+3. Return that original DNG. We will check that WhiteLevel is LONG/count 1 and
+   preserves the expected value (1023 for the previous mode), and that Software
+   is Hasselblad Photon 0.1-hb-native1a (27176). Other modes can correctly have
+   different integer white levels.
+
+No repeat of the fixed WB vectors or new colour-chart capture is required for
+this export check. A chart/reference render will be useful later for evaluating
+colour accuracy once the actual photographic stage is connected.
+
+EVIDENCE MAP AND REPRODUCTION
+
+HasselbladPhoton/
+  Full pinned Photon project with the standalone app and native implementation.
+  development/hasselblad/BUILD_NATIVE1A.md gives build and writer-fixture steps.
+  DNG_EXPORT_CHECK_RESULT.json pins the actual fixture source/results.
+
+hasselblad_device_validation_20261019/
+  device_report.json: transcription of the user's Native1 report.
+  raw_audit/raw_audit.json: complete original DNG sample/metadata analysis.
+  raw_audit/audit_dng.py: original-pair replay, guarded by exact file hashes;
+    its interpretation is specific to that Native1 pair.
+  pair_audit/PAIR_AUDIT.md and source_trace.json: capture/save source trace.
+  pair_audit/audit_metadata.py: bounded metadata reader with --dng, --jpeg,
+    --output arguments, usable for subsequent captures' basic tag inspection.
+  pair_audit/native1_source_snapshot/: baseline files for the incremental fix.
+  inspect_jpeg.py and jpeg_analysis.json: read-only received-JPEG inspection.
+  native1a_review/: independent writer-output, DEX and native-package checks.
+
+hasselblad_native_audit/
+  README.md: firmware provenance, acquisition/extraction and native replay.
+  runtime_probe/: original WB oracle and portable-core comparisons.
+  photographic_path/: frozen full-camera-profile preparation proof.
+  pixel_contract_20261019/: new MAIN descriptor and display sampler evidence.
+
+build_evidence/
+  native1a_build_record.json and native1a_native_review.json identify the exact
+  new APK. Native1A_full_source.patch is relative to pinned Photon upstream;
+  Native1A_incremental_source.patch is relative to the Native1 checkpoint.
+  Earlier native1_, standalone_ and stock_ evidence is retained as historical
+  baseline material; it does not substitute for new-device validation.
+
+Photon source and remote camera settings remain pinned to:
+https://github.com/eszdman/PhotonCamera/commit/b2eff821a858033515eb2700e7292befecc95225
+
+Recorded toolchain: JDK 17, Gradle 8.11.1, AGP 8.10.1, Kotlin 2.2.0, Android SDK
+36, build-tools 35.0.0, NDK 27.0.12077973 and CMake 3.22.1. Gradle's inherited
+version counter increments, so a rebuild need not have identical version or
+signed APK bytes. Four required native headers are retained with exact hashes.
+Upstream licenses and the public development signing fixture are preserved.
+No external GitHub repository was created or modified for this checkpoint.
+
+PRIMARY SPECIFICATION AND RESEARCH REFERENCES
+
+Adobe DNG 1.7.1.0: WhiteLevel tag 50717 permits SHORT or LONG (printed p.29).
+https://helpx.adobe.com/content/dam/help/en/camera-raw/digital-negative/jcr_content/root/content/flex/items/position/position-par/download_section_733958301/download-1/DNG_Spec_1_7_1_0.pdf
+
+https://api.hasselblad.com/products/downloads/173/firmware
+https://github.com/radium-wang/Hasselblad-X-System-CIM-Firmware-Research-Feature-Extensions
+https://github.com/derrickyau9/Hasselblad-X-System-QEMU-DevKit/tree/d82dc3b0faa6456c260378df6352a07f929caed2
+https://developer.android.com/guide/practices/page-sizes

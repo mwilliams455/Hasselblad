@@ -1,0 +1,49 @@
+{
+  "fixture": "/tmp/hasselblad-native1a-import-validation-uzh8ziqk",
+  "archive": "/tmp/photon-upstream-b2eff821.tar.gz",
+  "checks": {
+    "install": {
+      "result": {
+        "result": "pass",
+        "mode": "import",
+        "destination": "HasselbladPhoton",
+        "status": "installed",
+        "files": 1092,
+        "archive_sha256": "26396340dca501c5161bb843331c50eddab5810e6891bf40b5e5565d8fae5cf8",
+        "patch_sha256": "7b4d049a016a95c5b67e3ceb5fa6e0b0e87f59f6e8c9c38a96a76b78a5976f8e"
+      },
+      "seconds": 5.58
+    },
+    "staged_index": {
+      "result": "pass",
+      "mode": "staged-index",
+      "files": 1092
+    },
+    "idempotence": {
+      "result": "pass",
+      "mode": "import",
+      "destination": "HasselbladPhoton",
+      "status": "already-identical",
+      "files": 1092,
+      "archive_sha256": "26396340dca501c5161bb843331c50eddab5810e6891bf40b5e5565d8fae5cf8",
+      "patch_sha256": "7b4d049a016a95c5b67e3ceb5fa6e0b0e87f59f6e8c9c38a96a76b78a5976f8e"
+    },
+    "existing_tree_refusal": {
+      "result": "pass",
+      "existing_marker_preserved": true,
+      "stderr": "Native1A import refused: Unexpected source file: UNREVIEWED_FIXTURE_MARKER"
+    },
+    "staged_blob_refusal": {
+      "result": "pass",
+      "stderr": "Native1A import refused: Staged blob differs from reviewed source: app/build.gradle"
+    },
+    "restored_staged_index": {
+      "result": "pass",
+      "mode": "staged-index",
+      "files": 1092
+    }
+  },
+  "result": "pass",
+  "importer_sha256": "1d314ecb32bc141cf03062f9f0de4ff301dcb5ac18d0049a7fdd4bfc18b58ac9",
+  "workflow_sha256": "a0fb3743bb957cd663e5ef27d2f2aae0ea30490224f2161a36f1b1451d568d78"
+}

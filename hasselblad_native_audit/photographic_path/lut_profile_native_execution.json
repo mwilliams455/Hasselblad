@@ -1,0 +1,439 @@
+{
+  "firmware": "Hasselblad X2D II 100C 1.3.16.2",
+  "library": "librcam.so",
+  "library_sha256": "3dd5b37b3db18b3e6b54271e1501b4dd337e101c06cdd386a896b1547b662f66",
+  "symbols": [
+    {
+      "name": "dcam_isp_vreg_get_type",
+      "va": "0x54b88",
+      "bytes": 4,
+      "exported": true,
+      "code_sha256": "d412c8440ba36b30e1fd97ed6d92b9fbc6bc182ccbff3d5e8ccf05fca40e0864"
+    },
+    {
+      "name": "mm_get_coeff",
+      "va": "0x2bac00",
+      "bytes": 160,
+      "exported": false,
+      "code_sha256": "68754a8d484850dc37a03dedd36b17fa309f3f76fcdc7c2f21472400e6a192bf"
+    },
+    {
+      "name": "mm_mx_lerp_vec_mix2",
+      "va": "0x2bbc08",
+      "bytes": 1784,
+      "exported": false,
+      "code_sha256": "2082f0f9f3db305022bee2e479adf4da94855ff049105a1b8fc816e12256c1cf"
+    }
+  ],
+  "method": "Original library functions through original Android 9 Bionic under QEMU user mode; no dependency stubs or replacement LUT function",
+  "fixture": "Eight synthetic profiles, each seven packed signed-16-pair words; four CCT knots and two gamut selections",
+  "source_sha256": "662bde4c68e2750e033a1940e4428fea0e0cc43b70de7549056c6978d0a628ce",
+  "probe_sha256": "08020a1f317f1174fb20f1b4287acc232f48f61b72856026320bf4aacf7db796",
+  "runner_sha256": "7a0774c7ea68de508c2729087b7a1be68ccc0455c97def83a7906f8b4b47dc40",
+  "runtime_sha256": {
+    "qemu": "dce64b2dc6b005485c7aa735a7ea39cb0006bf7e5badc28b324b2cd0c73d883f",
+    "linker64": "313d7a6d94cdeb9e2b2adb4be98a8b18240b08012b22f922acea7984f42ff35d",
+    "libc.so": "1af0737faf17f3589eb72e03efd31dc1316560b6c14b4c4e2f503d24287d13e4"
+  },
+  "build_command": [
+    "/tmp/hasselblad-build-tools/android-sdk/ndk/27.0.12077973/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android28-clang",
+    "-O2",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "/workspace/scratch/f4dc23366b1f/hasselblad_native_audit/photographic_path/lut_profile_probe.c",
+    "-ldl",
+    "-o",
+    "/workspace/scratch/f4dc23366b1f/hasselblad_native_audit/photographic_path/lut_profile_probe_android28_arm64"
+  ],
+  "run_command": [
+    "/tmp/hasselblad-arm64-runtime/qemu-aarch64-static",
+    "-L",
+    "/workspace/scratch/f4dc23366b1f/hasselblad_native_audit/firmware/extracted",
+    "/workspace/scratch/f4dc23366b1f/hasselblad_native_audit/photographic_path/lut_profile_probe_android28_arm64",
+    "/workspace/scratch/f4dc23366b1f/hasselblad_native_audit/firmware/extracted/system/lib64/librcam.so"
+  ],
+  "environment": {
+    "LD_LIBRARY_PATH": "/workspace/scratch/f4dc23366b1f/hasselblad_native_audit/firmware/extracted/system/lib64"
+  },
+  "bounds": {
+    "wall_timeout_seconds": 20,
+    "cpu_limit_seconds": 15,
+    "core_limit_bytes": 0
+  },
+  "exit": 0,
+  "stdout": "{\"event\":\"calc_dispatch_read\",\"table_va\":\"0x59c240\",\"index\":37,\"target_va\":\"0x3b8c78\",\"matches\":true}\n{\"case\":0,\"cct\":1000,\"gamut\":0,\"coefficients\":[[0,0],[0,0]],\"output\":[1902087001,1689031804,1475976607,1262921410,1049866213,836811016,623755819],\"failed_words\":0,\"guards_ok\":true,\"source_unchanged\":true,\"coefficient_matches\":true,\"returned_destination_end\":true,\"passed\":true}\n{\"case\":1,\"cct\":2400,\"gamut\":0,\"coefficients\":[[0,0],[0,0]],\"output\":[1902087001,1689031804,1475976607,1262921410,1049866213,836811016,623755819],\"failed_words\":0,\"guards_ok\":true,\"source_unchanged\":true,\"coefficient_matches\":true,\"returned_destination_end\":true,\"passed\":true}\n{\"case\":2,\"cct\":2725,\"gamut\":0,\"coefficients\":[[0,128],[0,0]],\"output\":[1744345434,1531290237,1318235040,1105179843,892124646,679069449,466014252],\"failed_words\":0,\"guards_ok\":true,\"source_unchanged\":true,\"coefficient_matches\":true,\"returned_destination_end\":true,\"passed\":true}\n{\"case\":3,\"cct\":3001,\"gamut\":1,\"coefficients\":[[0,236],[0,256]],\"output\":[349574455,136519258,4218431357,4005376160,3792320963,3579265766,3366210569],\"failed_words\":0,\"guards_ok\":true,\"source_unchanged\":true,\"coefficient_matches\":true,\"returned_destination_end\":true,\"passed\":true}\n{\"case\":4,\"cct\":3050,\"gamut\":1,\"coefficients\":[[1,0],[0,256]],\"output\":[324933480,111878283,4193790382,3980735185,3767679988,3554624791,3341569594],\"failed_words\":0,\"guards_ok\":true,\"source_unchanged\":true,\"coefficient_matches\":true,\"returned_destination_end\":true,\"passed\":true}\n{\"case\":5,\"cct\":4300,\"gamut\":0,\"coefficients\":[[1,128],[0,0]],\"output\":[1428927837,1215872640,1002817443,789762246,576707049,363651852,150596655],\"failed_words\":0,\"guards_ok\":true,\"source_unchanged\":true,\"coefficient_matches\":true,\"returned_destination_end\":true,\"passed\":true}\n{\"case\":6,\"cct\":5550,\"gamut\":1,\"coefficients\":[[2,0],[0,256]],\"output\":[9515883,4091427982,3878372785,3665317588,3452262391,3239207194,3026151997],\"failed_words\":0,\"guards_ok\":true,\"source_unchanged\":true,\"coefficient_matches\":true,\"returned_destination_end\":true,\"passed\":true}\n{\"case\":7,\"cct\":7001,\"gamut\":0,\"coefficients\":[[2,104],[0,0]],\"output\":[1143066304,930011107,716955910,503900713,290845516,77790319,4159636882],\"failed_words\":0,\"guards_ok\":true,\"source_unchanged\":true,\"coefficient_matches\":true,\"returned_destination_end\":true,\"passed\":true}\n{\"case\":8,\"cct\":9099,\"gamut\":1,\"coefficients\":[[2,255],[0,256]],\"output\":[3990245201,3777190004,3564134807,3351079610,3138024413,2924974986,2711919789],\"failed_words\":0,\"guards_ok\":true,\"source_unchanged\":true,\"coefficient_matches\":true,\"returned_destination_end\":true,\"passed\":true}\n{\"case\":9,\"cct\":9100,\"gamut\":1,\"coefficients\":[[2,256],[0,256]],\"output\":[3989065582,3776010385,3562955188,3349899991,3136844794,2923795132,2710739935],\"failed_words\":0,\"guards_ok\":true,\"source_unchanged\":true,\"coefficient_matches\":true,\"returned_destination_end\":true,\"passed\":true}\n{\"case\":10,\"cct\":14000,\"gamut\":0,\"coefficients\":[[2,256],[0,0]],\"output\":[955834210,742779013,529723816,316668619,103547886,4185459985,3972404788],\"failed_words\":0,\"guards_ok\":true,\"source_unchanged\":true,\"coefficient_matches\":true,\"returned_destination_end\":true,\"passed\":true}\n{\"case\":11,\"cct\":14000,\"gamut\":1,\"coefficients\":[[2,256],[0,256]],\"output\":[3989065582,3776010385,3562955188,3349899991,3136844794,2923795132,2710739935],\"failed_words\":0,\"guards_ok\":true,\"source_unchanged\":true,\"coefficient_matches\":true,\"returned_destination_end\":true,\"passed\":true}\n{\"event\":\"original_profile_lut_helpers_executed\",\"cases\":12,\"failed\":0,\"words_per_profile\":7,\"profiles\":8,\"photographic_lut_values_used\":false,\"per_pixel_renderer_validated\":false}\n",
+  "stderr": "",
+  "cases": [
+    {
+      "case": 0,
+      "cct": 1000,
+      "gamut": 0,
+      "coefficients": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      "output": [
+        1902087001,
+        1689031804,
+        1475976607,
+        1262921410,
+        1049866213,
+        836811016,
+        623755819
+      ],
+      "failed_words": 0,
+      "guards_ok": true,
+      "source_unchanged": true,
+      "coefficient_matches": true,
+      "returned_destination_end": true,
+      "passed": true
+    },
+    {
+      "case": 1,
+      "cct": 2400,
+      "gamut": 0,
+      "coefficients": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      "output": [
+        1902087001,
+        1689031804,
+        1475976607,
+        1262921410,
+        1049866213,
+        836811016,
+        623755819
+      ],
+      "failed_words": 0,
+      "guards_ok": true,
+      "source_unchanged": true,
+      "coefficient_matches": true,
+      "returned_destination_end": true,
+      "passed": true
+    },
+    {
+      "case": 2,
+      "cct": 2725,
+      "gamut": 0,
+      "coefficients": [
+        [
+          0,
+          128
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      "output": [
+        1744345434,
+        1531290237,
+        1318235040,
+        1105179843,
+        892124646,
+        679069449,
+        466014252
+      ],
+      "failed_words": 0,
+      "guards_ok": true,
+      "source_unchanged": true,
+      "coefficient_matches": true,
+      "returned_destination_end": true,
+      "passed": true
+    },
+    {
+      "case": 3,
+      "cct": 3001,
+      "gamut": 1,
+      "coefficients": [
+        [
+          0,
+          236
+        ],
+        [
+          0,
+          256
+        ]
+      ],
+      "output": [
+        349574455,
+        136519258,
+        4218431357,
+        4005376160,
+        3792320963,
+        3579265766,
+        3366210569
+      ],
+      "failed_words": 0,
+      "guards_ok": true,
+      "source_unchanged": true,
+      "coefficient_matches": true,
+      "returned_destination_end": true,
+      "passed": true
+    },
+    {
+      "case": 4,
+      "cct": 3050,
+      "gamut": 1,
+      "coefficients": [
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          256
+        ]
+      ],
+      "output": [
+        324933480,
+        111878283,
+        4193790382,
+        3980735185,
+        3767679988,
+        3554624791,
+        3341569594
+      ],
+      "failed_words": 0,
+      "guards_ok": true,
+      "source_unchanged": true,
+      "coefficient_matches": true,
+      "returned_destination_end": true,
+      "passed": true
+    },
+    {
+      "case": 5,
+      "cct": 4300,
+      "gamut": 0,
+      "coefficients": [
+        [
+          1,
+          128
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      "output": [
+        1428927837,
+        1215872640,
+        1002817443,
+        789762246,
+        576707049,
+        363651852,
+        150596655
+      ],
+      "failed_words": 0,
+      "guards_ok": true,
+      "source_unchanged": true,
+      "coefficient_matches": true,
+      "returned_destination_end": true,
+      "passed": true
+    },
+    {
+      "case": 6,
+      "cct": 5550,
+      "gamut": 1,
+      "coefficients": [
+        [
+          2,
+          0
+        ],
+        [
+          0,
+          256
+        ]
+      ],
+      "output": [
+        9515883,
+        4091427982,
+        3878372785,
+        3665317588,
+        3452262391,
+        3239207194,
+        3026151997
+      ],
+      "failed_words": 0,
+      "guards_ok": true,
+      "source_unchanged": true,
+      "coefficient_matches": true,
+      "returned_destination_end": true,
+      "passed": true
+    },
+    {
+      "case": 7,
+      "cct": 7001,
+      "gamut": 0,
+      "coefficients": [
+        [
+          2,
+          104
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      "output": [
+        1143066304,
+        930011107,
+        716955910,
+        503900713,
+        290845516,
+        77790319,
+        4159636882
+      ],
+      "failed_words": 0,
+      "guards_ok": true,
+      "source_unchanged": true,
+      "coefficient_matches": true,
+      "returned_destination_end": true,
+      "passed": true
+    },
+    {
+      "case": 8,
+      "cct": 9099,
+      "gamut": 1,
+      "coefficients": [
+        [
+          2,
+          255
+        ],
+        [
+          0,
+          256
+        ]
+      ],
+      "output": [
+        3990245201,
+        3777190004,
+        3564134807,
+        3351079610,
+        3138024413,
+        2924974986,
+        2711919789
+      ],
+      "failed_words": 0,
+      "guards_ok": true,
+      "source_unchanged": true,
+      "coefficient_matches": true,
+      "returned_destination_end": true,
+      "passed": true
+    },
+    {
+      "case": 9,
+      "cct": 9100,
+      "gamut": 1,
+      "coefficients": [
+        [
+          2,
+          256
+        ],
+        [
+          0,
+          256
+        ]
+      ],
+      "output": [
+        3989065582,
+        3776010385,
+        3562955188,
+        3349899991,
+        3136844794,
+        2923795132,
+        2710739935
+      ],
+      "failed_words": 0,
+      "guards_ok": true,
+      "source_unchanged": true,
+      "coefficient_matches": true,
+      "returned_destination_end": true,
+      "passed": true
+    },
+    {
+      "case": 10,
+      "cct": 14000,
+      "gamut": 0,
+      "coefficients": [
+        [
+          2,
+          256
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      "output": [
+        955834210,
+        742779013,
+        529723816,
+        316668619,
+        103547886,
+        4185459985,
+        3972404788
+      ],
+      "failed_words": 0,
+      "guards_ok": true,
+      "source_unchanged": true,
+      "coefficient_matches": true,
+      "returned_destination_end": true,
+      "passed": true
+    },
+    {
+      "case": 11,
+      "cct": 14000,
+      "gamut": 1,
+      "coefficients": [
+        [
+          2,
+          256
+        ],
+        [
+          0,
+          256
+        ]
+      ],
+      "output": [
+        3989065582,
+        3776010385,
+        3562955188,
+        3349899991,
+        3136844794,
+        2923795132,
+        2710739935
+      ],
+      "failed_words": 0,
+      "guards_ok": true,
+      "source_unchanged": true,
+      "coefficient_matches": true,
+      "returned_destination_end": true,
+      "passed": true
+    }
+  ],
+  "case_count": 12,
+  "all_passed": true,
+  "photographic_lut_payload_used": false,
+  "real_asset_validation": null,
+  "per_pixel_colour_renderer_validated": false,
+  "limitations": [
+    "Only the bounded two-axis, positive-word-count domain is established.",
+    "The LUT-generation callers and camera assets are identified statically; no complete capture pipeline is executed.",
+    "Successful matching-runtime execution does not establish normal app linker-namespace compatibility on a modern phone."
+  ]
+}

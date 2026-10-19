@@ -1,0 +1,474 @@
+{
+  "library_sha256": "7d6164eccc734de7087bb778ee72f17a0b3ccf6c0d1f20092c7ebe74a86574ba",
+  "firmware": "X2D II 1.3.16.2",
+  "symbol": "scene_awb_result_recalib_unit",
+  "method": "Compiled portable C and guarded adapter compared against execution of exact original ARM64 instructions in Unicorn. Callback bridge transports inputs/outputs only; it does not replace original arithmetic.",
+  "portable_source_sha256": "99d56c2ed9a72411d64b732100e016d40660bbc3ee75858dfb3de37bdc1fef5e",
+  "compiler": "cc",
+  "compiler_flags": [
+    "-std=c11",
+    "-O2",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-pedantic",
+    "-fPIC"
+  ],
+  "differential_cases": [
+    {
+      "name": "q12_unity",
+      "input": [
+        4096,
+        4096
+      ],
+      "calibration": [
+        4096,
+        4096
+      ],
+      "original_machine_output": [
+        4096,
+        4096
+      ],
+      "portable": {
+        "adapter_status": 0,
+        "original_called": false,
+        "original_status": null,
+        "output": [
+          4096,
+          4096
+        ]
+      },
+      "delegating_adapter": {
+        "adapter_status": 0,
+        "original_called": true,
+        "original_status": 0,
+        "output": [
+          4096,
+          4096
+        ]
+      },
+      "result": "pass"
+    },
+    {
+      "name": "independent_channel_scales",
+      "input": [
+        8192,
+        12288
+      ],
+      "calibration": [
+        8192,
+        6144
+      ],
+      "original_machine_output": [
+        4096,
+        8192
+      ],
+      "portable": {
+        "adapter_status": 0,
+        "original_called": false,
+        "original_status": null,
+        "output": [
+          4096,
+          8192
+        ]
+      },
+      "delegating_adapter": {
+        "adapter_status": 0,
+        "original_called": true,
+        "original_status": 0,
+        "output": [
+          4096,
+          8192
+        ]
+      },
+      "result": "pass"
+    },
+    {
+      "name": "fractional_truncation",
+      "input": [
+        5001,
+        6001
+      ],
+      "calibration": [
+        3000,
+        5000
+      ],
+      "original_machine_output": [
+        6828,
+        4916
+      ],
+      "portable": {
+        "adapter_status": 0,
+        "original_called": false,
+        "original_status": null,
+        "output": [
+          6828,
+          4916
+        ]
+      },
+      "delegating_adapter": {
+        "adapter_status": 0,
+        "original_called": true,
+        "original_status": 0,
+        "output": [
+          6828,
+          4916
+        ]
+      },
+      "result": "pass"
+    },
+    {
+      "name": "one_q12_half_one_q12_double",
+      "input": [
+        4096,
+        4096
+      ],
+      "calibration": [
+        2048,
+        8192
+      ],
+      "original_machine_output": [
+        8192,
+        2048
+      ],
+      "portable": {
+        "adapter_status": 0,
+        "original_called": false,
+        "original_status": null,
+        "output": [
+          8192,
+          2048
+        ]
+      },
+      "delegating_adapter": {
+        "adapter_status": 0,
+        "original_called": true,
+        "original_status": 0,
+        "output": [
+          8192,
+          2048
+        ]
+      },
+      "result": "pass"
+    },
+    {
+      "name": "zero_gain",
+      "input": [
+        0,
+        0
+      ],
+      "calibration": [
+        4096,
+        4096
+      ],
+      "original_machine_output": [
+        0,
+        0
+      ],
+      "portable": {
+        "adapter_status": 0,
+        "original_called": false,
+        "original_status": null,
+        "output": [
+          0,
+          0
+        ]
+      },
+      "delegating_adapter": {
+        "adapter_status": 0,
+        "original_called": true,
+        "original_status": 0,
+        "output": [
+          0,
+          0
+        ]
+      },
+      "result": "pass"
+    },
+    {
+      "name": "bounded_maximum_gain",
+      "input": [
+        65535,
+        65535
+      ],
+      "calibration": [
+        4096,
+        8192
+      ],
+      "original_machine_output": [
+        65535,
+        32767
+      ],
+      "portable": {
+        "adapter_status": 0,
+        "original_called": false,
+        "original_status": null,
+        "output": [
+          65535,
+          32767
+        ]
+      },
+      "delegating_adapter": {
+        "adapter_status": 0,
+        "original_called": true,
+        "original_status": 0,
+        "output": [
+          65535,
+          32767
+        ]
+      },
+      "result": "pass"
+    },
+    {
+      "name": "one_lsb",
+      "input": [
+        1,
+        2
+      ],
+      "calibration": [
+        4096,
+        4096
+      ],
+      "original_machine_output": [
+        1,
+        2
+      ],
+      "portable": {
+        "adapter_status": 0,
+        "original_called": false,
+        "original_status": null,
+        "output": [
+          1,
+          2
+        ]
+      },
+      "delegating_adapter": {
+        "adapter_status": 0,
+        "original_called": true,
+        "original_status": 0,
+        "output": [
+          1,
+          2
+        ]
+      },
+      "result": "pass"
+    },
+    {
+      "name": "asymmetric_fraction",
+      "input": [
+        12345,
+        23456
+      ],
+      "calibration": [
+        7000,
+        3333
+      ],
+      "original_machine_output": [
+        7223,
+        28825
+      ],
+      "portable": {
+        "adapter_status": 0,
+        "original_called": false,
+        "original_status": null,
+        "output": [
+          7223,
+          28825
+        ]
+      },
+      "delegating_adapter": {
+        "adapter_status": 0,
+        "original_called": true,
+        "original_status": 0,
+        "output": [
+          7223,
+          28825
+        ]
+      },
+      "result": "pass"
+    },
+    {
+      "name": "last_no_overflow_inputs",
+      "input": [
+        1048575,
+        1048574
+      ],
+      "calibration": [
+        4096,
+        4095
+      ],
+      "original_machine_output": [
+        1048575,
+        1048830
+      ],
+      "portable": {
+        "adapter_status": 0,
+        "original_called": false,
+        "original_status": null,
+        "output": [
+          1048575,
+          1048830
+        ]
+      },
+      "delegating_adapter": {
+        "adapter_status": 0,
+        "original_called": true,
+        "original_status": 0,
+        "output": [
+          1048575,
+          1048830
+        ]
+      },
+      "result": "pass"
+    },
+    {
+      "name": "large_calibration",
+      "input": [
+        65535,
+        4096
+      ],
+      "calibration": [
+        4294967295,
+        16777216
+      ],
+      "original_machine_output": [
+        0,
+        1
+      ],
+      "portable": {
+        "adapter_status": 0,
+        "original_called": false,
+        "original_status": null,
+        "output": [
+          0,
+          1
+        ]
+      },
+      "delegating_adapter": {
+        "adapter_status": 0,
+        "original_called": true,
+        "original_status": 0,
+        "output": [
+          0,
+          1
+        ]
+      },
+      "result": "pass"
+    }
+  ],
+  "guard_cases": [
+    {
+      "name": "zero_a",
+      "result": "pass",
+      "portable": {
+        "adapter_status": 1,
+        "original_called": false,
+        "original_status": null,
+        "output": [
+          4096,
+          4096
+        ]
+      },
+      "delegating_adapter": {
+        "adapter_status": 1,
+        "original_called": false,
+        "original_status": null,
+        "output": [
+          4096,
+          4096
+        ]
+      }
+    },
+    {
+      "name": "zero_b",
+      "result": "pass",
+      "portable": {
+        "adapter_status": 1,
+        "original_called": false,
+        "original_status": null,
+        "output": [
+          4096,
+          4096
+        ]
+      },
+      "delegating_adapter": {
+        "adapter_status": 1,
+        "original_called": false,
+        "original_status": null,
+        "output": [
+          4096,
+          4096
+        ]
+      }
+    },
+    {
+      "name": "overflow_a",
+      "result": "pass",
+      "portable": {
+        "adapter_status": 2,
+        "original_called": false,
+        "original_status": null,
+        "output": [
+          1048576,
+          4096
+        ]
+      },
+      "delegating_adapter": {
+        "adapter_status": 2,
+        "original_called": false,
+        "original_status": null,
+        "output": [
+          1048576,
+          4096
+        ]
+      }
+    },
+    {
+      "name": "overflow_b",
+      "result": "pass",
+      "portable": {
+        "adapter_status": 2,
+        "original_called": false,
+        "original_status": null,
+        "output": [
+          4096,
+          4294967295
+        ]
+      },
+      "delegating_adapter": {
+        "adapter_status": 2,
+        "original_called": false,
+        "original_status": null,
+        "output": [
+          4096,
+          4294967295
+        ]
+      }
+    }
+  ],
+  "missing_original": {
+    "adapter_status": 3,
+    "original_called": false,
+    "original_status": null,
+    "output": [
+      4096,
+      4096
+    ]
+  },
+  "synthetic_error_propagation": {
+    "scope": "Adapter only; synthetic return89, not claimed as original execution",
+    "result": {
+      "adapter_status": 4,
+      "original_called": true,
+      "original_status": 89,
+      "output": [
+        4096,
+        8192
+      ]
+    }
+  },
+  "differential_case_count": 10,
+  "guard_case_count": 4,
+  "all_passed": true,
+  "limits": "Only the audited Q12 calibration primitive. No input calibration inferred, no captured image transformed, no full AWB or HNCS implementation."
+}

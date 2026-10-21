@@ -19,6 +19,10 @@ uint32_t hb_original_user_remainder(uintptr_t);
 #include "user_manual_fixtures.h"
 static hb_temperature_model manual_model;
 #endif
+#ifdef HB_USER_CONTROLS_ENTRY
+#include "hb_user_controls.h"
+#include "user_controls_fixtures.h"
+#endif
 #include <dlfcn.h>
 #include <math.h>
 #include <stdio.h>
@@ -76,6 +80,9 @@ static hb_run_entry_result compare(test_state*s,unsigned t,int expected,unsigned
             b=hb_user_prepare_calibration(s->c,s->k);
 #ifdef HB_USER_MANUAL_ENTRY
             if(!b)b=hb_user_manual_samples(s->c,s->k,&manual_model);
+#ifdef HB_USER_CONTROLS_ENTRY
+            if(!b)b=hb_user_controls(s->c,s->k,&manual_model);
+#endif
 #endif
             if(s->input[0xb1f86]==1&&s->c[0xb1f86]==0){unit_accepted+=s->c[0x279]==1;unit_rejected+=s->c[0x279]==0;}
 #else
@@ -83,7 +90,9 @@ static hb_run_entry_result compare(test_state*s,unsigned t,int expected,unsigned
 #endif
             if(capture)dump(s->dir,"owned_user_prefix_boundary",t,s->c,C);
             if(!b){++user_remainders;
-#ifdef HB_USER_MANUAL_ENTRY
+#ifdef HB_USER_CONTROLS_ENTRY
+                b=hb_original_user_remainder(s->bias+0x4b16d4);
+#elif defined(HB_USER_MANUAL_ENTRY)
                 b=hb_original_user_remainder(s->bias+0x4b16a8);
 #elif defined(HB_USER_E_ND_ENTRY)
                 b=hb_original_user_remainder(s->bias+0x4b162c);
@@ -172,6 +181,13 @@ int hb_run_entry_tests(void*h,unsigned char*c,unsigned char*e2,void*config,void*
         hb_test_manual_request(c,k,t);compare(&s,7900+t,HB_RUN_READY,t<8);
     }
 #endif
+#ifdef HB_USER_CONTROLS_ENTRY
+    for(unsigned t=0;t<72;++t){
+        memcpy(c,base,C);memcpy(k,cfg,K);memcpy(c+0xb2028,&k,8);memcpy(reawb,rbase,R);
+        k[0x24]=1;w32(k+0x78,0);w32(c+0x17c,0);w32(c+0xb2020,2);c[0xd338]=1;
+        if(t<64)hb_test_control_request(c,k,t);else hb_test_control_failure(c,k,t-64);compare(&s,8200+t,HB_RUN_READY,t<8);
+    }
+#endif
     /* Seven native E2 synthetic frames exercise full original dispatch after
      * the new owned entry. Downstream ownership is validated separately. */
     uint32_t(*set)(int,void*)=sym(h,"awb_e2_main_set_stat"),(*parse)(int,void*,void*)=sym(h,"awb_e2_main_get_stat_parse"),(*import)(int,void*,void*)=sym(h,"scene_awb_set_stat");
@@ -197,6 +213,11 @@ int hb_run_entry_tests(void*h,unsigned char*c,unsigned char*e2,void*config,void*
 #endif
 #ifdef HB_USER_MANUAL_ENTRY
         if(t==1||t==4){w16(c+0xb14f4,4);for(unsigned i=0;i<4;++i)w16(c+0xb14f6+2*i,(uint16_t)(i*3));}
+#endif
+#ifdef HB_USER_CONTROLS_ENTRY
+        if(t==2){c[0xb14c4]=1;w32(c+0xb14c8,4300);}
+        if(t==4){c[0xb14cc]=1;w32(c+0xb14d0,5500);wf(c+0xb14d4,-3.5f);}
+        if(t==6){c[0xb14d8]=1;w32(c+0xb14dc,5100);w32(c+0xb14e0,4096);w32(c+0xb14e4,6200);}
 #endif
         dump(dir,"native_input",t,input,0x4118);hb_run_entry_result result=compare(&s,8000+t,HB_RUN_READY,1);if(result.action!=HB_RUN_PREPARE)return 2;++native_calls;
     }

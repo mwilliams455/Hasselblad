@@ -9,6 +9,9 @@
 #include <unistd.h>
 
 enum { CONTEXT_BYTES=920560, CONFIG_BYTES=1502800, E2_BYTES=0x1ce90 };
+#ifdef HB_USER_CONTROLS_COMPARE
+int hb_run_user_controls_tests(void*,unsigned char*,void*,void*,const char*);
+#endif
 #ifdef HB_USER_MANUAL_COMPARE
 int hb_run_user_manual_tests(void*,unsigned char*,void*,void*,const char*);
 #endif
@@ -112,6 +115,9 @@ int main(int argc,char **argv) {
 #endif
 #ifdef HB_TEMPERATURE_COMPARE
     _exit(hb_run_temperature_tests(h,ctx,config,reawb,argv[3]));
+#endif
+#ifdef HB_USER_CONTROLS_COMPARE
+    _exit(hb_run_user_controls_tests(h,ctx,config,reawb,argv[3]));
 #endif
 #ifdef HB_USER_MANUAL_COMPARE
     _exit(hb_run_user_manual_tests(h,ctx,config,reawb,argv[3]));

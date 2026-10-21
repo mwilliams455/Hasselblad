@@ -19,6 +19,8 @@ def main():
     p.add_argument('--pipeline',action='store_true',help='Compare the owned complete scene stage on seven synthetic native E2 frames')
     p.add_argument('--candidates',action='store_true',help='Compare candidate weighting, accumulation and normal scene control')
     p.add_argument('--temperature',action='store_true',help='Compare all temperature modes and their matrix/xy helpers')
+    p.add_argument('--user-controls',action='store_true',help='Compare CT/tint/gain requests and inverse conversion')
+    p.add_argument('--user-controls-entry',action='store_true',help='With --run-entry, replace CT/tint/gain requests')
     p.add_argument('--user-manual',action='store_true',help='Compare manual-sample selection and E-ND application')
     p.add_argument('--user-manual-entry',action='store_true',help='With --run-entry, replace manual-sample selection')
     p.add_argument('--user-e-nd',action='store_true',help='Compare E-ND temperature interpolation and user unit-calibration requests')
@@ -43,6 +45,7 @@ def main():
     p.add_argument('--post-results-pipeline',action='store_true',help='With --pipeline, replay post-result helpers from original golden snapshots; post controller remains original')
     p.add_argument('--atmosphere-pipeline',action='store_true',help='With --pipeline, compare owned scene/history/atmosphere before original post/REAWB')
     a=p.parse_args()
+    if a.user_controls_entry:a.user_manual_entry=True
     if a.user_manual_entry:a.user_e_nd_entry=True
     if a.user_e_nd_entry:a.user_prepare_entry=True
     if a.user_prepare_entry:a.white_lut_entry=True
@@ -55,7 +58,7 @@ def main():
     if a.history_pipeline:
         if not a.pipeline:p.error('--history-pipeline requires --pipeline')
         a.tail_baseline=True
-    if sum([a.prepare,a.pipeline,a.candidates,a.temperature,a.controller,a.history,a.atmosphere,a.post_results,a.post,a.completion,a.diagnostics,a.run_entry,a.white_lut,a.user_prepare,a.user_e_nd,a.user_manual])>1:p.error('Choose one comparison mode')
+    if sum([a.prepare,a.pipeline,a.candidates,a.temperature,a.controller,a.history,a.atmosphere,a.post_results,a.post,a.completion,a.diagnostics,a.run_entry,a.white_lut,a.user_prepare,a.user_e_nd,a.user_manual,a.user_controls])>1:p.error('Choose one comparison mode')
     if a.white_lut_entry and not a.run_entry:p.error('--white-lut-entry requires --run-entry')
     if a.tail_baseline and not a.pipeline:p.error('--tail-baseline requires --pipeline')
     root=a.firmware_root.resolve();out=a.private_output.resolve()
@@ -77,12 +80,14 @@ def main():
     if a.history or a.atmosphere:sources.extend([HERE/('atmosphere_compare.c' if a.atmosphere else 'history_compare.c'),HERE/'hb_history.c',HERE/'hb_scene_optimizer.c',HERE/'hb_scene_controller.c',HERE/'hb_scene_candidates.c',HERE/'hb_scene_filter.c',HERE/'hb_temperature.c'])
     if a.post_results:sources.extend([HERE/'post_results_compare.c',HERE/'hb_post_results.c',HERE/'hb_temperature.c',HERE/'hb_scene_candidates.c',HERE/'hb_scene_optimizer.c',HERE/'hb_scene_filter.c'])
     if a.post or a.completion:sources.extend([HERE/('completion_compare.c' if a.completion else 'post_compare.c'),HERE/'hb_post_controller.c',HERE/'hb_post_results.c',HERE/'hb_atmosphere.c',HERE/'hb_history.c',HERE/'hb_temperature.c',HERE/'hb_scene_controller.c',HERE/'hb_scene_candidates.c',HERE/'hb_scene_optimizer.c',HERE/'hb_scene_filter.c'])
+    if a.user_controls:sources.append(HERE/'user_controls_compare.c')
+    if a.user_controls or a.user_controls_entry:sources.extend([HERE/'hb_user_controls.c',HERE/'hb_post_results.c',HERE/'hb_stat_prepare.c'])
     if a.user_manual:sources.append(HERE/'user_manual_compare.c')
-    if a.user_manual or a.user_manual_entry:sources.extend([HERE/'hb_user_manual.c',HERE/'hb_temperature.c',HERE/'hb_scene_candidates.c',HERE/'hb_scene_optimizer.c',HERE/'hb_scene_filter.c'])
+    if a.user_manual or a.user_manual_entry or a.user_controls:sources.extend([HERE/'hb_user_manual.c',HERE/'hb_temperature.c',HERE/'hb_scene_candidates.c',HERE/'hb_scene_optimizer.c',HERE/'hb_scene_filter.c'])
     if a.user_e_nd:sources.append(HERE/'user_e_nd_compare.c')
-    if a.user_e_nd or a.user_e_nd_entry or a.user_manual:sources.append(HERE/'hb_user_e_nd.c')
+    if a.user_e_nd or a.user_e_nd_entry or a.user_manual or a.user_controls:sources.append(HERE/'hb_user_e_nd.c')
     if a.user_prepare:sources.append(HERE/'user_prepare_compare.c')
-    if a.user_prepare or a.user_prepare_entry or a.user_e_nd or a.user_manual:sources.extend([HERE/'hb_user_prepare.c',HERE/'user_entry.S'])
+    if a.user_prepare or a.user_prepare_entry or a.user_e_nd or a.user_manual or a.user_controls:sources.extend([HERE/'hb_user_prepare.c',HERE/'user_entry.S'])
     if a.white_lut:sources.append(HERE/'white_lut_compare.c')
     if a.white_lut or a.white_lut_entry:sources.append(HERE/'hb_white_lut.c')
     if a.run_entry:sources.extend([HERE/'run_entry_compare.c',HERE/'hb_run_entry.c',HERE/'completion_entry.S'])
@@ -99,6 +104,8 @@ def main():
     if a.atmosphere_pipeline:sources.append(HERE/'hb_atmosphere.c')
     cmd=[str(compiler),'-std=c11','-O2','-Wall','-Wextra','-Werror','-fPIE','-pie',
          '-ffp-contract=off','-Wl,-z,max-page-size=16384']
+    if a.user_controls:cmd+=['-DHB_USER_CONTROLS_COMPARE=1']
+    if a.user_controls_entry:cmd+=['-DHB_USER_CONTROLS_ENTRY=1']
     if a.user_manual:cmd+=['-DHB_USER_MANUAL_COMPARE=1']
     if a.user_manual_entry:cmd+=['-DHB_USER_MANUAL_ENTRY=1']
     if a.user_e_nd:cmd+=['-DHB_USER_E_ND_COMPARE=1']
@@ -135,10 +142,11 @@ def main():
                      capture_output=True,text=True,timeout=30,preexec_fn=limits)
     (out/'stdout.txt').write_text(r.stdout);(out/'stderr.txt').write_text(r.stderr)
     events=[json.loads(line) for line in r.stdout.splitlines() if line.startswith('{')]
-    ok=(r.returncode==0 and len(events)==(39 if a.tail_baseline else 11 if a.pipeline else 4 if (a.prepare or a.candidates or a.temperature or a.controller or a.history or a.atmosphere or a.post_results or a.post or a.completion or a.diagnostics or a.run_entry or a.white_lut or a.user_prepare or a.user_e_nd or a.user_manual) else 3)
+    ok=(r.returncode==0 and len(events)==(39 if a.tail_baseline else 11 if a.pipeline else 4 if (a.prepare or a.candidates or a.temperature or a.controller or a.history or a.atmosphere or a.post_results or a.post or a.completion or a.diagnostics or a.run_entry or a.white_lut or a.user_prepare or a.user_e_nd or a.user_manual or a.user_controls) else 3)
         and [e.get('stage') for e in events[:2]]==['awb_cfg_load','awb_lib_init']
         and all(e.get('status')==0 for e in events[:2])
         and events[2].get('initialized_marker')==1 and events[2].get('e2_context_present') is True)
+    if a.user_controls:ok &= events[-1].get('all_passed') is True
     if a.user_manual:ok &= events[-1].get('all_passed') is True
     if a.user_e_nd:ok &= events[-1].get('all_passed') is True
     if a.user_prepare:ok &= events[-1].get('all_passed') is True
@@ -168,12 +176,13 @@ def main():
     if a.completion or a.completion_pipeline:headers.append(HERE/'hb_completion.h')
     if a.diagnostics or a.diagnostics_pipeline:headers.extend([HERE/'hb_diagnostics.h',HERE/'hb_stat_prepare.h'])
     if a.white_lut or a.white_lut_entry:headers.extend([HERE/'hb_white_lut.h',HERE/'hb_stat_prepare.h'])
-    if a.user_manual or a.user_manual_entry:headers.extend([HERE/'hb_user_manual.h',HERE/'user_manual_fixtures.h',HERE/'hb_temperature.h',HERE/'hb_scene_candidates.h',HERE/'hb_scene_optimizer.h',HERE/'hb_scene_filter.h'])
-    if a.user_e_nd or a.user_e_nd_entry or a.user_manual:headers.extend([HERE/'hb_user_e_nd.h',HERE/'user_e_nd_fixtures.h'])
-    if a.user_prepare or a.user_prepare_entry or a.user_e_nd or a.user_manual:headers.extend([HERE/'hb_user_prepare.h',HERE/'hb_stat_prepare.h'])
+    if a.user_controls or a.user_controls_entry:headers.extend([HERE/'hb_user_controls.h',HERE/'user_controls_fixtures.h',HERE/'hb_post_results.h'])
+    if a.user_manual or a.user_manual_entry or a.user_controls:headers.extend([HERE/'hb_user_manual.h',HERE/'user_manual_fixtures.h',HERE/'hb_temperature.h',HERE/'hb_scene_candidates.h',HERE/'hb_scene_optimizer.h',HERE/'hb_scene_filter.h'])
+    if a.user_e_nd or a.user_e_nd_entry or a.user_manual or a.user_controls:headers.extend([HERE/'hb_user_e_nd.h',HERE/'user_e_nd_fixtures.h'])
+    if a.user_prepare or a.user_prepare_entry or a.user_e_nd or a.user_manual or a.user_controls:headers.extend([HERE/'hb_user_prepare.h',HERE/'hb_stat_prepare.h'])
     if a.run_entry:headers.extend([HERE/'hb_run_entry.h',HERE/'hb_stat_prepare.h'])
     report={'created_utc':datetime.now(timezone.utc).isoformat(),'all_passed':ok,'exit':r.returncode,
-            'mode':'owned_entry_through_manual_samples_original_remainder' if a.user_manual_entry else 'owned_manual_samples_and_e_nd_updates' if a.user_manual else 'owned_entry_user_calibration_and_unit_original_remainder' if a.user_e_nd_entry else 'owned_user_e_nd_unit_request' if a.user_e_nd else 'owned_entry_white_lut_user_prefix_original_remainder' if a.user_prepare_entry else 'owned_user_calibration_prefix' if a.user_prepare else 'owned_white_lut_prepare' if a.white_lut else 'owned_white_lut_and_entry_original_remainder' if a.white_lut_entry else 'owned_run_entry_original_remainder' if a.run_entry else 'owned_diagnostics_pipeline' if a.diagnostics_pipeline else 'owned_diagnostics_no_file' if a.diagnostics else 'owned_completion_pipeline' if a.completion_pipeline else 'owned_completion_and_passive_reawb' if a.completion else 'owned_post_pipeline' if a.post_pipeline else 'owned_post_controller' if a.post else 'post_result_snapshot_replay_pipeline' if a.post_results_pipeline else 'owned_post_result_helpers_and_mode2' if a.post_results else 'owned_scene_history_atmosphere_pipeline' if a.atmosphere_pipeline else 'owned_atmosphere' if a.atmosphere else 'owned_history_scene_pipeline' if a.history_pipeline else 'owned_history' if a.history else 'original_downstream_baseline' if a.tail_baseline else 'owned_scene_controller' if a.controller else 'owned_complete_scene_pipeline' if a.pipeline else 'calibrated_temperature' if a.temperature else 'candidate_weighting_accumulation' if a.candidates else 'preparation_classification_filter' if a.prepare else 'full_initialization',
+            'mode':'owned_entry_through_controls_original_remainder' if a.user_controls_entry else 'owned_user_ct_tint_gain_controls' if a.user_controls else 'owned_entry_through_manual_samples_original_remainder' if a.user_manual_entry else 'owned_manual_samples_and_e_nd_updates' if a.user_manual else 'owned_entry_user_calibration_and_unit_original_remainder' if a.user_e_nd_entry else 'owned_user_e_nd_unit_request' if a.user_e_nd else 'owned_entry_white_lut_user_prefix_original_remainder' if a.user_prepare_entry else 'owned_user_calibration_prefix' if a.user_prepare else 'owned_white_lut_prepare' if a.white_lut else 'owned_white_lut_and_entry_original_remainder' if a.white_lut_entry else 'owned_run_entry_original_remainder' if a.run_entry else 'owned_diagnostics_pipeline' if a.diagnostics_pipeline else 'owned_diagnostics_no_file' if a.diagnostics else 'owned_completion_pipeline' if a.completion_pipeline else 'owned_completion_and_passive_reawb' if a.completion else 'owned_post_pipeline' if a.post_pipeline else 'owned_post_controller' if a.post else 'post_result_snapshot_replay_pipeline' if a.post_results_pipeline else 'owned_post_result_helpers_and_mode2' if a.post_results else 'owned_scene_history_atmosphere_pipeline' if a.atmosphere_pipeline else 'owned_atmosphere' if a.atmosphere else 'owned_history_scene_pipeline' if a.history_pipeline else 'owned_history' if a.history else 'original_downstream_baseline' if a.tail_baseline else 'owned_scene_controller' if a.controller else 'owned_complete_scene_pipeline' if a.pipeline else 'calibrated_temperature' if a.temperature else 'candidate_weighting_accumulation' if a.candidates else 'preparation_classification_filter' if a.prepare else 'full_initialization',
             'events':events,'input_config_sha256':sha(config),'library_sha256':sha(root/'system/lib64/libaaa.so'),
             'linker_sha256':linker_sha,'dependency_count':len(closure),'qemu_sha256':sha(a.qemu),
             'compiler_version':subprocess.check_output([str(compiler),'--version'],text=True).splitlines()[0],
@@ -185,12 +194,13 @@ def main():
             'historical_seven_frame_chain_recovered':False,'full_awb_validated':False,
             'completion_suffix_owned':a.completion or a.completion_pipeline,'passive_reawb_owned':a.completion or a.completion_pipeline,
             'active_reawb_owned':False,'debug_stage_owned':a.diagnostics or a.diagnostics_pipeline,'debug_file_io_owned':False,'full_outer_controller_owned':False,
-            'manual_sample_selection_owned':a.user_manual or a.user_manual_entry,'e_nd_gain_updates_owned':a.user_manual or a.user_manual_entry,
-            'user_unit_request_owned':a.user_e_nd or a.user_e_nd_entry or a.user_manual,'e_nd_temperature_gain_owned':a.user_e_nd or a.user_e_nd_entry or a.user_manual,
-            'user_calibration_prefix_owned':a.user_prepare or a.user_prepare_entry or a.user_e_nd or a.user_manual,'user_mode_helper_owned':a.user_prepare,'full_user_stage_owned':False,
-            'user_remainder_entry':'0x4b16a8' if (a.user_manual or a.user_manual_entry) else '0x4b162c' if (a.user_e_nd or a.user_e_nd_entry) else '0x4b1624' if (a.user_prepare or a.user_prepare_entry) else None,
+            'user_ct_tint_gain_owned':a.user_controls or a.user_controls_entry,'inverse_temperature_conversion_owned':a.user_controls or a.user_controls_entry,
+            'manual_sample_selection_owned':a.user_manual or a.user_manual_entry or a.user_controls,'e_nd_gain_updates_owned':a.user_manual or a.user_manual_entry or a.user_controls,
+            'user_unit_request_owned':a.user_e_nd or a.user_e_nd_entry or a.user_manual or a.user_controls,'e_nd_temperature_gain_owned':a.user_e_nd or a.user_e_nd_entry or a.user_manual or a.user_controls,
+            'user_calibration_prefix_owned':a.user_prepare or a.user_prepare_entry or a.user_e_nd or a.user_manual or a.user_controls,'user_mode_helper_owned':a.user_prepare or a.user_controls or a.user_controls_entry,'full_user_stage_owned':False,
+            'user_remainder_entry':'0x4b16d4' if (a.user_controls or a.user_controls_entry) else '0x4b16a8' if (a.user_manual or a.user_manual_entry) else '0x4b162c' if (a.user_e_nd or a.user_e_nd_entry) else '0x4b1624' if (a.user_prepare or a.user_prepare_entry) else None,
             'controller_remainder_after_user':'0x471e78' if a.user_prepare_entry else None,
-            'prepared_entry_adapter_used':a.user_manual or a.user_e_nd or a.user_prepare or a.completion or a.completion_pipeline or a.run_entry,
+            'prepared_entry_adapter_used':a.user_controls or a.user_manual or a.user_e_nd or a.user_prepare or a.completion or a.completion_pipeline or a.run_entry,
             'white_lut_owned':a.white_lut or a.white_lut_entry,'white_lut_original_remainder_entry':'0x471e64' if (a.white_lut_entry and not a.user_prepare_entry) else None,
             'run_entry_owned':a.run_entry,'original_remainder_after_owned_entry':a.run_entry,
             'full_post_stage_owned':a.post or a.post_pipeline,'post_mode2_compared_and_owned':a.post_results or a.post,

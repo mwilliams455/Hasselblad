@@ -1,0 +1,2774 @@
+{
+  "created_utc": "2026-10-21T15:24:20.446262+00:00",
+  "all_passed": true,
+  "exit": 0,
+  "mode": "owned_roi_processing",
+  "events": [
+    {
+      "stage": "awb_cfg_load",
+      "status": 0
+    },
+    {
+      "stage": "awb_lib_init",
+      "status": 0
+    },
+    {
+      "event": "original_full_initialization",
+      "initialized_marker": 1,
+      "context_bytes": 920560,
+      "config_bytes": 1502800,
+      "e2_bytes": 118416,
+      "e2_context_present": true,
+      "reawb_handle_present": true
+    },
+    {
+      "event": "owned_roi_processing",
+      "checks": 1549,
+      "mismatches": 0,
+      "original_calls": 512,
+      "direct_reset_calls": 8,
+      "zoom_errors": 12,
+      "stateful_calls": 72,
+      "owned_only_guard_checks": 12,
+      "selected_by_kind": [
+        36,
+        30,
+        39,
+        33,
+        36,
+        33
+      ],
+      "roi_processing_owned": true,
+      "roi_synchronization_owned": false,
+      "synthetic_inputs": true,
+      "all_passed": true
+    }
+  ],
+  "input_config_sha256": "7fa13044a6c5453b67e4ae11bf8d07828de8e1c02aa915494fe5dad20930d435",
+  "library_sha256": "7d6164eccc734de7087bb778ee72f17a0b3ccf6c0d1f20092c7ebe74a86574ba",
+  "linker_sha256": "313d7a6d94cdeb9e2b2adb4be98a8b18240b08012b22f922acea7984f42ff35d",
+  "dependency_count": 65,
+  "qemu_sha256": "4f55e2e88dc05dc0f619562d5795b8eb25ed2ad2547504fb4835207a6911c350",
+  "compiler_version": "Android (12027248, +pgo, +bolt, +lto, +mlgo, based on r522817) clang version 18.0.1 (https://android.googlesource.com/toolchain/llvm-project d8003a456d14a3deb8054cdaa529ffbf02d9b262)",
+  "source_sha256": {
+    "awb_original_runtime_20261021/full_probe.c": "4519757776a29c368092c8f0219bd416d6489d7aea7c70149365586b6efb8003",
+    "awb_original_runtime_20261021/roi_compare.c": "4d4c8559688fb736c0a13f23b14d64b16ea2ab505b09d1d877ccc211bed570f8",
+    "awb_original_runtime_20261021/hb_roi.c": "30ab80c8ce28d2c3a63b95d95295dbdc2d852dd06f13208989550fb537ee51a6",
+    "awb_original_runtime_20261021/run_full.py": "9abe0dd58d2838cd9adf78faa3201cc0258f486116e902d2b9951c0214ae1297",
+    "awb_original_runtime_20261021/run_recalib.py": "b11d5635343e30047596dfab12f669f0f8343c823c1a3dc72bd22146cb11b22f",
+    "awb_original_runtime_20261021/hb_roi.h": "534622fc18b5006720fb99e54516aa441dad973b07d1a69a80176cdf3b357108",
+    "awb_original_runtime_20261021/roi_fixtures.h": "e6426e2e1fbce29b63b6d02ebe1a51fc251062cfe8233827f441f4b63f54b49e",
+    "awb_original_runtime_20261021/hb_stat_prepare.h": "1f3eea206426a1ae2e399f212c51169c58fd80503656fecbf690df56c442b59b"
+  },
+  "probe_sha256": "047b18865d605f4b049aac21b2c142c8c91fd572bd097898bb828d0552394715",
+  "build_command": [
+    "/workspace/scratch/910ac5420982/runtime_tools/android-ndk-r27/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android28-clang",
+    "-std=c11",
+    "-O2",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-fPIE",
+    "-pie",
+    "-ffp-contract=off",
+    "-Wl,-z,max-page-size=16384",
+    "-DHB_ROI_COMPARE=1",
+    "/workspace/scratch/910ac5420982/repo/hasselblad_native_audit/awb_original_runtime_20261021/full_probe.c",
+    "/workspace/scratch/910ac5420982/repo/hasselblad_native_audit/awb_original_runtime_20261021/roi_compare.c",
+    "/workspace/scratch/910ac5420982/repo/hasselblad_native_audit/awb_original_runtime_20261021/hb_roi.c",
+    "-ldl",
+    "-lm",
+    "-o",
+    "/workspace/scratch/910ac5420982/private_runtime/roi_direct/full_probe_android28_arm64"
+  ],
+  "run_command": [
+    "/workspace/scratch/910ac5420982/runtime_tools/qemu/usr/bin/qemu-aarch64-static",
+    "-L",
+    "/workspace/scratch/910ac5420982/private_runtime/extracted",
+    "/workspace/scratch/910ac5420982/private_runtime/roi_direct/full_probe_android28_arm64",
+    "/workspace/scratch/910ac5420982/private_runtime/extracted/system/lib64/libaaa.so",
+    "/workspace/scratch/910ac5420982/private_runtime/extracted/system/etc/aaa/awb_imx861.bin",
+    "/workspace/scratch/910ac5420982/private_runtime/roi_direct"
+  ],
+  "private_dump_metadata": {
+    "roi_original_2005.bin": {
+      "bytes": 920560,
+      "sha256": "c81758bb15bc99190ebe169a48130c1902f74e5150612a5e30671e0e87348d03"
+    },
+    "roi_config_1000.bin": {
+      "bytes": 1502800,
+      "sha256": "c7b2d85b1416b56695dd0510d56dd7d5e65dc2400c4f51a7283bb3734bbe3eb4"
+    },
+    "roi_owned_1004.bin": {
+      "bytes": 920560,
+      "sha256": "b8beb7b5781219e4d79ae1ddf3b5b4bee361d61dce5785315a94874cd191bd22"
+    },
+    "roi_original_1008.bin": {
+      "bytes": 920560,
+      "sha256": "95d2d68eea2a26729442c35cc2c077a6ca5b8e9dd3aafc815fbb4b99cc04ceec"
+    },
+    "roi_original_1039.bin": {
+      "bytes": 920560,
+      "sha256": "f712fe82ace058dd8e8c3bcef95e47883339820e69f48446298f9b230fdf21c8"
+    },
+    "roi_input_3211.bin": {
+      "bytes": 920560,
+      "sha256": "78f7738f4c01604860a0fbcc5f42f9dfef8d75061ef1b4421fc0e1f9a1ebfbbd"
+    },
+    "roi_config_3400.bin": {
+      "bytes": 1502800,
+      "sha256": "d131efea6e0a449907e622a1255f43dc344de7426d7f923226ae6b9332afe2e4"
+    },
+    "roi_input_62.bin": {
+      "bytes": 920560,
+      "sha256": "3588c29b0a2716354176e666ad1e19b7a62a31427ed338dc52a793fb8c91eb77"
+    },
+    "roi_original_3.bin": {
+      "bytes": 920560,
+      "sha256": "dbcf9c68d22537bc5bbdd0e428bd009fc5fa870414a6c81ba8c08fee570611d2"
+    },
+    "roi_original_404.bin": {
+      "bytes": 920560,
+      "sha256": "f60d2f1e016e6c03437ae43556b7446312285a74c333c9765a4d8cc8dbd7e97b"
+    },
+    "roi_original_504.bin": {
+      "bytes": 920560,
+      "sha256": "5e022bed7d97d10055d275cb945c6366e2e41890d1e51464d87fbd19f7a850ce"
+    },
+    "roi_original_456.bin": {
+      "bytes": 920560,
+      "sha256": "e0c0c59cd061559a643661ee1f5ea185564343a3bd5711ce1d5eec32ee7bb701"
+    },
+    "roi_input_1030.bin": {
+      "bytes": 920560,
+      "sha256": "3588c29b0a2716354176e666ad1e19b7a62a31427ed338dc52a793fb8c91eb77"
+    },
+    "roi_original_362.bin": {
+      "bytes": 920560,
+      "sha256": "05c9903a75c104efcd3d589bf63a244a3283bad07a6cf27c4181adb9bc39d295"
+    },
+    "roi_owned_403.bin": {
+      "bytes": 920560,
+      "sha256": "6a186f33d4e69d3f2c41cde0b66128082ec3d1b3525326d4e883fedd54c1370a"
+    },
+    "roi_owned_1018.bin": {
+      "bytes": 920560,
+      "sha256": "cd48e705e4d24014e57d3ca43a5aa6d813591190997590ffc815eb2503c939aa"
+    },
+    "roi_owned_105.bin": {
+      "bytes": 920560,
+      "sha256": "de0ff250b052a53817bacb9d23131aa5a321134885020a187d7eba108840482d"
+    },
+    "roi_input_400.bin": {
+      "bytes": 920560,
+      "sha256": "3588c29b0a2716354176e666ad1e19b7a62a31427ed338dc52a793fb8c91eb77"
+    },
+    "roi_input_559.bin": {
+      "bytes": 920560,
+      "sha256": "661dc56bd9efcb522930ade4afe0bc2be0b709937a47b756183b71b556a37777"
+    },
+    "roi_input_304.bin": {
+      "bytes": 920560,
+      "sha256": "583bde49f7596d5f988ea1a5196502ec285b43dc4e417ddc333eb881e0724206"
+    },
+    "roi_config_561.bin": {
+      "bytes": 1502800,
+      "sha256": "7c045b027e1e3de087a844986f8966ec519b9a56fe9c50fe8ee8215575217a30"
+    },
+    "roi_owned_63.bin": {
+      "bytes": 920560,
+      "sha256": "da3ddfa6e6ea0b18004f9cba50a59e2ee141bc91c1525ae24e08bb9a58be5ba8"
+    },
+    "roi_config_1003.bin": {
+      "bytes": 1502800,
+      "sha256": "ea0ff301e01376c279e384a7563e7ec0f083f38b9ef305c1d2d0c5b4ea98a55c"
+    },
+    "roi_config_361.bin": {
+      "bytes": 1502800,
+      "sha256": "d2014bfce37d56e4ba0f6c693f7229d4f80930ab194033484f6efc530382a521"
+    },
+    "roi_input_3011.bin": {
+      "bytes": 920560,
+      "sha256": "268202a130a68a4c713ad7a54379568b9af41dec207abc14303507dfcf252914"
+    },
+    "roi_config_458.bin": {
+      "bytes": 1502800,
+      "sha256": "57c35e08232c9f3dfa1ed7081bc65d51467e1d9102e0f47bbda4daa78360f5d0"
+    },
+    "roi_owned_404.bin": {
+      "bytes": 920560,
+      "sha256": "f60d2f1e016e6c03437ae43556b7446312285a74c333c9765a4d8cc8dbd7e97b"
+    },
+    "roi_input_1011.bin": {
+      "bytes": 920560,
+      "sha256": "d07a519518d8c552f21261eacf22cc2f3ed825e837eae5e01900957b822716ab"
+    },
+    "roi_original_1019.bin": {
+      "bytes": 920560,
+      "sha256": "1033d625489909f623a46ec9a3f0a5cd4e147c3eedb35a729bb79f990d497a60"
+    },
+    "roi_input_262.bin": {
+      "bytes": 920560,
+      "sha256": "3588c29b0a2716354176e666ad1e19b7a62a31427ed338dc52a793fb8c91eb77"
+    },
+    "roi_owned_3400.bin": {
+      "bytes": 920560,
+      "sha256": "6776f6df7a1a233c5a64f4fe24de20ef38a851097e749bc6fbebc9428e8e0126"
+    },
+    "roi_config_3411.bin": {
+      "bytes": 1502800,
+      "sha256": "d131efea6e0a449907e622a1255f43dc344de7426d7f923226ae6b9332afe2e4"
+    },
+    "roi_config_2005.bin": {
+      "bytes": 1502800,
+      "sha256": "ece960dac6cce7eb0aa59073a299bb05ee1704ec4e8520ebfaecfc5bf4b2f75a"
+    },
+    "roi_input_463.bin": {
+      "bytes": 920560,
+      "sha256": "3588c29b0a2716354176e666ad1e19b7a62a31427ed338dc52a793fb8c91eb77"
+    },
+    "roi_owned_405.bin": {
+      "bytes": 920560,
+      "sha256": "628115a53f4f106794773b2fdf91fa4ef61e5399e445daa61a807202378cd3d3"
+    },
+    "roi_input_502.bin": {
+      "bytes": 920560,
+      "sha256": "51bb275e63da272fb9b62bec1fe4599fd32172eb588a9851cce7023856a71a47"
+    },
+    "roi_input_1020.bin": {
+      "bytes": 920560,
+      "sha256": "5060f92bbd1421cc90f3e6e32f962757fe28524075522da0c2a997185430df93"
+    },
+    "roi_config_405.bin": {
+      "bytes": 1502800,
+      "sha256": "56214c22e1ded1edf414aca66d1a6cae1730a0a612fbd96263b3bbe322b37aa0"
+    },
+    "roi_config_1008.bin": {
+      "bytes": 1502800,
+      "sha256": "c7b2d85b1416b56695dd0510d56dd7d5e65dc2400c4f51a7283bb3734bbe3eb4"
+    },
+    "roi_input_1041.bin": {
+      "bytes": 920560,
+      "sha256": "f2abce7037ae8598605c61b369ced5774475e34d386c93e1617b65ea0751188d"
+    },
+    "roi_original_463.bin": {
+      "bytes": 920560,
+      "sha256": "584b0e7f7a5a8108cd2100e6034f43b3711f02c61b1d10840e1e8a9aa9c1b85b"
+    },
+    "roi_input_162.bin": {
+      "bytes": 920560,
+      "sha256": "3588c29b0a2716354176e666ad1e19b7a62a31427ed338dc52a793fb8c91eb77"
+    },
+    "roi_config_158.bin": {
+      "bytes": 1502800,
+      "sha256": "ddfecd7a40221a96af2c493af58382c62e0257737ae2cecf68dcfbafd0284d7c"
+    },
+    "roi_input_406.bin": {
+      "bytes": 920560,
+      "sha256": "60f654a3dd984cf4a5b0a89249db0f1feceb9f78de2c521b31c202496a3ef7b4"
+    },
+    "roi_config_161.bin": {
+      "bytes": 1502800,
+      "sha256": "ddfecd7a40221a96af2c493af58382c62e0257737ae2cecf68dcfbafd0284d7c"
+    },
+    "roi_owned_160.bin": {
+      "bytes": 920560,
+      "sha256": "6cd2c5d203b960d718eb787ae90d4eb4382ad6e1d2399df73b6559763f6a7d5f"
+    },
+    "roi_owned_506.bin": {
+      "bytes": 920560,
+      "sha256": "259bfe9e29e56a1ed5c2f1657a6f745eafdfc7f4c2037f18c5196e0f91663171"
+    },
+    "roi_config_103.bin": {
+      "bytes": 1502800,
+      "sha256": "60f1e5c1eb7f2f1c2dade0f3bb8ccbb745f622fee53fd64ed5e814ff2ebb6cbc"
+    },
+    "roi_config_1002.bin": {
+      "bytes": 1502800,
+      "sha256": "c7b2d85b1416b56695dd0510d56dd7d5e65dc2400c4f51a7283bb3734bbe3eb4"
+    },
+    "roi_input_1017.bin": {
+      "bytes": 920560,
+      "sha256": "d07a519518d8c552f21261eacf22cc2f3ed825e837eae5e01900957b822716ab"
+    },
+    "roi_original_1032.bin": {
+      "bytes": 920560,
+      "sha256": "95d2d68eea2a26729442c35cc2c077a6ca5b8e9dd3aafc815fbb4b99cc04ceec"
+    },
+    "roi_config_2.bin": {
+      "bytes": 1502800,
+      "sha256": "7cda23582c561bee1410b20488a87ef2487325859ab57e2630cbe8bc4348ee4c"
+    },
+    "roi_input_203.bin": {
+      "bytes": 920560,
+      "sha256": "bc62f83b6243c369fcd76a09b6ab88f0788b032dde46e3f1fc17c824aa041bc9"
+    },
+    "roi_input_457.bin": {
+      "bytes": 920560,
+      "sha256": "a680c28d2afd3bb44c3b92885970c8d34a53792853759ec1a2b3b29db38b3bca"
+    },
+    "roi_input_405.bin": {
+      "bytes": 920560,
+      "sha256": "7e3fe76c8a033b593bf1343a8d4845d3425ec50c9f42badc7a0fbb1d1534df0b"
+    },
+    "roi_original_1022.bin": {
+      "bytes": 920560,
+      "sha256": "b8beb7b5781219e4d79ae1ddf3b5b4bee361d61dce5785315a94874cd191bd22"
+    },
+    "roi_original_1013.bin": {
+      "bytes": 920560,
+      "sha256": "1033d625489909f623a46ec9a3f0a5cd4e147c3eedb35a729bb79f990d497a60"
+    },
+    "roi_input_1012.bin": {
+      "bytes": 920560,
+      "sha256": "3588c29b0a2716354176e666ad1e19b7a62a31427ed338dc52a793fb8c91eb77"
+    },
+    "roi_original_1036.bin": {
+      "bytes": 920560,
+      "sha256": "cc3338a17abb0af2d17c2fdc11fe4be94e77dc6da1113c39e0ac2c8215a261d3"
+    },
+    "roi_input_356.bin": {
+      "bytes": 920560,
+      "sha256": "0293603768a92f928791678b47c879dae5d0a8de12d3220e21d6235011adfd55"
+    },
+    "roi_original_1026.bin": {
+      "bytes": 920560,
+      "sha256": "95d2d68eea2a26729442c35cc2c077a6ca5b8e9dd3aafc815fbb4b99cc04ceec"
+    },
+    "roi_config_2007.bin": {
+      "bytes": 1502800,
+      "sha256": "929eb831465085aefd282a47d4af77a558e22a0bdbb5c2f650362c2c5f7ab42f"
+    },
+    "roi_input_3.bin": {
+      "bytes": 920560,
+      "sha256": "bdeba95c005111ac1cb2a19aea339a26f2372d0771f7d020ce768537f3ff205d"
+    },
+    "roi_original_407.bin": {
+      "bytes": 920560,
+      "sha256": "927cdd181a447991b10d1f8afe08e537034eed7ab60e48692ff328ca328b3605"
+    },
+    "roi_original_501.bin": {
+      "bytes": 920560,
+      "sha256": "3b65d39ad2afc31bb234d3a70d3f33ee2fa2f8964de8c1acfb81a9b741996137"
+    },
+    "roi_original_2002.bin": {
+      "bytes": 920560,
+      "sha256": "e0c0c59cd061559a643661ee1f5ea185564343a3bd5711ce1d5eec32ee7bb701"
+    },
+    "roi_original_1033.bin": {
+      "bytes": 920560,
+      "sha256": "2ca1130200de23371f2a4780d17191ab9664d18ee6cda1a7a258c433a09b3031"
+    },
+    "roi_original_1017.bin": {
+      "bytes": 920560,
+      "sha256": "3964d11eca798c757cdf1ed87e4442d19bdba21e381718d5045c0293bdb1e88a"
+    },
+    "roi_original_303.bin": {
+      "bytes": 920560,
+      "sha256": "f06a3859d6bca2883c240555c894a87d0c7ffd78a0db764e0383b6127ae3a252"
+    },
+    "roi_owned_3211.bin": {
+      "bytes": 920560,
+      "sha256": "78f7738f4c01604860a0fbcc5f42f9dfef8d75061ef1b4421fc0e1f9a1ebfbbd"
+    },
+    "roi_owned_502.bin": {
+      "bytes": 920560,
+      "sha256": "d968389d2b37803966fd1fbc57d5c78fdf65ca68adbfe7e10dbe07bd6fdd06f7"
+    },
+    "roi_owned_559.bin": {
+      "bytes": 920560,
+      "sha256": "b8ea4cc6de098e56754f421fc95dd3c573faec36e2c998d2e1547360b4c929c9"
+    },
+    "roi_config_106.bin": {
+      "bytes": 1502800,
+      "sha256": "60f1e5c1eb7f2f1c2dade0f3bb8ccbb745f622fee53fd64ed5e814ff2ebb6cbc"
+    },
+    "roi_original_1021.bin": {
+      "bytes": 920560,
+      "sha256": "2ca1130200de23371f2a4780d17191ab9664d18ee6cda1a7a258c433a09b3031"
+    },
+    "roi_owned_356.bin": {
+      "bytes": 920560,
+      "sha256": "e0c0c59cd061559a643661ee1f5ea185564343a3bd5711ce1d5eec32ee7bb701"
+    },
+    "roi_input_1019.bin": {
+      "bytes": 920560,
+      "sha256": "ab92849afc4409756fddc3cb60903d6091b209d1573843d8940b1cfc3d46e051"
+    },
+    "roi_owned_1032.bin": {
+      "bytes": 920560,
+      "sha256": "95d2d68eea2a26729442c35cc2c077a6ca5b8e9dd3aafc815fbb4b99cc04ceec"
+    },
+    "roi_original_1005.bin": {
+      "bytes": 920560,
+      "sha256": "3964d11eca798c757cdf1ed87e4442d19bdba21e381718d5045c0293bdb1e88a"
+    },
+    "roi_owned_358.bin": {
+      "bytes": 920560,
+      "sha256": "7d36efb4a7542e147fd79e09899c649471f434f46614212d8f8b21bac00161fb"
+    },
+    "roi_config_1.bin": {
+      "bytes": 1502800,
+      "sha256": "ef7dad6c696b2d21d771021c73425c3d945c57882b5089aeca1059528a46d732"
+    },
+    "roi_original_1037.bin": {
+      "bytes": 920560,
+      "sha256": "d160e273816eec20b6b4b798a5c3a711a85da895bf7e33ea5bd62aba23d053b7"
+    },
+    "roi_config_559.bin": {
+      "bytes": 1502800,
+      "sha256": "ece960dac6cce7eb0aa59073a299bb05ee1704ec4e8520ebfaecfc5bf4b2f75a"
+    },
+    "roi_input_1001.bin": {
+      "bytes": 920560,
+      "sha256": "ab92849afc4409756fddc3cb60903d6091b209d1573843d8940b1cfc3d46e051"
+    },
+    "roi_original_256.bin": {
+      "bytes": 920560,
+      "sha256": "e0c0c59cd061559a643661ee1f5ea185564343a3bd5711ce1d5eec32ee7bb701"
+    },
+    "roi_input_1025.bin": {
+      "bytes": 920560,
+      "sha256": "ab92849afc4409756fddc3cb60903d6091b209d1573843d8940b1cfc3d46e051"
+    },
+    "roi_original_101.bin": {
+      "bytes": 920560,
+      "sha256": "7e16f3b7647485008f4ac99eac634b8402b666f18d9fd3b354f9afb239040c56"
+    },
+    "roi_owned_6.bin": {
+      "bytes": 920560,
+      "sha256": "681ff3d0aaff94bbda559ee647d9966cb6ec173ca89d31c97c63b5cd3cd3e725"
+    },
+    "roi_config_100.bin": {
+      "bytes": 1502800,
+      "sha256": "60f1e5c1eb7f2f1c2dade0f3bb8ccbb745f622fee53fd64ed5e814ff2ebb6cbc"
+    },
+    "roi_owned_103.bin": {
+      "bytes": 920560,
+      "sha256": "f51dce60bb071f9e557befcc976760637e343baff6251e947c205ee1168e37e1"
+    },
+    "roi_original_1009.bin": {
+      "bytes": 920560,
+      "sha256": "2ca1130200de23371f2a4780d17191ab9664d18ee6cda1a7a258c433a09b3031"
+    },
+    "roi_original_57.bin": {
+      "bytes": 920560,
+      "sha256": "3c1e900328b988876369f61b83bcda29686b58d4eee2c312f8260f0a8d95531a"
+    },
+    "roi_config_359.bin": {
+      "bytes": 1502800,
+      "sha256": "1b99083252088164e8ab0c1d16f9fdc2e3440b8ac37ae598861a542ec9bb3c0e"
+    },
+    "roi_input_1021.bin": {
+      "bytes": 920560,
+      "sha256": "6d54f076833f11cf5d5eb937e932ec3c3e72497b2d03c92f2ee089fa811ee110"
+    },
+    "roi_owned_501.bin": {
+      "bytes": 920560,
+      "sha256": "3b65d39ad2afc31bb234d3a70d3f33ee2fa2f8964de8c1acfb81a9b741996137"
+    },
+    "roi_original_201.bin": {
+      "bytes": 920560,
+      "sha256": "19d3d73a36b062f7ca27de4e4718b2fd50c92169e406aa90b7efb5b7bc755001"
+    },
+    "roi_owned_3011.bin": {
+      "bytes": 920560,
+      "sha256": "268202a130a68a4c713ad7a54379568b9af41dec207abc14303507dfcf252914"
+    },
+    "roi_original_2.bin": {
+      "bytes": 920560,
+      "sha256": "f1de5b9ee1eb16c1e6b43dcb59d39cd37e9683543cdd275042a56f722089b79b"
+    },
+    "roi_input_102.bin": {
+      "bytes": 920560,
+      "sha256": "bfbe4f1618c8ec3a5c67053dce76bc875c864647abdcc5db729b5a5503d4d7d4"
+    },
+    "roi_input_256.bin": {
+      "bytes": 920560,
+      "sha256": "0293603768a92f928791678b47c879dae5d0a8de12d3220e21d6235011adfd55"
+    },
+    "roi_input_1043.bin": {
+      "bytes": 920560,
+      "sha256": "ed4e60e59a584887e6d5bdb256801f94f92f0f1f988a73c852390d7b94653246"
+    },
+    "roi_config_105.bin": {
+      "bytes": 1502800,
+      "sha256": "9561b8d6be88880ffe47c342424ce54bc0007c077163e8a8e5e17bba8e657e72"
+    },
+    "roi_original_260.bin": {
+      "bytes": 920560,
+      "sha256": "3ae07adfc750936c6da76ed47ad6d97b60a21de3663d27fd3ead24f5313fb2d7"
+    },
+    "roi_original_1020.bin": {
+      "bytes": 920560,
+      "sha256": "95d2d68eea2a26729442c35cc2c077a6ca5b8e9dd3aafc815fbb4b99cc04ceec"
+    },
+    "roi_owned_3300.bin": {
+      "bytes": 920560,
+      "sha256": "e24aa6d5f500dcc324d3f34ef9670d1477f85a9780a2addb8c570084d52149b8"
+    },
+    "roi_input_1045.bin": {
+      "bytes": 920560,
+      "sha256": "312338c56fb7a74b2450a26b276b0f0a5def02e4b0b51c9a52f889eba9c82481"
+    },
+    "roi_input_1013.bin": {
+      "bytes": 920560,
+      "sha256": "ab92849afc4409756fddc3cb60903d6091b209d1573843d8940b1cfc3d46e051"
+    },
+    "roi_original_1004.bin": {
+      "bytes": 920560,
+      "sha256": "b8beb7b5781219e4d79ae1ddf3b5b4bee361d61dce5785315a94874cd191bd22"
+    },
+    "roi_config_1027.bin": {
+      "bytes": 1502800,
+      "sha256": "ea0ff301e01376c279e384a7563e7ec0f083f38b9ef305c1d2d0c5b4ea98a55c"
+    },
+    "roi_input_306.bin": {
+      "bytes": 920560,
+      "sha256": "3780d1751ff08a16ef6558ce2cad8279cfab4f02fb183f92fc5c4a2a29a87529"
+    },
+    "roi_owned_104.bin": {
+      "bytes": 920560,
+      "sha256": "a9cc06eecdb60c681ff35c1cee699e56fdcf8f79af6473600ee45c5c64187850"
+    },
+    "roi_owned_1030.bin": {
+      "bytes": 920560,
+      "sha256": "cd48e705e4d24014e57d3ca43a5aa6d813591190997590ffc815eb2503c939aa"
+    },
+    "roi_config_1033.bin": {
+      "bytes": 1502800,
+      "sha256": "ea0ff301e01376c279e384a7563e7ec0f083f38b9ef305c1d2d0c5b4ea98a55c"
+    },
+    "roi_input_363.bin": {
+      "bytes": 920560,
+      "sha256": "3588c29b0a2716354176e666ad1e19b7a62a31427ed338dc52a793fb8c91eb77"
+    },
+    "roi_owned_2006.bin": {
+      "bytes": 920560,
+      "sha256": "a005444dd86e8f5c0bc6f4bf97680e2dc889dc4157d4de444c4ea68ec1dc9478"
+    },
+    "roi_input_2004.bin": {
+      "bytes": 920560,
+      "sha256": "4608c745d9ef2b5effc671e2063672f4e6257e25a0dad80275d95686d8e064ab"
+    },
+    "roi_config_459.bin": {
+      "bytes": 1502800,
+      "sha256": "56214c22e1ded1edf414aca66d1a6cae1730a0a612fbd96263b3bbe322b37aa0"
+    },
+    "roi_input_362.bin": {
+      "bytes": 920560,
+      "sha256": "3588c29b0a2716354176e666ad1e19b7a62a31427ed338dc52a793fb8c91eb77"
+    },
+    "roi_input_1038.bin": {
+      "bytes": 920560,
+      "sha256": "3c2daf65c99c0529a1a22125fb5cd38cd54f231104dd73ebd9afbf35ff0650b6"
+    },
+    "roi_owned_158.bin": {
+      "bytes": 920560,
+      "sha256": "9f1ddec37cbdaa46b54ed48ef30343c139afc1bebfc661f1e2800586b3594244"
+    },
+    "roi_owned_162.bin": {
+      "bytes": 920560,
+      "sha256": "b52062c797382c24e88e9edc09437637b681750b90082d1d6b33dd7be2cb0839"
+    },
+    "roi_config_400.bin": {
+      "bytes": 1502800,
+      "sha256": "d131efea6e0a449907e622a1255f43dc344de7426d7f923226ae6b9332afe2e4"
+    },
+    "roi_original_1016.bin": {
+      "bytes": 920560,
+      "sha256": "b8beb7b5781219e4d79ae1ddf3b5b4bee361d61dce5785315a94874cd191bd22"
+    },
+    "roi_owned_1012.bin": {
+      "bytes": 920560,
+      "sha256": "cd48e705e4d24014e57d3ca43a5aa6d813591190997590ffc815eb2503c939aa"
+    },
+    "roi_input_1007.bin": {
+      "bytes": 920560,
+      "sha256": "ab92849afc4409756fddc3cb60903d6091b209d1573843d8940b1cfc3d46e051"
+    },
+    "roi_config_2004.bin": {
+      "bytes": 1502800,
+      "sha256": "57c35e08232c9f3dfa1ed7081bc65d51467e1d9102e0f47bbda4daa78360f5d0"
+    },
+    "roi_input_59.bin": {
+      "bytes": 920560,
+      "sha256": "cce3e471e191d0a558de740ebe28ea148dacfeac5866617e8c001256ee786ad1"
+    },
+    "roi_config_1005.bin": {
+      "bytes": 1502800,
+      "sha256": "ea0ff301e01376c279e384a7563e7ec0f083f38b9ef305c1d2d0c5b4ea98a55c"
+    },
+    "roi_original_1038.bin": {
+      "bytes": 920560,
+      "sha256": "3c2daf65c99c0529a1a22125fb5cd38cd54f231104dd73ebd9afbf35ff0650b6"
+    },
+    "roi_original_105.bin": {
+      "bytes": 920560,
+      "sha256": "de0ff250b052a53817bacb9d23131aa5a321134885020a187d7eba108840482d"
+    },
+    "roi_owned_1019.bin": {
+      "bytes": 920560,
+      "sha256": "1033d625489909f623a46ec9a3f0a5cd4e147c3eedb35a729bb79f990d497a60"
+    },
+    "roi_config_463.bin": {
+      "bytes": 1502800,
+      "sha256": "db7291325e450452041443d901135e0bceb40ba69892350763ce4161b74fac67"
+    },
+    "roi_original_460.bin": {
+      "bytes": 920560,
+      "sha256": "6776f6df7a1a233c5a64f4fe24de20ef38a851097e749bc6fbebc9428e8e0126"
+    },
+    "roi_config_1026.bin": {
+      "bytes": 1502800,
+      "sha256": "c7b2d85b1416b56695dd0510d56dd7d5e65dc2400c4f51a7283bb3734bbe3eb4"
+    },
+    "roi_original_2000.bin": {
+      "bytes": 920560,
+      "sha256": "e0c0c59cd061559a643661ee1f5ea185564343a3bd5711ce1d5eec32ee7bb701"
+    },
+    "roi_config_7.bin": {
+      "bytes": 1502800,
+      "sha256": "45ad80c6adb20ca0d6dd7d9a7ab9e721c83f44dd8191320f708787865b440858"
+    },
+    "roi_input_1008.bin": {
+      "bytes": 920560,
+      "sha256": "5060f92bbd1421cc90f3e6e32f962757fe28524075522da0c2a997185430df93"
+    },
+    "roi_config_57.bin": {
+      "bytes": 1502800,
+      "sha256": "ff0d4d8732b981a77fbe076061fad5c2c80c023ea5fc90c7a392b36bfd8122d8"
+    },
+    "roi_owned_61.bin": {
+      "bytes": 920560,
+      "sha256": "8ca357ec09be1dc9a991b22a4de320e4ac4d82b3acb6463e04ca2f7778fd2bad"
+    },
+    "roi_original_3211.bin": {
+      "bytes": 920560,
+      "sha256": "78f7738f4c01604860a0fbcc5f42f9dfef8d75061ef1b4421fc0e1f9a1ebfbbd"
+    },
+    "roi_input_562.bin": {
+      "bytes": 920560,
+      "sha256": "3588c29b0a2716354176e666ad1e19b7a62a31427ed338dc52a793fb8c91eb77"
+    },
+    "roi_owned_58.bin": {
+      "bytes": 920560,
+      "sha256": "fe5ebf0e54a7ec85f0caf90f665031cfd27c4f1732f84617ec3fbb14683af417"
+    },
+    "roi_config_356.bin": {
+      "bytes": 1502800,
+      "sha256": "1b99083252088164e8ab0c1d16f9fdc2e3440b8ac37ae598861a542ec9bb3c0e"
+    },
+    "roi_owned_500.bin": {
+      "bytes": 920560,
+      "sha256": "8052bf79108972b124f7e7d275a68807bee0095424ca18ae3bd527db783ea0a4"
+    },
+    "roi_config_259.bin": {
+      "bytes": 1502800,
+      "sha256": "66cddec29a08afb5b8f3b0393b347c186111589a3cfd8e07cd924737725b95a7"
+    },
+    "roi_original_1035.bin": {
+      "bytes": 920560,
+      "sha256": "3964d11eca798c757cdf1ed87e4442d19bdba21e381718d5045c0293bdb1e88a"
+    },
+    "roi_input_3411.bin": {
+      "bytes": 920560,
+      "sha256": "7f37b787d74dc31b75b8fa74f6a35bb0615d924a927281dc4ac0725153b8b073"
+    },
+    "roi_input_1005.bin": {
+      "bytes": 920560,
+      "sha256": "d07a519518d8c552f21261eacf22cc2f3ed825e837eae5e01900957b822716ab"
+    },
+    "roi_config_261.bin": {
+      "bytes": 1502800,
+      "sha256": "f39864254b8e83c46a289dc49842d7340ec8dc5432d9454f0407c824b5e7ba15"
+    },
+    "roi_owned_1041.bin": {
+      "bytes": 920560,
+      "sha256": "f2abce7037ae8598605c61b369ced5774475e34d386c93e1617b65ea0751188d"
+    },
+    "roi_config_0.bin": {
+      "bytes": 1502800,
+      "sha256": "ff0d4d8732b981a77fbe076061fad5c2c80c023ea5fc90c7a392b36bfd8122d8"
+    },
+    "roi_config_305.bin": {
+      "bytes": 1502800,
+      "sha256": "1b99083252088164e8ab0c1d16f9fdc2e3440b8ac37ae598861a542ec9bb3c0e"
+    },
+    "roi_input_1047.bin": {
+      "bytes": 920560,
+      "sha256": "7f75e46e4a246dcfc18607c75b871d9970c5abc71367247687f46fb35c5da11b"
+    },
+    "roi_owned_1006.bin": {
+      "bytes": 920560,
+      "sha256": "cd48e705e4d24014e57d3ca43a5aa6d813591190997590ffc815eb2503c939aa"
+    },
+    "roi_input_506.bin": {
+      "bytes": 920560,
+      "sha256": "de52198f340d80b77fe7daf982f67f8e767489f028a0ea1412abfad5a0a411d3"
+    },
+    "roi_original_505.bin": {
+      "bytes": 920560,
+      "sha256": "578f561f2b8a9873b6886434a84eaeade577ca0c70a34d96a94e233393ea6a3a"
+    },
+    "roi_input_61.bin": {
+      "bytes": 920560,
+      "sha256": "947b45ffa1864dd2ac3634562aaa58fe9c58cf7d52aa16ed0e5ce17ccd7b204d"
+    },
+    "roi_original_1001.bin": {
+      "bytes": 920560,
+      "sha256": "1033d625489909f623a46ec9a3f0a5cd4e147c3eedb35a729bb79f990d497a60"
+    },
+    "roi_input_5.bin": {
+      "bytes": 920560,
+      "sha256": "ca09f221a2ac76c476a1d975b7ee4a5607f30e654aad3ff92dc59cea1fcd9f4e"
+    },
+    "roi_owned_3100.bin": {
+      "bytes": 920560,
+      "sha256": "6cd2c5d203b960d718eb787ae90d4eb4382ad6e1d2399df73b6559763f6a7d5f"
+    },
+    "roi_original_402.bin": {
+      "bytes": 920560,
+      "sha256": "c1205d2122849d1b29a5907cf3fe216c1b4d166c5af7c127aca88692d3d58709"
+    },
+    "roi_owned_157.bin": {
+      "bytes": 920560,
+      "sha256": "4b0ffde77b06401b926841987454e46a37f9dcf34ab80dc417e828534e441ec0"
+    },
+    "roi_original_401.bin": {
+      "bytes": 920560,
+      "sha256": "46d1b42ea779771a8569e229a756277cef7e1df420efa6a64b17b2d4766f1d2a"
+    },
+    "roi_input_159.bin": {
+      "bytes": 920560,
+      "sha256": "cfe057f7448f6dce7fb98bd80e4e52989eb13822213ad2265b1a5daa5851ae44"
+    },
+    "roi_config_302.bin": {
+      "bytes": 1502800,
+      "sha256": "1b99083252088164e8ab0c1d16f9fdc2e3440b8ac37ae598861a542ec9bb3c0e"
+    },
+    "roi_original_461.bin": {
+      "bytes": 920560,
+      "sha256": "4a5abefaca35dba293ea6670a19dfe9ae853d9263efdef33e188cff248ad8b37"
+    },
+    "roi_config_1019.bin": {
+      "bytes": 1502800,
+      "sha256": "ea0ff301e01376c279e384a7563e7ec0f083f38b9ef305c1d2d0c5b4ea98a55c"
+    },
+    "roi_owned_1034.bin": {
+      "bytes": 920560,
+      "sha256": "b8beb7b5781219e4d79ae1ddf3b5b4bee361d61dce5785315a94874cd191bd22"
+    },
+    "roi_owned_558.bin": {
+      "bytes": 920560,
+      "sha256": "6e9de1da1766237e80999e409e1f25b8f7e8fa2378a24df2fe7d3c248406a2f9"
+    },
+    "roi_input_1046.bin": {
+      "bytes": 920560,
+      "sha256": "d9a4ae970ecc3c69b562525ea90dafe5658880d7d198407ff6688e5943f167f7"
+    },
+    "roi_original_161.bin": {
+      "bytes": 920560,
+      "sha256": "a118afd3a2231f54705ea7818ed111177ef97405702bcf7cd04d29e59c31e8cc"
+    },
+    "roi_original_1010.bin": {
+      "bytes": 920560,
+      "sha256": "b8beb7b5781219e4d79ae1ddf3b5b4bee361d61dce5785315a94874cd191bd22"
+    },
+    "roi_config_1021.bin": {
+      "bytes": 1502800,
+      "sha256": "ea0ff301e01376c279e384a7563e7ec0f083f38b9ef305c1d2d0c5b4ea98a55c"
+    },
+    "roi_owned_458.bin": {
+      "bytes": 920560,
+      "sha256": "3cdf3660475eefa3b8de3e2a28c6517f6fb6dd5c286901bd00e2fa70ff013b17"
+    },
+    "roi_owned_1010.bin": {
+      "bytes": 920560,
+      "sha256": "b8beb7b5781219e4d79ae1ddf3b5b4bee361d61dce5785315a94874cd191bd22"
+    },
+    "roi_owned_401.bin": {
+      "bytes": 920560,
+      "sha256": "46d1b42ea779771a8569e229a756277cef7e1df420efa6a64b17b2d4766f1d2a"
+    },
+    "roi_config_201.bin": {
+      "bytes": 1502800,
+      "sha256": "f39864254b8e83c46a289dc49842d7340ec8dc5432d9454f0407c824b5e7ba15"
+    },
+    "roi_config_460.bin": {
+      "bytes": 1502800,
+      "sha256": "0029cb8028977f7fe0221cd169d45faf9e562409e21028dcfdf9f775eadb289e"
+    },
+    "roi_original_204.bin": {
+      "bytes": 920560,
+      "sha256": "9b4bf1f5f74e380d972aa5318d6ea22bfde86a58a1d04292a4dee3ce25d103ac"
+    },
+    "roi_config_1037.bin": {
+      "bytes": 1502800,
+      "sha256": "d77c596e7f442bdfd477ead50f414a501d3702ef4a00a4df0c2f0346fda1bbf8"
+    },
+    "roi_owned_302.bin": {
+      "bytes": 920560,
+      "sha256": "d08a3b11fe6aa70940d1c2107c12da25017b18815e8809c9532fddcbcc2a37c8"
+    },
+    "roi_owned_460.bin": {
+      "bytes": 920560,
+      "sha256": "6776f6df7a1a233c5a64f4fe24de20ef38a851097e749bc6fbebc9428e8e0126"
+    },
+    "roi_owned_1015.bin": {
+      "bytes": 920560,
+      "sha256": "2ca1130200de23371f2a4780d17191ab9664d18ee6cda1a7a258c433a09b3031"
+    },
+    "roi_owned_360.bin": {
+      "bytes": 920560,
+      "sha256": "e24aa6d5f500dcc324d3f34ef9670d1477f85a9780a2addb8c570084d52149b8"
+    },
+    "roi_config_1014.bin": {
+      "bytes": 1502800,
+      "sha256": "c7b2d85b1416b56695dd0510d56dd7d5e65dc2400c4f51a7283bb3734bbe3eb4"
+    },
+    "roi_input_2.bin": {
+      "bytes": 920560,
+      "sha256": "801b79048b37b6afb97d0a02efc3ba9f22f5c7e0159e57851009045e96752871"
+    },
+    "roi_config_60.bin": {
+      "bytes": 1502800,
+      "sha256": "bd7f99107f835d2cf2147e2fa8ce282c416598392b8d984c9e9cf856a085eeda"
+    },
+    "roi_owned_3200.bin": {
+      "bytes": 920560,
+      "sha256": "3ae07adfc750936c6da76ed47ad6d97b60a21de3663d27fd3ead24f5313fb2d7"
+    },
+    "roi_input_500.bin": {
+      "bytes": 920560,
+      "sha256": "3588c29b0a2716354176e666ad1e19b7a62a31427ed338dc52a793fb8c91eb77"
+    },
+    "roi_original_62.bin": {
+      "bytes": 920560,
+      "sha256": "da3ddfa6e6ea0b18004f9cba50a59e2ee141bc91c1525ae24e08bb9a58be5ba8"
+    },
+    "roi_original_3111.bin": {
+      "bytes": 920560,
+      "sha256": "5f121ef2effea711fdd46f8e9f27bf4c74e33504a2d09fb102dc07c2f1b34593"
+    },
+    "roi_config_358.bin": {
+      "bytes": 1502800,
+      "sha256": "d2014bfce37d56e4ba0f6c693f7229d4f80930ab194033484f6efc530382a521"
+    },
+    "roi_config_1010.bin": {
+      "bytes": 1502800,
+      "sha256": "c7b2d85b1416b56695dd0510d56dd7d5e65dc2400c4f51a7283bb3734bbe3eb4"
+    },
+    "roi_original_304.bin": {
+      "bytes": 920560,
+      "sha256": "3278c11e747631b9a53654b1b4458211a1b3fc63ccd05dafbd6967c7313bc7d7"
+    },
+    "roi_input_1034.bin": {
+      "bytes": 920560,
+      "sha256": "1e55d007251358050e454876a59f74ba7d287e7d2270c775f42ffe55aa4d3783"
+    },
+    "roi_input_1010.bin": {
+      "bytes": 920560,
+      "sha256": "1e55d007251358050e454876a59f74ba7d287e7d2270c775f42ffe55aa4d3783"
+    },
+    "roi_owned_256.bin": {
+      "bytes": 920560,
+      "sha256": "e0c0c59cd061559a643661ee1f5ea185564343a3bd5711ce1d5eec32ee7bb701"
+    },
+    "roi_owned_262.bin": {
+      "bytes": 920560,
+      "sha256": "24de48c502916442b75fce67f98e676ed966caed488851399326344d3525d583"
+    },
+    "roi_config_1028.bin": {
+      "bytes": 1502800,
+      "sha256": "c7b2d85b1416b56695dd0510d56dd7d5e65dc2400c4f51a7283bb3734bbe3eb4"
+    },
+    "roi_original_160.bin": {
+      "bytes": 920560,
+      "sha256": "6cd2c5d203b960d718eb787ae90d4eb4382ad6e1d2399df73b6559763f6a7d5f"
+    },
+    "roi_owned_257.bin": {
+      "bytes": 920560,
+      "sha256": "bf83d71ea7e50ce9e62bcd1e6c02b18d10bfbd1bdf39db8f02fe36e35da01df0"
+    },
+    "roi_config_63.bin": {
+      "bytes": 1502800,
+      "sha256": "5fcc75fbce36e8faf267eeed45fa6e470b87ea53c8a132aba68b206b99373a8b"
+    },
+    "roi_original_59.bin": {
+      "bytes": 920560,
+      "sha256": "5da0c0b4ccd37bb62e17b264a83f2c5c0f5b563be9ef84a9f9e068dd95234591"
+    },
+    "roi_config_1001.bin": {
+      "bytes": 1502800,
+      "sha256": "ea0ff301e01376c279e384a7563e7ec0f083f38b9ef305c1d2d0c5b4ea98a55c"
+    },
+    "roi_owned_156.bin": {
+      "bytes": 920560,
+      "sha256": "e0c0c59cd061559a643661ee1f5ea185564343a3bd5711ce1d5eec32ee7bb701"
+    },
+    "roi_input_501.bin": {
+      "bytes": 920560,
+      "sha256": "7e3f877c5bd0d2bbdb3593be600e121f2f3bf818a9ffd2bd8cd32c3acdd6886d"
+    },
+    "roi_config_404.bin": {
+      "bytes": 1502800,
+      "sha256": "57c35e08232c9f3dfa1ed7081bc65d51467e1d9102e0f47bbda4daa78360f5d0"
+    },
+    "roi_config_4.bin": {
+      "bytes": 1502800,
+      "sha256": "ef7dad6c696b2d21d771021c73425c3d945c57882b5089aeca1059528a46d732"
+    },
+    "roi_input_160.bin": {
+      "bytes": 920560,
+      "sha256": "3588c29b0a2716354176e666ad1e19b7a62a31427ed338dc52a793fb8c91eb77"
+    },
+    "roi_config_306.bin": {
+      "bytes": 1502800,
+      "sha256": "098c347f04b82f1ddabbe671d828c7e0cf6b00a2769d25c7491fa80bcfce78bf"
+    },
+    "roi_input_1006.bin": {
+      "bytes": 920560,
+      "sha256": "3588c29b0a2716354176e666ad1e19b7a62a31427ed338dc52a793fb8c91eb77"
+    },
+    "roi_original_561.bin": {
+      "bytes": 920560,
+      "sha256": "930870b0673b450f0da656d404e321d2d59b0dcb350dc7ddd08ba5fdb80bdfbb"
+    },
+    "roi_config_1039.bin": {
+      "bytes": 1502800,
+      "sha256": "d77c596e7f442bdfd477ead50f414a501d3702ef4a00a4df0c2f0346fda1bbf8"
+    },
+    "roi_input_259.bin": {
+      "bytes": 920560,
+      "sha256": "8b6b75af3757e5b4235b5bf111667b52196ecaddc0e470cc8721d6526bf3d036"
+    },
+    "roi_original_1006.bin": {
+      "bytes": 920560,
+      "sha256": "cd48e705e4d24014e57d3ca43a5aa6d813591190997590ffc815eb2503c939aa"
+    },
+    "roi_config_3.bin": {
+      "bytes": 1502800,
+      "sha256": "ff0d4d8732b981a77fbe076061fad5c2c80c023ea5fc90c7a392b36bfd8122d8"
+    },
+    "roi_original_306.bin": {
+      "bytes": 920560,
+      "sha256": "718c1f7a79b2b244853f18c94b13dacfec3a2cba52fea04fa8522e833f108c3f"
+    },
+    "roi_config_200.bin": {
+      "bytes": 1502800,
+      "sha256": "799310ca4b905ff71ce46d424a4dbab8f28958b635d349c0ccfcfd41983a141e"
+    },
+    "roi_input_7.bin": {
+      "bytes": 920560,
+      "sha256": "3588c29b0a2716354176e666ad1e19b7a62a31427ed338dc52a793fb8c91eb77"
+    },
+    "roi_input_1033.bin": {
+      "bytes": 920560,
+      "sha256": "6d54f076833f11cf5d5eb937e932ec3c3e72497b2d03c92f2ee089fa811ee110"
+    },
+    "roi_owned_1022.bin": {
+      "bytes": 920560,
+      "sha256": "b8beb7b5781219e4d79ae1ddf3b5b4bee361d61dce5785315a94874cd191bd22"
+    },
+    "roi_owned_1039.bin": {
+      "bytes": 920560,
+      "sha256": "f712fe82ace058dd8e8c3bcef95e47883339820e69f48446298f9b230fdf21c8"
+    },
+    "roi_config_62.bin": {
+      "bytes": 1502800,
+      "sha256": "2765975a80636dd5d42be0982763970050aed21a4e080588a37a8698aac1152a"
+    },
+    "roi_owned_259.bin": {
+      "bytes": 920560,
+      "sha256": "5bd0846ade25f14cfeb98d92e48c1c7f1b0de403d314bf87c4d1d408e7505d23"
+    },
+    "roi_config_407.bin": {
+      "bytes": 1502800,
+      "sha256": "f51935cb57eea41c45a8471593ce8584885cde4cd6aa86969142cb1c3c635001"
+    },
+    "roi_owned_5.bin": {
+      "bytes": 920560,
+      "sha256": "63d5f0fc9bc3be93c2ab09c0522c209b2d6f5303673b56b77a9de461e8831359"
+    },
+    "roi_original_361.bin": {
+      "bytes": 920560,
+      "sha256": "c3e206605230998ae64cff6670eaba1f8cafacad58bda2ceba8ee1a7d42897c9"
+    },
+    "roi_input_1000.bin": {
+      "bytes": 920560,
+      "sha256": "3588c29b0a2716354176e666ad1e19b7a62a31427ed338dc52a793fb8c91eb77"
+    },
+    "roi_input_360.bin": {
+      "bytes": 920560,
+      "sha256": "3588c29b0a2716354176e666ad1e19b7a62a31427ed338dc52a793fb8c91eb77"
+    },
+    "roi_config_506.bin": {
+      "bytes": 1502800,
+      "sha256": "0eeec137c4f01b108f5a3b03dd5abfd0112a9300dbfa83164a1ca2a40817c340"
+    },
+    "roi_input_2005.bin": {
+      "bytes": 920560,
+      "sha256": "b76d3b51a03e6f205c6ef27eb6bcbb25e4d03291fa23ef0fc595bc486fa41f53"
+    },
+    "roi_input_307.bin": {
+      "bytes": 920560,
+      "sha256": "3588c29b0a2716354176e666ad1e19b7a62a31427ed338dc52a793fb8c91eb77"
+    },
+    "roi_original_103.bin": {
+      "bytes": 920560,
+      "sha256": "f51dce60bb071f9e557befcc976760637e343baff6251e947c205ee1168e37e1"
+    },
+    "roi_original_61.bin": {
+      "bytes": 920560,
+      "sha256": "8ca357ec09be1dc9a991b22a4de320e4ac4d82b3acb6463e04ca2f7778fd2bad"
+    },
+    "roi_original_63.bin": {
+      "bytes": 920560,
+      "sha256": "da3ddfa6e6ea0b18004f9cba50a59e2ee141bc91c1525ae24e08bb9a58be5ba8"
+    },
+    "roi_config_1023.bin": {
+      "bytes": 1502800,
+      "sha256": "ea0ff301e01376c279e384a7563e7ec0f083f38b9ef305c1d2d0c5b4ea98a55c"
+    },
+    "roi_owned_462.bin": {
+      "bytes": 920560,
+      "sha256": "584b0e7f7a5a8108cd2100e6034f43b3711f02c61b1d10840e1e8a9aa9c1b85b"
+    },
+    "roi_input_100.bin": {
+      "bytes": 920560,
+      "sha256": "3588c29b0a2716354176e666ad1e19b7a62a31427ed338dc52a793fb8c91eb77"
+    },
+    "roi_owned_1013.bin": {
+      "bytes": 920560,
+      "sha256": "1033d625489909f623a46ec9a3f0a5cd4e147c3eedb35a729bb79f990d497a60"
+    },
+    "roi_original_2006.bin": {
+      "bytes": 920560,
+      "sha256": "a005444dd86e8f5c0bc6f4bf97680e2dc889dc4157d4de444c4ea68ec1dc9478"
+    },
+    "roi_original_562.bin": {
+      "bytes": 920560,
+      "sha256": "3b05ec168fddc19547ccf144a9f31ec89c8be9d4acf2c1deb4f80855176a0bd8"
+    },
+    "roi_original_1007.bin": {
+      "bytes": 920560,
+      "sha256": "1033d625489909f623a46ec9a3f0a5cd4e147c3eedb35a729bb79f990d497a60"
+    },
+    "roi_owned_357.bin": {
+      "bytes": 920560,
+      "sha256": "5208e4daf540c07399fe67682ed85908ce7e207fc170384b11d46d56e81df221"
+    },
+    "roi_config_362.bin": {
+      "bytes": 1502800,
+      "sha256": "1e98ac19313d98d6a8e97e41e79f8debccab461b5ae428909df409a43be4dbbf"
+    },
+    "roi_config_3511.bin": {
+      "bytes": 1502800,
+      "sha256": "0eeec137c4f01b108f5a3b03dd5abfd0112a9300dbfa83164a1ca2a40817c340"
+    },
+    "roi_config_263.bin": {
+      "bytes": 1502800,
+      "sha256": "015e367a59f9b6c00def1afd6fdf71929738c946a2ab8cc020cf3e12ef31e5bb"
+    },
+    "roi_owned_3111.bin": {
+      "bytes": 920560,
+      "sha256": "5f121ef2effea711fdd46f8e9f27bf4c74e33504a2d09fb102dc07c2f1b34593"
+    },
+    "roi_input_557.bin": {
+      "bytes": 920560,
+      "sha256": "a680c28d2afd3bb44c3b92885970c8d34a53792853759ec1a2b3b29db38b3bca"
+    },
+    "roi_original_559.bin": {
+      "bytes": 920560,
+      "sha256": "b8ea4cc6de098e56754f421fc95dd3c573faec36e2c998d2e1547360b4c929c9"
+    },
+    "roi_owned_1024.bin": {
+      "bytes": 920560,
+      "sha256": "cd48e705e4d24014e57d3ca43a5aa6d813591190997590ffc815eb2503c939aa"
+    },
+    "roi_original_307.bin": {
+      "bytes": 920560,
+      "sha256": "65c5655a5f9656e7b539f5cdcf68d475aa9288eda5c1a7acf8192c843372e7ae"
+    },
+    "roi_config_557.bin": {
+      "bytes": 1502800,
+      "sha256": "0eeec137c4f01b108f5a3b03dd5abfd0112a9300dbfa83164a1ca2a40817c340"
+    },
+    "roi_owned_305.bin": {
+      "bytes": 920560,
+      "sha256": "c5ac4ecaf15a956fa987ad38ae1b0ea1bc205f5f52e3761c86f34ffecd5ae53f"
+    },
+    "roi_original_360.bin": {
+      "bytes": 920560,
+      "sha256": "e24aa6d5f500dcc324d3f34ef9670d1477f85a9780a2addb8c570084d52149b8"
+    },
+    "roi_original_457.bin": {
+      "bytes": 920560,
+      "sha256": "5c1355a7b7e08538df0aeb7a8a2cb07ac9dc261e3cb1338a10da2cc289ecbfa7"
+    },
+    "roi_original_2004.bin": {
+      "bytes": 920560,
+      "sha256": "837948f396176e9cb77c651bc0bd442eb2147e4066120223c74c374ca708cf69"
+    },
+    "roi_config_2006.bin": {
+      "bytes": 1502800,
+      "sha256": "ff0d4d8732b981a77fbe076061fad5c2c80c023ea5fc90c7a392b36bfd8122d8"
+    },
+    "roi_config_5.bin": {
+      "bytes": 1502800,
+      "sha256": "7cda23582c561bee1410b20488a87ef2487325859ab57e2630cbe8bc4348ee4c"
+    },
+    "roi_original_263.bin": {
+      "bytes": 920560,
+      "sha256": "24de48c502916442b75fce67f98e676ed966caed488851399326344d3525d583"
+    },
+    "roi_input_556.bin": {
+      "bytes": 920560,
+      "sha256": "0293603768a92f928791678b47c879dae5d0a8de12d3220e21d6235011adfd55"
+    },
+    "roi_config_462.bin": {
+      "bytes": 1502800,
+      "sha256": "3de0fab21dfed011f2b9e8f5a73de1eba0573390881f3cc1cdc72b092d6ab0ee"
+    },
+    "roi_input_1018.bin": {
+      "bytes": 920560,
+      "sha256": "3588c29b0a2716354176e666ad1e19b7a62a31427ed338dc52a793fb8c91eb77"
+    },
+    "roi_input_357.bin": {
+      "bytes": 920560,
+      "sha256": "a680c28d2afd3bb44c3b92885970c8d34a53792853759ec1a2b3b29db38b3bca"
+    },
+    "roi_owned_4.bin": {
+      "bytes": 920560,
+      "sha256": "571bbc4ccef0e62de9e6d2af47e6f6b449a77eb21948c2003080e48e8c2b5b21"
+    },
+    "roi_input_1026.bin": {
+      "bytes": 920560,
+      "sha256": "5060f92bbd1421cc90f3e6e32f962757fe28524075522da0c2a997185430df93"
+    },
+    "roi_input_258.bin": {
+      "bytes": 920560,
+      "sha256": "2c90bf241525fde5afb278075d1cbe6301a1efb60063f5e0b53cc33acbc30a0c"
+    },
+    "roi_config_162.bin": {
+      "bytes": 1502800,
+      "sha256": "b8ddb2b7f7c7933eb95bca8abb16fb6a769b5306db6de92255c149c81e7a0456"
+    },
+    "roi_original_156.bin": {
+      "bytes": 920560,
+      "sha256": "e0c0c59cd061559a643661ee1f5ea185564343a3bd5711ce1d5eec32ee7bb701"
+    },
+    "roi_config_301.bin": {
+      "bytes": 1502800,
+      "sha256": "d2014bfce37d56e4ba0f6c693f7229d4f80930ab194033484f6efc530382a521"
+    },
+    "roi_owned_2.bin": {
+      "bytes": 920560,
+      "sha256": "f1de5b9ee1eb16c1e6b43dcb59d39cd37e9683543cdd275042a56f722089b79b"
+    },
+    "roi_original_406.bin": {
+      "bytes": 920560,
+      "sha256": "43b3b80fde1103ae36db3416340496d9ef8cb021179777af7793c757585a3122"
+    },
+    "roi_input_6.bin": {
+      "bytes": 920560,
+      "sha256": "b599ec3b344c370d12c70fb2548d03ed7ff47c68f2f236bc0f040fd9e0829c4b"
+    },
+    "roi_original_1044.bin": {
+      "bytes": 920560,
+      "sha256": "38af16018ea3020a8d2cdd92386182f859fefa6634e996e8e5b94f49a26144c6"
+    },
+    "roi_config_1047.bin": {
+      "bytes": 1502800,
+      "sha256": "d77c596e7f442bdfd477ead50f414a501d3702ef4a00a4df0c2f0346fda1bbf8"
+    },
+    "roi_owned_507.bin": {
+      "bytes": 920560,
+      "sha256": "cb7cfce2eaec9b9795d637af14c6be4badddf130e78b8315cc8deb386afc8573"
+    },
+    "roi_input_1027.bin": {
+      "bytes": 920560,
+      "sha256": "6d54f076833f11cf5d5eb937e932ec3c3e72497b2d03c92f2ee089fa811ee110"
+    },
+    "roi_owned_205.bin": {
+      "bytes": 920560,
+      "sha256": "a36e7be9911d4d05f757fe68a215a7aaf9a15911f5c3d030f5806b619d1bcaca"
+    },
+    "roi_config_1044.bin": {
+      "bytes": 1502800,
+      "sha256": "5dea16e22bbd9e31ab9c9a97b7a7d0cb2521efc45b35eb57d4e8334c84e350f0"
+    },
+    "roi_input_3111.bin": {
+      "bytes": 920560,
+      "sha256": "5f121ef2effea711fdd46f8e9f27bf4c74e33504a2d09fb102dc07c2f1b34593"
+    },
+    "roi_input_1040.bin": {
+      "bytes": 920560,
+      "sha256": "2b326ec0b6d5d0ef0b25457f6937432cc23595b75603c14691fd6c4b7b2495d5"
+    },
+    "roi_config_1043.bin": {
+      "bytes": 1502800,
+      "sha256": "d77c596e7f442bdfd477ead50f414a501d3702ef4a00a4df0c2f0346fda1bbf8"
+    },
+    "roi_config_558.bin": {
+      "bytes": 1502800,
+      "sha256": "7c045b027e1e3de087a844986f8966ec519b9a56fe9c50fe8ee8215575217a30"
+    },
+    "roi_owned_363.bin": {
+      "bytes": 920560,
+      "sha256": "05c9903a75c104efcd3d589bf63a244a3283bad07a6cf27c4181adb9bc39d295"
+    },
+    "roi_config_59.bin": {
+      "bytes": 1502800,
+      "sha256": "7cda23582c561bee1410b20488a87ef2487325859ab57e2630cbe8bc4348ee4c"
+    },
+    "roi_config_1011.bin": {
+      "bytes": 1502800,
+      "sha256": "ea0ff301e01376c279e384a7563e7ec0f083f38b9ef305c1d2d0c5b4ea98a55c"
+    },
+    "roi_input_301.bin": {
+      "bytes": 920560,
+      "sha256": "089a8ee53f27e63bd76a46a9c61a8b54135b9d1f803c7ce54687e193fd8ae9a9"
+    },
+    "roi_original_403.bin": {
+      "bytes": 920560,
+      "sha256": "6a186f33d4e69d3f2c41cde0b66128082ec3d1b3525326d4e883fedd54c1370a"
+    },
+    "roi_config_205.bin": {
+      "bytes": 1502800,
+      "sha256": "66cddec29a08afb5b8f3b0393b347c186111589a3cfd8e07cd924737725b95a7"
+    },
+    "roi_original_102.bin": {
+      "bytes": 920560,
+      "sha256": "e1899c2bc130720df7a228f85445fac534bd8de40ab0ca6faa67f4208685a2ea"
+    },
+    "roi_input_3400.bin": {
+      "bytes": 920560,
+      "sha256": "3588c29b0a2716354176e666ad1e19b7a62a31427ed338dc52a793fb8c91eb77"
+    },
+    "roi_owned_563.bin": {
+      "bytes": 920560,
+      "sha256": "3b05ec168fddc19547ccf144a9f31ec89c8be9d4acf2c1deb4f80855176a0bd8"
+    },
+    "roi_input_1022.bin": {
+      "bytes": 920560,
+      "sha256": "1e55d007251358050e454876a59f74ba7d287e7d2270c775f42ffe55aa4d3783"
+    },
+    "roi_input_561.bin": {
+      "bytes": 920560,
+      "sha256": "54516a43dd9c54be51b8561cc5b71317a481bb712a15719e71cc3e11c73cc459"
+    },
+    "roi_owned_1025.bin": {
+      "bytes": 920560,
+      "sha256": "1033d625489909f623a46ec9a3f0a5cd4e147c3eedb35a729bb79f990d497a60"
+    },
+    "roi_input_1014.bin": {
+      "bytes": 920560,
+      "sha256": "5060f92bbd1421cc90f3e6e32f962757fe28524075522da0c2a997185430df93"
+    },
+    "roi_original_5.bin": {
+      "bytes": 920560,
+      "sha256": "63d5f0fc9bc3be93c2ab09c0522c209b2d6f5303673b56b77a9de461e8831359"
+    },
+    "roi_input_300.bin": {
+      "bytes": 920560,
+      "sha256": "3588c29b0a2716354176e666ad1e19b7a62a31427ed338dc52a793fb8c91eb77"
+    },
+    "roi_original_1031.bin": {
+      "bytes": 920560,
+      "sha256": "1033d625489909f623a46ec9a3f0a5cd4e147c3eedb35a729bb79f990d497a60"
+    },
+    "roi_input_505.bin": {
+      "bytes": 920560,
+      "sha256": "b76d3b51a03e6f205c6ef27eb6bcbb25e4d03291fa23ef0fc595bc486fa41f53"
+    },
+    "roi_owned_303.bin": {
+      "bytes": 920560,
+      "sha256": "f06a3859d6bca2883c240555c894a87d0c7ffd78a0db764e0383b6127ae3a252"
+    },
+    "roi_input_1036.bin": {
+      "bytes": 920560,
+      "sha256": "cc3338a17abb0af2d17c2fdc11fe4be94e77dc6da1113c39e0ac2c8215a261d3"
+    },
+    "roi_input_2003.bin": {
+      "bytes": 920560,
+      "sha256": "c4afa8e7b1cc90e23a70d14fbcd8346277d2191fdff0ceaaf060e20fb1b0506f"
+    },
+    "roi_owned_1001.bin": {
+      "bytes": 920560,
+      "sha256": "1033d625489909f623a46ec9a3f0a5cd4e147c3eedb35a729bb79f990d497a60"
+    },
+    "roi_original_1047.bin": {
+      "bytes": 920560,
+      "sha256": "7f75e46e4a246dcfc18607c75b871d9970c5abc71367247687f46fb35c5da11b"
+    },
+    "roi_owned_556.bin": {
+      "bytes": 920560,
+      "sha256": "e0c0c59cd061559a643661ee1f5ea185564343a3bd5711ce1d5eec32ee7bb701"
+    },
+    "roi_config_159.bin": {
+      "bytes": 1502800,
+      "sha256": "9561b8d6be88880ffe47c342424ce54bc0007c077163e8a8e5e17bba8e657e72"
+    },
+    "roi_owned_1036.bin": {
+      "bytes": 920560,
+      "sha256": "cc3338a17abb0af2d17c2fdc11fe4be94e77dc6da1113c39e0ac2c8215a261d3"
+    },
+    "roi_owned_1026.bin": {
+      "bytes": 920560,
+      "sha256": "95d2d68eea2a26729442c35cc2c077a6ca5b8e9dd3aafc815fbb4b99cc04ceec"
+    },
+    "roi_config_504.bin": {
+      "bytes": 1502800,
+      "sha256": "7c045b027e1e3de087a844986f8966ec519b9a56fe9c50fe8ee8215575217a30"
+    },
+    "roi_original_3500.bin": {
+      "bytes": 920560,
+      "sha256": "8052bf79108972b124f7e7d275a68807bee0095424ca18ae3bd527db783ea0a4"
+    },
+    "roi_owned_2007.bin": {
+      "bytes": 920560,
+      "sha256": "e0c0c59cd061559a643661ee1f5ea185564343a3bd5711ce1d5eec32ee7bb701"
+    },
+    "roi_owned_1020.bin": {
+      "bytes": 920560,
+      "sha256": "95d2d68eea2a26729442c35cc2c077a6ca5b8e9dd3aafc815fbb4b99cc04ceec"
+    },
+    "roi_original_560.bin": {
+      "bytes": 920560,
+      "sha256": "8052bf79108972b124f7e7d275a68807bee0095424ca18ae3bd527db783ea0a4"
+    },
+    "roi_input_106.bin": {
+      "bytes": 920560,
+      "sha256": "8197bdf20678a9181b13901d058490ccad6c46d840d44e703b0824f89f2d225d"
+    },
+    "roi_config_1015.bin": {
+      "bytes": 1502800,
+      "sha256": "ea0ff301e01376c279e384a7563e7ec0f083f38b9ef305c1d2d0c5b4ea98a55c"
+    },
+    "roi_owned_1038.bin": {
+      "bytes": 920560,
+      "sha256": "3c2daf65c99c0529a1a22125fb5cd38cd54f231104dd73ebd9afbf35ff0650b6"
+    },
+    "roi_input_156.bin": {
+      "bytes": 920560,
+      "sha256": "0293603768a92f928791678b47c879dae5d0a8de12d3220e21d6235011adfd55"
+    },
+    "roi_config_262.bin": {
+      "bytes": 1502800,
+      "sha256": "a410d808a7b985532bbc29d8f10c424cad7a9212e0e0c7bc1ed8d1e35dcdfeb5"
+    },
+    "roi_input_1002.bin": {
+      "bytes": 920560,
+      "sha256": "5060f92bbd1421cc90f3e6e32f962757fe28524075522da0c2a997185430df93"
+    },
+    "roi_config_303.bin": {
+      "bytes": 1502800,
+      "sha256": "098c347f04b82f1ddabbe671d828c7e0cf6b00a2769d25c7491fa80bcfce78bf"
+    },
+    "roi_owned_102.bin": {
+      "bytes": 920560,
+      "sha256": "e1899c2bc130720df7a228f85445fac534bd8de40ab0ca6faa67f4208685a2ea"
+    },
+    "roi_config_163.bin": {
+      "bytes": 1502800,
+      "sha256": "124693c8be910106ae9e54adccfd467a5b2104777e16a2c8b8c3e46957192edb"
+    },
+    "roi_input_1016.bin": {
+      "bytes": 920560,
+      "sha256": "1e55d007251358050e454876a59f74ba7d287e7d2270c775f42ffe55aa4d3783"
+    },
+    "roi_original_1003.bin": {
+      "bytes": 920560,
+      "sha256": "2ca1130200de23371f2a4780d17191ab9664d18ee6cda1a7a258c433a09b3031"
+    },
+    "roi_original_1028.bin": {
+      "bytes": 920560,
+      "sha256": "b8beb7b5781219e4d79ae1ddf3b5b4bee361d61dce5785315a94874cd191bd22"
+    },
+    "roi_original_60.bin": {
+      "bytes": 920560,
+      "sha256": "cd48e705e4d24014e57d3ca43a5aa6d813591190997590ffc815eb2503c939aa"
+    },
+    "roi_owned_1037.bin": {
+      "bytes": 920560,
+      "sha256": "d160e273816eec20b6b4b798a5c3a711a85da895bf7e33ea5bd62aba23d053b7"
+    },
+    "roi_original_206.bin": {
+      "bytes": 920560,
+      "sha256": "c1bccd0f05c0f4c0d8c008ed9e1ea9795fcbe23d88a5c7193cebeac41c5b02ea"
+    },
+    "roi_config_203.bin": {
+      "bytes": 1502800,
+      "sha256": "799310ca4b905ff71ce46d424a4dbab8f28958b635d349c0ccfcfd41983a141e"
+    },
+    "roi_input_200.bin": {
+      "bytes": 920560,
+      "sha256": "3588c29b0a2716354176e666ad1e19b7a62a31427ed338dc52a793fb8c91eb77"
+    },
+    "roi_owned_106.bin": {
+      "bytes": 920560,
+      "sha256": "9a59cca8a52ee780294fe0f04276c81fb65c40916179edd6f2cfb40572e6db48"
+    },
+    "roi_config_101.bin": {
+      "bytes": 1502800,
+      "sha256": "ddfecd7a40221a96af2c493af58382c62e0257737ae2cecf68dcfbafd0284d7c"
+    },
+    "roi_owned_300.bin": {
+      "bytes": 920560,
+      "sha256": "e24aa6d5f500dcc324d3f34ef9670d1477f85a9780a2addb8c570084d52149b8"
+    },
+    "roi_owned_307.bin": {
+      "bytes": 920560,
+      "sha256": "65c5655a5f9656e7b539f5cdcf68d475aa9288eda5c1a7acf8192c843372e7ae"
+    },
+    "roi_config_256.bin": {
+      "bytes": 1502800,
+      "sha256": "66cddec29a08afb5b8f3b0393b347c186111589a3cfd8e07cd924737725b95a7"
+    },
+    "roi_config_1036.bin": {
+      "bytes": 1502800,
+      "sha256": "5dea16e22bbd9e31ab9c9a97b7a7d0cb2521efc45b35eb57d4e8334c84e350f0"
+    },
+    "roi_input_161.bin": {
+      "bytes": 920560,
+      "sha256": "df3b5d62acff922e9eb2b77cb947f0bc426c5c901e6f2722e8d9098d8d49fe23"
+    },
+    "roi_owned_1047.bin": {
+      "bytes": 920560,
+      "sha256": "7f75e46e4a246dcfc18607c75b871d9970c5abc71367247687f46fb35c5da11b"
+    },
+    "roi_input_507.bin": {
+      "bytes": 920560,
+      "sha256": "3588c29b0a2716354176e666ad1e19b7a62a31427ed338dc52a793fb8c91eb77"
+    },
+    "roi_config_3500.bin": {
+      "bytes": 1502800,
+      "sha256": "0eeec137c4f01b108f5a3b03dd5abfd0112a9300dbfa83164a1ca2a40817c340"
+    },
+    "roi_original_56.bin": {
+      "bytes": 920560,
+      "sha256": "e0c0c59cd061559a643661ee1f5ea185564343a3bd5711ce1d5eec32ee7bb701"
+    },
+    "roi_input_0.bin": {
+      "bytes": 920560,
+      "sha256": "3588c29b0a2716354176e666ad1e19b7a62a31427ed338dc52a793fb8c91eb77"
+    },
+    "roi_config_58.bin": {
+      "bytes": 1502800,
+      "sha256": "ef7dad6c696b2d21d771021c73425c3d945c57882b5089aeca1059528a46d732"
+    },
+    "roi_original_357.bin": {
+      "bytes": 920560,
+      "sha256": "5208e4daf540c07399fe67682ed85908ce7e207fc170384b11d46d56e81df221"
+    },
+    "roi_original_2007.bin": {
+      "bytes": 920560,
+      "sha256": "e0c0c59cd061559a643661ee1f5ea185564343a3bd5711ce1d5eec32ee7bb701"
+    },
+    "roi_config_1018.bin": {
+      "bytes": 1502800,
+      "sha256": "c7b2d85b1416b56695dd0510d56dd7d5e65dc2400c4f51a7283bb3734bbe3eb4"
+    },
+    "roi_original_563.bin": {
+      "bytes": 920560,
+      "sha256": "3b05ec168fddc19547ccf144a9f31ec89c8be9d4acf2c1deb4f80855176a0bd8"
+    },
+    "roi_config_1022.bin": {
+      "bytes": 1502800,
+      "sha256": "c7b2d85b1416b56695dd0510d56dd7d5e65dc2400c4f51a7283bb3734bbe3eb4"
+    },
+    "roi_input_458.bin": {
+      "bytes": 920560,
+      "sha256": "c050c0f10c67072c250d53404d9efeea48c1f71c82344933958a7a74f9c0df8d"
+    },
+    "roi_input_205.bin": {
+      "bytes": 920560,
+      "sha256": "df298daf500a7b4597fa9e1dab2e2fa7c7198b83434b08ce2e471770c655b93e"
+    },
+    "roi_input_105.bin": {
+      "bytes": 920560,
+      "sha256": "5213ef04a94f5785730151f6e3c8fccdf08f50c1f0170bda52f5318c074f6cbf"
+    },
+    "roi_owned_1044.bin": {
+      "bytes": 920560,
+      "sha256": "38af16018ea3020a8d2cdd92386182f859fefa6634e996e8e5b94f49a26144c6"
+    },
+    "roi_owned_1031.bin": {
+      "bytes": 920560,
+      "sha256": "1033d625489909f623a46ec9a3f0a5cd4e147c3eedb35a729bb79f990d497a60"
+    },
+    "roi_config_562.bin": {
+      "bytes": 1502800,
+      "sha256": "e6d33cfe126b36a809602a42b27a469e1c5c5748ccba29b82c3b36527e4b3d7c"
+    },
+    "roi_owned_557.bin": {
+      "bytes": 920560,
+      "sha256": "d68cbe1b3ef38c973a503b01e771495040005b9971efb5419fff70f1f3d8bcce"
+    },
+    "roi_owned_459.bin": {
+      "bytes": 920560,
+      "sha256": "d86fbe55b35dd25a0429a4d1441a40c0c1d13b553fb236c7fd43971e1d7bb9a2"
+    },
+    "roi_input_1.bin": {
+      "bytes": 920560,
+      "sha256": "c40f48accc03338d700ef62a06a9ea9cd1e6cc77e49cb3aaef6700aee721c9c2"
+    },
+    "roi_original_1040.bin": {
+      "bytes": 920560,
+      "sha256": "f5caebe039346e329317193c4ffcbd6ffebc0ef58a9f512b35950a8228ec3e4e"
+    },
+    "roi_config_3000.bin": {
+      "bytes": 1502800,
+      "sha256": "ff0d4d8732b981a77fbe076061fad5c2c80c023ea5fc90c7a392b36bfd8122d8"
+    },
+    "roi_original_1027.bin": {
+      "bytes": 920560,
+      "sha256": "2ca1130200de23371f2a4780d17191ab9664d18ee6cda1a7a258c433a09b3031"
+    },
+    "roi_original_205.bin": {
+      "bytes": 920560,
+      "sha256": "a36e7be9911d4d05f757fe68a215a7aaf9a15911f5c3d030f5806b619d1bcaca"
+    },
+    "roi_original_261.bin": {
+      "bytes": 920560,
+      "sha256": "bc545aaeb149482724986e753a71ddbaa758461c81aa0757f3771c421bb41dbf"
+    },
+    "roi_input_107.bin": {
+      "bytes": 920560,
+      "sha256": "3588c29b0a2716354176e666ad1e19b7a62a31427ed338dc52a793fb8c91eb77"
+    },
+    "roi_original_462.bin": {
+      "bytes": 920560,
+      "sha256": "584b0e7f7a5a8108cd2100e6034f43b3711f02c61b1d10840e1e8a9aa9c1b85b"
+    },
+    "roi_owned_1008.bin": {
+      "bytes": 920560,
+      "sha256": "95d2d68eea2a26729442c35cc2c077a6ca5b8e9dd3aafc815fbb4b99cc04ceec"
+    },
+    "roi_owned_3511.bin": {
+      "bytes": 920560,
+      "sha256": "31ce93eb982a6d6aeab042a3d1b140ddb9323ba1821d2b26654c05c88ce746f9"
+    },
+    "roi_original_162.bin": {
+      "bytes": 920560,
+      "sha256": "b52062c797382c24e88e9edc09437637b681750b90082d1d6b33dd7be2cb0839"
+    },
+    "roi_original_257.bin": {
+      "bytes": 920560,
+      "sha256": "bf83d71ea7e50ce9e62bcd1e6c02b18d10bfbd1bdf39db8f02fe36e35da01df0"
+    },
+    "roi_input_158.bin": {
+      "bytes": 920560,
+      "sha256": "7ffe32a7a45c888dbbff9df1310849ee6a3d0a9ab462849c63df8a014595f636"
+    },
+    "roi_config_207.bin": {
+      "bytes": 1502800,
+      "sha256": "1d7335fc85dbdc10d8a672edae467f37be968d55a75015d3161567f66450b37a"
+    },
+    "roi_input_101.bin": {
+      "bytes": 920560,
+      "sha256": "d325bb5c9daee1a368ee64f116ae577b743720cd8b10f69a548aeff9b47b3a0f"
+    },
+    "roi_original_556.bin": {
+      "bytes": 920560,
+      "sha256": "e0c0c59cd061559a643661ee1f5ea185564343a3bd5711ce1d5eec32ee7bb701"
+    },
+    "roi_input_57.bin": {
+      "bytes": 920560,
+      "sha256": "a680c28d2afd3bb44c3b92885970c8d34a53792853759ec1a2b3b29db38b3bca"
+    },
+    "roi_config_1012.bin": {
+      "bytes": 1502800,
+      "sha256": "c7b2d85b1416b56695dd0510d56dd7d5e65dc2400c4f51a7283bb3734bbe3eb4"
+    },
+    "full_reawb.bin": {
+      "bytes": 1000,
+      "sha256": "ce74e4fbad0b9188a1955f176fc86870646efd6e18c2b42679a548c461b138a8"
+    },
+    "roi_input_2006.bin": {
+      "bytes": 920560,
+      "sha256": "b599ec3b344c370d12c70fb2548d03ed7ff47c68f2f236bc0f040fd9e0829c4b"
+    },
+    "roi_owned_1007.bin": {
+      "bytes": 920560,
+      "sha256": "1033d625489909f623a46ec9a3f0a5cd4e147c3eedb35a729bb79f990d497a60"
+    },
+    "roi_config_1038.bin": {
+      "bytes": 1502800,
+      "sha256": "5dea16e22bbd9e31ab9c9a97b7a7d0cb2521efc45b35eb57d4e8334c84e350f0"
+    },
+    "roi_input_401.bin": {
+      "bytes": 920560,
+      "sha256": "25722958f48c3a0791b4e6cc59bb245465ec74e9336f89491e477092f2ad86e6"
+    },
+    "roi_config_1034.bin": {
+      "bytes": 1502800,
+      "sha256": "c7b2d85b1416b56695dd0510d56dd7d5e65dc2400c4f51a7283bb3734bbe3eb4"
+    },
+    "roi_owned_1002.bin": {
+      "bytes": 920560,
+      "sha256": "95d2d68eea2a26729442c35cc2c077a6ca5b8e9dd3aafc815fbb4b99cc04ceec"
+    },
+    "roi_input_1029.bin": {
+      "bytes": 920560,
+      "sha256": "d07a519518d8c552f21261eacf22cc2f3ed825e837eae5e01900957b822716ab"
+    },
+    "roi_input_261.bin": {
+      "bytes": 920560,
+      "sha256": "4029a1943c09361d1e1780baa218291187586ae916ae98eaacb1b7abd85b33b5"
+    },
+    "roi_owned_359.bin": {
+      "bytes": 920560,
+      "sha256": "c456879eb1bb7b1424c1315c3d545c7b8d6a3c529aa71f0568394f7989928e80"
+    },
+    "roi_config_1020.bin": {
+      "bytes": 1502800,
+      "sha256": "c7b2d85b1416b56695dd0510d56dd7d5e65dc2400c4f51a7283bb3734bbe3eb4"
+    },
+    "roi_input_305.bin": {
+      "bytes": 920560,
+      "sha256": "64294b7d9b044b80bf9727cec921e27daeec77ceab5a72cb4c80ac5b170eb357"
+    },
+    "roi_input_207.bin": {
+      "bytes": 920560,
+      "sha256": "3588c29b0a2716354176e666ad1e19b7a62a31427ed338dc52a793fb8c91eb77"
+    },
+    "roi_owned_62.bin": {
+      "bytes": 920560,
+      "sha256": "da3ddfa6e6ea0b18004f9cba50a59e2ee141bc91c1525ae24e08bb9a58be5ba8"
+    },
+    "roi_owned_159.bin": {
+      "bytes": 920560,
+      "sha256": "ff5b9415d764d4690d3487c32fe89c90e4c302f00857f8c40d1025c84987ee87"
+    },
+    "roi_owned_1035.bin": {
+      "bytes": 920560,
+      "sha256": "3964d11eca798c757cdf1ed87e4442d19bdba21e381718d5045c0293bdb1e88a"
+    },
+    "roi_config_1030.bin": {
+      "bytes": 1502800,
+      "sha256": "c7b2d85b1416b56695dd0510d56dd7d5e65dc2400c4f51a7283bb3734bbe3eb4"
+    },
+    "roi_original_200.bin": {
+      "bytes": 920560,
+      "sha256": "3ae07adfc750936c6da76ed47ad6d97b60a21de3663d27fd3ead24f5313fb2d7"
+    },
+    "roi_input_1037.bin": {
+      "bytes": 920560,
+      "sha256": "6dbf5db5149e81347395875c423e085744bc20e12646aea8b64b4c1534f1c5cf"
+    },
+    "roi_original_6.bin": {
+      "bytes": 920560,
+      "sha256": "681ff3d0aaff94bbda559ee647d9966cb6ec173ca89d31c97c63b5cd3cd3e725"
+    },
+    "roi_input_1028.bin": {
+      "bytes": 920560,
+      "sha256": "1e55d007251358050e454876a59f74ba7d287e7d2270c775f42ffe55aa4d3783"
+    },
+    "roi_original_558.bin": {
+      "bytes": 920560,
+      "sha256": "6e9de1da1766237e80999e409e1f25b8f7e8fa2378a24df2fe7d3c248406a2f9"
+    },
+    "roi_input_157.bin": {
+      "bytes": 920560,
+      "sha256": "a680c28d2afd3bb44c3b92885970c8d34a53792853759ec1a2b3b29db38b3bca"
+    },
+    "roi_input_407.bin": {
+      "bytes": 920560,
+      "sha256": "3588c29b0a2716354176e666ad1e19b7a62a31427ed338dc52a793fb8c91eb77"
+    },
+    "roi_original_100.bin": {
+      "bytes": 920560,
+      "sha256": "6cd2c5d203b960d718eb787ae90d4eb4382ad6e1d2399df73b6559763f6a7d5f"
+    },
+    "roi_original_359.bin": {
+      "bytes": 920560,
+      "sha256": "c456879eb1bb7b1424c1315c3d545c7b8d6a3c529aa71f0568394f7989928e80"
+    },
+    "roi_original_1012.bin": {
+      "bytes": 920560,
+      "sha256": "cd48e705e4d24014e57d3ca43a5aa6d813591190997590ffc815eb2503c939aa"
+    },
+    "roi_owned_1016.bin": {
+      "bytes": 920560,
+      "sha256": "b8beb7b5781219e4d79ae1ddf3b5b4bee361d61dce5785315a94874cd191bd22"
+    },
+    "roi_config_204.bin": {
+      "bytes": 1502800,
+      "sha256": "f39864254b8e83c46a289dc49842d7340ec8dc5432d9454f0407c824b5e7ba15"
+    },
+    "roi_config_1017.bin": {
+      "bytes": 1502800,
+      "sha256": "ea0ff301e01376c279e384a7563e7ec0f083f38b9ef305c1d2d0c5b4ea98a55c"
+    },
+    "roi_config_260.bin": {
+      "bytes": 1502800,
+      "sha256": "281140a3304cea73f34d399f3b36218ea2beb24c65c0c643f96492ff89aeb057"
+    },
+    "roi_owned_1014.bin": {
+      "bytes": 920560,
+      "sha256": "95d2d68eea2a26729442c35cc2c077a6ca5b8e9dd3aafc815fbb4b99cc04ceec"
+    },
+    "roi_owned_456.bin": {
+      "bytes": 920560,
+      "sha256": "e0c0c59cd061559a643661ee1f5ea185564343a3bd5711ce1d5eec32ee7bb701"
+    },
+    "roi_input_1023.bin": {
+      "bytes": 920560,
+      "sha256": "d07a519518d8c552f21261eacf22cc2f3ed825e837eae5e01900957b822716ab"
+    },
+    "roi_original_459.bin": {
+      "bytes": 920560,
+      "sha256": "d86fbe55b35dd25a0429a4d1441a40c0c1d13b553fb236c7fd43971e1d7bb9a2"
+    },
+    "roi_original_3311.bin": {
+      "bytes": 920560,
+      "sha256": "68fb6cb5cc4711f516563a55b039c4131b9e6ebd80bd650576f23ab3b5c2a3e4"
+    },
+    "roi_original_2003.bin": {
+      "bytes": 920560,
+      "sha256": "1668004c8e740a4987cd6f28464d60b1954765ab21192ce675d43ffba81f2f26"
+    },
+    "roi_input_1004.bin": {
+      "bytes": 920560,
+      "sha256": "1e55d007251358050e454876a59f74ba7d287e7d2270c775f42ffe55aa4d3783"
+    },
+    "roi_owned_2001.bin": {
+      "bytes": 920560,
+      "sha256": "d07c4b306c47e91770639081f65b60c3e66ece3337ab698639b7a8bc6caef094"
+    },
+    "roi_owned_407.bin": {
+      "bytes": 920560,
+      "sha256": "927cdd181a447991b10d1f8afe08e537034eed7ab60e48692ff328ca328b3605"
+    },
+    "roi_original_202.bin": {
+      "bytes": 920560,
+      "sha256": "aef76a398b878c75aea4a2cf455fcd126c373ed6e833c9e79cf5d53f40f93956"
+    },
+    "roi_input_3000.bin": {
+      "bytes": 920560,
+      "sha256": "3588c29b0a2716354176e666ad1e19b7a62a31427ed338dc52a793fb8c91eb77"
+    },
+    "roi_owned_203.bin": {
+      "bytes": 920560,
+      "sha256": "4b8200004cd13c9a298fa6ecba31c1046ba36c20f262fe2938fffa6520b48863"
+    },
+    "roi_owned_3311.bin": {
+      "bytes": 920560,
+      "sha256": "68fb6cb5cc4711f516563a55b039c4131b9e6ebd80bd650576f23ab3b5c2a3e4"
+    },
+    "roi_config_61.bin": {
+      "bytes": 1502800,
+      "sha256": "ef7dad6c696b2d21d771021c73425c3d945c57882b5089aeca1059528a46d732"
+    },
+    "full_config.bin": {
+      "bytes": 1502800,
+      "sha256": "47838a263340261d499a5beb977f97050f68e41778a3891c311b17ed5c8b42c3"
+    },
+    "roi_input_260.bin": {
+      "bytes": 920560,
+      "sha256": "3588c29b0a2716354176e666ad1e19b7a62a31427ed338dc52a793fb8c91eb77"
+    },
+    "roi_original_262.bin": {
+      "bytes": 920560,
+      "sha256": "24de48c502916442b75fce67f98e676ed966caed488851399326344d3525d583"
+    },
+    "roi_owned_261.bin": {
+      "bytes": 920560,
+      "sha256": "bc545aaeb149482724986e753a71ddbaa758461c81aa0757f3771c421bb41dbf"
+    },
+    "roi_config_1032.bin": {
+      "bytes": 1502800,
+      "sha256": "c7b2d85b1416b56695dd0510d56dd7d5e65dc2400c4f51a7283bb3734bbe3eb4"
+    },
+    "roi_input_2000.bin": {
+      "bytes": 920560,
+      "sha256": "3588c29b0a2716354176e666ad1e19b7a62a31427ed338dc52a793fb8c91eb77"
+    },
+    "full_context.bin": {
+      "bytes": 920560,
+      "sha256": "b3a798f55baa3116ca3a3a0208d73d96e8c72fea5e019da743dcc0813d2b7c56"
+    },
+    "roi_owned_505.bin": {
+      "bytes": 920560,
+      "sha256": "578f561f2b8a9873b6886434a84eaeade577ca0c70a34d96a94e233393ea6a3a"
+    },
+    "roi_input_303.bin": {
+      "bytes": 920560,
+      "sha256": "c4afa8e7b1cc90e23a70d14fbcd8346277d2191fdff0ceaaf060e20fb1b0506f"
+    },
+    "roi_owned_201.bin": {
+      "bytes": 920560,
+      "sha256": "19d3d73a36b062f7ca27de4e4718b2fd50c92169e406aa90b7efb5b7bc755001"
+    },
+    "roi_config_1025.bin": {
+      "bytes": 1502800,
+      "sha256": "ea0ff301e01376c279e384a7563e7ec0f083f38b9ef305c1d2d0c5b4ea98a55c"
+    },
+    "roi_input_462.bin": {
+      "bytes": 920560,
+      "sha256": "3588c29b0a2716354176e666ad1e19b7a62a31427ed338dc52a793fb8c91eb77"
+    },
+    "roi_config_503.bin": {
+      "bytes": 1502800,
+      "sha256": "0eeec137c4f01b108f5a3b03dd5abfd0112a9300dbfa83164a1ca2a40817c340"
+    },
+    "roi_owned_400.bin": {
+      "bytes": 920560,
+      "sha256": "6776f6df7a1a233c5a64f4fe24de20ef38a851097e749bc6fbebc9428e8e0126"
+    },
+    "roi_input_402.bin": {
+      "bytes": 920560,
+      "sha256": "41dcf59131d847cc379f60111eaa2d572998304eeb67d1cc41ea15f49f6cdcfa"
+    },
+    "roi_config_3011.bin": {
+      "bytes": 1502800,
+      "sha256": "ff0d4d8732b981a77fbe076061fad5c2c80c023ea5fc90c7a392b36bfd8122d8"
+    },
+    "roi_owned_1005.bin": {
+      "bytes": 920560,
+      "sha256": "3964d11eca798c757cdf1ed87e4442d19bdba21e381718d5045c0293bdb1e88a"
+    },
+    "roi_owned_362.bin": {
+      "bytes": 920560,
+      "sha256": "05c9903a75c104efcd3d589bf63a244a3283bad07a6cf27c4181adb9bc39d295"
+    },
+    "roi_config_360.bin": {
+      "bytes": 1502800,
+      "sha256": "fb39d4736d834c4d68dd93ecf1c5ab2939c0b0d450a2ba4b93b68aa6136e1e56"
+    },
+    "roi_input_3511.bin": {
+      "bytes": 920560,
+      "sha256": "31ce93eb982a6d6aeab042a3d1b140ddb9323ba1821d2b26654c05c88ce746f9"
+    },
+    "roi_config_3200.bin": {
+      "bytes": 1502800,
+      "sha256": "799310ca4b905ff71ce46d424a4dbab8f28958b635d349c0ccfcfd41983a141e"
+    },
+    "roi_input_1015.bin": {
+      "bytes": 920560,
+      "sha256": "6d54f076833f11cf5d5eb937e932ec3c3e72497b2d03c92f2ee089fa811ee110"
+    },
+    "roi_input_202.bin": {
+      "bytes": 920560,
+      "sha256": "cc6a79af09707bd3099539adf62a601f1c6c482b47037f0dd0924fb22b8c52a0"
+    },
+    "roi_original_1045.bin": {
+      "bytes": 920560,
+      "sha256": "312338c56fb7a74b2450a26b276b0f0a5def02e4b0b51c9a52f889eba9c82481"
+    },
+    "roi_input_206.bin": {
+      "bytes": 920560,
+      "sha256": "ea6fe60cf3d058949b5cb598189c9d2eeecc85ff7c59b0e4e675ec37e41039e0"
+    },
+    "roi_config_1045.bin": {
+      "bytes": 1502800,
+      "sha256": "d77c596e7f442bdfd477ead50f414a501d3702ef4a00a4df0c2f0346fda1bbf8"
+    },
+    "roi_original_58.bin": {
+      "bytes": 920560,
+      "sha256": "fe5ebf0e54a7ec85f0caf90f665031cfd27c4f1732f84617ec3fbb14683af417"
+    },
+    "roi_input_404.bin": {
+      "bytes": 920560,
+      "sha256": "4608c745d9ef2b5effc671e2063672f4e6257e25a0dad80275d95686d8e064ab"
+    },
+    "roi_owned_2002.bin": {
+      "bytes": 920560,
+      "sha256": "e0c0c59cd061559a643661ee1f5ea185564343a3bd5711ce1d5eec32ee7bb701"
+    },
+    "roi_input_1042.bin": {
+      "bytes": 920560,
+      "sha256": "5e5e6db19d79591f02deeb5e130bf505feeb40f04f515b9d35a8fb21c39bb831"
+    },
+    "roi_original_159.bin": {
+      "bytes": 920560,
+      "sha256": "ff5b9415d764d4690d3487c32fe89c90e4c302f00857f8c40d1025c84987ee87"
+    },
+    "roi_input_263.bin": {
+      "bytes": 920560,
+      "sha256": "3588c29b0a2716354176e666ad1e19b7a62a31427ed338dc52a793fb8c91eb77"
+    },
+    "roi_input_560.bin": {
+      "bytes": 920560,
+      "sha256": "3588c29b0a2716354176e666ad1e19b7a62a31427ed338dc52a793fb8c91eb77"
+    },
+    "roi_config_258.bin": {
+      "bytes": 1502800,
+      "sha256": "f39864254b8e83c46a289dc49842d7340ec8dc5432d9454f0407c824b5e7ba15"
+    },
+    "roi_input_3200.bin": {
+      "bytes": 920560,
+      "sha256": "3588c29b0a2716354176e666ad1e19b7a62a31427ed338dc52a793fb8c91eb77"
+    },
+    "roi_config_257.bin": {
+      "bytes": 1502800,
+      "sha256": "799310ca4b905ff71ce46d424a4dbab8f28958b635d349c0ccfcfd41983a141e"
+    },
+    "roi_owned_3.bin": {
+      "bytes": 920560,
+      "sha256": "dbcf9c68d22537bc5bbdd0e428bd009fc5fa870414a6c81ba8c08fee570611d2"
+    },
+    "roi_original_203.bin": {
+      "bytes": 920560,
+      "sha256": "4b8200004cd13c9a298fa6ecba31c1046ba36c20f262fe2938fffa6520b48863"
+    },
+    "roi_input_1032.bin": {
+      "bytes": 920560,
+      "sha256": "5060f92bbd1421cc90f3e6e32f962757fe28524075522da0c2a997185430df93"
+    },
+    "roi_config_304.bin": {
+      "bytes": 1502800,
+      "sha256": "d2014bfce37d56e4ba0f6c693f7229d4f80930ab194033484f6efc530382a521"
+    },
+    "roi_original_1041.bin": {
+      "bytes": 920560,
+      "sha256": "f2abce7037ae8598605c61b369ced5774475e34d386c93e1617b65ea0751188d"
+    },
+    "roi_config_2002.bin": {
+      "bytes": 1502800,
+      "sha256": "66cddec29a08afb5b8f3b0393b347c186111589a3cfd8e07cd924737725b95a7"
+    },
+    "roi_input_403.bin": {
+      "bytes": 920560,
+      "sha256": "9c2674c390b259d93acf28bd4f246262ba3af7acf96ed02f6ae133286876e07c"
+    },
+    "roi_input_60.bin": {
+      "bytes": 920560,
+      "sha256": "3588c29b0a2716354176e666ad1e19b7a62a31427ed338dc52a793fb8c91eb77"
+    },
+    "roi_config_6.bin": {
+      "bytes": 1502800,
+      "sha256": "ff0d4d8732b981a77fbe076061fad5c2c80c023ea5fc90c7a392b36bfd8122d8"
+    },
+    "roi_config_406.bin": {
+      "bytes": 1502800,
+      "sha256": "d131efea6e0a449907e622a1255f43dc344de7426d7f923226ae6b9332afe2e4"
+    },
+    "roi_config_157.bin": {
+      "bytes": 1502800,
+      "sha256": "60f1e5c1eb7f2f1c2dade0f3bb8ccbb745f622fee53fd64ed5e814ff2ebb6cbc"
+    },
+    "roi_original_207.bin": {
+      "bytes": 920560,
+      "sha256": "e545435a761bd700da005e14d032af8b61826de39890df23a746e6374e3fa33f"
+    },
+    "roi_original_3011.bin": {
+      "bytes": 920560,
+      "sha256": "268202a130a68a4c713ad7a54379568b9af41dec207abc14303507dfcf252914"
+    },
+    "roi_original_3100.bin": {
+      "bytes": 920560,
+      "sha256": "6cd2c5d203b960d718eb787ae90d4eb4382ad6e1d2399df73b6559763f6a7d5f"
+    },
+    "roi_config_1042.bin": {
+      "bytes": 1502800,
+      "sha256": "5dea16e22bbd9e31ab9c9a97b7a7d0cb2521efc45b35eb57d4e8334c84e350f0"
+    },
+    "roi_config_1013.bin": {
+      "bytes": 1502800,
+      "sha256": "ea0ff301e01376c279e384a7563e7ec0f083f38b9ef305c1d2d0c5b4ea98a55c"
+    },
+    "roi_original_1029.bin": {
+      "bytes": 920560,
+      "sha256": "3964d11eca798c757cdf1ed87e4442d19bdba21e381718d5045c0293bdb1e88a"
+    },
+    "roi_owned_1003.bin": {
+      "bytes": 920560,
+      "sha256": "2ca1130200de23371f2a4780d17191ab9664d18ee6cda1a7a258c433a09b3031"
+    },
+    "roi_config_403.bin": {
+      "bytes": 1502800,
+      "sha256": "d131efea6e0a449907e622a1255f43dc344de7426d7f923226ae6b9332afe2e4"
+    },
+    "roi_config_1046.bin": {
+      "bytes": 1502800,
+      "sha256": "5dea16e22bbd9e31ab9c9a97b7a7d0cb2521efc45b35eb57d4e8334c84e350f0"
+    },
+    "roi_config_3111.bin": {
+      "bytes": 1502800,
+      "sha256": "60f1e5c1eb7f2f1c2dade0f3bb8ccbb745f622fee53fd64ed5e814ff2ebb6cbc"
+    },
+    "roi_config_107.bin": {
+      "bytes": 1502800,
+      "sha256": "929eb831465085aefd282a47d4af77a558e22a0bdbb5c2f650362c2c5f7ab42f"
+    },
+    "roi_config_3300.bin": {
+      "bytes": 1502800,
+      "sha256": "098c347f04b82f1ddabbe671d828c7e0cf6b00a2769d25c7491fa80bcfce78bf"
+    },
+    "roi_config_1035.bin": {
+      "bytes": 1502800,
+      "sha256": "ea0ff301e01376c279e384a7563e7ec0f083f38b9ef305c1d2d0c5b4ea98a55c"
+    },
+    "roi_original_106.bin": {
+      "bytes": 920560,
+      "sha256": "9a59cca8a52ee780294fe0f04276c81fb65c40916179edd6f2cfb40572e6db48"
+    },
+    "roi_config_300.bin": {
+      "bytes": 1502800,
+      "sha256": "098c347f04b82f1ddabbe671d828c7e0cf6b00a2769d25c7491fa80bcfce78bf"
+    },
+    "roi_original_356.bin": {
+      "bytes": 920560,
+      "sha256": "e0c0c59cd061559a643661ee1f5ea185564343a3bd5711ce1d5eec32ee7bb701"
+    },
+    "roi_owned_1029.bin": {
+      "bytes": 920560,
+      "sha256": "3964d11eca798c757cdf1ed87e4442d19bdba21e381718d5045c0293bdb1e88a"
+    },
+    "roi_config_307.bin": {
+      "bytes": 1502800,
+      "sha256": "8953ded6144d0ed9f41e3816abc963f3a1d6eae936ce25ea92e1084e5ec8aa01"
+    },
+    "roi_owned_2000.bin": {
+      "bytes": 920560,
+      "sha256": "e0c0c59cd061559a643661ee1f5ea185564343a3bd5711ce1d5eec32ee7bb701"
+    },
+    "roi_original_1015.bin": {
+      "bytes": 920560,
+      "sha256": "2ca1130200de23371f2a4780d17191ab9664d18ee6cda1a7a258c433a09b3031"
+    },
+    "roi_original_1042.bin": {
+      "bytes": 920560,
+      "sha256": "5e5e6db19d79591f02deeb5e130bf505feeb40f04f515b9d35a8fb21c39bb831"
+    },
+    "roi_input_361.bin": {
+      "bytes": 920560,
+      "sha256": "c51b08ed8f3496b7181b53df9e7c2a59c829780835fe49576589cdde2bec4b0e"
+    },
+    "roi_owned_306.bin": {
+      "bytes": 920560,
+      "sha256": "718c1f7a79b2b244853f18c94b13dacfec3a2cba52fea04fa8522e833f108c3f"
+    },
+    "roi_original_1030.bin": {
+      "bytes": 920560,
+      "sha256": "cd48e705e4d24014e57d3ca43a5aa6d813591190997590ffc815eb2503c939aa"
+    },
+    "roi_owned_504.bin": {
+      "bytes": 920560,
+      "sha256": "5e022bed7d97d10055d275cb945c6366e2e41890d1e51464d87fbd19f7a850ce"
+    },
+    "roi_owned_1046.bin": {
+      "bytes": 920560,
+      "sha256": "81637bcaa4febc6f7772daeb2c57517aa77f245abb9e9f397c61a204b182ba96"
+    },
+    "roi_original_3000.bin": {
+      "bytes": 920560,
+      "sha256": "cd48e705e4d24014e57d3ca43a5aa6d813591190997590ffc815eb2503c939aa"
+    },
+    "roi_owned_60.bin": {
+      "bytes": 920560,
+      "sha256": "cd48e705e4d24014e57d3ca43a5aa6d813591190997590ffc815eb2503c939aa"
+    },
+    "roi_input_56.bin": {
+      "bytes": 920560,
+      "sha256": "0293603768a92f928791678b47c879dae5d0a8de12d3220e21d6235011adfd55"
+    },
+    "roi_config_556.bin": {
+      "bytes": 1502800,
+      "sha256": "ece960dac6cce7eb0aa59073a299bb05ee1704ec4e8520ebfaecfc5bf4b2f75a"
+    },
+    "roi_input_3100.bin": {
+      "bytes": 920560,
+      "sha256": "3588c29b0a2716354176e666ad1e19b7a62a31427ed338dc52a793fb8c91eb77"
+    },
+    "roi_input_1024.bin": {
+      "bytes": 920560,
+      "sha256": "3588c29b0a2716354176e666ad1e19b7a62a31427ed338dc52a793fb8c91eb77"
+    },
+    "roi_owned_304.bin": {
+      "bytes": 920560,
+      "sha256": "3278c11e747631b9a53654b1b4458211a1b3fc63ccd05dafbd6967c7313bc7d7"
+    },
+    "roi_input_58.bin": {
+      "bytes": 920560,
+      "sha256": "ea01c337a2d48de6f794648b94f11d55c5b267dccc6757def55f826e408b31f6"
+    },
+    "roi_input_1009.bin": {
+      "bytes": 920560,
+      "sha256": "6d54f076833f11cf5d5eb937e932ec3c3e72497b2d03c92f2ee089fa811ee110"
+    },
+    "roi_owned_361.bin": {
+      "bytes": 920560,
+      "sha256": "c3e206605230998ae64cff6670eaba1f8cafacad58bda2ceba8ee1a7d42897c9"
+    },
+    "roi_config_456.bin": {
+      "bytes": 1502800,
+      "sha256": "56214c22e1ded1edf414aca66d1a6cae1730a0a612fbd96263b3bbe322b37aa0"
+    },
+    "roi_original_107.bin": {
+      "bytes": 920560,
+      "sha256": "8fcf88dd48b9e288935915d15cfb29bb6f35e84105360e1d2945e70916b4d172"
+    },
+    "roi_config_206.bin": {
+      "bytes": 1502800,
+      "sha256": "799310ca4b905ff71ce46d424a4dbab8f28958b635d349c0ccfcfd41983a141e"
+    },
+    "roi_input_359.bin": {
+      "bytes": 920560,
+      "sha256": "7ea730e046194c4bab3728619537b6e8249a9c9d9564618e910d5b9c586f0162"
+    },
+    "roi_original_1043.bin": {
+      "bytes": 920560,
+      "sha256": "cdb033a1cffdb03ffecdf54018141952297a5a56e077aec824fa5903ec8a6b27"
+    },
+    "roi_owned_3000.bin": {
+      "bytes": 920560,
+      "sha256": "cd48e705e4d24014e57d3ca43a5aa6d813591190997590ffc815eb2503c939aa"
+    },
+    "roi_owned_1043.bin": {
+      "bytes": 920560,
+      "sha256": "cdb033a1cffdb03ffecdf54018141952297a5a56e077aec824fa5903ec8a6b27"
+    },
+    "roi_owned_562.bin": {
+      "bytes": 920560,
+      "sha256": "3b05ec168fddc19547ccf144a9f31ec89c8be9d4acf2c1deb4f80855176a0bd8"
+    },
+    "roi_config_1024.bin": {
+      "bytes": 1502800,
+      "sha256": "c7b2d85b1416b56695dd0510d56dd7d5e65dc2400c4f51a7283bb3734bbe3eb4"
+    },
+    "roi_original_1002.bin": {
+      "bytes": 920560,
+      "sha256": "95d2d68eea2a26729442c35cc2c077a6ca5b8e9dd3aafc815fbb4b99cc04ceec"
+    },
+    "roi_owned_1028.bin": {
+      "bytes": 920560,
+      "sha256": "b8beb7b5781219e4d79ae1ddf3b5b4bee361d61dce5785315a94874cd191bd22"
+    },
+    "roi_config_1007.bin": {
+      "bytes": 1502800,
+      "sha256": "ea0ff301e01376c279e384a7563e7ec0f083f38b9ef305c1d2d0c5b4ea98a55c"
+    },
+    "roi_input_2001.bin": {
+      "bytes": 920560,
+      "sha256": "d325bb5c9daee1a368ee64f116ae577b743720cd8b10f69a548aeff9b47b3a0f"
+    },
+    "roi_input_103.bin": {
+      "bytes": 920560,
+      "sha256": "062eea1b676085f4ee46197dfa14e831c681e6c2c2f31c167fc7e25376b06eb5"
+    },
+    "roi_owned_2005.bin": {
+      "bytes": 920560,
+      "sha256": "c81758bb15bc99190ebe169a48130c1902f74e5150612a5e30671e0e87348d03"
+    },
+    "roi_config_1040.bin": {
+      "bytes": 1502800,
+      "sha256": "5dea16e22bbd9e31ab9c9a97b7a7d0cb2521efc45b35eb57d4e8334c84e350f0"
+    },
+    "roi_config_1009.bin": {
+      "bytes": 1502800,
+      "sha256": "ea0ff301e01376c279e384a7563e7ec0f083f38b9ef305c1d2d0c5b4ea98a55c"
+    },
+    "roi_config_104.bin": {
+      "bytes": 1502800,
+      "sha256": "ddfecd7a40221a96af2c493af58382c62e0257737ae2cecf68dcfbafd0284d7c"
+    },
+    "roi_owned_204.bin": {
+      "bytes": 920560,
+      "sha256": "9b4bf1f5f74e380d972aa5318d6ea22bfde86a58a1d04292a4dee3ce25d103ac"
+    },
+    "roi_owned_402.bin": {
+      "bytes": 920560,
+      "sha256": "c1205d2122849d1b29a5907cf3fe216c1b4d166c5af7c127aca88692d3d58709"
+    },
+    "roi_config_102.bin": {
+      "bytes": 1502800,
+      "sha256": "9561b8d6be88880ffe47c342424ce54bc0007c077163e8a8e5e17bba8e657e72"
+    },
+    "roi_owned_163.bin": {
+      "bytes": 920560,
+      "sha256": "b52062c797382c24e88e9edc09437637b681750b90082d1d6b33dd7be2cb0839"
+    },
+    "roi_original_405.bin": {
+      "bytes": 920560,
+      "sha256": "628115a53f4f106794773b2fdf91fa4ef61e5399e445daa61a807202378cd3d3"
+    },
+    "roi_original_1014.bin": {
+      "bytes": 920560,
+      "sha256": "95d2d68eea2a26729442c35cc2c077a6ca5b8e9dd3aafc815fbb4b99cc04ceec"
+    },
+    "roi_input_459.bin": {
+      "bytes": 920560,
+      "sha256": "45a65c900eb6d0522818bedaf693e95c762e9fc27401dcd07640a9d3c57f77ad"
+    },
+    "roi_owned_1009.bin": {
+      "bytes": 920560,
+      "sha256": "2ca1130200de23371f2a4780d17191ab9664d18ee6cda1a7a258c433a09b3031"
+    },
+    "roi_owned_1040.bin": {
+      "bytes": 920560,
+      "sha256": "f5caebe039346e329317193c4ffcbd6ffebc0ef58a9f512b35950a8228ec3e4e"
+    },
+    "roi_original_3511.bin": {
+      "bytes": 920560,
+      "sha256": "31ce93eb982a6d6aeab042a3d1b140ddb9323ba1821d2b26654c05c88ce746f9"
+    },
+    "roi_config_560.bin": {
+      "bytes": 1502800,
+      "sha256": "54d6b18622f1d13f6793ac8a3efe086fdf70febd125eda810b42e4399b95a9b9"
+    },
+    "roi_config_357.bin": {
+      "bytes": 1502800,
+      "sha256": "098c347f04b82f1ddabbe671d828c7e0cf6b00a2769d25c7491fa80bcfce78bf"
+    },
+    "roi_owned_463.bin": {
+      "bytes": 920560,
+      "sha256": "584b0e7f7a5a8108cd2100e6034f43b3711f02c61b1d10840e1e8a9aa9c1b85b"
+    },
+    "roi_original_3400.bin": {
+      "bytes": 920560,
+      "sha256": "6776f6df7a1a233c5a64f4fe24de20ef38a851097e749bc6fbebc9428e8e0126"
+    },
+    "roi_owned_1033.bin": {
+      "bytes": 920560,
+      "sha256": "2ca1130200de23371f2a4780d17191ab9664d18ee6cda1a7a258c433a09b3031"
+    },
+    "roi_owned_1021.bin": {
+      "bytes": 920560,
+      "sha256": "2ca1130200de23371f2a4780d17191ab9664d18ee6cda1a7a258c433a09b3031"
+    },
+    "roi_original_1024.bin": {
+      "bytes": 920560,
+      "sha256": "cd48e705e4d24014e57d3ca43a5aa6d813591190997590ffc815eb2503c939aa"
+    },
+    "roi_owned_3500.bin": {
+      "bytes": 920560,
+      "sha256": "8052bf79108972b124f7e7d275a68807bee0095424ca18ae3bd527db783ea0a4"
+    },
+    "roi_original_500.bin": {
+      "bytes": 920560,
+      "sha256": "8052bf79108972b124f7e7d275a68807bee0095424ca18ae3bd527db783ea0a4"
+    },
+    "roi_config_401.bin": {
+      "bytes": 1502800,
+      "sha256": "57c35e08232c9f3dfa1ed7081bc65d51467e1d9102e0f47bbda4daa78360f5d0"
+    },
+    "roi_original_3300.bin": {
+      "bytes": 920560,
+      "sha256": "e24aa6d5f500dcc324d3f34ef9670d1477f85a9780a2addb8c570084d52149b8"
+    },
+    "roi_config_1016.bin": {
+      "bytes": 1502800,
+      "sha256": "c7b2d85b1416b56695dd0510d56dd7d5e65dc2400c4f51a7283bb3734bbe3eb4"
+    },
+    "roi_owned_161.bin": {
+      "bytes": 920560,
+      "sha256": "a118afd3a2231f54705ea7818ed111177ef97405702bcf7cd04d29e59c31e8cc"
+    },
+    "roi_owned_263.bin": {
+      "bytes": 920560,
+      "sha256": "24de48c502916442b75fce67f98e676ed966caed488851399326344d3525d583"
+    },
+    "roi_owned_1045.bin": {
+      "bytes": 920560,
+      "sha256": "312338c56fb7a74b2450a26b276b0f0a5def02e4b0b51c9a52f889eba9c82481"
+    },
+    "roi_input_1003.bin": {
+      "bytes": 920560,
+      "sha256": "6d54f076833f11cf5d5eb937e932ec3c3e72497b2d03c92f2ee089fa811ee110"
+    },
+    "roi_owned_260.bin": {
+      "bytes": 920560,
+      "sha256": "3ae07adfc750936c6da76ed47ad6d97b60a21de3663d27fd3ead24f5313fb2d7"
+    },
+    "roi_config_507.bin": {
+      "bytes": 1502800,
+      "sha256": "ec081e7092758a682e6c8e16d40968dc48296fe7d75a964fc6358ce1890f67c1"
+    },
+    "roi_original_1011.bin": {
+      "bytes": 920560,
+      "sha256": "3964d11eca798c757cdf1ed87e4442d19bdba21e381718d5045c0293bdb1e88a"
+    },
+    "roi_config_156.bin": {
+      "bytes": 1502800,
+      "sha256": "9561b8d6be88880ffe47c342424ce54bc0007c077163e8a8e5e17bba8e657e72"
+    },
+    "roi_config_457.bin": {
+      "bytes": 1502800,
+      "sha256": "d131efea6e0a449907e622a1255f43dc344de7426d7f923226ae6b9332afe2e4"
+    },
+    "roi_input_3311.bin": {
+      "bytes": 920560,
+      "sha256": "68fb6cb5cc4711f516563a55b039c4131b9e6ebd80bd650576f23ab3b5c2a3e4"
+    },
+    "roi_input_2002.bin": {
+      "bytes": 920560,
+      "sha256": "cc6a79af09707bd3099539adf62a601f1c6c482b47037f0dd0924fb22b8c52a0"
+    },
+    "roi_original_1018.bin": {
+      "bytes": 920560,
+      "sha256": "cd48e705e4d24014e57d3ca43a5aa6d813591190997590ffc815eb2503c939aa"
+    },
+    "roi_config_563.bin": {
+      "bytes": 1502800,
+      "sha256": "dc254acf0c175745958405bd49d971debe408138cfc4f3bf1854d60a8df5970b"
+    },
+    "roi_owned_1000.bin": {
+      "bytes": 920560,
+      "sha256": "cd48e705e4d24014e57d3ca43a5aa6d813591190997590ffc815eb2503c939aa"
+    },
+    "roi_input_1035.bin": {
+      "bytes": 920560,
+      "sha256": "d07a519518d8c552f21261eacf22cc2f3ed825e837eae5e01900957b822716ab"
+    },
+    "roi_input_503.bin": {
+      "bytes": 920560,
+      "sha256": "d876b1afb26515b6d648573a021bbccc98c4f33ddb7386edbdf4395207de0daa"
+    },
+    "roi_input_4.bin": {
+      "bytes": 920560,
+      "sha256": "50ecb07b4a3c625642c058bb4c0a3feb85dacc5503ba6d0fa7cbd25cce5d4dee"
+    },
+    "roi_original_3411.bin": {
+      "bytes": 920560,
+      "sha256": "7f37b787d74dc31b75b8fa74f6a35bb0615d924a927281dc4ac0725153b8b073"
+    },
+    "roi_original_4.bin": {
+      "bytes": 920560,
+      "sha256": "571bbc4ccef0e62de9e6d2af47e6f6b449a77eb21948c2003080e48e8c2b5b21"
+    },
+    "roi_config_56.bin": {
+      "bytes": 1502800,
+      "sha256": "7cda23582c561bee1410b20488a87ef2487325859ab57e2630cbe8bc4348ee4c"
+    },
+    "roi_input_201.bin": {
+      "bytes": 920560,
+      "sha256": "207dd1e787c65aae7f1fe0e58fe34d8dfa067820255d946a5964625bf6d60851"
+    },
+    "roi_input_3500.bin": {
+      "bytes": 920560,
+      "sha256": "3588c29b0a2716354176e666ad1e19b7a62a31427ed338dc52a793fb8c91eb77"
+    },
+    "roi_config_2001.bin": {
+      "bytes": 1502800,
+      "sha256": "ddfecd7a40221a96af2c493af58382c62e0257737ae2cecf68dcfbafd0284d7c"
+    },
+    "roi_input_504.bin": {
+      "bytes": 920560,
+      "sha256": "53c444afd1eb51247672c4b776bc31ef5082767688f3d41c4953fb4c30948d56"
+    },
+    "roi_config_402.bin": {
+      "bytes": 1502800,
+      "sha256": "56214c22e1ded1edf414aca66d1a6cae1730a0a612fbd96263b3bbe322b37aa0"
+    },
+    "roi_input_558.bin": {
+      "bytes": 920560,
+      "sha256": "835a40b8057b7d0a47bc971c3ac8989506246f5e341e86fa41b2715c0e0f5f4d"
+    },
+    "roi_config_500.bin": {
+      "bytes": 1502800,
+      "sha256": "0eeec137c4f01b108f5a3b03dd5abfd0112a9300dbfa83164a1ca2a40817c340"
+    },
+    "roi_original_302.bin": {
+      "bytes": 920560,
+      "sha256": "d08a3b11fe6aa70940d1c2107c12da25017b18815e8809c9532fddcbcc2a37c8"
+    },
+    "roi_original_1023.bin": {
+      "bytes": 920560,
+      "sha256": "3964d11eca798c757cdf1ed87e4442d19bdba21e381718d5045c0293bdb1e88a"
+    },
+    "roi_owned_258.bin": {
+      "bytes": 920560,
+      "sha256": "94c3b1d2d5407bcc5284e798f9e37e1cefab28ebf06594a72808e8dafc19fc63"
+    },
+    "roi_config_363.bin": {
+      "bytes": 1502800,
+      "sha256": "d0a194122579e07b54252bf9947b3709ec7c2f6dcc3d7fa9c9550895493adb70"
+    },
+    "roi_original_300.bin": {
+      "bytes": 920560,
+      "sha256": "e24aa6d5f500dcc324d3f34ef9670d1477f85a9780a2addb8c570084d52149b8"
+    },
+    "roi_input_1044.bin": {
+      "bytes": 920560,
+      "sha256": "38af16018ea3020a8d2cdd92386182f859fefa6634e996e8e5b94f49a26144c6"
+    },
+    "roi_owned_107.bin": {
+      "bytes": 920560,
+      "sha256": "8fcf88dd48b9e288935915d15cfb29bb6f35e84105360e1d2945e70916b4d172"
+    },
+    "roi_input_204.bin": {
+      "bytes": 920560,
+      "sha256": "316490c93b1a6f8ccfe51393e3f23c10785677631e131ae43aabc8409616e05c"
+    },
+    "roi_input_460.bin": {
+      "bytes": 920560,
+      "sha256": "3588c29b0a2716354176e666ad1e19b7a62a31427ed338dc52a793fb8c91eb77"
+    },
+    "roi_config_1006.bin": {
+      "bytes": 1502800,
+      "sha256": "c7b2d85b1416b56695dd0510d56dd7d5e65dc2400c4f51a7283bb3734bbe3eb4"
+    },
+    "roi_original_157.bin": {
+      "bytes": 920560,
+      "sha256": "4b0ffde77b06401b926841987454e46a37f9dcf34ab80dc417e828534e441ec0"
+    },
+    "roi_original_7.bin": {
+      "bytes": 920560,
+      "sha256": "1023d0318e89ee2489ad825a1937b4191bb62bdfe564ce663c2c36abca709b77"
+    },
+    "roi_config_1031.bin": {
+      "bytes": 1502800,
+      "sha256": "ea0ff301e01376c279e384a7563e7ec0f083f38b9ef305c1d2d0c5b4ea98a55c"
+    },
+    "roi_input_461.bin": {
+      "bytes": 920560,
+      "sha256": "c09510ac03846444fb2937a182fdf2adbabcb8059eba1237fcc1bb3ddc978d12"
+    },
+    "full_e2.bin": {
+      "bytes": 118416,
+      "sha256": "072603f17cad621bbe28a95664f29cbd7f983c23b884c01e5545ecd128a39205"
+    },
+    "roi_original_1046.bin": {
+      "bytes": 920560,
+      "sha256": "81637bcaa4febc6f7772daeb2c57517aa77f245abb9e9f397c61a204b182ba96"
+    },
+    "roi_owned_57.bin": {
+      "bytes": 920560,
+      "sha256": "3c1e900328b988876369f61b83bcda29686b58d4eee2c312f8260f0a8d95531a"
+    },
+    "roi_original_458.bin": {
+      "bytes": 920560,
+      "sha256": "3cdf3660475eefa3b8de3e2a28c6517f6fb6dd5c286901bd00e2fa70ff013b17"
+    },
+    "roi_owned_7.bin": {
+      "bytes": 920560,
+      "sha256": "1023d0318e89ee2489ad825a1937b4191bb62bdfe564ce663c2c36abca709b77"
+    },
+    "roi_config_502.bin": {
+      "bytes": 1502800,
+      "sha256": "ece960dac6cce7eb0aa59073a299bb05ee1704ec4e8520ebfaecfc5bf4b2f75a"
+    },
+    "roi_config_2003.bin": {
+      "bytes": 1502800,
+      "sha256": "098c347f04b82f1ddabbe671d828c7e0cf6b00a2769d25c7491fa80bcfce78bf"
+    },
+    "roi_original_502.bin": {
+      "bytes": 920560,
+      "sha256": "d968389d2b37803966fd1fbc57d5c78fdf65ca68adbfe7e10dbe07bd6fdd06f7"
+    },
+    "roi_original_363.bin": {
+      "bytes": 920560,
+      "sha256": "05c9903a75c104efcd3d589bf63a244a3283bad07a6cf27c4181adb9bc39d295"
+    },
+    "roi_owned_59.bin": {
+      "bytes": 920560,
+      "sha256": "5da0c0b4ccd37bb62e17b264a83f2c5c0f5b563be9ef84a9f9e068dd95234591"
+    },
+    "roi_owned_1011.bin": {
+      "bytes": 920560,
+      "sha256": "3964d11eca798c757cdf1ed87e4442d19bdba21e381718d5045c0293bdb1e88a"
+    },
+    "roi_input_456.bin": {
+      "bytes": 920560,
+      "sha256": "0293603768a92f928791678b47c879dae5d0a8de12d3220e21d6235011adfd55"
+    },
+    "roi_original_305.bin": {
+      "bytes": 920560,
+      "sha256": "c5ac4ecaf15a956fa987ad38ae1b0ea1bc205f5f52e3761c86f34ffecd5ae53f"
+    },
+    "roi_config_3311.bin": {
+      "bytes": 1502800,
+      "sha256": "098c347f04b82f1ddabbe671d828c7e0cf6b00a2769d25c7491fa80bcfce78bf"
+    },
+    "roi_owned_202.bin": {
+      "bytes": 920560,
+      "sha256": "aef76a398b878c75aea4a2cf455fcd126c373ed6e833c9e79cf5d53f40f93956"
+    },
+    "roi_config_2000.bin": {
+      "bytes": 1502800,
+      "sha256": "ff0d4d8732b981a77fbe076061fad5c2c80c023ea5fc90c7a392b36bfd8122d8"
+    },
+    "roi_original_1034.bin": {
+      "bytes": 920560,
+      "sha256": "b8beb7b5781219e4d79ae1ddf3b5b4bee361d61dce5785315a94874cd191bd22"
+    },
+    "roi_original_259.bin": {
+      "bytes": 920560,
+      "sha256": "5bd0846ade25f14cfeb98d92e48c1c7f1b0de403d314bf87c4d1d408e7505d23"
+    },
+    "roi_input_1039.bin": {
+      "bytes": 920560,
+      "sha256": "f712fe82ace058dd8e8c3bcef95e47883339820e69f48446298f9b230fdf21c8"
+    },
+    "roi_owned_3411.bin": {
+      "bytes": 920560,
+      "sha256": "7f37b787d74dc31b75b8fa74f6a35bb0615d924a927281dc4ac0725153b8b073"
+    },
+    "roi_original_2001.bin": {
+      "bytes": 920560,
+      "sha256": "d07c4b306c47e91770639081f65b60c3e66ece3337ab698639b7a8bc6caef094"
+    },
+    "roi_input_302.bin": {
+      "bytes": 920560,
+      "sha256": "789f08eb0c384af16724b8b83423b9cd465e1836710375eaf02ca6dcf0dafe45"
+    },
+    "roi_owned_1023.bin": {
+      "bytes": 920560,
+      "sha256": "3964d11eca798c757cdf1ed87e4442d19bdba21e381718d5045c0293bdb1e88a"
+    },
+    "roi_config_3100.bin": {
+      "bytes": 1502800,
+      "sha256": "60f1e5c1eb7f2f1c2dade0f3bb8ccbb745f622fee53fd64ed5e814ff2ebb6cbc"
+    },
+    "roi_input_563.bin": {
+      "bytes": 920560,
+      "sha256": "3588c29b0a2716354176e666ad1e19b7a62a31427ed338dc52a793fb8c91eb77"
+    },
+    "roi_original_358.bin": {
+      "bytes": 920560,
+      "sha256": "7d36efb4a7542e147fd79e09899c649471f434f46614212d8f8b21bac00161fb"
+    },
+    "roi_owned_101.bin": {
+      "bytes": 920560,
+      "sha256": "7e16f3b7647485008f4ac99eac634b8402b666f18d9fd3b354f9afb239040c56"
+    },
+    "roi_owned_0.bin": {
+      "bytes": 920560,
+      "sha256": "cd48e705e4d24014e57d3ca43a5aa6d813591190997590ffc815eb2503c939aa"
+    },
+    "roi_original_507.bin": {
+      "bytes": 920560,
+      "sha256": "cb7cfce2eaec9b9795d637af14c6be4badddf130e78b8315cc8deb386afc8573"
+    },
+    "roi_config_1029.bin": {
+      "bytes": 1502800,
+      "sha256": "ea0ff301e01376c279e384a7563e7ec0f083f38b9ef305c1d2d0c5b4ea98a55c"
+    },
+    "roi_original_1025.bin": {
+      "bytes": 920560,
+      "sha256": "1033d625489909f623a46ec9a3f0a5cd4e147c3eedb35a729bb79f990d497a60"
+    },
+    "roi_original_1000.bin": {
+      "bytes": 920560,
+      "sha256": "cd48e705e4d24014e57d3ca43a5aa6d813591190997590ffc815eb2503c939aa"
+    },
+    "roi_original_163.bin": {
+      "bytes": 920560,
+      "sha256": "b52062c797382c24e88e9edc09437637b681750b90082d1d6b33dd7be2cb0839"
+    },
+    "roi_owned_2004.bin": {
+      "bytes": 920560,
+      "sha256": "837948f396176e9cb77c651bc0bd442eb2147e4066120223c74c374ca708cf69"
+    },
+    "roi_config_1004.bin": {
+      "bytes": 1502800,
+      "sha256": "c7b2d85b1416b56695dd0510d56dd7d5e65dc2400c4f51a7283bb3734bbe3eb4"
+    },
+    "roi_owned_206.bin": {
+      "bytes": 920560,
+      "sha256": "c1bccd0f05c0f4c0d8c008ed9e1ea9795fcbe23d88a5c7193cebeac41c5b02ea"
+    },
+    "roi_owned_200.bin": {
+      "bytes": 920560,
+      "sha256": "3ae07adfc750936c6da76ed47ad6d97b60a21de3663d27fd3ead24f5313fb2d7"
+    },
+    "roi_original_0.bin": {
+      "bytes": 920560,
+      "sha256": "cd48e705e4d24014e57d3ca43a5aa6d813591190997590ffc815eb2503c939aa"
+    },
+    "roi_config_461.bin": {
+      "bytes": 1502800,
+      "sha256": "57c35e08232c9f3dfa1ed7081bc65d51467e1d9102e0f47bbda4daa78360f5d0"
+    },
+    "roi_owned_207.bin": {
+      "bytes": 920560,
+      "sha256": "e545435a761bd700da005e14d032af8b61826de39890df23a746e6374e3fa33f"
+    },
+    "roi_config_160.bin": {
+      "bytes": 1502800,
+      "sha256": "f0f37325d2402f7a2948b4ca5f88780a0a2b0401b4804c54bfe63c69e6caba32"
+    },
+    "roi_input_104.bin": {
+      "bytes": 920560,
+      "sha256": "c500fdd70179d004b7bd1ec619e75ab2ea3ab22154e968fb7ed041baefaea5c1"
+    },
+    "roi_config_505.bin": {
+      "bytes": 1502800,
+      "sha256": "ece960dac6cce7eb0aa59073a299bb05ee1704ec4e8520ebfaecfc5bf4b2f75a"
+    },
+    "roi_config_501.bin": {
+      "bytes": 1502800,
+      "sha256": "7c045b027e1e3de087a844986f8966ec519b9a56fe9c50fe8ee8215575217a30"
+    },
+    "roi_owned_56.bin": {
+      "bytes": 920560,
+      "sha256": "e0c0c59cd061559a643661ee1f5ea185564343a3bd5711ce1d5eec32ee7bb701"
+    },
+    "roi_input_163.bin": {
+      "bytes": 920560,
+      "sha256": "3588c29b0a2716354176e666ad1e19b7a62a31427ed338dc52a793fb8c91eb77"
+    },
+    "roi_owned_301.bin": {
+      "bytes": 920560,
+      "sha256": "1c77ca16b42c34f5975428dcbd28fed6ca306482bedcfb7ceb6ea594213f71de"
+    },
+    "roi_input_63.bin": {
+      "bytes": 920560,
+      "sha256": "3588c29b0a2716354176e666ad1e19b7a62a31427ed338dc52a793fb8c91eb77"
+    },
+    "roi_owned_457.bin": {
+      "bytes": 920560,
+      "sha256": "5c1355a7b7e08538df0aeb7a8a2cb07ac9dc261e3cb1338a10da2cc289ecbfa7"
+    },
+    "roi_owned_461.bin": {
+      "bytes": 920560,
+      "sha256": "4a5abefaca35dba293ea6670a19dfe9ae853d9263efdef33e188cff248ad8b37"
+    },
+    "roi_owned_560.bin": {
+      "bytes": 920560,
+      "sha256": "8052bf79108972b124f7e7d275a68807bee0095424ca18ae3bd527db783ea0a4"
+    },
+    "roi_owned_406.bin": {
+      "bytes": 920560,
+      "sha256": "43b3b80fde1103ae36db3416340496d9ef8cb021179777af7793c757585a3122"
+    },
+    "roi_original_158.bin": {
+      "bytes": 920560,
+      "sha256": "9f1ddec37cbdaa46b54ed48ef30343c139afc1bebfc661f1e2800586b3594244"
+    },
+    "roi_config_202.bin": {
+      "bytes": 1502800,
+      "sha256": "66cddec29a08afb5b8f3b0393b347c186111589a3cfd8e07cd924737725b95a7"
+    },
+    "roi_original_1.bin": {
+      "bytes": 920560,
+      "sha256": "f8ddee10e4cdcfb917a2827055e32abf987ec828258cde08105b89865c0dca78"
+    },
+    "roi_owned_2003.bin": {
+      "bytes": 920560,
+      "sha256": "1668004c8e740a4987cd6f28464d60b1954765ab21192ce675d43ffba81f2f26"
+    },
+    "roi_owned_1017.bin": {
+      "bytes": 920560,
+      "sha256": "3964d11eca798c757cdf1ed87e4442d19bdba21e381718d5045c0293bdb1e88a"
+    },
+    "roi_input_1031.bin": {
+      "bytes": 920560,
+      "sha256": "ab92849afc4409756fddc3cb60903d6091b209d1573843d8940b1cfc3d46e051"
+    },
+    "roi_config_1041.bin": {
+      "bytes": 1502800,
+      "sha256": "d77c596e7f442bdfd477ead50f414a501d3702ef4a00a4df0c2f0346fda1bbf8"
+    },
+    "roi_original_3200.bin": {
+      "bytes": 920560,
+      "sha256": "3ae07adfc750936c6da76ed47ad6d97b60a21de3663d27fd3ead24f5313fb2d7"
+    },
+    "roi_config_3211.bin": {
+      "bytes": 1502800,
+      "sha256": "799310ca4b905ff71ce46d424a4dbab8f28958b635d349c0ccfcfd41983a141e"
+    },
+    "roi_owned_1042.bin": {
+      "bytes": 920560,
+      "sha256": "5e5e6db19d79591f02deeb5e130bf505feeb40f04f515b9d35a8fb21c39bb831"
+    },
+    "roi_original_557.bin": {
+      "bytes": 920560,
+      "sha256": "d68cbe1b3ef38c973a503b01e771495040005b9971efb5419fff70f1f3d8bcce"
+    },
+    "roi_owned_100.bin": {
+      "bytes": 920560,
+      "sha256": "6cd2c5d203b960d718eb787ae90d4eb4382ad6e1d2399df73b6559763f6a7d5f"
+    },
+    "roi_original_258.bin": {
+      "bytes": 920560,
+      "sha256": "94c3b1d2d5407bcc5284e798f9e37e1cefab28ebf06594a72808e8dafc19fc63"
+    },
+    "roi_owned_1.bin": {
+      "bytes": 920560,
+      "sha256": "f8ddee10e4cdcfb917a2827055e32abf987ec828258cde08105b89865c0dca78"
+    },
+    "roi_original_503.bin": {
+      "bytes": 920560,
+      "sha256": "385b2753404b1ff02c65a60dada81de4a755b4bcdb820cbef925c415e42fe391"
+    },
+    "roi_input_3300.bin": {
+      "bytes": 920560,
+      "sha256": "3588c29b0a2716354176e666ad1e19b7a62a31427ed338dc52a793fb8c91eb77"
+    },
+    "roi_original_104.bin": {
+      "bytes": 920560,
+      "sha256": "a9cc06eecdb60c681ff35c1cee699e56fdcf8f79af6473600ee45c5c64187850"
+    },
+    "roi_original_506.bin": {
+      "bytes": 920560,
+      "sha256": "259bfe9e29e56a1ed5c2f1657a6f745eafdfc7f4c2037f18c5196e0f91663171"
+    },
+    "roi_owned_503.bin": {
+      "bytes": 920560,
+      "sha256": "385b2753404b1ff02c65a60dada81de4a755b4bcdb820cbef925c415e42fe391"
+    },
+    "roi_input_257.bin": {
+      "bytes": 920560,
+      "sha256": "a680c28d2afd3bb44c3b92885970c8d34a53792853759ec1a2b3b29db38b3bca"
+    },
+    "roi_original_400.bin": {
+      "bytes": 920560,
+      "sha256": "6776f6df7a1a233c5a64f4fe24de20ef38a851097e749bc6fbebc9428e8e0126"
+    },
+    "roi_input_358.bin": {
+      "bytes": 920560,
+      "sha256": "21489476b785820d26c218e491d1898ab5e1258547a99b15cfe53c48c8ca4cf5"
+    },
+    "roi_owned_561.bin": {
+      "bytes": 920560,
+      "sha256": "930870b0673b450f0da656d404e321d2d59b0dcb350dc7ddd08ba5fdb80bdfbb"
+    },
+    "roi_input_2007.bin": {
+      "bytes": 920560,
+      "sha256": "3588c29b0a2716354176e666ad1e19b7a62a31427ed338dc52a793fb8c91eb77"
+    },
+    "roi_original_301.bin": {
+      "bytes": 920560,
+      "sha256": "1c77ca16b42c34f5975428dcbd28fed6ca306482bedcfb7ceb6ea594213f71de"
+    },
+    "roi_owned_1027.bin": {
+      "bytes": 920560,
+      "sha256": "2ca1130200de23371f2a4780d17191ab9664d18ee6cda1a7a258c433a09b3031"
+    }
+  },
+  "original_library_patched": false,
+  "dependency_stubs": false,
+  "full_camera_device_calibration_recovered": false,
+  "authentic_frame_replayed": false,
+  "historical_seven_frame_chain_recovered": false,
+  "full_awb_validated": false,
+  "completion_suffix_owned": false,
+  "passive_reawb_owned": false,
+  "active_reawb_owned": false,
+  "debug_stage_owned": false,
+  "debug_file_io_owned": false,
+  "full_outer_controller_owned": false,
+  "user_ct_tint_gain_owned": false,
+  "inverse_temperature_conversion_owned": false,
+  "manual_sample_selection_owned": false,
+  "e_nd_gain_updates_owned": false,
+  "user_unit_request_owned": false,
+  "e_nd_temperature_gain_owned": false,
+  "user_calibration_prefix_owned": false,
+  "user_mode_helper_owned": false,
+  "full_user_stage_owned": false,
+  "user_remainder_entry": null,
+  "roi_processing_owned": true,
+  "roi_synchronization_owned": false,
+  "original_roi_sync_callback_used": false,
+  "statistics_difference_owned": false,
+  "automatic_dispatch_gate_owned": false,
+  "full_mode_bodies_owned": false,
+  "dispatch_remainder_entries": null,
+  "controller_remainder_after_user": null,
+  "prepared_entry_adapter_used": false,
+  "white_lut_owned": false,
+  "white_lut_original_remainder_entry": null,
+  "run_entry_owned": false,
+  "original_remainder_after_owned_entry": false,
+  "full_post_stage_owned": false,
+  "post_mode2_compared_and_owned": false,
+  "post_research_abi_requires_initialized_bounded_tables": true,
+  "post_all_branches_exhaustively_verified": false
+}

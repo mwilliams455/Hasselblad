@@ -31,6 +31,11 @@ static hb_temperature_model manual_model;
 #include "hb_run_dispatch.h"
 static unsigned dispatch_counts[6];
 #endif
+#ifdef HB_ROI_ENTRY
+#include "hb_roi.h"
+#include "roi_fixtures.h"
+static unsigned roi_calls,roi_errors;
+#endif
 #include <dlfcn.h>
 #include <math.h>
 #include <stdio.h>
@@ -129,7 +134,18 @@ static hb_run_entry_result compare(test_state*s,unsigned t,int expected,unsigned
                 b=dispatch.status;if(capture)dump(s->dir,"owned_dispatch_boundary",t,s->c,C);
                 if(dispatch.action!=HB_DISPATCH_RETURN){
                     static const uintptr_t entries[]={0,0x471f10,0x472274,0x471ff0,0x472100,0x4722b0};
-                    ++continued;b=hb_original_prepared_completion(s->bias+entries[dispatch.action],s->c,b,s->bias+0x791348);
+                    uintptr_t entry=entries[dispatch.action];
+#ifdef HB_ROI_ENTRY
+                    if(dispatch.action==HB_DISPATCH_AUTO_REFRESH||dispatch.action==HB_DISPATCH_AUTO_REUSE){
+                        /* The sync helper remains an explicit test-only original
+                         * dependency. No hb_roi function calls vendor code. */
+                        uint32_t(*sync)(int)=(void*)(s->bias+0x551920);b=sync(0);
+                        if(!b){b=hb_roi_process(s->c,s->k);++roi_calls;roi_errors+=b!=0;}
+                        entry=b?0x4722b0:dispatch.action==HB_DISPATCH_AUTO_REFRESH?0x471f30:0x472294;
+                        if(capture)dump(s->dir,"owned_roi_boundary",t,s->c,C);
+                    }
+#endif
+                    ++continued;b=hb_original_prepared_completion(s->bias+entry,s->c,b,s->bias+0x791348);
                 }
 #else
                 ++continued;b=hb_original_prepared_completion(s->bias+0x471e78,s->c,0,s->bias+0x791348);
@@ -291,6 +307,19 @@ int hb_run_entry_tests(void*h,unsigned char*c,unsigned char*e2,void*config,void*
         compare(&s,9100+t,HB_RUN_READY,1);
     }
     s.missing_reawb=0;
+#ifdef HB_ROI_ENTRY
+    for(unsigned t=0;t<48;++t){
+        memcpy(c,dispatch_base,C);memcpy(k,dispatch_cfg,K);memcpy(reawb,dispatch_r,R);
+        w32(c+0xb2020,0);w32(c+0x194,t%2);w32(c+0x174,0);w32(c+0x17c,0);w32(c+0x184,0);c[0xd338]=0;
+        k[0x1531a8]=k[0x1531ac]=1;k[0x1531ad]=1;w32(k+0x1531b0,UINT32_MAX);w32(c+0x2c,0);w16(c+0xef3e,0);c[0xdb60]=0;w32(c+0xeeac,0);
+        c[0xd328]=c[0xd329]=0;c[0xd32a]=(unsigned char)((t/6+t)%2);((unsigned char*)reawb)[0x1c]=0;
+        /* Six kinds x both automatic paths, empty/stale input and zoom errors. */
+        static const unsigned variants[]={0,0,1,4,11,12,56,6};
+        hb_test_roi(c,k,t%6,variants[t/6]);k[0x16eae4]=0;
+        compare(&s,9200+t,HB_RUN_READY,1);
+    }
+    printf("{\"event\":\"owned_roi_entry_counts\",\"roi_calls\":%u,\"roi_error_completions\":%u,\"original_sync_callbacks\":%u,\"roi_processing_owned\":true,\"roi_synchronization_owned\":false}\n",roi_calls,roi_errors,roi_calls);
+#endif
     printf("{\"event\":\"owned_dispatch_counts\",\"suspended_returns\":%u,\"automatic_refresh\":%u,\"automatic_reuse\":%u,\"manual_remainders\":%u,\"custom_remainders\":%u,\"error_completions\":%u}\n",dispatch_counts[0],dispatch_counts[1],dispatch_counts[2],dispatch_counts[3],dispatch_counts[4],dispatch_counts[5]);
 #endif
     same("initial_config_immutable",0,config,cfg,K);memcpy(c,base,C);memcpy(reawb,rbase,R);

@@ -163,3 +163,12 @@ Private evidence: `Hasselblad_User_Finish_Evidence_PRIVATE_20261021.zip`. The or
 `STAT_DIFFERENCE_RESULT.json`:2,569 checks, zero mismatches,640 original calls,80 stateful calls,8 owned-only guard checks. `STAT_DIFFERENCE_ENTRY_RESULT.json`:10,841 checks, zero mismatches against1,747 full original controller calls. All six dispatch actions covered:699 suspended returns,31 refreshes,8 reuses,8 manual,8 custom and4 error completions. There are59 original downstream continuations and zero original user remainders. Seven native-format synthetic frames remain covered. Complete context/config/handle/status comparisons match.
 
 Private evidence: `Hasselblad_Stat_Difference_Evidence_PRIVATE_20261021.zip`. Next: ROI sync/processing, remaining sensor/parsing/detection/face dependencies and complete mode bodies, then join the separately verified downstream chain. Exact continuation addresses, semantics and bounds are in the runtime README. No new APK; main and Native1C unchanged. Phone calibration/input mapping, app integration and photographic rendering/validation remain subsequent work.
+
+
+## Detector ROI processing — 21 October 2026
+
+`hb_roi.c/.h` owns six-format ROI selection, clipping/inset/grid construction, publication and reinitialization. Active non-reset lists are bounded to eight records per type and guarded before mutation. Logging is excluded. Original priority, state transitions, float operation order, zoom error225 and reset semantics are preserved.
+
+`ROI_RESULT.json`:1,549 checks, zero mismatches against512 original calls, including72 stateful calls and12 owned-only guard checks. `ROI_ENTRY_RESULT.json`:11,177 checks, zero mismatches against1,795 full original controller calls. The connected prefix performs87 owned ROI calls,12 ROI error completions and107 downstream original continuations. All six detector types exercise both automatic paths; seven synthetic native E2 frames remain covered. ROI synchronization still uses87 explicit original callbacks. There are zero original user remainders.
+
+Private evidence: `Hasselblad_ROI_Evidence_PRIVATE_20261021.zip`. Next: ROI synchronization/homography/profile calculation, then sensor/parsing/detection/face dependencies and full mode bodies, and joining the separately verified downstream chain. Exact boundaries, guards and semantics are in the runtime README. No new APK; main and Native1C unchanged. Phone calibration/input mapping, app integration and photographic rendering/validation remain subsequent work.

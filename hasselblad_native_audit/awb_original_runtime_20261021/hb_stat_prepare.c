@@ -135,12 +135,15 @@ static double distance(double r,double b,const unsigned char *table,uint32_t i){
     return dr*dr+db*db;
 }
 uint32_t hb_stat_auto(unsigned char *ctx,const unsigned char *config){
-    /* The E-ND branches need their own calibration model. Do not silently
-     * substitute unity for a requested enabled branch. */
+    /* Retain the earlier bounded entry. hb_stat_auto_complete owns the
+     * enabled E-ND prefix and shares the classification suffix below. */
     if(ctx[0x278]||ctx[0x2f4]||config[0xc88]==0)return HB_PREP_UNSUPPORTED;
     hb_stat_awb_info(ctx);hb_stat_calib_proc(ctx);
     w32(ctx+0x2ec,4096);w32(ctx+0x2f0,4096);w32(ctx+0x300,4096);w32(ctx+0x304,4096);
     hb_stat_ae_info(ctx,config);
+    return hb_stat_auto_classify(ctx,config);
+}
+uint32_t hb_stat_auto_classify(unsigned char *ctx,const unsigned char *config){
     const unsigned char *table=ctx+0x348,*ranges=ctx+0x308;
     for(uint32_t i=0;i<r32(ctx+0x28);++i){
         if(!r32(ctx+0x84f58+20*i))continue;

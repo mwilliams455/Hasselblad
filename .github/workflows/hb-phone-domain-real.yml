@@ -1,0 +1,51 @@
+name: Phone Domain1 real-leaf verification
+
+"on":
+  push:
+    branches:
+      - recovery/awb-rebuild-20261021
+    paths:
+      - hasselblad_native_audit/phone_input_20261021/**
+      - hasselblad_native_audit/awb_original_runtime_20261021/**
+      - .github/workflows/hb-phone-domain-real.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-real-native-leaf:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Check out exact recovery commit
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Compile and compare original owned temperature leaves
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile hasselblad_native_audit/phone_input_20261021/domain_tests/verify_phone_domain_real.py
+          python3 hasselblad_native_audit/phone_input_20261021/domain_tests/verify_phone_domain_real.py --out "$RUNNER_TEMP/hb-domain-real"
+      - name: Check the isolated ABI with ASan and UBSan
+        shell: bash
+        run: |
+          set -euo pipefail
+          p=hasselblad_native_audit/phone_input_20261021
+          cc -std=c11 -O1 -g -Wall -Wextra -Werror -fno-omit-frame-pointer -fsanitize=address,undefined \
+            -I "$p" "$p/hb_phone_domain.c" "$p/domain_tests/mock_temperature.c" \
+            "$p/domain_tests/phone_domain_probe.c" \
+            -o "$RUNNER_TEMP/hb-domain-real/domain_probe_asan"
+          ASAN_OPTIONS=detect_leaks=1 "$RUNNER_TEMP/hb-domain-real/domain_probe_asan"
+      - name: Retain source-only verification result and host libraries
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hb-domain-real-leaf-host
+          path: |
+            ${{ runner.temp }}/hb-domain-real/PHONE_DOMAIN_REAL_PUBLIC_RESULT.json
+            ${{ runner.temp }}/hb-domain-real/libphone_domain_real_O0.so
+            ${{ runner.temp }}/hb-domain-real/libphone_domain_real_O2.so
+          if-no-files-found: warn
+          retention-days: 7

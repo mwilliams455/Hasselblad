@@ -65,6 +65,21 @@ if(ANDROID_ABI STREQUAL "arm64-v8a")
     target_link_libraries(hasselblad_scene_jni m)
     set_target_properties(hasselblad_scene_jni PROPERTIES C_STANDARD 11 C_STANDARD_REQUIRED ON
         LINK_FLAGS "-Wl,--gc-sections,-z,defs,-z,max-page-size=16384")
+
+    # Domain1 runs only on demand. It is never called by the shutter/scene
+    # JNI path and does not have access to RAW or the photographic renderer.
+    add_library(hasselblad_domain_jni SHARED
+        hasselblad/hb_phone_domain_jni.c
+        ${HB_PHONE}/hb_phone_domain.c ${HB_PHONE}/hb_phone_temperature.c
+        ${HB_RUNTIME}/hb_temperature.c ${HB_RUNTIME}/hb_user_controls.c
+        ${HB_RUNTIME}/hb_scene_optimizer.c)
+    target_include_directories(hasselblad_domain_jni PRIVATE ${HB_PHONE})
+    target_compile_options(hasselblad_domain_jni PRIVATE -O2 -Wall -Wextra -Werror
+        -Wno-misleading-indentation -ffp-contract=off -ffunction-sections -fdata-sections
+        -fvisibility=hidden)
+    target_link_libraries(hasselblad_domain_jni m)
+    set_target_properties(hasselblad_domain_jni PROPERTIES C_STANDARD 11 C_STANDARD_REQUIRED ON
+        LINK_FLAGS "-Wl,--gc-sections,-z,defs,-z,max-page-size=16384")
 endif()
 
 

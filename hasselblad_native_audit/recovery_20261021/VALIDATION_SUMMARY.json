@@ -1,0 +1,27 @@
+{
+  "schema": "hasselblad_recovery_validation_v1",
+  "date": "2026-10-21",
+  "repository": "mwilliams455/Hasselblad",
+  "published_parent": "929f523aa02ae5b224be39b9c36cce5975691a10",
+  "published_parent_tree": "0ed5c57223c3e37c2e41140a23475c137345ddf1",
+  "restored_published_tree_file_count": 1257,
+  "supplied_archive_manifest_entries_verified": 1206,
+  "supplied_archive_app_source_files_verified": 1092,
+  "android_build": {
+    "result": "pass",
+    "completed_tasks": 61,
+    "native_abis": [
+      "arm64-v8a",
+      "armeabi-v7a"
+    ]
+  },
+  "original_runtime": {
+    "firmware": "X2D II 100C 1.3.16.2",
+    "libaaa_sha256": "7d6164eccc734de7087bb778ee72f17a0b3ccf6c0d1f20092c7ebe74a86574ba",
+    "wb_recalib_valid_comparisons": 10000,
+    "wb_recalib_result": "pass"
+  },
+  "dng_export_validation": "pass",
+  "source_recovery_scope": "published baseline only; unpublished Native1C and later AWB source not recovered",
+  "github_sync_policy": "publish reconstructed bounded checkpoints on recovery branch; main unchanged until coherent"
+}

@@ -42,6 +42,12 @@ static unsigned roi_calls,roi_errors;
 static hb_roi_sync_model sync_model;
 static unsigned sync_calls;
 #endif
+#ifdef HB_SENSOR_ENTRY
+#include "hb_sensor.h"
+#include "sensor_fixtures.h"
+static unsigned sensor_calls,sensor_active_calls,original_statistics_calls;
+static uint32_t(*original_auto_statistics)(int);
+#endif
 #include <dlfcn.h>
 #include <math.h>
 #include <stdio.h>
@@ -153,6 +159,14 @@ static hb_run_entry_result compare(test_state*s,unsigned t,int expected,unsigned
                         if(!b){b=hb_roi_process(s->c,s->k);++roi_calls;roi_errors+=b!=0;}
                         entry=b?0x4722b0:dispatch.action==HB_DISPATCH_AUTO_REFRESH?0x471f30:0x472294;
                         if(capture)dump(s->dir,"owned_roi_boundary",t,s->c,C);
+#ifdef HB_SENSOR_ENTRY
+                        if(!b&&dispatch.action==HB_DISPATCH_AUTO_REFRESH){
+                            b=original_auto_statistics(0);++original_statistics_calls;
+                            if(!b){b=hb_sensor_process(s->c,s->k);++sensor_calls;sensor_active_calls+=s->k[0x139e2c]!=0;}
+                            entry=b?0x4722b0:0x471f50;
+                            if(capture)dump(s->dir,"owned_sensor_boundary",t,s->c,C);
+                        }
+#endif
                     }
 #endif
                     ++continued;b=hb_original_prepared_completion(s->bias+entry,s->c,b,s->bias+0x791348);
@@ -181,6 +195,9 @@ int hb_run_entry_tests(void*h,unsigned char*c,unsigned char*e2,void*config,void*
     test_state s={.c=c,.k=k,.r=reawb,.input=malloc(C),.reference=malloc(C),.ki=malloc(K),.kr=malloc(K),.dir=dir};
     if(!base||!cfg||!k||!s.input||!s.reference||!s.ki||!s.kr)return 71;
     memcpy(base,c,C);memcpy(cfg,config,K);memcpy(rbase,reawb,R);s.bias=(uintptr_t)sym(h,"get_scene_awb_context")-0x464068;s.run=sym(h,"scene_awb_lib_run");
+#ifdef HB_SENSOR_ENTRY
+    original_auto_statistics=sym(h,"scene_awb_stat_auto_proc");
+#endif
 #ifdef HB_ROI_SYNC_ENTRY
     hb_test_sync_model(&sync_model,s.bias);dump(dir,"sync_model",0,&sync_model,sizeof sync_model);
 #endif
@@ -342,6 +359,18 @@ int hb_run_entry_tests(void*h,unsigned char*c,unsigned char*e2,void*config,void*
         if(t>=32)hb_test_roi(c,k,t%6,t<36?0:4);
         compare(&s,9400+t,HB_RUN_READY,1);
     }
+#ifdef HB_SENSOR_ENTRY
+    for(unsigned t=0;t<48;++t){
+        memcpy(c,dispatch_base,C);memcpy(k,dispatch_cfg,K);memcpy(reawb,dispatch_r,R);
+        static const unsigned variants[]={0,3,6,8,10,15,20,23,24,25,26,29,30,31,32,37,38,40,41,43,44,50,57,60};
+        hb_test_sensor(c,k,variants[t/2]);
+        w32(c+0xb2020,0);w32(c+0x194,t%2);w32(c+0x174,0);w32(c+0x17c,0);w32(c+0x184,0);c[0xd338]=0;
+        k[0x1531a8]=k[0x1531ac]=1;k[0x1531ad]=1;w32(k+0x1531b0,UINT32_MAX);w32(c+0x2c,0);w16(c+0xef3e,0);c[0xdb60]=0;w32(c+0xeeac,0);
+        c[0xd328]=c[0xd329]=0;c[0xd32a]=1;((unsigned char*)reawb)[0x1c]=0;
+        compare(&s,9600+t,HB_RUN_READY,1);
+    }
+    printf("{\"event\":\"owned_sensor_entry_counts\",\"owned_sensor_calls\":%u,\"active_sensor_calls\":%u,\"original_sensor_callbacks\":0,\"original_statistics_callbacks\":%u,\"sensor_adaptation_owned\":true}\n",sensor_calls,sensor_active_calls,original_statistics_calls);
+#endif
     printf("{\"event\":\"owned_roi_sync_entry_counts\",\"owned_sync_calls\":%u,\"original_sync_callbacks\":0,\"roi_synchronization_owned\":true}\n",sync_calls);
     unsigned original_sync_calls=0;
 #else

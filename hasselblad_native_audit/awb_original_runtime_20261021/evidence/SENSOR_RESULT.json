@@ -1,0 +1,2272 @@
+{
+  "created_utc": "2026-10-21T16:02:02.078103+00:00",
+  "all_passed": true,
+  "exit": 0,
+  "mode": "owned_spectral_sensor",
+  "events": [
+    {
+      "stage": "awb_cfg_load",
+      "status": 0
+    },
+    {
+      "stage": "awb_lib_init",
+      "status": 0
+    },
+    {
+      "event": "original_full_initialization",
+      "initialized_marker": 1,
+      "context_bytes": 920560,
+      "config_bytes": 1502800,
+      "e2_bytes": 118416,
+      "e2_context_present": true,
+      "reawb_handle_present": true
+    },
+    {
+      "event": "owned_spectral_sensor",
+      "checks": 992,
+      "mismatches": 0,
+      "gain_calls": 49,
+      "parameter_pass_calls": 48,
+      "processing_calls": 145,
+      "stateful_calls": 48,
+      "owned_only_guard_checks": 26,
+      "sensor_adaptation_owned": true,
+      "synthetic_inputs": true,
+      "all_passed": true
+    }
+  ],
+  "input_config_sha256": "7fa13044a6c5453b67e4ae11bf8d07828de8e1c02aa915494fe5dad20930d435",
+  "library_sha256": "7d6164eccc734de7087bb778ee72f17a0b3ccf6c0d1f20092c7ebe74a86574ba",
+  "linker_sha256": "313d7a6d94cdeb9e2b2adb4be98a8b18240b08012b22f922acea7984f42ff35d",
+  "dependency_count": 65,
+  "qemu_sha256": "4f55e2e88dc05dc0f619562d5795b8eb25ed2ad2547504fb4835207a6911c350",
+  "compiler_version": "Android (12027248, +pgo, +bolt, +lto, +mlgo, based on r522817) clang version 18.0.1 (https://android.googlesource.com/toolchain/llvm-project d8003a456d14a3deb8054cdaa529ffbf02d9b262)",
+  "source_sha256": {
+    "awb_original_runtime_20261021/full_probe.c": "8f576e8ed7eb8a3b3acc0a085e331312c3c8fbf7412680e32b41eaec98491a61",
+    "awb_original_runtime_20261021/sensor_compare.c": "5f7ea2f8ff0a0daa7031436abdf66a868fca2ec0bcc2e68bbe6a8feaca7cc541",
+    "awb_original_runtime_20261021/hb_sensor.c": "e90caa7b9ba26b6a79303ee557288e46b416f2d6efa7aa5a30c95ad4c925d27a",
+    "awb_original_runtime_20261021/run_full.py": "7a3a2dfcac5fea7f25fdcf0f1780e642549bddfdf44975aab67068da6e06c7a8",
+    "awb_original_runtime_20261021/run_recalib.py": "b11d5635343e30047596dfab12f669f0f8343c823c1a3dc72bd22146cb11b22f",
+    "awb_original_runtime_20261021/hb_sensor.h": "8bf2209296ee45dcbd152718e9aed8749dd3fc1b5a9ee4709f58d3f5745bf87e",
+    "awb_original_runtime_20261021/sensor_fixtures.h": "8f6a45d6ac75afa8503cf1adf2a0a757448bc5142fac1821086a77d415f4b1e1",
+    "awb_original_runtime_20261021/hb_stat_prepare.h": "1f3eea206426a1ae2e399f212c51169c58fd80503656fecbf690df56c442b59b"
+  },
+  "probe_sha256": "75a5c30216a8a0cd44d3a0c6a8c772be0c71b875a5498cf4755464033c6451f7",
+  "build_command": [
+    "/workspace/scratch/910ac5420982/runtime_tools/android-ndk-r27/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android28-clang",
+    "-std=c11",
+    "-O2",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-fPIE",
+    "-pie",
+    "-ffp-contract=off",
+    "-Wl,-z,max-page-size=16384",
+    "-DHB_SENSOR_COMPARE=1",
+    "/workspace/scratch/910ac5420982/repo/hasselblad_native_audit/awb_original_runtime_20261021/full_probe.c",
+    "/workspace/scratch/910ac5420982/repo/hasselblad_native_audit/awb_original_runtime_20261021/sensor_compare.c",
+    "/workspace/scratch/910ac5420982/repo/hasselblad_native_audit/awb_original_runtime_20261021/hb_sensor.c",
+    "-ldl",
+    "-lm",
+    "-o",
+    "/workspace/scratch/910ac5420982/private_runtime/sensor_direct/full_probe_android28_arm64"
+  ],
+  "run_command": [
+    "/workspace/scratch/910ac5420982/runtime_tools/qemu/usr/bin/qemu-aarch64-static",
+    "-L",
+    "/workspace/scratch/910ac5420982/private_runtime/extracted",
+    "/workspace/scratch/910ac5420982/private_runtime/sensor_direct/full_probe_android28_arm64",
+    "/workspace/scratch/910ac5420982/private_runtime/extracted/system/lib64/libaaa.so",
+    "/workspace/scratch/910ac5420982/private_runtime/extracted/system/etc/aaa/awb_imx861.bin",
+    "/workspace/scratch/910ac5420982/private_runtime/sensor_direct"
+  ],
+  "private_dump_metadata": {
+    "sensor_config_56.bin": {
+      "bytes": 1502800,
+      "sha256": "f6db54578fc03281162f8af6bbe3413371d5af1149bd7952a953da34ffc577c4"
+    },
+    "sensor_owned_gains_1010.bin": {
+      "bytes": 40,
+      "sha256": "64bbcc86acd342297825c05877bc36b7cfbcec463df50f65908e0be6cfe1c921"
+    },
+    "sensor_config_47.bin": {
+      "bytes": 1502800,
+      "sha256": "72dc50c6ca820d69bb9c5dd760c40170a0a1698e3a84e0832c4df53fa75e5c87"
+    },
+    "sensor_config_55.bin": {
+      "bytes": 1502800,
+      "sha256": "e44ac0a345d980edaff9d2093db3614d9adf82140482b73fe9ae5b250e87e618"
+    },
+    "sensor_owned_68.bin": {
+      "bytes": 920560,
+      "sha256": "0e25422c903348fcc9c29333961e9420c9974ed03be225c1304729278bccc231"
+    },
+    "sensor_input_1109.bin": {
+      "bytes": 920560,
+      "sha256": "bacda04fc1922d5950ec85f4bf83219251508ca0b354751068cc54f7c6eb654b"
+    },
+    "sensor_config_2003.bin": {
+      "bytes": 1502800,
+      "sha256": "7a569c13f7d475b23775c4f91ac7c8a5fb84db5643b0a7aee091d0ffe9ac45e5"
+    },
+    "sensor_owned_69.bin": {
+      "bytes": 920560,
+      "sha256": "d6d58c134d7116eef916086c6b332291ac94b05d2c47a61dbf723c2356c6fe1f"
+    },
+    "sensor_original_1004.bin": {
+      "bytes": 920560,
+      "sha256": "b0ae57152681b957147da844b252744cf4cc0c2401a94ade9e868c5d60eaa355"
+    },
+    "sensor_config_1108.bin": {
+      "bytes": 1502800,
+      "sha256": "5ff9cf848b4799a7f5aa7fce6eecf67653ed77eee3e4d331ffed86dde0c67f68"
+    },
+    "sensor_input_6.bin": {
+      "bytes": 920560,
+      "sha256": "a2d30da37db4e5c2fd115eb4f9c81e1f9d65e008a14d91532d66d76806bacf3d"
+    },
+    "sensor_original_2002.bin": {
+      "bytes": 920560,
+      "sha256": "c01d78748e38db4680e581fe2d0eeedaec7277adcaad6477f9d97228cc594b6c"
+    },
+    "sensor_config_28.bin": {
+      "bytes": 1502800,
+      "sha256": "e850dfdf0bd317ac37b9b9f118527a4e9378aebdfccfaf46aa3dd9be2fb12cf7"
+    },
+    "sensor_original_40.bin": {
+      "bytes": 920560,
+      "sha256": "ce65c3cc153af5dbf4f60e97646f1e15f03ef30af6d37cc9ae801d65b4ff8d72"
+    },
+    "sensor_input_62.bin": {
+      "bytes": 920560,
+      "sha256": "b5cc9669d502315d4a3e07f0fd3294210e3689b50dba59f40ecc6e9978dc7296"
+    },
+    "sensor_input_1003.bin": {
+      "bytes": 920560,
+      "sha256": "2bd2a05ea8d45d9c0b6c9de043806e2866402bf12d2da11aece40329dd1d2000"
+    },
+    "sensor_config_2004.bin": {
+      "bytes": 1502800,
+      "sha256": "7a569c13f7d475b23775c4f91ac7c8a5fb84db5643b0a7aee091d0ffe9ac45e5"
+    },
+    "sensor_original_55.bin": {
+      "bytes": 920560,
+      "sha256": "8461051a4fbc4287523a098d9e8d8f78a9be8616ef11493260a30e532f2f241f"
+    },
+    "sensor_input_60.bin": {
+      "bytes": 920560,
+      "sha256": "cab62cf3339cc8307f6605b3f6f17e54f9fbddaca7b6d0349d9a3443067b2915"
+    },
+    "sensor_original_7.bin": {
+      "bytes": 920560,
+      "sha256": "0ba62a3b9364ddd4ca973e81c6bf8301bfde863fc0167e6dbcc90680b86a0071"
+    },
+    "sensor_owned_2002.bin": {
+      "bytes": 920560,
+      "sha256": "c01d78748e38db4680e581fe2d0eeedaec7277adcaad6477f9d97228cc594b6c"
+    },
+    "sensor_config_1105.bin": {
+      "bytes": 1502800,
+      "sha256": "5ff9cf848b4799a7f5aa7fce6eecf67653ed77eee3e4d331ffed86dde0c67f68"
+    },
+    "sensor_original_1010.bin": {
+      "bytes": 920560,
+      "sha256": "e8b2e1825cc2fabfd855b2503a447decc475db4a0ad66e9f1232f7b40b5417d2"
+    },
+    "sensor_input_1107.bin": {
+      "bytes": 920560,
+      "sha256": "70688e80db3c27be8f82d3c756252ed4c6c422512f14c326fdf88ab7db2160f5"
+    },
+    "sensor_owned_26.bin": {
+      "bytes": 920560,
+      "sha256": "15cd75b5f131193a13d40cf674ca985988b934a813dab9e39cc65772f5d53261"
+    },
+    "sensor_config_2002.bin": {
+      "bytes": 1502800,
+      "sha256": "7a569c13f7d475b23775c4f91ac7c8a5fb84db5643b0a7aee091d0ffe9ac45e5"
+    },
+    "sensor_config_90.bin": {
+      "bytes": 1502800,
+      "sha256": "7594a6ada72748f0afd0e2cc4604912f453932788679970bfd7247a192a187a0"
+    },
+    "sensor_original_20.bin": {
+      "bytes": 920560,
+      "sha256": "6ce0f3aa3d4260d2be8b2891fb6c6541cbfcdd49bfcfa79523db8b081bddce63"
+    },
+    "sensor_owned_3.bin": {
+      "bytes": 920560,
+      "sha256": "87543e2ef9b6bc664e82971abdf9cfa0907c4d8f7e22045aeed8c8d2c54e5215"
+    },
+    "sensor_config_37.bin": {
+      "bytes": 1502800,
+      "sha256": "700d8321306a74334381d52b2cb599e738900d141f51e965a059bf60a3511c1a"
+    },
+    "sensor_input_63.bin": {
+      "bytes": 920560,
+      "sha256": "b5cc9669d502315d4a3e07f0fd3294210e3689b50dba59f40ecc6e9978dc7296"
+    },
+    "sensor_input_90.bin": {
+      "bytes": 920560,
+      "sha256": "49aa7561e7b7ade14fc4cd1fab6ecdbea3ed65044a065ec280b8a43f5cdabee3"
+    },
+    "sensor_owned_1100.bin": {
+      "bytes": 920560,
+      "sha256": "0c37ea099507a0d64ab0102576fe33dd16b2bff6e748fdae7353076244cb3833"
+    },
+    "sensor_config_1003.bin": {
+      "bytes": 1502800,
+      "sha256": "5ff9cf848b4799a7f5aa7fce6eecf67653ed77eee3e4d331ffed86dde0c67f68"
+    },
+    "sensor_original_66.bin": {
+      "bytes": 920560,
+      "sha256": "f6b42344b1bfdaafc64939787f82aa2777be6aba7870dd0b9e7c1c199f852741"
+    },
+    "sensor_owned_1105.bin": {
+      "bytes": 920560,
+      "sha256": "21d67810f1e0b888256045cb36f9dfaa8d48e4df17d37a9c8237026d1453fe24"
+    },
+    "sensor_owned_1009.bin": {
+      "bytes": 920560,
+      "sha256": "bacda04fc1922d5950ec85f4bf83219251508ca0b354751068cc54f7c6eb654b"
+    },
+    "sensor_config_57.bin": {
+      "bytes": 1502800,
+      "sha256": "64371af9d805b6af44d46e75680e364995f6082da748981a464ac4b0e74c2e75"
+    },
+    "sensor_owned_90.bin": {
+      "bytes": 920560,
+      "sha256": "802f237220421b7b1a79293c34fe020988ace0d204fc734edf3d3bd59f35c6ea"
+    },
+    "sensor_original_1100.bin": {
+      "bytes": 920560,
+      "sha256": "0c37ea099507a0d64ab0102576fe33dd16b2bff6e748fdae7353076244cb3833"
+    },
+    "sensor_config_2047.bin": {
+      "bytes": 1502800,
+      "sha256": "7a569c13f7d475b23775c4f91ac7c8a5fb84db5643b0a7aee091d0ffe9ac45e5"
+    },
+    "sensor_original_65.bin": {
+      "bytes": 920560,
+      "sha256": "0ea7da19f190dc1b82f0bccec19ffd63bd264ed5b65633d9ea241cdc5ce40e9d"
+    },
+    "sensor_input_56.bin": {
+      "bytes": 920560,
+      "sha256": "3954bd241bd15a41b124bd3989016b82d88e6e76a796c85681d60995714009e2"
+    },
+    "sensor_input_37.bin": {
+      "bytes": 920560,
+      "sha256": "52991fb451066f2bf5df30ec81fb416f0581b0bb9dc3c3a59938221c28d67c63"
+    },
+    "sensor_input_21.bin": {
+      "bytes": 920560,
+      "sha256": "43d63b3bf9b676f1a483f07649f7360574586c55fbb97c166d04a526f66ee36f"
+    },
+    "sensor_owned_40.bin": {
+      "bytes": 920560,
+      "sha256": "ce65c3cc153af5dbf4f60e97646f1e15f03ef30af6d37cc9ae801d65b4ff8d72"
+    },
+    "sensor_config_9.bin": {
+      "bytes": 1502800,
+      "sha256": "873845a479b95c5dbe872108b683f231995d6008ef5dd4e920f4cfcae69cf1ac"
+    },
+    "sensor_config_1107.bin": {
+      "bytes": 1502800,
+      "sha256": "5ff9cf848b4799a7f5aa7fce6eecf67653ed77eee3e4d331ffed86dde0c67f68"
+    },
+    "sensor_original_46.bin": {
+      "bytes": 920560,
+      "sha256": "0cc1230221ff1466368b1a6d07d5e39db9b3f89dc0c2075bc67f93b9a650950f"
+    },
+    "sensor_owned_22.bin": {
+      "bytes": 920560,
+      "sha256": "ec13d874c2c3327780fb31137b3a94f1361986edcf0761704486cb3a6c196a06"
+    },
+    "sensor_input_3.bin": {
+      "bytes": 920560,
+      "sha256": "03ffdfd12d29e5cb9a7e53f060e3e4666149470fddf9de9e831fdd3a7b2e5128"
+    },
+    "sensor_input_17.bin": {
+      "bytes": 920560,
+      "sha256": "2c8274f17337a3e26975e45cadb28db69fd51abc86e38fec458cd84f3bb193c9"
+    },
+    "sensor_owned_1001.bin": {
+      "bytes": 920560,
+      "sha256": "94d853b3fa2ac1dad32650a4acfa93b2d0712855c9d9c7088d142853d81e86cd"
+    },
+    "sensor_owned_17.bin": {
+      "bytes": 920560,
+      "sha256": "944bb5565c1d42dadccbaf0e6fc75c7d71a8ece42b3f9d3a6bab7718b377070c"
+    },
+    "sensor_original_61.bin": {
+      "bytes": 920560,
+      "sha256": "f66b2290782dde500cad8a9eb044dcde4342734557da47ee74cfd8b7b9293141"
+    },
+    "sensor_original_51.bin": {
+      "bytes": 920560,
+      "sha256": "927d079a2a1ae12e89df3078b40017b6fdecf626a4bd8113f36c87cc8d312201"
+    },
+    "sensor_owned_1010.bin": {
+      "bytes": 920560,
+      "sha256": "e8b2e1825cc2fabfd855b2503a447decc475db4a0ad66e9f1232f7b40b5417d2"
+    },
+    "sensor_owned_78.bin": {
+      "bytes": 920560,
+      "sha256": "7ef33e0f11dff44795cb510bd6e06552d53c4556b833a7dd954587d06e969072"
+    },
+    "sensor_original_74.bin": {
+      "bytes": 920560,
+      "sha256": "4deb32715e888039641b5cce31b6b3260dd5a102ea77350b85c62b0699813d8a"
+    },
+    "sensor_input_1005.bin": {
+      "bytes": 920560,
+      "sha256": "eeb5aa0d501ee1bbe514506c04665ae82d27e7aab125c3c923fd73ae0f1e08ee"
+    },
+    "sensor_owned_gains_1006.bin": {
+      "bytes": 40,
+      "sha256": "a7a80321827955bd344c12a0bb8ebce5d752a2a56f4ef49e8649824942f93f64"
+    },
+    "sensor_input_1101.bin": {
+      "bytes": 920560,
+      "sha256": "94d853b3fa2ac1dad32650a4acfa93b2d0712855c9d9c7088d142853d81e86cd"
+    },
+    "sensor_config_1.bin": {
+      "bytes": 1502800,
+      "sha256": "4a6793ab42593095047bd6b9fb11dacdfcd0f90b9e4218399bd0aac68b98cbe6"
+    },
+    "sensor_input_83.bin": {
+      "bytes": 920560,
+      "sha256": "b5cc9669d502315d4a3e07f0fd3294210e3689b50dba59f40ecc6e9978dc7296"
+    },
+    "sensor_owned_1103.bin": {
+      "bytes": 920560,
+      "sha256": "f07b3a4e25fdf72b65de5726fba8033a04cfa681c2192edea7faf4658b508268"
+    },
+    "sensor_input_16.bin": {
+      "bytes": 920560,
+      "sha256": "7dd6cdab1dd603fe04303423bf7d75a3d59488b1a50bb8d636ce6e0f7832670f"
+    },
+    "sensor_config_1009.bin": {
+      "bytes": 1502800,
+      "sha256": "5ff9cf848b4799a7f5aa7fce6eecf67653ed77eee3e4d331ffed86dde0c67f68"
+    },
+    "sensor_config_16.bin": {
+      "bytes": 1502800,
+      "sha256": "e544497faa7fb5f2c0739ad94674217927425c39ee0e1a85bf0740a8872d5c1c"
+    },
+    "sensor_config_2001.bin": {
+      "bytes": 1502800,
+      "sha256": "7a569c13f7d475b23775c4f91ac7c8a5fb84db5643b0a7aee091d0ffe9ac45e5"
+    },
+    "sensor_config_10.bin": {
+      "bytes": 1502800,
+      "sha256": "5ff9cf848b4799a7f5aa7fce6eecf67653ed77eee3e4d331ffed86dde0c67f68"
+    },
+    "sensor_input_1102.bin": {
+      "bytes": 920560,
+      "sha256": "a19bdc6b2fdc402e440924ab5603082c158c330806b32640fadfc41a2e831eaa"
+    },
+    "sensor_owned_89.bin": {
+      "bytes": 920560,
+      "sha256": "29dfed9cc7a434be23a57f1e7e54b007c53bdc8dad02ec3bfcfdd2048c2ae727"
+    },
+    "sensor_owned_39.bin": {
+      "bytes": 920560,
+      "sha256": "99f0e48aacc7970cdb87780dbaa8eb5fe985578ebdeca8afee0880b21cf475b1"
+    },
+    "sensor_input_1000.bin": {
+      "bytes": 920560,
+      "sha256": "155bbc57fcf8f4eefebfa2c3011e56382f12b64c0d114d87eff549f2371d766e"
+    },
+    "sensor_input_68.bin": {
+      "bytes": 920560,
+      "sha256": "b5cc9669d502315d4a3e07f0fd3294210e3689b50dba59f40ecc6e9978dc7296"
+    },
+    "sensor_owned_93.bin": {
+      "bytes": 920560,
+      "sha256": "01771a99929ecd6b9c80eae1245f359306c83225815dfcf43386e02e2230aaa8"
+    },
+    "sensor_input_19.bin": {
+      "bytes": 920560,
+      "sha256": "5917d321c130e251f00bd69429c1f78e8eaaa50a356d04adee8e520e11795963"
+    },
+    "sensor_config_60.bin": {
+      "bytes": 1502800,
+      "sha256": "5587ecf12b024155bd113371aba950d7eaa0d6d44fc20a40fcc5a78b34aedb6e"
+    },
+    "sensor_owned_44.bin": {
+      "bytes": 920560,
+      "sha256": "a247ec32f379435ae007c1cf1dedec992dbad950bb5646ae127fdfbd21ae4a78"
+    },
+    "sensor_input_1104.bin": {
+      "bytes": 920560,
+      "sha256": "b0ae57152681b957147da844b252744cf4cc0c2401a94ade9e868c5d60eaa355"
+    },
+    "sensor_owned_2047.bin": {
+      "bytes": 920560,
+      "sha256": "438551318733e9b54074321420383e3461d56d44449eb7b3447695bd72e86773"
+    },
+    "sensor_config_44.bin": {
+      "bytes": 1502800,
+      "sha256": "a48ea0db50f718ca42248fb36d3046ad4b298df9229a4c0947f3196f80659c87"
+    },
+    "sensor_original_41.bin": {
+      "bytes": 920560,
+      "sha256": "a9f763350a6b946785b6e7a5c640adbea756d3652499a11901669f66c426b891"
+    },
+    "sensor_config_72.bin": {
+      "bytes": 1502800,
+      "sha256": "3c1a47a3ecbeffd5a12e8dc6caa9b6a7fb1a4a291aa4586a0ceee332d226f40e"
+    },
+    "sensor_original_1000.bin": {
+      "bytes": 920560,
+      "sha256": "155bbc57fcf8f4eefebfa2c3011e56382f12b64c0d114d87eff549f2371d766e"
+    },
+    "sensor_original_9.bin": {
+      "bytes": 920560,
+      "sha256": "1c15787b394799dd14cd71810fb8e42fba23c695970c5f49ac0bb1f8a92115e6"
+    },
+    "sensor_owned_95.bin": {
+      "bytes": 920560,
+      "sha256": "3f7f79bdbfc78ba7580c39445cbb2fe4a71b5bba4597372988e6a59ceff9da35"
+    },
+    "sensor_config_86.bin": {
+      "bytes": 1502800,
+      "sha256": "2a37f162f78531bb897ac49bf5ed5c2ab5777d6d98021567dd0c974f88484bae"
+    },
+    "sensor_config_50.bin": {
+      "bytes": 1502800,
+      "sha256": "2c9893ace22ff96aff42d2eecf8ffdd38138c46136f71dd43c77371d38d25720"
+    },
+    "sensor_input_2004.bin": {
+      "bytes": 920560,
+      "sha256": "66391a9ca4651b9c73bbabee07e95fe2bf86ffe6d68bd8b0879c2b736cd75d1b"
+    },
+    "sensor_owned_60.bin": {
+      "bytes": 920560,
+      "sha256": "309c01694b0deb35b798756c4c63f0577f33fe6e00e35658cd5f3010ee4d5a9e"
+    },
+    "sensor_input_82.bin": {
+      "bytes": 920560,
+      "sha256": "b5cc9669d502315d4a3e07f0fd3294210e3689b50dba59f40ecc6e9978dc7296"
+    },
+    "sensor_input_27.bin": {
+      "bytes": 920560,
+      "sha256": "fca84fcf4f920d7f4e090749642a8a91fa9d4d3f98ec18a8371e792e02178711"
+    },
+    "sensor_input_32.bin": {
+      "bytes": 920560,
+      "sha256": "db17fa89bc37d6ffae25f89162596f97350846cc2d631f9b4f81848375c895ff"
+    },
+    "sensor_owned_gains_1005.bin": {
+      "bytes": 40,
+      "sha256": "bb38ae7643f4398b3b0530f6a1cab7ca55c03e643f7160829001ca91bebe16b2"
+    },
+    "sensor_input_67.bin": {
+      "bytes": 920560,
+      "sha256": "b5cc9669d502315d4a3e07f0fd3294210e3689b50dba59f40ecc6e9978dc7296"
+    },
+    "sensor_config_11.bin": {
+      "bytes": 1502800,
+      "sha256": "5ff9cf848b4799a7f5aa7fce6eecf67653ed77eee3e4d331ffed86dde0c67f68"
+    },
+    "sensor_input_61.bin": {
+      "bytes": 920560,
+      "sha256": "b5cc9669d502315d4a3e07f0fd3294210e3689b50dba59f40ecc6e9978dc7296"
+    },
+    "sensor_input_30.bin": {
+      "bytes": 920560,
+      "sha256": "52991fb451066f2bf5df30ec81fb416f0581b0bb9dc3c3a59938221c28d67c63"
+    },
+    "sensor_original_38.bin": {
+      "bytes": 920560,
+      "sha256": "34725692fa260658a8e6a13c8101e2e82d4b5d7f7e826b2b7a316073b1938816"
+    },
+    "sensor_original_82.bin": {
+      "bytes": 920560,
+      "sha256": "bc051c59015cbe6d0bd30c1581deea4e6fb54f07390444fafde6a39dbd2c74ce"
+    },
+    "sensor_original_12.bin": {
+      "bytes": 920560,
+      "sha256": "53b5ea3af56aa66c7ae2314bafbec795f1e4ac90bd18a4105c85d2e04db0ff40"
+    },
+    "sensor_original_53.bin": {
+      "bytes": 920560,
+      "sha256": "b343f9fc5f8c2066bd1a4a6c82a48711816de2e61d4ced18b64aba12f81f62b2"
+    },
+    "sensor_original_1110.bin": {
+      "bytes": 920560,
+      "sha256": "7d8bd734e97230e422a7af1352da0d7a9975e584a9ef3ce28d804100652c312c"
+    },
+    "sensor_config_13.bin": {
+      "bytes": 1502800,
+      "sha256": "5ff9cf848b4799a7f5aa7fce6eecf67653ed77eee3e4d331ffed86dde0c67f68"
+    },
+    "sensor_original_gains_1003.bin": {
+      "bytes": 40,
+      "sha256": "a7a80321827955bd344c12a0bb8ebce5d752a2a56f4ef49e8649824942f93f64"
+    },
+    "sensor_owned_88.bin": {
+      "bytes": 920560,
+      "sha256": "f8cf4e7b1c3eea8f7a151c6b909eb64090af52c26ff8c7ab25ae076062f58cd8"
+    },
+    "sensor_input_2003.bin": {
+      "bytes": 920560,
+      "sha256": "630c165cf1aa55c3427ad0c36794602dfa6b1a0e10ebf4c131b0e7c6fc8f9cca"
+    },
+    "sensor_input_4.bin": {
+      "bytes": 920560,
+      "sha256": "2317ecf381c469870f467db00cbca69eb4fbfb7598473416918508e556b17812"
+    },
+    "sensor_original_31.bin": {
+      "bytes": 920560,
+      "sha256": "42e09f98542adb572e687b34f8f9304d777501b47bb633a4fa4e414962bc7b2a"
+    },
+    "sensor_config_83.bin": {
+      "bytes": 1502800,
+      "sha256": "61d06ffaef5a89b023bb49e7354ea4baf6d95d6765970b8048c860ba97528e8b"
+    },
+    "sensor_owned_2003.bin": {
+      "bytes": 920560,
+      "sha256": "29f512abb44144b9f954167b25123b332ba0c68ad439f7383a412ac4d72e52e2"
+    },
+    "sensor_original_67.bin": {
+      "bytes": 920560,
+      "sha256": "dcb68a778ba082c72c6dc7f80c392ba9c28a5003a400ee7cdb9c2327094f2f8c"
+    },
+    "sensor_owned_25.bin": {
+      "bytes": 920560,
+      "sha256": "3e0183c078b76a6aaae7183e46bbae4edf08196f0004a691e77be2b0fc5a5ec2"
+    },
+    "sensor_owned_gains_1002.bin": {
+      "bytes": 40,
+      "sha256": "bb38ae7643f4398b3b0530f6a1cab7ca55c03e643f7160829001ca91bebe16b2"
+    },
+    "sensor_config_1008.bin": {
+      "bytes": 1502800,
+      "sha256": "5ff9cf848b4799a7f5aa7fce6eecf67653ed77eee3e4d331ffed86dde0c67f68"
+    },
+    "sensor_input_26.bin": {
+      "bytes": 920560,
+      "sha256": "d10919f9cea350fa6a35fad88f6b7565f2bd375b366e4402dc54d3fba8bb9420"
+    },
+    "sensor_input_79.bin": {
+      "bytes": 920560,
+      "sha256": "b5cc9669d502315d4a3e07f0fd3294210e3689b50dba59f40ecc6e9978dc7296"
+    },
+    "sensor_original_gains_1010.bin": {
+      "bytes": 40,
+      "sha256": "64bbcc86acd342297825c05877bc36b7cfbcec463df50f65908e0be6cfe1c921"
+    },
+    "sensor_owned_gains_1001.bin": {
+      "bytes": 40,
+      "sha256": "64bbcc86acd342297825c05877bc36b7cfbcec463df50f65908e0be6cfe1c921"
+    },
+    "sensor_original_3.bin": {
+      "bytes": 920560,
+      "sha256": "87543e2ef9b6bc664e82971abdf9cfa0907c4d8f7e22045aeed8c8d2c54e5215"
+    },
+    "sensor_original_1007.bin": {
+      "bytes": 920560,
+      "sha256": "70688e80db3c27be8f82d3c756252ed4c6c422512f14c326fdf88ab7db2160f5"
+    },
+    "sensor_input_77.bin": {
+      "bytes": 920560,
+      "sha256": "b5cc9669d502315d4a3e07f0fd3294210e3689b50dba59f40ecc6e9978dc7296"
+    },
+    "sensor_input_44.bin": {
+      "bytes": 920560,
+      "sha256": "18ffa528d53746013b5bc86126b136a0fe44891f8b9144ad001dfcf14def34c0"
+    },
+    "sensor_input_92.bin": {
+      "bytes": 920560,
+      "sha256": "c2e678cfbae30df9fbd93a055c5f13f0206bed8f829836c1a69ed62c0247aea7"
+    },
+    "sensor_original_81.bin": {
+      "bytes": 920560,
+      "sha256": "554065049c6c0d14547ab84be4c3ffe055ac04b47c27287721847c2433207f35"
+    },
+    "sensor_config_39.bin": {
+      "bytes": 1502800,
+      "sha256": "cbe1cce9d07c09b8ad423e509d510a9920dcf155a2fa15db367f7fadbbfe8e52"
+    },
+    "sensor_original_17.bin": {
+      "bytes": 920560,
+      "sha256": "944bb5565c1d42dadccbaf0e6fc75c7d71a8ece42b3f9d3a6bab7718b377070c"
+    },
+    "sensor_config_92.bin": {
+      "bytes": 1502800,
+      "sha256": "9f1221eb0a5bc2262d36913cec9ad4fe31ad5326c2867ff28a0c093e85fe7550"
+    },
+    "sensor_original_89.bin": {
+      "bytes": 920560,
+      "sha256": "29dfed9cc7a434be23a57f1e7e54b007c53bdc8dad02ec3bfcfdd2048c2ae727"
+    },
+    "sensor_config_27.bin": {
+      "bytes": 1502800,
+      "sha256": "e850dfdf0bd317ac37b9b9f118527a4e9378aebdfccfaf46aa3dd9be2fb12cf7"
+    },
+    "sensor_original_50.bin": {
+      "bytes": 920560,
+      "sha256": "42498b9373476defb25580bea0c9866b0843dcf8edaf6fd0056f92eace106be3"
+    },
+    "sensor_original_11.bin": {
+      "bytes": 920560,
+      "sha256": "baf9097c7b17d5128e8f8fbe55f82922f691604eeb28e076bff85c2e7e45923b"
+    },
+    "sensor_config_20.bin": {
+      "bytes": 1502800,
+      "sha256": "5ff9cf848b4799a7f5aa7fce6eecf67653ed77eee3e4d331ffed86dde0c67f68"
+    },
+    "sensor_original_19.bin": {
+      "bytes": 920560,
+      "sha256": "dda2eb980b7776c0686d0df37db2cedfdd5562313151238a36703757a24d7c56"
+    },
+    "sensor_config_1011.bin": {
+      "bytes": 1502800,
+      "sha256": "5ff9cf848b4799a7f5aa7fce6eecf67653ed77eee3e4d331ffed86dde0c67f68"
+    },
+    "sensor_config_73.bin": {
+      "bytes": 1502800,
+      "sha256": "8ae040091df3ccc8f03f88768351bb9b11a88ab23d1249c28656cfd26eb64b68"
+    },
+    "sensor_original_83.bin": {
+      "bytes": 920560,
+      "sha256": "9a90e7bb0bbdf6841f1e6853b1f653df307ffbaa0312e0739bed458b03cc708d"
+    },
+    "sensor_original_88.bin": {
+      "bytes": 920560,
+      "sha256": "f8cf4e7b1c3eea8f7a151c6b909eb64090af52c26ff8c7ab25ae076062f58cd8"
+    },
+    "sensor_original_93.bin": {
+      "bytes": 920560,
+      "sha256": "01771a99929ecd6b9c80eae1245f359306c83225815dfcf43386e02e2230aaa8"
+    },
+    "sensor_config_65.bin": {
+      "bytes": 1502800,
+      "sha256": "a9c0f7208869af71965ef1af4f2f14733ab8102a7a60d1abb16ae4fff770585e"
+    },
+    "sensor_input_1002.bin": {
+      "bytes": 920560,
+      "sha256": "a19bdc6b2fdc402e440924ab5603082c158c330806b32640fadfc41a2e831eaa"
+    },
+    "sensor_owned_gains_1011.bin": {
+      "bytes": 40,
+      "sha256": "64bbcc86acd342297825c05877bc36b7cfbcec463df50f65908e0be6cfe1c921"
+    },
+    "sensor_config_8.bin": {
+      "bytes": 1502800,
+      "sha256": "5ff9cf848b4799a7f5aa7fce6eecf67653ed77eee3e4d331ffed86dde0c67f68"
+    },
+    "sensor_input_15.bin": {
+      "bytes": 920560,
+      "sha256": "a452b8cb855b77469773b204c8e3ac7b5bdeb7f87ac1f08b6e2785289d83621c"
+    },
+    "sensor_original_1107.bin": {
+      "bytes": 920560,
+      "sha256": "c0d731d1bdc3657eb8bd69b0d2c68a3d63ebaf967084a56c64027151540dc51e"
+    },
+    "sensor_config_1004.bin": {
+      "bytes": 1502800,
+      "sha256": "5ff9cf848b4799a7f5aa7fce6eecf67653ed77eee3e4d331ffed86dde0c67f68"
+    },
+    "sensor_owned_72.bin": {
+      "bytes": 920560,
+      "sha256": "13544808f6201268d4cabb71cbe335c915a33ed7d6a53984de565fea76a1a651"
+    },
+    "sensor_config_29.bin": {
+      "bytes": 1502800,
+      "sha256": "e850dfdf0bd317ac37b9b9f118527a4e9378aebdfccfaf46aa3dd9be2fb12cf7"
+    },
+    "sensor_owned_1104.bin": {
+      "bytes": 920560,
+      "sha256": "31bc89f393bcdd341318410b16afe09f07708e09462642daa62814ad87c293b7"
+    },
+    "sensor_input_2000.bin": {
+      "bytes": 920560,
+      "sha256": "78b94545d584e4bdf5b8c4efa40ad606948bbe3427034d63b1825374f0885f68"
+    },
+    "sensor_owned_74.bin": {
+      "bytes": 920560,
+      "sha256": "4deb32715e888039641b5cce31b6b3260dd5a102ea77350b85c62b0699813d8a"
+    },
+    "sensor_config_85.bin": {
+      "bytes": 1502800,
+      "sha256": "0afe163446fb452cc38a2d0fc5d34dce5bd4b7292a9e9326bde836aa0abe42a6"
+    },
+    "sensor_owned_2001.bin": {
+      "bytes": 920560,
+      "sha256": "21c174cce89736eb127d82538d03ce6794a28228c228918064724aacb6fdc7aa"
+    },
+    "sensor_config_89.bin": {
+      "bytes": 1502800,
+      "sha256": "636d954d9ee7f970af3ac2cb0109d4650d2a4c1c79384102cd1721df0f02538a"
+    },
+    "sensor_owned_76.bin": {
+      "bytes": 920560,
+      "sha256": "f096407283d574004d0f5ada4eebe68e79e7f2603ba56d15a75c56c653ddcbd7"
+    },
+    "sensor_owned_33.bin": {
+      "bytes": 920560,
+      "sha256": "9153866414b99701fff05aa3599c7799d021f6c65afe4e06b352c07918063cc5"
+    },
+    "sensor_config_18.bin": {
+      "bytes": 1502800,
+      "sha256": "b7c6dde0bdbec1b8cb3327f6d972b0ad69226f3455b9ee8e08f0e60de69dbac4"
+    },
+    "sensor_config_79.bin": {
+      "bytes": 1502800,
+      "sha256": "7d0bb8f759e9d46feac6fc7bb7e2a815f736770f517ef20b0d14d725c4123f64"
+    },
+    "sensor_config_19.bin": {
+      "bytes": 1502800,
+      "sha256": "5ff9cf848b4799a7f5aa7fce6eecf67653ed77eee3e4d331ffed86dde0c67f68"
+    },
+    "sensor_input_89.bin": {
+      "bytes": 920560,
+      "sha256": "b5cc9669d502315d4a3e07f0fd3294210e3689b50dba59f40ecc6e9978dc7296"
+    },
+    "sensor_config_95.bin": {
+      "bytes": 1502800,
+      "sha256": "9d7cf8cc557b551c8fd4cdeceef615c5745d22c5683157d8540940cf443d8c22"
+    },
+    "sensor_original_48.bin": {
+      "bytes": 920560,
+      "sha256": "7d05a9fa3b43b37d177b94d007c65a3a3ba0a83de94a76cddc26cbea65209d2b"
+    },
+    "sensor_input_94.bin": {
+      "bytes": 920560,
+      "sha256": "49aa7561e7b7ade14fc4cd1fab6ecdbea3ed65044a065ec280b8a43f5cdabee3"
+    },
+    "sensor_original_76.bin": {
+      "bytes": 920560,
+      "sha256": "f096407283d574004d0f5ada4eebe68e79e7f2603ba56d15a75c56c653ddcbd7"
+    },
+    "sensor_config_1000.bin": {
+      "bytes": 1502800,
+      "sha256": "5ff9cf848b4799a7f5aa7fce6eecf67653ed77eee3e4d331ffed86dde0c67f68"
+    },
+    "sensor_owned_1008.bin": {
+      "bytes": 920560,
+      "sha256": "f5a719761f101b3e57830a40c069ed718ff382406e2df2d1dfc254dcfc8dbc51"
+    },
+    "sensor_input_70.bin": {
+      "bytes": 920560,
+      "sha256": "b5cc9669d502315d4a3e07f0fd3294210e3689b50dba59f40ecc6e9978dc7296"
+    },
+    "sensor_input_1108.bin": {
+      "bytes": 920560,
+      "sha256": "f5a719761f101b3e57830a40c069ed718ff382406e2df2d1dfc254dcfc8dbc51"
+    },
+    "sensor_original_43.bin": {
+      "bytes": 920560,
+      "sha256": "c2065e54687f99c03215a78ca76aa7c0eaa988e7325480749bb4641b6a657aa5"
+    },
+    "sensor_config_42.bin": {
+      "bytes": 1502800,
+      "sha256": "3e0ff8ab4b60fe9bf93c61dcaa4b3a94e733c40178b56d327531881ce66e8938"
+    },
+    "sensor_original_42.bin": {
+      "bytes": 920560,
+      "sha256": "f34ed8703dbf9a0442c51e86719cabb89df3f95431545a807114c77a45b93c14"
+    },
+    "sensor_original_45.bin": {
+      "bytes": 920560,
+      "sha256": "b8551c0a72ef0bab90ae0c9c44805082acf462160c797c66989bfbd243b7b058"
+    },
+    "sensor_owned_56.bin": {
+      "bytes": 920560,
+      "sha256": "422db3d1304179a283717efffa37659ff4bd0000bf231c1e0741213f4c7e81bc"
+    },
+    "sensor_input_35.bin": {
+      "bytes": 920560,
+      "sha256": "43d63b3bf9b676f1a483f07649f7360574586c55fbb97c166d04a526f66ee36f"
+    },
+    "sensor_owned_48.bin": {
+      "bytes": 920560,
+      "sha256": "7d05a9fa3b43b37d177b94d007c65a3a3ba0a83de94a76cddc26cbea65209d2b"
+    },
+    "sensor_original_1108.bin": {
+      "bytes": 920560,
+      "sha256": "3d161955aea1115c9c9c93157e60eb2c7e10ffd61b4b6f4800609556349b0ae1"
+    },
+    "sensor_original_27.bin": {
+      "bytes": 920560,
+      "sha256": "0a8e8d8feaf69bfe4424726e06807ebec2f3b6afd2536d95d4fcbce0f5f6183c"
+    },
+    "sensor_original_36.bin": {
+      "bytes": 920560,
+      "sha256": "142f1014ceaeb0078b1b6724383b7e8bd0c2c21b8c7d9b9162d40ac7d57dd60c"
+    },
+    "sensor_input_88.bin": {
+      "bytes": 920560,
+      "sha256": "b5cc9669d502315d4a3e07f0fd3294210e3689b50dba59f40ecc6e9978dc7296"
+    },
+    "sensor_input_84.bin": {
+      "bytes": 920560,
+      "sha256": "b5cc9669d502315d4a3e07f0fd3294210e3689b50dba59f40ecc6e9978dc7296"
+    },
+    "sensor_original_30.bin": {
+      "bytes": 920560,
+      "sha256": "1b14b151608044a0e5bc8f06058e0a7765cf781c50409722d2017923717713ae"
+    },
+    "sensor_original_gains_1000.bin": {
+      "bytes": 40,
+      "sha256": "a7a80321827955bd344c12a0bb8ebce5d752a2a56f4ef49e8649824942f93f64"
+    },
+    "sensor_config_52.bin": {
+      "bytes": 1502800,
+      "sha256": "2c9893ace22ff96aff42d2eecf8ffdd38138c46136f71dd43c77371d38d25720"
+    },
+    "sensor_config_23.bin": {
+      "bytes": 1502800,
+      "sha256": "3e837b9e5df53d3dff4b6472389759215e09f903331365fca574b47819020a01"
+    },
+    "sensor_owned_51.bin": {
+      "bytes": 920560,
+      "sha256": "927d079a2a1ae12e89df3078b40017b6fdecf626a4bd8113f36c87cc8d312201"
+    },
+    "sensor_original_87.bin": {
+      "bytes": 920560,
+      "sha256": "dd0706a51af594a4ad477d4ea178292f6f9d058633a9a86c35a505bd18760034"
+    },
+    "sensor_owned_6.bin": {
+      "bytes": 920560,
+      "sha256": "27c8c909dd5dcecabd9298012ba96096b19f95dd89e84226f43ad3624fa83e46"
+    },
+    "sensor_config_22.bin": {
+      "bytes": 1502800,
+      "sha256": "771b760c1b31bc47de594c85a1ce91da75520cadf524a02c0987eb09fbe876af"
+    },
+    "sensor_input_1103.bin": {
+      "bytes": 920560,
+      "sha256": "2bd2a05ea8d45d9c0b6c9de043806e2866402bf12d2da11aece40329dd1d2000"
+    },
+    "sensor_input_38.bin": {
+      "bytes": 920560,
+      "sha256": "db35a0780c8326c7cdf08cdcf9023bc0d6641afc770e7f404ad1711abb1777cd"
+    },
+    "sensor_config_62.bin": {
+      "bytes": 1502800,
+      "sha256": "6fa9940cba5650642df0ea8aedb61b1dc48958ac6d5b0c2b8666372390696a90"
+    },
+    "sensor_owned_23.bin": {
+      "bytes": 920560,
+      "sha256": "7f4601227cb825c07a72bb46252736d42758bcbe6a35fcb0df803713cfab2492"
+    },
+    "sensor_original_39.bin": {
+      "bytes": 920560,
+      "sha256": "99f0e48aacc7970cdb87780dbaa8eb5fe985578ebdeca8afee0880b21cf475b1"
+    },
+    "sensor_input_13.bin": {
+      "bytes": 920560,
+      "sha256": "8e208d3a1259f4a8515e6ef8e58f0228c717a53adc915d6a1ffd54a21bf0a17f"
+    },
+    "sensor_config_1101.bin": {
+      "bytes": 1502800,
+      "sha256": "5ff9cf848b4799a7f5aa7fce6eecf67653ed77eee3e4d331ffed86dde0c67f68"
+    },
+    "sensor_config_77.bin": {
+      "bytes": 1502800,
+      "sha256": "fdd7af117e9585b26bac4a19a176ffaae833fd3503c4206bbf9dd13c56b407d1"
+    },
+    "sensor_config_1001.bin": {
+      "bytes": 1502800,
+      "sha256": "5ff9cf848b4799a7f5aa7fce6eecf67653ed77eee3e4d331ffed86dde0c67f68"
+    },
+    "sensor_original_4.bin": {
+      "bytes": 920560,
+      "sha256": "2e5085deed58c5c0e5b51554efc6b8bb8c2c841f4d3b51656f5b92f96c8b5bbf"
+    },
+    "sensor_original_10.bin": {
+      "bytes": 920560,
+      "sha256": "d36050187fcb1be3e30cefa9d2561f8cecfa6014d18061bae9a9be1342ab4c78"
+    },
+    "sensor_config_14.bin": {
+      "bytes": 1502800,
+      "sha256": "5ff9cf848b4799a7f5aa7fce6eecf67653ed77eee3e4d331ffed86dde0c67f68"
+    },
+    "sensor_owned_1006.bin": {
+      "bytes": 920560,
+      "sha256": "11447bda7b4e21ccdb33ec9db6757be241eda97c8725ca7ee756e204165ef476"
+    },
+    "sensor_input_54.bin": {
+      "bytes": 920560,
+      "sha256": "9a0d6fca0a9491938131f8361bb761d61defdd5c0e0cd33454660296858c0065"
+    },
+    "sensor_original_gains_1006.bin": {
+      "bytes": 40,
+      "sha256": "a7a80321827955bd344c12a0bb8ebce5d752a2a56f4ef49e8649824942f93f64"
+    },
+    "sensor_original_92.bin": {
+      "bytes": 920560,
+      "sha256": "4cf118751f8f922e8e72ff1101f0ffc62f73e0eecf72edb6d2dff78801e9eac0"
+    },
+    "sensor_owned_gains_1004.bin": {
+      "bytes": 40,
+      "sha256": "64bbcc86acd342297825c05877bc36b7cfbcec463df50f65908e0be6cfe1c921"
+    },
+    "sensor_owned_27.bin": {
+      "bytes": 920560,
+      "sha256": "0a8e8d8feaf69bfe4424726e06807ebec2f3b6afd2536d95d4fcbce0f5f6183c"
+    },
+    "sensor_original_23.bin": {
+      "bytes": 920560,
+      "sha256": "7f4601227cb825c07a72bb46252736d42758bcbe6a35fcb0df803713cfab2492"
+    },
+    "sensor_owned_85.bin": {
+      "bytes": 920560,
+      "sha256": "4012d6c41af1e6fe17b2f685229f4942f99f1e10f3d212b9fbc8cc54707b03dc"
+    },
+    "sensor_input_59.bin": {
+      "bytes": 920560,
+      "sha256": "e79957eca191605ffe3babb40ea9fae8d5edef13de1db5a34b2011b4b7882594"
+    },
+    "sensor_owned_80.bin": {
+      "bytes": 920560,
+      "sha256": "95f504fcb7c6642dbb69fe5c53c90184bc7850c2e8cc92fe96dca2bd2c9ec69d"
+    },
+    "sensor_original_24.bin": {
+      "bytes": 920560,
+      "sha256": "d43ad2e6ad8934b9577e5318bfb91bb9d5bd9869b213ade8e5d0986f65ec92da"
+    },
+    "sensor_input_20.bin": {
+      "bytes": 920560,
+      "sha256": "123622dcb4835e3faea218be70e8f7c2d6b8cbf7c292b559d96d481c49388ff6"
+    },
+    "sensor_owned_45.bin": {
+      "bytes": 920560,
+      "sha256": "b8551c0a72ef0bab90ae0c9c44805082acf462160c797c66989bfbd243b7b058"
+    },
+    "sensor_input_47.bin": {
+      "bytes": 920560,
+      "sha256": "0eadd64dcebc10c3db94ae737b755c795dd96b49f827b82c4c6b3d83986683c5"
+    },
+    "sensor_config_80.bin": {
+      "bytes": 1502800,
+      "sha256": "bfe1d4047af7bd9a85a28b2140db239a4097c3d76a99751029509ed7353b9f93"
+    },
+    "sensor_input_29.bin": {
+      "bytes": 920560,
+      "sha256": "5a1ac71a05d695097b7d1512f8e375ed71075c27c94607862afc7a55fe8ba623"
+    },
+    "sensor_input_45.bin": {
+      "bytes": 920560,
+      "sha256": "dcb8f92b4366e7bd9ca6144c9d8c28d1b61aede604fd80b659cd457f48e843af"
+    },
+    "sensor_input_7.bin": {
+      "bytes": 920560,
+      "sha256": "3237929db2482055ff10d537a65849f04a4e94094c39fa406115d85252299b96"
+    },
+    "sensor_owned_29.bin": {
+      "bytes": 920560,
+      "sha256": "ff069e8b26e7ced546ac160207bdc3ef79b43a267346e227d307a709a31bdf82"
+    },
+    "sensor_original_57.bin": {
+      "bytes": 920560,
+      "sha256": "2314e2b23f2c31f12b798cc1b8bc96a235d704474c53d3d1724647977f721d1a"
+    },
+    "sensor_owned_1108.bin": {
+      "bytes": 920560,
+      "sha256": "3d161955aea1115c9c9c93157e60eb2c7e10ffd61b4b6f4800609556349b0ae1"
+    },
+    "sensor_config_70.bin": {
+      "bytes": 1502800,
+      "sha256": "d88f5620dc4835b6a4731598e4348dc64b87c1bb3182e7e53047b0d4e4e8d232"
+    },
+    "sensor_config_1104.bin": {
+      "bytes": 1502800,
+      "sha256": "5ff9cf848b4799a7f5aa7fce6eecf67653ed77eee3e4d331ffed86dde0c67f68"
+    },
+    "sensor_owned_10.bin": {
+      "bytes": 920560,
+      "sha256": "d36050187fcb1be3e30cefa9d2561f8cecfa6014d18061bae9a9be1342ab4c78"
+    },
+    "sensor_input_36.bin": {
+      "bytes": 920560,
+      "sha256": "b282a15c4956605d4a8e75fc5e1b246e919b3c47211efe259a68dffc91337f08"
+    },
+    "sensor_owned_1.bin": {
+      "bytes": 920560,
+      "sha256": "399b09dc3387b3aa61d6cd830cdc292efe0836b340cce6681101da91ed79c349"
+    },
+    "sensor_input_1106.bin": {
+      "bytes": 920560,
+      "sha256": "11447bda7b4e21ccdb33ec9db6757be241eda97c8725ca7ee756e204165ef476"
+    },
+    "sensor_input_1001.bin": {
+      "bytes": 920560,
+      "sha256": "94d853b3fa2ac1dad32650a4acfa93b2d0712855c9d9c7088d142853d81e86cd"
+    },
+    "sensor_input_93.bin": {
+      "bytes": 920560,
+      "sha256": "ada998507ed5e403d5c06709a1171d4216aad483547c66481b2efb5bef7c4281"
+    },
+    "sensor_owned_84.bin": {
+      "bytes": 920560,
+      "sha256": "e0a91aaf215946795cd529064fa67432edcf58c3b467bd7449acaeacb7df1ad5"
+    },
+    "sensor_owned_57.bin": {
+      "bytes": 920560,
+      "sha256": "2314e2b23f2c31f12b798cc1b8bc96a235d704474c53d3d1724647977f721d1a"
+    },
+    "sensor_original_32.bin": {
+      "bytes": 920560,
+      "sha256": "0c706421a73a36060ddc1e500a9b8ddbbc2939ed872310a9367ca75cc579c32c"
+    },
+    "sensor_owned_94.bin": {
+      "bytes": 920560,
+      "sha256": "b0cb6b75271d980e9f4a893e3c4e5aa06a22aa134103d8cdae12a02911c32977"
+    },
+    "sensor_input_25.bin": {
+      "bytes": 920560,
+      "sha256": "fedec47c395e0171140eadf9edac972b3cad16a17a3c0dba932a1c3103a766be"
+    },
+    "sensor_config_38.bin": {
+      "bytes": 1502800,
+      "sha256": "87c5725f90a09951657941eef0067fb13529267e43fdc40bcf290bf64270468e"
+    },
+    "sensor_config_1010.bin": {
+      "bytes": 1502800,
+      "sha256": "5ff9cf848b4799a7f5aa7fce6eecf67653ed77eee3e4d331ffed86dde0c67f68"
+    },
+    "sensor_owned_1101.bin": {
+      "bytes": 920560,
+      "sha256": "ceb4929d045d126cdd2ee054deb84c99529d3597cccdbc9e26d4b1d7e689d344"
+    },
+    "sensor_owned_28.bin": {
+      "bytes": 920560,
+      "sha256": "985db92d54b9fdfc79a0dfdcdce663652ee1b1d9ab07364cb157ec0bd096e0d1"
+    },
+    "sensor_original_5.bin": {
+      "bytes": 920560,
+      "sha256": "94017144ef5a9afd55fd45b12cd59608465400035b1423fda75e2c49a575486f"
+    },
+    "sensor_original_37.bin": {
+      "bytes": 920560,
+      "sha256": "bfc4e390267ec0e5e20a6f37ae62c2acd0c52cf0882eb445a11a4674670c8476"
+    },
+    "sensor_owned_77.bin": {
+      "bytes": 920560,
+      "sha256": "670ed4f9e1af2c4e0eac323b33f789e75e0a76a96e594824518fcbc5789742c0"
+    },
+    "sensor_owned_62.bin": {
+      "bytes": 920560,
+      "sha256": "edbe091b41510704d6074cf7df57291a1aad3622faaa2e864b9b84950465212a"
+    },
+    "sensor_owned_15.bin": {
+      "bytes": 920560,
+      "sha256": "9fdd3f11e1bb0dd24abe526a385778a00c7524b832bbfbed2f204311d67d8962"
+    },
+    "sensor_config_88.bin": {
+      "bytes": 1502800,
+      "sha256": "dbb74f2167044952e12ef03d8fbb0da16df3f0b666440ef67d41f675e053394c"
+    },
+    "sensor_config_87.bin": {
+      "bytes": 1502800,
+      "sha256": "3270cd7cbf03e5243ed5da975a1111994dd5b36c82fae2fec647fd4e5164f9cb"
+    },
+    "sensor_owned_81.bin": {
+      "bytes": 920560,
+      "sha256": "554065049c6c0d14547ab84be4c3ffe055ac04b47c27287721847c2433207f35"
+    },
+    "sensor_config_46.bin": {
+      "bytes": 1502800,
+      "sha256": "a48ea0db50f718ca42248fb36d3046ad4b298df9229a4c0947f3196f80659c87"
+    },
+    "sensor_input_64.bin": {
+      "bytes": 920560,
+      "sha256": "b5cc9669d502315d4a3e07f0fd3294210e3689b50dba59f40ecc6e9978dc7296"
+    },
+    "sensor_original_1001.bin": {
+      "bytes": 920560,
+      "sha256": "94d853b3fa2ac1dad32650a4acfa93b2d0712855c9d9c7088d142853d81e86cd"
+    },
+    "sensor_owned_gains_1009.bin": {
+      "bytes": 40,
+      "sha256": "a7a80321827955bd344c12a0bb8ebce5d752a2a56f4ef49e8649824942f93f64"
+    },
+    "sensor_input_65.bin": {
+      "bytes": 920560,
+      "sha256": "b5cc9669d502315d4a3e07f0fd3294210e3689b50dba59f40ecc6e9978dc7296"
+    },
+    "sensor_original_44.bin": {
+      "bytes": 920560,
+      "sha256": "a247ec32f379435ae007c1cf1dedec992dbad950bb5646ae127fdfbd21ae4a78"
+    },
+    "sensor_input_49.bin": {
+      "bytes": 920560,
+      "sha256": "26df30bfa496852c176756d49f78628ac4dfb82c41fff02ee307a59369816cdb"
+    },
+    "sensor_input_1007.bin": {
+      "bytes": 920560,
+      "sha256": "70688e80db3c27be8f82d3c756252ed4c6c422512f14c326fdf88ab7db2160f5"
+    },
+    "sensor_config_12.bin": {
+      "bytes": 1502800,
+      "sha256": "5ff9cf848b4799a7f5aa7fce6eecf67653ed77eee3e4d331ffed86dde0c67f68"
+    },
+    "sensor_config_63.bin": {
+      "bytes": 1502800,
+      "sha256": "f4b8ee854cbbf2373194ce75456c81fd202873455f1fbd496dc32a656b545cd7"
+    },
+    "sensor_owned_32.bin": {
+      "bytes": 920560,
+      "sha256": "0c706421a73a36060ddc1e500a9b8ddbbc2939ed872310a9367ca75cc579c32c"
+    },
+    "sensor_original_47.bin": {
+      "bytes": 920560,
+      "sha256": "55e9ebb75e158d9eb6bf1669a86832344256f1af92b323b876be1db7cac64a8c"
+    },
+    "sensor_original_84.bin": {
+      "bytes": 920560,
+      "sha256": "e0a91aaf215946795cd529064fa67432edcf58c3b467bd7449acaeacb7df1ad5"
+    },
+    "sensor_input_69.bin": {
+      "bytes": 920560,
+      "sha256": "b5cc9669d502315d4a3e07f0fd3294210e3689b50dba59f40ecc6e9978dc7296"
+    },
+    "sensor_config_5.bin": {
+      "bytes": 1502800,
+      "sha256": "0afd01940ee3db873871fbb4357b92fd9e3495662041a32bf34a6978aa523749"
+    },
+    "sensor_original_56.bin": {
+      "bytes": 920560,
+      "sha256": "422db3d1304179a283717efffa37659ff4bd0000bf231c1e0741213f4c7e81bc"
+    },
+    "sensor_input_43.bin": {
+      "bytes": 920560,
+      "sha256": "4a3fc0addab4d1d205e18475ea99c346f6ad704595ccbaa5285719b8ea351f16"
+    },
+    "sensor_input_1006.bin": {
+      "bytes": 920560,
+      "sha256": "11447bda7b4e21ccdb33ec9db6757be241eda97c8725ca7ee756e204165ef476"
+    },
+    "sensor_original_34.bin": {
+      "bytes": 920560,
+      "sha256": "e0a4593907492bc006a4586bbc70beadddff3bdd49d25efa0dbb6af1efacbc43"
+    },
+    "sensor_config_1106.bin": {
+      "bytes": 1502800,
+      "sha256": "5ff9cf848b4799a7f5aa7fce6eecf67653ed77eee3e4d331ffed86dde0c67f68"
+    },
+    "sensor_config_1110.bin": {
+      "bytes": 1502800,
+      "sha256": "5ff9cf848b4799a7f5aa7fce6eecf67653ed77eee3e4d331ffed86dde0c67f68"
+    },
+    "sensor_owned_9.bin": {
+      "bytes": 920560,
+      "sha256": "1c15787b394799dd14cd71810fb8e42fba23c695970c5f49ac0bb1f8a92115e6"
+    },
+    "sensor_config_4.bin": {
+      "bytes": 1502800,
+      "sha256": "16c25d970d89101da4396b50dd1de22f1a237b34487c605876382d1829b4044b"
+    },
+    "sensor_owned_70.bin": {
+      "bytes": 920560,
+      "sha256": "233f6c73a795d7c5b9b83c19564354c2477955de8cc2549c3ed9592bdb386132"
+    },
+    "sensor_config_71.bin": {
+      "bytes": 1502800,
+      "sha256": "b1176d1312cd9848a3c04c61e91a86e904e49307680464f3ce171f8872a6f007"
+    },
+    "sensor_original_25.bin": {
+      "bytes": 920560,
+      "sha256": "3e0183c078b76a6aaae7183e46bbae4edf08196f0004a691e77be2b0fc5a5ec2"
+    },
+    "sensor_config_33.bin": {
+      "bytes": 1502800,
+      "sha256": "abdd2aae0ae77c9f4754187574563e490a24e1d5b3cc469efd43fa3fb96ce69d"
+    },
+    "sensor_owned_31.bin": {
+      "bytes": 920560,
+      "sha256": "42e09f98542adb572e687b34f8f9304d777501b47bb633a4fa4e414962bc7b2a"
+    },
+    "sensor_owned_18.bin": {
+      "bytes": 920560,
+      "sha256": "c4eca5b684467aebbcb5636a2d0ff690fe4c13e10aabb93e060f125975a696c5"
+    },
+    "sensor_owned_1007.bin": {
+      "bytes": 920560,
+      "sha256": "70688e80db3c27be8f82d3c756252ed4c6c422512f14c326fdf88ab7db2160f5"
+    },
+    "sensor_config_25.bin": {
+      "bytes": 1502800,
+      "sha256": "e850dfdf0bd317ac37b9b9f118527a4e9378aebdfccfaf46aa3dd9be2fb12cf7"
+    },
+    "sensor_config_53.bin": {
+      "bytes": 1502800,
+      "sha256": "c2353611f315edd05df43f4a46e6b0ef76464897325040bbb980fbd86d5d1446"
+    },
+    "sensor_owned_1102.bin": {
+      "bytes": 920560,
+      "sha256": "9a7fdc0e2fd9106ea7c37b66804160ad06dcd832d930cb68d1e6aeb379901abc"
+    },
+    "sensor_input_48.bin": {
+      "bytes": 920560,
+      "sha256": "90ff677fba0f315ec411b74fd894682791de84b9fa335602b3fbc8c12466c2db"
+    },
+    "sensor_original_gains_1005.bin": {
+      "bytes": 40,
+      "sha256": "bb38ae7643f4398b3b0530f6a1cab7ca55c03e643f7160829001ca91bebe16b2"
+    },
+    "sensor_owned_1106.bin": {
+      "bytes": 920560,
+      "sha256": "15185feb2c50b87295ee4b2a6562953d0a5515ce7c6a5701034381da3670153a"
+    },
+    "sensor_input_11.bin": {
+      "bytes": 920560,
+      "sha256": "d9dccf5eee14ec54b20cd01b04992dea584a5e5fe9a22f332d04f819016b0943"
+    },
+    "sensor_original_95.bin": {
+      "bytes": 920560,
+      "sha256": "3f7f79bdbfc78ba7580c39445cbb2fe4a71b5bba4597372988e6a59ceff9da35"
+    },
+    "sensor_original_33.bin": {
+      "bytes": 920560,
+      "sha256": "9153866414b99701fff05aa3599c7799d021f6c65afe4e06b352c07918063cc5"
+    },
+    "sensor_config_1102.bin": {
+      "bytes": 1502800,
+      "sha256": "5ff9cf848b4799a7f5aa7fce6eecf67653ed77eee3e4d331ffed86dde0c67f68"
+    },
+    "sensor_input_51.bin": {
+      "bytes": 920560,
+      "sha256": "4bd5f0f62e05ab1247e2814da923684e4dd04f567c3990d38b8d9c6d4665bc8b"
+    },
+    "sensor_config_43.bin": {
+      "bytes": 1502800,
+      "sha256": "ebad6ff710ca10f54700bb66221e3d7d22a86d2dcff178792e80718218751616"
+    },
+    "sensor_owned_92.bin": {
+      "bytes": 920560,
+      "sha256": "4cf118751f8f922e8e72ff1101f0ffc62f73e0eecf72edb6d2dff78801e9eac0"
+    },
+    "sensor_original_28.bin": {
+      "bytes": 920560,
+      "sha256": "985db92d54b9fdfc79a0dfdcdce663652ee1b1d9ab07364cb157ec0bd096e0d1"
+    },
+    "sensor_original_1105.bin": {
+      "bytes": 920560,
+      "sha256": "21d67810f1e0b888256045cb36f9dfaa8d48e4df17d37a9c8237026d1453fe24"
+    },
+    "sensor_input_3000.bin": {
+      "bytes": 920560,
+      "sha256": "45ec1e532e355b3d63c0c9d08e20435435752a7d1d9d59700c3d68cb9c76de23"
+    },
+    "sensor_input_12.bin": {
+      "bytes": 920560,
+      "sha256": "c09a512ae0657f9abe931ba04c562b9b9a50ef4e99e6ba34286e0cab673cd7e8"
+    },
+    "sensor_owned_2.bin": {
+      "bytes": 920560,
+      "sha256": "d4ae2a3af03bc9bba34538c57e5df10420428575e2445638cd9f247101482870"
+    },
+    "sensor_owned_1111.bin": {
+      "bytes": 920560,
+      "sha256": "f6d25669443c3225c9d3ea7235778b9cdee06180bf95e5d9f39f1478ea9c78bf"
+    },
+    "full_reawb.bin": {
+      "bytes": 1000,
+      "sha256": "ce74e4fbad0b9188a1955f176fc86870646efd6e18c2b42679a548c461b138a8"
+    },
+    "sensor_config_51.bin": {
+      "bytes": 1502800,
+      "sha256": "c2353611f315edd05df43f4a46e6b0ef76464897325040bbb980fbd86d5d1446"
+    },
+    "sensor_owned_83.bin": {
+      "bytes": 920560,
+      "sha256": "9a90e7bb0bbdf6841f1e6853b1f653df307ffbaa0312e0739bed458b03cc708d"
+    },
+    "sensor_owned_gains_1007.bin": {
+      "bytes": 40,
+      "sha256": "64bbcc86acd342297825c05877bc36b7cfbcec463df50f65908e0be6cfe1c921"
+    },
+    "sensor_owned_gains_1000.bin": {
+      "bytes": 40,
+      "sha256": "a7a80321827955bd344c12a0bb8ebce5d752a2a56f4ef49e8649824942f93f64"
+    },
+    "sensor_input_66.bin": {
+      "bytes": 920560,
+      "sha256": "b5cc9669d502315d4a3e07f0fd3294210e3689b50dba59f40ecc6e9978dc7296"
+    },
+    "sensor_owned_gains_1003.bin": {
+      "bytes": 40,
+      "sha256": "a7a80321827955bd344c12a0bb8ebce5d752a2a56f4ef49e8649824942f93f64"
+    },
+    "sensor_owned_63.bin": {
+      "bytes": 920560,
+      "sha256": "d15a3fedbde12ab88efdf7e3045ff49e038b3c2c2f393d5e05c4e8f63d9c705e"
+    },
+    "sensor_owned_52.bin": {
+      "bytes": 920560,
+      "sha256": "8e0f55e7d0b568d8c7bd5e6ff1ebf44000fac1172a6cee1c8d67617c09de6b8f"
+    },
+    "sensor_input_76.bin": {
+      "bytes": 920560,
+      "sha256": "b5cc9669d502315d4a3e07f0fd3294210e3689b50dba59f40ecc6e9978dc7296"
+    },
+    "sensor_owned_87.bin": {
+      "bytes": 920560,
+      "sha256": "dd0706a51af594a4ad477d4ea178292f6f9d058633a9a86c35a505bd18760034"
+    },
+    "sensor_owned_1004.bin": {
+      "bytes": 920560,
+      "sha256": "b0ae57152681b957147da844b252744cf4cc0c2401a94ade9e868c5d60eaa355"
+    },
+    "sensor_original_1109.bin": {
+      "bytes": 920560,
+      "sha256": "a214cc5a3e31e217bf683fd91537674ed76c89f33e5e8e10ff8bc94d21934663"
+    },
+    "sensor_input_34.bin": {
+      "bytes": 920560,
+      "sha256": "123622dcb4835e3faea218be70e8f7c2d6b8cbf7c292b559d96d481c49388ff6"
+    },
+    "sensor_original_54.bin": {
+      "bytes": 920560,
+      "sha256": "f37008030fcabe7569ee80fbfa674f2f424fd5cbf5f9054f85baf78618b3cb01"
+    },
+    "sensor_original_60.bin": {
+      "bytes": 920560,
+      "sha256": "309c01694b0deb35b798756c4c63f0577f33fe6e00e35658cd5f3010ee4d5a9e"
+    },
+    "sensor_input_55.bin": {
+      "bytes": 920560,
+      "sha256": "5ade6b78cc0c3aa88984012c715c557b5fb81273b4b14acc4706628941007c11"
+    },
+    "sensor_config_0.bin": {
+      "bytes": 1502800,
+      "sha256": "5ff9cf848b4799a7f5aa7fce6eecf67653ed77eee3e4d331ffed86dde0c67f68"
+    },
+    "sensor_original_69.bin": {
+      "bytes": 920560,
+      "sha256": "d6d58c134d7116eef916086c6b332291ac94b05d2c47a61dbf723c2356c6fe1f"
+    },
+    "sensor_input_91.bin": {
+      "bytes": 920560,
+      "sha256": "49aa7561e7b7ade14fc4cd1fab6ecdbea3ed65044a065ec280b8a43f5cdabee3"
+    },
+    "sensor_input_1009.bin": {
+      "bytes": 920560,
+      "sha256": "bacda04fc1922d5950ec85f4bf83219251508ca0b354751068cc54f7c6eb654b"
+    },
+    "sensor_config_6.bin": {
+      "bytes": 1502800,
+      "sha256": "03adc27e32070a17bff8cda2bba1f2c501bd9b2c25af0016677cc93b01a38089"
+    },
+    "sensor_input_10.bin": {
+      "bytes": 920560,
+      "sha256": "2c8274f17337a3e26975e45cadb28db69fd51abc86e38fec458cd84f3bb193c9"
+    },
+    "sensor_original_59.bin": {
+      "bytes": 920560,
+      "sha256": "e0d548591d57c2e9ebd7f12dfd2c60834d4b2aacaca5503252bbb3e835b7aec5"
+    },
+    "sensor_config_84.bin": {
+      "bytes": 1502800,
+      "sha256": "1fc1902edf2e8520278a578bd5503aa2dd04e7eff554b32fb1655fb4f35fd1bc"
+    },
+    "sensor_input_1100.bin": {
+      "bytes": 920560,
+      "sha256": "155bbc57fcf8f4eefebfa2c3011e56382f12b64c0d114d87eff549f2371d766e"
+    },
+    "sensor_original_1005.bin": {
+      "bytes": 920560,
+      "sha256": "eeb5aa0d501ee1bbe514506c04665ae82d27e7aab125c3c923fd73ae0f1e08ee"
+    },
+    "sensor_input_73.bin": {
+      "bytes": 920560,
+      "sha256": "b5cc9669d502315d4a3e07f0fd3294210e3689b50dba59f40ecc6e9978dc7296"
+    },
+    "sensor_original_52.bin": {
+      "bytes": 920560,
+      "sha256": "8e0f55e7d0b568d8c7bd5e6ff1ebf44000fac1172a6cee1c8d67617c09de6b8f"
+    },
+    "full_config.bin": {
+      "bytes": 1502800,
+      "sha256": "47838a263340261d499a5beb977f97050f68e41778a3891c311b17ed5c8b42c3"
+    },
+    "sensor_config_91.bin": {
+      "bytes": 1502800,
+      "sha256": "b4f7de2cd76deb9c76fbbc1c936d3f3716ed2dc7d8bcd506d94513ef9bfc4eb4"
+    },
+    "sensor_input_8.bin": {
+      "bytes": 920560,
+      "sha256": "9fe76e59433b57039c8173c8bcbf3592d685f7febed298c6cf7736302999d874"
+    },
+    "sensor_owned_13.bin": {
+      "bytes": 920560,
+      "sha256": "141ff6eeeb54eddce008a4c4c06b4d6ebb5cad466ff8082b21843b788a19c436"
+    },
+    "sensor_original_2001.bin": {
+      "bytes": 920560,
+      "sha256": "21c174cce89736eb127d82538d03ce6794a28228c228918064724aacb6fdc7aa"
+    },
+    "sensor_original_gains_1007.bin": {
+      "bytes": 40,
+      "sha256": "64bbcc86acd342297825c05877bc36b7cfbcec463df50f65908e0be6cfe1c921"
+    },
+    "sensor_original_22.bin": {
+      "bytes": 920560,
+      "sha256": "ec13d874c2c3327780fb31137b3a94f1361986edcf0761704486cb3a6c196a06"
+    },
+    "sensor_config_26.bin": {
+      "bytes": 1502800,
+      "sha256": "e850dfdf0bd317ac37b9b9f118527a4e9378aebdfccfaf46aa3dd9be2fb12cf7"
+    },
+    "full_context.bin": {
+      "bytes": 920560,
+      "sha256": "b3a798f55baa3116ca3a3a0208d73d96e8c72fea5e019da743dcc0813d2b7c56"
+    },
+    "sensor_owned_54.bin": {
+      "bytes": 920560,
+      "sha256": "f37008030fcabe7569ee80fbfa674f2f424fd5cbf5f9054f85baf78618b3cb01"
+    },
+    "sensor_owned_3000.bin": {
+      "bytes": 920560,
+      "sha256": "9423513185a9d6eedbb1b9f4be695c7d7e6978269294ec93e7307d71486a3b3c"
+    },
+    "sensor_input_1.bin": {
+      "bytes": 920560,
+      "sha256": "399b09dc3387b3aa61d6cd830cdc292efe0836b340cce6681101da91ed79c349"
+    },
+    "sensor_config_1109.bin": {
+      "bytes": 1502800,
+      "sha256": "5ff9cf848b4799a7f5aa7fce6eecf67653ed77eee3e4d331ffed86dde0c67f68"
+    },
+    "sensor_owned_14.bin": {
+      "bytes": 920560,
+      "sha256": "5e42b04b4e42a03c7a3252aacb54e8675611c6591bd815c97c7ebbb50ca2a5a4"
+    },
+    "sensor_owned_0.bin": {
+      "bytes": 920560,
+      "sha256": "ca4c74e2dba429723e9c6bda7c7931d99b06022311f4cc7e61bbd8886ce298da"
+    },
+    "sensor_original_85.bin": {
+      "bytes": 920560,
+      "sha256": "4012d6c41af1e6fe17b2f685229f4942f99f1e10f3d212b9fbc8cc54707b03dc"
+    },
+    "sensor_config_3000.bin": {
+      "bytes": 1502800,
+      "sha256": "47838a263340261d499a5beb977f97050f68e41778a3891c311b17ed5c8b42c3"
+    },
+    "sensor_input_22.bin": {
+      "bytes": 920560,
+      "sha256": "b282a15c4956605d4a8e75fc5e1b246e919b3c47211efe259a68dffc91337f08"
+    },
+    "sensor_owned_49.bin": {
+      "bytes": 920560,
+      "sha256": "4b4db3f4fdc7d5d003cf85e33d646abfa3677dcf13aa405584ca26152ebe4688"
+    },
+    "sensor_input_2001.bin": {
+      "bytes": 920560,
+      "sha256": "faccf2e0f75833516206ac7fe6c34fbb24abdc3b2510320abb92179efe8e945c"
+    },
+    "sensor_original_70.bin": {
+      "bytes": 920560,
+      "sha256": "233f6c73a795d7c5b9b83c19564354c2477955de8cc2549c3ed9592bdb386132"
+    },
+    "sensor_original_1006.bin": {
+      "bytes": 920560,
+      "sha256": "11447bda7b4e21ccdb33ec9db6757be241eda97c8725ca7ee756e204165ef476"
+    },
+    "sensor_input_42.bin": {
+      "bytes": 920560,
+      "sha256": "26df30bfa496852c176756d49f78628ac4dfb82c41fff02ee307a59369816cdb"
+    },
+    "sensor_input_74.bin": {
+      "bytes": 920560,
+      "sha256": "b5cc9669d502315d4a3e07f0fd3294210e3689b50dba59f40ecc6e9978dc7296"
+    },
+    "sensor_owned_gains_1008.bin": {
+      "bytes": 40,
+      "sha256": "64bbcc86acd342297825c05877bc36b7cfbcec463df50f65908e0be6cfe1c921"
+    },
+    "sensor_original_58.bin": {
+      "bytes": 920560,
+      "sha256": "b3327faefbcc90d552b106d6a09bde9360965c89b120f4a4a725aac08d27c19e"
+    },
+    "sensor_input_52.bin": {
+      "bytes": 920560,
+      "sha256": "80a948293ffcf820672bde2edfa8a6ef9d2ee47a7bc5fe47744c1f356eb1af73"
+    },
+    "sensor_config_81.bin": {
+      "bytes": 1502800,
+      "sha256": "e08e823aac27aaa77a20d99b12730a004e114a394e5fec64f9a7638cdd7538f1"
+    },
+    "sensor_input_14.bin": {
+      "bytes": 920560,
+      "sha256": "c1b4d2970a7cb554ce3554cec98e9ee68342b8f64972dcae0438b6ad5b9c9213"
+    },
+    "sensor_input_78.bin": {
+      "bytes": 920560,
+      "sha256": "b5cc9669d502315d4a3e07f0fd3294210e3689b50dba59f40ecc6e9978dc7296"
+    },
+    "sensor_original_91.bin": {
+      "bytes": 920560,
+      "sha256": "9bcddca0604919a5e6b3b4fdf2c03795e193100e522129e39cdccadea1ed07e0"
+    },
+    "sensor_config_1103.bin": {
+      "bytes": 1502800,
+      "sha256": "5ff9cf848b4799a7f5aa7fce6eecf67653ed77eee3e4d331ffed86dde0c67f68"
+    },
+    "sensor_input_75.bin": {
+      "bytes": 920560,
+      "sha256": "b5cc9669d502315d4a3e07f0fd3294210e3689b50dba59f40ecc6e9978dc7296"
+    },
+    "sensor_input_53.bin": {
+      "bytes": 920560,
+      "sha256": "1bff5f4b3da9d994ed92c40b185c24ea3c5256debfdabacbc27162b4ef3f3d76"
+    },
+    "sensor_original_73.bin": {
+      "bytes": 920560,
+      "sha256": "e4f82ee05a7edd90388674f015138e325135266482be20b280a289024aa12c3c"
+    },
+    "sensor_input_1004.bin": {
+      "bytes": 920560,
+      "sha256": "b0ae57152681b957147da844b252744cf4cc0c2401a94ade9e868c5d60eaa355"
+    },
+    "sensor_config_32.bin": {
+      "bytes": 1502800,
+      "sha256": "a5777dcea60713c7aab4b2070b5eb61ceb0e3e240421915eda17607e69606bfe"
+    },
+    "sensor_original_1002.bin": {
+      "bytes": 920560,
+      "sha256": "a19bdc6b2fdc402e440924ab5603082c158c330806b32640fadfc41a2e831eaa"
+    },
+    "sensor_original_1003.bin": {
+      "bytes": 920560,
+      "sha256": "2bd2a05ea8d45d9c0b6c9de043806e2866402bf12d2da11aece40329dd1d2000"
+    },
+    "sensor_input_5.bin": {
+      "bytes": 920560,
+      "sha256": "5657be2a0c34b54b486284b91f96f1f1da7d8e0e30763232f4f0903404f35701"
+    },
+    "sensor_owned_11.bin": {
+      "bytes": 920560,
+      "sha256": "baf9097c7b17d5128e8f8fbe55f82922f691604eeb28e076bff85c2e7e45923b"
+    },
+    "sensor_input_18.bin": {
+      "bytes": 920560,
+      "sha256": "1b47c7c1090253e61075c27e81d333934e24efa7b8d0003c20e8bcbb6834e504"
+    },
+    "sensor_owned_53.bin": {
+      "bytes": 920560,
+      "sha256": "b343f9fc5f8c2066bd1a4a6c82a48711816de2e61d4ced18b64aba12f81f62b2"
+    },
+    "sensor_input_31.bin": {
+      "bytes": 920560,
+      "sha256": "db35a0780c8326c7cdf08cdcf9023bc0d6641afc770e7f404ad1711abb1777cd"
+    },
+    "sensor_owned_2000.bin": {
+      "bytes": 920560,
+      "sha256": "7c9e32731a5aee0505e43aade71fabccf269493b80ffdc7e60a685eaea21e3b8"
+    },
+    "sensor_original_gains_1008.bin": {
+      "bytes": 40,
+      "sha256": "64bbcc86acd342297825c05877bc36b7cfbcec463df50f65908e0be6cfe1c921"
+    },
+    "sensor_owned_16.bin": {
+      "bytes": 920560,
+      "sha256": "dc29a071e2b7720c20ded4959cebfb5fc68a8b59504e617d1b9fbcecf3a3f09f"
+    },
+    "sensor_original_29.bin": {
+      "bytes": 920560,
+      "sha256": "ff069e8b26e7ced546ac160207bdc3ef79b43a267346e227d307a709a31bdf82"
+    },
+    "sensor_input_1111.bin": {
+      "bytes": 920560,
+      "sha256": "7a6efa248d2846523d368e8a036b83b96becb5070913582ac33de99222ee66e2"
+    },
+    "sensor_config_54.bin": {
+      "bytes": 1502800,
+      "sha256": "5aed6694461b90140eb3e195910e60d5e7f56f06c5659514b6d8da3d22ba6ab4"
+    },
+    "sensor_input_46.bin": {
+      "bytes": 920560,
+      "sha256": "a95ac71f03199b26ff6e2b28027d8d01195e980ed0a9703b1d3b7847a6ce77cb"
+    },
+    "sensor_config_45.bin": {
+      "bytes": 1502800,
+      "sha256": "72dc50c6ca820d69bb9c5dd760c40170a0a1698e3a84e0832c4df53fa75e5c87"
+    },
+    "sensor_input_0.bin": {
+      "bytes": 920560,
+      "sha256": "3237929db2482055ff10d537a65849f04a4e94094c39fa406115d85252299b96"
+    },
+    "sensor_input_1110.bin": {
+      "bytes": 920560,
+      "sha256": "e8b2e1825cc2fabfd855b2503a447decc475db4a0ad66e9f1232f7b40b5417d2"
+    },
+    "sensor_original_gains_1004.bin": {
+      "bytes": 40,
+      "sha256": "64bbcc86acd342297825c05877bc36b7cfbcec463df50f65908e0be6cfe1c921"
+    },
+    "sensor_owned_46.bin": {
+      "bytes": 920560,
+      "sha256": "0cc1230221ff1466368b1a6d07d5e39db9b3f89dc0c2075bc67f93b9a650950f"
+    },
+    "sensor_original_14.bin": {
+      "bytes": 920560,
+      "sha256": "5e42b04b4e42a03c7a3252aacb54e8675611c6591bd815c97c7ebbb50ca2a5a4"
+    },
+    "sensor_config_94.bin": {
+      "bytes": 1502800,
+      "sha256": "4e209d6ba71781f551d038e65156975ddab3e50a7f8e5e387ddc5b24b55d6c52"
+    },
+    "sensor_owned_64.bin": {
+      "bytes": 920560,
+      "sha256": "96ca03d58695059bb9428bf681f5e904cee15cc4cc919351103698822e577533"
+    },
+    "sensor_config_75.bin": {
+      "bytes": 1502800,
+      "sha256": "1392944680bd79b646b9c6c0d01576dd802d958f25b533a3e4afd54863409f16"
+    },
+    "sensor_owned_1000.bin": {
+      "bytes": 920560,
+      "sha256": "155bbc57fcf8f4eefebfa2c3011e56382f12b64c0d114d87eff549f2371d766e"
+    },
+    "sensor_config_2000.bin": {
+      "bytes": 1502800,
+      "sha256": "7a569c13f7d475b23775c4f91ac7c8a5fb84db5643b0a7aee091d0ffe9ac45e5"
+    },
+    "sensor_owned_2004.bin": {
+      "bytes": 920560,
+      "sha256": "19aeb44cc481cd91e5cc2d7320aebcbfdbbe4d9184accc388348981c2022eae4"
+    },
+    "sensor_config_21.bin": {
+      "bytes": 1502800,
+      "sha256": "70a0de4e604ac9a878fa00eb1834de10182204d17fc19313ff9a734d162f990a"
+    },
+    "sensor_owned_71.bin": {
+      "bytes": 920560,
+      "sha256": "1a524f5812fc4d25f55a78d4d6e0ed75e93e32cef1b52d59eb3f5e78184fda17"
+    },
+    "sensor_owned_75.bin": {
+      "bytes": 920560,
+      "sha256": "0ea0f16a4607ef9f35af77fce38f2446a10737b2c0cbdb6254e4a3fd235d50d8"
+    },
+    "sensor_original_2000.bin": {
+      "bytes": 920560,
+      "sha256": "7c9e32731a5aee0505e43aade71fabccf269493b80ffdc7e60a685eaea21e3b8"
+    },
+    "sensor_input_71.bin": {
+      "bytes": 920560,
+      "sha256": "b5cc9669d502315d4a3e07f0fd3294210e3689b50dba59f40ecc6e9978dc7296"
+    },
+    "sensor_input_2002.bin": {
+      "bytes": 920560,
+      "sha256": "fc4b1849d3069f97d618cbf5583aa20b8e69050788c9c2f2be86e368a97a36ad"
+    },
+    "sensor_config_68.bin": {
+      "bytes": 1502800,
+      "sha256": "41ce6dfe57607ae95223fc602e5a7270657e8020f424173594dd6da4b1b6ca88"
+    },
+    "sensor_owned_37.bin": {
+      "bytes": 920560,
+      "sha256": "bfc4e390267ec0e5e20a6f37ae62c2acd0c52cf0882eb445a11a4674670c8476"
+    },
+    "sensor_original_90.bin": {
+      "bytes": 920560,
+      "sha256": "802f237220421b7b1a79293c34fe020988ace0d204fc734edf3d3bd59f35c6ea"
+    },
+    "sensor_config_36.bin": {
+      "bytes": 1502800,
+      "sha256": "79ef82a696c77e5d540468d9735c62c60fd2446f3db263598ab01eab819d07ea"
+    },
+    "sensor_input_95.bin": {
+      "bytes": 920560,
+      "sha256": "49aa7561e7b7ade14fc4cd1fab6ecdbea3ed65044a065ec280b8a43f5cdabee3"
+    },
+    "sensor_config_31.bin": {
+      "bytes": 1502800,
+      "sha256": "6bfbc07e4cc916aaf856b3288f94a47a7f35a9779c3bfce703f926e261733939"
+    },
+    "sensor_input_50.bin": {
+      "bytes": 920560,
+      "sha256": "b5cc9669d502315d4a3e07f0fd3294210e3689b50dba59f40ecc6e9978dc7296"
+    },
+    "sensor_original_2047.bin": {
+      "bytes": 920560,
+      "sha256": "438551318733e9b54074321420383e3461d56d44449eb7b3447695bd72e86773"
+    },
+    "sensor_input_2047.bin": {
+      "bytes": 920560,
+      "sha256": "864b95a8d7792a1a5fab3e437b53ca4b924da35e1d10eb5997beeaa5fa3640c2"
+    },
+    "sensor_original_16.bin": {
+      "bytes": 920560,
+      "sha256": "dc29a071e2b7720c20ded4959cebfb5fc68a8b59504e617d1b9fbcecf3a3f09f"
+    },
+    "sensor_config_15.bin": {
+      "bytes": 1502800,
+      "sha256": "5ff9cf848b4799a7f5aa7fce6eecf67653ed77eee3e4d331ffed86dde0c67f68"
+    },
+    "sensor_original_1102.bin": {
+      "bytes": 920560,
+      "sha256": "9a7fdc0e2fd9106ea7c37b66804160ad06dcd832d930cb68d1e6aeb379901abc"
+    },
+    "sensor_original_2003.bin": {
+      "bytes": 920560,
+      "sha256": "29f512abb44144b9f954167b25123b332ba0c68ad439f7383a412ac4d72e52e2"
+    },
+    "sensor_config_2.bin": {
+      "bytes": 1502800,
+      "sha256": "f46f81003de108f982d7d178e8dd9e20162656f77075b52ccc05e461b8b962bf"
+    },
+    "sensor_original_68.bin": {
+      "bytes": 920560,
+      "sha256": "0e25422c903348fcc9c29333961e9420c9974ed03be225c1304729278bccc231"
+    },
+    "sensor_owned_1011.bin": {
+      "bytes": 920560,
+      "sha256": "7a6efa248d2846523d368e8a036b83b96becb5070913582ac33de99222ee66e2"
+    },
+    "sensor_original_1008.bin": {
+      "bytes": 920560,
+      "sha256": "f5a719761f101b3e57830a40c069ed718ff382406e2df2d1dfc254dcfc8dbc51"
+    },
+    "sensor_original_35.bin": {
+      "bytes": 920560,
+      "sha256": "6c9360974963958f559fc8637ea3ea013e6ef4b56088ff71870c738b7a389b36"
+    },
+    "sensor_owned_1107.bin": {
+      "bytes": 920560,
+      "sha256": "c0d731d1bdc3657eb8bd69b0d2c68a3d63ebaf967084a56c64027151540dc51e"
+    },
+    "sensor_owned_91.bin": {
+      "bytes": 920560,
+      "sha256": "9bcddca0604919a5e6b3b4fdf2c03795e193100e522129e39cdccadea1ed07e0"
+    },
+    "sensor_original_gains_1011.bin": {
+      "bytes": 40,
+      "sha256": "64bbcc86acd342297825c05877bc36b7cfbcec463df50f65908e0be6cfe1c921"
+    },
+    "sensor_original_71.bin": {
+      "bytes": 920560,
+      "sha256": "1a524f5812fc4d25f55a78d4d6e0ed75e93e32cef1b52d59eb3f5e78184fda17"
+    },
+    "sensor_input_81.bin": {
+      "bytes": 920560,
+      "sha256": "b5cc9669d502315d4a3e07f0fd3294210e3689b50dba59f40ecc6e9978dc7296"
+    },
+    "sensor_owned_21.bin": {
+      "bytes": 920560,
+      "sha256": "7e0ad675add6244db72e0fc34443e8cc66c55b5810cd61f9d625b42099d56b5c"
+    },
+    "sensor_owned_1003.bin": {
+      "bytes": 920560,
+      "sha256": "2bd2a05ea8d45d9c0b6c9de043806e2866402bf12d2da11aece40329dd1d2000"
+    },
+    "sensor_config_74.bin": {
+      "bytes": 1502800,
+      "sha256": "8c2ea91e36c78fa2c2306ca9692fdceab7507d28a0960f3069c52a68ee4ed012"
+    },
+    "sensor_config_1006.bin": {
+      "bytes": 1502800,
+      "sha256": "5ff9cf848b4799a7f5aa7fce6eecf67653ed77eee3e4d331ffed86dde0c67f68"
+    },
+    "sensor_input_39.bin": {
+      "bytes": 920560,
+      "sha256": "db17fa89bc37d6ffae25f89162596f97350846cc2d631f9b4f81848375c895ff"
+    },
+    "sensor_input_86.bin": {
+      "bytes": 920560,
+      "sha256": "b5cc9669d502315d4a3e07f0fd3294210e3689b50dba59f40ecc6e9978dc7296"
+    },
+    "sensor_input_41.bin": {
+      "bytes": 920560,
+      "sha256": "5321de15a67be53bc4a386098c521a9e55697a868835e3d4cab9745055b2e58f"
+    },
+    "sensor_original_gains_1009.bin": {
+      "bytes": 40,
+      "sha256": "a7a80321827955bd344c12a0bb8ebce5d752a2a56f4ef49e8649824942f93f64"
+    },
+    "sensor_owned_42.bin": {
+      "bytes": 920560,
+      "sha256": "f34ed8703dbf9a0442c51e86719cabb89df3f95431545a807114c77a45b93c14"
+    },
+    "sensor_original_75.bin": {
+      "bytes": 920560,
+      "sha256": "0ea0f16a4607ef9f35af77fce38f2446a10737b2c0cbdb6254e4a3fd235d50d8"
+    },
+    "sensor_input_23.bin": {
+      "bytes": 920560,
+      "sha256": "52991fb451066f2bf5df30ec81fb416f0581b0bb9dc3c3a59938221c28d67c63"
+    },
+    "sensor_input_80.bin": {
+      "bytes": 920560,
+      "sha256": "b5cc9669d502315d4a3e07f0fd3294210e3689b50dba59f40ecc6e9978dc7296"
+    },
+    "sensor_owned_1002.bin": {
+      "bytes": 920560,
+      "sha256": "a19bdc6b2fdc402e440924ab5603082c158c330806b32640fadfc41a2e831eaa"
+    },
+    "sensor_config_30.bin": {
+      "bytes": 1502800,
+      "sha256": "758506deb95892f190eba8b96492a7c52794b0274cf439bc344f4329dd079378"
+    },
+    "sensor_original_79.bin": {
+      "bytes": 920560,
+      "sha256": "a330956ed308b799757b3e2d42625a25821ee30953b46e0c95e64fe7754e6b1f"
+    },
+    "sensor_original_26.bin": {
+      "bytes": 920560,
+      "sha256": "15cd75b5f131193a13d40cf674ca985988b934a813dab9e39cc65772f5d53261"
+    },
+    "sensor_input_9.bin": {
+      "bytes": 920560,
+      "sha256": "d4ae2a3af03bc9bba34538c57e5df10420428575e2445638cd9f247101482870"
+    },
+    "sensor_original_77.bin": {
+      "bytes": 920560,
+      "sha256": "670ed4f9e1af2c4e0eac323b33f789e75e0a76a96e594824518fcbc5789742c0"
+    },
+    "sensor_owned_43.bin": {
+      "bytes": 920560,
+      "sha256": "c2065e54687f99c03215a78ca76aa7c0eaa988e7325480749bb4641b6a657aa5"
+    },
+    "sensor_original_1106.bin": {
+      "bytes": 920560,
+      "sha256": "15185feb2c50b87295ee4b2a6562953d0a5515ce7c6a5701034381da3670153a"
+    },
+    "sensor_owned_47.bin": {
+      "bytes": 920560,
+      "sha256": "55e9ebb75e158d9eb6bf1669a86832344256f1af92b323b876be1db7cac64a8c"
+    },
+    "sensor_config_34.bin": {
+      "bytes": 1502800,
+      "sha256": "c62b9e67259d4f50b38b4660fc170cd388672fb822e8eba0b86cd88e20e2b483"
+    },
+    "sensor_config_1100.bin": {
+      "bytes": 1502800,
+      "sha256": "5ff9cf848b4799a7f5aa7fce6eecf67653ed77eee3e4d331ffed86dde0c67f68"
+    },
+    "sensor_original_2.bin": {
+      "bytes": 920560,
+      "sha256": "d4ae2a3af03bc9bba34538c57e5df10420428575e2445638cd9f247101482870"
+    },
+    "sensor_owned_8.bin": {
+      "bytes": 920560,
+      "sha256": "35d196714b21851b57d3cdd3aba0484f7af0bb70753d39b5fc59251e217e9d87"
+    },
+    "sensor_config_1007.bin": {
+      "bytes": 1502800,
+      "sha256": "5ff9cf848b4799a7f5aa7fce6eecf67653ed77eee3e4d331ffed86dde0c67f68"
+    },
+    "sensor_owned_35.bin": {
+      "bytes": 920560,
+      "sha256": "6c9360974963958f559fc8637ea3ea013e6ef4b56088ff71870c738b7a389b36"
+    },
+    "sensor_config_24.bin": {
+      "bytes": 1502800,
+      "sha256": "e850dfdf0bd317ac37b9b9f118527a4e9378aebdfccfaf46aa3dd9be2fb12cf7"
+    },
+    "sensor_config_58.bin": {
+      "bytes": 1502800,
+      "sha256": "0e95fe11d657835b39f1ae159e4ca40375d08c07ab0dc862a499bde6b03b32fd"
+    },
+    "sensor_config_40.bin": {
+      "bytes": 1502800,
+      "sha256": "a48ea0db50f718ca42248fb36d3046ad4b298df9229a4c0947f3196f80659c87"
+    },
+    "sensor_original_1.bin": {
+      "bytes": 920560,
+      "sha256": "399b09dc3387b3aa61d6cd830cdc292efe0836b340cce6681101da91ed79c349"
+    },
+    "sensor_owned_67.bin": {
+      "bytes": 920560,
+      "sha256": "dcb68a778ba082c72c6dc7f80c392ba9c28a5003a400ee7cdb9c2327094f2f8c"
+    },
+    "sensor_original_62.bin": {
+      "bytes": 920560,
+      "sha256": "edbe091b41510704d6074cf7df57291a1aad3622faaa2e864b9b84950465212a"
+    },
+    "sensor_original_15.bin": {
+      "bytes": 920560,
+      "sha256": "9fdd3f11e1bb0dd24abe526a385778a00c7524b832bbfbed2f204311d67d8962"
+    },
+    "sensor_original_21.bin": {
+      "bytes": 920560,
+      "sha256": "7e0ad675add6244db72e0fc34443e8cc66c55b5810cd61f9d625b42099d56b5c"
+    },
+    "sensor_owned_1109.bin": {
+      "bytes": 920560,
+      "sha256": "a214cc5a3e31e217bf683fd91537674ed76c89f33e5e8e10ff8bc94d21934663"
+    },
+    "sensor_config_48.bin": {
+      "bytes": 1502800,
+      "sha256": "a48ea0db50f718ca42248fb36d3046ad4b298df9229a4c0947f3196f80659c87"
+    },
+    "sensor_owned_65.bin": {
+      "bytes": 920560,
+      "sha256": "0ea7da19f190dc1b82f0bccec19ffd63bd264ed5b65633d9ea241cdc5ce40e9d"
+    },
+    "sensor_config_69.bin": {
+      "bytes": 1502800,
+      "sha256": "749ca0ccd0f89812a0e2d10a2c3043f3738f3eba200cbdea353421d9381240b9"
+    },
+    "sensor_owned_5.bin": {
+      "bytes": 920560,
+      "sha256": "94017144ef5a9afd55fd45b12cd59608465400035b1423fda75e2c49a575486f"
+    },
+    "sensor_input_1008.bin": {
+      "bytes": 920560,
+      "sha256": "f5a719761f101b3e57830a40c069ed718ff382406e2df2d1dfc254dcfc8dbc51"
+    },
+    "sensor_original_94.bin": {
+      "bytes": 920560,
+      "sha256": "b0cb6b75271d980e9f4a893e3c4e5aa06a22aa134103d8cdae12a02911c32977"
+    },
+    "sensor_original_1101.bin": {
+      "bytes": 920560,
+      "sha256": "ceb4929d045d126cdd2ee054deb84c99529d3597cccdbc9e26d4b1d7e689d344"
+    },
+    "sensor_config_35.bin": {
+      "bytes": 1502800,
+      "sha256": "11ab09d6777dbeed953c6a355fdafd07b7f6e85b6a8cff3b2dc0ae2a73af6478"
+    },
+    "sensor_config_66.bin": {
+      "bytes": 1502800,
+      "sha256": "883902efae295972722c5d5c41c8984183428ed45b3e2de8ed4f4840a0772a68"
+    },
+    "sensor_config_7.bin": {
+      "bytes": 1502800,
+      "sha256": "c3bd478e7fa122decbdac410bd68a9f4cc15d1e0102f38d8364f8887b69e015b"
+    },
+    "sensor_input_33.bin": {
+      "bytes": 920560,
+      "sha256": "0199bc0ccc3bc2a7c57aa45bea771f222fcf53945d80a306df82cf8dcc8102e8"
+    },
+    "sensor_original_78.bin": {
+      "bytes": 920560,
+      "sha256": "7ef33e0f11dff44795cb510bd6e06552d53c4556b833a7dd954587d06e969072"
+    },
+    "sensor_input_40.bin": {
+      "bytes": 920560,
+      "sha256": "2b7ae92ed74e99292dc5634be124da3f808f0a41317a9013255d2942317ee8d8"
+    },
+    "sensor_owned_58.bin": {
+      "bytes": 920560,
+      "sha256": "b3327faefbcc90d552b106d6a09bde9360965c89b120f4a4a725aac08d27c19e"
+    },
+    "sensor_owned_82.bin": {
+      "bytes": 920560,
+      "sha256": "bc051c59015cbe6d0bd30c1581deea4e6fb54f07390444fafde6a39dbd2c74ce"
+    },
+    "sensor_config_49.bin": {
+      "bytes": 1502800,
+      "sha256": "72dc50c6ca820d69bb9c5dd760c40170a0a1698e3a84e0832c4df53fa75e5c87"
+    },
+    "sensor_input_1105.bin": {
+      "bytes": 920560,
+      "sha256": "eeb5aa0d501ee1bbe514506c04665ae82d27e7aab125c3c923fd73ae0f1e08ee"
+    },
+    "sensor_original_72.bin": {
+      "bytes": 920560,
+      "sha256": "13544808f6201268d4cabb71cbe335c915a33ed7d6a53984de565fea76a1a651"
+    },
+    "sensor_owned_20.bin": {
+      "bytes": 920560,
+      "sha256": "6ce0f3aa3d4260d2be8b2891fb6c6541cbfcdd49bfcfa79523db8b081bddce63"
+    },
+    "sensor_config_67.bin": {
+      "bytes": 1502800,
+      "sha256": "28377094c66f3cae8fae109db48ce983974286044be45e6e3d3d9c6c64d7c924"
+    },
+    "full_e2.bin": {
+      "bytes": 118416,
+      "sha256": "072603f17cad621bbe28a95664f29cbd7f983c23b884c01e5545ecd128a39205"
+    },
+    "sensor_owned_50.bin": {
+      "bytes": 920560,
+      "sha256": "42498b9373476defb25580bea0c9866b0843dcf8edaf6fd0056f92eace106be3"
+    },
+    "sensor_config_1005.bin": {
+      "bytes": 1502800,
+      "sha256": "5ff9cf848b4799a7f5aa7fce6eecf67653ed77eee3e4d331ffed86dde0c67f68"
+    },
+    "sensor_owned_4.bin": {
+      "bytes": 920560,
+      "sha256": "2e5085deed58c5c0e5b51554efc6b8bb8c2c841f4d3b51656f5b92f96c8b5bbf"
+    },
+    "sensor_original_gains_1001.bin": {
+      "bytes": 40,
+      "sha256": "64bbcc86acd342297825c05877bc36b7cfbcec463df50f65908e0be6cfe1c921"
+    },
+    "sensor_owned_34.bin": {
+      "bytes": 920560,
+      "sha256": "e0a4593907492bc006a4586bbc70beadddff3bdd49d25efa0dbb6af1efacbc43"
+    },
+    "sensor_owned_1110.bin": {
+      "bytes": 920560,
+      "sha256": "7d8bd734e97230e422a7af1352da0d7a9975e584a9ef3ce28d804100652c312c"
+    },
+    "sensor_config_61.bin": {
+      "bytes": 1502800,
+      "sha256": "5b31c656426e3562e7959b4fb7f5159d3bc53061e208b7d76273f74e9b115a51"
+    },
+    "sensor_owned_86.bin": {
+      "bytes": 920560,
+      "sha256": "d966733a4380c495957b57febe1ac98534008f2a3c473342db55fea0ea47ff2c"
+    },
+    "sensor_config_1002.bin": {
+      "bytes": 1502800,
+      "sha256": "5ff9cf848b4799a7f5aa7fce6eecf67653ed77eee3e4d331ffed86dde0c67f68"
+    },
+    "sensor_config_3.bin": {
+      "bytes": 1502800,
+      "sha256": "5ff9cf848b4799a7f5aa7fce6eecf67653ed77eee3e4d331ffed86dde0c67f68"
+    },
+    "sensor_config_59.bin": {
+      "bytes": 1502800,
+      "sha256": "4632c48b878bb1eb00f3513655c927659a9fe67f92573a40742a20e490f50156"
+    },
+    "sensor_original_1009.bin": {
+      "bytes": 920560,
+      "sha256": "bacda04fc1922d5950ec85f4bf83219251508ca0b354751068cc54f7c6eb654b"
+    },
+    "sensor_original_6.bin": {
+      "bytes": 920560,
+      "sha256": "27c8c909dd5dcecabd9298012ba96096b19f95dd89e84226f43ad3624fa83e46"
+    },
+    "sensor_original_63.bin": {
+      "bytes": 920560,
+      "sha256": "d15a3fedbde12ab88efdf7e3045ff49e038b3c2c2f393d5e05c4e8f63d9c705e"
+    },
+    "sensor_input_72.bin": {
+      "bytes": 920560,
+      "sha256": "b5cc9669d502315d4a3e07f0fd3294210e3689b50dba59f40ecc6e9978dc7296"
+    },
+    "sensor_original_64.bin": {
+      "bytes": 920560,
+      "sha256": "96ca03d58695059bb9428bf681f5e904cee15cc4cc919351103698822e577533"
+    },
+    "sensor_input_87.bin": {
+      "bytes": 920560,
+      "sha256": "b5cc9669d502315d4a3e07f0fd3294210e3689b50dba59f40ecc6e9978dc7296"
+    },
+    "sensor_original_3000.bin": {
+      "bytes": 920560,
+      "sha256": "9423513185a9d6eedbb1b9f4be695c7d7e6978269294ec93e7307d71486a3b3c"
+    },
+    "sensor_owned_79.bin": {
+      "bytes": 920560,
+      "sha256": "a330956ed308b799757b3e2d42625a25821ee30953b46e0c95e64fe7754e6b1f"
+    },
+    "sensor_original_80.bin": {
+      "bytes": 920560,
+      "sha256": "95f504fcb7c6642dbb69fe5c53c90184bc7850c2e8cc92fe96dca2bd2c9ec69d"
+    },
+    "sensor_input_58.bin": {
+      "bytes": 920560,
+      "sha256": "e09560f4e66400ca362e37ef1218a05bd69f722105f6c9675b8df789dee6dea8"
+    },
+    "sensor_input_85.bin": {
+      "bytes": 920560,
+      "sha256": "b5cc9669d502315d4a3e07f0fd3294210e3689b50dba59f40ecc6e9978dc7296"
+    },
+    "sensor_original_18.bin": {
+      "bytes": 920560,
+      "sha256": "c4eca5b684467aebbcb5636a2d0ff690fe4c13e10aabb93e060f125975a696c5"
+    },
+    "sensor_config_78.bin": {
+      "bytes": 1502800,
+      "sha256": "a6da96d72cf30efd14bb7bf2f7518753abdf8fc3e572a8cce28e0cd51f12512a"
+    },
+    "sensor_owned_30.bin": {
+      "bytes": 920560,
+      "sha256": "1b14b151608044a0e5bc8f06058e0a7765cf781c50409722d2017923717713ae"
+    },
+    "sensor_owned_24.bin": {
+      "bytes": 920560,
+      "sha256": "d43ad2e6ad8934b9577e5318bfb91bb9d5bd9869b213ade8e5d0986f65ec92da"
+    },
+    "sensor_config_17.bin": {
+      "bytes": 1502800,
+      "sha256": "e4aa7c0bd0e178fb1854df8466623a767b65757036c8a38385518f27ec6aad23"
+    },
+    "sensor_owned_19.bin": {
+      "bytes": 920560,
+      "sha256": "dda2eb980b7776c0686d0df37db2cedfdd5562313151238a36703757a24d7c56"
+    },
+    "sensor_original_1011.bin": {
+      "bytes": 920560,
+      "sha256": "7a6efa248d2846523d368e8a036b83b96becb5070913582ac33de99222ee66e2"
+    },
+    "sensor_original_1111.bin": {
+      "bytes": 920560,
+      "sha256": "f6d25669443c3225c9d3ea7235778b9cdee06180bf95e5d9f39f1478ea9c78bf"
+    },
+    "sensor_input_2.bin": {
+      "bytes": 920560,
+      "sha256": "d4ae2a3af03bc9bba34538c57e5df10420428575e2445638cd9f247101482870"
+    },
+    "sensor_owned_7.bin": {
+      "bytes": 920560,
+      "sha256": "0ba62a3b9364ddd4ca973e81c6bf8301bfde863fc0167e6dbcc90680b86a0071"
+    },
+    "sensor_original_8.bin": {
+      "bytes": 920560,
+      "sha256": "35d196714b21851b57d3cdd3aba0484f7af0bb70753d39b5fc59251e217e9d87"
+    },
+    "sensor_config_76.bin": {
+      "bytes": 1502800,
+      "sha256": "120c20944159f25bc47a820b475a476f26248b80efc58921cd9c18619feee9ef"
+    },
+    "sensor_owned_36.bin": {
+      "bytes": 920560,
+      "sha256": "142f1014ceaeb0078b1b6724383b7e8bd0c2c21b8c7d9b9162d40ac7d57dd60c"
+    },
+    "sensor_owned_59.bin": {
+      "bytes": 920560,
+      "sha256": "e0d548591d57c2e9ebd7f12dfd2c60834d4b2aacaca5503252bbb3e835b7aec5"
+    },
+    "sensor_config_93.bin": {
+      "bytes": 1502800,
+      "sha256": "83e83f51e1aaa46295bde2ba9057f90c6318230ab38bbc580fedfb0567f03312"
+    },
+    "sensor_original_0.bin": {
+      "bytes": 920560,
+      "sha256": "ca4c74e2dba429723e9c6bda7c7931d99b06022311f4cc7e61bbd8886ce298da"
+    },
+    "sensor_original_13.bin": {
+      "bytes": 920560,
+      "sha256": "141ff6eeeb54eddce008a4c4c06b4d6ebb5cad466ff8082b21843b788a19c436"
+    },
+    "sensor_original_49.bin": {
+      "bytes": 920560,
+      "sha256": "4b4db3f4fdc7d5d003cf85e33d646abfa3677dcf13aa405584ca26152ebe4688"
+    },
+    "sensor_owned_41.bin": {
+      "bytes": 920560,
+      "sha256": "a9f763350a6b946785b6e7a5c640adbea756d3652499a11901669f66c426b891"
+    },
+    "sensor_owned_66.bin": {
+      "bytes": 920560,
+      "sha256": "f6b42344b1bfdaafc64939787f82aa2777be6aba7870dd0b9e7c1c199f852741"
+    },
+    "sensor_owned_61.bin": {
+      "bytes": 920560,
+      "sha256": "f66b2290782dde500cad8a9eb044dcde4342734557da47ee74cfd8b7b9293141"
+    },
+    "sensor_owned_73.bin": {
+      "bytes": 920560,
+      "sha256": "e4f82ee05a7edd90388674f015138e325135266482be20b280a289024aa12c3c"
+    },
+    "sensor_owned_12.bin": {
+      "bytes": 920560,
+      "sha256": "53b5ea3af56aa66c7ae2314bafbec795f1e4ac90bd18a4105c85d2e04db0ff40"
+    },
+    "sensor_owned_1005.bin": {
+      "bytes": 920560,
+      "sha256": "eeb5aa0d501ee1bbe514506c04665ae82d27e7aab125c3c923fd73ae0f1e08ee"
+    },
+    "sensor_owned_55.bin": {
+      "bytes": 920560,
+      "sha256": "8461051a4fbc4287523a098d9e8d8f78a9be8616ef11493260a30e532f2f241f"
+    },
+    "sensor_original_1103.bin": {
+      "bytes": 920560,
+      "sha256": "f07b3a4e25fdf72b65de5726fba8033a04cfa681c2192edea7faf4658b508268"
+    },
+    "sensor_input_1011.bin": {
+      "bytes": 920560,
+      "sha256": "7a6efa248d2846523d368e8a036b83b96becb5070913582ac33de99222ee66e2"
+    },
+    "sensor_config_82.bin": {
+      "bytes": 1502800,
+      "sha256": "cbb8976393a5397ee23bc0176037bd69f020b593458ee251b5e87e3bdd58e905"
+    },
+    "sensor_input_57.bin": {
+      "bytes": 920560,
+      "sha256": "b5cc9669d502315d4a3e07f0fd3294210e3689b50dba59f40ecc6e9978dc7296"
+    },
+    "sensor_input_1010.bin": {
+      "bytes": 920560,
+      "sha256": "e8b2e1825cc2fabfd855b2503a447decc475db4a0ad66e9f1232f7b40b5417d2"
+    },
+    "sensor_original_86.bin": {
+      "bytes": 920560,
+      "sha256": "d966733a4380c495957b57febe1ac98534008f2a3c473342db55fea0ea47ff2c"
+    },
+    "sensor_original_2004.bin": {
+      "bytes": 920560,
+      "sha256": "19aeb44cc481cd91e5cc2d7320aebcbfdbbe4d9184accc388348981c2022eae4"
+    },
+    "sensor_original_1104.bin": {
+      "bytes": 920560,
+      "sha256": "31bc89f393bcdd341318410b16afe09f07708e09462642daa62814ad87c293b7"
+    },
+    "sensor_original_gains_1002.bin": {
+      "bytes": 40,
+      "sha256": "bb38ae7643f4398b3b0530f6a1cab7ca55c03e643f7160829001ca91bebe16b2"
+    },
+    "sensor_owned_38.bin": {
+      "bytes": 920560,
+      "sha256": "34725692fa260658a8e6a13c8101e2e82d4b5d7f7e826b2b7a316073b1938816"
+    },
+    "sensor_config_64.bin": {
+      "bytes": 1502800,
+      "sha256": "afc06f375b1a4963248872689f78436662ef970fdce1128fd02d21bc056d43c5"
+    },
+    "sensor_config_1111.bin": {
+      "bytes": 1502800,
+      "sha256": "5ff9cf848b4799a7f5aa7fce6eecf67653ed77eee3e4d331ffed86dde0c67f68"
+    },
+    "sensor_input_28.bin": {
+      "bytes": 920560,
+      "sha256": "ac530b18b99e536d7553248264b42908f954982ee81bff0a09c44266bbf2302f"
+    },
+    "sensor_config_41.bin": {
+      "bytes": 1502800,
+      "sha256": "72dc50c6ca820d69bb9c5dd760c40170a0a1698e3a84e0832c4df53fa75e5c87"
+    },
+    "sensor_input_24.bin": {
+      "bytes": 920560,
+      "sha256": "bbd435f43afa5ff24acd370defb2798d48e21828be096537d5f4814da738a550"
+    }
+  },
+  "original_library_patched": false,
+  "dependency_stubs": false,
+  "full_camera_device_calibration_recovered": false,
+  "authentic_frame_replayed": false,
+  "historical_seven_frame_chain_recovered": false,
+  "full_awb_validated": false,
+  "completion_suffix_owned": false,
+  "passive_reawb_owned": false,
+  "active_reawb_owned": false,
+  "debug_stage_owned": false,
+  "debug_file_io_owned": false,
+  "full_outer_controller_owned": false,
+  "user_ct_tint_gain_owned": false,
+  "inverse_temperature_conversion_owned": false,
+  "manual_sample_selection_owned": false,
+  "e_nd_gain_updates_owned": false,
+  "user_unit_request_owned": false,
+  "e_nd_temperature_gain_owned": false,
+  "user_calibration_prefix_owned": false,
+  "user_mode_helper_owned": false,
+  "full_user_stage_owned": false,
+  "user_remainder_entry": null,
+  "sensor_adaptation_owned": true,
+  "original_automatic_statistics_callback_used": false,
+  "sensor_original_calibration_data_embedded": false,
+  "roi_processing_owned": false,
+  "roi_synchronization_owned": false,
+  "original_roi_sync_callback_used": false,
+  "statistics_difference_owned": false,
+  "automatic_dispatch_gate_owned": false,
+  "full_mode_bodies_owned": false,
+  "dispatch_remainder_entries": null,
+  "controller_remainder_after_user": null,
+  "prepared_entry_adapter_used": false,
+  "white_lut_owned": false,
+  "white_lut_original_remainder_entry": null,
+  "run_entry_owned": false,
+  "original_remainder_after_owned_entry": false,
+  "full_post_stage_owned": false,
+  "post_mode2_compared_and_owned": false,
+  "post_research_abi_requires_initialized_bounded_tables": true,
+  "post_all_branches_exhaustively_verified": false
+}

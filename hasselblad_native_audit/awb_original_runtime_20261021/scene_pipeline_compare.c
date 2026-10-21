@@ -8,6 +8,11 @@
 #include "hb_scene_optimizer.h"
 #include "hb_scene_candidates.h"
 #include "hb_scene_controller.h"
+#ifdef HB_COMPLETION_PIPELINE
+#include "hb_completion.h"
+uint32_t hb_original_prepared_completion(uintptr_t,unsigned char*,uint32_t,uintptr_t);
+static unsigned passive_calls,shading_calls,completion_calls,debug_calls;
+#endif
 #ifdef HB_POST_PIPELINE
 #include "hb_post_controller.h"
 static unsigned post_calls;
@@ -122,6 +127,9 @@ int hb_run_scene_pipeline(void *h,unsigned char *ctx,unsigned char *e2,void *con
     memcpy(cfgcopy,config,K);if(reawb)memcpy(rr,reawb,R);
     const unsigned rows[7]={15,25,35,45,55,35,20};unsigned states[7]={0},frames=0,active_slots=0;
     for(unsigned t=0;t<7;++t){
+#ifdef HB_COMPLETION_PIPELINE
+        w32(ctx+0x174,2);
+#endif
         memset(input,0,0x4118);w32(input,u32(e2+0x4120));w32(input+4,0x4118);w32(input+8,t+1);w32(input+12,u32(e2+0x412c));
         for(unsigned i=0;i<1024;++i){
             unsigned row=(i%17==0)?(rows[t]+12)%81:rows[t];uint32_t r=u32(ctx+0x348+row*16),b=u32(ctx+0x34c+row*16),g=2048+(i%7)*64;
@@ -168,6 +176,10 @@ int hb_run_scene_pipeline(void *h,unsigned char *ctx,unsigned char *e2,void *con
 #ifdef HB_POST_PIPELINE
             if(j==2){memcpy(owned,ctx,C);capture(dir,t,"post_controller_input",ctx,C);}
 #endif
+#ifdef HB_COMPLETION_PIPELINE
+            unsigned char owned_reawb[R];
+            if(j==3){if(!reawb)return 2;memcpy(owned,ctx,C);memcpy(owned_reawb,reawb,R);}
+#endif
             uint32_t (*tail)(int)=sym(h,tail_names[j]);uint32_t ts=tail(0);++tail_calls;tail_errors+=ts!=0;
             printf("{\"original_tail_frame\":%u,\"stage\":\"%s\",\"status\":%u}\n",t,tail_names[j],ts);
             char name[128];snprintf(name,sizeof name,"after_original_%s",tail_names[j]);capture(dir,t,name,ctx,C);
@@ -213,9 +225,21 @@ int hb_run_scene_pipeline(void *h,unsigned char *ctx,unsigned char *e2,void *con
 #ifdef HB_POST_PIPELINE
             if(j==2){uint32_t ps=hb_post_process(owned,config,&post_model,reawb);++post_calls;same("owned_post_status",t,&ts,&ps,4);same("owned_post_context",t,ctx,owned,C);capture(dir,t,"after_post_owned",owned,C);memcpy(ctx,owned,C);if(ps)break;}
 #endif
+#ifdef HB_COMPLETION_PIPELINE
+            if(j==3){uint32_t rs=hb_reawb_passive(owned,owned_reawb);++passive_calls;same("owned_passive_status",t,&ts,&rs,4);same("owned_passive_context",t,ctx,owned,C);same("owned_passive_handle",t,reawb,owned_reawb,R);capture(dir,t,"after_passive_owned",owned,C);capture(dir,t,"passive_owned_handle",owned_reawb,R);memcpy(ctx,owned,C);memcpy(reawb,owned_reawb,R);if(rs)break;}
+#endif
             if(ts)break;
         }
         if(reawb)capture(dir,t,"after_tail_reawb_handle",reawb,R);
+#endif
+#ifdef HB_COMPLETION_PIPELINE
+        /* Diagnostics still execute original code, with file output disabled.
+         * Its context changes feed both shading and completion comparisons. */
+        if(tail_errors||ctx[0xb1ef8]==1||u32(ctx+0x18)>64||u32(ctx+0x1c)>64||u32(ctx+0x28)!=u32(ctx+0x18)*u32(ctx+0x1c))return 2;
+        uint32_t (*debug)(int)=sym(h,"scene_awb_debug_proc"),(*shading)(int)=sym(h,"scene_awb_calc_shading_ct_proc");
+        uint32_t ds=debug(0),zero=0;++debug_calls;same("original_debug_status",t,&ds,&zero,4);if(ds)return 2;capture(dir,t,"after_original_debug",ctx,C);
+        memcpy(owned,ctx,C);uint32_t ss=shading(0),os=hb_shading_temperature(owned);++shading_calls;same("owned_shading_status",t,&ss,&os,4);same("owned_shading_context",t,ctx,owned,C);capture(dir,t,"after_original_shading",ctx,C);capture(dir,t,"after_shading_owned",owned,C);memcpy(ctx,owned,C);
+        memcpy(owned,ctx,C);uint32_t cs=hb_original_prepared_completion(bias+0x4722b0,ctx,0,bias+0x791348),oc=hb_outer_complete(owned,0,NULL);++completion_calls;same("owned_completion_status",t,&cs,&oc,4);same("owned_completion_context",t,ctx,owned,C);capture(dir,t,"after_original_completion",ctx,C);capture(dir,t,"after_completion_owned",owned,C);memcpy(ctx,owned,C);
 #endif
         states[t]=a;++frames;
     }
@@ -225,6 +249,9 @@ int hb_run_scene_pipeline(void *h,unsigned char *ctx,unsigned char *e2,void *con
 #endif
     if(reawb)capture(dir,7,"passive_reawb_after",reawb,R);
     unsigned ok=!mismatches&&frames==7&&active_slots&&optimizer_calls&&filter_calls&&full_scene_calls==7;
+#ifdef HB_COMPLETION_PIPELINE
+    ok=ok&&passive_calls==7&&shading_calls==7&&completion_calls==7&&debug_calls==7;
+#endif
 #ifdef HB_POST_PIPELINE
     ok=ok&&post_calls==7;
 #endif
@@ -253,6 +280,9 @@ int hb_run_scene_pipeline(void *h,unsigned char *ctx,unsigned char *e2,void *con
            "\"original_tail_baseline\":true,\"downstream_stages_owned\":false,\"passive_reawb_immutability_checked\":false,"
 #else
            "\"original_tail_baseline\":false,\"passive_reawb_immutability_checked\":true,"
+#endif
+#ifdef HB_COMPLETION_PIPELINE
+           "\"passive_reawb_owned\":true,\"passive_reawb_calls\":7,\"shading_owned\":true,\"shading_calls\":7,\"completion_owned\":true,\"completion_calls\":7,\"debug_original_calls\":7,\"debug_file_output_disabled\":true,"
 #endif
 #ifdef HB_POST_PIPELINE
            "\"post_stage_owned\":true,\"post_calls\":7,\"original_post_used_as_comparison_oracle\":true,"

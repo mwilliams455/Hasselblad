@@ -11,7 +11,7 @@
 >
 > The reconstruction strategy is therefore **chat conclusions → reconstructed code → original-firmware confirmation → immediate GitHub checkpoint**, not “rediscover the entire firmware from zero.”
 
-> **Latest fresh checkpoint — complete post controller:** the owned scene, history, atmosphere and post stages now pass original-firmware comparisons. Post has 10,051 direct checks plus a seven-frame connected comparison with 211 checks, all without mismatches. Continue from [the current runtime README](../awb_original_runtime_20261021/README.md), especially “Resume here” and “Complete post-controller checkpoint.” Earlier sections below preserve historical scope and are not the latest implementation status. Next work is surrounding AWB control/recovery, REAWB, real phone statistics/calibration and bounded device validation. No APK was built or installed.
+> **Latest fresh checkpoint — completion and passive REAWB:** final copies, outer completion/recovery, shading temperature and three passive REAWB routes are now owned. Fresh direct evidence has 7,311 checks, and the seven-frame connected pipeline has 267 comparisons, all with zero mismatches. Original prepared post-151 and scene-40 paths restore confirmed results and return outer zero. Continue from [the current runtime README](../awb_original_runtime_20261021/README.md), especially “Resume here” and “Completion, shading and passive REAWB checkpoint.” Earlier sections preserve historical scope. Next: diagnostic packing, outer prefix/dispatch and surrounding preparation/detection; active REAWB/linked storage remain unresolved. No APK was built or installed.
 
 ---
 

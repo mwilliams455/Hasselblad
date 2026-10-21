@@ -30,7 +30,7 @@ Python requires `pyelftools`. The runner verifies the library, original symbol, 
 
 ## Remaining acceptance boundaries
 
-The complete four-slot scene, history, atmosphere and post-processing stages now have owned implementations compared with the original firmware. The post controller includes normal/special result selection, retained-result fallback, temporal publication/smoothing, manual CT/tint overrides, ISO/tint correction, sensor synchronization and final gain/CT publication. The connected seven-frame comparison feeds owned scene → history → atmosphere → post outputs into original REAWB. Original calls at each boundary remain comparison oracles. Still missing: ownership of the surrounding AWB controller and REAWB, real camera-frame inputs and device-specific calibration, the historical seven-frame capture, HNCS rendering and phone validation. These are bounded synthetic comparisons, not exhaustive proof of every input or device behavior.
+The complete four-slot scene, history, atmosphere and post-processing stages have owned implementations compared with the original firmware. Final result copies, outer completion/recovery, shading temperature and three bounded passive REAWB routes are now owned too. The connected seven-frame comparison feeds owned scene → history → atmosphere → post → passive REAWB outputs through original diagnostic packing, then owned shading and completion. Original calls at each owned boundary remain comparison oracles. Still missing: surrounding AWB prefix/dispatch and user/ROI/sensor/parsing/detection/face ownership, diagnostic packing ownership, active REAWB and linked storage if required, real camera-frame inputs and device-specific calibration, the historical seven-frame capture, HNCS rendering and phone validation. These are bounded synthetic comparisons, not exhaustive proof of every input or device behavior.
 
 No APK was built. `main` and the installed Native1C application remain unchanged.
 
@@ -76,10 +76,10 @@ python3 hasselblad_native_audit/awb_original_runtime_20261021/run_scene.py \
 
 ### Resume here (latest checkpoint)
 
-1. Use the existing verified runtime. Latest probes are `--post` and `--pipeline --post-pipeline`; reports are `POST_CONTROLLER_RESULT.json` and `POST_CONTROLLER_PIPELINE_RESULT.json`. Earlier reports retain their own source snapshots.
-2. Post-processing is now owned in `hb_post_controller.c` plus `hb_post_results.c`. It replaces the complete post stage in the connected comparison, including the rejected-frame path. Retained gains still do not imply fresh CT diagnostics. The latest private evidence is `Hasselblad_Post_Controller_Evidence_PRIVATE_20261021.zip`.
-3. Reconstruct and compare the surrounding user/ROI/sensor/parsing/detection/face route and outer completion/recovery. Connected original detection still activates only normal slot 0; direct generated tests exercise all scene slots and optional post features.
-4. Verify the REAWB boundary and implement active behavior if required. The current connected original REAWB calls succeed but do not establish active REAWB output parity.
+1. Use the existing verified runtime. Latest probes are `--completion` and `--pipeline --completion-pipeline`; reports are `COMPLETION_RESULT.json` and `COMPLETION_PIPELINE_RESULT.json`. Earlier reports retain their own source snapshots.
+2. `hb_completion.c` now owns final copies, completion/recovery, shading and bounded passive REAWB. Direct checks cover genuine original post-151 and scene-40 short-circuit paths through completion. The newest private evidence is `Hasselblad_Completion_Evidence_PRIVATE_20261021.zip`. Post-processing remains owned in `hb_post_controller.c` and `hb_post_results.c`.
+3. Next reconstruct original diagnostic packing (`scene_awb_debug_proc`, `0x494840`) and its no-file user-dump branch, then surrounding user/ROI/sensor/parsing/detection/face and outer prefix/dispatch. The connected comparison already captures post-REAWB input and original debug output for every frame. Connected detection still activates only normal slot 0; direct generated tests cover other scene slots and post features.
+4. Active REAWB and save requests that enter linked storage remain explicit unsupported paths in the passive port. Implement those only with the linked state represented; copying its 1,000-byte handle does not clone linked allocations.
 5. Recover genuine captured-frame inputs, map Camera2 statistics and inject real per-sensor phone calibration. Continue to a specifically bounded APK only after its relevant integration and stability checks. HNCS rendering remains a separate acceptance boundary.
 
 Keep private runtime/config/dumps out of GitHub. Keep `main` and Native1C unchanged.
@@ -375,3 +375,27 @@ python3 hasselblad_native_audit/awb_original_runtime_20261021/run_full.py \
 ```
 
 Post-processing supplies white-balance gains and related state to colour rendering. Full HNCS pixel rendering, active REAWB, a wholly owned AWB controller, phone calibration and device validation remain separate work. No APK was built or installed; `main` and Native1C remain unchanged.
+
+
+## Completion, shading and passive REAWB checkpoint
+
+`hb_completion.c/.h` supersedes the earlier unverified bounded completion model for these initialized-context paths. The four 156-byte result-copy helpers, outer cleanup/recovery, final shading-temperature selector and three passive REAWB routes now execute owned code without original callbacks.
+
+Fresh direct evidence: `evidence/COMPLETION_RESULT.json`, **7,311 checks, zero mismatches**:
+
+- 512 result-copy calls, covering publication, restoration and reference copies to both live and confirmed pairs.
+- 1,024 shading calls: validity must equal 1; the later label wins equal ratios; labels 1/4 select reference CT. Other labels select reference CT only when the **byte** at `0xeff8` is 3 and the count is at least 60. Nonzero upper bytes are tested explicitly. This corrects the field-width assumption in the older historical bounded model.
+- 768 passive REAWB calls, 256 per route: processing disabled, nonzero mode, and mode zero with the active-run flag not equal to 1. Compare all 920,560 context bytes and all 1,000 handle bytes. Includes 192 save-before-enable cases that do not enter linked storage, packed-confidence truncation, diagnostic validity and counter wrap.
+- 512 prepared completion-suffix calls across preceding statuses 0, 40, 151 and `UINT32_MAX`; reference request bytes 0, 1, 2 and 255; plus 192 stateful completion calls.
+- Two **actual original-controller failure paths**, entered immediately before scene or post: scene returns 40 or post returns 151, the original controller skips subsequent stages, restores confirmed results and returns zero. Owned stage-plus-completion outputs match the complete context and unchanged REAWB handle.
+- Six owned-only guard checks are included in the total; they verify explicit unsupported status and unchanged buffers for active REAWB and linked-save requests. They are not original-equivalence claims. One additional check confirms original configuration immutability.
+
+`completion_entry.S` is a test-only AArch64 ABI adapter. It creates the saved-register/TLS-canary frame expected by the original controller and enters its unmodified code at completion (`0x4722b0`), scene (`0x471f80`) or post (`0x471fb0`). It does not patch functions, inject return statuses into the two failure witnesses, or exercise the omitted outer prefix. Plain suffix cases supply the preceding status explicitly. On valid initialized contexts, the final copy helper's zero status replaces the earlier error. A zero outer status therefore does not establish a fresh estimate.
+
+Fresh connected evidence: `evidence/COMPLETION_PIPELINE_RESULT.json`, **267 comparisons, seven synthetic native E2 frames, zero mismatches**. Owned scene/history/atmosphere/post/passive REAWB feed the original debug packer, then owned shading and completion. Every new stage is compared against its original from the same input. Debug file output is disabled and checked before execution. The rejected sixth frame still retains gains without fresh CT/tint diagnostics. The full 920,560-byte context matches after final completion on all seven frames.
+
+Reproduce using the standard private firmware/NDK/QEMU arguments to `run_full.py`, selecting `--completion` for direct checks or `--pipeline --completion-pipeline` for the connected chain. The latter implies full post, atmosphere and history replacement. `--post` and `--pipeline --post-pipeline` remain available for their earlier boundaries.
+
+Passive scope: save flag exactly 1 runs before the enable check. Packed confidence above 122 requires linked storage even when processing is disabled and returns owned `HB_PREP_UNSUPPORTED` without mutation. Mode-zero active processing is also unsupported. Disabled processing with no linked save, nonzero modes and inactive mode-zero runs are implemented. This is not an active REAWB claim.
+
+Next: own diagnostic packing/no-file user-dump, then outer prefix/dispatch and surrounding preparation/detection. The private packet preserves their disassembly plus stage-boundary dumps; the complete runtime archive remains separate. Full AWB, authentic-frame recovery, phone calibration and HNCS/pixel rendering remain unvalidated. No APK was built or installed.

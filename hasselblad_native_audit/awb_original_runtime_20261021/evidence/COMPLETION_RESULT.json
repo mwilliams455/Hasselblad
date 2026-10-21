@@ -1,0 +1,706 @@
+{
+  "created_utc": "2026-10-21T12:32:29.263866+00:00",
+  "all_passed": true,
+  "exit": 0,
+  "mode": "owned_completion_and_passive_reawb",
+  "events": [
+    {
+      "stage": "awb_cfg_load",
+      "status": 0
+    },
+    {
+      "stage": "awb_lib_init",
+      "status": 0
+    },
+    {
+      "event": "original_full_initialization",
+      "initialized_marker": 1,
+      "context_bytes": 920560,
+      "config_bytes": 1502800,
+      "e2_bytes": 118416,
+      "e2_context_present": true,
+      "reawb_handle_present": true
+    },
+    {
+      "event": "owned_completion_and_passive_reawb",
+      "checks": 7311,
+      "mismatches": 0,
+      "copy_cases": 512,
+      "shading_cases": 1024,
+      "passive_routes": [
+        256,
+        256,
+        256
+      ],
+      "save_without_linked_storage_cases": 192,
+      "outer_cases": 512,
+      "stateful_completion_calls": 192,
+      "original_prepared_failure_paths": 2,
+      "owned_only_guard_checks": 6,
+      "all_passed": true,
+      "full_controller_owned": false,
+      "active_reawb_owned": false,
+      "synthetic_inputs": true
+    }
+  ],
+  "input_config_sha256": "7fa13044a6c5453b67e4ae11bf8d07828de8e1c02aa915494fe5dad20930d435",
+  "library_sha256": "7d6164eccc734de7087bb778ee72f17a0b3ccf6c0d1f20092c7ebe74a86574ba",
+  "linker_sha256": "313d7a6d94cdeb9e2b2adb4be98a8b18240b08012b22f922acea7984f42ff35d",
+  "dependency_count": 65,
+  "qemu_sha256": "4f55e2e88dc05dc0f619562d5795b8eb25ed2ad2547504fb4835207a6911c350",
+  "compiler_version": "Android (12027248, +pgo, +bolt, +lto, +mlgo, based on r522817) clang version 18.0.1 (https://android.googlesource.com/toolchain/llvm-project d8003a456d14a3deb8054cdaa529ffbf02d9b262)",
+  "source_sha256": {
+    "awb_original_runtime_20261021/full_probe.c": "3596197a2e9b1040c55155b40d9b11c2d626cd7a0828f42ba5620cccfe8df98a",
+    "awb_original_runtime_20261021/completion_compare.c": "92310a5d5792e0026cebf92d2c9b015807101fa0a12b7a89c851004c0dead031",
+    "awb_original_runtime_20261021/hb_post_controller.c": "b623da6993f6c7dfcd5f711086b63b8204c2565504ecb1a136a2467fc7803eb2",
+    "awb_original_runtime_20261021/hb_post_results.c": "f9ed322d3f745397f6a4c14ac56458c5eecbc369a3ccb9b7c1745c4a7f76a962",
+    "awb_original_runtime_20261021/hb_atmosphere.c": "6dcb53246d32ab8e7cb3f00680811844a3f699dc0e07b6d9ffcb59e54cdde39f",
+    "awb_original_runtime_20261021/hb_history.c": "7b89c5cc7809eaa31ab0b08abf2cf276937cab105c2af079cb12e33e18557f07",
+    "awb_original_runtime_20261021/hb_temperature.c": "0fcc6e4fa025f82806af76cf0fa523172676986cc84a2a8c8c7d1cf9e0b8d5e9",
+    "awb_original_runtime_20261021/hb_scene_controller.c": "b75de3af174237bca79deeb81cdb663932800e62d41a5e8e1db9eaa4604e4d00",
+    "awb_original_runtime_20261021/hb_scene_candidates.c": "e51cd238d5f59ed45b37e44ba09fea81bac665b6eec62a1c88d1baf43fa8274b",
+    "awb_original_runtime_20261021/hb_scene_optimizer.c": "9f65921657a49323fe3c074fa7bd1ce51b4fd4b6292049d73b3727c4f0112bdb",
+    "awb_original_runtime_20261021/hb_scene_filter.c": "15e98886438fd481c6ad8609b842a1545f2dc2b8305ef70a61b163b87bb601bb",
+    "awb_original_runtime_20261021/hb_completion.c": "7ec2fbdf0f55e1846eb972f79391f5ef15777dda82f3023f26089c78437f211f",
+    "awb_original_runtime_20261021/completion_entry.S": "155a5210fc16b44666f7d1f15a09eac127999c64923e313439f2328d401e76cc",
+    "awb_original_runtime_20261021/run_full.py": "c8a79185ad79872f7f7032085683d722cd13fa8772fab8ede370677f15b34a1a",
+    "awb_original_runtime_20261021/run_recalib.py": "b11d5635343e30047596dfab12f669f0f8343c823c1a3dc72bd22146cb11b22f",
+    "awb_original_runtime_20261021/hb_post_controller.h": "ffcc2145ab7647c84074181cc9ac574f4fd8858bc32635df8b7d127e9ae22b46",
+    "awb_original_runtime_20261021/hb_post_results.h": "ee1266aea7366030ec4f2791e7691b2a5fc0d31c7eb69f5dc539ea87073cb558",
+    "awb_original_runtime_20261021/hb_history.h": "c721e622dafebd55a125c1a8186f4f3188932f9a423c208633e085066002a4be",
+    "awb_original_runtime_20261021/hb_temperature.h": "bf32f5c219cfa0d0c2857f7b528228b7d6e189331c0c7546501ad5c375ceaa34",
+    "awb_original_runtime_20261021/hb_scene_controller.h": "48176c640ea2eee677969b3619fe6fa49727e912e22ee252593967ecf455aa24",
+    "awb_original_runtime_20261021/hb_scene_candidates.h": "a905dffd20ca3d6882846deff807d1d970183eefdc89ccab9e2f17db1b2c1e35",
+    "awb_original_runtime_20261021/hb_scene_optimizer.h": "bea9a2f44e6e16ef8dba24f97b268c0a0398317c3b8ad955fb2f55d283369c2e",
+    "awb_original_runtime_20261021/hb_scene_filter.h": "d7286138ac26b5ce9443563cad5ca5fcbd67d68b8081c040d3b14b4bb3d21419",
+    "awb_original_runtime_20261021/hb_stat_prepare.h": "1f3eea206426a1ae2e399f212c51169c58fd80503656fecbf690df56c442b59b",
+    "awb_original_runtime_20261021/hb_atmosphere.h": "cdec0f78ec174a8c55afbd81d6a8901b96a88d90bb0fb344f1f9a277240ea214",
+    "awb_original_runtime_20261021/hb_completion.h": "170228de7d838ab6802317752952c9128010e9f054c44894c1770b9034c998ab"
+  },
+  "probe_sha256": "d0f628f858855c995ebe9ddf6f37cb783fc2e9a6f06d400a050047ba2d7658e4",
+  "build_command": [
+    "/workspace/scratch/910ac5420982/runtime_tools/android-ndk-r27/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android28-clang",
+    "-std=c11",
+    "-O2",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-fPIE",
+    "-pie",
+    "-ffp-contract=off",
+    "-Wl,-z,max-page-size=16384",
+    "-DHB_COMPLETION_COMPARE=1",
+    "/workspace/scratch/910ac5420982/repo/hasselblad_native_audit/awb_original_runtime_20261021/full_probe.c",
+    "/workspace/scratch/910ac5420982/repo/hasselblad_native_audit/awb_original_runtime_20261021/completion_compare.c",
+    "/workspace/scratch/910ac5420982/repo/hasselblad_native_audit/awb_original_runtime_20261021/hb_post_controller.c",
+    "/workspace/scratch/910ac5420982/repo/hasselblad_native_audit/awb_original_runtime_20261021/hb_post_results.c",
+    "/workspace/scratch/910ac5420982/repo/hasselblad_native_audit/awb_original_runtime_20261021/hb_atmosphere.c",
+    "/workspace/scratch/910ac5420982/repo/hasselblad_native_audit/awb_original_runtime_20261021/hb_history.c",
+    "/workspace/scratch/910ac5420982/repo/hasselblad_native_audit/awb_original_runtime_20261021/hb_temperature.c",
+    "/workspace/scratch/910ac5420982/repo/hasselblad_native_audit/awb_original_runtime_20261021/hb_scene_controller.c",
+    "/workspace/scratch/910ac5420982/repo/hasselblad_native_audit/awb_original_runtime_20261021/hb_scene_candidates.c",
+    "/workspace/scratch/910ac5420982/repo/hasselblad_native_audit/awb_original_runtime_20261021/hb_scene_optimizer.c",
+    "/workspace/scratch/910ac5420982/repo/hasselblad_native_audit/awb_original_runtime_20261021/hb_scene_filter.c",
+    "/workspace/scratch/910ac5420982/repo/hasselblad_native_audit/awb_original_runtime_20261021/hb_completion.c",
+    "/workspace/scratch/910ac5420982/repo/hasselblad_native_audit/awb_original_runtime_20261021/completion_entry.S",
+    "-ldl",
+    "-lm",
+    "-o",
+    "/workspace/scratch/910ac5420982/private_runtime/completion_final/full_probe_android28_arm64"
+  ],
+  "run_command": [
+    "/workspace/scratch/910ac5420982/runtime_tools/qemu/usr/bin/qemu-aarch64-static",
+    "-L",
+    "/workspace/scratch/910ac5420982/private_runtime/extracted",
+    "/workspace/scratch/910ac5420982/private_runtime/completion_final/full_probe_android28_arm64",
+    "/workspace/scratch/910ac5420982/private_runtime/extracted/system/lib64/libaaa.so",
+    "/workspace/scratch/910ac5420982/private_runtime/extracted/system/etc/aaa/awb_imx861.bin",
+    "/workspace/scratch/910ac5420982/private_runtime/completion_final"
+  ],
+  "private_dump_metadata": {
+    "outer_input_1.bin": {
+      "bytes": 920560,
+      "sha256": "18cbf426de69b33b3fd07fad4c64038cf0d6bc9cc84ef1143bf5b3875a925e4d"
+    },
+    "outer_owned_0.bin": {
+      "bytes": 920560,
+      "sha256": "4b8044a5329c18ba2776e2131098e668fd70f004d50ba58110d4e350d07e60db"
+    },
+    "outer_owned_1.bin": {
+      "bytes": 920560,
+      "sha256": "87618c421883ae6d129cc718a910daea8e1f41c9260d58da2628409a3255353a"
+    },
+    "passive_owned_11.bin": {
+      "bytes": 920560,
+      "sha256": "bbfe344c5760aa74010b609d08d0e8474d1286e3ca87f345017358ef80a821b9"
+    },
+    "outer_original_15.bin": {
+      "bytes": 920560,
+      "sha256": "229ed4b3c8a9c11041c0d2bad74d9bcff28fc3e2dc44d635dac2110f80e6ccf8"
+    },
+    "outer_original_14.bin": {
+      "bytes": 920560,
+      "sha256": "eba72c2ee4353aa3e449c4c3241e69386c2bfa3e77ca5f7bc9d41163b37c5986"
+    },
+    "passive_handle_original_4.bin": {
+      "bytes": 1000,
+      "sha256": "8f8ee5bd3890fe547a02b5c514f33fdde08184fb90b1b7820e9164c880850259"
+    },
+    "failure_reawb_0.bin": {
+      "bytes": 1000,
+      "sha256": "ce74e4fbad0b9188a1955f176fc86870646efd6e18c2b42679a548c461b138a8"
+    },
+    "passive_owned_1.bin": {
+      "bytes": 920560,
+      "sha256": "b937702f573531fd370d24ec346b5c6ea6a31d55ccbd59da0eb4e0693d91c44e"
+    },
+    "shading_original_3.bin": {
+      "bytes": 920560,
+      "sha256": "0f1044edaa27d2b3b021be9f4444df83cfe3476eabe76b9fdececa242bab903a"
+    },
+    "outer_original_11.bin": {
+      "bytes": 920560,
+      "sha256": "c3425fe5dda57cb6c98df9e8d7d7e0e5aa1d962a3dc3f1eebca8c7f68be01997"
+    },
+    "passive_handle_owned_9.bin": {
+      "bytes": 1000,
+      "sha256": "5eaa999397291717368ae5ef79c155309e764c274793428e5febc6996fa79d05"
+    },
+    "passive_owned_9.bin": {
+      "bytes": 920560,
+      "sha256": "3943b0552dbfa434716714803cfc3aa326f7783c5fbd4c81f8c504c517d94462"
+    },
+    "outer_input_0.bin": {
+      "bytes": 920560,
+      "sha256": "982f996abeb1bc8927e924547db1d443fde4abf1e6a5493c9403b929adc89985"
+    },
+    "outer_owned_3.bin": {
+      "bytes": 920560,
+      "sha256": "2d16eeb3ba9ff0b0fa1e13b2853895883502229b8a7a1205df495cb4b333e828"
+    },
+    "outer_owned_13.bin": {
+      "bytes": 920560,
+      "sha256": "0d6e5a6685914cfbe260455f233f91f08b18d7e3c01f9f0f684e214e8ae7b154"
+    },
+    "outer_owned_5.bin": {
+      "bytes": 920560,
+      "sha256": "4024d37d5436cddb82748b27cf5b9f1916599aea6e365147698ceecea7636546"
+    },
+    "passive_handle_original_2.bin": {
+      "bytes": 1000,
+      "sha256": "cfdc181a775e6399e63c5e82f4e5bccf63fcc7fe46059f9c0d8b5daa9cd5ef4e"
+    },
+    "failure_owned_1.bin": {
+      "bytes": 920560,
+      "sha256": "fb4a5563c6e1f3d2fdf129d1256c29a6ba42ed2bfb9c3e9cb3702f51fdb5c472"
+    },
+    "passive_handle_input_10.bin": {
+      "bytes": 1000,
+      "sha256": "decc9ba4e4682e4a4d08af46c2860da13f06fc1bdf94804a8138d53adbd90e20"
+    },
+    "outer_original_4.bin": {
+      "bytes": 920560,
+      "sha256": "837d8416cafd714b3b731e8d586ffdf72ff7561f924f9108327639c476e40720"
+    },
+    "passive_input_1.bin": {
+      "bytes": 920560,
+      "sha256": "b937702f573531fd370d24ec346b5c6ea6a31d55ccbd59da0eb4e0693d91c44e"
+    },
+    "outer_owned_7.bin": {
+      "bytes": 920560,
+      "sha256": "71ee917e205b94fd7b9ed589c2f042ab84383953a56eb20e977671122562a7e4"
+    },
+    "passive_owned_2.bin": {
+      "bytes": 920560,
+      "sha256": "9cdafb76bc6bce83a25b32b68a561286b3c4bcba312a6508ddeb164c36449b85"
+    },
+    "outer_input_8.bin": {
+      "bytes": 920560,
+      "sha256": "2543ce078b9955e8f1b170da3f10222dbc6e37f59e58c22ac1819e5df6cd7779"
+    },
+    "passive_handle_owned_6.bin": {
+      "bytes": 1000,
+      "sha256": "599212eb1dabb5e39a724f0b6b035ac6d2821c2e1f3f788a9d2d0855bdebb0d0"
+    },
+    "failure_owned_0.bin": {
+      "bytes": 920560,
+      "sha256": "c7f443c0eb1faddc21acb0121d6c1ad286796b74aafcd39cdcbfd044add13870"
+    },
+    "shading_original_2.bin": {
+      "bytes": 920560,
+      "sha256": "99da30478f062d56a60a4282e9674327285e65bcde0ea21ff0b7b7dade815f4b"
+    },
+    "passive_handle_input_8.bin": {
+      "bytes": 1000,
+      "sha256": "12c92348db1563f1cb235a74344b72b7628a2c3f76d084fdef83d60f2b8d4679"
+    },
+    "passive_handle_owned_10.bin": {
+      "bytes": 1000,
+      "sha256": "decc9ba4e4682e4a4d08af46c2860da13f06fc1bdf94804a8138d53adbd90e20"
+    },
+    "passive_handle_input_1.bin": {
+      "bytes": 1000,
+      "sha256": "286a7f5209cc5b5402ee0e28b6e0a662daa7dd851aa81acc64c9008f02de60b7"
+    },
+    "outer_owned_10.bin": {
+      "bytes": 920560,
+      "sha256": "5aea9011f1401033f971df591799b9ce9d29c4079a291f6145a72ef280b31c51"
+    },
+    "outer_original_7.bin": {
+      "bytes": 920560,
+      "sha256": "71ee917e205b94fd7b9ed589c2f042ab84383953a56eb20e977671122562a7e4"
+    },
+    "outer_input_2.bin": {
+      "bytes": 920560,
+      "sha256": "313b7c5149b87808287d25bfed925ae29fc8852e0a2407c77f902b480111957d"
+    },
+    "outer_input_12.bin": {
+      "bytes": 920560,
+      "sha256": "5913f7748f562353f52dc5e31309616562f69e6da2ea4e377fecb854d8ce4f62"
+    },
+    "passive_original_1.bin": {
+      "bytes": 920560,
+      "sha256": "b937702f573531fd370d24ec346b5c6ea6a31d55ccbd59da0eb4e0693d91c44e"
+    },
+    "passive_input_8.bin": {
+      "bytes": 920560,
+      "sha256": "52adedb38f10dba218c16906faf98d330c1ea439602a5c2a8d84db7d50418c9c"
+    },
+    "passive_owned_5.bin": {
+      "bytes": 920560,
+      "sha256": "c0731753ff648903ccc4ff7caee841dc1ec9f5bf69dc7dea778ed30089935c29"
+    },
+    "passive_original_5.bin": {
+      "bytes": 920560,
+      "sha256": "c0731753ff648903ccc4ff7caee841dc1ec9f5bf69dc7dea778ed30089935c29"
+    },
+    "passive_handle_input_7.bin": {
+      "bytes": 1000,
+      "sha256": "97195283f6b37f006c9baa2d3106c6669bbcd80ccb1263c972fa9ba470a8c81a"
+    },
+    "failure_input_0.bin": {
+      "bytes": 920560,
+      "sha256": "cc482a34f72fd749ad4c18c2546093ae3e7262095376d42266ab210dc635d640"
+    },
+    "passive_input_3.bin": {
+      "bytes": 920560,
+      "sha256": "9efc08c37454fbb9b90d637400709f9ee33d1ad17c48a7ab6a53d89612471bee"
+    },
+    "passive_original_3.bin": {
+      "bytes": 920560,
+      "sha256": "9efc08c37454fbb9b90d637400709f9ee33d1ad17c48a7ab6a53d89612471bee"
+    },
+    "shading_owned_2.bin": {
+      "bytes": 920560,
+      "sha256": "99da30478f062d56a60a4282e9674327285e65bcde0ea21ff0b7b7dade815f4b"
+    },
+    "outer_input_5.bin": {
+      "bytes": 920560,
+      "sha256": "15c51ff4b90dee773d8aefc29fe5e1e8627c385fe13c3477b505849fc5e82b7e"
+    },
+    "outer_original_5.bin": {
+      "bytes": 920560,
+      "sha256": "4024d37d5436cddb82748b27cf5b9f1916599aea6e365147698ceecea7636546"
+    },
+    "passive_input_10.bin": {
+      "bytes": 920560,
+      "sha256": "fa0a54f1884bf7ff2428d28d7a364a7050a0616103574a0214cd6f1cdc27591a"
+    },
+    "outer_owned_9.bin": {
+      "bytes": 920560,
+      "sha256": "d2412d2e2cdf14b287681a87603c3c72c1cd6bc141b2f5c9c37f85fe13f4b33e"
+    },
+    "outer_owned_12.bin": {
+      "bytes": 920560,
+      "sha256": "0360c8c5e519a37fd6c5f8e10b55d5707690b64cb575b77a3115f7f897a7bff2"
+    },
+    "outer_original_13.bin": {
+      "bytes": 920560,
+      "sha256": "0d6e5a6685914cfbe260455f233f91f08b18d7e3c01f9f0f684e214e8ae7b154"
+    },
+    "failure_input_1.bin": {
+      "bytes": 920560,
+      "sha256": "3cd670408a5a54288f45c5a203ecaac8ce561a6a3249c888600c66809ba2b7b8"
+    },
+    "passive_input_6.bin": {
+      "bytes": 920560,
+      "sha256": "bec4d275e8ee8af54a0242c78b521e00a26d6bbd6eb275cbae646ed536eb6492"
+    },
+    "shading_original_1.bin": {
+      "bytes": 920560,
+      "sha256": "d96d3d64966f45d0339af687974975f83b5eff7a588e7a654559ad551611b183"
+    },
+    "outer_input_9.bin": {
+      "bytes": 920560,
+      "sha256": "9e59fdb4d0d6e919c263c4eca2686ecdd60bb960492078ad3bf22c553cc0f45a"
+    },
+    "outer_original_3.bin": {
+      "bytes": 920560,
+      "sha256": "2d16eeb3ba9ff0b0fa1e13b2853895883502229b8a7a1205df495cb4b333e828"
+    },
+    "passive_original_0.bin": {
+      "bytes": 920560,
+      "sha256": "6b141aa5e782d2f106499c0e226aa2199d483014c17b0d7e1476d7981e223d46"
+    },
+    "shading_original_0.bin": {
+      "bytes": 920560,
+      "sha256": "639f7b439d872d5548dc15d86ccedbd08391897eaa43dac200e7cc04d901761d"
+    },
+    "passive_input_2.bin": {
+      "bytes": 920560,
+      "sha256": "9cdafb76bc6bce83a25b32b68a561286b3c4bcba312a6508ddeb164c36449b85"
+    },
+    "passive_input_5.bin": {
+      "bytes": 920560,
+      "sha256": "d5f7f421515c4db6238609cf64ddbcedb3f9ef00319b7adefd21528937621d45"
+    },
+    "passive_handle_owned_8.bin": {
+      "bytes": 1000,
+      "sha256": "06885e84100f4690a134e0edd1efa8f6d7a5d472cc17c11cf5d1dcbaf29bf6a5"
+    },
+    "outer_input_14.bin": {
+      "bytes": 920560,
+      "sha256": "bddf8a1269dbed3b56d281fd7ff454e3b73106caf4ff9feb0426a41e4459e3ed"
+    },
+    "passive_handle_input_3.bin": {
+      "bytes": 1000,
+      "sha256": "36cea91f0b7c04f3a8cd724ad576f11123ca7a14a26b241dc10388128d5801dc"
+    },
+    "passive_handle_original_0.bin": {
+      "bytes": 1000,
+      "sha256": "d51f5643fdcc130871abffbb78e703e82d781892f1ed5eebf5a2c555a2c8ea77"
+    },
+    "passive_handle_original_10.bin": {
+      "bytes": 1000,
+      "sha256": "decc9ba4e4682e4a4d08af46c2860da13f06fc1bdf94804a8138d53adbd90e20"
+    },
+    "outer_input_11.bin": {
+      "bytes": 920560,
+      "sha256": "21e69cd98891033e4132248def21f536784be0f4d6974ee64ddc65fe300c03c8"
+    },
+    "passive_input_11.bin": {
+      "bytes": 920560,
+      "sha256": "bbfe344c5760aa74010b609d08d0e8474d1286e3ca87f345017358ef80a821b9"
+    },
+    "passive_owned_10.bin": {
+      "bytes": 920560,
+      "sha256": "fa0a54f1884bf7ff2428d28d7a364a7050a0616103574a0214cd6f1cdc27591a"
+    },
+    "passive_handle_original_6.bin": {
+      "bytes": 1000,
+      "sha256": "599212eb1dabb5e39a724f0b6b035ac6d2821c2e1f3f788a9d2d0855bdebb0d0"
+    },
+    "failure_config_1.bin": {
+      "bytes": 1502800,
+      "sha256": "77deffaa719c40fcfaab6d894cd35a72c945ae7a821f1b9fd3eee8697ada725d"
+    },
+    "passive_handle_owned_3.bin": {
+      "bytes": 1000,
+      "sha256": "36cea91f0b7c04f3a8cd724ad576f11123ca7a14a26b241dc10388128d5801dc"
+    },
+    "outer_original_6.bin": {
+      "bytes": 920560,
+      "sha256": "ea50219862e95ceaeebedb8696e2569946d6137662afaeced3f6966ad51013ac"
+    },
+    "passive_owned_6.bin": {
+      "bytes": 920560,
+      "sha256": "bec4d275e8ee8af54a0242c78b521e00a26d6bbd6eb275cbae646ed536eb6492"
+    },
+    "shading_owned_1.bin": {
+      "bytes": 920560,
+      "sha256": "d96d3d64966f45d0339af687974975f83b5eff7a588e7a654559ad551611b183"
+    },
+    "passive_input_7.bin": {
+      "bytes": 920560,
+      "sha256": "4b2fd91c4eced6039904fc6495c027382203971657a0b88e5537f98ed9da758f"
+    },
+    "passive_owned_0.bin": {
+      "bytes": 920560,
+      "sha256": "6b141aa5e782d2f106499c0e226aa2199d483014c17b0d7e1476d7981e223d46"
+    },
+    "failure_config_0.bin": {
+      "bytes": 1502800,
+      "sha256": "47838a263340261d499a5beb977f97050f68e41778a3891c311b17ed5c8b42c3"
+    },
+    "passive_handle_input_2.bin": {
+      "bytes": 1000,
+      "sha256": "aa1952a783e2a1d59a905b0726a3fee630ffa27cd64812b3b3507c3947640fdc"
+    },
+    "outer_original_1.bin": {
+      "bytes": 920560,
+      "sha256": "87618c421883ae6d129cc718a910daea8e1f41c9260d58da2628409a3255353a"
+    },
+    "passive_handle_owned_7.bin": {
+      "bytes": 1000,
+      "sha256": "97195283f6b37f006c9baa2d3106c6669bbcd80ccb1263c972fa9ba470a8c81a"
+    },
+    "passive_original_11.bin": {
+      "bytes": 920560,
+      "sha256": "bbfe344c5760aa74010b609d08d0e8474d1286e3ca87f345017358ef80a821b9"
+    },
+    "passive_input_9.bin": {
+      "bytes": 920560,
+      "sha256": "3943b0552dbfa434716714803cfc3aa326f7783c5fbd4c81f8c504c517d94462"
+    },
+    "passive_original_2.bin": {
+      "bytes": 920560,
+      "sha256": "9cdafb76bc6bce83a25b32b68a561286b3c4bcba312a6508ddeb164c36449b85"
+    },
+    "outer_owned_4.bin": {
+      "bytes": 920560,
+      "sha256": "837d8416cafd714b3b731e8d586ffdf72ff7561f924f9108327639c476e40720"
+    },
+    "passive_handle_original_9.bin": {
+      "bytes": 1000,
+      "sha256": "5eaa999397291717368ae5ef79c155309e764c274793428e5febc6996fa79d05"
+    },
+    "passive_owned_7.bin": {
+      "bytes": 920560,
+      "sha256": "4b2fd91c4eced6039904fc6495c027382203971657a0b88e5537f98ed9da758f"
+    },
+    "outer_owned_8.bin": {
+      "bytes": 920560,
+      "sha256": "007fd722993d51b22178f1ed8e5d6b10a1f6a93790d05880bd1a8d565ca7620c"
+    },
+    "passive_handle_input_0.bin": {
+      "bytes": 1000,
+      "sha256": "a7897704e375b5d4aeea6e9f956c79d4329a64e4a638903eaacd9fe0db78c29d"
+    },
+    "outer_original_10.bin": {
+      "bytes": 920560,
+      "sha256": "5aea9011f1401033f971df591799b9ce9d29c4079a291f6145a72ef280b31c51"
+    },
+    "outer_owned_11.bin": {
+      "bytes": 920560,
+      "sha256": "c3425fe5dda57cb6c98df9e8d7d7e0e5aa1d962a3dc3f1eebca8c7f68be01997"
+    },
+    "outer_input_10.bin": {
+      "bytes": 920560,
+      "sha256": "66e7c1c28067463fd7d65b9de2c81b1bd5ba9cbd833199ade3ff0111c94f4608"
+    },
+    "full_reawb.bin": {
+      "bytes": 1000,
+      "sha256": "ce74e4fbad0b9188a1955f176fc86870646efd6e18c2b42679a548c461b138a8"
+    },
+    "passive_original_4.bin": {
+      "bytes": 920560,
+      "sha256": "905b539c0c5a188cdd2919818b9b167381d5e31c329097a826b81c2355a9d7e9"
+    },
+    "passive_handle_owned_5.bin": {
+      "bytes": 1000,
+      "sha256": "06c3f64978e14ee0b913c1c3e18176438cdfcb31afae9d1764e88247338e1310"
+    },
+    "outer_original_8.bin": {
+      "bytes": 920560,
+      "sha256": "007fd722993d51b22178f1ed8e5d6b10a1f6a93790d05880bd1a8d565ca7620c"
+    },
+    "passive_handle_original_1.bin": {
+      "bytes": 1000,
+      "sha256": "286a7f5209cc5b5402ee0e28b6e0a662daa7dd851aa81acc64c9008f02de60b7"
+    },
+    "outer_input_4.bin": {
+      "bytes": 920560,
+      "sha256": "7375624e675e10a5a9cea6b63ff717f6cb6b36e5f5059b22a9dd8c50888751dd"
+    },
+    "full_config.bin": {
+      "bytes": 1502800,
+      "sha256": "47838a263340261d499a5beb977f97050f68e41778a3891c311b17ed5c8b42c3"
+    },
+    "passive_owned_3.bin": {
+      "bytes": 920560,
+      "sha256": "9efc08c37454fbb9b90d637400709f9ee33d1ad17c48a7ab6a53d89612471bee"
+    },
+    "full_context.bin": {
+      "bytes": 920560,
+      "sha256": "b3a798f55baa3116ca3a3a0208d73d96e8c72fea5e019da743dcc0813d2b7c56"
+    },
+    "shading_owned_0.bin": {
+      "bytes": 920560,
+      "sha256": "639f7b439d872d5548dc15d86ccedbd08391897eaa43dac200e7cc04d901761d"
+    },
+    "outer_original_12.bin": {
+      "bytes": 920560,
+      "sha256": "0360c8c5e519a37fd6c5f8e10b55d5707690b64cb575b77a3115f7f897a7bff2"
+    },
+    "outer_owned_2.bin": {
+      "bytes": 920560,
+      "sha256": "a976223d00f091a8c63f052710fadaee8a7fc8c70a4991078f274a1078e921fa"
+    },
+    "passive_original_6.bin": {
+      "bytes": 920560,
+      "sha256": "bec4d275e8ee8af54a0242c78b521e00a26d6bbd6eb275cbae646ed536eb6492"
+    },
+    "outer_owned_14.bin": {
+      "bytes": 920560,
+      "sha256": "eba72c2ee4353aa3e449c4c3241e69386c2bfa3e77ca5f7bc9d41163b37c5986"
+    },
+    "passive_input_4.bin": {
+      "bytes": 920560,
+      "sha256": "2b407a6e5b2db68942b73b5e6dc8389ff2a3b9222f41710258dd2bb023293610"
+    },
+    "outer_owned_15.bin": {
+      "bytes": 920560,
+      "sha256": "229ed4b3c8a9c11041c0d2bad74d9bcff28fc3e2dc44d635dac2110f80e6ccf8"
+    },
+    "passive_handle_owned_2.bin": {
+      "bytes": 1000,
+      "sha256": "cfdc181a775e6399e63c5e82f4e5bccf63fcc7fe46059f9c0d8b5daa9cd5ef4e"
+    },
+    "failure_original_0.bin": {
+      "bytes": 920560,
+      "sha256": "c7f443c0eb1faddc21acb0121d6c1ad286796b74aafcd39cdcbfd044add13870"
+    },
+    "passive_handle_input_5.bin": {
+      "bytes": 1000,
+      "sha256": "6f7a0912162251b38e4d0e9082ecb96e845d96e117f4caed4e39784aad8fe9b5"
+    },
+    "passive_original_7.bin": {
+      "bytes": 920560,
+      "sha256": "4b2fd91c4eced6039904fc6495c027382203971657a0b88e5537f98ed9da758f"
+    },
+    "outer_original_9.bin": {
+      "bytes": 920560,
+      "sha256": "d2412d2e2cdf14b287681a87603c3c72c1cd6bc141b2f5c9c37f85fe13f4b33e"
+    },
+    "outer_owned_6.bin": {
+      "bytes": 920560,
+      "sha256": "ea50219862e95ceaeebedb8696e2569946d6137662afaeced3f6966ad51013ac"
+    },
+    "passive_handle_original_7.bin": {
+      "bytes": 1000,
+      "sha256": "97195283f6b37f006c9baa2d3106c6669bbcd80ccb1263c972fa9ba470a8c81a"
+    },
+    "passive_handle_original_8.bin": {
+      "bytes": 1000,
+      "sha256": "06885e84100f4690a134e0edd1efa8f6d7a5d472cc17c11cf5d1dcbaf29bf6a5"
+    },
+    "passive_handle_original_11.bin": {
+      "bytes": 1000,
+      "sha256": "392e68f6b6e80f8ee7b48cd3df851d10b5ae81cc0bd314beb6f34b3fef4a322f"
+    },
+    "passive_handle_input_11.bin": {
+      "bytes": 1000,
+      "sha256": "f9279d816e84476ec2612c64e02794b80541a4372b9d81719b500e4de2a2c661"
+    },
+    "shading_owned_3.bin": {
+      "bytes": 920560,
+      "sha256": "0f1044edaa27d2b3b021be9f4444df83cfe3476eabe76b9fdececa242bab903a"
+    },
+    "passive_original_9.bin": {
+      "bytes": 920560,
+      "sha256": "3943b0552dbfa434716714803cfc3aa326f7783c5fbd4c81f8c504c517d94462"
+    },
+    "passive_handle_input_4.bin": {
+      "bytes": 1000,
+      "sha256": "a9ed4424fd3a5f3e32e5370ad019e2e466e6ac15eba1523773658ae1466b8e59"
+    },
+    "passive_handle_original_3.bin": {
+      "bytes": 1000,
+      "sha256": "36cea91f0b7c04f3a8cd724ad576f11123ca7a14a26b241dc10388128d5801dc"
+    },
+    "passive_handle_input_6.bin": {
+      "bytes": 1000,
+      "sha256": "599212eb1dabb5e39a724f0b6b035ac6d2821c2e1f3f788a9d2d0855bdebb0d0"
+    },
+    "passive_handle_original_5.bin": {
+      "bytes": 1000,
+      "sha256": "06c3f64978e14ee0b913c1c3e18176438cdfcb31afae9d1764e88247338e1310"
+    },
+    "outer_input_6.bin": {
+      "bytes": 920560,
+      "sha256": "db0046c900b523b383bef114da5ac2d16b292c9365b7eaf39f63fdfdeb713e22"
+    },
+    "passive_original_10.bin": {
+      "bytes": 920560,
+      "sha256": "fa0a54f1884bf7ff2428d28d7a364a7050a0616103574a0214cd6f1cdc27591a"
+    },
+    "passive_owned_4.bin": {
+      "bytes": 920560,
+      "sha256": "905b539c0c5a188cdd2919818b9b167381d5e31c329097a826b81c2355a9d7e9"
+    },
+    "passive_handle_input_9.bin": {
+      "bytes": 1000,
+      "sha256": "5eaa999397291717368ae5ef79c155309e764c274793428e5febc6996fa79d05"
+    },
+    "passive_handle_owned_1.bin": {
+      "bytes": 1000,
+      "sha256": "286a7f5209cc5b5402ee0e28b6e0a662daa7dd851aa81acc64c9008f02de60b7"
+    },
+    "outer_input_3.bin": {
+      "bytes": 920560,
+      "sha256": "c88d4598adba3cccffbb7aa04b31768424b90914468123be40f47d2c115cd5a5"
+    },
+    "full_e2.bin": {
+      "bytes": 118416,
+      "sha256": "072603f17cad621bbe28a95664f29cbd7f983c23b884c01e5545ecd128a39205"
+    },
+    "outer_original_0.bin": {
+      "bytes": 920560,
+      "sha256": "4b8044a5329c18ba2776e2131098e668fd70f004d50ba58110d4e350d07e60db"
+    },
+    "passive_handle_owned_11.bin": {
+      "bytes": 1000,
+      "sha256": "392e68f6b6e80f8ee7b48cd3df851d10b5ae81cc0bd314beb6f34b3fef4a322f"
+    },
+    "outer_input_7.bin": {
+      "bytes": 920560,
+      "sha256": "b19bedc8b91ea622168466079ef7d15875109fe49f191f698ca209f841319b0f"
+    },
+    "passive_original_8.bin": {
+      "bytes": 920560,
+      "sha256": "52adedb38f10dba218c16906faf98d330c1ea439602a5c2a8d84db7d50418c9c"
+    },
+    "passive_input_0.bin": {
+      "bytes": 920560,
+      "sha256": "6b141aa5e782d2f106499c0e226aa2199d483014c17b0d7e1476d7981e223d46"
+    },
+    "passive_handle_owned_4.bin": {
+      "bytes": 1000,
+      "sha256": "8f8ee5bd3890fe547a02b5c514f33fdde08184fb90b1b7820e9164c880850259"
+    },
+    "outer_input_15.bin": {
+      "bytes": 920560,
+      "sha256": "b5d405edc3fda9706c3de025d1da03db10ad9bf0fbd9a861cffa100717864440"
+    },
+    "outer_original_2.bin": {
+      "bytes": 920560,
+      "sha256": "a976223d00f091a8c63f052710fadaee8a7fc8c70a4991078f274a1078e921fa"
+    },
+    "failure_reawb_1.bin": {
+      "bytes": 1000,
+      "sha256": "ce74e4fbad0b9188a1955f176fc86870646efd6e18c2b42679a548c461b138a8"
+    },
+    "passive_handle_owned_0.bin": {
+      "bytes": 1000,
+      "sha256": "d51f5643fdcc130871abffbb78e703e82d781892f1ed5eebf5a2c555a2c8ea77"
+    },
+    "outer_input_13.bin": {
+      "bytes": 920560,
+      "sha256": "99471f31001f54765f25292eccf52057b2854ba1847749fec19d25654ffdbe56"
+    },
+    "passive_owned_8.bin": {
+      "bytes": 920560,
+      "sha256": "52adedb38f10dba218c16906faf98d330c1ea439602a5c2a8d84db7d50418c9c"
+    },
+    "failure_original_1.bin": {
+      "bytes": 920560,
+      "sha256": "fb4a5563c6e1f3d2fdf129d1256c29a6ba42ed2bfb9c3e9cb3702f51fdb5c472"
+    }
+  },
+  "original_library_patched": false,
+  "dependency_stubs": false,
+  "full_camera_device_calibration_recovered": false,
+  "authentic_frame_replayed": false,
+  "historical_seven_frame_chain_recovered": false,
+  "full_awb_validated": false,
+  "completion_suffix_owned": true,
+  "passive_reawb_owned": true,
+  "active_reawb_owned": false,
+  "debug_stage_owned": false,
+  "full_outer_controller_owned": false,
+  "prepared_entry_adapter_used": true,
+  "full_post_stage_owned": false,
+  "post_mode2_compared_and_owned": false,
+  "post_research_abi_requires_initialized_bounded_tables": true,
+  "post_all_branches_exhaustively_verified": false
+}

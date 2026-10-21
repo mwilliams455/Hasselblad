@@ -19,6 +19,8 @@ def main():
     p.add_argument('--pipeline',action='store_true',help='Compare the owned complete scene stage on seven synthetic native E2 frames')
     p.add_argument('--candidates',action='store_true',help='Compare candidate weighting, accumulation and normal scene control')
     p.add_argument('--temperature',action='store_true',help='Compare all temperature modes and their matrix/xy helpers')
+    p.add_argument('--completion',action='store_true',help='Compare final copies, recovery, shading and bounded passive REAWB')
+    p.add_argument('--completion-pipeline',action='store_true',help='With --pipeline, extend owned post through passive REAWB, shading and completion; debug remains original')
     p.add_argument('--post',action='store_true',help='Compare the post controller, publication, smoothing and inverse temperature')
     p.add_argument('--post-pipeline',action='store_true',help='With --pipeline, replace and compare the complete post stage')
     p.add_argument('--post-results',action='store_true',help='Compare post-result helpers and the complete mode-2 branch; full post remains original')
@@ -30,6 +32,7 @@ def main():
     p.add_argument('--post-results-pipeline',action='store_true',help='With --pipeline, replay post-result helpers from original golden snapshots; post controller remains original')
     p.add_argument('--atmosphere-pipeline',action='store_true',help='With --pipeline, compare owned scene/history/atmosphere before original post/REAWB')
     a=p.parse_args()
+    if a.completion_pipeline:a.post_pipeline=True
     if a.post_pipeline and a.post_results_pipeline:p.error('Choose full post replacement or snapshot replay')
     if a.post_pipeline:a.atmosphere_pipeline=True
     if a.post_results_pipeline:a.atmosphere_pipeline=True
@@ -37,7 +40,7 @@ def main():
     if a.history_pipeline:
         if not a.pipeline:p.error('--history-pipeline requires --pipeline')
         a.tail_baseline=True
-    if sum([a.prepare,a.pipeline,a.candidates,a.temperature,a.controller,a.history,a.atmosphere,a.post_results,a.post])>1:p.error('Choose one comparison mode')
+    if sum([a.prepare,a.pipeline,a.candidates,a.temperature,a.controller,a.history,a.atmosphere,a.post_results,a.post,a.completion])>1:p.error('Choose one comparison mode')
     if a.tail_baseline and not a.pipeline:p.error('--tail-baseline requires --pipeline')
     root=a.firmware_root.resolve();out=a.private_output.resolve()
     if out.is_relative_to(AUDIT.parent):
@@ -57,7 +60,8 @@ def main():
     if a.temperature:sources.extend([HERE/'temperature_compare.c',HERE/'hb_scene_candidates.c',HERE/'hb_scene_filter.c',HERE/'hb_scene_optimizer.c'])
     if a.history or a.atmosphere:sources.extend([HERE/('atmosphere_compare.c' if a.atmosphere else 'history_compare.c'),HERE/'hb_history.c',HERE/'hb_scene_optimizer.c',HERE/'hb_scene_controller.c',HERE/'hb_scene_candidates.c',HERE/'hb_scene_filter.c',HERE/'hb_temperature.c'])
     if a.post_results:sources.extend([HERE/'post_results_compare.c',HERE/'hb_post_results.c',HERE/'hb_temperature.c',HERE/'hb_scene_candidates.c',HERE/'hb_scene_optimizer.c',HERE/'hb_scene_filter.c'])
-    if a.post:sources.extend([HERE/'post_compare.c',HERE/'hb_post_controller.c',HERE/'hb_post_results.c',HERE/'hb_atmosphere.c',HERE/'hb_history.c',HERE/'hb_temperature.c',HERE/'hb_scene_controller.c',HERE/'hb_scene_candidates.c',HERE/'hb_scene_optimizer.c',HERE/'hb_scene_filter.c'])
+    if a.post or a.completion:sources.extend([HERE/('completion_compare.c' if a.completion else 'post_compare.c'),HERE/'hb_post_controller.c',HERE/'hb_post_results.c',HERE/'hb_atmosphere.c',HERE/'hb_history.c',HERE/'hb_temperature.c',HERE/'hb_scene_controller.c',HERE/'hb_scene_candidates.c',HERE/'hb_scene_optimizer.c',HERE/'hb_scene_filter.c'])
+    if a.completion or a.completion_pipeline:sources.extend([HERE/'hb_completion.c',HERE/'completion_entry.S'])
     if a.post_pipeline:sources.extend([HERE/'hb_post_controller.c',HERE/'hb_post_results.c'])
     if a.atmosphere:sources.append(HERE/'hb_atmosphere.c')
     if a.controller:sources.extend([HERE/'controller_compare.c',HERE/'hb_scene_controller.c',HERE/'hb_scene_candidates.c',HERE/'hb_scene_filter.c',HERE/'hb_scene_optimizer.c'])
@@ -68,6 +72,8 @@ def main():
     if a.atmosphere_pipeline:sources.append(HERE/'hb_atmosphere.c')
     cmd=[str(compiler),'-std=c11','-O2','-Wall','-Wextra','-Werror','-fPIE','-pie',
          '-ffp-contract=off','-Wl,-z,max-page-size=16384']
+    if a.completion:cmd+=['-DHB_COMPLETION_COMPARE=1']
+    if a.completion_pipeline:cmd+=['-DHB_COMPLETION_PIPELINE=1']
     if a.post:cmd+=['-DHB_POST_COMPARE=1']
     if a.post_pipeline:cmd+=['-DHB_POST_PIPELINE=1']
     if a.prepare:cmd+=['-DHB_PREPARE_COMPARE=1']
@@ -91,7 +97,7 @@ def main():
                      capture_output=True,text=True,timeout=30,preexec_fn=limits)
     (out/'stdout.txt').write_text(r.stdout);(out/'stderr.txt').write_text(r.stderr)
     events=[json.loads(line) for line in r.stdout.splitlines() if line.startswith('{')]
-    ok=(r.returncode==0 and len(events)==(39 if a.tail_baseline else 11 if a.pipeline else 4 if (a.prepare or a.candidates or a.temperature or a.controller or a.history or a.atmosphere or a.post_results or a.post) else 3)
+    ok=(r.returncode==0 and len(events)==(39 if a.tail_baseline else 11 if a.pipeline else 4 if (a.prepare or a.candidates or a.temperature or a.controller or a.history or a.atmosphere or a.post_results or a.post or a.completion) else 3)
         and [e.get('stage') for e in events[:2]]==['awb_cfg_load','awb_lib_init']
         and all(e.get('status')==0 for e in events[:2])
         and events[2].get('initialized_marker')==1 and events[2].get('e2_context_present') is True)
@@ -99,6 +105,7 @@ def main():
     if a.pipeline:ok &= events[-1].get('all_passed') is True
     if a.candidates:ok &= events[-1].get('all_passed') is True
     if a.temperature:ok &= events[-1].get('all_passed') is True
+    if a.completion:ok &= events[-1].get('all_passed') is True
     if a.post:ok &= events[-1].get('all_passed') is True
     if a.post_results:ok &= events[-1].get('all_passed') is True
     if a.atmosphere:ok &= events[-1].get('all_passed') is True
@@ -108,14 +115,15 @@ def main():
     if a.pipeline or a.candidates or a.temperature or a.controller:headers.extend([HERE/'hb_scene_optimizer.h',HERE/'hb_scene_candidates.h',HERE/'hb_temperature.h'])
     if a.controller or a.pipeline:headers.append(HERE/'hb_scene_controller.h')
     if a.post_results:headers.extend([HERE/'hb_post_results.h',HERE/'hb_temperature.h',HERE/'hb_scene_candidates.h',HERE/'hb_scene_optimizer.h',HERE/'hb_scene_filter.h',HERE/'hb_stat_prepare.h'])
-    if a.post or a.post_pipeline:headers.extend([HERE/'hb_post_controller.h',HERE/'hb_post_results.h',HERE/'hb_history.h',HERE/'hb_temperature.h',HERE/'hb_scene_controller.h',HERE/'hb_scene_candidates.h',HERE/'hb_scene_optimizer.h',HERE/'hb_scene_filter.h',HERE/'hb_stat_prepare.h',HERE/'hb_atmosphere.h'])
+    if a.post or a.post_pipeline or a.completion:headers.extend([HERE/'hb_post_controller.h',HERE/'hb_post_results.h',HERE/'hb_history.h',HERE/'hb_temperature.h',HERE/'hb_scene_controller.h',HERE/'hb_scene_candidates.h',HERE/'hb_scene_optimizer.h',HERE/'hb_scene_filter.h',HERE/'hb_stat_prepare.h',HERE/'hb_atmosphere.h'])
     if a.atmosphere:headers.append(HERE/'hb_atmosphere.h')
     if a.history or a.atmosphere:headers.extend([HERE/'hb_history.h',HERE/'hb_scene_optimizer.h',HERE/'hb_scene_controller.h',HERE/'hb_scene_candidates.h',HERE/'hb_scene_filter.h',HERE/'hb_temperature.h',HERE/'hb_stat_prepare.h'])
     if a.post_results_pipeline:headers.append(HERE/'hb_post_results.h')
     if a.atmosphere_pipeline:headers.append(HERE/'hb_atmosphere.h')
     if a.history_pipeline:headers.append(HERE/'hb_history.h')
+    if a.completion or a.completion_pipeline:headers.append(HERE/'hb_completion.h')
     report={'created_utc':datetime.now(timezone.utc).isoformat(),'all_passed':ok,'exit':r.returncode,
-            'mode':'owned_post_pipeline' if a.post_pipeline else 'owned_post_controller' if a.post else 'post_result_snapshot_replay_pipeline' if a.post_results_pipeline else 'owned_post_result_helpers_and_mode2' if a.post_results else 'owned_scene_history_atmosphere_pipeline' if a.atmosphere_pipeline else 'owned_atmosphere' if a.atmosphere else 'owned_history_scene_pipeline' if a.history_pipeline else 'owned_history' if a.history else 'original_downstream_baseline' if a.tail_baseline else 'owned_scene_controller' if a.controller else 'owned_complete_scene_pipeline' if a.pipeline else 'calibrated_temperature' if a.temperature else 'candidate_weighting_accumulation' if a.candidates else 'preparation_classification_filter' if a.prepare else 'full_initialization',
+            'mode':'owned_completion_pipeline' if a.completion_pipeline else 'owned_completion_and_passive_reawb' if a.completion else 'owned_post_pipeline' if a.post_pipeline else 'owned_post_controller' if a.post else 'post_result_snapshot_replay_pipeline' if a.post_results_pipeline else 'owned_post_result_helpers_and_mode2' if a.post_results else 'owned_scene_history_atmosphere_pipeline' if a.atmosphere_pipeline else 'owned_atmosphere' if a.atmosphere else 'owned_history_scene_pipeline' if a.history_pipeline else 'owned_history' if a.history else 'original_downstream_baseline' if a.tail_baseline else 'owned_scene_controller' if a.controller else 'owned_complete_scene_pipeline' if a.pipeline else 'calibrated_temperature' if a.temperature else 'candidate_weighting_accumulation' if a.candidates else 'preparation_classification_filter' if a.prepare else 'full_initialization',
             'events':events,'input_config_sha256':sha(config),'library_sha256':sha(root/'system/lib64/libaaa.so'),
             'linker_sha256':linker_sha,'dependency_count':len(closure),'qemu_sha256':sha(a.qemu),
             'compiler_version':subprocess.check_output([str(compiler),'--version'],text=True).splitlines()[0],
@@ -125,6 +133,9 @@ def main():
             'original_library_patched':False,'dependency_stubs':False,
             'full_camera_device_calibration_recovered':False,'authentic_frame_replayed':False,
             'historical_seven_frame_chain_recovered':False,'full_awb_validated':False,
+            'completion_suffix_owned':a.completion or a.completion_pipeline,'passive_reawb_owned':a.completion or a.completion_pipeline,
+            'active_reawb_owned':False,'debug_stage_owned':False,'full_outer_controller_owned':False,
+            'prepared_entry_adapter_used':a.completion or a.completion_pipeline,
             'full_post_stage_owned':a.post or a.post_pipeline,'post_mode2_compared_and_owned':a.post_results or a.post,
             'post_research_abi_requires_initialized_bounded_tables':True,
             'post_all_branches_exhaustively_verified':False}

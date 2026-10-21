@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "application_id": "com.mwilliams.hasselbladphoton",
+  "version_code": 27184,
+  "version_name": "0.1-hb-domain3",
+  "apk_filename": "HasselbladPhoton-Domain3-27184-debug.apk",
+  "apk_bytes": 70819597,
+  "apk_sha256": "43c8814dd16f6547ab1824ea2f11c59df2c11fb9763c35d0d3a1eb8139b8b9d3",
+  "domain_jni_arm64_sha256": "4b83fbb60f9bdec765b46ac066f7f95ca145d9181c8ac9bf2ab732e4ffe91e1b",
+  "domain_jni_elf_load_alignments_bytes": [
+    16384,
+    16384
+  ],
+  "original_scene_jni_present": true,
+  "render_modified": false,
+  "domain1_on_hardware_tested": false
+}

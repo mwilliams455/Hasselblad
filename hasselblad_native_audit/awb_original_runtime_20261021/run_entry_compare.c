@@ -23,6 +23,10 @@ static hb_temperature_model manual_model;
 #include "hb_user_controls.h"
 #include "user_controls_fixtures.h"
 #endif
+#ifdef HB_USER_FINISH_ENTRY
+#include "hb_user_finish.h"
+#include "user_finish_fixtures.h"
+#endif
 #include <dlfcn.h>
 #include <math.h>
 #include <stdio.h>
@@ -77,6 +81,9 @@ static hb_run_entry_result compare(test_state*s,unsigned t,int expected,unsigned
 #ifdef HB_USER_PREPARE_ENTRY
             ++user_prefix_calls;
 #ifdef HB_USER_E_ND_ENTRY
+#ifdef HB_USER_FINISH_ENTRY
+            b=hb_user_process(s->c,s->k,&manual_model);
+#else
             b=hb_user_prepare_calibration(s->c,s->k);
 #ifdef HB_USER_MANUAL_ENTRY
             if(!b)b=hb_user_manual_samples(s->c,s->k,&manual_model);
@@ -84,11 +91,13 @@ static hb_run_entry_result compare(test_state*s,unsigned t,int expected,unsigned
             if(!b)b=hb_user_controls(s->c,s->k,&manual_model);
 #endif
 #endif
+#endif
             if(s->input[0xb1f86]==1&&s->c[0xb1f86]==0){unit_accepted+=s->c[0x279]==1;unit_rejected+=s->c[0x279]==0;}
 #else
             b=hb_user_prepare_prefix(s->c,s->k);
 #endif
             if(capture)dump(s->dir,"owned_user_prefix_boundary",t,s->c,C);
+#ifndef HB_USER_FINISH_ENTRY
             if(!b){++user_remainders;
 #ifdef HB_USER_CONTROLS_ENTRY
                 b=hb_original_user_remainder(s->bias+0x4b16d4);
@@ -100,6 +109,7 @@ static hb_run_entry_result compare(test_state*s,unsigned t,int expected,unsigned
                 b=hb_original_user_remainder(s->bias+0x4b1624);
 #endif
             }
+#endif
             if(!b){++continued;b=hb_original_prepared_completion(s->bias+0x471e78,s->c,0,s->bias+0x791348);}else{++user_errors;user_errors83+=b==83;user_errors84+=b==84;}
 #else
             ++continued;b=hb_original_prepared_completion(s->bias+0x471e64,s->c,0,s->bias+0x791348);
@@ -188,6 +198,13 @@ int hb_run_entry_tests(void*h,unsigned char*c,unsigned char*e2,void*config,void*
         if(t<64)hb_test_control_request(c,k,t);else hb_test_control_failure(c,k,t-64);compare(&s,8200+t,HB_RUN_READY,t<8);
     }
 #endif
+#ifdef HB_USER_FINISH_ENTRY
+    for(unsigned t=0;t<64;++t){
+        memcpy(c,base,C);memcpy(k,cfg,K);memcpy(c+0xb2028,&k,8);memcpy(reawb,rbase,R);
+        k[0x24]=1;w32(k+0x78,0);w32(c+0x17c,0);w32(c+0xb2020,2);c[0xd338]=1;
+        hb_test_finish_request(c,t);compare(&s,8400+t,HB_RUN_READY,t<16);
+    }
+#endif
     /* Seven native E2 synthetic frames exercise full original dispatch after
      * the new owned entry. Downstream ownership is validated separately. */
     uint32_t(*set)(int,void*)=sym(h,"awb_e2_main_set_stat"),(*parse)(int,void*,void*)=sym(h,"awb_e2_main_get_stat_parse"),(*import)(int,void*,void*)=sym(h,"scene_awb_set_stat");
@@ -218,6 +235,10 @@ int hb_run_entry_tests(void*h,unsigned char*c,unsigned char*e2,void*config,void*
         if(t==2){c[0xb14c4]=1;w32(c+0xb14c8,4300);}
         if(t==4){c[0xb14cc]=1;w32(c+0xb14d0,5500);wf(c+0xb14d4,-3.5f);}
         if(t==6){c[0xb14d8]=1;w32(c+0xb14dc,5100);w32(c+0xb14e0,4096);w32(c+0xb14e4,6200);}
+#endif
+#ifdef HB_USER_FINISH_ENTRY
+        if(t==1||t==5){hb_test_finish_request(c,53);c[0xb1f85]=0;c[0xb14f1]=0;c[0xb1ff6]=0;}
+        if(t==2){c[0xb1cf8]=1;w32(c+0xb1d54,1999);} /* release fixed result */
 #endif
         dump(dir,"native_input",t,input,0x4118);hb_run_entry_result result=compare(&s,8000+t,HB_RUN_READY,1);if(result.action!=HB_RUN_PREPARE)return 2;++native_calls;
     }

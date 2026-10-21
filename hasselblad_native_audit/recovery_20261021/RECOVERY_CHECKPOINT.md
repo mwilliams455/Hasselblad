@@ -62,3 +62,10 @@ Reconstructed research will be published as bounded checkpoints only after fresh
 Do not publish original firmware, extracted vendor libraries/LUT payloads, user photograph pixels/full private sidecars, or generated APKs.
 
 The recovery branch is deliberately separate from `main` while the lost research is being rebuilt.
+
+
+## Latest research continuation: complete post-processing
+
+The owned scene, history, atmosphere and post stages are now reconstructed and compared. Post-processing passed 10,051 direct checks and seven connected synthetic-frame comparisons (211 total connected checks), with zero mismatches. The complete owned post output now feeds original REAWB in the connected harness. This is synthetic original-code agreement, not real phone calibration, full AWB or active REAWB validation.
+
+Resume from [the current runtime README](../awb_original_runtime_20261021/README.md). Source and safe reports remain on the recovery branch. Private runtime data and the evidence package `Hasselblad_Post_Controller_Evidence_PRIVATE_20261021.zip` remain private. `main` and the installed Native1C application are unchanged; no APK was built or installed for this continuation.

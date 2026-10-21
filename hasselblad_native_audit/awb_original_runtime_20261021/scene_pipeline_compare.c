@@ -8,6 +8,10 @@
 #include "hb_scene_optimizer.h"
 #include "hb_scene_candidates.h"
 #include "hb_scene_controller.h"
+#ifdef HB_POST_PIPELINE
+#include "hb_post_controller.h"
+static unsigned post_calls;
+#endif
 #ifdef HB_POST_RESULTS_PIPELINE
 #include "hb_post_results.h"
 static unsigned post_result_replays,post_result_matches,post_gain_matches,post_fallback_frames;
@@ -96,9 +100,11 @@ static uint32_t hybrid_normal(unsigned char *ctx,unsigned char *cfg,unsigned fra
 }
 int hb_run_scene_pipeline(void *h,unsigned char *ctx,unsigned char *e2,void *config,void *reawb,const char *dir){
     uintptr_t bias=(uintptr_t)sym(h,"get_scene_awb_context")-0x464068;
-#ifdef HB_POST_RESULTS_PIPELINE
+#if defined(HB_POST_RESULTS_PIPELINE) || defined(HB_POST_PIPELINE)
     float post_table[124];memcpy(post_table,(void*)(bias+0x6ce418),sizeof post_table);hb_temperature_model post_model={post_table};
     capture(dir,7,"post_isotemperature_table",post_table,sizeof post_table);
+#endif
+#ifdef HB_POST_RESULTS_PIPELINE
     const char *post_names[]={"scene_awb_compute_result_ct","scene_awb_result_update_golden_gain_auto","scene_awb_result_e_nd_temp_recalib","scene_awb_result_e_nd_unit_recalib","scene_awb_result_recalib","scene_awb_result_normalise_all","scene_awb_color_mode_proc"};
     uint32_t (*post_fn[7])(int);for(unsigned i=0;i<7;++i)post_fn[i]=sym(h,post_names[i]);
 #endif
@@ -159,6 +165,9 @@ int hb_run_scene_pipeline(void *h,unsigned char *ctx,unsigned char *e2,void *con
             if(j==1)memcpy(owned,ctx,C);
 #endif
 #endif
+#ifdef HB_POST_PIPELINE
+            if(j==2){memcpy(owned,ctx,C);capture(dir,t,"post_controller_input",ctx,C);}
+#endif
             uint32_t (*tail)(int)=sym(h,tail_names[j]);uint32_t ts=tail(0);++tail_calls;tail_errors+=ts!=0;
             printf("{\"original_tail_frame\":%u,\"stage\":\"%s\",\"status\":%u}\n",t,tail_names[j],ts);
             char name[128];snprintf(name,sizeof name,"after_original_%s",tail_names[j]);capture(dir,t,name,ctx,C);
@@ -201,6 +210,9 @@ int hb_run_scene_pipeline(void *h,unsigned char *ctx,unsigned char *e2,void *con
                 same("owned_atmosphere_status",t,&ts,&as,4);same("owned_atmosphere_context",t,ctx,owned,C);
                 capture(dir,t,"after_atmosphere_owned",owned,C);memcpy(ctx,owned,C);if(as)break;}
 #endif
+#ifdef HB_POST_PIPELINE
+            if(j==2){uint32_t ps=hb_post_process(owned,config,&post_model,reawb);++post_calls;same("owned_post_status",t,&ts,&ps,4);same("owned_post_context",t,ctx,owned,C);capture(dir,t,"after_post_owned",owned,C);memcpy(ctx,owned,C);if(ps)break;}
+#endif
             if(ts)break;
         }
         if(reawb)capture(dir,t,"after_tail_reawb_handle",reawb,R);
@@ -213,6 +225,9 @@ int hb_run_scene_pipeline(void *h,unsigned char *ctx,unsigned char *e2,void *con
 #endif
     if(reawb)capture(dir,7,"passive_reawb_after",reawb,R);
     unsigned ok=!mismatches&&frames==7&&active_slots&&optimizer_calls&&filter_calls&&full_scene_calls==7;
+#ifdef HB_POST_PIPELINE
+    ok=ok&&post_calls==7;
+#endif
 #ifdef HB_POST_RESULTS_PIPELINE
     ok=ok&&post_result_replays==7&&post_result_matches==6&&post_gain_matches==7&&post_fallback_frames==1;
 #endif
@@ -238,6 +253,9 @@ int hb_run_scene_pipeline(void *h,unsigned char *ctx,unsigned char *e2,void *con
            "\"original_tail_baseline\":true,\"downstream_stages_owned\":false,\"passive_reawb_immutability_checked\":false,"
 #else
            "\"original_tail_baseline\":false,\"passive_reawb_immutability_checked\":true,"
+#endif
+#ifdef HB_POST_PIPELINE
+           "\"post_stage_owned\":true,\"post_calls\":7,\"original_post_used_as_comparison_oracle\":true,"
 #endif
 #ifdef HB_POST_RESULTS_PIPELINE
            "\"post_result_snapshot_replays\":%u,\"post_result_full_context_matches\":%u,\"post_result_gain_record_matches\":%u,\"post_result_fallback_frames\":%u,\"post_stage_owned\":false,\"post_controller_executed_original\":true,"

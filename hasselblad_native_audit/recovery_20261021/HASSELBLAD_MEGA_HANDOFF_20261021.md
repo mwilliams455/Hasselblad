@@ -11,6 +11,8 @@
 >
 > The reconstruction strategy is therefore **chat conclusions → reconstructed code → original-firmware confirmation → immediate GitHub checkpoint**, not “rediscover the entire firmware from zero.”
 
+> **Latest fresh checkpoint — complete post controller:** the owned scene, history, atmosphere and post stages now pass original-firmware comparisons. Post has 10,051 direct checks plus a seven-frame connected comparison with 211 checks, all without mismatches. Continue from [the current runtime README](../awb_original_runtime_20261021/README.md), especially “Resume here” and “Complete post-controller checkpoint.” Earlier sections below preserve historical scope and are not the latest implementation status. Next work is surrounding AWB control/recovery, REAWB, real phone statistics/calibration and bounded device validation. No APK was built or installed.
+
 ---
 
 ## 1. Project mission and hard boundaries

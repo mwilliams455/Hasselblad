@@ -23,4 +23,5 @@ uint32_t hb_post_finalize(unsigned char *ctx,unsigned char *cfg,const hb_tempera
 /* Complete mode-2 branch only, including diagnostics and exit validation.
  * Other modes return HB_PREP_UNSUPPORTED before modifying ctx or cfg. */
 uint32_t hb_post_mode2(unsigned char *ctx,unsigned char *cfg);
+uint32_t hb_post_validate(unsigned char *ctx);
 #endif

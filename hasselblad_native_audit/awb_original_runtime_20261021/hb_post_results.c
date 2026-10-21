@@ -76,7 +76,7 @@ uint32_t hb_post_finalize(unsigned char *ctx,unsigned char *cfg,const hb_tempera
     st=hb_post_end_unit(ctx);if(st)return st;st=hb_post_recalibrate(ctx);if(st)return st;
     st=hb_post_normalize(ctx,cfg);if(st)return st;return hb_post_color_mode(ctx,cfg);
 }
-static uint32_t validate(unsigned char *ctx){
+uint32_t hb_post_validate(unsigned char *ctx){
     static const size_t groups[]={0xb0c4c,0xb0c58,0xb0cbc,0xb0cc8,0xb0ce8,0xb0cf4,0xb0d58,0xb0d64};
     for(unsigned i=0;i<8;++i){for(unsigned j=0;j<3;++j)if(!u32(ctx+groups[i]+4*j))return 151;
         if(i==3||i==7)for(unsigned j=0;j<2;++j){unsigned char *p=ctx+(i==3?0xb0ca0:0xb0d3c)+4*j;uint32_t v=u32(p);w32(p,v<2000?2000:v>10000?10000:v);}}
@@ -94,5 +94,5 @@ uint32_t hb_post_mode2(unsigned char *ctx,unsigned char *cfg){
         w32(ctx+0xa85d2,u32(ctx+0xb0ca8));w32(ctx+0xa85ce,u32(cfg+12));ctx[0xa851c]=(unsigned char)u32(ctx+0x194);
     }
     /* The outer function returns the validation status, even after helper errors. */
-    return validate(ctx);
+    return hb_post_validate(ctx);
 }

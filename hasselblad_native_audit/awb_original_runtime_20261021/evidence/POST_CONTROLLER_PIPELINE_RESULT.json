@@ -1,0 +1,1115 @@
+{
+  "created_utc": "2026-10-21T12:16:45.508440+00:00",
+  "all_passed": true,
+  "exit": 0,
+  "mode": "owned_post_pipeline",
+  "events": [
+    {
+      "stage": "awb_cfg_load",
+      "status": 0
+    },
+    {
+      "stage": "awb_lib_init",
+      "status": 0
+    },
+    {
+      "event": "original_full_initialization",
+      "initialized_marker": 1,
+      "context_bytes": 920560,
+      "config_bytes": 1502800,
+      "e2_bytes": 118416,
+      "e2_context_present": true,
+      "reawb_handle_present": true
+    },
+    {
+      "pipeline_frame": 0,
+      "gates": [
+        256,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "original_tail_frame": 0,
+      "stage": "scene_awb_hist_proc",
+      "status": 0
+    },
+    {
+      "original_tail_frame": 0,
+      "stage": "scene_awb_atmos_proc",
+      "status": 0
+    },
+    {
+      "original_tail_frame": 0,
+      "stage": "scene_awb_post_proc",
+      "status": 0
+    },
+    {
+      "original_tail_frame": 0,
+      "stage": "scene_awb_reawb_proc",
+      "status": 0
+    },
+    {
+      "pipeline_frame": 1,
+      "gates": [
+        256,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "original_tail_frame": 1,
+      "stage": "scene_awb_hist_proc",
+      "status": 0
+    },
+    {
+      "original_tail_frame": 1,
+      "stage": "scene_awb_atmos_proc",
+      "status": 0
+    },
+    {
+      "original_tail_frame": 1,
+      "stage": "scene_awb_post_proc",
+      "status": 0
+    },
+    {
+      "original_tail_frame": 1,
+      "stage": "scene_awb_reawb_proc",
+      "status": 0
+    },
+    {
+      "pipeline_frame": 2,
+      "gates": [
+        256,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "original_tail_frame": 2,
+      "stage": "scene_awb_hist_proc",
+      "status": 0
+    },
+    {
+      "original_tail_frame": 2,
+      "stage": "scene_awb_atmos_proc",
+      "status": 0
+    },
+    {
+      "original_tail_frame": 2,
+      "stage": "scene_awb_post_proc",
+      "status": 0
+    },
+    {
+      "original_tail_frame": 2,
+      "stage": "scene_awb_reawb_proc",
+      "status": 0
+    },
+    {
+      "pipeline_frame": 3,
+      "gates": [
+        256,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "original_tail_frame": 3,
+      "stage": "scene_awb_hist_proc",
+      "status": 0
+    },
+    {
+      "original_tail_frame": 3,
+      "stage": "scene_awb_atmos_proc",
+      "status": 0
+    },
+    {
+      "original_tail_frame": 3,
+      "stage": "scene_awb_post_proc",
+      "status": 0
+    },
+    {
+      "original_tail_frame": 3,
+      "stage": "scene_awb_reawb_proc",
+      "status": 0
+    },
+    {
+      "pipeline_frame": 4,
+      "gates": [
+        256,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "original_tail_frame": 4,
+      "stage": "scene_awb_hist_proc",
+      "status": 0
+    },
+    {
+      "original_tail_frame": 4,
+      "stage": "scene_awb_atmos_proc",
+      "status": 0
+    },
+    {
+      "original_tail_frame": 4,
+      "stage": "scene_awb_post_proc",
+      "status": 0
+    },
+    {
+      "original_tail_frame": 4,
+      "stage": "scene_awb_reawb_proc",
+      "status": 0
+    },
+    {
+      "pipeline_frame": 5,
+      "gates": [
+        256,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "original_tail_frame": 5,
+      "stage": "scene_awb_hist_proc",
+      "status": 0
+    },
+    {
+      "original_tail_frame": 5,
+      "stage": "scene_awb_atmos_proc",
+      "status": 0
+    },
+    {
+      "original_tail_frame": 5,
+      "stage": "scene_awb_post_proc",
+      "status": 0
+    },
+    {
+      "original_tail_frame": 5,
+      "stage": "scene_awb_reawb_proc",
+      "status": 0
+    },
+    {
+      "pipeline_frame": 6,
+      "gates": [
+        256,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "original_tail_frame": 6,
+      "stage": "scene_awb_hist_proc",
+      "status": 0
+    },
+    {
+      "original_tail_frame": 6,
+      "stage": "scene_awb_atmos_proc",
+      "status": 0
+    },
+    {
+      "original_tail_frame": 6,
+      "stage": "scene_awb_post_proc",
+      "status": 0
+    },
+    {
+      "original_tail_frame": 6,
+      "stage": "scene_awb_reawb_proc",
+      "status": 0
+    },
+    {
+      "event": "original_prepared_owned_scene_stage",
+      "all_passed": true,
+      "mismatches": 0,
+      "comparisons": 211,
+      "frames": 7,
+      "active_normal_slots": 7,
+      "weighted_candidates": 14,
+      "filter_calls": 14,
+      "filter_removed": 488,
+      "optimizer_calls": 7,
+      "accumulation_calls": 14,
+      "spectral_calls": 7,
+      "owned_scene_calls": 7,
+      "normal_scene_body_owned": true,
+      "full_scene_calls": 7,
+      "scene_stage_owned": true,
+      "all_scene_slots_implemented": true,
+      "atmosphere_stage_owned": true,
+      "atmosphere_calls": 7,
+      "history_stage_owned": true,
+      "history_calls": 7,
+      "original_tail_baseline": false,
+      "downstream_stages_owned": false,
+      "passive_reawb_immutability_checked": false,
+      "post_stage_owned": true,
+      "post_calls": 7,
+      "original_post_used_as_comparison_oracle": true,
+      "statuses": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "synthetic_frames": true,
+      "historical_frames": false,
+      "wholly_owned_controller": false
+    }
+  ],
+  "input_config_sha256": "7fa13044a6c5453b67e4ae11bf8d07828de8e1c02aa915494fe5dad20930d435",
+  "library_sha256": "7d6164eccc734de7087bb778ee72f17a0b3ccf6c0d1f20092c7ebe74a86574ba",
+  "linker_sha256": "313d7a6d94cdeb9e2b2adb4be98a8b18240b08012b22f922acea7984f42ff35d",
+  "dependency_count": 65,
+  "qemu_sha256": "4f55e2e88dc05dc0f619562d5795b8eb25ed2ad2547504fb4835207a6911c350",
+  "compiler_version": "Android (12027248, +pgo, +bolt, +lto, +mlgo, based on r522817) clang version 18.0.1 (https://android.googlesource.com/toolchain/llvm-project d8003a456d14a3deb8054cdaa529ffbf02d9b262)",
+  "source_sha256": {
+    "awb_original_runtime_20261021/full_probe.c": "040fd015cae1b4e62a8e697d461a2cc53d60617d6db3d8169c268678d5826d54",
+    "awb_original_runtime_20261021/scene_pipeline_compare.c": "31a0ae73419bf80e67d7770b2f724d0aec8e953a7b48fba233a7636116caad2c",
+    "awb_original_runtime_20261021/hb_stat_prepare.c": "b46eec5a60fff9c3e685db90457a81d874613c9ff614678837aa0f1c36f19b3d",
+    "awb_original_runtime_20261021/hb_scene_filter.c": "15e98886438fd481c6ad8609b842a1545f2dc2b8305ef70a61b163b87bb601bb",
+    "awb_original_runtime_20261021/hb_scene_optimizer.c": "9f65921657a49323fe3c074fa7bd1ce51b4fd4b6292049d73b3727c4f0112bdb",
+    "awb_original_runtime_20261021/hb_scene_candidates.c": "e51cd238d5f59ed45b37e44ba09fea81bac665b6eec62a1c88d1baf43fa8274b",
+    "awb_original_runtime_20261021/hb_post_controller.c": "b623da6993f6c7dfcd5f711086b63b8204c2565504ecb1a136a2467fc7803eb2",
+    "awb_original_runtime_20261021/hb_post_results.c": "f9ed322d3f745397f6a4c14ac56458c5eecbc369a3ccb9b7c1745c4a7f76a962",
+    "awb_original_runtime_20261021/hb_temperature.c": "0fcc6e4fa025f82806af76cf0fa523172676986cc84a2a8c8c7d1cf9e0b8d5e9",
+    "awb_original_runtime_20261021/hb_scene_controller.c": "b75de3af174237bca79deeb81cdb663932800e62d41a5e8e1db9eaa4604e4d00",
+    "awb_original_runtime_20261021/hb_history.c": "7b89c5cc7809eaa31ab0b08abf2cf276937cab105c2af079cb12e33e18557f07",
+    "awb_original_runtime_20261021/hb_atmosphere.c": "6dcb53246d32ab8e7cb3f00680811844a3f699dc0e07b6d9ffcb59e54cdde39f",
+    "awb_original_runtime_20261021/run_full.py": "2d1b5089205198b7f474b131ea8cbdbd10a8d6a7ac6c892f58ba2e17c6c629a6",
+    "awb_original_runtime_20261021/run_recalib.py": "b11d5635343e30047596dfab12f669f0f8343c823c1a3dc72bd22146cb11b22f",
+    "awb_original_runtime_20261021/hb_stat_prepare.h": "1f3eea206426a1ae2e399f212c51169c58fd80503656fecbf690df56c442b59b",
+    "awb_original_runtime_20261021/hb_scene_filter.h": "d7286138ac26b5ce9443563cad5ca5fcbd67d68b8081c040d3b14b4bb3d21419",
+    "awb_original_runtime_20261021/hb_scene_optimizer.h": "bea9a2f44e6e16ef8dba24f97b268c0a0398317c3b8ad955fb2f55d283369c2e",
+    "awb_original_runtime_20261021/hb_scene_candidates.h": "a905dffd20ca3d6882846deff807d1d970183eefdc89ccab9e2f17db1b2c1e35",
+    "awb_original_runtime_20261021/hb_temperature.h": "bf32f5c219cfa0d0c2857f7b528228b7d6e189331c0c7546501ad5c375ceaa34",
+    "awb_original_runtime_20261021/hb_scene_controller.h": "48176c640ea2eee677969b3619fe6fa49727e912e22ee252593967ecf455aa24",
+    "awb_original_runtime_20261021/hb_post_controller.h": "ffcc2145ab7647c84074181cc9ac574f4fd8858bc32635df8b7d127e9ae22b46",
+    "awb_original_runtime_20261021/hb_post_results.h": "ee1266aea7366030ec4f2791e7691b2a5fc0d31c7eb69f5dc539ea87073cb558",
+    "awb_original_runtime_20261021/hb_history.h": "c721e622dafebd55a125c1a8186f4f3188932f9a423c208633e085066002a4be",
+    "awb_original_runtime_20261021/hb_atmosphere.h": "cdec0f78ec174a8c55afbd81d6a8901b96a88d90bb0fb344f1f9a277240ea214"
+  },
+  "probe_sha256": "43de6f7861f4fddc9117a424020df613875268d550025e8d46425f39a8cc211e",
+  "build_command": [
+    "/workspace/scratch/910ac5420982/runtime_tools/android-ndk-r27/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android28-clang",
+    "-std=c11",
+    "-O2",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-fPIE",
+    "-pie",
+    "-ffp-contract=off",
+    "-Wl,-z,max-page-size=16384",
+    "-DHB_POST_PIPELINE=1",
+    "-DHB_SCENE_PIPELINE=1",
+    "-DHB_ATMOSPHERE_PIPELINE=1",
+    "-DHB_HISTORY_PIPELINE=1",
+    "-DHB_ORIGINAL_TAIL=1",
+    "/workspace/scratch/910ac5420982/repo/hasselblad_native_audit/awb_original_runtime_20261021/full_probe.c",
+    "/workspace/scratch/910ac5420982/repo/hasselblad_native_audit/awb_original_runtime_20261021/scene_pipeline_compare.c",
+    "/workspace/scratch/910ac5420982/repo/hasselblad_native_audit/awb_original_runtime_20261021/hb_stat_prepare.c",
+    "/workspace/scratch/910ac5420982/repo/hasselblad_native_audit/awb_original_runtime_20261021/hb_scene_filter.c",
+    "/workspace/scratch/910ac5420982/repo/hasselblad_native_audit/awb_original_runtime_20261021/hb_scene_optimizer.c",
+    "/workspace/scratch/910ac5420982/repo/hasselblad_native_audit/awb_original_runtime_20261021/hb_scene_candidates.c",
+    "/workspace/scratch/910ac5420982/repo/hasselblad_native_audit/awb_original_runtime_20261021/hb_post_controller.c",
+    "/workspace/scratch/910ac5420982/repo/hasselblad_native_audit/awb_original_runtime_20261021/hb_post_results.c",
+    "/workspace/scratch/910ac5420982/repo/hasselblad_native_audit/awb_original_runtime_20261021/hb_temperature.c",
+    "/workspace/scratch/910ac5420982/repo/hasselblad_native_audit/awb_original_runtime_20261021/hb_scene_controller.c",
+    "/workspace/scratch/910ac5420982/repo/hasselblad_native_audit/awb_original_runtime_20261021/hb_history.c",
+    "/workspace/scratch/910ac5420982/repo/hasselblad_native_audit/awb_original_runtime_20261021/hb_atmosphere.c",
+    "-ldl",
+    "-lm",
+    "-o",
+    "/workspace/scratch/910ac5420982/private_runtime/post_pipeline_final/full_probe_android28_arm64"
+  ],
+  "run_command": [
+    "/workspace/scratch/910ac5420982/runtime_tools/qemu/usr/bin/qemu-aarch64-static",
+    "-L",
+    "/workspace/scratch/910ac5420982/private_runtime/extracted",
+    "/workspace/scratch/910ac5420982/private_runtime/post_pipeline_final/full_probe_android28_arm64",
+    "/workspace/scratch/910ac5420982/private_runtime/extracted/system/lib64/libaaa.so",
+    "/workspace/scratch/910ac5420982/private_runtime/extracted/system/etc/aaa/awb_imx861.bin",
+    "/workspace/scratch/910ac5420982/private_runtime/post_pipeline_final"
+  ],
+  "private_dump_metadata": {
+    "frame_03_after_original_scene_awb_post_proc.bin": {
+      "bytes": 920560,
+      "sha256": "0570e3c73e393ddfb8db7c802339d391e98b957b7a97ba83002ecdc0cbcf9812"
+    },
+    "frame_03_after_auto_owned.bin": {
+      "bytes": 920560,
+      "sha256": "7c398159bb47fe5321734ee6ea0903dcacdf6db54dc2d149fa7d2496885cb04e"
+    },
+    "frame_01_after_atmosphere_owned.bin": {
+      "bytes": 920560,
+      "sha256": "1c17c8dfd841be6f48eba93cc494ee61ab6cece9bfcf9607923064ba68154acc"
+    },
+    "frame_04_after_auto_original.bin": {
+      "bytes": 920560,
+      "sha256": "5d42cfc772d775d6d104a04a73e154e2a2be783309f7f4a851c2f294e86805f8"
+    },
+    "frame_00_after_atmosphere_owned.bin": {
+      "bytes": 920560,
+      "sha256": "ff0b2f1e1e46e00ca9bb1f13c50c9fe5c04c8e758d5c8bd3df34a2698ba922a5"
+    },
+    "frame_00_after_history_owned.bin": {
+      "bytes": 920560,
+      "sha256": "83891511b98b3f2af247c8648b542231cf6bb808ff5c038450b598fcec7debdc"
+    },
+    "frame_04_e2_after_parse.bin": {
+      "bytes": 118416,
+      "sha256": "e9daf3b1bd34721aa4e62430d6341b4778a4b2c5d16d7c42978fbd51ca88751c"
+    },
+    "frame_06_after_scene_original.bin": {
+      "bytes": 920560,
+      "sha256": "77d01bd7aa64d51278f371352a9c638360cb5ab09a55fe76aed207b8226e8dc2"
+    },
+    "frame_06_after_scene_hybrid.bin": {
+      "bytes": 920560,
+      "sha256": "77d01bd7aa64d51278f371352a9c638360cb5ab09a55fe76aed207b8226e8dc2"
+    },
+    "frame_01_after_auto_owned.bin": {
+      "bytes": 920560,
+      "sha256": "4fc4ab19396b30870f674815e58a0dee072a78aaa0b1542a56cedfea33b39daf"
+    },
+    "frame_01_before_auto.bin": {
+      "bytes": 920560,
+      "sha256": "c7116f2ad4ecd7621d7ae4a62267c0f57b0422a63c1bc91c8d57b7cebf4af0f7"
+    },
+    "frame_04_metadata.bin": {
+      "bytes": 256,
+      "sha256": "b3a8d98f67e7412424466926529f763abdc96b69cc32376bbe130e38be8b4bc8"
+    },
+    "frame_06_e2_after_parse.bin": {
+      "bytes": 118416,
+      "sha256": "9a73ee186be3242c06763823489b337909d4886d13197ecb22d1432a1258ede0"
+    },
+    "frame_06_before_scene.bin": {
+      "bytes": 920560,
+      "sha256": "7f28d52e5b58148e4348208a981a0f32ea39c3668a26c44f0a1ebe1c55b93588"
+    },
+    "frame_00_after_scene_owned.bin": {
+      "bytes": 920560,
+      "sha256": "9a0c6b0ab0a17d2bab810a375625347806b2f4e3400448900ec89042d2a4db16"
+    },
+    "frame_02_after_post_owned.bin": {
+      "bytes": 920560,
+      "sha256": "6b4f18684a9657bfac9ec3855486e4fa122137ba87423e5743b4b4becb5438e4"
+    },
+    "frame_06_after_auto_original.bin": {
+      "bytes": 920560,
+      "sha256": "8603bcf7d191762a0eecbd2c52335e235f79e8b5bff5c94dbe2fc33b453cf893"
+    },
+    "frame_02_native_input.bin": {
+      "bytes": 16664,
+      "sha256": "cd3d07932d5d775f7225dfcf579604a46fc4e708d7ecea217cfd4c998827657a"
+    },
+    "frame_03_e2_after_parse.bin": {
+      "bytes": 118416,
+      "sha256": "68931aabca0b0ff385f383e6a0fc26e0776727b14aa7475b5c1e7aa153c7a59e"
+    },
+    "frame_03_after_tail_reawb_handle.bin": {
+      "bytes": 1000,
+      "sha256": "ce74e4fbad0b9188a1955f176fc86870646efd6e18c2b42679a548c461b138a8"
+    },
+    "frame_04_after_scene_full_owned.bin": {
+      "bytes": 920560,
+      "sha256": "f7164588ec76b5a2904b62243a302183acfa3620e2062c70d1a966e3de1233ea"
+    },
+    "frame_05_after_original_scene_awb_hist_proc.bin": {
+      "bytes": 920560,
+      "sha256": "4b03e9b99ba0d4b75ea1f984be12695dea0f2aa445acf735893115a0fece8f6b"
+    },
+    "frame_05_before_scene.bin": {
+      "bytes": 920560,
+      "sha256": "d5e8c8ef5fb5aa12a440dde54a7cc1a7ce0dcff7be0b7ea827dc072a7df70689"
+    },
+    "frame_06_before_auto.bin": {
+      "bytes": 920560,
+      "sha256": "72f4cca8e54065c75232cf0553b2c16eb341d30722efbf0045cb28dd0b0146c8"
+    },
+    "frame_00_after_scene_full_owned.bin": {
+      "bytes": 920560,
+      "sha256": "9a0c6b0ab0a17d2bab810a375625347806b2f4e3400448900ec89042d2a4db16"
+    },
+    "frame_05_after_scene_original.bin": {
+      "bytes": 920560,
+      "sha256": "4b03e9b99ba0d4b75ea1f984be12695dea0f2aa445acf735893115a0fece8f6b"
+    },
+    "frame_03_after_post_owned.bin": {
+      "bytes": 920560,
+      "sha256": "0570e3c73e393ddfb8db7c802339d391e98b957b7a97ba83002ecdc0cbcf9812"
+    },
+    "frame_05_after_tail_reawb_handle.bin": {
+      "bytes": 1000,
+      "sha256": "ce74e4fbad0b9188a1955f176fc86870646efd6e18c2b42679a548c461b138a8"
+    },
+    "frame_00_after_post_owned.bin": {
+      "bytes": 920560,
+      "sha256": "cc466d17e0c48f3815efd1b0b39ca1298b30416c53bbc1ea231906197635f17c"
+    },
+    "frame_00_after_auto_original.bin": {
+      "bytes": 920560,
+      "sha256": "2ac99b2b9757f3cfe1c833a1a6ef67062a4faeb02021cfcf40eccad78f0c4da0"
+    },
+    "frame_05_after_auto_original.bin": {
+      "bytes": 920560,
+      "sha256": "f688223fa5e8b7141871e90a49777ff825bb7a1d983548b10fba7c49e39b8f0f"
+    },
+    "frame_01_after_history_owned.bin": {
+      "bytes": 920560,
+      "sha256": "6fd5d972cc1ea1fb601254172f903e67dd7f6d57f7adf926787349012cdbdba6"
+    },
+    "frame_01_after_scene_hybrid.bin": {
+      "bytes": 920560,
+      "sha256": "d0b1f2577500f26187a062c832df129ab67884dc565dd463b721bf04622e2859"
+    },
+    "frame_03_after_original_scene_awb_reawb_proc.bin": {
+      "bytes": 920560,
+      "sha256": "0570e3c73e393ddfb8db7c802339d391e98b957b7a97ba83002ecdc0cbcf9812"
+    },
+    "frame_04_after_original_scene_awb_reawb_proc.bin": {
+      "bytes": 920560,
+      "sha256": "368dcedd27cc2acf6234aee69c866b919a7016257e7746a36a2dff6fd8a0bd77"
+    },
+    "frame_05_native_input.bin": {
+      "bytes": 16664,
+      "sha256": "ba91e223f9da0f1d9de776405e6da97af53c5f6b8a9e93946081782bf51f0464"
+    },
+    "frame_01_after_tail_reawb_handle.bin": {
+      "bytes": 1000,
+      "sha256": "ce74e4fbad0b9188a1955f176fc86870646efd6e18c2b42679a548c461b138a8"
+    },
+    "frame_07_passive_reawb_after.bin": {
+      "bytes": 1000,
+      "sha256": "ce74e4fbad0b9188a1955f176fc86870646efd6e18c2b42679a548c461b138a8"
+    },
+    "frame_05_before_auto.bin": {
+      "bytes": 920560,
+      "sha256": "c94e83be701058d2a25fa0c47faab500de38e685ce6e80cd5bd74834ae4f1e85"
+    },
+    "frame_05_after_scene_full_owned.bin": {
+      "bytes": 920560,
+      "sha256": "4b03e9b99ba0d4b75ea1f984be12695dea0f2aa445acf735893115a0fece8f6b"
+    },
+    "frame_06_native_input.bin": {
+      "bytes": 16664,
+      "sha256": "60658197b7147215ea46d2ed304fc9a5a0e4d3a3f9f7e8fabcb6f5a54d348e4a"
+    },
+    "frame_02_after_scene_owned.bin": {
+      "bytes": 920560,
+      "sha256": "902561d00cb6b74c465b4d1d47d099412179fe8d7ab7b6b555a90cc9eb90af3b"
+    },
+    "frame_03_native_input.bin": {
+      "bytes": 16664,
+      "sha256": "a30f1d4254b65661b7f03126a9110a7807cdc26c541cf7ecd6b5343c648fca37"
+    },
+    "frame_02_after_history_owned.bin": {
+      "bytes": 920560,
+      "sha256": "41405b3e430ef4e29d5ee7051be741e45d1c905bca67ee73587286336663f39d"
+    },
+    "frame_01_parsed_input.bin": {
+      "bytes": 131584,
+      "sha256": "4cff9c354b5bfa29d1c43c34f29484dc8873d9a78a3b6913230dfbbb7ac25f6e"
+    },
+    "frame_06_after_history_owned.bin": {
+      "bytes": 920560,
+      "sha256": "6f972fa7497f265d0111cc4b1c4a894e679afb30168b5daf6f6ed9b2d9b1b88b"
+    },
+    "frame_00_after_original_scene_awb_hist_proc.bin": {
+      "bytes": 920560,
+      "sha256": "83891511b98b3f2af247c8648b542231cf6bb808ff5c038450b598fcec7debdc"
+    },
+    "frame_01_after_post_owned.bin": {
+      "bytes": 920560,
+      "sha256": "59a7606c76f67a9c068f80e669bb950835d9432be6e905dad03a9151c45ce692"
+    },
+    "frame_01_after_auto_original.bin": {
+      "bytes": 920560,
+      "sha256": "4fc4ab19396b30870f674815e58a0dee072a78aaa0b1542a56cedfea33b39daf"
+    },
+    "frame_05_parsed_input.bin": {
+      "bytes": 131584,
+      "sha256": "a476468885d56a4c14ecd39c9e4edd87b9880801ae356e27ea8ceca289bbcaf8"
+    },
+    "frame_04_after_scene_original.bin": {
+      "bytes": 920560,
+      "sha256": "f7164588ec76b5a2904b62243a302183acfa3620e2062c70d1a966e3de1233ea"
+    },
+    "frame_04_after_tail_reawb_handle.bin": {
+      "bytes": 1000,
+      "sha256": "ce74e4fbad0b9188a1955f176fc86870646efd6e18c2b42679a548c461b138a8"
+    },
+    "frame_03_after_atmosphere_owned.bin": {
+      "bytes": 920560,
+      "sha256": "1d9cc5ee84f997c5f001e606cc2cdb552da33d7ba2d181f62c81c9455f4cc269"
+    },
+    "frame_04_after_original_scene_awb_atmos_proc.bin": {
+      "bytes": 920560,
+      "sha256": "d593340946f6837c5de5dd02505cf122f94d37f7731d6778a1a1d455ffbbd109"
+    },
+    "frame_01_after_scene_original.bin": {
+      "bytes": 920560,
+      "sha256": "d0b1f2577500f26187a062c832df129ab67884dc565dd463b721bf04622e2859"
+    },
+    "frame_00_after_scene_hybrid.bin": {
+      "bytes": 920560,
+      "sha256": "9a0c6b0ab0a17d2bab810a375625347806b2f4e3400448900ec89042d2a4db16"
+    },
+    "frame_06_after_auto_owned.bin": {
+      "bytes": 920560,
+      "sha256": "8603bcf7d191762a0eecbd2c52335e235f79e8b5bff5c94dbe2fc33b453cf893"
+    },
+    "frame_04_after_post_owned.bin": {
+      "bytes": 920560,
+      "sha256": "368dcedd27cc2acf6234aee69c866b919a7016257e7746a36a2dff6fd8a0bd77"
+    },
+    "frame_06_after_original_scene_awb_hist_proc.bin": {
+      "bytes": 920560,
+      "sha256": "6f972fa7497f265d0111cc4b1c4a894e679afb30168b5daf6f6ed9b2d9b1b88b"
+    },
+    "frame_00_after_original_scene_awb_atmos_proc.bin": {
+      "bytes": 920560,
+      "sha256": "ff0b2f1e1e46e00ca9bb1f13c50c9fe5c04c8e758d5c8bd3df34a2698ba922a5"
+    },
+    "frame_04_after_scene_owned.bin": {
+      "bytes": 920560,
+      "sha256": "f7164588ec76b5a2904b62243a302183acfa3620e2062c70d1a966e3de1233ea"
+    },
+    "frame_00_e2_after_parse.bin": {
+      "bytes": 118416,
+      "sha256": "7c282fe820c456c7a29c723e6ec00026d998a1f4b0c1a8401a3dcba80bbc5009"
+    },
+    "frame_06_after_scene_full_owned.bin": {
+      "bytes": 920560,
+      "sha256": "77d01bd7aa64d51278f371352a9c638360cb5ab09a55fe76aed207b8226e8dc2"
+    },
+    "frame_06_after_original_scene_awb_post_proc.bin": {
+      "bytes": 920560,
+      "sha256": "4e3c005f6c1bcd8b80e6ee15a92f184d3ed11e38ddb5499fdf3cbec653b02ee1"
+    },
+    "frame_05_after_scene_owned.bin": {
+      "bytes": 920560,
+      "sha256": "4b03e9b99ba0d4b75ea1f984be12695dea0f2aa445acf735893115a0fece8f6b"
+    },
+    "frame_01_metadata.bin": {
+      "bytes": 256,
+      "sha256": "2c7200554be40c236f7d20eac1cac10d81a103a19e2686761dced8e4e3efc91e"
+    },
+    "frame_03_parsed_input.bin": {
+      "bytes": 131584,
+      "sha256": "52db2d75faf4c16a152c4c9499c059df0d2c2a35f5fc5f058c2e7a9d0b630eee"
+    },
+    "frame_02_after_original_scene_awb_post_proc.bin": {
+      "bytes": 920560,
+      "sha256": "6b4f18684a9657bfac9ec3855486e4fa122137ba87423e5743b4b4becb5438e4"
+    },
+    "frame_02_before_scene.bin": {
+      "bytes": 920560,
+      "sha256": "421cd2ad7d1b71a8373e53663383ec5665a78613b76880071d8c66cdd9be0693"
+    },
+    "frame_05_after_auto_owned.bin": {
+      "bytes": 920560,
+      "sha256": "f688223fa5e8b7141871e90a49777ff825bb7a1d983548b10fba7c49e39b8f0f"
+    },
+    "frame_03_before_scene.bin": {
+      "bytes": 920560,
+      "sha256": "fb31b3c4706426cedcd051a2ea50b276f550a5e0a186f5bd70bd860d96511820"
+    },
+    "frame_02_after_original_scene_awb_hist_proc.bin": {
+      "bytes": 920560,
+      "sha256": "41405b3e430ef4e29d5ee7051be741e45d1c905bca67ee73587286336663f39d"
+    },
+    "frame_02_after_atmosphere_owned.bin": {
+      "bytes": 920560,
+      "sha256": "4d260573eeca7de711591f8860da6114dc5878a4ad741c9d363abccc695e6185"
+    },
+    "frame_04_after_scene_hybrid.bin": {
+      "bytes": 920560,
+      "sha256": "f7164588ec76b5a2904b62243a302183acfa3620e2062c70d1a966e3de1233ea"
+    },
+    "frame_05_post_controller_input.bin": {
+      "bytes": 920560,
+      "sha256": "4b03e9b99ba0d4b75ea1f984be12695dea0f2aa445acf735893115a0fece8f6b"
+    },
+    "frame_03_after_scene_hybrid.bin": {
+      "bytes": 920560,
+      "sha256": "8b1101150ef3f92d0733205b6864db5a997bdcaaf340395a1db19837af292ccb"
+    },
+    "frame_02_after_scene_original.bin": {
+      "bytes": 920560,
+      "sha256": "902561d00cb6b74c465b4d1d47d099412179fe8d7ab7b6b555a90cc9eb90af3b"
+    },
+    "full_reawb.bin": {
+      "bytes": 1000,
+      "sha256": "ce74e4fbad0b9188a1955f176fc86870646efd6e18c2b42679a548c461b138a8"
+    },
+    "frame_03_after_original_scene_awb_atmos_proc.bin": {
+      "bytes": 920560,
+      "sha256": "1d9cc5ee84f997c5f001e606cc2cdb552da33d7ba2d181f62c81c9455f4cc269"
+    },
+    "frame_02_after_scene_hybrid.bin": {
+      "bytes": 920560,
+      "sha256": "902561d00cb6b74c465b4d1d47d099412179fe8d7ab7b6b555a90cc9eb90af3b"
+    },
+    "frame_02_after_tail_reawb_handle.bin": {
+      "bytes": 1000,
+      "sha256": "ce74e4fbad0b9188a1955f176fc86870646efd6e18c2b42679a548c461b138a8"
+    },
+    "frame_06_after_tail_reawb_handle.bin": {
+      "bytes": 1000,
+      "sha256": "ce74e4fbad0b9188a1955f176fc86870646efd6e18c2b42679a548c461b138a8"
+    },
+    "frame_03_after_history_owned.bin": {
+      "bytes": 920560,
+      "sha256": "c16cb2841f5b5f578a2d33ac83e0185ff0eb022587705759310c9463153edd61"
+    },
+    "frame_07_post_isotemperature_table.bin": {
+      "bytes": 496,
+      "sha256": "d0e661155899dc3bf62d1a6d60ec4507a3968f0127958a9a08aaf71285223fb2"
+    },
+    "frame_01_after_original_scene_awb_post_proc.bin": {
+      "bytes": 920560,
+      "sha256": "59a7606c76f67a9c068f80e669bb950835d9432be6e905dad03a9151c45ce692"
+    },
+    "frame_03_metadata.bin": {
+      "bytes": 256,
+      "sha256": "17ef1f283245417dbd28b37c4e92d28546fb42d36b67907350789a1520c43120"
+    },
+    "frame_03_post_controller_input.bin": {
+      "bytes": 920560,
+      "sha256": "1d9cc5ee84f997c5f001e606cc2cdb552da33d7ba2d181f62c81c9455f4cc269"
+    },
+    "full_config.bin": {
+      "bytes": 1502800,
+      "sha256": "47838a263340261d499a5beb977f97050f68e41778a3891c311b17ed5c8b42c3"
+    },
+    "frame_04_before_auto.bin": {
+      "bytes": 920560,
+      "sha256": "016f59b2a6fedab20560bf70d36803631966c585a60338dd961e9cfcf36b32bf"
+    },
+    "frame_05_after_scene_hybrid.bin": {
+      "bytes": 920560,
+      "sha256": "4b03e9b99ba0d4b75ea1f984be12695dea0f2aa445acf735893115a0fece8f6b"
+    },
+    "frame_02_after_original_scene_awb_reawb_proc.bin": {
+      "bytes": 920560,
+      "sha256": "6b4f18684a9657bfac9ec3855486e4fa122137ba87423e5743b4b4becb5438e4"
+    },
+    "frame_03_before_auto.bin": {
+      "bytes": 920560,
+      "sha256": "560ecd19e052c29aad74d29ad4991c876022d0102b335fb1ec4f4b2dd9b548c0"
+    },
+    "frame_02_parsed_input.bin": {
+      "bytes": 131584,
+      "sha256": "3f6e34deecd84a2b7d38864303275bf825ee8593ed054a856301f91ff5106a17"
+    },
+    "full_context.bin": {
+      "bytes": 920560,
+      "sha256": "b3a798f55baa3116ca3a3a0208d73d96e8c72fea5e019da743dcc0813d2b7c56"
+    },
+    "frame_00_parsed_input.bin": {
+      "bytes": 131584,
+      "sha256": "c3bcdc690bc76c9b6bbc67380247992610683f8a1f70444ce9967ab61671b116"
+    },
+    "frame_02_before_auto.bin": {
+      "bytes": 920560,
+      "sha256": "003f963aa1b71ebaafbf082f3e5903ca458643622192a9438a8853cdb20f6131"
+    },
+    "frame_02_metadata.bin": {
+      "bytes": 256,
+      "sha256": "b87a109e7a7a1683b3237be617d75fba003f29bff3b5703f70c88efe0ae3eb6b"
+    },
+    "frame_06_after_atmosphere_owned.bin": {
+      "bytes": 920560,
+      "sha256": "f6619a63acc19ded103104340f5ca93e5018faede29624ae965f67306131ebac"
+    },
+    "frame_00_after_scene_original.bin": {
+      "bytes": 920560,
+      "sha256": "9a0c6b0ab0a17d2bab810a375625347806b2f4e3400448900ec89042d2a4db16"
+    },
+    "frame_01_before_scene.bin": {
+      "bytes": 920560,
+      "sha256": "3891b9f98bf83dd4413732676086f996285ed406b9dbb4ee0d6a6570f188b78d"
+    },
+    "frame_04_after_original_scene_awb_post_proc.bin": {
+      "bytes": 920560,
+      "sha256": "368dcedd27cc2acf6234aee69c866b919a7016257e7746a36a2dff6fd8a0bd77"
+    },
+    "frame_04_after_original_scene_awb_hist_proc.bin": {
+      "bytes": 920560,
+      "sha256": "46bbdc111d1432d991a65a6d066ee1b2eccfd950899c98f175a6e16201d6f9a0"
+    },
+    "frame_00_before_scene.bin": {
+      "bytes": 920560,
+      "sha256": "5b5af1fb849682ff21337c9e3bc6ac8cd2d1c7da14648e3859331813d47377e7"
+    },
+    "frame_05_metadata.bin": {
+      "bytes": 256,
+      "sha256": "4fe76e423b449a6ba35a56bf3ba24d48fdfbc86f5b99509ad67fa75d0d447f97"
+    },
+    "frame_00_after_tail_reawb_handle.bin": {
+      "bytes": 1000,
+      "sha256": "ce74e4fbad0b9188a1955f176fc86870646efd6e18c2b42679a548c461b138a8"
+    },
+    "frame_00_before_auto.bin": {
+      "bytes": 920560,
+      "sha256": "ce6732e67a5992f0b7c341f9a98489f9bc9781d8317ed8c29a4bfb3ee6f9e2a6"
+    },
+    "frame_01_after_scene_full_owned.bin": {
+      "bytes": 920560,
+      "sha256": "d0b1f2577500f26187a062c832df129ab67884dc565dd463b721bf04622e2859"
+    },
+    "frame_01_after_original_scene_awb_hist_proc.bin": {
+      "bytes": 920560,
+      "sha256": "6fd5d972cc1ea1fb601254172f903e67dd7f6d57f7adf926787349012cdbdba6"
+    },
+    "frame_05_after_original_scene_awb_post_proc.bin": {
+      "bytes": 920560,
+      "sha256": "ed24f511cf60a3efd09384409520fb67f9edda4a48091e71d03aafadac106f7c"
+    },
+    "frame_03_after_scene_original.bin": {
+      "bytes": 920560,
+      "sha256": "8b1101150ef3f92d0733205b6864db5a997bdcaaf340395a1db19837af292ccb"
+    },
+    "frame_04_native_input.bin": {
+      "bytes": 16664,
+      "sha256": "5bade86a056d29a9e7524480db6b0f416b435d9fc892228c98223fdf350ef19c"
+    },
+    "frame_00_post_controller_input.bin": {
+      "bytes": 920560,
+      "sha256": "ff0b2f1e1e46e00ca9bb1f13c50c9fe5c04c8e758d5c8bd3df34a2698ba922a5"
+    },
+    "frame_01_e2_after_parse.bin": {
+      "bytes": 118416,
+      "sha256": "d0e75cdcaa23e8f8ebf33fdd09e12fc91cfa142558718ad63105cd06a52f50b0"
+    },
+    "frame_03_after_original_scene_awb_hist_proc.bin": {
+      "bytes": 920560,
+      "sha256": "c16cb2841f5b5f578a2d33ac83e0185ff0eb022587705759310c9463153edd61"
+    },
+    "frame_02_after_auto_original.bin": {
+      "bytes": 920560,
+      "sha256": "47cf3e829eaad6b18dd43a7e23a629909ceb4e6330acdd1631ce23a4f3cd1bda"
+    },
+    "frame_01_native_input.bin": {
+      "bytes": 16664,
+      "sha256": "24f09a1dfea03578ed08fbcd3e9a2e3c3a543e6cb0dd956c6d3313f877be264b"
+    },
+    "frame_00_native_input.bin": {
+      "bytes": 16664,
+      "sha256": "138bab42c332ef959c09e8f97fc77c6bf6084cc4a0985a701c018d91398e354c"
+    },
+    "frame_05_after_history_owned.bin": {
+      "bytes": 920560,
+      "sha256": "4b03e9b99ba0d4b75ea1f984be12695dea0f2aa445acf735893115a0fece8f6b"
+    },
+    "frame_05_e2_after_parse.bin": {
+      "bytes": 118416,
+      "sha256": "9c4c6d085a1cc668bccddcdb29cdb53d7f6fc8809901154bf246978de5ed2306"
+    },
+    "frame_00_after_original_scene_awb_reawb_proc.bin": {
+      "bytes": 920560,
+      "sha256": "cc466d17e0c48f3815efd1b0b39ca1298b30416c53bbc1ea231906197635f17c"
+    },
+    "frame_04_after_history_owned.bin": {
+      "bytes": 920560,
+      "sha256": "46bbdc111d1432d991a65a6d066ee1b2eccfd950899c98f175a6e16201d6f9a0"
+    },
+    "frame_04_parsed_input.bin": {
+      "bytes": 131584,
+      "sha256": "fcbf1b4fc0e2a488a4593397e33a4ffb3319888e4fe9e6ffe4726ced65305ae0"
+    },
+    "frame_05_after_post_owned.bin": {
+      "bytes": 920560,
+      "sha256": "ed24f511cf60a3efd09384409520fb67f9edda4a48091e71d03aafadac106f7c"
+    },
+    "frame_04_after_atmosphere_owned.bin": {
+      "bytes": 920560,
+      "sha256": "d593340946f6837c5de5dd02505cf122f94d37f7731d6778a1a1d455ffbbd109"
+    },
+    "frame_06_after_post_owned.bin": {
+      "bytes": 920560,
+      "sha256": "4e3c005f6c1bcd8b80e6ee15a92f184d3ed11e38ddb5499fdf3cbec653b02ee1"
+    },
+    "frame_03_after_auto_original.bin": {
+      "bytes": 920560,
+      "sha256": "7c398159bb47fe5321734ee6ea0903dcacdf6db54dc2d149fa7d2496885cb04e"
+    },
+    "frame_06_parsed_input.bin": {
+      "bytes": 131584,
+      "sha256": "e7d3874b6689881d47f3764b1ab4c2a794e4d0821c0e2dcfe8da549aac770955"
+    },
+    "frame_00_after_auto_owned.bin": {
+      "bytes": 920560,
+      "sha256": "2ac99b2b9757f3cfe1c833a1a6ef67062a4faeb02021cfcf40eccad78f0c4da0"
+    },
+    "frame_05_after_atmosphere_owned.bin": {
+      "bytes": 920560,
+      "sha256": "4b03e9b99ba0d4b75ea1f984be12695dea0f2aa445acf735893115a0fece8f6b"
+    },
+    "frame_03_after_scene_full_owned.bin": {
+      "bytes": 920560,
+      "sha256": "8b1101150ef3f92d0733205b6864db5a997bdcaaf340395a1db19837af292ccb"
+    },
+    "frame_06_after_scene_owned.bin": {
+      "bytes": 920560,
+      "sha256": "77d01bd7aa64d51278f371352a9c638360cb5ab09a55fe76aed207b8226e8dc2"
+    },
+    "frame_01_post_controller_input.bin": {
+      "bytes": 920560,
+      "sha256": "1c17c8dfd841be6f48eba93cc494ee61ab6cece9bfcf9607923064ba68154acc"
+    },
+    "frame_02_e2_after_parse.bin": {
+      "bytes": 118416,
+      "sha256": "81e47971288a5ddd413349e349966d3cca39de511f6b2052ac3d346cf76be30e"
+    },
+    "frame_05_after_original_scene_awb_reawb_proc.bin": {
+      "bytes": 920560,
+      "sha256": "ed24f511cf60a3efd09384409520fb67f9edda4a48091e71d03aafadac106f7c"
+    },
+    "full_e2.bin": {
+      "bytes": 118416,
+      "sha256": "072603f17cad621bbe28a95664f29cbd7f983c23b884c01e5545ecd128a39205"
+    },
+    "frame_04_post_controller_input.bin": {
+      "bytes": 920560,
+      "sha256": "d593340946f6837c5de5dd02505cf122f94d37f7731d6778a1a1d455ffbbd109"
+    },
+    "frame_06_after_original_scene_awb_reawb_proc.bin": {
+      "bytes": 920560,
+      "sha256": "4e3c005f6c1bcd8b80e6ee15a92f184d3ed11e38ddb5499fdf3cbec653b02ee1"
+    },
+    "frame_02_post_controller_input.bin": {
+      "bytes": 920560,
+      "sha256": "4d260573eeca7de711591f8860da6114dc5878a4ad741c9d363abccc695e6185"
+    },
+    "frame_02_after_original_scene_awb_atmos_proc.bin": {
+      "bytes": 920560,
+      "sha256": "4d260573eeca7de711591f8860da6114dc5878a4ad741c9d363abccc695e6185"
+    },
+    "frame_02_after_scene_full_owned.bin": {
+      "bytes": 920560,
+      "sha256": "902561d00cb6b74c465b4d1d47d099412179fe8d7ab7b6b555a90cc9eb90af3b"
+    },
+    "frame_06_post_controller_input.bin": {
+      "bytes": 920560,
+      "sha256": "f6619a63acc19ded103104340f5ca93e5018faede29624ae965f67306131ebac"
+    },
+    "frame_06_metadata.bin": {
+      "bytes": 256,
+      "sha256": "8011fe1de9f51786fc7bdcc60ed09930ff403d6c720c8ddef670b21c434aa436"
+    },
+    "frame_01_after_original_scene_awb_atmos_proc.bin": {
+      "bytes": 920560,
+      "sha256": "1c17c8dfd841be6f48eba93cc494ee61ab6cece9bfcf9607923064ba68154acc"
+    },
+    "frame_00_metadata.bin": {
+      "bytes": 256,
+      "sha256": "f9f0901fe97ed6217ae30456a13ad8afca7d3f150805ee0d5271f0f3138fe8f0"
+    },
+    "frame_06_after_original_scene_awb_atmos_proc.bin": {
+      "bytes": 920560,
+      "sha256": "f6619a63acc19ded103104340f5ca93e5018faede29624ae965f67306131ebac"
+    },
+    "frame_01_after_scene_owned.bin": {
+      "bytes": 920560,
+      "sha256": "d0b1f2577500f26187a062c832df129ab67884dc565dd463b721bf04622e2859"
+    },
+    "frame_05_after_original_scene_awb_atmos_proc.bin": {
+      "bytes": 920560,
+      "sha256": "4b03e9b99ba0d4b75ea1f984be12695dea0f2aa445acf735893115a0fece8f6b"
+    },
+    "frame_01_after_original_scene_awb_reawb_proc.bin": {
+      "bytes": 920560,
+      "sha256": "59a7606c76f67a9c068f80e669bb950835d9432be6e905dad03a9151c45ce692"
+    },
+    "frame_04_before_scene.bin": {
+      "bytes": 920560,
+      "sha256": "3fdab027960a01d1d332163cde4b41e3433b5149c6fe6d805c75a263717a0ca1"
+    },
+    "frame_04_after_auto_owned.bin": {
+      "bytes": 920560,
+      "sha256": "5d42cfc772d775d6d104a04a73e154e2a2be783309f7f4a851c2f294e86805f8"
+    },
+    "frame_00_after_original_scene_awb_post_proc.bin": {
+      "bytes": 920560,
+      "sha256": "cc466d17e0c48f3815efd1b0b39ca1298b30416c53bbc1ea231906197635f17c"
+    },
+    "frame_03_after_scene_owned.bin": {
+      "bytes": 920560,
+      "sha256": "8b1101150ef3f92d0733205b6864db5a997bdcaaf340395a1db19837af292ccb"
+    },
+    "frame_02_after_auto_owned.bin": {
+      "bytes": 920560,
+      "sha256": "47cf3e829eaad6b18dd43a7e23a629909ceb4e6330acdd1631ce23a4f3cd1bda"
+    }
+  },
+  "original_library_patched": false,
+  "dependency_stubs": false,
+  "full_camera_device_calibration_recovered": false,
+  "authentic_frame_replayed": false,
+  "historical_seven_frame_chain_recovered": false,
+  "full_awb_validated": false,
+  "full_post_stage_owned": true,
+  "post_mode2_compared_and_owned": false,
+  "post_research_abi_requires_initialized_bounded_tables": true,
+  "post_all_branches_exhaustively_verified": false,
+  "original_downstream_stage_deltas": [
+    {
+      "frame": 0,
+      "stage": "scene_awb_hist_proc",
+      "context_changed_bytes": 50
+    },
+    {
+      "frame": 0,
+      "stage": "scene_awb_atmos_proc",
+      "context_changed_bytes": 20
+    },
+    {
+      "frame": 0,
+      "stage": "scene_awb_post_proc",
+      "context_changed_bytes": 360
+    },
+    {
+      "frame": 0,
+      "stage": "scene_awb_reawb_proc",
+      "context_changed_bytes": 0
+    },
+    {
+      "frame": 1,
+      "stage": "scene_awb_hist_proc",
+      "context_changed_bytes": 50
+    },
+    {
+      "frame": 1,
+      "stage": "scene_awb_atmos_proc",
+      "context_changed_bytes": 17
+    },
+    {
+      "frame": 1,
+      "stage": "scene_awb_post_proc",
+      "context_changed_bytes": 228
+    },
+    {
+      "frame": 1,
+      "stage": "scene_awb_reawb_proc",
+      "context_changed_bytes": 0
+    },
+    {
+      "frame": 2,
+      "stage": "scene_awb_hist_proc",
+      "context_changed_bytes": 48
+    },
+    {
+      "frame": 2,
+      "stage": "scene_awb_atmos_proc",
+      "context_changed_bytes": 10
+    },
+    {
+      "frame": 2,
+      "stage": "scene_awb_post_proc",
+      "context_changed_bytes": 235
+    },
+    {
+      "frame": 2,
+      "stage": "scene_awb_reawb_proc",
+      "context_changed_bytes": 0
+    },
+    {
+      "frame": 3,
+      "stage": "scene_awb_hist_proc",
+      "context_changed_bytes": 48
+    },
+    {
+      "frame": 3,
+      "stage": "scene_awb_atmos_proc",
+      "context_changed_bytes": 17
+    },
+    {
+      "frame": 3,
+      "stage": "scene_awb_post_proc",
+      "context_changed_bytes": 249
+    },
+    {
+      "frame": 3,
+      "stage": "scene_awb_reawb_proc",
+      "context_changed_bytes": 0
+    },
+    {
+      "frame": 4,
+      "stage": "scene_awb_hist_proc",
+      "context_changed_bytes": 48
+    },
+    {
+      "frame": 4,
+      "stage": "scene_awb_atmos_proc",
+      "context_changed_bytes": 20
+    },
+    {
+      "frame": 4,
+      "stage": "scene_awb_post_proc",
+      "context_changed_bytes": 239
+    },
+    {
+      "frame": 4,
+      "stage": "scene_awb_reawb_proc",
+      "context_changed_bytes": 0
+    },
+    {
+      "frame": 5,
+      "stage": "scene_awb_hist_proc",
+      "context_changed_bytes": 0
+    },
+    {
+      "frame": 5,
+      "stage": "scene_awb_atmos_proc",
+      "context_changed_bytes": 0
+    },
+    {
+      "frame": 5,
+      "stage": "scene_awb_post_proc",
+      "context_changed_bytes": 6
+    },
+    {
+      "frame": 5,
+      "stage": "scene_awb_reawb_proc",
+      "context_changed_bytes": 0
+    },
+    {
+      "frame": 6,
+      "stage": "scene_awb_hist_proc",
+      "context_changed_bytes": 48
+    },
+    {
+      "frame": 6,
+      "stage": "scene_awb_atmos_proc",
+      "context_changed_bytes": 20
+    },
+    {
+      "frame": 6,
+      "stage": "scene_awb_post_proc",
+      "context_changed_bytes": 251
+    },
+    {
+      "frame": 6,
+      "stage": "scene_awb_reawb_proc",
+      "context_changed_bytes": 0
+    }
+  ],
+  "active_reawb_output_parity_established": false,
+  "history_stage_compared_and_owned": true,
+  "atmosphere_stage_compared_and_owned": true,
+  "post_stage_compared_and_owned": true,
+  "post_result_snapshot_replay_compared": false
+}

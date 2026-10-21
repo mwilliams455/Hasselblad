@@ -1,0 +1,135 @@
+{
+  "status": "PASS",
+  "real_metadata_variants": 3,
+  "synthetic_profiles": 16,
+  "matrix_oracle_comparisons": 4131,
+  "forward_gain_oracle_comparisons": 4059,
+  "roundtrips": 4059,
+  "swapped_anchor_invariances": 4059,
+  "oracle_confirmed_clipped_samples": 72,
+  "inverse_rejected_samples": 0,
+  "max_errors": {
+    "matrix_abs": 2.1184856935363428e-07,
+    "gain_abs_q12": 1.0491990678274306,
+    "roundtrip_kelvin": 5.076171875,
+    "roundtrip_tint": 0.14126968383789062,
+    "inverse_xyz_residual": 1.744569726869205e-05,
+    "reported_ratio_residual": 0.0008810493745841086
+  },
+  "native_probe_rejections_per_run": 26,
+  "explicit_clipping_rejections": 1,
+  "metadata_rejections": 7,
+  "cross_runtime": [
+    {
+      "case": "capture",
+      "runtime": "sanitized",
+      "exact_bytes": 18496,
+      "sha256": "cd718eb21e531b7784f212cfe574ec2d2b73fe9815c3332a4f8e1fcc2d6c0c7f"
+    },
+    {
+      "case": "capture",
+      "runtime": "android28",
+      "exact_bytes": 18496,
+      "sha256": "cd718eb21e531b7784f212cfe574ec2d2b73fe9815c3332a4f8e1fcc2d6c0c7f"
+    },
+    {
+      "case": "synthetic_0",
+      "runtime": "sanitized",
+      "exact_bytes": 18496,
+      "sha256": "c94096d20d678022df8c267f9ba050c7f5bb558d3e9be7277b6aecde3729a10f"
+    },
+    {
+      "case": "synthetic_0",
+      "runtime": "android28",
+      "exact_bytes": 18496,
+      "sha256": "c94096d20d678022df8c267f9ba050c7f5bb558d3e9be7277b6aecde3729a10f"
+    },
+    {
+      "case": "synthetic_15",
+      "runtime": "sanitized",
+      "exact_bytes": 18496,
+      "sha256": "1e56dc00a9c467494a2491ac0dab8893d09803202112fdb03c889f164e20a753"
+    },
+    {
+      "case": "synthetic_15",
+      "runtime": "android28",
+      "exact_bytes": 18496,
+      "sha256": "1e56dc00a9c467494a2491ac0dab8893d09803202112fdb03c889f164e20a753"
+    }
+  ],
+  "source_sha256": {
+    "hasselblad_native_audit/phone_input_20261021/hb_phone_temperature.c": "c2a13b36b4c9b7d3fee9783e1d7b567ab755bcf83617deee51b5c7278c567643",
+    "hasselblad_native_audit/awb_original_runtime_20261021/hb_temperature.c": "0fcc6e4fa025f82806af76cf0fa523172676986cc84a2a8c8c7d1cf9e0b8d5e9",
+    "hasselblad_native_audit/awb_original_runtime_20261021/hb_user_controls.c": "09f17501cf78d65d5c5bf11f02df2d7a251a9874ba2f8bbee0170ebe445e130a",
+    "hasselblad_native_audit/awb_original_runtime_20261021/hb_scene_optimizer.c": "9f65921657a49323fe3c074fa7bd1ce51b4fd4b6292049d73b3727c4f0112bdb",
+    "hasselblad_native_audit/phone_input_20261021/hb_phone_temperature.h": "24ee9dbfd854248462c73f5e79834e459a8055df2acb5f8736b530ce76e2870e",
+    "hasselblad_native_audit/phone_input_20261021/phone_temperature_probe.c": "7ec739b921a3732cfcb0da947a974bda9c8d6698eb23d105c214f98dd9d3a838",
+    "hasselblad_native_audit/phone_input_20261021/temperature_binding.py": "150ce8e236beeb7c17ee6284768f0de4c40861428862d97e89788c5054ad29e2",
+    "hasselblad_native_audit/phone_input_20261021/capture_binding.py": "e984b26b8dec2623462419c5c3a514f85968d48e9c6aa8e29ecd35773e3d9776",
+    "hasselblad_native_audit/phone_input_20261021/verify_phone_temperature.py": "d507ccf4fa688cf0ee06cb92dac87af724db3ae9e0b70b3f00ee93dadb499105",
+    "hasselblad_native_audit/awb_original_runtime_20261021/detect_fixtures.h": "d8f5db34f9917b3cd6868b936d8a78ac22ed0b2ee269a15b0299170b87208588",
+    "hasselblad_native_audit/awb_original_runtime_20261021/face_fixtures.h": "e854aa695b562ed4c640722cc61e155ad067df25a8572f247207dd52cb014d8a",
+    "hasselblad_native_audit/awb_original_runtime_20261021/hb_atmosphere.h": "cdec0f78ec174a8c55afbd81d6a8901b96a88d90bb0fb344f1f9a277240ea214",
+    "hasselblad_native_audit/awb_original_runtime_20261021/hb_automatic.h": "9ea905ee3e40ccc806995751516694e599c2e98cf7c14bcd6f46c9223d2da787",
+    "hasselblad_native_audit/awb_original_runtime_20261021/hb_completion.h": "170228de7d838ab6802317752952c9128010e9f054c44894c1770b9034c998ab",
+    "hasselblad_native_audit/awb_original_runtime_20261021/hb_detect.h": "80c01167508d5d63c3aebd7448b3c97f038327977da12c5808b23b4ea5250557",
+    "hasselblad_native_audit/awb_original_runtime_20261021/hb_diagnostics.h": "e75bb1139d30646eb4499dd4a151264afda00ef0275f9b828506364e6a27de16",
+    "hasselblad_native_audit/awb_original_runtime_20261021/hb_face.h": "e1fa0128c1dbeac9bb3f2125505d3e041de92a5892537c2246d41a890ad12e96",
+    "hasselblad_native_audit/awb_original_runtime_20261021/hb_history.h": "c721e622dafebd55a125c1a8186f4f3188932f9a423c208633e085066002a4be",
+    "hasselblad_native_audit/awb_original_runtime_20261021/hb_parsing.h": "bb8cfeebebe1131728a34a5535b3e70e9d3644ae0ec95ab377d7de719e9122c3",
+    "hasselblad_native_audit/awb_original_runtime_20261021/hb_post_controller.h": "ffcc2145ab7647c84074181cc9ac574f4fd8858bc32635df8b7d127e9ae22b46",
+    "hasselblad_native_audit/awb_original_runtime_20261021/hb_post_results.h": "ee1266aea7366030ec4f2791e7691b2a5fc0d31c7eb69f5dc539ea87073cb558",
+    "hasselblad_native_audit/awb_original_runtime_20261021/hb_recalib_exact.h": "d4ed0531fda83f486329dc39e64df763f714d440eaad7bd10ae36febfe0c853b",
+    "hasselblad_native_audit/awb_original_runtime_20261021/hb_roi.h": "534622fc18b5006720fb99e54516aa441dad973b07d1a69a80176cdf3b357108",
+    "hasselblad_native_audit/awb_original_runtime_20261021/hb_roi_sync.h": "de8015a1443130bed8d1bdb3cbe90180a803ab9995941c5cdfca55c5ca89817a",
+    "hasselblad_native_audit/awb_original_runtime_20261021/hb_run_dispatch.h": "67309b7fb7dd9965b33ce3123965d754bbd80e226fe10aad88a09af067b23fb6",
+    "hasselblad_native_audit/awb_original_runtime_20261021/hb_run_entry.h": "e083b39c625d11521f3cbd186d0a7ac3ed9e27ff89224fb9020681f199757606",
+    "hasselblad_native_audit/awb_original_runtime_20261021/hb_scene_candidates.h": "a905dffd20ca3d6882846deff807d1d970183eefdc89ccab9e2f17db1b2c1e35",
+    "hasselblad_native_audit/awb_original_runtime_20261021/hb_scene_controller.h": "48176c640ea2eee677969b3619fe6fa49727e912e22ee252593967ecf455aa24",
+    "hasselblad_native_audit/awb_original_runtime_20261021/hb_scene_filter.h": "d7286138ac26b5ce9443563cad5ca5fcbd67d68b8081c040d3b14b4bb3d21419",
+    "hasselblad_native_audit/awb_original_runtime_20261021/hb_scene_optimizer.h": "bea9a2f44e6e16ef8dba24f97b268c0a0398317c3b8ad955fb2f55d283369c2e",
+    "hasselblad_native_audit/awb_original_runtime_20261021/hb_sensor.h": "8bf2209296ee45dcbd152718e9aed8749dd3fc1b5a9ee4709f58d3f5745bf87e",
+    "hasselblad_native_audit/awb_original_runtime_20261021/hb_stat_difference.h": "e4cc84cc97c524db0512a45e6dfef79b863daf5c56de596359d7f0e9bdd034ad",
+    "hasselblad_native_audit/awb_original_runtime_20261021/hb_stat_prepare.h": "bb463eaa936adc30d188b939f9ef6433e4066136d45530bbbe0b1e4ce7a03b99",
+    "hasselblad_native_audit/awb_original_runtime_20261021/hb_temperature.h": "bf32f5c219cfa0d0c2857f7b528228b7d6e189331c0c7546501ad5c375ceaa34",
+    "hasselblad_native_audit/awb_original_runtime_20261021/hb_user_controls.h": "4f09560685bf8a1eca2c069c323953e6f1de7d7d81075614f29b784fe7288288",
+    "hasselblad_native_audit/awb_original_runtime_20261021/hb_user_e_nd.h": "a33dbd9aeb1c9e283cc0d2465e3904fb9001e99e68f460fbd2dacf33d8ad97f8",
+    "hasselblad_native_audit/awb_original_runtime_20261021/hb_user_finish.h": "d4613fc6b59b39691e85d1aeb236dced9224f3b5e30905bd837f0598df758a75",
+    "hasselblad_native_audit/awb_original_runtime_20261021/hb_user_manual.h": "abf5795941076a95670c3a62476aa6ebcddbf933b88851136a68b77280ff691a",
+    "hasselblad_native_audit/awb_original_runtime_20261021/hb_user_prepare.h": "5b12c78375148e74a71bf4189e1bd3c74ee05541e35f4880179a4cef8a93d35e",
+    "hasselblad_native_audit/awb_original_runtime_20261021/hb_white_lut.h": "1fddf7b128fcca31da4bb81af2672b9cdfdcd2074ad79ea6eb0270f6d0eeea27",
+    "hasselblad_native_audit/awb_original_runtime_20261021/parsing_fixtures.h": "638bae4430d9362b4a48cc398c9a2cae2aef61c54f2e343bb1089aacdcb154f0",
+    "hasselblad_native_audit/awb_original_runtime_20261021/roi_fixtures.h": "e6426e2e1fbce29b63b6d02ebe1a51fc251062cfe8233827f441f4b63f54b49e",
+    "hasselblad_native_audit/awb_original_runtime_20261021/roi_sync_fixtures.h": "1eb2364aea976b2d056b5f4bf4a67bc21f73f66594d8c3d3e678d118537ee699",
+    "hasselblad_native_audit/awb_original_runtime_20261021/sensor_fixtures.h": "8f6a45d6ac75afa8503cf1adf2a0a757448bc5142fac1821086a77d415f4b1e1",
+    "hasselblad_native_audit/awb_original_runtime_20261021/stat_difference_fixtures.h": "4c0b35d62743513dc0e38850be89b114b4b707a6980de0c0abad0f5f6ab40ce0",
+    "hasselblad_native_audit/awb_original_runtime_20261021/user_controls_fixtures.h": "be527b1e745519aa2282ed6881770f71fbe71a4b76ec89e0a2fa7b318ef1cfab",
+    "hasselblad_native_audit/awb_original_runtime_20261021/user_e_nd_fixtures.h": "7c3d96ab66cf00e5306cd5b5ad832758b3653edc87de2952bd4462ac4df76eca",
+    "hasselblad_native_audit/awb_original_runtime_20261021/user_finish_fixtures.h": "d5469f4d68de2a4f43484283ded0900ac19a1a43c95c904fdfa10b3c657c1251",
+    "hasselblad_native_audit/awb_original_runtime_20261021/user_manual_fixtures.h": "f98eb87a0000f413b612448952f0c8ad670da426ada934ab6901a9adee530125"
+  },
+  "input_sha256": {
+    "capture": "4b2d29c36fefab63d5ec51d599e21bfdcc1cbfe622767de135e5fabe847b5862"
+  },
+  "binary_sha256": {
+    "libphone_temperature.so": "0bf7a7b2dd4421c4d28c2e23a38833267155af3b6b0435492526187731778beb",
+    "phone_temperature_optimized": "db1ac01adcffd85b0d19bf67d478f8834f0fc41ac6967680be4404f0e9013b8f",
+    "phone_temperature_sanitized": "ee5c61528c252419fa85bb07aa1b22778f114a52d6a6f12beacb281f59543ec3",
+    "phone_temperature_android28": "860a767c31b692a9046f37dc5ce83468a597f058e2f5b7168f579226f54da932"
+  },
+  "original_metadata_unchanged": true,
+  "table_variant": "Public Adobe DNG SDK 1.4, u325=0.24702",
+  "temperature_workspace_initialized_from_phone_metadata": true,
+  "vendor_initializer_or_library_used": false,
+  "full_automatic_profile_available": false,
+  "automatic_controller_called": false,
+  "hal_neutral_is_new_awb_result": false,
+  "apk_built": false,
+  "photographic_colour_validated": false,
+  "sanitizers": {
+    "address": true,
+    "undefined": true,
+    "leak": false,
+    "leak_limitation": "Executor denies /proc task inspection"
+  }
+}

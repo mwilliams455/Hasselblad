@@ -1,5 +1,7 @@
 # Phone RAW input adapter — 21 October 2026
 
+**Latest addition:** [Phone temperature calibration workspace](TEMPERATURE_MODEL.md) now initializes the owned gain/CT/tint routines from original Camera2 matrices and a pinned public isotemperature table. It passes4,131 matrix-oracle comparisons,4,059 gain/inverse round trips and six exact host/sanitizer/ARM64 comparisons. This completes the temperature submodel; full automatic scene/exposure/spatial initialization remains open. The RAW results below are unchanged.
+
 The owned phone adapter now derives a 32×32 Bayer-block grid from untouched single-frame RAW16 samples. It runs against the saved Native1C phone capture and on Android API28 ARM64 under QEMU, with identical outputs to the optimized host implementation. It does **not** yet initialize or call the automatic estimator: a phone-specific estimator profile and calibration mapping remain required.
 
 ## What is implemented
@@ -39,6 +41,6 @@ The native adapter/probe does not load `libaaa.so`; the Android replay uses only
 
 ## Next boundary
 
-Construct and validate a phone-specific initialization/model profile for the already composed automatic controller. Camera2 matrices are legitimate phone metadata, but do not by themselves reconstruct every estimator table, exposure scale, scene threshold or spatial correction. Define those mappings explicitly before feeding these ratios into the estimator. The metadata bridge already preserves matrix/WB ownership; retain original HAL neutral separately from any selected neutral and apply WB once. Missing auxiliary spectral measurements stay unavailable.
+The [temperature submodel](TEMPERATURE_MODEL.md) is now constructed from original Camera2 matrices. Complete the remaining phone-specific automatic initialization/profile: scene acceptance, exposure scale, spatial mapping and history/recovery defaults. Those are not determined by the matrix-derived locus. Define their mappings explicitly before feeding these ratios into the estimator. The metadata bridge already preserves matrix/WB ownership; retain original HAL neutral separately from any selected neutral and apply WB once. Missing auxiliary spectral measurements stay unavailable.
 
 Then restore Native1C capture-JSON/save-status behavior in the recovered app source and connect the bounded path for a useful test APK. The current source is still Native1A-era app plumbing; do not deliver it as an upgrade. Preserve application ID/signing, versionCode>27179, JSON/DNG/JPEG and the single-RAW/no-stacking policy. This checkpoint changes no photographic rendering, builds no APK and leaves main/installed Native1C unchanged.

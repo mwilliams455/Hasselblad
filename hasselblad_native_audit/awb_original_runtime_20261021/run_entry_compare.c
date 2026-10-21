@@ -36,6 +36,12 @@ static unsigned dispatch_counts[6];
 #include "roi_fixtures.h"
 static unsigned roi_calls,roi_errors;
 #endif
+#ifdef HB_ROI_SYNC_ENTRY
+#include "hb_roi_sync.h"
+#include "roi_sync_fixtures.h"
+static hb_roi_sync_model sync_model;
+static unsigned sync_calls;
+#endif
 #include <dlfcn.h>
 #include <math.h>
 #include <stdio.h>
@@ -137,9 +143,13 @@ static hb_run_entry_result compare(test_state*s,unsigned t,int expected,unsigned
                     uintptr_t entry=entries[dispatch.action];
 #ifdef HB_ROI_ENTRY
                     if(dispatch.action==HB_DISPATCH_AUTO_REFRESH||dispatch.action==HB_DISPATCH_AUTO_REUSE){
-                        /* The sync helper remains an explicit test-only original
-                         * dependency. No hb_roi function calls vendor code. */
+#ifdef HB_ROI_SYNC_ENTRY
+                        b=hb_roi_sync_process(s->c,s->k,&sync_model);++sync_calls;
+#else
+                        /* Earlier --roi-entry mode retains this explicit oracle
+                         * dependency; --roi-sync-entry replaces it above. */
                         uint32_t(*sync)(int)=(void*)(s->bias+0x551920);b=sync(0);
+#endif
                         if(!b){b=hb_roi_process(s->c,s->k);++roi_calls;roi_errors+=b!=0;}
                         entry=b?0x4722b0:dispatch.action==HB_DISPATCH_AUTO_REFRESH?0x471f30:0x472294;
                         if(capture)dump(s->dir,"owned_roi_boundary",t,s->c,C);
@@ -171,6 +181,9 @@ int hb_run_entry_tests(void*h,unsigned char*c,unsigned char*e2,void*config,void*
     test_state s={.c=c,.k=k,.r=reawb,.input=malloc(C),.reference=malloc(C),.ki=malloc(K),.kr=malloc(K),.dir=dir};
     if(!base||!cfg||!k||!s.input||!s.reference||!s.ki||!s.kr)return 71;
     memcpy(base,c,C);memcpy(cfg,config,K);memcpy(rbase,reawb,R);s.bias=(uintptr_t)sym(h,"get_scene_awb_context")-0x464068;s.run=sym(h,"scene_awb_lib_run");
+#ifdef HB_ROI_SYNC_ENTRY
+    hb_test_sync_model(&sync_model,s.bias);dump(dir,"sync_model",0,&sync_model,sizeof sync_model);
+#endif
 #ifdef HB_USER_MANUAL_ENTRY
     float manual_table[124];memcpy(manual_table,(void*)(s.bias+0x6ce418),sizeof manual_table);manual_model.isotemperature_31x4=manual_table;dump(dir,"manual_isotemperature",0,manual_table,sizeof manual_table);
 #endif
@@ -318,7 +331,23 @@ int hb_run_entry_tests(void*h,unsigned char*c,unsigned char*e2,void*config,void*
         hb_test_roi(c,k,t%6,variants[t/6]);k[0x16eae4]=0;
         compare(&s,9200+t,HB_RUN_READY,1);
     }
-    printf("{\"event\":\"owned_roi_entry_counts\",\"roi_calls\":%u,\"roi_error_completions\":%u,\"original_sync_callbacks\":%u,\"roi_processing_owned\":true,\"roi_synchronization_owned\":false}\n",roi_calls,roi_errors,roi_calls);
+#ifdef HB_ROI_SYNC_ENTRY
+    for(unsigned t=0;t<40;++t){
+        memcpy(c,dispatch_base,C);memcpy(k,dispatch_cfg,K);memcpy(reawb,dispatch_r,R);
+        w32(c+0xb2020,0);w32(c+0x194,t%2);w32(c+0x174,0);w32(c+0x17c,0);w32(c+0x184,0);c[0xd338]=0;
+        k[0x1531a8]=k[0x1531ac]=1;k[0x1531ad]=1;w32(k+0x1531b0,UINT32_MAX);w32(c+0x2c,0);w16(c+0xef3e,0);c[0xdb60]=0;w32(c+0xeeac,0);
+        c[0xd328]=c[0xd329]=0;c[0xd32a]=(unsigned char)(t%2);((unsigned char*)reawb)[0x1c]=0;
+        static const unsigned variants[]={0,1,2,10,11,36,39,40,44,46,52,54,55,58,59,61};
+        hb_test_sync(c,k,&sync_model,variants[(t/2)%16]);c[0xd900]=0;
+        if(t>=32)hb_test_roi(c,k,t%6,t<36?0:4);
+        compare(&s,9400+t,HB_RUN_READY,1);
+    }
+    printf("{\"event\":\"owned_roi_sync_entry_counts\",\"owned_sync_calls\":%u,\"original_sync_callbacks\":0,\"roi_synchronization_owned\":true}\n",sync_calls);
+    unsigned original_sync_calls=0;
+#else
+    unsigned original_sync_calls=roi_calls;
+#endif
+    printf("{\"event\":\"owned_roi_entry_counts\",\"roi_calls\":%u,\"roi_error_completions\":%u,\"original_sync_callbacks\":%u,\"roi_processing_owned\":true,\"roi_synchronization_owned\":%s}\n",roi_calls,roi_errors,original_sync_calls,original_sync_calls?"false":"true");
 #endif
     printf("{\"event\":\"owned_dispatch_counts\",\"suspended_returns\":%u,\"automatic_refresh\":%u,\"automatic_reuse\":%u,\"manual_remainders\":%u,\"custom_remainders\":%u,\"error_completions\":%u}\n",dispatch_counts[0],dispatch_counts[1],dispatch_counts[2],dispatch_counts[3],dispatch_counts[4],dispatch_counts[5]);
 #endif

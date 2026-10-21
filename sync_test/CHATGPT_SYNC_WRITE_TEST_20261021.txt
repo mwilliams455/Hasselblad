@@ -1,0 +1,4 @@
+ChatGPT GitHub write-path test
+Date: 2026-10-21
+Purpose: verify GitHub create_tree/create_commit/ref writes after the earlier MCP failure.
+This temporary test does not modify main or contain project source changes.

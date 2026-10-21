@@ -15,6 +15,7 @@ def main():
     p.add_argument('--qemu',type=Path,required=True)
     p.add_argument('--private-output',type=Path,required=True)
     p.add_argument('--report',type=Path,required=True)
+    p.add_argument('--optimizer',action='store_true',help='Also compare owned numeric optimizer on initialized synthetic candidates')
     a=p.parse_args()
     root=a.firmware_root.resolve(); out=a.private_output.resolve()
     if out.is_relative_to(AUDIT.parent):
@@ -28,8 +29,12 @@ def main():
         raise ValueError('Expected NDK r27')
     compiler=a.ndk.resolve()/'toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android28-clang'
     probe=out/'init_probe_android28_arm64';source=HERE/'init_probe.c'
+    sources=[source]
+    if a.optimizer:sources.extend([HERE/'optimizer_compare.c',HERE/'hb_scene_optimizer.c'])
     cmd=[str(compiler),'-std=c11','-O2','-Wall','-Wextra','-Werror','-fPIE','-pie',
-         '-Wl,-z,max-page-size=16384',str(source),'-ldl','-o',str(probe)]
+         '-Wl,-z,max-page-size=16384']
+    if a.optimizer:cmd+=['-DHB_OPTIMIZER_COMPARE=1']
+    cmd += [*map(str,sources),'-ldl','-o',str(probe)]
     built=subprocess.run(cmd,capture_output=True,text=True,timeout=60)
     if built.returncode:raise RuntimeError(built.stderr)
     command=[str(a.qemu.resolve()),'-L',str(root),str(probe),
@@ -40,9 +45,12 @@ def main():
     (out/'stdout.txt').write_text(r.stdout);(out/'stderr.txt').write_text(r.stderr)
     events=[json.loads(line) for line in r.stdout.splitlines() if line.startswith('{')]
     expected=['register_context','clear_context','awb_cfg_load','scene_awb_cfg_init','scene_awb_lib_init']
-    ok=(r.returncode==0 and [e.get('stage') for e in events[:-1]]==expected
-        and all(e.get('status')==0 for e in events[:-1])
-        and events[-1].get('initialized_marker')==1 and events[-1].get('guard_ok') is True)
+    ok=(r.returncode==0 and len(events)>5 and [e.get('stage') for e in events[:5]]==expected
+        and all(e.get('status')==0 for e in events[:5])
+        and events[5].get('initialized_marker')==1 and events[5].get('guard_ok') is True)
+    if a.optimizer:
+        ok &= (len(events)==7 and events[-1].get('all_passed') is True
+               and events[-1].get('optimizer_calls')==920 and events[-1].get('temperature_calls')==1024)
     dumps={name:{'bytes':(out/name).stat().st_size,'sha256':sha(out/name)}
            for name in ['config_original.bin','context_before_scene_init.bin','context_after_scene_init.bin']
            if (out/name).is_file()}
@@ -51,12 +59,14 @@ def main():
             'input_config_sha256':sha(config),'library_sha256':sha(root/'system/lib64/libaaa.so'),
             'linker_sha256':linker_sha,'dependency_count':len(closure),'qemu_sha256':sha(a.qemu),
             'compiler_version':subprocess.check_output([str(compiler),'--version'],text=True).splitlines()[0],
-            'source_sha256':{str(s.relative_to(AUDIT)):sha(s) for s in [source,HERE/'run_scene.py',HERE/'run_recalib.py']},
+            'source_sha256':{str(s.relative_to(AUDIT)):sha(s) for s in [*sources,HERE/'run_scene.py',HERE/'run_recalib.py',*([HERE/'hb_scene_optimizer.h'] if a.optimizer else [])]},
             'probe_sha256':sha(probe),'build_command':cmd,'run_command':command,'private_dump_metadata':dumps,
             'original_library_patched':False,'dependency_stubs':False,
             'cross_process_pointer_identity_claimed':False,
             'full_camera_device_calibration_recovered':False,
-            'authentic_frame_replayed':False,'optimizer_compared':False,'full_awb_validated':False}
+            'authentic_frame_replayed':False,'optimizer_compared':a.optimizer and ok,
+            'optimizer_input_domain':'Synthetic candidates on original-initialized state' if a.optimizer else None,
+            'historical_seven_frame_chain_recovered':False,'full_awb_validated':False}
     a.report.parent.mkdir(parents=True,exist_ok=True)
     a.report.write_text(json.dumps(report,indent=2)+'\n')
     print(json.dumps({'all_passed':ok,'events':events,'exit':r.returncode}))

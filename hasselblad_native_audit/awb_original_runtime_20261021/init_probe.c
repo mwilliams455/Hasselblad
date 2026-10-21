@@ -10,6 +10,9 @@
 #include <unistd.h>
 
 enum { CONTEXT_BYTES=920560, CONFIG_BYTES=1502800, CONFIG_POINTER_OFFSET=0xb2028 };
+#ifdef HB_OPTIMIZER_COMPARE
+int hb_run_optimizer_tests(void *h,unsigned char *ctx,void *config,const char *private_dir);
+#endif
 static void *symbol(void *h,const char *name) {
     void *p=dlsym(h,name);
     if (!p) { fprintf(stderr,"missing symbol %s: %s\n",name,dlerror()); _exit(3); }
@@ -61,5 +64,10 @@ int main(int argc,char **argv) {
            "\"config_bytes\":%d,\"guard_ok\":%s,\"initialized_marker\":%u,"
            "\"authentic_frame_replayed\":false,\"owned_optimizer_compared\":false}\n",
            CONTEXT_BYTES,CONFIG_BYTES,guards?"true":"false",initialized);
-    _exit(guards && initialized==1 ? 0 : 7);
+    if(!guards || initialized!=1) _exit(7);
+#ifdef HB_OPTIMIZER_COMPARE
+    _exit(hb_run_optimizer_tests(h,ctx,config,argv[3]));
+#else
+    _exit(0);
+#endif
 }

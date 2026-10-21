@@ -30,7 +30,7 @@ Python requires `pyelftools`. The runner verifies the library, original symbol, 
 
 ## Remaining acceptance boundaries
 
-This checkpoint restores original code execution and verifies the recalibration leaf. It does **not** establish original AWB initialization, scene-optimizer equivalence, authentic E2 frame preparation, seven-frame context/REAWB parity, full AWB, HNCS rendering, or phone validation. Next: restore calibrated original initialization, then the optimizer at `0x4a8c48` with justified state and caller-side count updates.
+The initial leaf checkpoint restored execution and recalibration. The following checkpoints restore scene initialization and bounded numerical optimizer comparisons. Still missing: authentic E2 frame preparation, device-specific calibration inputs, historical seven-frame context/REAWB parity, full AWB, HNCS rendering, and phone validation.
 
 No APK was built. `main` and the installed Native1C application remain unchanged.
 
@@ -47,4 +47,38 @@ python3 hasselblad_native_audit/awb_original_runtime_20261021/run_scene.py \
   --report /private/init-result.json
 ```
 
-Fresh result: `evidence/SCENE_INIT_RESULT.json`. Optimizer and seven-frame comparisons remain the next boundary.
+Fresh initialization result: `evidence/SCENE_INIT_RESULT.json`, recorded at commit `d0bbacece56e914ff44c4459e94cee8de28423cd`. Source hashes in that report refer to that checkpoint; the runner was subsequently extended below.
+
+## Original numerical optimizer reconstruction
+
+`hb_scene_optimizer.c` now reconstructs the numerical body at original virtual address `0x4a8c48`, plus `scene_awb_compute_color_temperature_no_check` at `0x4911a8`. The owned implementation does not call the original optimizer or temperature routine. It reads the original-initialized context tables and receives explicit synthetic candidate inputs.
+
+Fresh final comparison (`evidence/OPTIMIZER_RESULT.json`):
+
+- **920/920 original optimizer calls match**, including status and all **920,560 context bytes** in the same execution.
+- **1,024/1,024 direct original temperature-lookup calls match**, including modulo-32-bit distance arithmetic and the zero-result sentinel.
+- The **1,502,800-byte original configuration remains unchanged**; parameter records also remain unchanged.
+- Optimizer coverage: metric sweep 0–400 (401 cases), 512 deterministic candidate sets across slots 0–3 and counts 0–8, and seven stateful synthetic calls.
+- Zero-weight recovery (status 0/no result) and a constructed fallback-only-weight case (status **72**) were covered. There were 126 cases with unchanged complete context.
+- Seven synthetic-step statuses: `0, 0, 0, 72, 0, 0, 0`.
+- The first run found two mismatches. Both came from putting metric 41 into the lower constant-weight branch. Original instructions enter the ramp at 41, and the corrected run has zero mismatches.
+
+Implemented behaviours include scene eligibility, the valid-candidate gate, count-dependent weight ramp, optional fallback candidate weighting and CT tapering, original 32-bit wrapping sums/products, integer division, calibrated 81-row temperature lookup, result publication, and the optimizer's maximum-metric copy. Caller-side updates visible after the call at `0x4a77a4` remain outside the optimizer. We have not yet run an owned/full-original scene-controller comparison.
+
+```sh
+python3 hasselblad_native_audit/awb_original_runtime_20261021/run_scene.py \
+  --firmware-root /private/extracted --ndk /tools/android-ndk-r27 \
+  --qemu /tools/qemu-aarch64-static --private-output /private/optimizer-check \
+  --report /private/optimizer-result.json --optimizer
+```
+
+**Coverage boundary:** this is genuine execution of the original numerical optimizer against owned code, using synthetic candidate records on authentic original-initialized state. The seven synthetic calls are not the lost seven authentic E2 frames. No passive REAWB handle comparison or complete AWB chain has been recovered yet. The test fixture includes arithmetic edge cases outside normal photographic ranges; a passing edge case does not prove it is physically meaningful.
+
+### Resume here
+
+1. Recreate the verified private runtime from the complete 65-library runtime bundle, or use the pinned extraction script with the original CIM. Run the leaf and `--optimizer` probes above.
+2. Restore native E2 input preparation, original sensor calibration injection, per-block classification, weighting/filtering and candidate accumulation using the actual original functions. Do not substitute the Rebuild02/03 synthetic equations for vendor algorithms.
+3. Feed those original-prepared candidates through the rebuilt optimizer, restore caller-side count/state updates, and compare the historical seven-frame sequence within one execution, including the passive REAWB handle.
+4. Proceed through history, atmosphere, calibrated CT/tint, publication/output and full controller. Only then integrate phone calibration and build an explicitly bounded upgrade APK.
+
+Keep private runtime/config/dumps out of GitHub. Keep `main` and Native1C unchanged.

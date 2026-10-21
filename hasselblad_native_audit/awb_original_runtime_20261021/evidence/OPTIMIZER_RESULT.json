@@ -1,0 +1,126 @@
+{
+  "created_utc": "2026-10-21T09:10:12.235675+00:00",
+  "all_passed": true,
+  "exit": 0,
+  "events": [
+    {
+      "stage": "register_context",
+      "status": 0
+    },
+    {
+      "stage": "clear_context",
+      "status": 0
+    },
+    {
+      "stage": "awb_cfg_load",
+      "status": 0
+    },
+    {
+      "stage": "scene_awb_cfg_init",
+      "status": 0
+    },
+    {
+      "stage": "scene_awb_lib_init",
+      "status": 0
+    },
+    {
+      "event": "original_scene_initialization",
+      "context_bytes": 920560,
+      "config_bytes": 1502800,
+      "guard_ok": true,
+      "initialized_marker": 1,
+      "authentic_frame_replayed": false,
+      "owned_optimizer_compared": false
+    },
+    {
+      "event": "same_execution_optimizer_comparison",
+      "optimizer_calls": 920,
+      "optimizer_failures": 0,
+      "temperature_calls": 1024,
+      "temperature_failures": 0,
+      "whole_context_bytes_per_comparison": 920560,
+      "config_bytes_unchanged": 1502800,
+      "status72_cases": 1,
+      "unchanged_context_cases": 126,
+      "seven_synthetic_step_statuses": [
+        0,
+        0,
+        0,
+        72,
+        0,
+        0,
+        0
+      ],
+      "all_passed": true,
+      "authentic_e2_frames": false,
+      "reawb_compared": false,
+      "full_awb_validated": false
+    }
+  ],
+  "execution": "Original Android9/API28/ARM64 configuration and scene initialization under QEMU",
+  "input_config_sha256": "7fa13044a6c5453b67e4ae11bf8d07828de8e1c02aa915494fe5dad20930d435",
+  "library_sha256": "7d6164eccc734de7087bb778ee72f17a0b3ccf6c0d1f20092c7ebe74a86574ba",
+  "linker_sha256": "313d7a6d94cdeb9e2b2adb4be98a8b18240b08012b22f922acea7984f42ff35d",
+  "dependency_count": 65,
+  "qemu_sha256": "4f55e2e88dc05dc0f619562d5795b8eb25ed2ad2547504fb4835207a6911c350",
+  "compiler_version": "Android (12027248, +pgo, +bolt, +lto, +mlgo, based on r522817) clang version 18.0.1 (https://android.googlesource.com/toolchain/llvm-project d8003a456d14a3deb8054cdaa529ffbf02d9b262)",
+  "source_sha256": {
+    "awb_original_runtime_20261021/init_probe.c": "0008119d43313b87265f93c1029bb9f3bf057297af3d77fc98dea3f3391ff1c3",
+    "awb_original_runtime_20261021/optimizer_compare.c": "e1fb2ad84e951bb6ef7aa76891484182831c0e51b41aca1f0fa928a7e552181f",
+    "awb_original_runtime_20261021/hb_scene_optimizer.c": "9f65921657a49323fe3c074fa7bd1ce51b4fd4b6292049d73b3727c4f0112bdb",
+    "awb_original_runtime_20261021/run_scene.py": "760a374b30852c9f8280407de825e6096316339c012e998c4bc8ff1e6630c181",
+    "awb_original_runtime_20261021/run_recalib.py": "b11d5635343e30047596dfab12f669f0f8343c823c1a3dc72bd22146cb11b22f",
+    "awb_original_runtime_20261021/hb_scene_optimizer.h": "bea9a2f44e6e16ef8dba24f97b268c0a0398317c3b8ad955fb2f55d283369c2e"
+  },
+  "probe_sha256": "ae2e5ae2804e1b4b03e498807a90952d6105d06e6890e9590df804a7fa6d7ca0",
+  "build_command": [
+    "/workspace/scratch/910ac5420982/runtime_tools/android-ndk-r27/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android28-clang",
+    "-std=c11",
+    "-O2",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-fPIE",
+    "-pie",
+    "-Wl,-z,max-page-size=16384",
+    "-DHB_OPTIMIZER_COMPARE=1",
+    "/workspace/scratch/910ac5420982/repo/hasselblad_native_audit/awb_original_runtime_20261021/init_probe.c",
+    "/workspace/scratch/910ac5420982/repo/hasselblad_native_audit/awb_original_runtime_20261021/optimizer_compare.c",
+    "/workspace/scratch/910ac5420982/repo/hasselblad_native_audit/awb_original_runtime_20261021/hb_scene_optimizer.c",
+    "-ldl",
+    "-o",
+    "/workspace/scratch/910ac5420982/private_runtime/optimizer_verified/init_probe_android28_arm64"
+  ],
+  "run_command": [
+    "/workspace/scratch/910ac5420982/runtime_tools/qemu/usr/bin/qemu-aarch64-static",
+    "-L",
+    "/workspace/scratch/910ac5420982/private_runtime/extracted",
+    "/workspace/scratch/910ac5420982/private_runtime/optimizer_verified/init_probe_android28_arm64",
+    "/workspace/scratch/910ac5420982/private_runtime/extracted/system/lib64/libaaa.so",
+    "/workspace/scratch/910ac5420982/private_runtime/extracted/system/etc/aaa/awb_imx861.bin",
+    "/workspace/scratch/910ac5420982/private_runtime/optimizer_verified"
+  ],
+  "private_dump_metadata": {
+    "config_original.bin": {
+      "bytes": 1502800,
+      "sha256": "47838a263340261d499a5beb977f97050f68e41778a3891c311b17ed5c8b42c3"
+    },
+    "context_before_scene_init.bin": {
+      "bytes": 920560,
+      "sha256": "eb24a92160ebe6aa1fd69964df3b697dd32c93787c0fa186c41cb35c911a6f27"
+    },
+    "context_after_scene_init.bin": {
+      "bytes": 920560,
+      "sha256": "39bff678bc76f09d14124c121fbe1614e2fff69e29f0c0abcb3efc4867500111"
+    }
+  },
+  "original_library_patched": false,
+  "dependency_stubs": false,
+  "cross_process_pointer_identity_claimed": false,
+  "full_camera_device_calibration_recovered": false,
+  "authentic_frame_replayed": false,
+  "optimizer_compared": true,
+  "optimizer_input_domain": "Synthetic candidates on original-initialized state",
+  "historical_seven_frame_chain_recovered": false,
+  "full_awb_validated": false
+}

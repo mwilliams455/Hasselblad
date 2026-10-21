@@ -225,6 +225,9 @@ public final class HasselbladCaptureEvidence {
         document.put("calibration_unusable_reasons", unusable);
         document.put("usability_scope", "Timestamp, sensor provenance, supported RAW copy and metadata presence only; not empirical calibration accuracy or pixel colour validation.");
         document.put("pixel_rendering_changed_by_sidecar", false);
+        // Cache only the proved original sensor calibration for an opt-in
+        // later development-screen check; never run Domain1 in this capture path.
+        HasselbladDomainDiagnostics.rememberCapture(document);
         document.put("scene_candidate_diagnostics", HasselbladSceneDiagnostics.run(document, frame));
     }
 
@@ -232,6 +235,7 @@ public final class HasselbladCaptureEvidence {
     public static HasselbladCaptureEvidence begin(ArrayList<ImageFrame> frames,
             CameraCharacteristics characteristics, CaptureResult result, CaptureRequest request) {
         HasselbladSceneDiagnostics.reset();
+        HasselbladDomainDiagnostics.clear();
         HasselbladCaptureSaveStatus.started();
         if (frames == null || frames.size() != 1 || frames.get(0) == null) {
             HasselbladCaptureSaveStatus.skipped("Single-frame RAW evidence only; no suitable input frame.");

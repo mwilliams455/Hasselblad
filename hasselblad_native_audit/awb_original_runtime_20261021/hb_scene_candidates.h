@@ -19,4 +19,6 @@ uint32_t hb_spectral_distribution(const unsigned char *p,unsigned char *out);
 uint32_t hb_spectral_ratio(const unsigned char *p,uint32_t ratio,unsigned char *out);
 uint32_t hb_normal_scene(unsigned char *ctx,const unsigned char *cfg);
 uint32_t hb_normal_scene_with_model(unsigned char *ctx,const unsigned char *cfg,const hb_temperature_model *model);
+/* Shared normal-slot prefix; leaves final aggregate publication to caller. */
+uint32_t hb_scene_normal_slots(unsigned char *ctx,const unsigned char *cfg,const hb_temperature_model *model,uint32_t *maximum);
 #endif

@@ -188,6 +188,11 @@ uint32_t hb_normal_scene(unsigned char *ctx,const unsigned char *cfg){
 uint32_t hb_normal_scene_with_model(unsigned char *ctx,const unsigned char *cfg,const hb_temperature_model *model){
     if(u16(ctx+0x3da54)||u16(ctx+0x3da56))return HB_PREP_UNSUPPORTED;
     uint32_t maximum=0;
+    uint32_t st=hb_scene_normal_slots(ctx,cfg,model,&maximum);if(st)return st;
+    for(unsigned slot=2;slot<4;++slot){uint32_t m=u32(ctx+0x841cc+slot*0x74);maximum=m>(maximum&65535)?m:(maximum&65535);}
+    w16(ctx+0xb142c,(uint16_t)maximum);return 0;
+}
+uint32_t hb_scene_normal_slots(unsigned char *ctx,const unsigned char *cfg,const hb_temperature_model *model,uint32_t *maximum){
     for(unsigned slot=0;slot<2;++slot){
         if(u16(ctx+0x3da50+2*slot)){
             uint32_t st=hb_scene_spec_weight(ctx,cfg,slot);if(st)return st;
@@ -204,8 +209,7 @@ uint32_t hb_normal_scene_with_model(unsigned char *ctx,const unsigned char *cfg,
             if(n){if(!eligible)return 40;st=hb_scene_optimizer(ctx,slot,n,params);if(st)return st;}
             unsigned char *m=ctx+0x841cc+slot*0x74;if(u32(m)<metric)w32(m,metric);
         }
-        uint32_t m=u32(ctx+0x841cc+slot*0x74);maximum=m>(maximum&65535)?m:(maximum&65535);
+        uint32_t m=u32(ctx+0x841cc+slot*0x74);*maximum=m>(*maximum&65535)?m:(*maximum&65535);
     }
-    for(unsigned slot=2;slot<4;++slot){uint32_t m=u32(ctx+0x841cc+slot*0x74);maximum=m>(maximum&65535)?m:(maximum&65535);}
-    w16(ctx+0xb142c,(uint16_t)maximum);return 0;
+    return 0;
 }

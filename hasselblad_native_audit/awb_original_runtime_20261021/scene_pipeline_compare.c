@@ -7,6 +7,7 @@
 #include "hb_scene_filter.h"
 #include "hb_scene_optimizer.h"
 #include "hb_scene_candidates.h"
+#include "hb_scene_controller.h"
 #include <dlfcn.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -20,7 +21,10 @@ static void w32(void *p,uint32_t v){memcpy(p,&v,4);}
 static void w16(void *p,uint16_t v){memcpy(p,&v,2);}
 static void wf(void *p,float v){memcpy(p,&v,4);}
 static void *sym(void*h,const char*n){void*p=dlsym(h,n);if(!p)_exit(3);return p;}
-static unsigned mismatches,comparisons,filter_calls,optimizer_calls,weighted_candidates,filter_removed,accumulation_calls,spectral_calls,owned_scene_calls;
+static unsigned mismatches,comparisons,filter_calls,optimizer_calls,weighted_candidates,filter_removed,accumulation_calls,spectral_calls,owned_scene_calls,full_scene_calls;
+#ifdef HB_ORIGINAL_TAIL
+static unsigned tail_calls,tail_errors;
+#endif
 static void same(const char *s,unsigned t,const void*a,const void*b,size_t n){
     ++comparisons;if(!memcmp(a,b,n))return;++mismatches;
     if(mismatches<=12){const unsigned char *x=a,*y=b;size_t k=0;while(k<n&&x[k]==y[k])++k;
@@ -124,16 +128,41 @@ int hb_run_scene_pipeline(void *h,unsigned char *ctx,unsigned char *e2,void *con
         memcpy(ctx,start,C);b=hb_normal_scene(ctx,config);++owned_scene_calls;
         same("owned_normal_scene_status",t,&a,&b,4);same("owned_normal_scene_context",t,reference,ctx,C);
         capture(dir,t,"after_scene_owned",ctx,C);
+        memcpy(ctx,start,C);b=hb_scene_process(ctx,config,NULL,0);++full_scene_calls;
+        same("owned_full_scene_status",t,&a,&b,4);same("owned_full_scene_context",t,reference,ctx,C);
+        capture(dir,t,"after_scene_full_owned",ctx,C);
+#ifdef HB_ORIGINAL_TAIL
+        /* Baseline execution only: these downstream stages are not yet owned. */
+        const char *tail_names[]={"scene_awb_hist_proc","scene_awb_atmos_proc","scene_awb_post_proc","scene_awb_reawb_proc"};
+        for(unsigned j=0;j<4;++j){uint32_t (*tail)(int)=sym(h,tail_names[j]);uint32_t ts=tail(0);++tail_calls;tail_errors+=ts!=0;
+            printf("{\"original_tail_frame\":%u,\"stage\":\"%s\",\"status\":%u}\n",t,tail_names[j],ts);
+            char name[128];snprintf(name,sizeof name,"after_original_%s",tail_names[j]);capture(dir,t,name,ctx,C);
+            if(ts)break;
+        }
+        if(reawb)capture(dir,t,"after_tail_reawb_handle",reawb,R);
+#endif
         states[t]=a;++frames;
     }
-    same("pipeline_config_immutable",0,config,cfgcopy,K);if(reawb)same("pipeline_passive_reawb_immutable",0,reawb,rr,R);
+    same("pipeline_config_immutable",0,config,cfgcopy,K);
+#ifndef HB_ORIGINAL_TAIL
+    if(reawb)same("pipeline_passive_reawb_immutable",0,reawb,rr,R);
+#endif
     if(reawb)capture(dir,7,"passive_reawb_after",reawb,R);
-    unsigned ok=!mismatches&&frames==7&&active_slots&&optimizer_calls&&filter_calls;
-    printf("{\"event\":\"original_prepared_owned_normal_scene\",\"all_passed\":%s,\"mismatches\":%u,\"comparisons\":%u,\"frames\":%u,"
+    unsigned ok=!mismatches&&frames==7&&active_slots&&optimizer_calls&&filter_calls&&full_scene_calls==7;
+#ifdef HB_ORIGINAL_TAIL
+    ok=ok&&tail_calls==28&&!tail_errors;
+#endif
+    printf("{\"event\":\"original_prepared_owned_scene_stage\",\"all_passed\":%s,\"mismatches\":%u,\"comparisons\":%u,\"frames\":%u,"
            "\"active_normal_slots\":%u,\"weighted_candidates\":%u,\"filter_calls\":%u,\"filter_removed\":%u,\"optimizer_calls\":%u,"
            "\"accumulation_calls\":%u,\"spectral_calls\":%u,\"owned_scene_calls\":%u,\"normal_scene_body_owned\":true,"
+           "\"full_scene_calls\":%u,\"scene_stage_owned\":true,\"all_scene_slots_implemented\":true,"
+#ifdef HB_ORIGINAL_TAIL
+           "\"original_tail_baseline\":true,\"downstream_stages_owned\":false,\"passive_reawb_immutability_checked\":false,"
+#else
+           "\"original_tail_baseline\":false,\"passive_reawb_immutability_checked\":true,"
+#endif
            "\"statuses\":[%u,%u,%u,%u,%u,%u,%u],\"synthetic_frames\":true,\"historical_frames\":false,\"wholly_owned_controller\":false}\n",
            ok?"true":"false",mismatches,comparisons,frames,active_slots,weighted_candidates,filter_calls,filter_removed,optimizer_calls,
-           accumulation_calls,spectral_calls,owned_scene_calls,states[0],states[1],states[2],states[3],states[4],states[5],states[6]);
+           accumulation_calls,spectral_calls,owned_scene_calls,full_scene_calls,states[0],states[1],states[2],states[3],states[4],states[5],states[6]);
     return ok?0:1;
 }

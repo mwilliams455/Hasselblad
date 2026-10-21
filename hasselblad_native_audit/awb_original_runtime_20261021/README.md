@@ -30,7 +30,7 @@ Python requires `pyelftools`. The runner verifies the library, original symbol, 
 
 ## Remaining acceptance boundaries
 
-The initial leaf checkpoint restored execution and recalibration. The following checkpoints restore scene initialization, native E2 decoding, bounded classification/filtering and the owned normal-slot scene body. Candidate weighting, accumulation, spectral weighting and all three temperature modes now have owned implementations with original-versus-owned comparisons. Still missing: special-scene paths, real camera-frame inputs and device-specific calibration, the historical seven-frame capture, a wholly owned full controller/REAWB chain, HNCS rendering and phone validation.
+The initial leaf checkpoint restored execution and recalibration. The following checkpoints restore scene initialization, native E2 decoding, bounded classification/filtering and the complete four-slot scene stage. Candidate weighting, accumulation, spectral weighting, special-scene control and all three temperature modes now have owned implementations with original-versus-owned comparisons. Original downstream history/atmosphere/post/REAWB entry points also execute in the generated-frame baseline. Still missing: ownership of the surrounding and downstream AWB stages, real camera-frame inputs and device-specific calibration, the historical seven-frame capture, active REAWB parity, HNCS rendering and phone validation.
 
 No APK was built. `main` and the installed Native1C application remain unchanged.
 
@@ -76,9 +76,9 @@ python3 hasselblad_native_audit/awb_original_runtime_20261021/run_scene.py \
 
 ### Resume here (latest checkpoint)
 
-1. Use the existing verified runtime. `--temperature`, `--candidates` and `--pipeline` are the latest bounded acceptance probes; `--prepare` retains the preparation suite. Current reports are `CALIBRATED_TEMPERATURE_RESULT.json`, `TEMPERATURE_CANDIDATES_REGRESSION_RESULT.json` and `TEMPERATURE_PIPELINE_REGRESSION_RESULT.json`.
-2. Reconstruct special scene slots 2–3. They reuse the owned candidate functions but have distinct parameter offsets, spectral configuration and a post-optimizer weight calculation at original address `0x4a9640`. The controller branch starts at `0x4a7834`. Temperature modes 0/1/2 are now implemented; modes 1/2 use an explicitly supplied private isotemperature table where required. No original numerical callbacks are used.
-3. Extend connected coverage beyond normal slot 0. Direct synthetic controller tests cover slots 0/1, all temperature modes and wider EV/gate combinations; connected original detection still activates only slot 0 with mode 0. Reconstruct the surrounding user/ROI/sensor/parsing/detection/face route as needed before claiming an owned full controller.
+1. Use the existing verified runtime. Current probes are `--controller`, `--pipeline`, `--pipeline --tail-baseline` and `--temperature`. Reports are `SCENE_CONTROLLER_RESULT.json`, `COMPLETE_SCENE_PIPELINE_RESULT.json`, `ORIGINAL_DOWNSTREAM_BASELINE_RESULT.json` and `SCENE_TEMPERATURE_REGRESSION_RESULT.json`.
+2. Replace original history (`scene_awb_hist_proc`, `0x49ba40`, 6,524 bytes), atmosphere (`0x48fed0`, 2,560 bytes) and post-processing (`0x49e4f0`, 9,320 bytes) using the preserved downstream inputs/outputs. The original execution order after scene processing is history, atmosphere, post, REAWB. The new downstream baseline executes all 28 calls successfully; REAWB makes no main-context changes in these fixtures and is not active-output parity.
+3. Extend connected coverage beyond normal slot 0. Direct synthetic scene tests now cover all four slots, temperature modes 0/1/2, eight candidates, dense 4,096-block inputs and state carried across 12 calls. Connected original detection still activates only slot 0 with mode 0. Reconstruct the surrounding user/ROI/sensor/parsing/detection/face route before claiming a wholly owned full AWB controller.
 4. Recover genuine captured-frame inputs and real sensor-calibration injection. The saved seven synthetic native E2 fixtures do not replace the lost historical seven camera frames.
 5. Continue through history, atmosphere, REAWB processing and publication/output; then phone calibration and a specifically bounded APK.
 
@@ -197,3 +197,37 @@ python3 hasselblad_native_audit/awb_original_runtime_20261021/run_full.py \
 The private evidence includes the external isotemperature table, initialized runtime dumps, deterministic input/output vectors and representative original/owned scene states. `temperature_vectors.bin` stores 40-byte little-endian records: six uint32 fields (mode, case, red, green, blue, original status), two original float outputs and two owned float outputs. Context pointers are meaningful only within their original execution. Earlier reports retain their historical source hashes.
 
 **Current boundary:** active special slots 2/3 remain unsupported. These tests do not recover real camera frames, phone calibration or photographic image quality. Surrounding controller stages, history, atmosphere, final publication, active REAWB processing and HNCS rendering remain outside this checkpoint. No APK was built or installed; `main` and Native1C remain unchanged.
+
+## Complete scene stage and downstream baseline checkpoint
+
+`hb_scene_controller.c` now reconstructs the special-scene control paths and their spectral and post-optimizer weighting. `hb_scene_process` executes the complete four-slot scene stage using only owned numerical routines, with an explicit external temperature model when required. The normal-only APIs retain their earlier scope; the shared normal prefix is reused without prematurely publishing the final aggregate. This completes `scene_awb_scene_proc`, not the surrounding top-level `scene_awb_lib_run` controller.
+
+The special paths preserve their distinct config offsets, exact-enable gate, empty/no-eligible behavior, error-return ordering, per-slot metric and final 16-bit aggregate. The nested confidence helper selects brackets using scene confidence but interpolates the camera index. That original instruction behavior is retained and directly compared for camera index 0.
+
+`evidence/SCENE_CONTROLLER_RESULT.json`: **15,162 checks, zero mismatches**:
+
+- 4,096 scalar interpolation, 2,048 confidence-curve, 1,024 CT-curve and 128 special-spectral comparisons.
+- 256 whole-scene comparisons covering all 16 gate combinations, all four slots and temperature modes 0/1/2. Sixteen use 4,096 blocks; some special scenes use all eight candidate records. 231 return zero; the remaining expected error returns and partially updated contexts also match.
+- 16 further calls with the unmodified original configuration and synthetic gate masks. Original special slot 2 is disabled; slot 3's configured filter factor is zero, so activating that path can return status 38. Successful special-path tests use clearly identified private test config copies.
+- A 12-call sequence carrying scene state forward: all 12 statuses are zero and every complete context matches.
+- Tested returns include 38, 40, 45, 57, 73, 91 and 94. Original config and the passive 1,000-byte REAWB handle remain unchanged.
+
+`evidence/COMPLETE_SCENE_PIPELINE_RESULT.json`: **170 comparisons, zero mismatches** on the seven generated native E2 frames. Each frame independently compares the complete `hb_scene_process` result with the original, including status and all 920,560 context bytes. Original detection still activates normal slot 0 only. `SCENE_TEMPERATURE_REGRESSION_RESULT.json` retains all **19,362** temperature/integration checks with zero mismatches after the normal-prefix refactor.
+
+`evidence/ORIGINAL_DOWNSTREAM_BASELINE_RESULT.json` extends the seven-frame run through the original history, atmosphere, post and REAWB entry points: **28/28 calls return zero**, and the scene boundary still passes **169 comparisons**. The passive REAWB immutability check is intentionally omitted in this execution mode because downstream original code is allowed to process its handle. The reduced comparison count is not a lost scene comparison.
+
+History, atmosphere and post change the main context on six frames; the low-quality sixth frame leaves history/atmosphere unchanged and changes six bytes in post. REAWB changes zero main-context bytes on every fixture. These are original execution baselines, not owned downstream comparisons or proof that active REAWB inference ran. Per-stage changed-byte counts and private dump hashes are recorded in the report; pointed-to REAWB objects are not comprehensively captured.
+
+```sh
+python3 hasselblad_native_audit/awb_original_runtime_20261021/run_full.py \
+  --firmware-root /private/extracted --ndk /tools/android-ndk-r27 \
+  --qemu /tools/qemu-aarch64-static --private-output /private/controller-check \
+  --report /private/scene-controller-result.json --controller
+
+python3 hasselblad_native_audit/awb_original_runtime_20261021/run_full.py \
+  --firmware-root /private/extracted --ndk /tools/android-ndk-r27 \
+  --qemu /tools/qemu-aarch64-static --private-output /private/downstream-baseline \
+  --report /private/original-downstream-result.json --pipeline --tail-baseline
+```
+
+**Current scope:** the four-slot scene stage is owned and verified on these synthetic inputs. Earlier preparation/detection and downstream processing still use original routines in the connected harness. No authentic historical frame recovery, real phone calibration, complete AWB/active REAWB parity, photographic quality or HNCS validation is claimed. No APK was built or installed. `main` and Native1C remain unchanged.

@@ -1,0 +1,13 @@
+{
+  "native1c_dng": true,
+  "raw_dimensions": [
+    4096,
+    3072
+  ],
+  "blocks_independently_checked": 1024,
+  "candidate_survivors": 320,
+  "caller_deltas_are_synthetic_test_fixtures": true,
+  "original_firmware_equivalence_proven": false,
+  "selected_neutral_produced": false,
+  "actual_original_vendor_trace_present": false
+}

@@ -1,0 +1,35 @@
+{
+  "checkpoint": "AWB_LOST_STAGE_REBUILD_05",
+  "date": "2026-10-21",
+  "classification": "OWNED_LIFECYCLE_VERIFIED_ORIGINAL_NUMERIC_AWB_NOT_RECONSTRUCTED",
+  "scope": [
+    "persistent result origin/status lifecycle",
+    "seven-frame snapshot differential gate",
+    "preserved 39-symbol original ELF function map"
+  ],
+  "new_checks": {
+    "gcc_lifecycle_optimized_assertions": 16107,
+    "gcc_lifecycle_asan_ubsan_assertions": 16107,
+    "clang_lifecycle_optimized_assertions": 16107,
+    "clang_lifecycle_asan_ubsan_assertions": 16107,
+    "c_synthetic_context_frames": 700,
+    "independent_python_frames": 144,
+    "snapshot_gate_cases": 12,
+    "symbol_index_test_cases": 8,
+    "historical_symbol_count": 39,
+    "native1c_dng_blocks_preserved_replay": 1024
+  },
+  "all_inherited_make_check_passed": true,
+  "historical_elf_hash": "7d6164eccc734de7087bb778ee72f17a0b3ccf6c0d1f20092c7ebe74a86574ba",
+  "source_inventory_sha256": "d99c5d19a4ef434d7e55056f8bb397a45737c3923edb8ec5f2f03be27da2393b",
+  "constraints": {
+    "original_vendor_elf_available_here": false,
+    "fresh_original_arm64_comparison": false,
+    "full_vendor_awb_scene_optimizer_implemented": false,
+    "fresh_vendor_selected_neutral": false,
+    "android_apk_built": false,
+    "photographic_rendering_modified": false,
+    "real_DNG_raw_pixels_in_artifact": false,
+    "vendor_code_in_artifact": false
+  }
+}

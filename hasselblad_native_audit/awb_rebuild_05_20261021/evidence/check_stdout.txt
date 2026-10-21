@@ -1,0 +1,39 @@
+./build/tests_opt
+{"result":"PASS","checks":33327,"original_firmware_compared":false,"scope":"bounded recorded contracts and synthetic scaffolding"}
+./build/tests_san
+{"result":"PASS","checks":33327,"original_firmware_compared":false,"scope":"bounded recorded contracts and synthetic scaffolding"}
+./build/tests_frame_opt
+{"result":"PASS","checks":33960,"vendor_compared":false,"scope":"owned 1024 block RAW stats and weighted accumulation"}
+./build/tests_frame_san
+{"result":"PASS","checks":33960,"vendor_compared":false,"scope":"owned 1024 block RAW stats and weighted accumulation"}
+./build/tests_prepare_opt
+{"result":"PASS","checks":801012,"vendor_compared":false,"scope":"owned explicit calibration/AE evidence/replay"}
+./build/tests_prepare_san
+{"result":"PASS","checks":801012,"vendor_compared":false,"scope":"owned explicit calibration/AE evidence/replay"}
+./build/tests_optimizer_opt
+{"result":"PASS","checks":150334,"scope":"owned optimizer trace/caller update and byte diff","vendor_compared":false}
+./build/tests_optimizer_san
+{"result":"PASS","checks":150334,"scope":"owned optimizer trace/caller update and byte diff","vendor_compared":false}
+./build/tests_lifecycle_opt
+LIFECYCLE PASS 16107 assertions; 700 frames; vendor_equality=NOT_TESTED
+./build/tests_lifecycle_san
+LIFECYCLE PASS 16107 assertions; 700 frames; vendor_equality=NOT_TESTED
+python3 tests/test_frame_stats_python.py
+{"checkpoint": "AWB_REBUILD_02", "host_synthetic_random_frames": 64, "oracle": "independent NumPy integer reduction and min/max, NOT vendor AWB", "real_capture": null, "original_firmware_compared": false, "vendor_E2_equivalence_proven": false, "status": "PASS"}
+python3 tests/test_accumulation_python.py
+{"result": "PASS", "owned_candidate_oracle_cases": 256, "topologies": [4, 8], "oracle": "independent Python BFS and integer candidate sums, not original vendor AWB", "vendor_verified": false}
+python3 tests/test_components_python.py
+{"status": "PASS", "oracle": "independent Python BFS, not vendor firmware", "cases": 1408, "topologies": [4, 8], "vendor_comparison": false}
+python3 tests/test_scene_prepare_python.py
+{"result": "PASS", "owned_candidate_oracle_cases": 256, "topologies": [4, 8], "oracle": "independent Python BFS and integer candidate sums, not original vendor AWB", "vendor_verified": false}
+{"checkpoint": "AWB_REBUILD_03", "synthetic_cases": 64, "blocks_checked_per_case": 1024, "independent_oracle": "Python arbitrary-precision exact two-stage Q16 arithmetic / BFS / replay sums", "original_vendor_firmware_compared": false, "status": "PASS"}
+python3 tests/test_optimizer_boundary_python.py
+{"status": "PASS", "python_independent_replay_cases": 2048, "oracle": "field-by-field big integer FNV + two-phase accumulator arithmetic", "original_firmware_compared": false, "original_awb_optimizer_reconstructed": false}
+python3 tests/test_state_diff_python.py
+{"status": "PASS", "independent_state_comparator_cases": 80, "original_firmware_compared": false, "state_bytes": 920560, "reawb_bytes": 1000}
+python3 tests/test_lifecycle_python.py
+INDEPENDENT LIFECYCLE PASS 144 full-context synthetic frames; vendor_freshness=NOT_PROVEN
+python3 tests/test_evidence_gate.py
+SEVEN-FRAME SNAPSHOT EVIDENCE GATE PASS 12 positive/negative fixture cases; vendor not invoked
+python3 tests/test_firmware_gate.py
+{"status": "PASS", "offline_pinned_firmware_gate_cases": 8, "official_firmware_download_attempted": false, "original_vendor_compared": false}

@@ -1,0 +1,244 @@
+{
+  "count": 39,
+  "original_elf_bytes_available_now": false,
+  "original_elf_expected_sha256": "7d6164eccc734de7087bb778ee72f17a0b3ccf6c0d1f20092c7ebe74a86574ba",
+  "source": "Native1A preserved inventory.json",
+  "source_inventory_sha256": "d99c5d19a4ef434d7e55056f8bb397a45737c3923edb8ec5f2f03be27da2393b",
+  "symbol_addresses_are_historical_not_fresh_vendor_comparison": true,
+  "symbols": {
+    "scene_awb_atmos_proc": {
+      "address": "0x48fed0",
+      "byte_count": 2560,
+      "exclusive_end": "0x4908d0",
+      "source": "preserved Native1A ELF symbol inventory"
+    },
+    "scene_awb_calc_shading_ct_proc": {
+      "address": "0x4664e8",
+      "byte_count": 700,
+      "exclusive_end": "0x4667a4",
+      "source": "preserved Native1A ELF symbol inventory"
+    },
+    "scene_awb_color_temperature_compute": {
+      "address": "0x490d50",
+      "byte_count": 1108,
+      "exclusive_end": "0x4911a4",
+      "source": "preserved Native1A ELF symbol inventory"
+    },
+    "scene_awb_copy_confirm_result_to_result": {
+      "address": "0x4a34d8",
+      "byte_count": 104,
+      "exclusive_end": "0x4a3540",
+      "source": "preserved Native1A ELF symbol inventory"
+    },
+    "scene_awb_copy_ref_result_to_confirm_result": {
+      "address": "0x4a35a8",
+      "byte_count": 104,
+      "exclusive_end": "0x4a3610",
+      "source": "preserved Native1A ELF symbol inventory"
+    },
+    "scene_awb_copy_ref_result_to_result": {
+      "address": "0x4a3540",
+      "byte_count": 104,
+      "exclusive_end": "0x4a35a8",
+      "source": "preserved Native1A ELF symbol inventory"
+    },
+    "scene_awb_copy_result_to_confirm_result": {
+      "address": "0x4a33a0",
+      "byte_count": 104,
+      "exclusive_end": "0x4a3408",
+      "source": "preserved Native1A ELF symbol inventory"
+    },
+    "scene_awb_ct_tint_to_gain": {
+      "address": "0x4917b0",
+      "byte_count": 1556,
+      "exclusive_end": "0x491dc4",
+      "source": "preserved Native1A ELF symbol inventory"
+    },
+    "scene_awb_debug_proc": {
+      "address": "0x494840",
+      "byte_count": 5084,
+      "exclusive_end": "0x495c1c",
+      "source": "preserved Native1A ELF symbol inventory"
+    },
+    "scene_awb_debug_userdump": {
+      "address": "0x493c70",
+      "byte_count": 1804,
+      "exclusive_end": "0x49437c",
+      "source": "preserved Native1A ELF symbol inventory"
+    },
+    "scene_awb_get_recalib_res": {
+      "address": "0x474ed0",
+      "byte_count": 472,
+      "exclusive_end": "0x4750a8",
+      "source": "preserved Native1A ELF symbol inventory"
+    },
+    "scene_awb_get_result": {
+      "address": "0x465840",
+      "byte_count": 2744,
+      "exclusive_end": "0x4662f8",
+      "source": "preserved Native1A ELF symbol inventory"
+    },
+    "scene_awb_hist_init": {
+      "address": "0x49ab30",
+      "byte_count": 3852,
+      "exclusive_end": "0x49ba3c",
+      "source": "preserved Native1A ELF symbol inventory"
+    },
+    "scene_awb_hist_proc": {
+      "address": "0x49ba40",
+      "byte_count": 6524,
+      "exclusive_end": "0x49d3bc",
+      "source": "preserved Native1A ELF symbol inventory"
+    },
+    "scene_awb_lib_init": {
+      "address": "0x46e868",
+      "byte_count": 5168,
+      "exclusive_end": "0x46fc98",
+      "source": "preserved Native1A ELF symbol inventory"
+    },
+    "scene_awb_lib_run": {
+      "address": "0x471a38",
+      "byte_count": 2700,
+      "exclusive_end": "0x4724c4",
+      "source": "preserved Native1A ELF symbol inventory"
+    },
+    "scene_awb_lib_set_statcfg": {
+      "address": "0x47a1e8",
+      "byte_count": 392,
+      "exclusive_end": "0x47a370",
+      "source": "preserved Native1A ELF symbol inventory"
+    },
+    "scene_awb_post_get_light_source": {
+      "address": "0x4a0958",
+      "byte_count": 1060,
+      "exclusive_end": "0x4a0d7c",
+      "source": "preserved Native1A ELF symbol inventory"
+    },
+    "scene_awb_post_init": {
+      "address": "0x49dd40",
+      "byte_count": 1968,
+      "exclusive_end": "0x49e4f0",
+      "source": "preserved Native1A ELF symbol inventory"
+    },
+    "scene_awb_post_proc": {
+      "address": "0x49e4f0",
+      "byte_count": 9320,
+      "exclusive_end": "0x4a0958",
+      "source": "preserved Native1A ELF symbol inventory"
+    },
+    "scene_awb_post_smooth": {
+      "address": "0x4a0d80",
+      "byte_count": 5596,
+      "exclusive_end": "0x4a235c",
+      "source": "preserved Native1A ELF symbol inventory"
+    },
+    "scene_awb_reawb_filter_proc": {
+      "address": "0x4cab78",
+      "byte_count": 2104,
+      "exclusive_end": "0x4cb3b0",
+      "source": "preserved Native1A ELF symbol inventory"
+    },
+    "scene_awb_reawb_proc": {
+      "address": "0x4ccc68",
+      "byte_count": 4208,
+      "exclusive_end": "0x4cdcd8",
+      "source": "preserved Native1A ELF symbol inventory"
+    },
+    "scene_awb_reawb_save_res": {
+      "address": "0x4c7478",
+      "byte_count": 808,
+      "exclusive_end": "0x4c77a0",
+      "source": "preserved Native1A ELF symbol inventory"
+    },
+    "scene_awb_result_normalise_all": {
+      "address": "0x4a4378",
+      "byte_count": 968,
+      "exclusive_end": "0x4a4740",
+      "source": "preserved Native1A ELF symbol inventory"
+    },
+    "scene_awb_result_recalib_unit": {
+      "address": "0x4a39a0",
+      "byte_count": 56,
+      "exclusive_end": "0x4a39d8",
+      "source": "preserved Native1A ELF symbol inventory"
+    },
+    "scene_awb_scene_block_filter": {
+      "address": "0x4a8548",
+      "byte_count": 852,
+      "exclusive_end": "0x4a889c",
+      "source": "preserved Native1A ELF symbol inventory"
+    },
+    "scene_awb_scene_compute_blend_weight_ct": {
+      "address": "0x4a9420",
+      "byte_count": 540,
+      "exclusive_end": "0x4a963c",
+      "source": "preserved Native1A ELF symbol inventory"
+    },
+    "scene_awb_scene_compute_parsing_block_weight_ct": {
+      "address": "0x4a91f8",
+      "byte_count": 552,
+      "exclusive_end": "0x4a9420",
+      "source": "preserved Native1A ELF symbol inventory"
+    },
+    "scene_awb_scene_compute_scene_rbgain": {
+      "address": "0x4a88a0",
+      "byte_count": 932,
+      "exclusive_end": "0x4a8c44",
+      "source": "preserved Native1A ELF symbol inventory"
+    },
+    "scene_awb_scene_compute_scene_weight": {
+      "address": "0x4a7d00",
+      "byte_count": 2120,
+      "exclusive_end": "0x4a8548",
+      "source": "preserved Native1A ELF symbol inventory"
+    },
+    "scene_awb_scene_illum_condition_check": {
+      "address": "0x4a4d00",
+      "byte_count": 196,
+      "exclusive_end": "0x4a4dc4",
+      "source": "preserved Native1A ELF symbol inventory"
+    },
+    "scene_awb_scene_init": {
+      "address": "0x4a6270",
+      "byte_count": 4844,
+      "exclusive_end": "0x4a755c",
+      "source": "preserved Native1A ELF symbol inventory"
+    },
+    "scene_awb_scene_opt": {
+      "address": "0x4a8c48",
+      "byte_count": 1452,
+      "exclusive_end": "0x4a91f4",
+      "source": "preserved Native1A ELF symbol inventory"
+    },
+    "scene_awb_scene_proc": {
+      "address": "0x4a7560",
+      "byte_count": 1948,
+      "exclusive_end": "0x4a7cfc",
+      "source": "preserved Native1A ELF symbol inventory"
+    },
+    "scene_awb_set_calib_info": {
+      "address": "0x473e70",
+      "byte_count": 440,
+      "exclusive_end": "0x474028",
+      "source": "preserved Native1A ELF symbol inventory"
+    },
+    "scene_awb_stat_ae_info": {
+      "address": "0x4ad4c0",
+      "byte_count": 512,
+      "exclusive_end": "0x4ad6c0",
+      "source": "preserved Native1A ELF symbol inventory"
+    },
+    "scene_awb_stat_awb_info": {
+      "address": "0x4ad298",
+      "byte_count": 260,
+      "exclusive_end": "0x4ad39c",
+      "source": "preserved Native1A ELF symbol inventory"
+    },
+    "scene_awb_stat_calib_proc": {
+      "address": "0x4ad3a0",
+      "byte_count": 284,
+      "exclusive_end": "0x4ad4bc",
+      "source": "preserved Native1A ELF symbol inventory"
+    }
+  }
+}

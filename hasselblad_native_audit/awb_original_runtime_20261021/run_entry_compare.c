@@ -57,6 +57,11 @@ static uint32_t(*original_auto_statistics)(int);
 #include "parsing_fixtures.h"
 static unsigned parsing_calls,parsing_active_calls,parsing_errors;
 #endif
+#ifdef HB_FACE_ENTRY
+#include "hb_face.h"
+#include "face_fixtures.h"
+static unsigned face_calls,face_active,face_errors;
+#endif
 #ifdef HB_DETECT_ENTRY
 #include "hb_detect.h"
 #include "detect_fixtures.h"
@@ -192,6 +197,11 @@ static hb_run_entry_result compare(test_state*s,unsigned t,int expected,unsigned
                             if(!b){b=hb_detect_process(s->c,s->k);++detect_calls;detect_errors+=b!=0;detect106+=b==106;detect131+=b==131;detect177+=b==177;detect247+=b==247;if(b==HB_PREP_UNSUPPORTED){printf("{\"detect_guard_rejection\":%u}\n",t);_exit(1);}}
                             entry=b?0x4722b0:0x471f70;
                             if(capture)dump(s->dir,"owned_detection_boundary",t,s->c,C);
+#ifdef HB_FACE_ENTRY
+                            if(!b){face_active+=s->k[0x16446c]&&(s->c[0xdb50]||s->c[0xe0bb0]==1);b=hb_face_process(s->c,s->k);++face_calls;face_errors+=b!=0;if(b==HB_PREP_UNSUPPORTED){printf("{\"face_guard_rejection\":%u}\n",t);_exit(1);}}
+                            entry=b?0x4722b0:0x471f80;
+                            if(capture)dump(s->dir,"owned_face_boundary",t,s->c,C);
+#endif
 #endif
 #endif
                         }
@@ -427,6 +437,17 @@ int hb_run_entry_tests(void*h,unsigned char*c,unsigned char*e2,void*config,void*
         c[0xd328]=c[0xd329]=0;c[0xd32a]=1;((unsigned char*)reawb)[0x1c]=0;
         compare(&s,10200+t,HB_RUN_READY,1);
     }
+#ifdef HB_FACE_ENTRY
+    for(unsigned t=0;t<32;++t){
+        memcpy(c,dispatch_base,C);memcpy(k,dispatch_cfg,K);memcpy(reawb,dispatch_r,R);
+        hb_test_face(c,k,16+t%8);c[0xd900]=0;
+        w32(c+0xb2020,0);w32(c+0x194,t%2);w32(c+0x174,0);w32(c+0x17c,0);w32(c+0x184,0);c[0xd338]=0;
+        k[0x1531a8]=k[0x1531ac]=1;k[0x1531ad]=1;w32(k+0x1531b0,UINT32_MAX);w16(c+0xef3e,0);
+        c[0xd328]=c[0xd329]=0;c[0xd32a]=1;((unsigned char*)reawb)[0x1c]=0;
+        compare(&s,10400+t,HB_RUN_READY,1);
+    }
+    printf("{\"event\":\"owned_face_entry_counts\",\"owned_face_calls\":%u,\"active_face_calls\":%u,\"face_error_completions\":%u,\"original_face_callbacks\":0,\"face_owned\":true}\n",face_calls,face_active,face_errors);
+#endif
     printf("{\"event\":\"owned_detection_entry_counts\",\"owned_detection_calls\":%u,\"detection_error_completions\":%u,\"status106\":%u,\"status131\":%u,\"status177\":%u,\"status247\":%u,\"original_detection_callbacks\":0,\"detection_owned\":true}\n",detect_calls,detect_errors,detect106,detect131,detect177,detect247);
 #endif
     printf("{\"event\":\"owned_stat_auto_entry_counts\",\"owned_statistics_calls\":%u,\"unit_enabled_calls\":%u,\"temperature_enabled_calls\":%u,\"original_statistics_callbacks\":0,\"automatic_statistics_owned\":true}\n",owned_statistics_calls,statistics_unit,statistics_temperature);

@@ -1,0 +1,263 @@
+{
+  "provenance": "original X2D II 100C 1.3.16.2 firmware, user-provided verified CIM",
+  "firmware_sha256": "9789d6a9843d388034bc12341ad9a97585c25cb98cf11a0da8b768399b4842f6",
+  "original_libaaa_sha256": "7d6164eccc734de7087bb778ee72f17a0b3ccf6c0d1f20092c7ebe74a86574ba",
+  "original_libaaa_bytes": 7423736,
+  "elf_machine": "AArch64",
+  "historic_symbol_inventory_compared_to_original": 39,
+  "fresh_exported_symbol_matches": 28,
+  "historical_internal_stage_ranges_with_original_bytes": 11,
+  "internal_symbol_name_verification_limit": "The 11 internal stage names are not exported by the original ELF. Address ranges and instruction bytes are present, but names are historical labels, not freshly linked symbols.",
+  "symbol_summary": [
+    {
+      "symbol": "scene_awb_atmos_proc",
+      "address": "0x48fed0",
+      "bytes": 2560,
+      "status": "original ELF exported symbol exact address/size match"
+    },
+    {
+      "symbol": "scene_awb_calc_shading_ct_proc",
+      "address": "0x4664e8",
+      "bytes": 700,
+      "status": "original ELF exported symbol exact address/size match"
+    },
+    {
+      "symbol": "scene_awb_color_temperature_compute",
+      "address": "0x490d50",
+      "bytes": 1108,
+      "status": "original ELF exported symbol exact address/size match"
+    },
+    {
+      "symbol": "scene_awb_copy_confirm_result_to_result",
+      "address": "0x4a34d8",
+      "bytes": 104,
+      "status": "original ELF exported symbol exact address/size match"
+    },
+    {
+      "symbol": "scene_awb_copy_ref_result_to_confirm_result",
+      "address": "0x4a35a8",
+      "bytes": 104,
+      "status": "original ELF exported symbol exact address/size match"
+    },
+    {
+      "symbol": "scene_awb_copy_ref_result_to_result",
+      "address": "0x4a3540",
+      "bytes": 104,
+      "status": "original ELF exported symbol exact address/size match"
+    },
+    {
+      "symbol": "scene_awb_copy_result_to_confirm_result",
+      "address": "0x4a33a0",
+      "bytes": 104,
+      "status": "original ELF exported symbol exact address/size match"
+    },
+    {
+      "symbol": "scene_awb_ct_tint_to_gain",
+      "address": "0x4917b0",
+      "bytes": 1556,
+      "status": "original ELF exported symbol exact address/size match"
+    },
+    {
+      "symbol": "scene_awb_debug_proc",
+      "address": "0x494840",
+      "bytes": 5084,
+      "status": "original ELF exported symbol exact address/size match"
+    },
+    {
+      "symbol": "scene_awb_debug_userdump",
+      "address": "0x493c70",
+      "bytes": 1804,
+      "status": "original ELF exported symbol exact address/size match"
+    },
+    {
+      "symbol": "scene_awb_get_recalib_res",
+      "address": "0x474ed0",
+      "bytes": 472,
+      "status": "original ELF exported symbol exact address/size match"
+    },
+    {
+      "symbol": "scene_awb_get_result",
+      "address": "0x465840",
+      "bytes": 2744,
+      "status": "original ELF exported symbol exact address/size match"
+    },
+    {
+      "symbol": "scene_awb_hist_init",
+      "address": "0x49ab30",
+      "bytes": 3852,
+      "status": "original ELF exported symbol exact address/size match"
+    },
+    {
+      "symbol": "scene_awb_hist_proc",
+      "address": "0x49ba40",
+      "bytes": 6524,
+      "status": "original ELF exported symbol exact address/size match"
+    },
+    {
+      "symbol": "scene_awb_lib_init",
+      "address": "0x46e868",
+      "bytes": 5168,
+      "status": "original ELF exported symbol exact address/size match"
+    },
+    {
+      "symbol": "scene_awb_lib_run",
+      "address": "0x471a38",
+      "bytes": 2700,
+      "status": "original ELF exported symbol exact address/size match"
+    },
+    {
+      "symbol": "scene_awb_lib_set_statcfg",
+      "address": "0x47a1e8",
+      "bytes": 392,
+      "status": "original ELF exported symbol exact address/size match"
+    },
+    {
+      "symbol": "scene_awb_post_get_light_source",
+      "address": "0x4a0958",
+      "bytes": 1060,
+      "status": "historical private stage address within original ELF .text, bytes present; name not exported"
+    },
+    {
+      "symbol": "scene_awb_post_init",
+      "address": "0x49dd40",
+      "bytes": 1968,
+      "status": "original ELF exported symbol exact address/size match"
+    },
+    {
+      "symbol": "scene_awb_post_proc",
+      "address": "0x49e4f0",
+      "bytes": 9320,
+      "status": "original ELF exported symbol exact address/size match"
+    },
+    {
+      "symbol": "scene_awb_post_smooth",
+      "address": "0x4a0d80",
+      "bytes": 5596,
+      "status": "historical private stage address within original ELF .text, bytes present; name not exported"
+    },
+    {
+      "symbol": "scene_awb_reawb_filter_proc",
+      "address": "0x4cab78",
+      "bytes": 2104,
+      "status": "original ELF exported symbol exact address/size match"
+    },
+    {
+      "symbol": "scene_awb_reawb_proc",
+      "address": "0x4ccc68",
+      "bytes": 4208,
+      "status": "original ELF exported symbol exact address/size match"
+    },
+    {
+      "symbol": "scene_awb_reawb_save_res",
+      "address": "0x4c7478",
+      "bytes": 808,
+      "status": "original ELF exported symbol exact address/size match"
+    },
+    {
+      "symbol": "scene_awb_result_normalise_all",
+      "address": "0x4a4378",
+      "bytes": 968,
+      "status": "original ELF exported symbol exact address/size match"
+    },
+    {
+      "symbol": "scene_awb_result_recalib_unit",
+      "address": "0x4a39a0",
+      "bytes": 56,
+      "status": "original ELF exported symbol exact address/size match"
+    },
+    {
+      "symbol": "scene_awb_scene_block_filter",
+      "address": "0x4a8548",
+      "bytes": 852,
+      "status": "historical private stage address within original ELF .text, bytes present; name not exported"
+    },
+    {
+      "symbol": "scene_awb_scene_compute_blend_weight_ct",
+      "address": "0x4a9420",
+      "bytes": 540,
+      "status": "historical private stage address within original ELF .text, bytes present; name not exported"
+    },
+    {
+      "symbol": "scene_awb_scene_compute_parsing_block_weight_ct",
+      "address": "0x4a91f8",
+      "bytes": 552,
+      "status": "historical private stage address within original ELF .text, bytes present; name not exported"
+    },
+    {
+      "symbol": "scene_awb_scene_compute_scene_rbgain",
+      "address": "0x4a88a0",
+      "bytes": 932,
+      "status": "historical private stage address within original ELF .text, bytes present; name not exported"
+    },
+    {
+      "symbol": "scene_awb_scene_compute_scene_weight",
+      "address": "0x4a7d00",
+      "bytes": 2120,
+      "status": "historical private stage address within original ELF .text, bytes present; name not exported"
+    },
+    {
+      "symbol": "scene_awb_scene_illum_condition_check",
+      "address": "0x4a4d00",
+      "bytes": 196,
+      "status": "original ELF exported symbol exact address/size match"
+    },
+    {
+      "symbol": "scene_awb_scene_init",
+      "address": "0x4a6270",
+      "bytes": 4844,
+      "status": "original ELF exported symbol exact address/size match"
+    },
+    {
+      "symbol": "scene_awb_scene_opt",
+      "address": "0x4a8c48",
+      "bytes": 1452,
+      "status": "historical private stage address within original ELF .text, bytes present; name not exported"
+    },
+    {
+      "symbol": "scene_awb_scene_proc",
+      "address": "0x4a7560",
+      "bytes": 1948,
+      "status": "original ELF exported symbol exact address/size match"
+    },
+    {
+      "symbol": "scene_awb_set_calib_info",
+      "address": "0x473e70",
+      "bytes": 440,
+      "status": "original ELF exported symbol exact address/size match"
+    },
+    {
+      "symbol": "scene_awb_stat_ae_info",
+      "address": "0x4ad4c0",
+      "bytes": 512,
+      "status": "historical private stage address within original ELF .text, bytes present; name not exported"
+    },
+    {
+      "symbol": "scene_awb_stat_awb_info",
+      "address": "0x4ad298",
+      "bytes": 260,
+      "status": "historical private stage address within original ELF .text, bytes present; name not exported"
+    },
+    {
+      "symbol": "scene_awb_stat_calib_proc",
+      "address": "0x4ad3a0",
+      "bytes": 284,
+      "status": "historical private stage address within original ELF .text, bytes present; name not exported"
+    }
+  ],
+  "q12_original_instruction_evidence": {
+    "function": "scene_awb_result_recalib_unit",
+    "virtual_address": "0x4a39a0",
+    "length_bytes": 56,
+    "unsigned_divisions": 2,
+    "zero_divisor_original_return_value": 89,
+    "valid_divisors_original_return_value": 0,
+    "original_arithmetic": "(input << 12) / divisor, truncating unsigned integer division with 32-bit shift",
+    "status": "instruction-level observation on exact extracted original binary, no runtime execution"
+  },
+  "limitations": [
+    "Original ARM64 AWB functions not executed in this container (no Android ARM64 emulation runtime available)",
+    "Exact numerical scene estimator and optimizer still require original-vs-owned execution checks",
+    "Portable host tests are not original-firmware equivalence",
+    "No vendor binary, raw firmware, or proprietary calibration content is published in metadata report"
+  ]
+}

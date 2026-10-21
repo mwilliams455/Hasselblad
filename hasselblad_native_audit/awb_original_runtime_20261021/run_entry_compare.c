@@ -10,6 +10,10 @@
 #include "hb_user_prepare.h"
 uint32_t hb_original_user_remainder(uintptr_t);
 #endif
+#ifdef HB_USER_E_ND_ENTRY
+#include "hb_user_e_nd.h"
+#include "user_e_nd_fixtures.h"
+#endif
 #include <dlfcn.h>
 #include <math.h>
 #include <stdio.h>
@@ -19,7 +23,7 @@ uint32_t hb_original_user_remainder(uintptr_t);
 enum{C=920560,K=1502800,R=1000,P=0x20200,M=0x100};
 uint32_t hb_original_prepared_completion(uintptr_t,unsigned char*,uint32_t,uintptr_t);
 static unsigned checks,failures,reasons[6],continued,early,native_calls,stateful_calls;
-static unsigned white_errors,active_native,user_prefix_calls,user_errors,user_remainders,user_errors83,user_errors84;
+static unsigned white_errors,active_native,user_prefix_calls,user_errors,user_remainders,user_errors83,user_errors84,unit_accepted,unit_rejected;
 static uint32_t rng=0xe0212026;
 static uint32_t next(void){rng^=rng<<13;rng^=rng>>17;rng^=rng<<5;return rng;}
 static uint32_t u32(const void*p){uint32_t v;memcpy(&v,p,4);return v;}
@@ -62,9 +66,21 @@ static hb_run_entry_result compare(test_state*s,unsigned t,int expected,unsigned
         if(capture)dump(s->dir,"owned_white_lut_boundary",t,s->c,C);
         if(!b){
 #ifdef HB_USER_PREPARE_ENTRY
-            ++user_prefix_calls;b=hb_user_prepare_prefix(s->c,s->k);
+            ++user_prefix_calls;
+#ifdef HB_USER_E_ND_ENTRY
+            b=hb_user_prepare_calibration(s->c,s->k);
+            if(s->input[0xb1f86]==1&&s->c[0xb1f86]==0){unit_accepted+=s->c[0x279]==1;unit_rejected+=s->c[0x279]==0;}
+#else
+            b=hb_user_prepare_prefix(s->c,s->k);
+#endif
             if(capture)dump(s->dir,"owned_user_prefix_boundary",t,s->c,C);
-            if(!b){++user_remainders;b=hb_original_user_remainder(s->bias+0x4b1624);}
+            if(!b){++user_remainders;
+#ifdef HB_USER_E_ND_ENTRY
+                b=hb_original_user_remainder(s->bias+0x4b162c);
+#else
+                b=hb_original_user_remainder(s->bias+0x4b1624);
+#endif
+            }
             if(!b){++continued;b=hb_original_prepared_completion(s->bias+0x471e78,s->c,0,s->bias+0x791348);}else{++user_errors;user_errors83+=b==83;user_errors84+=b==84;}
 #else
             ++continued;b=hb_original_prepared_completion(s->bias+0x471e64,s->c,0,s->bias+0x791348);
@@ -127,6 +143,15 @@ int hb_run_entry_tests(void*h,unsigned char*c,unsigned char*e2,void*config,void*
         synthetic_user_requests(c,t,1);compare(&s,7600+t,HB_RUN_READY,t<4);
     }
 #endif
+#ifdef HB_USER_E_ND_ENTRY
+    for(unsigned t=0;t<64;++t){
+        memcpy(c,base,C);memcpy(k,cfg,K);memcpy(c+0xb2028,&k,8);memcpy(reawb,rbase,R);
+        k[0x24]=1;w32(k+0x78,0);w32(c+0x17c,0);w32(c+0xb2020,2);c[0xd338]=1;
+        hb_test_e_nd_request(c,k,t);c[0x990dc]=(unsigned char)(t%3);
+        if(t%8==0)w16(c+0xb1f88,99);else if(t%8==1)w16(c+0xb1f8a,3);else if(t%8==2)w16(c+0xb1f92,0);else if(t%8==3)w16(c+0xb1f94,0);else if(t%8==4)c[0xb1f86]=2;
+        compare(&s,7800+t,HB_RUN_READY,t<8);
+    }
+#endif
     /* Seven native E2 synthetic frames exercise full original dispatch after
      * the new owned entry. Downstream ownership is validated separately. */
     uint32_t(*set)(int,void*)=sym(h,"awb_e2_main_set_stat"),(*parse)(int,void*,void*)=sym(h,"awb_e2_main_get_stat_parse"),(*import)(int,void*,void*)=sym(h,"scene_awb_set_stat");
@@ -147,8 +172,11 @@ int hb_run_entry_tests(void*h,unsigned char*c,unsigned char*e2,void*config,void*
 #ifdef HB_USER_PREPARE_ENTRY
         if(t==0||t==3)synthetic_user_requests(c,t,0);
 #endif
+#ifdef HB_USER_E_ND_ENTRY
+        if(t==0||t==3)hb_test_e_nd_request(c,k,t);
+#endif
         dump(dir,"native_input",t,input,0x4118);hb_run_entry_result result=compare(&s,8000+t,HB_RUN_READY,1);if(result.action!=HB_RUN_PREPARE)return 2;++native_calls;
     }
     same("initial_config_immutable",0,config,cfg,K);memcpy(c,base,C);memcpy(reawb,rbase,R);
-    printf("{\"event\":\"owned_run_entry\",\"checks\":%u,\"mismatches\":%u,\"early_returns\":%u,\"original_remainder_calls\":%u,\"reason_counts\":[%u,%u,%u,%u,%u,%u],\"rate_boundary_cases\":144,\"stateful_calls\":%u,\"native_frames\":%u,\"white_lut_failure_returns\":%u,\"active_e_nd_native_frames\":%u,\"user_prefix_calls\":%u,\"user_failure_returns\":%u,\"original_user_remainders\":%u,\"user_status_83_returns\":%u,\"user_status_84_returns\":%u,\"all_passed\":%s,\"whole_controller_owned\":false,\"original_remainder_used\":true,\"synthetic_inputs\":true}\n",checks,failures,early,continued,reasons[0],reasons[1],reasons[2],reasons[3],reasons[4],reasons[5],stateful_calls,native_calls,white_errors,active_native,user_prefix_calls,user_errors,user_remainders,user_errors83,user_errors84,failures?"false":"true");return failures?1:0;
+    printf("{\"event\":\"owned_run_entry\",\"checks\":%u,\"mismatches\":%u,\"early_returns\":%u,\"original_remainder_calls\":%u,\"reason_counts\":[%u,%u,%u,%u,%u,%u],\"rate_boundary_cases\":144,\"stateful_calls\":%u,\"native_frames\":%u,\"white_lut_failure_returns\":%u,\"active_e_nd_native_frames\":%u,\"user_prefix_calls\":%u,\"user_failure_returns\":%u,\"original_user_remainders\":%u,\"user_status_83_returns\":%u,\"user_status_84_returns\":%u,\"unit_requests_accepted\":%u,\"unit_requests_rejected\":%u,\"all_passed\":%s,\"whole_controller_owned\":false,\"original_remainder_used\":true,\"synthetic_inputs\":true}\n",checks,failures,early,continued,reasons[0],reasons[1],reasons[2],reasons[3],reasons[4],reasons[5],stateful_calls,native_calls,white_errors,active_native,user_prefix_calls,user_errors,user_remainders,user_errors83,user_errors84,unit_accepted,unit_rejected,failures?"false":"true");return failures?1:0;
 }

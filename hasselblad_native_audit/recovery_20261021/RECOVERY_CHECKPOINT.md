@@ -116,3 +116,14 @@ Owned `hb_user_prepare.c/.h` reconstructs the base/E-ND/temperature calibration 
 The new outer continuation exposed a missing saved-canary pointer register in the test adapter; the adapter is corrected. `USER_PREPARE_DOWNSTREAM_REGRESSION.json` revalidates the shared adapter and separately owned scene-through-completion chain: 302 checks/seven synthetic frames, zero mismatches. No original function is patched. Full user processing and a combined wholly owned controller are still incomplete.
 
 Private evidence: `Hasselblad_User_Preparation_Evidence_PRIVATE_20261021.zip`. Next: ancillary user requests at `0x4af328`, manual/CT/CT-tint/gain handlers, statistics-difference checking and remaining dispatch/detection. This continues the AWB reconstruction/verification phase; phone calibration/input mapping, application integration and photographic colour rendering/validation remain subsequent work. Main and Native1C remain unchanged; no APK was built or installed.
+
+
+## E-ND unit-calibration request continuation — 21 October 2026
+
+Owned `hb_user_e_nd.c/.h` replaces helper `0x4af328` and its E-ND point/temperature lookups (`0x4ac718`, `0x4acc10`). It implements profile matching, reference-temperature normalization, exact arithmetic/truncation and original partial-write/disable behavior. Rejected unit requests consume their pending flag and disable correction, but do not abort user processing. Research bounds are two unit profiles/two groups/eight points and eight temperature rows with one to eight points each.
+
+`USER_E_ND_RESULT.json`: 7,446 checks, zero mismatches; 512 row, 512 temperature, 512 unit-request and 320 full-user replacement calls (64 stateful). Includes 21 owned-only guard checks. Across request cases, 175 acceptances and 550 rejections match, including 499 rejected requests with partial table writes.
+
+`USER_E_ND_ENTRY_RESULT.json`: 8,571 checks, zero mismatches against 1,495 complete original controller calls. The owned entry/LUT/calibration/unit prefix reaches original user remainder `0x4b162c`, then original outer remainder `0x471e78`. There are 853 entry returns, 32 LUT errors, 72 earlier calibration errors and 538 continuations, with 26 accepted and 32 rejected unit requests. Seven native-format synthetic frames include three E-ND-enabled frames and two combined calibration/unit submissions. Remaining active unit application still uses original routines; the separate owned downstream chain is not yet combined with this prefix.
+
+Private evidence: `Hasselblad_User_E_ND_Evidence_PRIVATE_20261021.zip`. Next: manual-sample selection, remaining E-ND gain-update helpers and CT/tint/gain controls, statistics-difference checking and dispatch/detection. Phone input mapping/calibration, app integration and photographic rendering/validation remain subsequent boundaries. Main and Native1C remain unchanged; no APK was built or installed.

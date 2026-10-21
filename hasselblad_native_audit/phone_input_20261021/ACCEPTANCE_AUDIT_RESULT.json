@@ -1,0 +1,46 @@
+{
+  "status": "PASS",
+  "spatial_affine_checks": 4,
+  "spatial_bayer_channel_checks": 4,
+  "raw_block_oracle_checks": 3072,
+  "matrix_gain_oracle_checks": 2187,
+  "policy_runs": 108,
+  "policy_model_rejections": 54,
+  "phone_policy_comparisons": 6,
+  "capture_replays": 3,
+  "test_tints": [
+    -100,
+    -75,
+    -50,
+    -25,
+    0,
+    25,
+    50,
+    75,
+    100
+  ],
+  "test_radii_q12": [
+    128,
+    256,
+    512,
+    1024,
+    2048,
+    4096
+  ],
+  "input_and_metadata_unmodified": true,
+  "renderer_changed": false,
+  "shipping_policy_selected": false,
+  "source_sha256": {
+    "hasselblad_native_audit/phone_input_20261021/audit_phone_acceptance.py": "fc39d28494c1e439085a8330e840a8ae24459a591fa199ccd5caa3539bd35d16",
+    "hasselblad_native_audit/phone_input_20261021/hb_phone_scene.c": "0e2f9eff0bad0076424db7919e8c65883a4ef493374a5d551e697734e5a16859",
+    "hasselblad_native_audit/phone_input_20261021/hb_phone_temperature.c": "c2a13b36b4c9b7d3fee9783e1d7b567ab755bcf83617deee51b5c7278c567643",
+    "hasselblad_native_audit/phone_input_20261021/hb_phone_raw.c": "b90e5e9fe39788a342b7d87b39eed555fa51d92372f3acf1647b28a676e19b19",
+    "hasselblad_native_audit/awb_original_runtime_20261021/hb_temperature.c": "0fcc6e4fa025f82806af76cf0fa523172676986cc84a2a8c8c7d1cf9e0b8d5e9",
+    "hasselblad_native_audit/awb_original_runtime_20261021/hb_user_controls.c": "09f17501cf78d65d5c5bf11f02df2d7a251a9874ba2f8bbee0170ebe445e130a",
+    "hasselblad_native_audit/awb_original_runtime_20261021/hb_scene_optimizer.c": "9f65921657a49323fe3c074fa7bd1ce51b4fd4b6292049d73b3727c4f0112bdb",
+    "hasselblad_native_audit/awb_original_runtime_20261021/hb_scene_candidates.c": "e51cd238d5f59ed45b37e44ba09fea81bac665b6eec62a1c88d1baf43fa8274b",
+    "hasselblad_native_audit/awb_original_runtime_20261021/hb_scene_filter.c": "15e98886438fd481c6ad8609b842a1545f2dc2b8305ef70a61b163b87bb601bb",
+    "hasselblad_native_audit/awb_rebuild_04_20261021/src/hb_awb_frame_stats.c": "b7e382fd9bd889f480e2fd2edcc59a3cfc0a2131744ce28013e3dcb00230b8de",
+    "hasselblad_native_audit/awb_rebuild_04_20261021/src/hb_awb_stages.c": "22970f43daa7e8fec0ad9c97bd84546b891c27bbca25d039fa6059ee7cbbcc25"
+  }
+}

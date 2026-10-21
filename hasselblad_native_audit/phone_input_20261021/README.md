@@ -1,6 +1,6 @@
 # Phone RAW input adapter — 21 October 2026
 
-**Latest addition:** [Phone scene-candidate bridge](SCENE_CANDIDATES.md) now connects original RAW blocks and the [phone temperature model](TEMPERATURE_MODEL.md) to owned weighting/filtering/accumulation/optimization. Green-relative locus normalization is explicit. Fresh checks pass196,608 block comparisons and15 exact host/sanitizer/ARM64 outputs. Real-capture policy sensitivity prevents claiming a shipping calibration: all candidates are diagnostic-only, with no production default. Next is Native1C diagnostic integration for a useful experimental APK; the complete automatic phone profile remains open. The RAW results below are unchanged.
+**Latest checkpoint:** Scene1B (27183) has executed the diagnostic on the phone, and its saved results match an exact Java/JNI replay. The [acceptance audit](ACCEPTANCE_AUDIT.md) now identifies zero-tint-only sampling and whole-curve domain rejection as constraints; independent matrix/gain and shading-sensitivity checks are recorded. Next is explicit valid temperature/tint coverage and controlled neutral-target calibration. Photon still renders photographs; no diagnostic policy is selected for production. The earlier numerical checkpoints below remain evidence for their recorded revisions.
 
 The owned phone adapter now derives a 32×32 Bayer-block grid from untouched single-frame RAW16 samples. It runs against the saved Native1C phone capture and on Android API28 ARM64 under QEMU, with identical outputs to the optimized host implementation. It does **not** yet initialize or call the automatic estimator: a phone-specific estimator profile and calibration mapping remain required.
 
@@ -41,11 +41,11 @@ The native adapter/probe does not load `libaaa.so`; the Android replay uses only
 
 ## Current application boundary
 
-The temperature/scene candidate route is now integrated into the restored app as
-Scene1 (versionCode27182), with capture JSON and save-status behavior restored.
+The temperature/scene candidate route is integrated into the restored app as
+Scene1B (versionCode27183), with capture JSON and save-status behavior restored.
 See [the app integration checkpoint](../app_scene_integration_20261021/README.md)
-for the verified APK and first device checks. It is diagnostic-only and has not
-been installed or physically validated in this session. No acceptance policy
+for the verified APK and completed first device check. Native diagnostics now
+execute on the phone and match the original-DNG replay. No acceptance policy
 has been calibrated or applied to rendering. Full phone automatic model/profile
 initialization and photographic HNCS remain open.
 

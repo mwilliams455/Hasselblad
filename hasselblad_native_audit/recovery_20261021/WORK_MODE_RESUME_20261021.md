@@ -1,5 +1,13 @@
 # Hasselblad Photon — Work Mode Resume Checkpoint (public-safe)
 
+## Latest checkpoint: neutral acceptance investigation — 21 October 2026
+
+Scene1B is installed and its on-device diagnostic result has already matched the exact offline Java/JNI replay. The next audit isolates acceptance-model limitations: all six installed policies use centre tint zero; some nonzero-tint curves cannot be created because their low-temperature tail exceeds the scene signed-gain domain even though other points are representable. The matrix/gain computation matches an independent double-precision oracle and published Camera2/DNG conventions. Lens-shading sensitivity alone does not resolve the latest narrow-policy rejection. No runtime or rendering correction was made.
+
+The reusable `phone_input_20261021/audit_phone_acceptance.py` passes 3,072 RAW-block comparisons, 2,187 matrix/gain checks, 108 native policy runs, 54 explained model rejections, six phone-policy comparisons and eight spatial/map-channel checks across three bound captures. Source and metadata remain unchanged. Capture-derived values and test curves are private; valid-point-only coverage is exploratory and must not be represented as native candidate/filter/optimizer execution or a calibrated policy.
+
+See [the acceptance audit](../phone_input_20261021/ACCEPTANCE_AUDIT.md) and `ACCEPTANCE_AUDIT_RESULT.json`. Private evidence: `Hasselblad_Acceptance_Audit_PRIVATE_20261021.zip`. Next: explicitly represent the valid temperature/tint domain for diagnostics while preserving the existing fixed-locus ABI, and confirm actual target color/lighting before neutral calibration. Do not fit a default from HAL or increase radius solely to accept these captures. Keep Scene1B (27183) installed; no APK is required for this audit. Photon still owns photographic rendering. Full automatic phone initialization/profile and HNCS remain open. Older installation/next-step statements below are historical checkpoints.
+
 ## Device validation completed — Scene1B, 21 October 2026
 
 A returned Scene1B (27183) capture proves that the corrected binder and native diagnostic sweep execute on the phone. The original DNG matches its recorded SHA-256 and byte length; sensor/frame/timestamp binding passes. Replaying that untouched DNG through the actual app Java/JNI produces exactly the same diagnostic metadata, policy decisions, counts, gains, neutral and temperature values as the phone, excluding elapsed time. All policies report successful native status. The replay also passes 276 Java/JNI checks and 20 offline binding checks.

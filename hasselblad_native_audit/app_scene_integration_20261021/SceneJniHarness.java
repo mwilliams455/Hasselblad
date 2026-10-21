@@ -65,7 +65,7 @@ public final class SceneJniHarness {
                 case 18:result(j).put("android.sensor.pixelMode",1);break;
                 case 20:chars(j).put("android.sensor.info.pixelArraySize",new JSONArray(new int[]{w*2,h*2}));break;
                 case 21:j.getJSONObject("delivered_raw").put("image_crop_rect",new JSONArray(new int[]{2,0,w,h}));break;
-                case 22:result(j).put("android.sensor.rawBinningFactorUsed",true);break;
+                case 22:result(j).put("android.sensor.rawBinningFactorUsed",true);chars(j).put("android.request.availableCapabilities",new JSONArray(new int[]{3,16,17}));break;
                 case 23:result(j).put("android.sensor.rawBinningFactorUsed",JSONObject.NULL);chars(j).put("android.request.availableCapabilities",new JSONArray(new int[]{3,16,17}));break;
                 case 24:chars(j).put("android.request.availableCapabilities",new JSONArray(new int[]{0}));break;
                 case 25:result(j).put("android.sensor.dynamicBlackLevel",new JSONArray(new double[]{.000001,.000001,.000001,.000001}));break;
@@ -73,6 +73,23 @@ public final class SceneJniHarness {
             }
             JSONObject rejection=run(j,bad);check(rejection.getString("status").equals("skipped"));check(!rejection.has("policies"));
             check(HasselbladSceneDiagnostics.latestSummary().contains("skipped"));
+        }
+        int binningCases=0;
+        for(int capability=0;capability<4;capability++)for(int flag=0;flag<4;flag++) {
+            JSONObject j=copy(original);
+            int[][] capSets={{3},{3,16},{3,16,17},{3,17}};
+            chars(j).put("android.request.availableCapabilities",new JSONArray(capSets[capability]));
+            result(j).put("android.sensor.pixelMode",0);
+            if(flag==0)result(j).remove("android.sensor.rawBinningFactorUsed");
+            else result(j).put("android.sensor.rawBinningFactorUsed",flag==1 ? JSONObject.NULL : flag==3);
+            JSONObject decision=run(j,f);boolean allowed=capability<2 || (capability==2 && flag==2);
+            check(decision.getString("status").equals(allowed ? "completed" : "skipped"));
+            check(!decision.getBoolean("render_applied"));
+            if(allowed) {
+                check(decision.getJSONArray("policies").toString().equals(actual.toString()));
+                check(decision.getBoolean("raw_binning_flag_outside_scope")== (capability<2 && flag>=2));
+            } else check(!decision.has("policies"));
+            binningCases++;
         }
         Method nativeCall=HasselbladSceneDiagnostics.class.getDeclaredMethod("nativeSweep",ByteBuffer.class,int[].class,double[].class,float[].class);nativeCall.setAccessible(true);
         int[] geometry=new int[]{w,h,w*2,0,1023,2856,6504};double[] black={64,64,64,64};float[] matrices=new float[36];for(int a=0;a<4;a++)for(int i=0;i<3;i++)matrices[a*9+i*4]=1;
@@ -92,6 +109,6 @@ public final class SceneJniHarness {
         }
         check(run(original,f).getJSONArray("policies").toString().equals(actual.toString()));
         Files.writeString(Path.of(args[2]),first.toString(2));
-        System.out.println(new JSONObject().put("checks",checks).put("java_rejections",26).put("jni_rejections",19).put("raw_unmodified",true).put("metadata_unmodified",true).put("candidate_empty_candidate_reset",true));
+        System.out.println(new JSONObject().put("checks",checks).put("java_rejections",26).put("binning_capability_cases",binningCases).put("jni_rejections",19).put("raw_unmodified",true).put("metadata_unmodified",true).put("candidate_empty_candidate_reset",true));
     }
 }

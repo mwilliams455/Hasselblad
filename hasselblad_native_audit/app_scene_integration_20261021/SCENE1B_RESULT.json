@@ -1,0 +1,70 @@
+{
+  "apk": {
+    "filename": "HasselbladPhoton-Scene1B-27183-debug.apk",
+    "bytes": 70786254,
+    "sha256": "a3a407d6f7998ce8816d19ff6049093b3325bd103e1e7fabe1c67dcd86d332e8",
+    "version_name": "0.1-hb-scene1b",
+    "version_code": 27183,
+    "package": "com.mwilliams.hasselbladphoton",
+    "certificate_sha256": "255cb09eaddd26a9cc680786e4985372cf24d0e54bb120fc44d48f3273ff3956",
+    "checks": {
+      "manifest": true,
+      "signature": true,
+      "alignment": true,
+      "all_native_libraries_identical_to_scene1": true,
+      "packaged_binning_fix_and_jni_call": true
+    },
+    "native_libraries_unchanged": 18,
+    "device_installed": false
+  },
+  "replay_checks": {
+    "new_capture": {
+      "candidate_empty_candidate_reset": true,
+      "checks": 270,
+      "jni_rejections": 19,
+      "java_rejections": 26,
+      "metadata_unmodified": true,
+      "raw_unmodified": true,
+      "binning_capability_cases": 16,
+      "android_device_tested": false,
+      "host_jvm_jni_checked": true,
+      "offline_provenance_checks": 4,
+      "offline_binning_capability_cases": 16
+    },
+    "previous_capture": {
+      "candidate_empty_candidate_reset": true,
+      "checks": 276,
+      "jni_rejections": 19,
+      "java_rejections": 26,
+      "metadata_unmodified": true,
+      "raw_unmodified": true,
+      "binning_capability_cases": 16,
+      "android_device_tested": false,
+      "host_jvm_jni_checked": true,
+      "offline_provenance_checks": 4,
+      "offline_binning_capability_cases": 16
+    }
+  },
+  "build_success": true,
+  "build_tasks": 61,
+  "device_observed_scene1_version_code": 27182,
+  "device_observed_scene1_diagnostics": "skipped_before_native_sweep",
+  "scene1b_phone_tested": false,
+  "source_sha256": {
+    "HasselbladPhoton/app/build.gradle": "43558395c7fa294563f6c3be031e4f6c7c8389d0d8c6a3be9775c169d9de4e68",
+    "HasselbladPhoton/app/src/main/java/com/particlesdevs/photoncamera/hasselblad/HasselbladSceneDiagnostics.java": "8a9bb407c3511b8e665350e988e08f9e55452babd82d2c0b8c8713ba0ac8e87e",
+    "HasselbladPhoton/app/version.properties": "f98a7459a69fa2a096e627824501ad4dad5c645ddec391b79c2c6c240f6a3b53",
+    "hasselblad_native_audit/app_scene_integration_20261021/SceneJniHarness.java": "bcf5a2e53dcb85b7d1cc36c94d6a0dd9388bca6ce89b0fc7b60f78995c56fa42",
+    "hasselblad_native_audit/app_scene_integration_20261021/verify_jni.py": "366f0114fd59a8a918a26bf2ffb0097ccf078e2b577291a7e901cf5c4d1a9412",
+    "hasselblad_native_audit/phone_input_20261021/capture_binding.py": "3f3b7a69cd5872e18198681819b6fd1dce7fbad4b93bebd455d9705e218ef830"
+  },
+  "render_applied": false,
+  "full_automatic_controller_called": false,
+  "policy_calibrated": false,
+  "version_properties_note": "Gradle retains next counter 27184; actual verified APK versionCode is 27183.",
+  "contract_reference": "https://developer.android.com/reference/android/hardware/camera2/CaptureResult#SENSOR_RAW_BINNING_FACTOR_USED",
+  "unchanged_render_source_sha256": {
+    "Converter.java": "7b80a4532a8623cfe4f41c3c325db6967919bd9e7583eea1cbacd7d9e55be326",
+    "Parameters.java": "75b09b643dc3e5e7829daebfa8ab74401a31685924abb08bf410674253e7d64c"
+  }
+}

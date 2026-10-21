@@ -54,3 +54,8 @@ new explicit output-configuration/result-camera identity, retaining strict
 camera, frame, RAW and DNG binding. New provenance guard coverage is recorded
 in the app integration report. Previous RAW/temperature/scene numerical reports
 remain evidence for their recorded source revisions.
+
+
+## Scene1B capability correction
+
+The app and offline binder now scope `rawBinningFactorUsed` to UHR+remosaic cameras. Regular RAW cameras retain the Camera2 regular-Bayer contract and original out-of-scope metadata. Inconsistent remosaic-without-UHR capabilities and unsupported maximum-resolution modes remain rejected. See [the current app checkpoint](../app_scene_integration_20261021/README.md) and its Scene1B result for replay checks and the new diagnostic APK.

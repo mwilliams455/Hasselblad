@@ -1,5 +1,21 @@
 # Scene1 diagnostic Android integration — 21 October 2026
 
+## Latest checkpoint: Scene1B RAW capability fix — 21 October 2026
+
+A returned phone capture confirms Scene1 (27182) saved its capture evidence and a hash-matching DNG with proven frame/sensor binding. Its diagnostic sweep was skipped before native execution: the binder treated an out-of-scope `rawBinningFactorUsed` value as a non-Bayer layout. The capture's existing Photon neutral equals the original HAL neutral. The supplied JPEG is resized and has no EXIF, so its file-level pairing is not independently established. Private image/metadata findings are retained outside Git.
+
+Scene1B scopes this flag to cameras advertising both ULTRA_HIGH_RESOLUTION_SENSOR and REMOSAIC_REPROCESSING, as specified by Camera2. Regular RAW cameras use the declared Bayer layout; any out-of-scope flag remains visible in diagnostics. Remosaic without UHR is rejected as inconsistent. UHR+remosaic still requires an explicit false flag, and maximum-resolution mode, app-side binning, crop and other unsupported inputs remain rejected. This changes diagnostics only; no candidate or fallback is applied to the photograph.
+
+The actual app Java/JNI passed 546 host checks across the new and prior capture replays (270 + 276), including 16 capability/flag combinations per replay, 26 rejection cases and 19 native guards per replay. Another 40 offline binding checks passed. The prior capture retains the same policy results. These are host replays, not proof of on-device native execution or photographic calibration.
+
+**APK:** `HasselbladPhoton-Scene1B-27183-debug.apk`, version **0.1-hb-scene1b / 27183**, same package and signing certificate as Scene1/Native1C. SHA256: `a3a407d6f7998ce8816d19ff6049093b3325bd103e1e7fabe1c67dcd86d332e8`. The Android build, manifest, signature, ZIP alignment and packaged fix/JNI call checks pass. All 18 native libraries are byte-identical to Scene1; its existing ARMv7 4KB ELF-alignment limitation is unchanged. `Converter.java` and `Parameters.java` retain their exact hashes. The checked-in counter 27184 is for the next build.
+
+**Next:** install Scene1B over Scene1, obtain one ordinary-light DNG/JPEG/capture JSON with a neutral target, and verify `scene_candidate_diagnostics.status` and its per-policy results on the phone. Dark coloured-light scenes are useful rejection tests but cannot establish neutral-target accuracy. Full phone automatic profile/initialization, calibrated policy selection and HNCS rendering remain open. Main is unchanged. Scene1B has not yet been installed on the phone; earlier no-device-test/Native1C statements below describe historical checkpoints.
+
+See [Scene1B results](SCENE1B_RESULT.json). Private evidence packet: `Hasselblad_Scene1B_Capture_Check_PRIVATE_20261021.zip`. Android contract: https://developer.android.com/reference/android/hardware/camera2/CaptureResult#SENSOR_RAW_BINNING_FACTOR_USED
+
+## Historical Scene1 integration
+
 The restored app builds as **0.1-hb-scene1**, application ID
 `com.mwilliams.hasselbladphoton`, version code **27182**. The signer matches
 Native1C (27179). The APK is a development upgrade candidate; it has not been

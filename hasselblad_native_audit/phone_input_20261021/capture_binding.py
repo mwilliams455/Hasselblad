@@ -52,8 +52,16 @@ def bind_capture(j, black_source):
     require(2 <= pixel <= 65536 and (w-1)*pixel+2 <= stride <= 16777216, 'strides')
     require((h-1)*stride+(w-1)*pixel+2 <= int(d['original_buffer_capacity_bytes']), 'buffer extent')
     require(c.get('android.sensor.info.pixelArraySize') == [w, h], 'unmapped sensor crop/scale')
-    require(r.get('android.sensor.pixelMode', 0) == 0, 'maximum-resolution mapping unverified')
-    require(r.get('android.sensor.rawBinningFactorUsed', False) is False, 'non-Bayer binning')
+    caps = c.get('android.request.availableCapabilities')
+    require(isinstance(caps, list) and 3 in caps, 'RAW capability required')
+    ultra, remosaic = 16 in caps, 17 in caps
+    require(not remosaic or ultra, 'inconsistent remosaic capabilities')
+    mode = r.get('android.sensor.pixelMode')
+    require((type(mode) is int and mode == 0) or (mode is None and not ultra), 'maximum-resolution mapping unverified')
+    # Camera2 scopes rawBinningFactorUsed to UHR + REMOSAIC_REPROCESSING.
+    # Other RAW devices have regular Bayer; preserve any out-of-scope flag in
+    # original_sensor_metadata rather than treating it as a layout override.
+    require(not (ultra and remosaic) or r.get('android.sensor.rawBinningFactorUsed') is False, 'non-Bayer or unknown binning')
     cfa = c['android.sensor.info.colorFilterArrangement']
     require(type(cfa) is int and 0 <= cfa <= 3, 'Bayer CFA')
     if black_source == 'exported':

@@ -17,7 +17,8 @@ def main():
  a=p.parse_args();a.out.mkdir(parents=True,exist_ok=True)
  base=json.loads(a.capture.read_text());bound=bind_capture(base,'dynamic');raw=decode_bound_dng(a.dng,base,bound)
  modern=copy.deepcopy(base);provenance=modern['original_still']['sensor_provenance']
- provenance['configured_output_device_id']=provenance.pop('callback_session_device_id')
+ if 'callback_session_device_id' in provenance:
+  provenance['configured_output_device_id']=provenance.pop('callback_session_device_id')
  provenance['stream_identity_source']='actual_OutputConfiguration_by_delivering_ImageReader_surface'
  provenance['result_camera_id_matched']=True
  provenance['selected_result_camera_id']=provenance['selected_calibration_camera_id']
@@ -27,6 +28,21 @@ def main():
   try:bind_capture(bad,'dynamic')
   except ValueError:pass
   else:raise AssertionError('new provenance guard '+key)
+
+ binning_cases=0
+ for caps in ([3],[3,16],[3,16,17],[3,17]):
+  for flag in ('absent',None,False,True):
+   case=copy.deepcopy(modern);o=case['original_still'];r=o['selected_raw_sensor_result']
+   o['selected_sensor_characteristics']['android.request.availableCapabilities']=caps
+   r['android.sensor.pixelMode']=0
+   if flag=='absent':r.pop('android.sensor.rawBinningFactorUsed',None)
+   else:r['android.sensor.rawBinningFactorUsed']=flag
+   allowed=(17 not in caps) or (16 in caps and flag is False)
+   try:bind_capture(case,'dynamic')
+   except ValueError:
+    assert not allowed,(caps,flag)
+   else:assert allowed,(caps,flag)
+   binning_cases+=1
 
  (a.out/'input.raw').write_bytes(raw)
  libpath,sources=build('cc',a.out,'reference',['-fPIC'],True);lib=C.CDLL(str(libpath))
@@ -65,6 +81,6 @@ public boolean fp16,sourceBinned;}''')
  (a.out/'jvm_stdout.txt').write_text(run.stdout);(a.out/'jvm_stderr.txt').write_text(run.stderr)
  if run.returncode:raise RuntimeError(run.stdout+run.stderr)
  print(run.stdout.strip());assert not run.stderr,run.stderr
- result=json.loads(run.stdout);result.update(android_device_tested=False,host_jvm_jni_checked=True,offline_provenance_checks=4)
+ result=json.loads(run.stdout);result.update(android_device_tested=False,host_jvm_jni_checked=True,offline_provenance_checks=4,offline_binning_capability_cases=binning_cases)
  (a.out/'JNI_RESULT.json').write_text(json.dumps(result,indent=2)+'\n')
 if __name__=='__main__':main()

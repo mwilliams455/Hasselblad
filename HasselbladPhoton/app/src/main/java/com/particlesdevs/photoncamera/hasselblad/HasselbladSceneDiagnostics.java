@@ -64,9 +64,19 @@ public final class HasselbladSceneDiagnostics {
                 if(caps.getInt(i)==3)rawCapability=true;
             }
             require(rawCapability,"selected_camera_does_not_advertise_raw");
+            require(!remosaic || ultra,"inconsistent_remosaic_capabilities");
             boolean binningKnown=!result.isNull("android.sensor.rawBinningFactorUsed");
-            require((!ultra || !remosaic || binningKnown)
-                    && (!binningKnown || !result.getBoolean("android.sensor.rawBinningFactorUsed")),
+            boolean extendedCfa=ultra && remosaic;
+            // Camera2 defines this key only for UHR + REMOSAIC_REPROCESSING.
+            // Other RAW devices expose regular Bayer, even if a HAL also emits
+            // this out-of-scope key. It is not a general sensor-binning switch.
+            // Keep the observation in the evidence; never infer a Quad Bayer
+            // layout from it on an otherwise regular RAW camera.
+            out.put("raw_binning_flag_scope",extendedCfa ? "uhr_remosaic" : "regular_bayer_capability_contract");
+            out.put("raw_binning_factor_used_reported",binningKnown
+                    ? result.getBoolean("android.sensor.rawBinningFactorUsed") : JSONObject.NULL);
+            out.put("raw_binning_flag_outside_scope",binningKnown && !extendedCfa);
+            require(!extendedCfa || (binningKnown && !result.getBoolean("android.sensor.rawBinningFactorUsed")),
                     "non_bayer_or_unknown_raw_binning");
             Object pixelMode=result.opt("android.sensor.pixelMode");
             require((pixelMode!=null && pixelMode!=JSONObject.NULL && result.getInt("android.sensor.pixelMode")==0)

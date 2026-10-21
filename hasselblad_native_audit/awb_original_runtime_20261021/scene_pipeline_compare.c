@@ -8,6 +8,10 @@
 #include "hb_scene_optimizer.h"
 #include "hb_scene_candidates.h"
 #include "hb_scene_controller.h"
+#ifdef HB_HISTORY_PIPELINE
+#include "hb_history.h"
+static unsigned history_calls;
+#endif
 #include <dlfcn.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -132,11 +136,20 @@ int hb_run_scene_pipeline(void *h,unsigned char *ctx,unsigned char *e2,void *con
         same("owned_full_scene_status",t,&a,&b,4);same("owned_full_scene_context",t,reference,ctx,C);
         capture(dir,t,"after_scene_full_owned",ctx,C);
 #ifdef HB_ORIGINAL_TAIL
-        /* Baseline execution only: these downstream stages are not yet owned. */
+        /* Original downstream baseline; optional history boundary replacement. */
         const char *tail_names[]={"scene_awb_hist_proc","scene_awb_atmos_proc","scene_awb_post_proc","scene_awb_reawb_proc"};
-        for(unsigned j=0;j<4;++j){uint32_t (*tail)(int)=sym(h,tail_names[j]);uint32_t ts=tail(0);++tail_calls;tail_errors+=ts!=0;
+        for(unsigned j=0;j<4;++j){
+#ifdef HB_HISTORY_PIPELINE
+            if(j==0)memcpy(owned,ctx,C);
+#endif
+            uint32_t (*tail)(int)=sym(h,tail_names[j]);uint32_t ts=tail(0);++tail_calls;tail_errors+=ts!=0;
             printf("{\"original_tail_frame\":%u,\"stage\":\"%s\",\"status\":%u}\n",t,tail_names[j],ts);
             char name[128];snprintf(name,sizeof name,"after_original_%s",tail_names[j]);capture(dir,t,name,ctx,C);
+#ifdef HB_HISTORY_PIPELINE
+            if(j==0){uint32_t hs=hb_history_process(owned,config);++history_calls;
+                same("owned_history_status",t,&ts,&hs,4);same("owned_history_context",t,ctx,owned,C);
+                capture(dir,t,"after_history_owned",owned,C);memcpy(ctx,owned,C);if(hs)break;}
+#endif
             if(ts)break;
         }
         if(reawb)capture(dir,t,"after_tail_reawb_handle",reawb,R);
@@ -151,12 +164,17 @@ int hb_run_scene_pipeline(void *h,unsigned char *ctx,unsigned char *e2,void *con
     unsigned ok=!mismatches&&frames==7&&active_slots&&optimizer_calls&&filter_calls&&full_scene_calls==7;
 #ifdef HB_ORIGINAL_TAIL
     ok=ok&&tail_calls==28&&!tail_errors;
+#ifdef HB_HISTORY_PIPELINE
+    ok=ok&&history_calls==7;
+#endif
 #endif
     printf("{\"event\":\"original_prepared_owned_scene_stage\",\"all_passed\":%s,\"mismatches\":%u,\"comparisons\":%u,\"frames\":%u,"
            "\"active_normal_slots\":%u,\"weighted_candidates\":%u,\"filter_calls\":%u,\"filter_removed\":%u,\"optimizer_calls\":%u,"
            "\"accumulation_calls\":%u,\"spectral_calls\":%u,\"owned_scene_calls\":%u,\"normal_scene_body_owned\":true,"
            "\"full_scene_calls\":%u,\"scene_stage_owned\":true,\"all_scene_slots_implemented\":true,"
-#ifdef HB_ORIGINAL_TAIL
+#ifdef HB_HISTORY_PIPELINE
+           "\"history_stage_owned\":true,\"history_calls\":7,\"original_tail_baseline\":false,\"downstream_stages_owned\":false,\"passive_reawb_immutability_checked\":false,"
+#elif defined(HB_ORIGINAL_TAIL)
            "\"original_tail_baseline\":true,\"downstream_stages_owned\":false,\"passive_reawb_immutability_checked\":false,"
 #else
            "\"original_tail_baseline\":false,\"passive_reawb_immutability_checked\":true,"

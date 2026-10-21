@@ -30,7 +30,7 @@ Python requires `pyelftools`. The runner verifies the library, original symbol, 
 
 ## Remaining acceptance boundaries
 
-The initial leaf checkpoint restored execution and recalibration. The following checkpoints restore scene initialization, native E2 decoding, bounded classification/filtering and the complete four-slot scene stage. Candidate weighting, accumulation, spectral weighting, special-scene control and all three temperature modes now have owned implementations with original-versus-owned comparisons. Original downstream history/atmosphere/post/REAWB entry points also execute in the generated-frame baseline. Still missing: ownership of the surrounding and downstream AWB stages, real camera-frame inputs and device-specific calibration, the historical seven-frame capture, active REAWB parity, HNCS rendering and phone validation.
+The initial leaf checkpoint restored execution and recalibration. The following checkpoints restore scene initialization, native E2 decoding, bounded classification/filtering and the complete four-slot scene stage. Candidate weighting, accumulation, spectral weighting, special-scene control, all three temperature modes and history processing now have owned implementations with original-versus-owned comparisons. The connected generated-frame comparison now uses the complete owned scene and history stages, then executes original atmosphere/post/REAWB entry points. Still missing: ownership of the surrounding and downstream AWB stages, real camera-frame inputs and device-specific calibration, the historical seven-frame capture, active REAWB parity, HNCS rendering and phone validation.
 
 No APK was built. `main` and the installed Native1C application remain unchanged.
 
@@ -76,11 +76,11 @@ python3 hasselblad_native_audit/awb_original_runtime_20261021/run_scene.py \
 
 ### Resume here (latest checkpoint)
 
-1. Use the existing verified runtime. Current probes are `--controller`, `--pipeline`, `--pipeline --tail-baseline` and `--temperature`. Reports are `SCENE_CONTROLLER_RESULT.json`, `COMPLETE_SCENE_PIPELINE_RESULT.json`, `ORIGINAL_DOWNSTREAM_BASELINE_RESULT.json` and `SCENE_TEMPERATURE_REGRESSION_RESULT.json`.
-2. Replace original history (`scene_awb_hist_proc`, `0x49ba40`, 6,524 bytes), atmosphere (`0x48fed0`, 2,560 bytes) and post-processing (`0x49e4f0`, 9,320 bytes) using the preserved downstream inputs/outputs. The original execution order after scene processing is history, atmosphere, post, REAWB. The new downstream baseline executes all 28 calls successfully; REAWB makes no main-context changes in these fixtures and is not active-output parity.
+1. Use the existing verified runtime. Newest probes are `--history` and `--pipeline --history-pipeline`. Reports are `HISTORY_RESULT.json` and `HISTORY_PIPELINE_RESULT.json`; earlier scene/temperature and original-tail reports retain their own source snapshots.
+2. History is now owned. Next replace original atmosphere (`scene_awb_atmos_proc`, `0x48fed0`, 2,560 bytes), then post-processing (`0x49e4f0`, 9,320 bytes) using the preserved downstream inputs/outputs. The original execution order after scene processing is history, atmosphere, post, REAWB. The new downstream baseline executes all 28 calls successfully; REAWB makes no main-context changes in these fixtures and is not active-output parity.
 3. Extend connected coverage beyond normal slot 0. Direct synthetic scene tests now cover all four slots, temperature modes 0/1/2, eight candidates, dense 4,096-block inputs and state carried across 12 calls. Connected original detection still activates only slot 0 with mode 0. Reconstruct the surrounding user/ROI/sensor/parsing/detection/face route before claiming a wholly owned full AWB controller.
 4. Recover genuine captured-frame inputs and real sensor-calibration injection. The saved seven synthetic native E2 fixtures do not replace the lost historical seven camera frames.
-5. Continue through history, atmosphere, REAWB processing and publication/output; then phone calibration and a specifically bounded APK.
+5. Continue through atmosphere, post, REAWB processing and publication/output; then phone calibration and a specifically bounded APK.
 
 Keep private runtime/config/dumps out of GitHub. Keep `main` and Native1C unchanged.
 
@@ -231,3 +231,34 @@ python3 hasselblad_native_audit/awb_original_runtime_20261021/run_full.py \
 ```
 
 **Current scope:** the four-slot scene stage is owned and verified on these synthetic inputs. Earlier preparation/detection and downstream processing still use original routines in the connected harness. No authentic historical frame recovery, real phone calibration, complete AWB/active REAWB parity, photographic quality or HNCS validation is claimed. No APK was built or installed. `main` and Native1C remain unchanged.
+
+## Owned history processing checkpoint
+
+`hb_history.c` reconstructs `scene_awb_hist_proc` and its temperature-distance, polygon-membership, edge-distance and histogram-zone helpers. It retains the four-slot validity gate, category/confidence selection, EV/CT eligibility, optional gain remapping, distance fallback, histogram/CT/distance interpolation, EV and E-ND correction scaling, weighted category blending, strongest-correction selection, measured-channel selection and all diagnostic/result writes. Numerical work calls only owned functions; original initialization and private calibration tables are still required.
+
+`evidence/HISTORY_RESULT.json`: **30,360 checks, zero mismatches**:
+
+- 4,096 temperature-distance, 4,096 polygon-membership, 4,096 edge-helper, 4,063 polygon-distance and 192 histogram-zone calls. Signed bounds, truncation versus arithmetic shifts, wrapping products, remapping and semantic category selection are exercised.
+- 256 direct history comparisons across all four slots; 192 successful calls and matching error returns/partial contexts for invalid category 74, empty distance table 79 and invalid interpolation weights 80. Sixteen cases contain 4,096 blocks.
+- 256 additional history comparisons exercise multiple categories, non-neutral correction tables, EV/E-ND ramps, confidence weights, overlapping zones, single-row tables, large products and NaNs. **375 slot outputs change their gains**, so this is not just identity-path coverage.
+- 64 further history calls use the unmodified original config with generated context inputs, plus 12 stateful calls. Every comparison includes status and all 920,560 context bytes. Original config and passive REAWB handle remain unchanged.
+
+An early reading suggested that successful interpolation might reset corrections to unity. Non-neutral original-versus-owned tests disproved that reading; the final implementation computes and applies the corrections. No unity-only shortcut remains. The zone-count helper does retain the verified original choice of the larger of its two aggregate measures.
+
+`evidence/HISTORY_PIPELINE_RESULT.json`: **183 comparisons, zero mismatches** on seven generated native E2 frames. The complete owned scene output feeds a history boundary comparison, and the complete owned history output then feeds original atmosphere, post and REAWB calls. All seven history statuses and all 28 original downstream baseline calls are zero. The seven history outputs match byte-for-byte, including the unchanged history state of the low-quality sixth frame. The connected fixtures naturally activate only normal slot 0; all-slot and active-correction coverage comes from the separate generated tests above.
+
+```sh
+python3 hasselblad_native_audit/awb_original_runtime_20261021/run_full.py \
+  --firmware-root /private/extracted --ndk /tools/android-ndk-r27 \
+  --qemu /tools/qemu-aarch64-static --private-output /private/history-check \
+  --report /private/history-result.json --history
+
+python3 hasselblad_native_audit/awb_original_runtime_20261021/run_full.py \
+  --firmware-root /private/extracted --ndk /tools/android-ndk-r27 \
+  --qemu /tools/qemu-aarch64-static --private-output /private/history-pipeline \
+  --report /private/history-pipeline-result.json --pipeline --history-pipeline
+```
+
+The research ABI requires allocated, validated context/config structures and bounded table counts: at most 4,096 blocks, eight history entries per slot, four polygon entries per embedded table, eight distance rows and nonempty EV axes of at most eight entries. This is not an untrusted-input parser. Error parity covers the explicitly exercised malformed category/distance-table cases, not arbitrary invalid pointers or corrupt lengths.
+
+**Next:** reconstruct atmosphere processing at `0x48fed0` from the preserved owned-history outputs, then post-processing at `0x49e4f0`. Surrounding preparation/detection, atmosphere, post and REAWB still use original code in the connected harness. Synthetic agreement does not establish authentic historical-frame recovery, real phone calibration, full AWB, active REAWB, HNCS or photographic quality. No APK was built or installed; `main` and Native1C remain unchanged.

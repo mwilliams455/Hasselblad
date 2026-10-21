@@ -57,6 +57,13 @@ static uint32_t(*original_auto_statistics)(int);
 #include "parsing_fixtures.h"
 static unsigned parsing_calls,parsing_active_calls,parsing_errors;
 #endif
+#ifdef HB_AUTOMATIC_ENTRY
+#include "hb_automatic.h"
+#include "hb_diagnostics.h"
+static unsigned char automatic_workspace[HB_DEBUG_WORKSPACE_BYTES];
+static unsigned owned_tails,composed_calls,composed_guards,composed_recoveries,composed_early_nonzero,automatic_sequence,unsupported_checks,sequence_refresh,sequence_reuse;
+static unsigned automatic_stages[HB_AUTO_STAGE_COUNT];
+#endif
 #ifdef HB_FACE_ENTRY
 #include "hb_face.h"
 #include "face_fixtures.h"
@@ -208,7 +215,16 @@ static hb_run_entry_result compare(test_state*s,unsigned t,int expected,unsigned
 #endif
                     }
 #endif
-                    ++continued;b=hb_original_prepared_completion(s->bias+entry,s->c,b,s->bias+0x791348);
+#ifdef HB_AUTOMATIC_ENTRY
+                    if(dispatch.action==HB_DISPATCH_AUTO_REFRESH||dispatch.action==HB_DISPATCH_AUTO_REUSE||dispatch.action==HB_DISPATCH_COMPLETE_ERROR){
+                        hb_automatic_inputs inputs={&manual_model,&sync_model,automatic_workspace,sizeof automatic_workspace};
+                        hb_automatic_trace trace={.failed_stage=HB_AUTO_STAGE_COUNT};
+                        b=hb_automatic_tail(s->c,s->k,s->missing_reawb?NULL:s->r,&inputs,
+                            dispatch.action==HB_DISPATCH_AUTO_REFRESH?HB_AUTO_REFRESH_TAIL:dispatch.action==HB_DISPATCH_AUTO_REUSE?HB_AUTO_REUSE_TAIL:HB_AUTO_ERROR_TAIL,b,&trace);++owned_tails;
+                        if(b==HB_PREP_UNSUPPORTED){printf("{\"automatic_tail_guard\":%u,\"stage\":%u}\n",t,trace.failed_stage);_exit(1);}
+                    }else
+#endif
+                    {++continued;b=hb_original_prepared_completion(s->bias+entry,s->c,b,s->bias+0x791348);}
                 }
 #else
                 ++continued;b=hb_original_prepared_completion(s->bias+0x471e78,s->c,0,s->bias+0x791348);
@@ -226,6 +242,23 @@ static hb_run_entry_result compare(test_state*s,unsigned t,int expected,unsigned
     same("run_status",t,&a,&b,4);same("run_context",t,s->reference,s->c,C);same("run_config",t,s->kr,s->k,K);same("run_reawb",t,s->rr,s->r,R);
     if(expected>=0){unsigned want=(unsigned)expected,actual=result.reason;same("entry_reason",t,&actual,&want,4);}
     if(capture){dump(s->dir,"run_input",t,s->input,C);dump(s->dir,"run_original",t,s->reference,C);dump(s->dir,"run_owned_entry_original_remainder",t,s->c,C);dump(s->dir,"run_config_input",t,s->ki,K);}
+#ifdef HB_AUTOMATIC_ENTRY
+    memcpy(s->c,s->input,C);memcpy(s->k,s->ki,K);memcpy(s->r,s->ri,R);
+    hb_automatic_inputs inputs={&manual_model,&sync_model,automatic_workspace,sizeof automatic_workspace};hb_automatic_trace trace;
+    if(u32(s->input+0x194)<2){
+        uint32_t full=hb_run_automatic(s->c,s->k,s->missing_reawb?NULL:s->r,&inputs,&trace);++composed_calls;
+        if(full==HB_PREP_UNSUPPORTED){printf("{\"automatic_guard\":%u,\"stage\":%u}\n",t,trace.failed_stage);_exit(1);}
+        same("composed_status",t,&a,&full,4);same("composed_context",t,s->reference,s->c,C);same("composed_config",t,s->kr,s->k,K);same("composed_reawb",t,s->rr,s->r,R);same("composed_entry_reason",t,&result.reason,&trace.entry.reason,sizeof result.reason);
+        for(unsigned j=0;j<HB_AUTO_STAGE_COUNT;++j)automatic_stages[j]+=(trace.stages>>j)&1;
+        if(t>=11000&&t<11096){sequence_refresh+=trace.dispatch.action==HB_DISPATCH_AUTO_REFRESH;sequence_reuse+=trace.dispatch.action==HB_DISPATCH_AUTO_REUSE;}
+        composed_recoveries+=trace.completed&&trace.completion.preceding_status!=0;composed_early_nonzero+=!trace.completed&&full!=0;
+        if(capture){dump(s->dir,"run_owned_composed",t,s->c,C);dump(s->dir,"run_trace",t,&trace,sizeof trace);}
+    }else{
+        memset(&trace,0xa5,sizeof trace);hb_automatic_trace before=trace;uint32_t full=hb_run_automatic(s->c,s->k,s->r,&inputs,&trace),want=HB_PREP_UNSUPPORTED;
+        same("mode_guard_status",t,&full,&want,4);same("mode_guard_context",t,s->input,s->c,C);same("mode_guard_config",t,s->ki,s->k,K);same("mode_guard_reawb",t,s->ri,s->r,R);same("mode_guard_trace",t,&before,&trace,sizeof trace);composed_guards+=5;
+        memcpy(s->c,s->reference,C);memcpy(s->k,s->kr,K);memcpy(s->r,s->rr,R);
+    }
+#endif
     return result;
 }
 int hb_run_entry_tests(void*h,unsigned char*c,unsigned char*e2,void*config,void*reawb,const char*dir){
@@ -446,6 +479,44 @@ int hb_run_entry_tests(void*h,unsigned char*c,unsigned char*e2,void*config,void*
         c[0xd328]=c[0xd329]=0;c[0xd32a]=1;((unsigned char*)reawb)[0x1c]=0;
         compare(&s,10400+t,HB_RUN_READY,1);
     }
+#ifdef HB_AUTOMATIC_ENTRY
+    /* Consecutive imported frames exercise the composed controller, with
+     * alternating refresh/reuse requests and passive REAWB enabled. */
+    memcpy(c,base,C);memcpy(k,cfg,K);memcpy(c+0xb2028,&k,8);memcpy(reawb,rbase,R);
+    k[0x24]=1;w32(k+0x78,0);w32(c+0x17c,0);w32(c+0x184,0);w32(c+0xb2020,0);synthetic_white_axes(k);
+    k[0x1531a8]=k[0x1531ac]=k[0x1531ad]=1;w32(k+0x1531b0,UINT32_MAX);w16(c+0xef3e,0);
+    ((unsigned char*)reawb)[0x1c]=1;((unsigned char*)reawb)[0x1d]=0;((unsigned char*)reawb)[0x20]=1;((unsigned char*)reawb)[0x22]=0;
+    for(unsigned t=0;t<96;++t){
+        memset(input,0,0x4118);w32(input,u32(e2+0x4120));w32(input+4,0x4118);w32(input+8,100+t);w32(input+12,u32(e2+0x412c));
+        for(unsigned j=0;j<1024;++j){unsigned row=20+(t/8)%7*5+(j%23==0?5:0);uint32_t red=u32(c+0x348+16*row),blue=u32(c+0x34c+16*row),green=1800+(j%11)*64;unsigned char*p=input+16+16*j;
+            w16(p,(green<<12)/red);w16(p+2,green);w16(p+4,green);w16(p+6,(green<<12)/blue);p[8]=255;}
+        uint32_t st=set(0,input);if(!st)st=parse(0,parsed,meta);if(!st)st=import(0,parsed,meta);if(st)return 2;
+        wf(c+0x990d4,6+(float)(t/16));w32(c+0x990e4,16);wf(c+0x990e8,1024);for(unsigned j=0;j<16;++j)wf(c+0x990ec+4*j,64);
+        w32(c+0x194,t/48);c[0x990dc]=(t/24)%2;wf(c+0x990d8,(float)(t%5));c[0xd328]=c[0xd329]=0;c[0xd32a]=t%3==0;
+        if(t<3||t==95)dump(dir,"sequence_native_input",t,input,0x4118);
+        compare(&s,11000+t,HB_RUN_READY,t<3||t==47||t==48||t==95);++automatic_sequence;
+    }
+    unsigned want_refresh=32,want_reuse=64;same("sequence_refresh_coverage",0,&sequence_refresh,&want_refresh,4);same("sequence_reuse_coverage",0,&sequence_reuse,&want_reuse,4);
+    /* Owned-only unsupported-domain checks: never invoke original file I/O
+     * or active/linked REAWB. Unsupported is not native error recovery. */
+    for(unsigned t=0;t<2;++t){
+        memcpy(c,dispatch_base,C);memcpy(k,dispatch_cfg,K);memcpy(reawb,dispatch_r,R);w32(c+0x194,0);w32(c+0x174,2);
+        hb_automatic_inputs inputs={&manual_model,&sync_model,automatic_workspace,sizeof automatic_workspace};hb_automatic_trace trace={.failed_stage=HB_AUTO_STAGE_COUNT};
+        if(!t){c[0xb1ef8]=1;w16(c+0xb1efa,1);w16(c+0xb1efc,1);w32(c+0xb1f00,0);}
+        else{((unsigned char*)reawb)[0x1c]=1;((unsigned char*)reawb)[0x22]=1;((unsigned char*)reawb)[0x1d]=0;}
+        uint32_t st=hb_automatic_tail(c,k,reawb,&inputs,t?HB_AUTO_REFRESH_TAIL:HB_AUTO_REUSE_TAIL,0,&trace),want=HB_PREP_UNSUPPORTED;
+        unsigned stage=t?HB_AUTO_REAWB:HB_AUTO_DEBUG,actual=trace.failed_stage,zero=0,completed=trace.completed;
+        same("unsupported_status",t,&st,&want,4);same("unsupported_stage",t,&actual,&stage,4);same("unsupported_not_completed",t,&completed,&zero,4);same("unsupported_record",t,&trace.stage_status,&want,4);unsupported_checks+=4;
+    }
+    for(unsigned t=0;t<5;++t){
+        memcpy(c,dispatch_base,C);memcpy(k,dispatch_cfg,K);memcpy(reawb,dispatch_r,R);w32(c+0x194,0);
+        memcpy(s.input,c,C);memcpy(s.ki,k,K);memcpy(s.ri,reawb,R);hb_automatic_trace trace;memset(&trace,0xa5,sizeof trace);hb_automatic_trace before=trace;
+        hb_automatic_inputs inputs={&manual_model,&sync_model,automatic_workspace,sizeof automatic_workspace};
+        if(t==0)inputs.temperature=NULL;if(t==1)inputs.roi=NULL;if(t==2)inputs.debug_workspace=NULL;if(t==3)inputs.debug_workspace_bytes=HB_DEBUG_WORKSPACE_BYTES-1;
+        uint32_t st=hb_run_automatic(c,k,reawb,t==4?NULL:&inputs,&trace),want=HB_PREP_UNSUPPORTED;
+        same("input_guard_status",t,&st,&want,4);same("input_guard_context",t,s.input,c,C);same("input_guard_config",t,s.ki,k,K);same("input_guard_reawb",t,s.ri,reawb,R);same("input_guard_trace",t,&before,&trace,sizeof trace);unsupported_checks+=5;
+    }
+#endif
     printf("{\"event\":\"owned_face_entry_counts\",\"owned_face_calls\":%u,\"active_face_calls\":%u,\"face_error_completions\":%u,\"original_face_callbacks\":0,\"face_owned\":true}\n",face_calls,face_active,face_errors);
 #endif
     printf("{\"event\":\"owned_detection_entry_counts\",\"owned_detection_calls\":%u,\"detection_error_completions\":%u,\"status106\":%u,\"status131\":%u,\"status177\":%u,\"status247\":%u,\"original_detection_callbacks\":0,\"detection_owned\":true}\n",detect_calls,detect_errors,detect106,detect131,detect177,detect247);
@@ -464,6 +535,10 @@ int hb_run_entry_tests(void*h,unsigned char*c,unsigned char*e2,void*config,void*
     printf("{\"event\":\"owned_roi_entry_counts\",\"roi_calls\":%u,\"roi_error_completions\":%u,\"original_sync_callbacks\":%u,\"roi_processing_owned\":true,\"roi_synchronization_owned\":%s}\n",roi_calls,roi_errors,original_sync_calls,original_sync_calls?"false":"true");
 #endif
     printf("{\"event\":\"owned_dispatch_counts\",\"suspended_returns\":%u,\"automatic_refresh\":%u,\"automatic_reuse\":%u,\"manual_remainders\":%u,\"custom_remainders\":%u,\"error_completions\":%u}\n",dispatch_counts[0],dispatch_counts[1],dispatch_counts[2],dispatch_counts[3],dispatch_counts[4],dispatch_counts[5]);
+#endif
+#ifdef HB_AUTOMATIC_ENTRY
+    printf("{\"event\":\"owned_automatic_composition\",\"full_automatic_calls\":%u,\"owned_suffix_calls\":%u,\"mode_guard_checks\":%u,\"native_error_recoveries\":%u,\"early_nonzero_returns\":%u,\"consecutive_frame_calls\":%u,\"sequence_refresh\":%u,\"sequence_reuse\":%u,\"unsupported_checks\":%u,\"original_automatic_callbacks\":0,\"manual_custom_original_continuations\":%u,\"stage_counts\":[",composed_calls,owned_tails,composed_guards,composed_recoveries,composed_early_nonzero,automatic_sequence,sequence_refresh,sequence_reuse,unsupported_checks,continued);
+    for(unsigned j=0;j<HB_AUTO_STAGE_COUNT;++j)printf("%s%u",j?",":"",automatic_stages[j]);printf("],\"bounded_automatic_controller_owned\":true,\"initialization_owned\":false,\"phone_colour_validated\":false}\n");
 #endif
     same("initial_config_immutable",0,config,cfg,K);memcpy(c,base,C);memcpy(reawb,rbase,R);
     printf("{\"event\":\"owned_run_entry\",\"checks\":%u,\"mismatches\":%u,\"early_returns\":%u,\"original_remainder_calls\":%u,\"reason_counts\":[%u,%u,%u,%u,%u,%u],\"rate_boundary_cases\":144,\"stateful_calls\":%u,\"native_frames\":%u,\"white_lut_failure_returns\":%u,\"active_e_nd_native_frames\":%u,\"user_prefix_calls\":%u,\"user_failure_returns\":%u,\"original_user_remainders\":%u,\"user_status_83_returns\":%u,\"user_status_84_returns\":%u,\"unit_requests_accepted\":%u,\"unit_requests_rejected\":%u,\"all_passed\":%s,\"whole_controller_owned\":false,\"original_remainder_used\":true,\"synthetic_inputs\":true}\n",checks,failures,early,continued,reasons[0],reasons[1],reasons[2],reasons[3],reasons[4],reasons[5],stateful_calls,native_calls,white_errors,active_native,user_prefix_calls,user_errors,user_remainders,user_errors83,user_errors84,unit_accepted,unit_rejected,failures?"false":"true");return failures?1:0;

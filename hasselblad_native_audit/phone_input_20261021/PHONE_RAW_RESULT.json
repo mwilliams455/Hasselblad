@@ -1,0 +1,107 @@
+{
+  "status": "PASS",
+  "synthetic_frames": 32,
+  "native_rejection_cases": 21,
+  "metadata_rejection_cases": 19,
+  "real_capture_variants": [
+    {
+      "black_source": "exported",
+      "samples": 12582912,
+      "ratio_blocks": 1024,
+      "nonpositive_blocks": 0,
+      "saturated_blocks": 0,
+      "range_blocks": 0,
+      "host_build_and_oracle_seconds": 0.20406021199960378
+    },
+    {
+      "black_source": "dynamic",
+      "samples": 12582912,
+      "ratio_blocks": 1024,
+      "nonpositive_blocks": 0,
+      "saturated_blocks": 0,
+      "range_blocks": 0,
+      "host_build_and_oracle_seconds": 0.21467210899936617
+    },
+    {
+      "black_source": "static",
+      "samples": 12582912,
+      "ratio_blocks": 1024,
+      "nonpositive_blocks": 0,
+      "saturated_blocks": 0,
+      "range_blocks": 0,
+      "host_build_and_oracle_seconds": 0.18469341799936956
+    }
+  ],
+  "independent_block_comparisons": 35840,
+  "cross_runtime": [
+    {
+      "case": "capture_exported",
+      "runtime": "sanitized",
+      "exact_bytes": 139296,
+      "sha256": "f2010ce68af3328ab8fc2b60557492f052e76c56c1e5516640705785577035b2"
+    },
+    {
+      "case": "capture_exported",
+      "runtime": "android",
+      "exact_bytes": 139296,
+      "sha256": "f2010ce68af3328ab8fc2b60557492f052e76c56c1e5516640705785577035b2"
+    },
+    {
+      "case": "capture_dynamic",
+      "runtime": "sanitized",
+      "exact_bytes": 139296,
+      "sha256": "218cf199791019ccda8a305f7da63d67cefbef925149d275c24f6649c32c0706"
+    },
+    {
+      "case": "capture_dynamic",
+      "runtime": "android",
+      "exact_bytes": 139296,
+      "sha256": "218cf199791019ccda8a305f7da63d67cefbef925149d275c24f6649c32c0706"
+    },
+    {
+      "case": "synthetic_3_2",
+      "runtime": "sanitized",
+      "exact_bytes": 139296,
+      "sha256": "6fafd3f0e5089fb5f1b9a20bf7556d5e351742230903898b5e9ffb77d17a8de9"
+    },
+    {
+      "case": "synthetic_3_2",
+      "runtime": "android",
+      "exact_bytes": 139296,
+      "sha256": "6fafd3f0e5089fb5f1b9a20bf7556d5e351742230903898b5e9ffb77d17a8de9"
+    }
+  ],
+  "source_sha256": {
+    "hasselblad_native_audit/phone_input_20261021/hb_phone_raw.c": "b90e5e9fe39788a342b7d87b39eed555fa51d92372f3acf1647b28a676e19b19",
+    "hasselblad_native_audit/awb_rebuild_04_20261021/src/hb_awb_frame_stats.c": "b7e382fd9bd889f480e2fd2edcc59a3cfc0a2131744ce28013e3dcb00230b8de",
+    "hasselblad_native_audit/awb_rebuild_04_20261021/src/hb_awb_stages.c": "22970f43daa7e8fec0ad9c97bd84546b891c27bbca25d039fa6059ee7cbbcc25",
+    "hasselblad_native_audit/phone_input_20261021/hb_phone_raw.h": "facba53326d370d5b66172c533477632fe92550aaf73952ba37329cc99b35787",
+    "hasselblad_native_audit/phone_input_20261021/phone_raw_probe.c": "a42c45997339cee1a79650623b1fe480569a4a7f39e0faa0df5d89ad888e0eb7",
+    "hasselblad_native_audit/phone_input_20261021/verify_phone_raw.py": "017f13fa390428c5855a5eab4ec06a4748627ce7a4a56db688bb638ab9e2c91a",
+    "hasselblad_native_audit/phone_input_20261021/capture_binding.py": "e984b26b8dec2623462419c5c3a514f85968d48e9c6aa8e29ecd35773e3d9776",
+    "hasselblad_native_audit/awb_rebuild_04_20261021/src/hb_awb_frame_stats.h": "67315b48cd1621a9a04ea20ac6e6a87f66351c3a5df5505b648e4afa14063329",
+    "hasselblad_native_audit/awb_rebuild_04_20261021/src/hb_awb_stages.h": "f2ec254a39f26b0d06291a3a058be09196ec3864e588d4442776fc3f6fc418ea",
+    "hasselblad_device_validation_20261019/raw_audit/audit_dng.py": "743ccc5a1550cf4776c0b1421d8a170e10cc574a3be0d63e3a2885f13df4cb47"
+  },
+  "input_sha256": {
+    "capture": "4b2d29c36fefab63d5ec51d599e21bfdcc1cbfe622767de135e5fabe847b5862",
+    "dng": "4a275648d6490ad32c156bedf1abd1d08618e942ca658893d4374ac93e23101a"
+  },
+  "binary_sha256": {
+    "libphone_raw.so": "69db46284604ed8c1e6516223cf2c40539745af88dd77b62469309855ea76996",
+    "phone_raw_sanitized": "22a81d65ba9049313a4cf874685f775700ebf33c7f40c7e32a751cf36bc5b1a9",
+    "phone_raw_android28": "cf3f344d13261fc70b73c67e3addd30e653c71c6cebe02aca394a5998e49b30a"
+  },
+  "sanitizers": {
+    "address": true,
+    "undefined": true,
+    "leak": false,
+    "leak_limitation": "Executor denies /proc task inspection"
+  },
+  "original_capture_unchanged": true,
+  "phone_estimator_calibration_available": false,
+  "vendor_e2_equivalence_proven": false,
+  "automatic_controller_called": false,
+  "apk_built": false,
+  "photographic_colour_validated": false
+}

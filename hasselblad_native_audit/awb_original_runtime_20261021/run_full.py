@@ -18,8 +18,9 @@ def main():
     p.add_argument('--prepare',action='store_true',help='Compare preparation, classification and connected-component filter')
     p.add_argument('--pipeline',action='store_true',help='Compare the owned normal scene body on seven synthetic native E2 frames')
     p.add_argument('--candidates',action='store_true',help='Compare candidate weighting, accumulation and normal scene control')
+    p.add_argument('--temperature',action='store_true',help='Compare all temperature modes and their matrix/xy helpers')
     a=p.parse_args()
-    if sum([a.prepare,a.pipeline,a.candidates])>1:p.error('Choose one comparison mode')
+    if sum([a.prepare,a.pipeline,a.candidates,a.temperature])>1:p.error('Choose one comparison mode')
     root=a.firmware_root.resolve();out=a.private_output.resolve()
     if out.is_relative_to(AUDIT.parent):
         raise ValueError('Private output must be outside the public repository')
@@ -35,11 +36,14 @@ def main():
     if a.prepare:sources.extend([HERE/'prepare_compare.c',HERE/'hb_stat_prepare.c',HERE/'hb_scene_filter.c'])
     if a.pipeline:sources.extend([HERE/'scene_pipeline_compare.c',HERE/'hb_stat_prepare.c',HERE/'hb_scene_filter.c',HERE/'hb_scene_optimizer.c',HERE/'hb_scene_candidates.c'])
     if a.candidates:sources.extend([HERE/'candidates_compare.c',HERE/'hb_scene_candidates.c',HERE/'hb_scene_filter.c',HERE/'hb_scene_optimizer.c'])
+    if a.temperature:sources.extend([HERE/'temperature_compare.c',HERE/'hb_scene_candidates.c',HERE/'hb_scene_filter.c',HERE/'hb_scene_optimizer.c'])
+    if a.pipeline or a.candidates or a.temperature:sources.append(HERE/'hb_temperature.c')
     cmd=[str(compiler),'-std=c11','-O2','-Wall','-Wextra','-Werror','-fPIE','-pie',
          '-ffp-contract=off','-Wl,-z,max-page-size=16384']
     if a.prepare:cmd+=['-DHB_PREPARE_COMPARE=1']
     if a.pipeline:cmd+=['-DHB_SCENE_PIPELINE=1']
     if a.candidates:cmd+=['-DHB_CANDIDATES_COMPARE=1']
+    if a.temperature:cmd+=['-DHB_TEMPERATURE_COMPARE=1']
     cmd += [*map(str,sources),'-ldl','-lm','-o',str(probe)]
     built=subprocess.run(cmd,capture_output=True,text=True,timeout=60)
     if built.returncode:raise RuntimeError(built.stderr)
@@ -49,17 +53,19 @@ def main():
                      capture_output=True,text=True,timeout=30,preexec_fn=limits)
     (out/'stdout.txt').write_text(r.stdout);(out/'stderr.txt').write_text(r.stderr)
     events=[json.loads(line) for line in r.stdout.splitlines() if line.startswith('{')]
-    ok=(r.returncode==0 and len(events)==(11 if a.pipeline else 4 if (a.prepare or a.candidates) else 3)
+    ok=(r.returncode==0 and len(events)==(11 if a.pipeline else 4 if (a.prepare or a.candidates or a.temperature) else 3)
         and [e.get('stage') for e in events[:2]]==['awb_cfg_load','awb_lib_init']
         and all(e.get('status')==0 for e in events[:2])
         and events[2].get('initialized_marker')==1 and events[2].get('e2_context_present') is True)
     if a.prepare:ok &= events[-1].get('all_passed') is True
     if a.pipeline:ok &= events[-1].get('all_passed') is True
     if a.candidates:ok &= events[-1].get('all_passed') is True
-    headers=[HERE/'hb_stat_prepare.h',HERE/'hb_scene_filter.h'] if (a.prepare or a.pipeline or a.candidates) else []
-    if a.pipeline or a.candidates:headers.extend([HERE/'hb_scene_optimizer.h',HERE/'hb_scene_candidates.h'])
+    if a.temperature:ok &= events[-1].get('all_passed') is True
+    headers=[HERE/'hb_stat_prepare.h',HERE/'hb_scene_filter.h'] if (a.prepare or a.pipeline or a.candidates or a.temperature) else []
+    if a.pipeline or a.candidates or a.temperature:headers.extend([HERE/'hb_scene_optimizer.h',HERE/'hb_scene_candidates.h'])
+    if a.pipeline or a.candidates or a.temperature:headers.append(HERE/'hb_temperature.h')
     report={'created_utc':datetime.now(timezone.utc).isoformat(),'all_passed':ok,'exit':r.returncode,
-            'mode':'owned_normal_scene_pipeline' if a.pipeline else 'candidate_weighting_accumulation' if a.candidates else 'preparation_classification_filter' if a.prepare else 'full_initialization',
+            'mode':'owned_normal_scene_pipeline' if a.pipeline else 'calibrated_temperature' if a.temperature else 'candidate_weighting_accumulation' if a.candidates else 'preparation_classification_filter' if a.prepare else 'full_initialization',
             'events':events,'input_config_sha256':sha(config),'library_sha256':sha(root/'system/lib64/libaaa.so'),
             'linker_sha256':linker_sha,'dependency_count':len(closure),'qemu_sha256':sha(a.qemu),
             'compiler_version':subprocess.check_output([str(compiler),'--version'],text=True).splitlines()[0],

@@ -119,6 +119,10 @@ uint32_t hb_candidate_temperature(const unsigned char *ctx,uint32_t mode,uint32_
     *ct=(float)temperature;*tint=(float)deviation;return 0;
 }
 uint32_t hb_candidate_accumulate(unsigned char *ctx,const unsigned char *p,const unsigned char *curves,uint32_t scene,uint32_t slot,uint32_t mode,uint32_t fraction){
+    const unsigned char *cfg;memcpy(&cfg,ctx+0xb2028,sizeof cfg);
+    return hb_candidate_accumulate_with_model(ctx,cfg,p,curves,scene,slot,mode,fraction,NULL);
+}
+uint32_t hb_candidate_accumulate_with_model(unsigned char *ctx,const unsigned char *cfg,const unsigned char *p,const unsigned char *curves,uint32_t scene,uint32_t slot,uint32_t mode,uint32_t fraction,const hb_temperature_model *model){
     scene&=255;slot&=255;size_t off=slot*0x10188+scene*0x2020;
     uint32_t threshold=(u32(ctx+0x28)*(fraction&255))>>8,ev=ctx[0x3761c],count=0;
     uint64_t weights=0,red=0,blue=0;
@@ -132,7 +136,7 @@ uint32_t hb_candidate_accumulate(unsigned char *ctx,const unsigned char *p,const
         w32(candidate+24,w);return 0;}
     if(weights){red/=weights;blue/=weights;}
     w32(candidate,(uint32_t)red);w32(candidate+4,(uint32_t)blue);w32(candidate+20,count);candidate[8]=1;
-    float ct=0,tint=0;uint32_t st=hb_candidate_temperature(ctx,mode,(uint32_t)red,4096,(uint32_t)blue,&ct,&tint);if(st)return st;
+    float ct=0,tint=0;uint32_t st=hb_temperature_compute(ctx,cfg,model,mode,(uint32_t)red,4096,(uint32_t)blue,&ct,&tint);if(st)return st;
     unsigned n=curves[0];if(!n)return 57;
     const unsigned char *a,*b;ev_rows(curves+4,n,(float)ev,&a,&b);
     uint32_t av,bv,temperature=fu(ct),deviation=(uint32_t)fs(tint);
@@ -179,6 +183,9 @@ uint32_t hb_scene_spec_weight(unsigned char *ctx,const unsigned char *cfg,uint32
     return hb_spectral_ratio(cfg+0x2534+slot*0xa278,sum,ctx+0x2154+slot*0xa71);
 }
 uint32_t hb_normal_scene(unsigned char *ctx,const unsigned char *cfg){
+    return hb_normal_scene_with_model(ctx,cfg,NULL);
+}
+uint32_t hb_normal_scene_with_model(unsigned char *ctx,const unsigned char *cfg,const hb_temperature_model *model){
     if(u16(ctx+0x3da54)||u16(ctx+0x3da56))return HB_PREP_UNSUPPORTED;
     uint32_t maximum=0;
     for(unsigned slot=0;slot<2;++slot){
@@ -191,7 +198,7 @@ uint32_t hb_normal_scene(unsigned char *ctx,const unsigned char *cfg){
                 eligible=1;size_t off=slot*0x10188+scene*0x2020;ctx[0x3dacc+off]=1;
                 st=hb_candidate_weight(ctx,cfg,p,scene,slot);if(st)return st;
                 st=hb_scene_filter(ctx,scene,slot,cfg[0x1548+slot*0xa278]);if(st)return st;
-                st=hb_candidate_accumulate(ctx,p,cfg+slot*0xa278+0xa594,scene,slot,u32(cfg+slot*0xa278+0x1544),cfg[slot*0xa278+0x154a]);if(st)return st;
+                st=hb_candidate_accumulate_with_model(ctx,cfg,p,cfg+slot*0xa278+0xa594,scene,slot,u32(cfg+slot*0xa278+0x1544),cfg[slot*0xa278+0x154a],model);if(st)return st;
                 uint32_t m=u32(ctx+0x3fae4+off);if(m>metric)metric=m;
             }
             if(n){if(!eligible)return 40;st=hb_scene_optimizer(ctx,slot,n,params);if(st)return st;}

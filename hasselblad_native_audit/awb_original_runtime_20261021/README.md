@@ -30,7 +30,7 @@ Python requires `pyelftools`. The runner verifies the library, original symbol, 
 
 ## Remaining acceptance boundaries
 
-The initial leaf checkpoint restored execution and recalibration. The following checkpoints restore scene initialization, native E2 decoding, bounded classification/filtering and the owned normal-slot scene body. The latest checkpoint below replaces candidate weighting, accumulation and spectral weighting and compares the complete normal body on seven generated native frames. Still missing: real camera-frame inputs and device-specific calibration, the historical seven-frame capture, a wholly owned full controller/REAWB chain, HNCS rendering and phone validation.
+The initial leaf checkpoint restored execution and recalibration. The following checkpoints restore scene initialization, native E2 decoding, bounded classification/filtering and the owned normal-slot scene body. Candidate weighting, accumulation, spectral weighting and all three temperature modes now have owned implementations with original-versus-owned comparisons. Still missing: special-scene paths, real camera-frame inputs and device-specific calibration, the historical seven-frame capture, a wholly owned full controller/REAWB chain, HNCS rendering and phone validation.
 
 No APK was built. `main` and the installed Native1C application remain unchanged.
 
@@ -76,9 +76,9 @@ python3 hasselblad_native_audit/awb_original_runtime_20261021/run_scene.py \
 
 ### Resume here (latest checkpoint)
 
-1. Use the existing verified runtime. `--candidates` and `--pipeline` are the latest bounded acceptance probes; `--prepare` retains the preparation suite. Current reports are `CANDIDATES_RESULT.json` and `OWNED_NORMAL_SCENE_RESULT.json`.
-2. Reconstruct calibrated temperature modes 1/2 and special scene slots 2–3. Mode 0, the mode in both authentic normal-slot parameter sets, is now owned. Unsupported paths return explicitly; they must not silently fall back to original routines.
-3. Extend connected coverage beyond normal slot 0. Direct synthetic controller tests cover slots 0/1 and wider EV/gate combinations; connected original detection still activates only slot 0. Reconstruct the surrounding user/ROI/sensor/parsing/detection/face route as needed before claiming an owned full controller.
+1. Use the existing verified runtime. `--temperature`, `--candidates` and `--pipeline` are the latest bounded acceptance probes; `--prepare` retains the preparation suite. Current reports are `CALIBRATED_TEMPERATURE_RESULT.json`, `TEMPERATURE_CANDIDATES_REGRESSION_RESULT.json` and `TEMPERATURE_PIPELINE_REGRESSION_RESULT.json`.
+2. Reconstruct special scene slots 2–3. They reuse the owned candidate functions but have distinct parameter offsets, spectral configuration and a post-optimizer weight calculation at original address `0x4a9640`. The controller branch starts at `0x4a7834`. Temperature modes 0/1/2 are now implemented; modes 1/2 use an explicitly supplied private isotemperature table where required. No original numerical callbacks are used.
+3. Extend connected coverage beyond normal slot 0. Direct synthetic controller tests cover slots 0/1, all temperature modes and wider EV/gate combinations; connected original detection still activates only slot 0 with mode 0. Reconstruct the surrounding user/ROI/sensor/parsing/detection/face route as needed before claiming an owned full controller.
 4. Recover genuine captured-frame inputs and real sensor-calibration injection. The saved seven synthetic native E2 fixtures do not replace the lost historical seven camera frames.
 5. Continue through history, atmosphere, REAWB processing and publication/output; then phone calibration and a specifically bounded APK.
 
@@ -170,3 +170,30 @@ python3 hasselblad_native_audit/awb_original_runtime_20261021/run_full.py \
 Private evidence captures the generated native input and intermediate states plus original, boundary-comparison and standalone-owned scene outputs for each frame. Source, binary and dump hashes are recorded in the reports. Earlier reports describe their own pinned source snapshots and have not been rewritten.
 
 **Scope:** CT modes 1/2 and active special slots 2/3 remain explicitly unsupported. The connected harness still uses original decode/import and surrounding user/ROI/sensor/parsing/detection/face processing; automatic preparation is separately compared with owned code. The enabled spectral route has direct synthetic coverage, not camera-frame validation. History, atmosphere, final publication and REAWB processing are not covered here. No full AWB parity, real calibration recovery, APK build or phone validation is claimed.
+
+## Calibrated temperature modes and scene integration checkpoint
+
+`hb_temperature.c` now reconstructs modes 1/2 and their matrix/xy helpers. Mode 1 normalizes the input channels, selects/interpolates the private calibration matrices, performs the original inverse-matrix iteration and converts xy to temperature/tint using an externally supplied 31-row table. It retains the AE-dependent matrix and gain-remapping paths. Mode 2 selects the calibrated calculation below the first red-gain knot, the existing nearest-table calculation within range, and the original extrapolation above the final knot.
+
+`hb_temperature_compute` is the complete temperature entry point. The older `hb_candidate_temperature` remains the mode-0 primitive. `hb_candidate_accumulate_with_model` and `hb_normal_scene_with_model` connect the complete implementation using an explicit `hb_temperature_model`; wrappers without that model retain mode-0 operation and return unsupported if a required table is unavailable. No original function pointer is accepted. Private tables and calibration are read at runtime, never embedded in the owned source.
+
+`evidence/CALIBRATED_TEMPERATURE_RESULT.json`: **19,362 checks, zero mismatches**:
+
+- 2,048 xy-to-temperature/tint comparisons, 512 matrix-row comparisons and 512 matrix-selection/interpolation comparisons.
+- Direct temperature calls: 128 mode-0, 2,048 mode-1, 2,048 mode-2 and 32 invalid-mode cases. Results match bit-for-bit, including error returns and unchanged outputs on errors.
+- 32 aliased-output cases and 128 candidate-accumulation comparisons using the alternate models.
+- 64 complete normal-scene comparisons with alternate models selected in private config copies; all 64 return zero and match every one of the 920,560 context bytes. Gate and mode selections are explicitly synthetic.
+- Zero-channel status 91, singular-matrix status 92, invalid-extrapolation status 93 and invalid-mode status 94 are exercised. Original config and the passive 1,000-byte REAWB handle remain unchanged.
+
+The existing acceptance routes also pass after integration: **9,858 checks** in `TEMPERATURE_CANDIDATES_REGRESSION_RESULT.json` and **156 comparisons / seven generated native frames** in `TEMPERATURE_PIPELINE_REGRESSION_RESULT.json`, all with zero mismatches. Both authentic normal-slot parameter sets still select mode 0; the connected seven-frame run therefore remains mode-0 coverage. The new direct scene tests establish the alternate-mode integration separately.
+
+```sh
+python3 hasselblad_native_audit/awb_original_runtime_20261021/run_full.py \
+  --firmware-root /private/extracted --ndk /tools/android-ndk-r27 \
+  --qemu /tools/qemu-aarch64-static --private-output /private/temperature-check \
+  --report /private/calibrated-temperature-result.json --temperature
+```
+
+The private evidence includes the external isotemperature table, initialized runtime dumps, deterministic input/output vectors and representative original/owned scene states. `temperature_vectors.bin` stores 40-byte little-endian records: six uint32 fields (mode, case, red, green, blue, original status), two original float outputs and two owned float outputs. Context pointers are meaningful only within their original execution. Earlier reports retain their historical source hashes.
+
+**Current boundary:** active special slots 2/3 remain unsupported. These tests do not recover real camera frames, phone calibration or photographic image quality. Surrounding controller stages, history, atmosphere, final publication, active REAWB processing and HNCS rendering remain outside this checkpoint. No APK was built or installed; `main` and Native1C remain unchanged.

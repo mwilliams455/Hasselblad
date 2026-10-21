@@ -1,0 +1,508 @@
+{
+  "created_utc": "2026-10-21T10:41:03.124510+00:00",
+  "all_passed": true,
+  "exit": 0,
+  "mode": "owned_normal_scene_pipeline",
+  "events": [
+    {
+      "stage": "awb_cfg_load",
+      "status": 0
+    },
+    {
+      "stage": "awb_lib_init",
+      "status": 0
+    },
+    {
+      "event": "original_full_initialization",
+      "initialized_marker": 1,
+      "context_bytes": 920560,
+      "config_bytes": 1502800,
+      "e2_bytes": 118416,
+      "e2_context_present": true,
+      "reawb_handle_present": true
+    },
+    {
+      "pipeline_frame": 0,
+      "gates": [
+        256,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "pipeline_frame": 1,
+      "gates": [
+        256,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "pipeline_frame": 2,
+      "gates": [
+        256,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "pipeline_frame": 3,
+      "gates": [
+        256,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "pipeline_frame": 4,
+      "gates": [
+        256,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "pipeline_frame": 5,
+      "gates": [
+        256,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "pipeline_frame": 6,
+      "gates": [
+        256,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "event": "original_prepared_owned_normal_scene",
+      "all_passed": true,
+      "mismatches": 0,
+      "comparisons": 156,
+      "frames": 7,
+      "active_normal_slots": 7,
+      "weighted_candidates": 14,
+      "filter_calls": 14,
+      "filter_removed": 488,
+      "optimizer_calls": 7,
+      "accumulation_calls": 14,
+      "spectral_calls": 7,
+      "owned_scene_calls": 7,
+      "normal_scene_body_owned": true,
+      "statuses": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "synthetic_frames": true,
+      "historical_frames": false,
+      "wholly_owned_controller": false
+    }
+  ],
+  "input_config_sha256": "7fa13044a6c5453b67e4ae11bf8d07828de8e1c02aa915494fe5dad20930d435",
+  "library_sha256": "7d6164eccc734de7087bb778ee72f17a0b3ccf6c0d1f20092c7ebe74a86574ba",
+  "linker_sha256": "313d7a6d94cdeb9e2b2adb4be98a8b18240b08012b22f922acea7984f42ff35d",
+  "dependency_count": 65,
+  "qemu_sha256": "4f55e2e88dc05dc0f619562d5795b8eb25ed2ad2547504fb4835207a6911c350",
+  "compiler_version": "Android (12027248, +pgo, +bolt, +lto, +mlgo, based on r522817) clang version 18.0.1 (https://android.googlesource.com/toolchain/llvm-project d8003a456d14a3deb8054cdaa529ffbf02d9b262)",
+  "source_sha256": {
+    "awb_original_runtime_20261021/full_probe.c": "b3e96b0ac52d40feb08006521020e9b569a6fa87b95b2602c8acd8ebdcaba54a",
+    "awb_original_runtime_20261021/scene_pipeline_compare.c": "3feb2472a0d6a7f93641b5a9488a2389c2daa11564f5d4de2ce9fc876774a608",
+    "awb_original_runtime_20261021/hb_stat_prepare.c": "b46eec5a60fff9c3e685db90457a81d874613c9ff614678837aa0f1c36f19b3d",
+    "awb_original_runtime_20261021/hb_scene_filter.c": "15e98886438fd481c6ad8609b842a1545f2dc2b8305ef70a61b163b87bb601bb",
+    "awb_original_runtime_20261021/hb_scene_optimizer.c": "9f65921657a49323fe3c074fa7bd1ce51b4fd4b6292049d73b3727c4f0112bdb",
+    "awb_original_runtime_20261021/hb_scene_candidates.c": "27d9448b3d08747112b2b7841a1a5968568ac4aafe7d9f6244192521cd29be24",
+    "awb_original_runtime_20261021/hb_temperature.c": "0fcc6e4fa025f82806af76cf0fa523172676986cc84a2a8c8c7d1cf9e0b8d5e9",
+    "awb_original_runtime_20261021/run_full.py": "1071413532076847f778f443333e7c815ac3136203cdee472db21a7adbc745a3",
+    "awb_original_runtime_20261021/run_recalib.py": "b11d5635343e30047596dfab12f669f0f8343c823c1a3dc72bd22146cb11b22f",
+    "awb_original_runtime_20261021/hb_stat_prepare.h": "1f3eea206426a1ae2e399f212c51169c58fd80503656fecbf690df56c442b59b",
+    "awb_original_runtime_20261021/hb_scene_filter.h": "d7286138ac26b5ce9443563cad5ca5fcbd67d68b8081c040d3b14b4bb3d21419",
+    "awb_original_runtime_20261021/hb_scene_optimizer.h": "bea9a2f44e6e16ef8dba24f97b268c0a0398317c3b8ad955fb2f55d283369c2e",
+    "awb_original_runtime_20261021/hb_scene_candidates.h": "aa9739a1d1fa8a7ccd3d9ed882d22e23e4411fb350317722d3b6724f47c0644c",
+    "awb_original_runtime_20261021/hb_temperature.h": "bf32f5c219cfa0d0c2857f7b528228b7d6e189331c0c7546501ad5c375ceaa34"
+  },
+  "probe_sha256": "a933e6f4ca75bb8a367b2a2adb75dfeb8678bc5c991a4ef7e3cc0de258b201f2",
+  "build_command": [
+    "/workspace/scratch/910ac5420982/runtime_tools/android-ndk-r27/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android28-clang",
+    "-std=c11",
+    "-O2",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-fPIE",
+    "-pie",
+    "-ffp-contract=off",
+    "-Wl,-z,max-page-size=16384",
+    "-DHB_SCENE_PIPELINE=1",
+    "/workspace/scratch/910ac5420982/repo/hasselblad_native_audit/awb_original_runtime_20261021/full_probe.c",
+    "/workspace/scratch/910ac5420982/repo/hasselblad_native_audit/awb_original_runtime_20261021/scene_pipeline_compare.c",
+    "/workspace/scratch/910ac5420982/repo/hasselblad_native_audit/awb_original_runtime_20261021/hb_stat_prepare.c",
+    "/workspace/scratch/910ac5420982/repo/hasselblad_native_audit/awb_original_runtime_20261021/hb_scene_filter.c",
+    "/workspace/scratch/910ac5420982/repo/hasselblad_native_audit/awb_original_runtime_20261021/hb_scene_optimizer.c",
+    "/workspace/scratch/910ac5420982/repo/hasselblad_native_audit/awb_original_runtime_20261021/hb_scene_candidates.c",
+    "/workspace/scratch/910ac5420982/repo/hasselblad_native_audit/awb_original_runtime_20261021/hb_temperature.c",
+    "-ldl",
+    "-lm",
+    "-o",
+    "/workspace/scratch/910ac5420982/private_runtime/temperature_pipeline_final/full_probe_android28_arm64"
+  ],
+  "run_command": [
+    "/workspace/scratch/910ac5420982/runtime_tools/qemu/usr/bin/qemu-aarch64-static",
+    "-L",
+    "/workspace/scratch/910ac5420982/private_runtime/extracted",
+    "/workspace/scratch/910ac5420982/private_runtime/temperature_pipeline_final/full_probe_android28_arm64",
+    "/workspace/scratch/910ac5420982/private_runtime/extracted/system/lib64/libaaa.so",
+    "/workspace/scratch/910ac5420982/private_runtime/extracted/system/etc/aaa/awb_imx861.bin",
+    "/workspace/scratch/910ac5420982/private_runtime/temperature_pipeline_final"
+  ],
+  "private_dump_metadata": {
+    "frame_03_after_auto_owned.bin": {
+      "bytes": 920560,
+      "sha256": "c2dfbfad3cbf2440f0bf548895d369aabb4ea296f95a30bd178c0414b6753ac6"
+    },
+    "frame_04_after_auto_original.bin": {
+      "bytes": 920560,
+      "sha256": "38745374572cafb81cd29c55a663e4d983a06847aba6054230e96bbf3539c208"
+    },
+    "frame_04_e2_after_parse.bin": {
+      "bytes": 118416,
+      "sha256": "e9daf3b1bd34721aa4e62430d6341b4778a4b2c5d16d7c42978fbd51ca88751c"
+    },
+    "frame_06_after_scene_original.bin": {
+      "bytes": 920560,
+      "sha256": "accbc82f34b8ee31148f719da4bf81bd280abe1ee93fc4eb48a675d1088cc9f3"
+    },
+    "frame_06_after_scene_hybrid.bin": {
+      "bytes": 920560,
+      "sha256": "accbc82f34b8ee31148f719da4bf81bd280abe1ee93fc4eb48a675d1088cc9f3"
+    },
+    "frame_01_after_auto_owned.bin": {
+      "bytes": 920560,
+      "sha256": "42b24dba7fa123676593854f29614307d4d38dfc2cdbb7dc34c8445aecf04d3e"
+    },
+    "frame_01_before_auto.bin": {
+      "bytes": 920560,
+      "sha256": "bf9dfa577412f89a58b550d56daca7bc3961253f9faca71b90f9027e8d9c292c"
+    },
+    "frame_04_metadata.bin": {
+      "bytes": 256,
+      "sha256": "b3a8d98f67e7412424466926529f763abdc96b69cc32376bbe130e38be8b4bc8"
+    },
+    "frame_06_e2_after_parse.bin": {
+      "bytes": 118416,
+      "sha256": "9a73ee186be3242c06763823489b337909d4886d13197ecb22d1432a1258ede0"
+    },
+    "frame_06_before_scene.bin": {
+      "bytes": 920560,
+      "sha256": "b8a9d1bb503fff39bbad8e6602a2b63406040b4d16586e5dd70550d77216e2ad"
+    },
+    "frame_00_after_scene_owned.bin": {
+      "bytes": 920560,
+      "sha256": "9a0c6b0ab0a17d2bab810a375625347806b2f4e3400448900ec89042d2a4db16"
+    },
+    "frame_06_after_auto_original.bin": {
+      "bytes": 920560,
+      "sha256": "0c8902a2acfd650ea7abfb36e9b63d413dfd615034c9fd960937ef367687e550"
+    },
+    "frame_02_native_input.bin": {
+      "bytes": 16664,
+      "sha256": "cd3d07932d5d775f7225dfcf579604a46fc4e708d7ecea217cfd4c998827657a"
+    },
+    "frame_03_e2_after_parse.bin": {
+      "bytes": 118416,
+      "sha256": "68931aabca0b0ff385f383e6a0fc26e0776727b14aa7475b5c1e7aa153c7a59e"
+    },
+    "frame_05_before_scene.bin": {
+      "bytes": 920560,
+      "sha256": "77e4d1dd14c70b0aac99a961f546f339a47cdf2fdddde35b13c2cc38b46898a6"
+    },
+    "frame_06_before_auto.bin": {
+      "bytes": 920560,
+      "sha256": "fbfd9820cc2b263f235a2a94e1375e56a33d83f163a8c678020e22ac2ab0a322"
+    },
+    "frame_05_after_scene_original.bin": {
+      "bytes": 920560,
+      "sha256": "fca7b58c5efdf07b2a25ac490c342aa205df7818be066ae4f05c1b83b2c47427"
+    },
+    "frame_00_after_auto_original.bin": {
+      "bytes": 920560,
+      "sha256": "2ac99b2b9757f3cfe1c833a1a6ef67062a4faeb02021cfcf40eccad78f0c4da0"
+    },
+    "frame_05_after_auto_original.bin": {
+      "bytes": 920560,
+      "sha256": "24c4fa727e4e2d3c44cb2b66e91fde6416371e1ec2e8e3080835132b712d2fc2"
+    },
+    "frame_01_after_scene_hybrid.bin": {
+      "bytes": 920560,
+      "sha256": "f4559690531df81f0a1f89780514197f145b6fd67e51680dbfdd1d72236522e3"
+    },
+    "frame_05_native_input.bin": {
+      "bytes": 16664,
+      "sha256": "ba91e223f9da0f1d9de776405e6da97af53c5f6b8a9e93946081782bf51f0464"
+    },
+    "frame_07_passive_reawb_after.bin": {
+      "bytes": 1000,
+      "sha256": "ce74e4fbad0b9188a1955f176fc86870646efd6e18c2b42679a548c461b138a8"
+    },
+    "frame_05_before_auto.bin": {
+      "bytes": 920560,
+      "sha256": "b59de306f70e7a77c3424bac6a750b40ba13182db9ffccc948f5d2d306f7baa1"
+    },
+    "frame_06_native_input.bin": {
+      "bytes": 16664,
+      "sha256": "60658197b7147215ea46d2ed304fc9a5a0e4d3a3f9f7e8fabcb6f5a54d348e4a"
+    },
+    "frame_02_after_scene_owned.bin": {
+      "bytes": 920560,
+      "sha256": "27759d55e2003836af5866888ca4ca4659f7ab0883fd7ca7d53e15d5e01f3fa6"
+    },
+    "frame_03_native_input.bin": {
+      "bytes": 16664,
+      "sha256": "a30f1d4254b65661b7f03126a9110a7807cdc26c541cf7ecd6b5343c648fca37"
+    },
+    "frame_01_parsed_input.bin": {
+      "bytes": 131584,
+      "sha256": "4cff9c354b5bfa29d1c43c34f29484dc8873d9a78a3b6913230dfbbb7ac25f6e"
+    },
+    "frame_01_after_auto_original.bin": {
+      "bytes": 920560,
+      "sha256": "42b24dba7fa123676593854f29614307d4d38dfc2cdbb7dc34c8445aecf04d3e"
+    },
+    "frame_05_parsed_input.bin": {
+      "bytes": 131584,
+      "sha256": "a476468885d56a4c14ecd39c9e4edd87b9880801ae356e27ea8ceca289bbcaf8"
+    },
+    "frame_04_after_scene_original.bin": {
+      "bytes": 920560,
+      "sha256": "4ea265a22e70c13254a714d09db493b564c5881282daf91d3e8f912bab147c67"
+    },
+    "frame_01_after_scene_original.bin": {
+      "bytes": 920560,
+      "sha256": "f4559690531df81f0a1f89780514197f145b6fd67e51680dbfdd1d72236522e3"
+    },
+    "frame_00_after_scene_hybrid.bin": {
+      "bytes": 920560,
+      "sha256": "9a0c6b0ab0a17d2bab810a375625347806b2f4e3400448900ec89042d2a4db16"
+    },
+    "frame_06_after_auto_owned.bin": {
+      "bytes": 920560,
+      "sha256": "0c8902a2acfd650ea7abfb36e9b63d413dfd615034c9fd960937ef367687e550"
+    },
+    "frame_04_after_scene_owned.bin": {
+      "bytes": 920560,
+      "sha256": "4ea265a22e70c13254a714d09db493b564c5881282daf91d3e8f912bab147c67"
+    },
+    "frame_00_e2_after_parse.bin": {
+      "bytes": 118416,
+      "sha256": "7c282fe820c456c7a29c723e6ec00026d998a1f4b0c1a8401a3dcba80bbc5009"
+    },
+    "frame_05_after_scene_owned.bin": {
+      "bytes": 920560,
+      "sha256": "fca7b58c5efdf07b2a25ac490c342aa205df7818be066ae4f05c1b83b2c47427"
+    },
+    "frame_01_metadata.bin": {
+      "bytes": 256,
+      "sha256": "2c7200554be40c236f7d20eac1cac10d81a103a19e2686761dced8e4e3efc91e"
+    },
+    "frame_03_parsed_input.bin": {
+      "bytes": 131584,
+      "sha256": "52db2d75faf4c16a152c4c9499c059df0d2c2a35f5fc5f058c2e7a9d0b630eee"
+    },
+    "frame_02_before_scene.bin": {
+      "bytes": 920560,
+      "sha256": "9418232787a256faa5a98e547f5557dcbdb2cc1b55b10f2ab364f5e88d23ce97"
+    },
+    "frame_05_after_auto_owned.bin": {
+      "bytes": 920560,
+      "sha256": "24c4fa727e4e2d3c44cb2b66e91fde6416371e1ec2e8e3080835132b712d2fc2"
+    },
+    "frame_03_before_scene.bin": {
+      "bytes": 920560,
+      "sha256": "8f890ef9c724f5dee4b9e22f0f12fb5e863de7a542d55577b88e4cbc3a196018"
+    },
+    "frame_04_after_scene_hybrid.bin": {
+      "bytes": 920560,
+      "sha256": "4ea265a22e70c13254a714d09db493b564c5881282daf91d3e8f912bab147c67"
+    },
+    "frame_03_after_scene_hybrid.bin": {
+      "bytes": 920560,
+      "sha256": "90a2a48a7e31477b34c24eb5f7fdd484ea3bee74997d25a51b3c750d7b8b60b4"
+    },
+    "frame_02_after_scene_original.bin": {
+      "bytes": 920560,
+      "sha256": "27759d55e2003836af5866888ca4ca4659f7ab0883fd7ca7d53e15d5e01f3fa6"
+    },
+    "full_reawb.bin": {
+      "bytes": 1000,
+      "sha256": "ce74e4fbad0b9188a1955f176fc86870646efd6e18c2b42679a548c461b138a8"
+    },
+    "frame_02_after_scene_hybrid.bin": {
+      "bytes": 920560,
+      "sha256": "27759d55e2003836af5866888ca4ca4659f7ab0883fd7ca7d53e15d5e01f3fa6"
+    },
+    "frame_03_metadata.bin": {
+      "bytes": 256,
+      "sha256": "17ef1f283245417dbd28b37c4e92d28546fb42d36b67907350789a1520c43120"
+    },
+    "full_config.bin": {
+      "bytes": 1502800,
+      "sha256": "47838a263340261d499a5beb977f97050f68e41778a3891c311b17ed5c8b42c3"
+    },
+    "frame_04_before_auto.bin": {
+      "bytes": 920560,
+      "sha256": "4cae3d9f95afa6adc9b81c09b62aba8d492e4a76e8962e1f7a0fa6665df340ae"
+    },
+    "frame_05_after_scene_hybrid.bin": {
+      "bytes": 920560,
+      "sha256": "fca7b58c5efdf07b2a25ac490c342aa205df7818be066ae4f05c1b83b2c47427"
+    },
+    "frame_03_before_auto.bin": {
+      "bytes": 920560,
+      "sha256": "56ab00f5ec60156182b3539dd2a53b4c98b1c77f5fe2063ea8fcea8e1bdd39e0"
+    },
+    "frame_02_parsed_input.bin": {
+      "bytes": 131584,
+      "sha256": "3f6e34deecd84a2b7d38864303275bf825ee8593ed054a856301f91ff5106a17"
+    },
+    "full_context.bin": {
+      "bytes": 920560,
+      "sha256": "b3a798f55baa3116ca3a3a0208d73d96e8c72fea5e019da743dcc0813d2b7c56"
+    },
+    "frame_00_parsed_input.bin": {
+      "bytes": 131584,
+      "sha256": "c3bcdc690bc76c9b6bbc67380247992610683f8a1f70444ce9967ab61671b116"
+    },
+    "frame_02_before_auto.bin": {
+      "bytes": 920560,
+      "sha256": "72bbb7f65bb183890dabe49ba20d6c3f60820b9017fb0c2d48f4e2fdf5b77a54"
+    },
+    "frame_02_metadata.bin": {
+      "bytes": 256,
+      "sha256": "b87a109e7a7a1683b3237be617d75fba003f29bff3b5703f70c88efe0ae3eb6b"
+    },
+    "frame_00_after_scene_original.bin": {
+      "bytes": 920560,
+      "sha256": "9a0c6b0ab0a17d2bab810a375625347806b2f4e3400448900ec89042d2a4db16"
+    },
+    "frame_01_before_scene.bin": {
+      "bytes": 920560,
+      "sha256": "f748d82c6b6fb9d3baf0dd28c67da2cea534af9166c50961857b3af08e9743f4"
+    },
+    "frame_00_before_scene.bin": {
+      "bytes": 920560,
+      "sha256": "5b5af1fb849682ff21337c9e3bc6ac8cd2d1c7da14648e3859331813d47377e7"
+    },
+    "frame_05_metadata.bin": {
+      "bytes": 256,
+      "sha256": "4fe76e423b449a6ba35a56bf3ba24d48fdfbc86f5b99509ad67fa75d0d447f97"
+    },
+    "frame_00_before_auto.bin": {
+      "bytes": 920560,
+      "sha256": "ce6732e67a5992f0b7c341f9a98489f9bc9781d8317ed8c29a4bfb3ee6f9e2a6"
+    },
+    "frame_03_after_scene_original.bin": {
+      "bytes": 920560,
+      "sha256": "90a2a48a7e31477b34c24eb5f7fdd484ea3bee74997d25a51b3c750d7b8b60b4"
+    },
+    "frame_04_native_input.bin": {
+      "bytes": 16664,
+      "sha256": "5bade86a056d29a9e7524480db6b0f416b435d9fc892228c98223fdf350ef19c"
+    },
+    "frame_01_e2_after_parse.bin": {
+      "bytes": 118416,
+      "sha256": "d0e75cdcaa23e8f8ebf33fdd09e12fc91cfa142558718ad63105cd06a52f50b0"
+    },
+    "frame_02_after_auto_original.bin": {
+      "bytes": 920560,
+      "sha256": "36b8a7b23331abec1092055abcc798f9f696f9d2e17477158c446f702df213ed"
+    },
+    "frame_01_native_input.bin": {
+      "bytes": 16664,
+      "sha256": "24f09a1dfea03578ed08fbcd3e9a2e3c3a543e6cb0dd956c6d3313f877be264b"
+    },
+    "frame_00_native_input.bin": {
+      "bytes": 16664,
+      "sha256": "138bab42c332ef959c09e8f97fc77c6bf6084cc4a0985a701c018d91398e354c"
+    },
+    "frame_05_e2_after_parse.bin": {
+      "bytes": 118416,
+      "sha256": "9c4c6d085a1cc668bccddcdb29cdb53d7f6fc8809901154bf246978de5ed2306"
+    },
+    "frame_04_parsed_input.bin": {
+      "bytes": 131584,
+      "sha256": "fcbf1b4fc0e2a488a4593397e33a4ffb3319888e4fe9e6ffe4726ced65305ae0"
+    },
+    "frame_03_after_auto_original.bin": {
+      "bytes": 920560,
+      "sha256": "c2dfbfad3cbf2440f0bf548895d369aabb4ea296f95a30bd178c0414b6753ac6"
+    },
+    "frame_06_parsed_input.bin": {
+      "bytes": 131584,
+      "sha256": "e7d3874b6689881d47f3764b1ab4c2a794e4d0821c0e2dcfe8da549aac770955"
+    },
+    "frame_00_after_auto_owned.bin": {
+      "bytes": 920560,
+      "sha256": "2ac99b2b9757f3cfe1c833a1a6ef67062a4faeb02021cfcf40eccad78f0c4da0"
+    },
+    "frame_06_after_scene_owned.bin": {
+      "bytes": 920560,
+      "sha256": "accbc82f34b8ee31148f719da4bf81bd280abe1ee93fc4eb48a675d1088cc9f3"
+    },
+    "frame_02_e2_after_parse.bin": {
+      "bytes": 118416,
+      "sha256": "81e47971288a5ddd413349e349966d3cca39de511f6b2052ac3d346cf76be30e"
+    },
+    "full_e2.bin": {
+      "bytes": 118416,
+      "sha256": "072603f17cad621bbe28a95664f29cbd7f983c23b884c01e5545ecd128a39205"
+    },
+    "frame_06_metadata.bin": {
+      "bytes": 256,
+      "sha256": "8011fe1de9f51786fc7bdcc60ed09930ff403d6c720c8ddef670b21c434aa436"
+    },
+    "frame_00_metadata.bin": {
+      "bytes": 256,
+      "sha256": "f9f0901fe97ed6217ae30456a13ad8afca7d3f150805ee0d5271f0f3138fe8f0"
+    },
+    "frame_01_after_scene_owned.bin": {
+      "bytes": 920560,
+      "sha256": "f4559690531df81f0a1f89780514197f145b6fd67e51680dbfdd1d72236522e3"
+    },
+    "frame_04_before_scene.bin": {
+      "bytes": 920560,
+      "sha256": "31eafeac926fe7b04198f63a86ef123fed4b29fdc1cdadc636b6d536fbbd648a"
+    },
+    "frame_04_after_auto_owned.bin": {
+      "bytes": 920560,
+      "sha256": "38745374572cafb81cd29c55a663e4d983a06847aba6054230e96bbf3539c208"
+    },
+    "frame_03_after_scene_owned.bin": {
+      "bytes": 920560,
+      "sha256": "90a2a48a7e31477b34c24eb5f7fdd484ea3bee74997d25a51b3c750d7b8b60b4"
+    },
+    "frame_02_after_auto_owned.bin": {
+      "bytes": 920560,
+      "sha256": "36b8a7b23331abec1092055abcc798f9f696f9d2e17477158c446f702df213ed"
+    }
+  },
+  "original_library_patched": false,
+  "dependency_stubs": false,
+  "full_camera_device_calibration_recovered": false,
+  "authentic_frame_replayed": false,
+  "historical_seven_frame_chain_recovered": false,
+  "full_awb_validated": false
+}

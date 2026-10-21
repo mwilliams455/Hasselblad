@@ -52,6 +52,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/hasselblad_check_copy" />
+            <!-- On-demand only: the 729-point grid must not run in the shutter path. -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/hasselblad_domain_run"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Run Domain1 temperature/tint coverage" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/hasselblad_domain_copy"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:text="Copy Domain1 JSON" />
+            <TextView
+                android:id="@+id/hasselblad_domain_summary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textIsSelectable="true"
+                android:text="Run this diagnostic after a RAW photo. Photon colour is unchanged." />
+
             <TextView
                 android:id="@+id/hasselblad_check_policy"
                 android:layout_width="match_parent"

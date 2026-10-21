@@ -1,0 +1,23 @@
+{
+  "status": "PASS",
+  "checkpoint": "Domain1 real native temperature leaf",
+  "recovery_branch_commit_tested": "493c567327507859ad8ca982dee32c1ff809400a",
+  "github_actions_run_id": 39669724123,
+  "native_implementation": "original reconstructed owned C leaves (not mocks)",
+  "builds": ["O0", "O2"],
+  "public_synthetic_profiles": 2,
+  "native_point_checks_per_build": 1458,
+  "optimisation_results_equal": true,
+  "invalid_grid_checks_per_build": 7,
+  "singular_model_checks_per_build": 1,
+  "sanitizer_smoke": "PASS",
+  "private_same_camera_profile_replay": "PASS (no sensor values included)",
+  "private_saved_point_checks_per_build": 2187,
+  "private_saved_capture_count": 3,
+  "private_model_count": 1,
+  "full_automatic_controller_executed_on_phone": false,
+  "android_arm64_tested_this_checkpoint": false,
+  "new_apk_built": false,
+  "photographic_renderer_modified": false,
+  "production_awb_calibration_selected": false
+}

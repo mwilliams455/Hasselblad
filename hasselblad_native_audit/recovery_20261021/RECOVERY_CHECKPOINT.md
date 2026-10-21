@@ -1,5 +1,16 @@
 # Hasselblad Photon research recovery checkpoint
 
+## Device validation completed — Scene1B, 21 October 2026
+
+A returned Scene1B (27183) capture proves that the corrected binder and native diagnostic sweep execute on the phone. The original DNG matches its recorded SHA-256 and byte length; sensor/frame/timestamp binding passes. Replaying that untouched DNG through the actual app Java/JNI produces exactly the same diagnostic metadata, policy decisions, counts, gains, neutral and temperature values as the phone, excluding elapsed time. All policies report successful native status. The replay also passes 276 Java/JNI checks and 20 offline binding checks.
+
+The original HAL neutral equals the effective Photon neutral. No experimental candidate was applied to the photograph. The supplied JPEG is a resized copy without EXIF, so its file-level pairing is not independently proven. Exact scene-derived values and timing remain in the private validation JSON; they are not phone calibration constants.
+
+This closes the first on-device diagnostic integration check. No new APK is required for this result. The next boundary is phone neutral-locus/acceptance calibration and policy selection before any rendered WB change. Full automatic profile/initialization and HNCS rendering remain open; a single successful capture does not validate other cameras/modes or sustained performance. The earlier statements that Scene1B was not phone-tested describe its build-time checkpoint.
+
+See [device validation result](../app_scene_integration_20261021/SCENE1B_DEVICE_RESULT.json). Private evidence: `Hasselblad_Scene1B_Phone_Validation_PRIVATE_20261021.json`. Source build commit: `c078b1c4149aaa8d61914e9121ce10f8888d41d9`.
+
+
 ## Latest checkpoint: Scene1B RAW capability fix — 21 October 2026
 
 A returned phone capture confirms Scene1 (27182) saved its capture evidence and a hash-matching DNG with proven frame/sensor binding. Its diagnostic sweep was skipped before native execution: the binder treated an out-of-scope `rawBinningFactorUsed` value as a non-Bayer layout. The capture's existing Photon neutral equals the original HAL neutral. The supplied JPEG is resized and has no EXIF, so its file-level pairing is not independently established. Private image/metadata findings are retained outside Git.

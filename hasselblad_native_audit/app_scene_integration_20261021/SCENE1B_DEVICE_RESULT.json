@@ -1,0 +1,42 @@
+{
+  "schema": "hasselblad-scene1b-device-validation-v1",
+  "source_commit": "c078b1c4149aaa8d61914e9121ce10f8888d41d9",
+  "application_id": "com.mwilliams.hasselbladphoton",
+  "version_name": "0.1-hb-scene1b",
+  "version_code": 27183,
+  "phone_capture_observed": true,
+  "phone_diagnostic_status": "completed",
+  "native_raw_adapter_succeeded": true,
+  "all_policy_native_statuses_successful": true,
+  "dng_hash_and_size_match_sidecar": true,
+  "sensor_frame_timestamp_binding_valid": true,
+  "host_replay_matches_phone_all_diagnostic_fields_except_elapsed": true,
+  "hal_neutral_equals_effective_photon_neutral": true,
+  "host_checks": {
+    "candidate_empty_candidate_reset": true,
+    "checks": 276,
+    "jni_rejections": 19,
+    "java_rejections": 26,
+    "metadata_unmodified": true,
+    "raw_unmodified": true,
+    "binning_capability_cases": 16,
+    "android_device_tested": false,
+    "host_jvm_jni_checked": true,
+    "offline_provenance_checks": 4,
+    "offline_binning_capability_cases": 16
+  },
+  "render_applied": false,
+  "full_automatic_controller": false,
+  "policy_calibrated": false,
+  "photographic_colour_accuracy_validated": false,
+  "jpeg_file_pairing_independently_proven": false,
+  "private_evidence_filename": "Hasselblad_Scene1B_Phone_Validation_PRIVATE_20261021.json",
+  "limits": [
+    "Single observed camera/mode/capture; no all-device or sustained performance claim.",
+    "Host replay timing is not phone timing.",
+    "Existing Photon produced the photographed colours and white balance.",
+    "Neutral-target reflectance and illumination are not calibrated.",
+    "No new APK is needed to establish this completed integration check."
+  ],
+  "next_step": "Investigate/calibrate phone neutral-locus acceptance before selecting a production policy or applying a candidate to rendering."
+}

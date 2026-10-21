@@ -1,0 +1,14 @@
+{
+  "status": "MATCH",
+  "tags_compared": 9,
+  "coefficients_compared": 59,
+  "matching_tags": 9,
+  "frame_and_dng_binding_passed": true,
+  "physical_calibration_proven": false,
+  "renderer_changed": false,
+  "source_sha256": {
+    "hasselblad_native_audit/phone_input_20261021/audit_capture_metadata.py": "0d8fe270202f459a2ea992ffb652700ce512239e48a2718641e896cbdf202d94",
+    "hasselblad_native_audit/phone_input_20261021/capture_binding.py": "3f3b7a69cd5872e18198681819b6fd1dce7fbad4b93bebd455d9705e218ef830",
+    "hasselblad_device_validation_20261019/raw_audit/audit_dng.py": "743ccc5a1550cf4776c0b1421d8a170e10cc574a3be0d63e3a2885f13df4cb47"
+  }
+}

@@ -78,8 +78,10 @@ Define a bounded diagnostic representation of the valid temperature/tint region
 with explicit domain exclusions. Preserve the existing 81-point ABI and its
 rejection behavior unless introducing and testing a separate explicit API.
 Do not silently skip points, clip gains, widen radii or fit tint from HAL to
-manufacture a candidate. Confirm the target's actual surface color and lighting
-before interpreting any fit as neutral-target calibration. Neither a shifted
+manufacture a candidate. The user has now supplied the target color and lighting description, retained
+privately with the capture identity. Use it as qualitative evidence; no measured
+lamp Kelvin or surface reflectance is available. Do not assign a nominal
+temperature/tint as ground truth from the description alone. Neither a shifted
 test curve nor acceptance of one image establishes a shipping AWB policy.
 
 Full automatic phone initialization/profile, photographic WB acceptance and
@@ -92,3 +94,29 @@ this audit; Photon continues to render the photographs.
 - [AOSP DNG color specification](https://android.googlesource.com/platform/external/dng_sdk/+/refs/heads/android14-prebuilt-test/source/dng_color_spec.cpp): endpoint products and reciprocal-temperature interpolation.
 - [CaptureResult](https://developer.android.com/reference/android/hardware/camera2/CaptureResult): remaining RAW shading correction and full active-array map coordinates.
 - [LensShadingMap](https://developer.android.com/reference/android/hardware/camera2/params/LensShadingMap): bilinear map and even/odd sensor-row green channels.
+
+## Follow-up: original-to-DNG metadata transport
+
+`audit_capture_metadata.py` compares exact rational values in the bound DNG
+against the original Camera2 record. On the latest capture all **59 coefficients
+across nine tags** match: both color transforms, both calibration transforms,
+both forward matrices, both reference illuminants and AsShotNeutral. The
+sidecar's `getElement(column,row)` serialization follows the Camera2 row-major
+contract. This rules out a transport/transposition mismatch in these recorded
+values; it does not prove the supplied sensor calibration is physically accurate.
+
+`CAPTURE_METADATA_RESULT.json` is the public aggregate. The original files remain
+unchanged. The private evidence packet now includes the user's scene observation
+and exact metadata comparisons. No native runtime, app or diagnostic policy was
+changed, and the full acceptance suite was not rerun for this metadata-only check.
+
+```sh
+python3 hasselblad_native_audit/phone_input_20261021/audit_capture_metadata.py \
+  --capture /private/capture.json --dng /private/original-name.dng \
+  --private-report /private/metadata-values.json \
+  --public-report /private/metadata-summary.json
+```
+
+Differences are reported explicitly; intentional export overrides are not silently
+substituted into the original model. Ordering reference:
+[ColorSpaceTransform](https://developer.android.com/reference/android/hardware/camera2/params/ColorSpaceTransform).

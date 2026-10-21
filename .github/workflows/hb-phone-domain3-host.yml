@@ -1,0 +1,69 @@
+name: Phone Domain3 Java JNI verification
+
+"on":
+  push:
+    branches:
+      - recovery/awb-rebuild-20261021
+    paths:
+      - HasselbladPhoton/app/src/main/java/com/particlesdevs/photoncamera/hasselblad/**
+      - HasselbladPhoton/app/src/main/cpp/hasselblad/**
+      - hasselblad_native_audit/app_scene_integration_20261021/DomainJniHarness.java
+      - hasselblad_native_audit/phone_input_20261021/**
+      - .github/workflows/hb-phone-domain3-host.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  java-jni-provenance:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Compile JNI against actual owned temperature/domain leaves
+        shell: bash
+        run: |
+          set -euo pipefail
+          output="$RUNNER_TEMP/domain3-host"
+          mkdir -p "$output/classes"
+          audit=hasselblad_native_audit
+          phone="$audit/phone_input_20261021"
+          rt="$audit/awb_original_runtime_20261021"
+          cc -std=c11 -O2 -Wall -Wextra -Werror -Wno-misleading-indentation \
+             -ffp-contract=off -ffunction-sections -fdata-sections -fPIC \
+             -I "$JAVA_HOME/include" -I "$JAVA_HOME/include/linux" -I "$phone" \
+             -shared HasselbladPhoton/app/src/main/cpp/hasselblad/hb_phone_domain_jni.c \
+             "$phone/hb_phone_domain.c" "$phone/hb_phone_temperature.c" \
+             "$rt/hb_temperature.c" "$rt/hb_user_controls.c" "$rt/hb_scene_optimizer.c" \
+             -Wl,--gc-sections,-z,defs -lm \
+             -o "$output/libhasselblad_domain_jni.so"
+      - name: Test actual Java / JNI / owned native API using synthetic metadata
+        shell: bash
+        run: |
+          set -euo pipefail
+          output="$RUNNER_TEMP/domain3-host"
+          curl --fail --location --retry 3 --silent --show-error \
+            https://repo.maven.apache.org/maven2/org/json/json/20240303/json-20240303.jar \
+            --output "$output/json.jar"
+          javac -encoding UTF-8 -cp "$output/json.jar" -d "$output/classes" \
+            HasselbladPhoton/app/src/main/java/com/particlesdevs/photoncamera/hasselblad/HasselbladDomainDiagnostics.java \
+            hasselblad_native_audit/app_scene_integration_20261021/DomainJniHarness.java
+          java -Xcheck:jni -Djava.library.path="$output" \
+            -cp "$output/classes:$output/json.jar" DomainJniHarness \
+            | tee "$output/Dom3_JNI_PASS.log"
+      - name: Save compact, public-safe host evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hb-domain3-jni-host
+          path: |
+            \${{ runner.temp }}/domain3-host/Dom3_JNI_PASS.log
+          if-no-files-found: warn
+          retention-days: 7

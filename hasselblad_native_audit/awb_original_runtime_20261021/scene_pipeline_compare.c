@@ -8,6 +8,10 @@
 #include "hb_scene_optimizer.h"
 #include "hb_scene_candidates.h"
 #include "hb_scene_controller.h"
+#ifdef HB_DIAGNOSTICS_PIPELINE
+#include "hb_diagnostics.h"
+static unsigned diagnostics_calls,composed_suffix_calls;
+#endif
 #ifdef HB_COMPLETION_PIPELINE
 #include "hb_completion.h"
 uint32_t hb_original_prepared_completion(uintptr_t,unsigned char*,uint32_t,uintptr_t);
@@ -154,6 +158,9 @@ int hb_run_scene_pipeline(void *h,unsigned char *ctx,unsigned char *e2,void *con
         printf("{\"pipeline_frame\":%u,\"gates\":[%u,%u,%u,%u]}\n",t,u16(ctx+0x3da50),u16(ctx+0x3da52),u16(ctx+0x3da54),u16(ctx+0x3da56));
         active_slots+=(u16(ctx+0x3da50)!=0)+(u16(ctx+0x3da52)!=0);
         capture(dir,t,"before_scene",ctx,C);
+#ifdef HB_DIAGNOSTICS_PIPELINE
+        unsigned char scene_entry_reawb[R];if(!reawb)return 2;memcpy(scene_entry_reawb,reawb,R);
+#endif
         memcpy(start,ctx,C);a=scene_proc(0);memcpy(reference,ctx,C);memcpy(ctx,start,C);
         b=hybrid_normal(ctx,config,t);same("hybrid_controller_status",t,&a,&b,4);same("hybrid_controller_context",t,reference,ctx,C);
         capture(dir,t,"after_scene_original",reference,C);capture(dir,t,"after_scene_hybrid",ctx,C);
@@ -233,13 +240,30 @@ int hb_run_scene_pipeline(void *h,unsigned char *ctx,unsigned char *e2,void *con
         if(reawb)capture(dir,t,"after_tail_reawb_handle",reawb,R);
 #endif
 #ifdef HB_COMPLETION_PIPELINE
-        /* Diagnostics still execute original code, with file output disabled.
-         * Its context changes feed both shading and completion comparisons. */
+        /* File output stays disabled. The optional owned diagnostic stage
+         * is compared before its output feeds shading and completion. */
         if(tail_errors||ctx[0xb1ef8]==1||u32(ctx+0x18)>64||u32(ctx+0x1c)>64||u32(ctx+0x28)!=u32(ctx+0x18)*u32(ctx+0x1c))return 2;
         uint32_t (*debug)(int)=sym(h,"scene_awb_debug_proc"),(*shading)(int)=sym(h,"scene_awb_calc_shading_ct_proc");
+#ifdef HB_DIAGNOSTICS_PIPELINE
+        unsigned char debug_workspace[HB_DEBUG_WORKSPACE_BYTES];memcpy(owned,ctx,C);capture(dir,t,"before_debug",ctx,C);
+#endif
         uint32_t ds=debug(0),zero=0;++debug_calls;same("original_debug_status",t,&ds,&zero,4);if(ds)return 2;capture(dir,t,"after_original_debug",ctx,C);
+#ifdef HB_DIAGNOSTICS_PIPELINE
+        uint32_t od=hb_debug_process(owned,debug_workspace,sizeof debug_workspace);++diagnostics_calls;same("owned_debug_status",t,&ds,&od,4);same("owned_debug_context",t,ctx,owned,C);capture(dir,t,"after_debug_owned",owned,C);memcpy(ctx,owned,C);if(od)return 2;
+#endif
         memcpy(owned,ctx,C);uint32_t ss=shading(0),os=hb_shading_temperature(owned);++shading_calls;same("owned_shading_status",t,&ss,&os,4);same("owned_shading_context",t,ctx,owned,C);capture(dir,t,"after_original_shading",ctx,C);capture(dir,t,"after_shading_owned",owned,C);memcpy(ctx,owned,C);
         memcpy(owned,ctx,C);uint32_t cs=hb_original_prepared_completion(bias+0x4722b0,ctx,0,bias+0x791348),oc=hb_outer_complete(owned,0,NULL);++completion_calls;same("owned_completion_status",t,&cs,&oc,4);same("owned_completion_context",t,ctx,owned,C);capture(dir,t,"after_original_completion",ctx,C);capture(dir,t,"after_completion_owned",owned,C);memcpy(ctx,owned,C);
+#endif
+#ifdef HB_DIAGNOSTICS_PIPELINE
+        /* Compare the composed owned chain against ONE uninterrupted original
+         * scene -> history -> atmos -> post -> REAWB -> debug -> shading ->
+         * completion execution from the same prepared scene entry. */
+        memcpy(owned,ctx,C);unsigned char final_reawb[R];memcpy(final_reawb,reawb,R);
+        memcpy(ctx,start,C);memcpy(reawb,scene_entry_reawb,R);
+        uint32_t whole=hb_original_prepared_completion(bias+0x471f80,ctx,0,bias+0x791348);++composed_suffix_calls;
+        same("composed_suffix_status",t,&whole,&zero,4);same("composed_suffix_context",t,ctx,owned,C);same("composed_suffix_reawb",t,reawb,final_reawb,R);
+        capture(dir,t,"original_composed_suffix",ctx,C);capture(dir,t,"owned_composed_suffix",owned,C);
+        memcpy(ctx,owned,C);memcpy(reawb,final_reawb,R);
 #endif
         states[t]=a;++frames;
     }
@@ -249,6 +273,9 @@ int hb_run_scene_pipeline(void *h,unsigned char *ctx,unsigned char *e2,void *con
 #endif
     if(reawb)capture(dir,7,"passive_reawb_after",reawb,R);
     unsigned ok=!mismatches&&frames==7&&active_slots&&optimizer_calls&&filter_calls&&full_scene_calls==7;
+#ifdef HB_DIAGNOSTICS_PIPELINE
+    ok=ok&&diagnostics_calls==7&&composed_suffix_calls==7;
+#endif
 #ifdef HB_COMPLETION_PIPELINE
     ok=ok&&passive_calls==7&&shading_calls==7&&completion_calls==7&&debug_calls==7;
 #endif
@@ -280,6 +307,9 @@ int hb_run_scene_pipeline(void *h,unsigned char *ctx,unsigned char *e2,void *con
            "\"original_tail_baseline\":true,\"downstream_stages_owned\":false,\"passive_reawb_immutability_checked\":false,"
 #else
            "\"original_tail_baseline\":false,\"passive_reawb_immutability_checked\":true,"
+#endif
+#ifdef HB_DIAGNOSTICS_PIPELINE
+           "\"diagnostics_owned\":true,\"diagnostics_calls\":7,\"debug_file_io_owned\":false,\"original_prepared_composed_suffix_calls\":7,\"bounded_scene_through_completion_owned\":true,"
 #endif
 #ifdef HB_COMPLETION_PIPELINE
            "\"passive_reawb_owned\":true,\"passive_reawb_calls\":7,\"shading_owned\":true,\"shading_calls\":7,\"completion_owned\":true,\"completion_calls\":7,\"debug_original_calls\":7,\"debug_file_output_disabled\":true,"

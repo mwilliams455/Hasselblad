@@ -1,0 +1,349 @@
+{
+  "created_utc": "2026-10-21T12:47:41.037350+00:00",
+  "all_passed": true,
+  "exit": 0,
+  "mode": "owned_diagnostics_no_file",
+  "events": [
+    {
+      "stage": "awb_cfg_load",
+      "status": 0
+    },
+    {
+      "stage": "awb_lib_init",
+      "status": 0
+    },
+    {
+      "event": "original_full_initialization",
+      "initialized_marker": 1,
+      "context_bytes": 920560,
+      "config_bytes": 1502800,
+      "e2_bytes": 118416,
+      "e2_context_present": true,
+      "reawb_handle_present": true
+    },
+    {
+      "event": "owned_diagnostics_no_file",
+      "checks": 6554,
+      "mismatches": 0,
+      "encoding_cases": 512,
+      "userdump_no_file_cases": 384,
+      "full_debug_cases": 1024,
+      "fresh_backup_cases": 340,
+      "retained_backup_cases": 172,
+      "custom_mode_cases": 512,
+      "large_statistics_cases": 384,
+      "odd_dimension_cases": 320,
+      "scheduled_skip_helper_cases": 76,
+      "packing_boundary_cases": 64,
+      "stateful_calls": 256,
+      "owned_only_guard_checks": 24,
+      "all_passed": true,
+      "debug_file_io_owned": false,
+      "synthetic_inputs": true
+    }
+  ],
+  "input_config_sha256": "7fa13044a6c5453b67e4ae11bf8d07828de8e1c02aa915494fe5dad20930d435",
+  "library_sha256": "7d6164eccc734de7087bb778ee72f17a0b3ccf6c0d1f20092c7ebe74a86574ba",
+  "linker_sha256": "313d7a6d94cdeb9e2b2adb4be98a8b18240b08012b22f922acea7984f42ff35d",
+  "dependency_count": 65,
+  "qemu_sha256": "4f55e2e88dc05dc0f619562d5795b8eb25ed2ad2547504fb4835207a6911c350",
+  "compiler_version": "Android (12027248, +pgo, +bolt, +lto, +mlgo, based on r522817) clang version 18.0.1 (https://android.googlesource.com/toolchain/llvm-project d8003a456d14a3deb8054cdaa529ffbf02d9b262)",
+  "source_sha256": {
+    "awb_original_runtime_20261021/full_probe.c": "869ee0c8253345ee46d837abf1908de15825f487e1cababc77cbdc927625c793",
+    "awb_original_runtime_20261021/diagnostics_compare.c": "ac872f88cd16a67eaac2a8e36ad967fcb097c86ee219af8599b636576cda5342",
+    "awb_original_runtime_20261021/hb_diagnostics.c": "f8d8b89f23dc5db3f04b320b5c61e117d47a826a6d0663b9772d10d61d0f75fb",
+    "awb_original_runtime_20261021/run_full.py": "6bc71f07ddc8f3f25b097f27bd3886007d931bca51eec029f2edc527c80e8232",
+    "awb_original_runtime_20261021/run_recalib.py": "b11d5635343e30047596dfab12f669f0f8343c823c1a3dc72bd22146cb11b22f",
+    "awb_original_runtime_20261021/hb_diagnostics.h": "e75bb1139d30646eb4499dd4a151264afda00ef0275f9b828506364e6a27de16",
+    "awb_original_runtime_20261021/hb_stat_prepare.h": "1f3eea206426a1ae2e399f212c51169c58fd80503656fecbf690df56c442b59b"
+  },
+  "probe_sha256": "fa6855c737067ce387c4cb8d68758817da77f1e38aab017e49da473e2a65ba66",
+  "build_command": [
+    "/workspace/scratch/910ac5420982/runtime_tools/android-ndk-r27/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android28-clang",
+    "-std=c11",
+    "-O2",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-fPIE",
+    "-pie",
+    "-ffp-contract=off",
+    "-Wl,-z,max-page-size=16384",
+    "-DHB_DIAGNOSTICS_COMPARE=1",
+    "/workspace/scratch/910ac5420982/repo/hasselblad_native_audit/awb_original_runtime_20261021/full_probe.c",
+    "/workspace/scratch/910ac5420982/repo/hasselblad_native_audit/awb_original_runtime_20261021/diagnostics_compare.c",
+    "/workspace/scratch/910ac5420982/repo/hasselblad_native_audit/awb_original_runtime_20261021/hb_diagnostics.c",
+    "-ldl",
+    "-lm",
+    "-o",
+    "/workspace/scratch/910ac5420982/private_runtime/diagnostics_final/full_probe_android28_arm64"
+  ],
+  "run_command": [
+    "/workspace/scratch/910ac5420982/runtime_tools/qemu/usr/bin/qemu-aarch64-static",
+    "-L",
+    "/workspace/scratch/910ac5420982/private_runtime/extracted",
+    "/workspace/scratch/910ac5420982/private_runtime/diagnostics_final/full_probe_android28_arm64",
+    "/workspace/scratch/910ac5420982/private_runtime/extracted/system/lib64/libaaa.so",
+    "/workspace/scratch/910ac5420982/private_runtime/extracted/system/etc/aaa/awb_imx861.bin",
+    "/workspace/scratch/910ac5420982/private_runtime/diagnostics_final"
+  ],
+  "private_dump_metadata": {
+    "debug_original_14.bin": {
+      "bytes": 920560,
+      "sha256": "354704de67ee13d9ad82117d28671d94aa4bd05e9560fdf9b51e4def45f06c46"
+    },
+    "debug_input_0.bin": {
+      "bytes": 920560,
+      "sha256": "9d8989f1417d9d3e5ff82fa8d7ae96a941387e6c0feea6b28a29a11e1692a20f"
+    },
+    "debug_original_11.bin": {
+      "bytes": 920560,
+      "sha256": "3785aef8cf79814e0d8936c6c7191c926bc6d83a4066a8ff39371e3d52481797"
+    },
+    "stateful_original_1.bin": {
+      "bytes": 920560,
+      "sha256": "7b4c18681d75d9997a6d67f5771fdb8b82590bc9b2950084a08ee261687a2009"
+    },
+    "debug_original_4.bin": {
+      "bytes": 920560,
+      "sha256": "5419d8cb8f6f57146645ff53c30b7ea4d628f8003acc4c86f1f9129fbac6a9e9"
+    },
+    "debug_original_10.bin": {
+      "bytes": 920560,
+      "sha256": "fb43c69bb6fcce777c00c9d377c880893a18bc4b02f4ff2e373d96b7a11fcb29"
+    },
+    "debug_input_10.bin": {
+      "bytes": 920560,
+      "sha256": "3808aceb915073930f53a6141170fbc5fa6c82d8c798cfed789f3ede9bb918da"
+    },
+    "debug_owned_4.bin": {
+      "bytes": 920560,
+      "sha256": "5419d8cb8f6f57146645ff53c30b7ea4d628f8003acc4c86f1f9129fbac6a9e9"
+    },
+    "stateful_original_255.bin": {
+      "bytes": 920560,
+      "sha256": "aefa77cfef471724038cb428338d37fc7233fcea0afdf055cb6c5a6e3733561a"
+    },
+    "stateful_owned_255.bin": {
+      "bytes": 920560,
+      "sha256": "aefa77cfef471724038cb428338d37fc7233fcea0afdf055cb6c5a6e3733561a"
+    },
+    "debug_owned_10.bin": {
+      "bytes": 920560,
+      "sha256": "fb43c69bb6fcce777c00c9d377c880893a18bc4b02f4ff2e373d96b7a11fcb29"
+    },
+    "debug_input_13.bin": {
+      "bytes": 920560,
+      "sha256": "a0de5dbe44f2fd77f8004c42389dcb71dc98006082932cf7a97a12546031c1ef"
+    },
+    "debug_input_14.bin": {
+      "bytes": 920560,
+      "sha256": "62750480c4a9078738cb48bc9c797a8b024e640d645f2de6b6f4834552f61f79"
+    },
+    "debug_owned_5.bin": {
+      "bytes": 920560,
+      "sha256": "201afbdbfd74584c6fe7c2421377620cb3510575a850934e01bb8681276d82f0"
+    },
+    "debug_owned_9.bin": {
+      "bytes": 920560,
+      "sha256": "c30a58c563eeb873533b1d85ab00dcd562837397caf62c066bf2a9e0a0382556"
+    },
+    "debug_input_15.bin": {
+      "bytes": 920560,
+      "sha256": "b3e2b724689536da37bead87bc4d7f9326aae54222bd1688e49a4445d16e55ab"
+    },
+    "debug_original_8.bin": {
+      "bytes": 920560,
+      "sha256": "54134e86d18f0c0bf4f936118b0fabc45757013fde868bc7e56c472195aac39a"
+    },
+    "debug_original_5.bin": {
+      "bytes": 920560,
+      "sha256": "201afbdbfd74584c6fe7c2421377620cb3510575a850934e01bb8681276d82f0"
+    },
+    "debug_input_2.bin": {
+      "bytes": 920560,
+      "sha256": "222dc03226455657316abb6f71b7a985c1a0580e2ee67b9a099bf13844b8505e"
+    },
+    "debug_input_1.bin": {
+      "bytes": 920560,
+      "sha256": "c7918199ade97b7e479cffb4b691dcd148dfbda671ac1979bca07598b7f3d34c"
+    },
+    "debug_owned_2.bin": {
+      "bytes": 920560,
+      "sha256": "dc1a40ebc00f9809d786d1b2d978bd5b79961c812e530d164963347da23b9c73"
+    },
+    "debug_owned_3.bin": {
+      "bytes": 920560,
+      "sha256": "ffbfcbcbd72a4f063749726133e4b76e273f68aac161aa6c370d4e390286eadb"
+    },
+    "debug_original_13.bin": {
+      "bytes": 920560,
+      "sha256": "ffc83408d8eb634a565c53fe218aebd57a001019dcd5ecdf14380da9cf6f416b"
+    },
+    "debug_original_6.bin": {
+      "bytes": 920560,
+      "sha256": "d719bdbcc047255a364f79cf0e11521fa4f8d57d87c8381f64f1320731bc663b"
+    },
+    "debug_owned_15.bin": {
+      "bytes": 920560,
+      "sha256": "740cc52738b44efa6fffb253c1e346ea7e5d832f47d4df9693e501eede301ea3"
+    },
+    "debug_owned_1.bin": {
+      "bytes": 920560,
+      "sha256": "1c8801bd6d29d544b7307272639bcbf22aba146879dd98ec5a9e7216663318d6"
+    },
+    "stateful_owned_1.bin": {
+      "bytes": 920560,
+      "sha256": "7b4c18681d75d9997a6d67f5771fdb8b82590bc9b2950084a08ee261687a2009"
+    },
+    "debug_input_9.bin": {
+      "bytes": 920560,
+      "sha256": "f761c76768f69f333181bb06b2a75c1babaabe2a6cabbf9abb1080d5c469c89e"
+    },
+    "stateful_original_2.bin": {
+      "bytes": 920560,
+      "sha256": "1b61bb5407ad2d70e9026042392992204ed89444fa6766401b63f7ff6b08e6ec"
+    },
+    "debug_original_9.bin": {
+      "bytes": 920560,
+      "sha256": "c30a58c563eeb873533b1d85ab00dcd562837397caf62c066bf2a9e0a0382556"
+    },
+    "debug_owned_12.bin": {
+      "bytes": 920560,
+      "sha256": "209e96bd0a88cb5f135ca08edf2553b9c05da45b0d0ef7a2a149685a7bcd1e16"
+    },
+    "stateful_owned_2.bin": {
+      "bytes": 920560,
+      "sha256": "1b61bb5407ad2d70e9026042392992204ed89444fa6766401b63f7ff6b08e6ec"
+    },
+    "debug_owned_14.bin": {
+      "bytes": 920560,
+      "sha256": "354704de67ee13d9ad82117d28671d94aa4bd05e9560fdf9b51e4def45f06c46"
+    },
+    "stateful_original_0.bin": {
+      "bytes": 920560,
+      "sha256": "73bda8a958c46b75953c8e68f89cff51fdfa14adf20db5fa4727f25a5539752e"
+    },
+    "debug_original_0.bin": {
+      "bytes": 920560,
+      "sha256": "a88d7b7f9e01d0988f1fdcd3edebf1d0abc57bc983dbcc04249b4ec2d16ed3c4"
+    },
+    "full_reawb.bin": {
+      "bytes": 1000,
+      "sha256": "ce74e4fbad0b9188a1955f176fc86870646efd6e18c2b42679a548c461b138a8"
+    },
+    "debug_input_12.bin": {
+      "bytes": 920560,
+      "sha256": "f770d9c23810152457c08d4b35f354dff6953ccdf5f9641660edeb7a4e22aa2b"
+    },
+    "debug_input_6.bin": {
+      "bytes": 920560,
+      "sha256": "e1fd2b51f72006018598c8128c686188acca6148203070a5d23a93a845479f25"
+    },
+    "full_config.bin": {
+      "bytes": 1502800,
+      "sha256": "47838a263340261d499a5beb977f97050f68e41778a3891c311b17ed5c8b42c3"
+    },
+    "debug_input_8.bin": {
+      "bytes": 920560,
+      "sha256": "2ac509c52842cd02aacffd05bf014c85ccddee9ae4c21e4214d19bb88b70da92"
+    },
+    "full_context.bin": {
+      "bytes": 920560,
+      "sha256": "b3a798f55baa3116ca3a3a0208d73d96e8c72fea5e019da743dcc0813d2b7c56"
+    },
+    "debug_input_3.bin": {
+      "bytes": 920560,
+      "sha256": "5b7d81026c8f89e1efc7ef462ad01fd1f79b1e586f73452c77341e6f2f0185ee"
+    },
+    "debug_owned_0.bin": {
+      "bytes": 920560,
+      "sha256": "a88d7b7f9e01d0988f1fdcd3edebf1d0abc57bc983dbcc04249b4ec2d16ed3c4"
+    },
+    "debug_input_5.bin": {
+      "bytes": 920560,
+      "sha256": "48372a5fcd8e5d090bf9777d7310f964cdef1eb34e7591d1e974f94a9cba2eb1"
+    },
+    "debug_original_7.bin": {
+      "bytes": 920560,
+      "sha256": "af06f4e85d0711dc12769c11fab4426bd221dda30299cd5fa0904bdffcb7640f"
+    },
+    "debug_owned_7.bin": {
+      "bytes": 920560,
+      "sha256": "af06f4e85d0711dc12769c11fab4426bd221dda30299cd5fa0904bdffcb7640f"
+    },
+    "stateful_owned_0.bin": {
+      "bytes": 920560,
+      "sha256": "73bda8a958c46b75953c8e68f89cff51fdfa14adf20db5fa4727f25a5539752e"
+    },
+    "debug_original_15.bin": {
+      "bytes": 920560,
+      "sha256": "740cc52738b44efa6fffb253c1e346ea7e5d832f47d4df9693e501eede301ea3"
+    },
+    "debug_original_12.bin": {
+      "bytes": 920560,
+      "sha256": "209e96bd0a88cb5f135ca08edf2553b9c05da45b0d0ef7a2a149685a7bcd1e16"
+    },
+    "debug_original_1.bin": {
+      "bytes": 920560,
+      "sha256": "1c8801bd6d29d544b7307272639bcbf22aba146879dd98ec5a9e7216663318d6"
+    },
+    "debug_owned_11.bin": {
+      "bytes": 920560,
+      "sha256": "3785aef8cf79814e0d8936c6c7191c926bc6d83a4066a8ff39371e3d52481797"
+    },
+    "debug_owned_8.bin": {
+      "bytes": 920560,
+      "sha256": "54134e86d18f0c0bf4f936118b0fabc45757013fde868bc7e56c472195aac39a"
+    },
+    "debug_owned_13.bin": {
+      "bytes": 920560,
+      "sha256": "ffc83408d8eb634a565c53fe218aebd57a001019dcd5ecdf14380da9cf6f416b"
+    },
+    "full_e2.bin": {
+      "bytes": 118416,
+      "sha256": "072603f17cad621bbe28a95664f29cbd7f983c23b884c01e5545ecd128a39205"
+    },
+    "debug_owned_6.bin": {
+      "bytes": 920560,
+      "sha256": "d719bdbcc047255a364f79cf0e11521fa4f8d57d87c8381f64f1320731bc663b"
+    },
+    "debug_original_3.bin": {
+      "bytes": 920560,
+      "sha256": "ffbfcbcbd72a4f063749726133e4b76e273f68aac161aa6c370d4e390286eadb"
+    },
+    "debug_input_7.bin": {
+      "bytes": 920560,
+      "sha256": "188812092dfee054ee5b2ae30eff6a87a6665332e5ff75cc542ca69f6f7225f4"
+    },
+    "debug_input_4.bin": {
+      "bytes": 920560,
+      "sha256": "a92f9b91e34438759d80440a867cd546763e7046b0e507f6552b1223749ff1b8"
+    },
+    "debug_original_2.bin": {
+      "bytes": 920560,
+      "sha256": "dc1a40ebc00f9809d786d1b2d978bd5b79961c812e530d164963347da23b9c73"
+    },
+    "debug_input_11.bin": {
+      "bytes": 920560,
+      "sha256": "651e4f0120ae103fab0da3c42740b333a56f699cc55aaadd23950bccc8b1b064"
+    }
+  },
+  "original_library_patched": false,
+  "dependency_stubs": false,
+  "full_camera_device_calibration_recovered": false,
+  "authentic_frame_replayed": false,
+  "historical_seven_frame_chain_recovered": false,
+  "full_awb_validated": false,
+  "completion_suffix_owned": false,
+  "passive_reawb_owned": false,
+  "active_reawb_owned": false,
+  "debug_stage_owned": true,
+  "debug_file_io_owned": false,
+  "full_outer_controller_owned": false,
+  "prepared_entry_adapter_used": false,
+  "full_post_stage_owned": false,
+  "post_mode2_compared_and_owned": false,
+  "post_research_abi_requires_initialized_bounded_tables": true,
+  "post_all_branches_exhaustively_verified": false
+}

@@ -8,6 +8,10 @@
 #include "hb_scene_optimizer.h"
 #include "hb_scene_candidates.h"
 #include "hb_scene_controller.h"
+#ifdef HB_ATMOSPHERE_PIPELINE
+#include "hb_atmosphere.h"
+static unsigned atmosphere_calls;
+#endif
 #ifdef HB_HISTORY_PIPELINE
 #include "hb_history.h"
 static unsigned history_calls;
@@ -141,6 +145,9 @@ int hb_run_scene_pipeline(void *h,unsigned char *ctx,unsigned char *e2,void *con
         for(unsigned j=0;j<4;++j){
 #ifdef HB_HISTORY_PIPELINE
             if(j==0)memcpy(owned,ctx,C);
+#ifdef HB_ATMOSPHERE_PIPELINE
+            if(j==1)memcpy(owned,ctx,C);
+#endif
 #endif
             uint32_t (*tail)(int)=sym(h,tail_names[j]);uint32_t ts=tail(0);++tail_calls;tail_errors+=ts!=0;
             printf("{\"original_tail_frame\":%u,\"stage\":\"%s\",\"status\":%u}\n",t,tail_names[j],ts);
@@ -149,6 +156,11 @@ int hb_run_scene_pipeline(void *h,unsigned char *ctx,unsigned char *e2,void *con
             if(j==0){uint32_t hs=hb_history_process(owned,config);++history_calls;
                 same("owned_history_status",t,&ts,&hs,4);same("owned_history_context",t,ctx,owned,C);
                 capture(dir,t,"after_history_owned",owned,C);memcpy(ctx,owned,C);if(hs)break;}
+#endif
+#ifdef HB_ATMOSPHERE_PIPELINE
+            if(j==1){uint32_t as=hb_atmosphere_process(owned,config,NULL);++atmosphere_calls;
+                same("owned_atmosphere_status",t,&ts,&as,4);same("owned_atmosphere_context",t,ctx,owned,C);
+                capture(dir,t,"after_atmosphere_owned",owned,C);memcpy(ctx,owned,C);if(as)break;}
 #endif
             if(ts)break;
         }
@@ -166,12 +178,18 @@ int hb_run_scene_pipeline(void *h,unsigned char *ctx,unsigned char *e2,void *con
     ok=ok&&tail_calls==28&&!tail_errors;
 #ifdef HB_HISTORY_PIPELINE
     ok=ok&&history_calls==7;
+#ifdef HB_ATMOSPHERE_PIPELINE
+    ok=ok&&atmosphere_calls==7;
+#endif
 #endif
 #endif
     printf("{\"event\":\"original_prepared_owned_scene_stage\",\"all_passed\":%s,\"mismatches\":%u,\"comparisons\":%u,\"frames\":%u,"
            "\"active_normal_slots\":%u,\"weighted_candidates\":%u,\"filter_calls\":%u,\"filter_removed\":%u,\"optimizer_calls\":%u,"
            "\"accumulation_calls\":%u,\"spectral_calls\":%u,\"owned_scene_calls\":%u,\"normal_scene_body_owned\":true,"
            "\"full_scene_calls\":%u,\"scene_stage_owned\":true,\"all_scene_slots_implemented\":true,"
+#ifdef HB_ATMOSPHERE_PIPELINE
+           "\"atmosphere_stage_owned\":true,\"atmosphere_calls\":7,"
+#endif
 #ifdef HB_HISTORY_PIPELINE
            "\"history_stage_owned\":true,\"history_calls\":7,\"original_tail_baseline\":false,\"downstream_stages_owned\":false,\"passive_reawb_immutability_checked\":false,"
 #elif defined(HB_ORIGINAL_TAIL)

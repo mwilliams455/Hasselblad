@@ -30,7 +30,7 @@ Python requires `pyelftools`. The runner verifies the library, original symbol, 
 
 ## Remaining acceptance boundaries
 
-The initial leaf checkpoint restored execution and recalibration. The following checkpoints restore scene initialization, native E2 decoding, bounded classification/filtering and the complete four-slot scene stage. Candidate weighting, accumulation, spectral weighting, special-scene control, all three temperature modes and history processing now have owned implementations with original-versus-owned comparisons. The connected generated-frame comparison now uses the complete owned scene and history stages, then executes original atmosphere/post/REAWB entry points. Still missing: ownership of the surrounding and downstream AWB stages, real camera-frame inputs and device-specific calibration, the historical seven-frame capture, active REAWB parity, HNCS rendering and phone validation.
+The initial leaf checkpoint restored execution and recalibration. The following checkpoints restore scene initialization, native E2 decoding, bounded classification/filtering and the complete four-slot scene stage. Candidate weighting, accumulation, spectral weighting, special-scene control, all three temperature modes, history processing and atmosphere processing now have owned implementations with original-versus-owned comparisons. The connected generated-frame comparison now uses the complete owned scene, history and atmosphere stages, then executes original post/REAWB entry points. Still missing: ownership of the surrounding and downstream AWB stages, real camera-frame inputs and device-specific calibration, the historical seven-frame capture, active REAWB parity, HNCS rendering and phone validation.
 
 No APK was built. `main` and the installed Native1C application remain unchanged.
 
@@ -76,11 +76,11 @@ python3 hasselblad_native_audit/awb_original_runtime_20261021/run_scene.py \
 
 ### Resume here (latest checkpoint)
 
-1. Use the existing verified runtime. Newest probes are `--history` and `--pipeline --history-pipeline`. Reports are `HISTORY_RESULT.json` and `HISTORY_PIPELINE_RESULT.json`; earlier scene/temperature and original-tail reports retain their own source snapshots.
-2. History is now owned. Next replace original atmosphere (`scene_awb_atmos_proc`, `0x48fed0`, 2,560 bytes), then post-processing (`0x49e4f0`, 9,320 bytes) using the preserved downstream inputs/outputs. The original execution order after scene processing is history, atmosphere, post, REAWB. The new downstream baseline executes all 28 calls successfully; REAWB makes no main-context changes in these fixtures and is not active-output parity.
+1. Use the existing verified runtime. Newest probes are `--atmosphere` and `--pipeline --atmosphere-pipeline`. Reports are `ATMOSPHERE_RESULT.json` and `ATMOSPHERE_PIPELINE_RESULT.json`; earlier scene/temperature and original-tail reports retain their own source snapshots.
+2. History and atmosphere are now owned. Next replace original post-processing (`scene_awb_post_proc`, `0x49e4f0`, 9,320 bytes) using the preserved downstream inputs/outputs. The original execution order after scene processing is history, atmosphere, post, REAWB. The new downstream baseline executes all 28 calls successfully; REAWB makes no main-context changes in these fixtures and is not active-output parity.
 3. Extend connected coverage beyond normal slot 0. Direct synthetic scene tests now cover all four slots, temperature modes 0/1/2, eight candidates, dense 4,096-block inputs and state carried across 12 calls. Connected original detection still activates only slot 0 with mode 0. Reconstruct the surrounding user/ROI/sensor/parsing/detection/face route before claiming a wholly owned full AWB controller.
 4. Recover genuine captured-frame inputs and real sensor-calibration injection. The saved seven synthetic native E2 fixtures do not replace the lost historical seven camera frames.
-5. Continue through atmosphere, post, REAWB processing and publication/output; then phone calibration and a specifically bounded APK.
+5. Continue through post, REAWB processing and publication/output; then phone calibration and a specifically bounded APK.
 
 Keep private runtime/config/dumps out of GitHub. Keep `main` and Native1C unchanged.
 
@@ -262,3 +262,42 @@ python3 hasselblad_native_audit/awb_original_runtime_20261021/run_full.py \
 The research ABI requires allocated, validated context/config structures and bounded table counts: at most 4,096 blocks, eight history entries per slot, four polygon entries per embedded table, eight distance rows and nonempty EV axes of at most eight entries. This is not an untrusted-input parser. Error parity covers the explicitly exercised malformed category/distance-table cases, not arbitrary invalid pointers or corrupt lengths.
 
 **Next:** reconstruct atmosphere processing at `0x48fed0` from the preserved owned-history outputs, then post-processing at `0x49e4f0`. Surrounding preparation/detection, atmosphere, post and REAWB still use original code in the connected harness. Synthetic agreement does not establish authentic historical-frame recovery, real phone calibration, full AWB, active REAWB, HNCS or photographic quality. No APK was built or installed; `main` and Native1C remain unchanged.
+
+
+## Owned atmosphere processing checkpoint
+
+`hb_atmosphere.c` reconstructs the four-slot `scene_awb_atmos_proc` stage: the CT/tint eligibility gate, normal and calibrated special-slot temperature routes, exposure/CT/tint gain tables, category-confidence corrections, E-ND-dependent corrections, original wrapping products and context diagnostics. Its helpers retain the two different distance interpolation algorithms: wrapped integer arithmetic in the basic gain tables, and signed floating-point interpolation with negative-output rejection in category tables. The basic EV helper selects brackets with 32-bit knots but uses their low bytes in final interpolation, matching the pinned firmware.
+
+`evidence/ATMOSPHERE_RESULT.json`: **33,946 checks, zero mismatches**:
+
+- 4,096 signed interpolation calls; 2,048 basic EV-row calls; 1,024 each of basic gain, E-ND value and E-ND gain helpers; and 3,072 category distance/CT/EV helper calls.
+- 512 complete atmosphere comparisons covering all four slot masks, validity values 0/1/2, temperature modes 0/1/2 and invalid modes, confidence selection, out-of-range tint, correction scaling, NaNs and partially updated error contexts. **363 return zero**; expected returns include 91 (one), 94 (83), 168 (32) and 189 (33).
+- **601 slot outputs have changed red or blue gains**, establishing active correction coverage rather than only unchanged outputs.
+- 64 calls with the unmodified original config and generated contexts. Slot 2 is explicitly disabled in these fixtures because its original basic atmosphere table is empty; it is exercised with valid synthetic tables in the separate all-slot tests.
+- 12 calls carrying atmosphere state forward. Complete context/status comparisons pass; original config and the passive REAWB handle remain unchanged throughout the direct suite.
+
+`evidence/ATMOSPHERE_PIPELINE_RESULT.json`: **197 comparisons, zero mismatches** across seven generated native E2 frames. The owned scene output feeds owned history, then owned atmosphere. History and atmosphere are independently compared with original calls at their same-process input boundaries. The owned atmosphere output then feeds original post-processing and REAWB. All 28 original tail-baseline calls return zero. The seven atmosphere outputs match all 920,560 context bytes, including the inactive low-quality frame; connected original detection still activates only normal slot 0.
+
+```sh
+python3 hasselblad_native_audit/awb_original_runtime_20261021/run_full.py \
+  --firmware-root /private/extracted --ndk /tools/android-ndk-r27 \
+  --qemu /tools/qemu-aarch64-static --private-output /private/atmosphere-check \
+  --report /private/atmosphere-result.json --atmosphere
+
+python3 hasselblad_native_audit/awb_original_runtime_20261021/run_full.py \
+  --firmware-root /private/extracted --ndk /tools/android-ndk-r27 \
+  --qemu /tools/qemu-aarch64-static --private-output /private/atmosphere-pipeline \
+  --report /private/atmosphere-pipeline-result.json --pipeline --atmosphere-pipeline
+```
+
+The research ABI requires validated, allocated structures and nonempty nested axes. Basic tables have up to eight EV rows, fifteen CT rows per EV row and eight distance rows per CT row. Category confidence records use the original fixed layout. An enabled empty basic atmosphere table, or a selected E-ND value with no EV rows, returns `HB_PREP_UNSUPPORTED`: the original consumes unspecified stack outputs in those cases. Direct empty top-level helper calls retain their original no-write success behavior. This explicit boundary is not a claim of parity for arbitrary malformed lengths or uninitialized data.
+
+### Relationship to colour rendering and the next boundary
+
+Atmosphere processing directly scales scene red/blue WB gains using exposure, CT/tint and category evidence. Post-processing blends/selects the candidate results, recalibrates and normalizes gains, applies optional colour-mode gain adjustments, performs dual-camera synchronization and publishes AWB state. These stages influence the renderer through its WB inputs. They do not establish the complete HNCS pixel-rendering pipeline, tone reproduction or output colour transforms.
+
+Inspection of the original `scene_awb_color_mode_proc` (`0x4667a8`) shows that its final operation scales the red/blue gain fields at context offsets `0xb0c4c` and `0xb0c54`. Its feature-enable flag is zero in this original config, so the connected baseline does not validate an active colour-mode adjustment. This is a source-trace finding, not an owned implementation of that helper.
+
+**Next implementation:** `scene_awb_post_proc` at `0x49e4f0` (9,320 bytes), using each saved `frame_XX_after_atmosphere_owned.bin` as its audited boundary. Rebuild its blending and publication helpers, `scene_awb_result_normalise_all`, `scene_awb_compute_result_ct`, golden-gain/E-ND/unit recalibration, `scene_awb_color_mode_proc`, CT/tint-to-gain conversion and dual-sync dependencies. Original post outputs are already captured. REAWB and the surrounding user/ROI/sensor/parsing/detection/face route still require owned implementations or explicitly bounded integration.
+
+No historical camera frames, real phone calibration, full AWB/active REAWB parity, photographic quality or HNCS validation is established. No APK was built or installed; `main` and Native1C remain unchanged.

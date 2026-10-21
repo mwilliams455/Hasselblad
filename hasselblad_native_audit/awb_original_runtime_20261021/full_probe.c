@@ -12,6 +12,9 @@ enum { CONTEXT_BYTES=920560, CONFIG_BYTES=1502800, E2_BYTES=0x1ce90 };
 #ifdef HB_PREPARE_COMPARE
 int hb_run_prepare_tests(void*,unsigned char*,unsigned char*,void*,void*,const char*);
 #endif
+#ifdef HB_SCENE_PIPELINE
+int hb_run_scene_pipeline(void*,unsigned char*,unsigned char*,void*,void*,const char*);
+#endif
 static void *symbol(void *h,const char *name) {
     void *p=dlsym(h,name);
     if(!p){fprintf(stderr,"missing symbol %s: %s\n",name,dlerror());_exit(3);}
@@ -58,6 +61,9 @@ int main(int argc,char **argv) {
            u32(ctx+0x170),CONTEXT_BYTES,CONFIG_BYTES,E2_BYTES,reawb?"true":"false");
 #ifdef HB_PREPARE_COMPARE
     _exit(hb_run_prepare_tests(h,ctx,e2,config,reawb,argv[3]));
+#endif
+#ifdef HB_SCENE_PIPELINE
+    _exit(hb_run_scene_pipeline(h,ctx,e2,config,reawb,argv[3]));
 #endif
     _exit(0);
 }

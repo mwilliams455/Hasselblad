@@ -3,6 +3,7 @@
  * calibration curves below are explicit synthetic fixtures, not camera data.
  */
 #include "hb_stat_prepare.h"
+#include "hb_scene_filter.h"
 #include <dlfcn.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -17,7 +18,8 @@ static void w32(void *p,uint32_t v){memcpy(p,&v,4);}
 static void w16(void *p,uint16_t v){memcpy(p,&v,2);}
 static void wf(void *p,float v){memcpy(p,&v,4);}
 static void *sym(void *h,const char *s){void *p=dlsym(h,s);if(!p)_exit(3);return p;}
-static unsigned checks,failures,calls[6],frame_calls,blocks,zero_ratios,clipped_ratios;
+static unsigned checks,failures,calls[6],frame_calls,blocks,zero_ratios,clipped_ratios,auto_calls,classified;
+static unsigned filter_calls,filter_zero_returns,secondary_import_calls;
 static void equal(const char *stage,unsigned test,const void *a,const void *b,size_t n){
     ++checks;if(!memcmp(a,b,n))return;++failures;
     if(failures<=12){const unsigned char *x=a,*y=b;size_t k=0;while(k<n&&x[k]==y[k])++k;
@@ -37,6 +39,8 @@ int hb_run_prepare_tests(void *h,unsigned char *ctx,unsigned char *e2,void *conf
     uint32_t (*calib)(int)=(uint32_t(*)(int))(bias+0x4ad3a0);
     void (*awbinfo)(int)=(void(*)(int))(bias+0x4ad298);
     void (*aeinfo)(int)=(void(*)(int))(bias+0x4ad4c0);
+    uint32_t (*autoproc)(int)=sym(h,"scene_awb_stat_auto_proc");
+    uint32_t (*filter)(int,int,int,int)=(void*)(bias+0x4a8548);
     unsigned char *base=malloc(C),*owned=malloc(C),*oe=malloc(E),*ebase=malloc(E),*conf=malloc(K),*rr=malloc(R);
     unsigned char *po_store=malloc(P+128),*pp_store=malloc(P+128),*mo_store=malloc(M+128),*mp_store=malloc(M+128);
     unsigned char *raw=malloc(0x4118),*rawcopy=malloc(0x4118);
@@ -53,6 +57,10 @@ int hb_run_prepare_tests(void *h,unsigned char *ctx,unsigned char *e2,void *conf
             s[8]=(unsigned char)(i%5==0?0:i%5==1?9:i%5==2?10:i%5==3?255:rnd());
         }
         memcpy(rawcopy,raw,0x4118);status("native_e2_set",t,set(0,raw),0);
+        /* Exercise the original parameter-version update while post-processing
+         * remains disabled. These fields are generated fixture values. */
+        if(t%3==1){w16(ctx+0xd4a2,(uint16_t)(t+1));ctx[0xd4a5]=(unsigned char)(t%2);
+            w32(ctx+0xd4b4,rnd());w32(ctx+0xd4b8,rnd());for(unsigned j=0;j<4;++j)w16(ctx+0xd4a8+2*j,(uint16_t)rnd());}
         memcpy(owned,ctx,C);memcpy(oe,e2,E);
         memset(po_store,0xa5,P+128);memset(pp_store,0xa5,P+128);
         memset(mo_store,0x5a,M+128);memset(mp_store,0x5a,M+128);
@@ -75,6 +83,9 @@ int hb_run_prepare_tests(void *h,unsigned char *ctx,unsigned char *e2,void *conf
         w32(ctx+0x990e4,t%17);wf(ctx+0x990e8,t%4?1234.5f:0.0f);
         for(unsigned j=0;j<16;++j)wf(ctx+0x990ec+4*j,(float)(rnd()%2000));
         memcpy(owned,ctx,C);aeinfo(0);hb_stat_ae_info(owned,config);++calls[5];equal("ae_info_context",t,ctx,owned,C);
+        memcpy(owned,ctx,C);a=autoproc(0);b=hb_stat_auto(owned,config);++auto_calls;
+        status("auto_status",t,a,b);equal("auto_context",t,ctx,owned,C);
+        for(unsigned i=0;i<1024;++i)classified+=ctx[0xf468+40*i]!=0;
         if(t==63){dump(dir,"native_e2_fixture.bin",raw,0x4118);dump(dir,"parsed_e2_fixture.bin",po,P);dump(dir,"prepared_context.bin",ctx,C);}
     }
     /* Direct calibration interpolation boundaries and wraparound products. */
@@ -95,13 +106,57 @@ int hb_run_prepare_tests(void *h,unsigned char *ctx,unsigned char *e2,void *conf
         memcpy(owned,ctx,C);uint32_t a=calib(0),b=hb_stat_calib_proc(owned);++calls[4];
         status("calib_edge_status",t,a,b);equal("calib_edge_context",t,ctx,owned,C);
     }
+    /* Dense classifier coverage around every initialized CT table row. */
+    for(unsigned t=0;t<16;++t){
+        memcpy(ctx,base,C);w32(ctx+0x28,4096);w32(ctx+0x2c,0);wf(ctx+0x990d4,(float)t);
+        w32(ctx+0x990e4,t%2?1024:7);wf(ctx+0x990e8,t%3?1024:0);
+        for(unsigned i=0;i<1024;++i)wf(ctx+0x990ec+4*i,(float)(i%13));
+        for(unsigned i=0;i<4096;++i){unsigned row=i%81;uint32_t radius=r32(ctx+0x350+16*row),shift=(t%4)*(radius/2);
+            unsigned char *d=ctx+0x84f48+20*i;
+            w32(d,r32(ctx+0x348+16*row)+shift);w32(d+4,4096);w32(d+8,r32(ctx+0x34c+16*row)+(i%2?shift:0));
+            w32(d+12,1000);w32(d+16,t%5==0&&i%7==0?0:10000);
+        }
+        memcpy(owned,ctx,C);uint32_t a=autoproc(0),b=hb_stat_auto(owned,config);++auto_calls;
+        status("dense_auto_status",t,a,b);equal("dense_auto_context",t,ctx,owned,C);
+        for(unsigned i=0;i<4096;++i)classified+=ctx[0xf468+40*i]!=0;
+    }
+    /* Imported secondary regions, including their independent float metadata. */
+    for(unsigned t=0;t<32;++t){
+        memcpy(ctx,base,C);memset(po,0,P);memset(mo,0,M);
+        w32(po,t%4==0?64:4);w32(po+4,t%4==0?64:4);w32(po+8,rnd());w32(po+12,rnd());
+        for(unsigned j=0;j<6;++j)w32(mo+4*j,rnd());
+        unsigned count=r32(po)*r32(po+4);
+        for(unsigned i=0;i<count;++i)for(unsigned j=0;j<8;++j)w32(po+16+32*i+4*j,rnd());
+        po[0x20010]=(unsigned char)(t%9);
+        for(unsigned i=0;i<t%9;++i){w32(po+0x20014+4*i,rnd());
+            for(unsigned j=0;j<8;++j)w32(po+0x20034+32*i+4*j,rnd());
+            for(unsigned j=0;j<4;++j)wf(mo+0x44+16*i+4*j,(float)(int32_t)rnd()/1000000.0f);}
+        memcpy(owned,ctx,C);uint32_t a=import(0,po,mo),b=hb_import_stats(owned,po,mo);++calls[1];++secondary_import_calls;
+        status("secondary_import_status",t,a,b);equal("secondary_import_context",t,ctx,owned,C);
+        memcpy(owned,ctx,C);awbinfo(0);hb_stat_awb_info(owned);++calls[2];equal("secondary_awb_info",t,ctx,owned,C);
+    }
+    /* Filter arithmetic, component sizes 1-4, signed channels, zero factor,
+     * no blocks, full capacity and all four slot offsets. */
+    for(unsigned t=0;t<64;++t){
+        memcpy(ctx,base,C);unsigned scene=t%8,slot=t%4,factor=t%8==0?0:t%8==1?255:t%8;
+        unsigned count=t==0?0:t==63?4096:1024;w32(ctx+0x28,count);w32(ctx+0x18,32);
+        size_t offset=slot*0x10188+scene*0x2020;
+        for(unsigned i=0;i<count;++i){unsigned char *d=ctx+0xf450+40*i;unsigned row=t%81;
+            w32(d,t%4==0?rnd():r32(ctx+0x348+16*row)+(i%11));w32(d+8,t%4==0?rnd():r32(ctx+0x34c+16*row)+(i%7));
+            w32(d+16,row);w16(ctx+0x3dace +offset+2*i,(uint16_t)(t%3==0?(i%(t%4+2)==0?0:64):(rnd()%3==0?0:1+rnd()%255)));}
+        memcpy(owned,ctx,C);uint32_t a=filter(0,(int)scene,(int)slot,(int)factor),b=hb_scene_filter(owned,scene,slot,factor);++filter_calls;filter_zero_returns+=a==38;
+        status("filter_edge_status",t,a,b);equal("filter_edge_context",t,ctx,owned,C);
+    }
     equal("config_immutable",0,config,conf,K);if(reawb)equal("passive_reawb_immutable",0,reawb,rr,R);
     printf("{\"event\":\"original_owned_preparation\",\"all_passed\":%s,\"failures\":%u,\"checks\":%u,"
            "\"native_frames\":%u,\"native_blocks\":%u,\"zero_red_ratios\":%u,\"clipped_red_ratios\":%u,"
            "\"parse_calls\":%u,\"import_calls\":%u,\"awb_info_calls\":%u,\"calibration_gain_calls\":%u,"
            "\"block_calibration_calls\":%u,\"ae_info_calls\":%u,\"passive_reawb_compared\":%s,"
+           "\"auto_prepare_calls\":%u,\"classified_blocks\":%u,"
+           "\"filter_calls\":%u,\"filter_zero_factor_returns\":%u,\"secondary_import_calls\":%u,"
            "\"synthetic_sensor_inputs\":true,\"camera_calibration_recovered\":false}\n",
            failures?"false":"true",failures,checks,frame_calls,blocks,zero_ratios,clipped_ratios,
-           calls[0],calls[1],calls[2],calls[3],calls[4],calls[5],reawb?"true":"false");
+           calls[0],calls[1],calls[2],calls[3],calls[4],calls[5],reawb?"true":"false",auto_calls,classified,
+           filter_calls,filter_zero_returns,secondary_import_calls);
     return failures?1:0;
 }

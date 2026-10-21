@@ -67,7 +67,7 @@ uint32_t hb_import_stats(unsigned char *ctx,const unsigned char *in,const unsign
     for(uint32_t i=0;i<n;++i){
         unsigned char *d=ctx+0x98f48+32*i;
         d[0]=(unsigned char)r32(in+0x20014+4*i);
-        memcpy(d+4,in+0x20034+32*i,28);
+        memcpy(d+4,in+0x20034+32*i,24);w32(d+28,r32(in+0x20050+32*i));
         for(unsigned j=0;j<4;++j)w32(ctx+0x99048+16*i+4*j,fcvtzu(rf(meta+0x44+16*i+4*j)));
     }
     return 0;
@@ -129,4 +129,53 @@ void hb_stat_ae_info(unsigned char *ctx,const unsigned char *config){
         if(!(total>0)){memset(ctx+0x37620,0,4096);w32(ctx+0x37620,10000000);}
         else{float factor=10000000.0f/total;for(uint32_t i=0;i<n;++i)w32(ctx+0x37620+4*i,fcvtzu(rf(ctx+0x990ec+4*i)*factor));}
     }
+}
+static double distance(double r,double b,const unsigned char *table,uint32_t i){
+    double dr=r-(double)r32(table+16*i),db=b-(double)r32(table+16*i+4);
+    return dr*dr+db*db;
+}
+uint32_t hb_stat_auto(unsigned char *ctx,const unsigned char *config){
+    /* The E-ND branches need their own calibration model. Do not silently
+     * substitute unity for a requested enabled branch. */
+    if(ctx[0x278]||ctx[0x2f4]||config[0xc88]==0)return HB_PREP_UNSUPPORTED;
+    hb_stat_awb_info(ctx);hb_stat_calib_proc(ctx);
+    w32(ctx+0x2ec,4096);w32(ctx+0x2f0,4096);w32(ctx+0x300,4096);w32(ctx+0x304,4096);
+    hb_stat_ae_info(ctx,config);
+    const unsigned char *table=ctx+0x348,*ranges=ctx+0x308;
+    for(uint32_t i=0;i<r32(ctx+0x28);++i){
+        if(!r32(ctx+0x84f58+20*i))continue;
+        unsigned char *d=ctx+0xf450+40*i;double r=r32(d),b=r32(d+8);
+        double best=2147483648.0,previous_best=2147483648.0,dp=0,dn=0;
+        uint32_t best_i=80,previous_i=80,mid=0,found=0;
+        for(uint32_t s=1;s<config[0xc88];++s){
+            uint32_t lo=r32(ranges+4*(s-1)),right=r32(ranges+4*s),candidate;
+            double value;
+            if(right-lo>=2){
+                for(;;){
+                    mid=(lo+right)>>1;
+                    double dm=distance(r,b,table,mid);dp=distance(r,b,table,mid-1);
+                    if(dm<=dp){
+                        dn=distance(r,b,table,mid+1);
+                        if(dm<=dn){found=1;candidate=mid;value=dm;goto chosen;}
+                        lo=mid;
+                    }else right=mid;
+                    if(right-lo<=1)break;
+                }
+            }
+            if(found){candidate=previous_i;value=previous_best;}
+            else if(mid==lo+1){candidate=lo;value=dp;found=0;}
+            else if(mid==right-1){candidate=right;value=dn;found=0;}
+            else{candidate=previous_i;value=previous_best;found=0;}
+chosen:
+            previous_i=candidate;previous_best=value;
+            if(value<best){best=value;best_i=candidate;}
+        }
+        double dist=sqrt(best),radius=r32(table+16*best_i+8);
+        if(dist>radius)continue;
+        w32(d+16,best_i);w32(d+12,2000+100*best_i);d[24]=1;
+        double weight=1.0-dist/radius;
+        if(!(weight<=1.0))weight=1.0;else if(weight<0)weight=0;
+        wf(d+28,(float)weight);
+    }
+    return 0;
 }

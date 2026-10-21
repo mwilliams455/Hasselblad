@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: MIT
-"""Execute the original top-level initialization with private firmware inputs."""
+"""Execute original initialization and bounded preparation/pipeline comparisons."""
 import argparse
 from datetime import datetime, timezone
 import json
@@ -15,8 +15,10 @@ def main():
     p.add_argument('--qemu',type=Path,required=True)
     p.add_argument('--private-output',type=Path,required=True)
     p.add_argument('--report',type=Path,required=True)
-    p.add_argument('--prepare',action='store_true')
+    p.add_argument('--prepare',action='store_true',help='Compare preparation, classification and connected-component filter')
+    p.add_argument('--pipeline',action='store_true',help='Compare a seven-frame synthetic hybrid scene route')
     a=p.parse_args()
+    if a.prepare and a.pipeline:p.error('Choose --prepare or --pipeline')
     root=a.firmware_root.resolve();out=a.private_output.resolve()
     if out.is_relative_to(AUDIT.parent):
         raise ValueError('Private output must be outside the public repository')
@@ -29,10 +31,12 @@ def main():
         raise ValueError('Expected NDK r27')
     compiler=a.ndk.resolve()/'toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android28-clang'
     probe=out/'full_probe_android28_arm64';sources=[HERE/'full_probe.c']
-    if a.prepare:sources.extend([HERE/'prepare_compare.c',HERE/'hb_stat_prepare.c'])
+    if a.prepare:sources.extend([HERE/'prepare_compare.c',HERE/'hb_stat_prepare.c',HERE/'hb_scene_filter.c'])
+    if a.pipeline:sources.extend([HERE/'scene_pipeline_compare.c',HERE/'hb_stat_prepare.c',HERE/'hb_scene_filter.c',HERE/'hb_scene_optimizer.c'])
     cmd=[str(compiler),'-std=c11','-O2','-Wall','-Wextra','-Werror','-fPIE','-pie',
          '-ffp-contract=off','-Wl,-z,max-page-size=16384']
     if a.prepare:cmd+=['-DHB_PREPARE_COMPARE=1']
+    if a.pipeline:cmd+=['-DHB_SCENE_PIPELINE=1']
     cmd += [*map(str,sources),'-ldl','-lm','-o',str(probe)]
     built=subprocess.run(cmd,capture_output=True,text=True,timeout=60)
     if built.returncode:raise RuntimeError(built.stderr)
@@ -42,16 +46,20 @@ def main():
                      capture_output=True,text=True,timeout=30,preexec_fn=limits)
     (out/'stdout.txt').write_text(r.stdout);(out/'stderr.txt').write_text(r.stderr)
     events=[json.loads(line) for line in r.stdout.splitlines() if line.startswith('{')]
-    ok=(r.returncode==0 and len(events)==(4 if a.prepare else 3)
+    ok=(r.returncode==0 and len(events)==(11 if a.pipeline else 4 if a.prepare else 3)
         and [e.get('stage') for e in events[:2]]==['awb_cfg_load','awb_lib_init']
         and all(e.get('status')==0 for e in events[:2])
         and events[2].get('initialized_marker')==1 and events[2].get('e2_context_present') is True)
     if a.prepare:ok &= events[-1].get('all_passed') is True
+    if a.pipeline:ok &= events[-1].get('all_passed') is True
+    headers=[HERE/'hb_stat_prepare.h',HERE/'hb_scene_filter.h'] if (a.prepare or a.pipeline) else []
+    if a.pipeline:headers.append(HERE/'hb_scene_optimizer.h')
     report={'created_utc':datetime.now(timezone.utc).isoformat(),'all_passed':ok,'exit':r.returncode,
+            'mode':'hybrid_scene_pipeline' if a.pipeline else 'preparation_classification_filter' if a.prepare else 'full_initialization',
             'events':events,'input_config_sha256':sha(config),'library_sha256':sha(root/'system/lib64/libaaa.so'),
             'linker_sha256':linker_sha,'dependency_count':len(closure),'qemu_sha256':sha(a.qemu),
             'compiler_version':subprocess.check_output([str(compiler),'--version'],text=True).splitlines()[0],
-            'source_sha256':{str(s.relative_to(AUDIT)):sha(s) for s in [*sources,HERE/'run_full.py',HERE/'run_recalib.py',*([HERE/'hb_stat_prepare.h'] if a.prepare else [])]},
+            'source_sha256':{str(s.relative_to(AUDIT)):sha(s) for s in [*sources,HERE/'run_full.py',HERE/'run_recalib.py',*headers]},
             'probe_sha256':sha(probe),'build_command':cmd,'run_command':command,
             'private_dump_metadata':{s.name:{'bytes':s.stat().st_size,'sha256':sha(s)} for s in out.glob('*.bin')},
             'original_library_patched':False,'dependency_stubs':False,

@@ -11,4 +11,5 @@ void hb_stat_awb_info(unsigned char *ctx);
 uint32_t hb_update_calib_gain(unsigned char *ctx);
 uint32_t hb_stat_calib_proc(unsigned char *ctx);
 void hb_stat_ae_info(unsigned char *ctx,const unsigned char *config);
+uint32_t hb_stat_auto(unsigned char *ctx,const unsigned char *config);
 #endif

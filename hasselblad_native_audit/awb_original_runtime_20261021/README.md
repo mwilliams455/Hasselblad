@@ -30,7 +30,7 @@ Python requires `pyelftools`. The runner verifies the library, original symbol, 
 
 ## Remaining acceptance boundaries
 
-The initial leaf checkpoint restored execution and recalibration. The following checkpoints restore scene initialization and bounded numerical optimizer comparisons. Still missing: authentic E2 frame preparation, device-specific calibration inputs, historical seven-frame context/REAWB parity, full AWB, HNCS rendering, and phone validation.
+The initial leaf checkpoint restored execution and recalibration. The following checkpoints restore scene initialization and bounded numerical optimizer comparisons. Native E2 decoding, bounded classification/filtering and a seven-frame hybrid route are now covered below. Still missing: real camera-frame inputs and device-specific calibration, the historical seven-frame capture, a wholly owned full controller/REAWB chain, HNCS rendering and phone validation.
 
 No APK was built. `main` and the installed Native1C application remain unchanged.
 
@@ -74,12 +74,13 @@ python3 hasselblad_native_audit/awb_original_runtime_20261021/run_scene.py \
 
 **Coverage boundary:** this is genuine execution of the original numerical optimizer against owned code, using synthetic candidate records on authentic original-initialized state. The seven synthetic calls are not the lost seven authentic E2 frames. No passive REAWB handle comparison or complete AWB chain has been recovered yet. The test fixture includes arithmetic edge cases outside normal photographic ranges; a passing edge case does not prove it is physically meaningful.
 
-### Resume here
+### Resume here (latest checkpoint)
 
-1. Recreate the verified private runtime from the complete 65-library runtime bundle, or use the pinned extraction script with the original CIM. Run the leaf and `--optimizer` probes above.
-2. Restore native E2 input preparation, original sensor calibration injection, per-block classification, weighting/filtering and candidate accumulation using the actual original functions. Do not substitute the Rebuild02/03 synthetic equations for vendor algorithms.
-3. Feed those original-prepared candidates through the rebuilt optimizer, restore caller-side count/state updates, and compare the historical seven-frame sequence within one execution, including the passive REAWB handle.
-4. Proceed through history, atmosphere, calibrated CT/tint, publication/output and full controller. Only then integrate phone calibration and build an explicitly bounded upgrade APK.
+1. Use the existing verified runtime. The final `--prepare` and `--pipeline` commands below are the current bounded acceptance probes.
+2. Replace the remaining original scene weighting, spectral weighting, calibrated CT/tint and candidate-accumulation calls with owned implementations. The hybrid harness supplies original-prepared inputs and exact same-process whole-context comparisons.
+3. Extend controller coverage beyond the currently active normal slot 0: normal slot 1 and special slots 2–3, error paths, and wider scene/AE combinations. The owned numerical filter itself has direct tests across all four slots.
+4. Recover genuine captured-frame inputs and real sensor-calibration injection. The saved seven synthetic native E2 fixtures do not replace the lost historical seven camera frames.
+5. Continue through history, atmosphere, REAWB processing and publication/output; then phone calibration and a specifically bounded APK.
 
 Keep private runtime/config/dumps out of GitHub. Keep `main` and Native1C unchanged.
 
@@ -105,3 +106,37 @@ python3 hasselblad_native_audit/awb_original_runtime_20261021/run_full.py \
 ```
 
 **Boundary:** native-format inputs are generated test fixtures, not recovered camera frames. E2 post-processing is disabled in the unmodified initialized IMX861 state; enabled post-processing returns an explicit unsupported result in the owned parser. Calibration injection from a real camera, block classification, scene weighting/filtering/accumulation, caller updates and the full historical seven-frame chain remain unverified. The REAWB comparison here checks passive non-mutation only, not REAWB output parity. Secondary import code exists but this checkpoint's native fixtures are main-only. No APK was built.
+
+## Classification, filtering and connected scene checkpoint
+
+`hb_stat_auto` reconstructs the original automatic-statistics routine with E-ND calibration disabled: input preparation, calibration, AE metadata, segmented nearest-CT search, radius acceptance and confidence. It preserves the original search/control-flow and floating-point order. `hb_scene_filter` reconstructs the connected-component filter, including signed 16-bit channel comparisons, linear neighbor indices, groups of at most three being removed, and exact scratch-buffer writes.
+
+The final preparation suite (`evidence/CLASSIFICATION_FILTER_RESULT.json`) passes **3,522 checks with zero mismatches**:
+
+- 64 synthetic native E2 frames / 65,536 blocks, including E2 parameter-version updates with post-processing disabled.
+- 96 imports and 96 input-record preparations, including 32 secondary-region cases and full 4,096-block inputs.
+- 1,024 direct calibration-gain comparisons, 192 block-calibration comparisons and 64 direct AE comparisons.
+- 80 complete automatic-preparation comparisons, including 16 dense 4,096-block fixtures around all 81 original CT rows; 45,303 accepted blocks across these tests.
+- 64 direct filter comparisons across four slots, counts through 4,096 and factors through 255; eight zero-factor status-38 cases.
+- Every stage's complete 920,560-byte context matches. The original config and passive 1,000-byte REAWB handle remain unchanged.
+
+The extended secondary-region test initially found 28 mismatches: the last field skips a word in the input record. That offset was corrected, and the final run has zero mismatches. The earlier main-only checkpoint remains valid.
+
+### Connected original-prepared scene comparison
+
+`scene_pipeline_compare.c` runs **seven newly generated native-format E2 frames in one execution**. It uses original native decode/import, user/ROI preparation, sensor/parsing/detection/face stages, spectral weighting, candidate weighting and candidate accumulation. Owned automatic preparation is checked against the original at its boundary. Original-prepared candidate records then exercise the owned filter and optimizer inside a reconstructed normal-slot caller.
+
+`evidence/PREPARED_PIPELINE_RESULT.json`: **72 comparisons, zero mismatches**; seven complete scene-controller context/status comparisons; 14 filter calls, 488 removed candidate memberships and seven optimizer calls. All seven scene statuses are zero. Detection naturally activates normal slot 0 in every fixture; no gate bits are manually forced. Normal slot 1 and special slots 2–3 are not activated in this connected test. Special-slot activation returns an explicit unsupported result in the hybrid harness.
+
+The normal caller restores per-slot maximum-metric updates and the final 16-bit aggregate. This is a **hybrid controller**, not a wholly owned AWB implementation: original functions still perform spectral weighting, candidate weighting, calibrated CT/tint and accumulation. The route stops after scene processing; history, atmosphere, final publication and REAWB processing are not exercised. The passive REAWB comparison covers its 1,000-byte handle, not all pointed-to objects.
+
+```sh
+python3 hasselblad_native_audit/awb_original_runtime_20261021/run_full.py \
+  --firmware-root /private/extracted --ndk /tools/android-ndk-r27 \
+  --qemu /tools/qemu-aarch64-static --private-output /private/pipeline-check \
+  --report /private/pipeline-result.json --pipeline
+```
+
+Private evidence now captures each native frame, parsed data, metadata, E2 state, before/after automatic preparation, before/after original and hybrid scene contexts, and the passive REAWB handle. Same-process pointer identity is retained for byte comparison; these dumps are audit evidence, not cross-process reloadable contexts. Their hashes and source provenance are in the public reports.
+
+**Release boundary remains unchanged:** synthetic tests do not establish camera-image quality, real factory calibration, full owned AWB, historical frame parity or phone validation. No APK was built or installed.

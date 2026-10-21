@@ -1,0 +1,123 @@
+{
+  "created_utc": "2026-10-21T09:27:59.027203+00:00",
+  "all_passed": true,
+  "exit": 0,
+  "events": [
+    {
+      "stage": "awb_cfg_load",
+      "status": 0
+    },
+    {
+      "stage": "awb_lib_init",
+      "status": 0
+    },
+    {
+      "event": "original_full_initialization",
+      "initialized_marker": 1,
+      "context_bytes": 920560,
+      "config_bytes": 1502800,
+      "e2_bytes": 118416,
+      "e2_context_present": true,
+      "reawb_handle_present": true
+    },
+    {
+      "event": "original_owned_preparation",
+      "all_passed": true,
+      "failures": 0,
+      "checks": 3138,
+      "native_frames": 64,
+      "native_blocks": 65536,
+      "zero_red_ratios": 27097,
+      "clipped_red_ratios": 2800,
+      "parse_calls": 64,
+      "import_calls": 64,
+      "awb_info_calls": 64,
+      "calibration_gain_calls": 1024,
+      "block_calibration_calls": 192,
+      "ae_info_calls": 64,
+      "passive_reawb_compared": true,
+      "synthetic_sensor_inputs": true,
+      "camera_calibration_recovered": false
+    }
+  ],
+  "input_config_sha256": "7fa13044a6c5453b67e4ae11bf8d07828de8e1c02aa915494fe5dad20930d435",
+  "library_sha256": "7d6164eccc734de7087bb778ee72f17a0b3ccf6c0d1f20092c7ebe74a86574ba",
+  "linker_sha256": "313d7a6d94cdeb9e2b2adb4be98a8b18240b08012b22f922acea7984f42ff35d",
+  "dependency_count": 65,
+  "qemu_sha256": "4f55e2e88dc05dc0f619562d5795b8eb25ed2ad2547504fb4835207a6911c350",
+  "compiler_version": "Android (12027248, +pgo, +bolt, +lto, +mlgo, based on r522817) clang version 18.0.1 (https://android.googlesource.com/toolchain/llvm-project d8003a456d14a3deb8054cdaa529ffbf02d9b262)",
+  "source_sha256": {
+    "awb_original_runtime_20261021/full_probe.c": "1283ec85a807cb63efd0adbc0071bd3a5255d77613cd329cbe91610ce9beb198",
+    "awb_original_runtime_20261021/prepare_compare.c": "5f5cae83c24655e88c3c2c335e0dcc96ec9ae5b3110e3fe58be4aaaec13841b2",
+    "awb_original_runtime_20261021/hb_stat_prepare.c": "d1886bf88a6e4c30e589cfe89f1781aeb6413e690ccf81985ff5d8cdb8ddae78",
+    "awb_original_runtime_20261021/run_full.py": "383ab405756c9a4968859f3e7aca20cdba3b3aeea9c45adfcaf5dc9762955f02",
+    "awb_original_runtime_20261021/run_recalib.py": "b11d5635343e30047596dfab12f669f0f8343c823c1a3dc72bd22146cb11b22f",
+    "awb_original_runtime_20261021/hb_stat_prepare.h": "28a2027bff0a3a161b0e3b1daad81d8e8215af2433eef71d1a94109ad03e0e81"
+  },
+  "probe_sha256": "b8a7fc43c12a8ba22f272ab7adb0cfa5e6357869cd5558e408c71fe5471a1e61",
+  "build_command": [
+    "/workspace/scratch/910ac5420982/runtime_tools/android-ndk-r27/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android28-clang",
+    "-std=c11",
+    "-O2",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-fPIE",
+    "-pie",
+    "-ffp-contract=off",
+    "-Wl,-z,max-page-size=16384",
+    "-DHB_PREPARE_COMPARE=1",
+    "/workspace/scratch/910ac5420982/repo/hasselblad_native_audit/awb_original_runtime_20261021/full_probe.c",
+    "/workspace/scratch/910ac5420982/repo/hasselblad_native_audit/awb_original_runtime_20261021/prepare_compare.c",
+    "/workspace/scratch/910ac5420982/repo/hasselblad_native_audit/awb_original_runtime_20261021/hb_stat_prepare.c",
+    "-ldl",
+    "-lm",
+    "-o",
+    "/workspace/scratch/910ac5420982/private_runtime/prep_attempt1/full_probe_android28_arm64"
+  ],
+  "run_command": [
+    "/workspace/scratch/910ac5420982/runtime_tools/qemu/usr/bin/qemu-aarch64-static",
+    "-L",
+    "/workspace/scratch/910ac5420982/private_runtime/extracted",
+    "/workspace/scratch/910ac5420982/private_runtime/prep_attempt1/full_probe_android28_arm64",
+    "/workspace/scratch/910ac5420982/private_runtime/extracted/system/lib64/libaaa.so",
+    "/workspace/scratch/910ac5420982/private_runtime/extracted/system/etc/aaa/awb_imx861.bin",
+    "/workspace/scratch/910ac5420982/private_runtime/prep_attempt1"
+  ],
+  "private_dump_metadata": {
+    "full_reawb.bin": {
+      "bytes": 1000,
+      "sha256": "ce74e4fbad0b9188a1955f176fc86870646efd6e18c2b42679a548c461b138a8"
+    },
+    "native_e2_fixture.bin": {
+      "bytes": 16664,
+      "sha256": "d9f247c0717b10e758b96846db7c26a9bda909d557b90f5b06c2a8bd59d7b588"
+    },
+    "full_config.bin": {
+      "bytes": 1502800,
+      "sha256": "47838a263340261d499a5beb977f97050f68e41778a3891c311b17ed5c8b42c3"
+    },
+    "full_context.bin": {
+      "bytes": 920560,
+      "sha256": "b3a798f55baa3116ca3a3a0208d73d96e8c72fea5e019da743dcc0813d2b7c56"
+    },
+    "full_e2.bin": {
+      "bytes": 118416,
+      "sha256": "072603f17cad621bbe28a95664f29cbd7f983c23b884c01e5545ecd128a39205"
+    },
+    "parsed_e2_fixture.bin": {
+      "bytes": 131584,
+      "sha256": "ff6f2a25ab8622e1591fac6804dedbb09b42cd87478f4f903f94d9ab8c337cd2"
+    },
+    "prepared_context.bin": {
+      "bytes": 920560,
+      "sha256": "3794d2ecf8ea42c857de7ed52d6efc8955bd9839270761f6a902eb775eebdbb7"
+    }
+  },
+  "original_library_patched": false,
+  "dependency_stubs": false,
+  "full_camera_device_calibration_recovered": false,
+  "authentic_frame_replayed": false,
+  "historical_seven_frame_chain_recovered": false,
+  "full_awb_validated": false
+}

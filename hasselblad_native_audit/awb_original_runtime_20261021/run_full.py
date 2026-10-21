@@ -6,6 +6,7 @@ from datetime import datetime, timezone
 import json
 from pathlib import Path
 import subprocess
+import resource
 from run_recalib import verify_runtime, sha, limits, HERE, AUDIT
 
 def main():
@@ -19,6 +20,8 @@ def main():
     p.add_argument('--pipeline',action='store_true',help='Compare the owned complete scene stage on seven synthetic native E2 frames')
     p.add_argument('--candidates',action='store_true',help='Compare candidate weighting, accumulation and normal scene control')
     p.add_argument('--temperature',action='store_true',help='Compare all temperature modes and their matrix/xy helpers')
+    p.add_argument('--detect',action='store_true',help='Compare detection, confidence history and hysteresis')
+    p.add_argument('--detect-entry',action='store_true',help='With --run-entry, own detection after parsing')
     p.add_argument('--stat-auto',action='store_true',help='Compare complete automatic statistics including enabled E-ND correction')
     p.add_argument('--stat-auto-entry',action='store_true',help='With --run-entry, own automatic statistics and parsing prefix')
     p.add_argument('--parsing',action='store_true',help='Compare semantic parsing, neighborhood weights and stateful blending')
@@ -59,6 +62,7 @@ def main():
     p.add_argument('--post-results-pipeline',action='store_true',help='With --pipeline, replay post-result helpers from original golden snapshots; post controller remains original')
     p.add_argument('--atmosphere-pipeline',action='store_true',help='With --pipeline, compare owned scene/history/atmosphere before original post/REAWB')
     a=p.parse_args()
+    if a.detect_entry:a.stat_auto_entry=True
     if a.stat_auto_entry:a.parsing_entry=True
     if a.parsing_entry:a.sensor_entry=True
     if a.sensor_entry:a.roi_sync_entry=True
@@ -79,7 +83,7 @@ def main():
     if a.history_pipeline:
         if not a.pipeline:p.error('--history-pipeline requires --pipeline')
         a.tail_baseline=True
-    if sum([a.prepare,a.pipeline,a.candidates,a.temperature,a.controller,a.history,a.atmosphere,a.post_results,a.post,a.completion,a.diagnostics,a.run_entry,a.white_lut,a.user_prepare,a.user_e_nd,a.user_manual,a.user_controls,a.user_finish,a.stat_difference,a.roi,a.roi_sync,a.sensor,a.parsing,a.stat_auto])>1:p.error('Choose one comparison mode')
+    if sum([a.prepare,a.pipeline,a.candidates,a.temperature,a.controller,a.history,a.atmosphere,a.post_results,a.post,a.completion,a.diagnostics,a.run_entry,a.white_lut,a.user_prepare,a.user_e_nd,a.user_manual,a.user_controls,a.user_finish,a.stat_difference,a.roi,a.roi_sync,a.sensor,a.parsing,a.stat_auto,a.detect])>1:p.error('Choose one comparison mode')
     if a.white_lut_entry and not a.run_entry:p.error('--white-lut-entry requires --run-entry')
     if a.tail_baseline and not a.pipeline:p.error('--tail-baseline requires --pipeline')
     root=a.firmware_root.resolve();out=a.private_output.resolve()
@@ -103,6 +107,8 @@ def main():
     if a.post or a.completion:sources.extend([HERE/('completion_compare.c' if a.completion else 'post_compare.c'),HERE/'hb_post_controller.c',HERE/'hb_post_results.c',HERE/'hb_atmosphere.c',HERE/'hb_history.c',HERE/'hb_temperature.c',HERE/'hb_scene_controller.c',HERE/'hb_scene_candidates.c',HERE/'hb_scene_optimizer.c',HERE/'hb_scene_filter.c'])
     if a.stat_auto:sources.extend([HERE/'stat_auto_compare.c',HERE/'hb_stat_prepare.c',HERE/'hb_user_manual.c',HERE/'hb_user_e_nd.c',HERE/'hb_user_prepare.c',HERE/'hb_temperature.c',HERE/'hb_scene_candidates.c',HERE/'hb_scene_optimizer.c',HERE/'hb_scene_filter.c'])
     if a.stat_auto or a.stat_auto_entry:sources.append(HERE/'hb_stat_auto.c')
+    if a.detect:sources.extend([HERE/'detect_compare.c',HERE/'hb_history.c',HERE/'hb_scene_controller.c',HERE/'hb_scene_candidates.c',HERE/'hb_scene_optimizer.c',HERE/'hb_scene_filter.c',HERE/'hb_temperature.c'])
+    if a.detect or a.detect_entry:sources.append(HERE/'hb_detect.c')
     if a.parsing:sources.extend([HERE/'parsing_compare.c',HERE/'hb_scene_candidates.c',HERE/'hb_scene_optimizer.c',HERE/'hb_scene_filter.c',HERE/'hb_temperature.c'])
     if a.parsing or a.parsing_entry:sources.extend([HERE/'hb_parsing.c',HERE/'hb_history.c',HERE/'hb_scene_controller.c'])
     if a.sensor:sources.append(HERE/'sensor_compare.c')
@@ -140,6 +146,8 @@ def main():
     if a.atmosphere_pipeline:sources.append(HERE/'hb_atmosphere.c')
     cmd=[str(compiler),'-std=c11','-O2','-Wall','-Wextra','-Werror','-fPIE','-pie',
          '-ffp-contract=off','-Wl,-z,max-page-size=16384']
+    if a.detect:cmd+=['-DHB_DETECT_COMPARE=1']
+    if a.detect_entry:cmd+=['-DHB_DETECT_ENTRY=1']
     if a.stat_auto:cmd+=['-DHB_STAT_AUTO_COMPARE=1']
     if a.stat_auto_entry:cmd+=['-DHB_STAT_AUTO_ENTRY=1']
     if a.parsing:cmd+=['-DHB_PARSING_COMPARE=1']
@@ -188,14 +196,20 @@ def main():
     if built.returncode:raise RuntimeError(built.stderr)
     command=[str(a.qemu.resolve()),'-L',str(root),str(probe),
              str(root/'system/lib64/libaaa.so'),str(config),str(out)]
+    def execution_limits():
+        if a.detect_entry:
+            resource.setrlimit(resource.RLIMIT_CORE,(0,0))
+            resource.setrlimit(resource.RLIMIT_CPU,(40,40))
+        else:limits()
     r=subprocess.run(command,env={'PATH':'/usr/bin:/bin','LANG':'C','LD_LIBRARY_PATH':str(root/'system/lib64')},
-                     capture_output=True,text=True,timeout=30,preexec_fn=limits)
+                     capture_output=True,text=True,timeout=60 if a.detect_entry else 30,preexec_fn=execution_limits)
     (out/'stdout.txt').write_text(r.stdout);(out/'stderr.txt').write_text(r.stderr)
     events=[json.loads(line) for line in r.stdout.splitlines() if line.startswith('{')]
-    ok=(r.returncode==0 and len(events)==(39 if a.tail_baseline else 11 if a.pipeline else 10 if a.stat_auto_entry else 9 if a.parsing_entry else 8 if a.sensor_entry else 7 if a.roi_sync_entry else 6 if a.roi_entry else 5 if a.stat_difference_entry else 4 if (a.prepare or a.candidates or a.temperature or a.controller or a.history or a.atmosphere or a.post_results or a.post or a.completion or a.diagnostics or a.run_entry or a.white_lut or a.user_prepare or a.user_e_nd or a.user_manual or a.user_controls or a.user_finish or a.stat_difference or a.roi or a.roi_sync or a.sensor or a.parsing or a.stat_auto) else 3)
+    ok=(r.returncode==0 and len(events)==(39 if a.tail_baseline else 11 if a.pipeline else 11 if a.detect_entry else 10 if a.stat_auto_entry else 9 if a.parsing_entry else 8 if a.sensor_entry else 7 if a.roi_sync_entry else 6 if a.roi_entry else 5 if a.stat_difference_entry else 4 if (a.prepare or a.candidates or a.temperature or a.controller or a.history or a.atmosphere or a.post_results or a.post or a.completion or a.diagnostics or a.run_entry or a.white_lut or a.user_prepare or a.user_e_nd or a.user_manual or a.user_controls or a.user_finish or a.stat_difference or a.roi or a.roi_sync or a.sensor or a.parsing or a.stat_auto or a.detect) else 3)
         and [e.get('stage') for e in events[:2]]==['awb_cfg_load','awb_lib_init']
         and all(e.get('status')==0 for e in events[:2])
         and events[2].get('initialized_marker')==1 and events[2].get('e2_context_present') is True)
+    if a.detect:ok &= events[-1].get('all_passed') is True
     if a.stat_auto:ok &= events[-1].get('all_passed') is True
     if a.parsing:ok &= events[-1].get('all_passed') is True
     if a.sensor:ok &= events[-1].get('all_passed') is True
@@ -246,8 +260,9 @@ def main():
     if a.sensor or a.sensor_entry:headers.extend([HERE/'hb_sensor.h',HERE/'sensor_fixtures.h',HERE/'hb_stat_prepare.h'])
     if a.parsing or a.parsing_entry:headers.extend([HERE/'hb_parsing.h',HERE/'parsing_fixtures.h',HERE/'hb_history.h',HERE/'hb_scene_controller.h',HERE/'hb_scene_candidates.h',HERE/'hb_scene_optimizer.h',HERE/'hb_scene_filter.h',HERE/'hb_temperature.h',HERE/'hb_stat_prepare.h'])
     if a.stat_auto or a.stat_auto_entry:headers.extend([HERE/'hb_stat_prepare.h',HERE/'user_manual_fixtures.h',HERE/'hb_user_manual.h',HERE/'hb_user_e_nd.h',HERE/'hb_user_prepare.h',HERE/'hb_temperature.h',HERE/'hb_scene_candidates.h',HERE/'hb_scene_optimizer.h',HERE/'hb_scene_filter.h'])
-    report={'created_utc':datetime.now(timezone.utc).isoformat(),'all_passed':ok,'exit':r.returncode,
-            'mode':'owned_automatic_prefix_through_parsing_original_detection_remainder' if a.stat_auto_entry else 'owned_complete_automatic_statistics' if a.stat_auto else 'owned_entry_through_parsing_original_statistics_and_remainders' if a.parsing_entry else 'owned_semantic_parsing' if a.parsing else 'owned_entry_through_sensor_original_statistics_and_remainders' if a.sensor_entry else 'owned_spectral_sensor' if a.sensor else 'owned_entry_through_roi_sync_original_mode_remainders' if a.roi_sync_entry else 'owned_roi_synchronization' if a.roi_sync else 'owned_entry_through_roi_original_sync_and_remainders' if a.roi_entry else 'owned_roi_processing' if a.roi else 'owned_entry_user_difference_dispatch_original_remainders' if a.stat_difference_entry else 'owned_statistics_difference' if a.stat_difference else 'owned_entry_complete_user_original_outer_remainder' if a.user_finish_entry else 'owned_complete_user_stage' if a.user_finish else 'owned_entry_through_controls_original_remainder' if a.user_controls_entry else 'owned_user_ct_tint_gain_controls' if a.user_controls else 'owned_entry_through_manual_samples_original_remainder' if a.user_manual_entry else 'owned_manual_samples_and_e_nd_updates' if a.user_manual else 'owned_entry_user_calibration_and_unit_original_remainder' if a.user_e_nd_entry else 'owned_user_e_nd_unit_request' if a.user_e_nd else 'owned_entry_white_lut_user_prefix_original_remainder' if a.user_prepare_entry else 'owned_user_calibration_prefix' if a.user_prepare else 'owned_white_lut_prepare' if a.white_lut else 'owned_white_lut_and_entry_original_remainder' if a.white_lut_entry else 'owned_run_entry_original_remainder' if a.run_entry else 'owned_diagnostics_pipeline' if a.diagnostics_pipeline else 'owned_diagnostics_no_file' if a.diagnostics else 'owned_completion_pipeline' if a.completion_pipeline else 'owned_completion_and_passive_reawb' if a.completion else 'owned_post_pipeline' if a.post_pipeline else 'owned_post_controller' if a.post else 'post_result_snapshot_replay_pipeline' if a.post_results_pipeline else 'owned_post_result_helpers_and_mode2' if a.post_results else 'owned_scene_history_atmosphere_pipeline' if a.atmosphere_pipeline else 'owned_atmosphere' if a.atmosphere else 'owned_history_scene_pipeline' if a.history_pipeline else 'owned_history' if a.history else 'original_downstream_baseline' if a.tail_baseline else 'owned_scene_controller' if a.controller else 'owned_complete_scene_pipeline' if a.pipeline else 'calibrated_temperature' if a.temperature else 'candidate_weighting_accumulation' if a.candidates else 'preparation_classification_filter' if a.prepare else 'full_initialization',
+    if a.detect or a.detect_entry:headers.extend([HERE/'hb_detect.h',HERE/'detect_fixtures.h',HERE/'hb_history.h',HERE/'hb_scene_controller.h',HERE/'hb_scene_candidates.h',HERE/'hb_scene_optimizer.h',HERE/'hb_scene_filter.h',HERE/'hb_temperature.h',HERE/'hb_stat_prepare.h'])
+    report={'runtime_limits':{'cpu_seconds':40 if a.detect_entry else 20,'wall_seconds':60 if a.detect_entry else 30},'created_utc':datetime.now(timezone.utc).isoformat(),'all_passed':ok,'exit':r.returncode,
+            'mode':'owned_automatic_prefix_through_detection_original_face_remainder' if a.detect_entry else 'owned_detection' if a.detect else 'owned_automatic_prefix_through_parsing_original_detection_remainder' if a.stat_auto_entry else 'owned_complete_automatic_statistics' if a.stat_auto else 'owned_entry_through_parsing_original_statistics_and_remainders' if a.parsing_entry else 'owned_semantic_parsing' if a.parsing else 'owned_entry_through_sensor_original_statistics_and_remainders' if a.sensor_entry else 'owned_spectral_sensor' if a.sensor else 'owned_entry_through_roi_sync_original_mode_remainders' if a.roi_sync_entry else 'owned_roi_synchronization' if a.roi_sync else 'owned_entry_through_roi_original_sync_and_remainders' if a.roi_entry else 'owned_roi_processing' if a.roi else 'owned_entry_user_difference_dispatch_original_remainders' if a.stat_difference_entry else 'owned_statistics_difference' if a.stat_difference else 'owned_entry_complete_user_original_outer_remainder' if a.user_finish_entry else 'owned_complete_user_stage' if a.user_finish else 'owned_entry_through_controls_original_remainder' if a.user_controls_entry else 'owned_user_ct_tint_gain_controls' if a.user_controls else 'owned_entry_through_manual_samples_original_remainder' if a.user_manual_entry else 'owned_manual_samples_and_e_nd_updates' if a.user_manual else 'owned_entry_user_calibration_and_unit_original_remainder' if a.user_e_nd_entry else 'owned_user_e_nd_unit_request' if a.user_e_nd else 'owned_entry_white_lut_user_prefix_original_remainder' if a.user_prepare_entry else 'owned_user_calibration_prefix' if a.user_prepare else 'owned_white_lut_prepare' if a.white_lut else 'owned_white_lut_and_entry_original_remainder' if a.white_lut_entry else 'owned_run_entry_original_remainder' if a.run_entry else 'owned_diagnostics_pipeline' if a.diagnostics_pipeline else 'owned_diagnostics_no_file' if a.diagnostics else 'owned_completion_pipeline' if a.completion_pipeline else 'owned_completion_and_passive_reawb' if a.completion else 'owned_post_pipeline' if a.post_pipeline else 'owned_post_controller' if a.post else 'post_result_snapshot_replay_pipeline' if a.post_results_pipeline else 'owned_post_result_helpers_and_mode2' if a.post_results else 'owned_scene_history_atmosphere_pipeline' if a.atmosphere_pipeline else 'owned_atmosphere' if a.atmosphere else 'owned_history_scene_pipeline' if a.history_pipeline else 'owned_history' if a.history else 'original_downstream_baseline' if a.tail_baseline else 'owned_scene_controller' if a.controller else 'owned_complete_scene_pipeline' if a.pipeline else 'calibrated_temperature' if a.temperature else 'candidate_weighting_accumulation' if a.candidates else 'preparation_classification_filter' if a.prepare else 'full_initialization',
             'events':events,'input_config_sha256':sha(config),'library_sha256':sha(root/'system/lib64/libaaa.so'),
             'linker_sha256':linker_sha,'dependency_count':len(closure),'qemu_sha256':sha(a.qemu),
             'compiler_version':subprocess.check_output([str(compiler),'--version'],text=True).splitlines()[0],
@@ -264,6 +279,7 @@ def main():
             'user_unit_request_owned':a.user_e_nd or a.user_e_nd_entry or a.user_manual or a.user_controls or a.user_finish,'e_nd_temperature_gain_owned':a.user_e_nd or a.user_e_nd_entry or a.user_manual or a.user_controls or a.user_finish,
             'user_calibration_prefix_owned':a.user_prepare or a.user_prepare_entry or a.user_e_nd or a.user_manual or a.user_controls or a.user_finish,'user_mode_helper_owned':a.user_prepare or a.user_controls or a.user_controls_entry or a.user_finish,'full_user_stage_owned':a.user_finish or a.user_finish_entry,
             'user_remainder_entry':None if (a.user_finish or a.user_finish_entry) else '0x4b16d4' if (a.user_controls or a.user_controls_entry) else '0x4b16a8' if (a.user_manual or a.user_manual_entry) else '0x4b162c' if (a.user_e_nd or a.user_e_nd_entry) else '0x4b1624' if (a.user_prepare or a.user_prepare_entry) else None,
+            'detection_owned':a.detect or a.detect_entry,
             'automatic_statistics_owned':a.stat_auto or a.stat_auto_entry,
             'parsing_owned':a.parsing or a.parsing_entry,
             'sensor_adaptation_owned':a.sensor or a.sensor_entry,'original_automatic_statistics_callback_used':a.sensor_entry and not a.stat_auto_entry,'sensor_original_calibration_data_embedded':False,
@@ -271,7 +287,7 @@ def main():
             'original_roi_sync_callback_used':a.roi_entry and not a.roi_sync_entry,
             'statistics_difference_owned':a.stat_difference or a.stat_difference_entry,
             'automatic_dispatch_gate_owned':a.stat_difference_entry,'full_mode_bodies_owned':False,
-            'dispatch_remainder_entries':{'automatic_refresh':'0x471f60' if a.parsing_entry else '0x471f50' if a.sensor_entry else '0x471f30' if a.roi_entry else '0x471f10','automatic_reuse':'0x472294' if a.roi_entry else '0x472274','manual':'0x471ff0','custom':'0x472100','error_completion':'0x4722b0'} if a.stat_difference_entry else None,
+            'dispatch_remainder_entries':{'automatic_refresh':'0x471f70' if a.detect_entry else '0x471f60' if a.parsing_entry else '0x471f50' if a.sensor_entry else '0x471f30' if a.roi_entry else '0x471f10','automatic_reuse':'0x472294' if a.roi_entry else '0x472274','manual':'0x471ff0','custom':'0x472100','error_completion':'0x4722b0'} if a.stat_difference_entry else None,
             'controller_remainder_after_user':None if a.stat_difference_entry else'0x471e78' if a.user_prepare_entry else None,
             'prepared_entry_adapter_used':a.user_finish or a.user_controls or a.user_manual or a.user_e_nd or a.user_prepare or a.completion or a.completion_pipeline or a.run_entry,
             'white_lut_owned':a.white_lut or a.white_lut_entry,'white_lut_original_remainder_entry':'0x471e64' if (a.white_lut_entry and not a.user_prepare_entry) else None,

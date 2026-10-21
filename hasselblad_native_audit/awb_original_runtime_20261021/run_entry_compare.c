@@ -57,6 +57,11 @@ static uint32_t(*original_auto_statistics)(int);
 #include "parsing_fixtures.h"
 static unsigned parsing_calls,parsing_active_calls,parsing_errors;
 #endif
+#ifdef HB_DETECT_ENTRY
+#include "hb_detect.h"
+#include "detect_fixtures.h"
+static unsigned detect_calls,detect_errors,detect106,detect131,detect177,detect247;
+#endif
 #include <dlfcn.h>
 #include <math.h>
 #include <stdio.h>
@@ -183,6 +188,11 @@ static hb_run_entry_result compare(test_state*s,unsigned t,int expected,unsigned
                             if(!b){parsing_active_calls+=s->k[0x138748]==1;b=hb_parsing_process(s->c,s->k);++parsing_calls;parsing_errors+=b!=0;}
                             entry=b?0x4722b0:0x471f60;
                             if(capture)dump(s->dir,"owned_parsing_boundary",t,s->c,C);
+#ifdef HB_DETECT_ENTRY
+                            if(!b){b=hb_detect_process(s->c,s->k);++detect_calls;detect_errors+=b!=0;detect106+=b==106;detect131+=b==131;detect177+=b==177;detect247+=b==247;if(b==HB_PREP_UNSUPPORTED){printf("{\"detect_guard_rejection\":%u}\n",t);_exit(1);}}
+                            entry=b?0x4722b0:0x471f70;
+                            if(capture)dump(s->dir,"owned_detection_boundary",t,s->c,C);
+#endif
 #endif
                         }
 #endif
@@ -408,6 +418,17 @@ int hb_run_entry_tests(void*h,unsigned char*c,unsigned char*e2,void*config,void*
         c[0xd328]=c[0xd329]=0;c[0xd32a]=1;((unsigned char*)reawb)[0x1c]=0;
         compare(&s,10000+t,HB_RUN_READY,1);
     }
+#ifdef HB_DETECT_ENTRY
+    for(unsigned t=0;t<48;++t){
+        memcpy(c,dispatch_base,C);memcpy(k,dispatch_cfg,K);memcpy(reawb,dispatch_r,R);
+        hb_test_parsing(c,k,35,1);hb_test_detect(c,k,t,1);
+        w32(c+0xb2020,0);w32(c+0x194,t%2);w32(c+0x174,0);w32(c+0x17c,0);w32(c+0x184,0);c[0xd338]=0;
+        k[0x1531a8]=k[0x1531ac]=1;k[0x1531ad]=1;w32(k+0x1531b0,UINT32_MAX);w32(c+0x2c,0);w16(c+0xef3e,0);c[0xdb60]=0;w32(c+0xeeac,0);
+        c[0xd328]=c[0xd329]=0;c[0xd32a]=1;((unsigned char*)reawb)[0x1c]=0;
+        compare(&s,10200+t,HB_RUN_READY,1);
+    }
+    printf("{\"event\":\"owned_detection_entry_counts\",\"owned_detection_calls\":%u,\"detection_error_completions\":%u,\"status106\":%u,\"status131\":%u,\"status177\":%u,\"status247\":%u,\"original_detection_callbacks\":0,\"detection_owned\":true}\n",detect_calls,detect_errors,detect106,detect131,detect177,detect247);
+#endif
     printf("{\"event\":\"owned_stat_auto_entry_counts\",\"owned_statistics_calls\":%u,\"unit_enabled_calls\":%u,\"temperature_enabled_calls\":%u,\"original_statistics_callbacks\":0,\"automatic_statistics_owned\":true}\n",owned_statistics_calls,statistics_unit,statistics_temperature);
 #endif
     printf("{\"event\":\"owned_parsing_entry_counts\",\"owned_parsing_calls\":%u,\"active_parsing_calls\":%u,\"parsing_error_completions\":%u,\"original_parsing_callbacks\":0,\"parsing_owned\":true}\n",parsing_calls,parsing_active_calls,parsing_errors);

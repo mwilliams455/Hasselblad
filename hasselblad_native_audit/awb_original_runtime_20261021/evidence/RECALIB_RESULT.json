@@ -1,0 +1,795 @@
+{
+  "created_utc": "2026-10-21T09:00:17.371177+00:00",
+  "execution": "Original Android 9 Bionic linker and vendor dependency closure under QEMU user AArch64",
+  "firmware": "X2D II 100C 1.3.16.2",
+  "original_library_sha256": "7d6164eccc734de7087bb778ee72f17a0b3ccf6c0d1f20092c7ebe74a86574ba",
+  "linker_sha256": "313d7a6d94cdeb9e2b2adb4be98a8b18240b08012b22f922acea7984f42ff35d",
+  "dependencies": {
+    "libaaa.so": {
+      "sha256": "7d6164eccc734de7087bb778ee72f17a0b3ccf6c0d1f20092c7ebe74a86574ba",
+      "needed": [
+        "libduml_util.so",
+        "libduml_osal.so",
+        "libdcam_base.so",
+        "libflow_trace.so",
+        "libperfetto_c.so",
+        "libc++.so",
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ]
+    },
+    "libdl.so": {
+      "sha256": "0d40d030eda384fe7d99441954f82670333cb56eb55cb968098ed589a276b53f",
+      "needed": [
+        "ld-android.so"
+      ]
+    },
+    "ld-android.so": {
+      "sha256": "2647bd648f091cdd5c4497196bfe761e5963c13da0dcd6ae7ef8c9a2c199c1a3",
+      "needed": []
+    },
+    "libm.so": {
+      "sha256": "925e37ce054699db3b4cad6fe465d84ca344515d175c3bb64a5b4ed276f6a8a4",
+      "needed": [
+        "libc.so"
+      ]
+    },
+    "libc.so": {
+      "sha256": "1af0737faf17f3589eb72e03efd31dc1316560b6c14b4c4e2f503d24287d13e4",
+      "needed": [
+        "ld-android.so",
+        "libdl.so"
+      ]
+    },
+    "libc++.so": {
+      "sha256": "c17f123dfb9a6a80e70a4621c213c1621fdf4e604cbcd8dc327203dcfe5fb5d6",
+      "needed": [
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ]
+    },
+    "libperfetto_c.so": {
+      "sha256": "491cec9b0c260911e0b691b896928d0cd6fcaec1cf446a4324c3f62aa51e8de4",
+      "needed": [
+        "liblog.so",
+        "libdl.so",
+        "libm.so",
+        "libc.so"
+      ]
+    },
+    "liblog.so": {
+      "sha256": "2621adda0bfd10c089552e3c93f2cde8525510e152d71246380968576d200506",
+      "needed": [
+        "libc++.so",
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ]
+    },
+    "libflow_trace.so": {
+      "sha256": "e3fbb1a70c5f747718dc4f315fd5f23af98ab7f1201eb28c248fc33410867928",
+      "needed": [
+        "libperfetto_c.so",
+        "libc++.so",
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ]
+    },
+    "libdcam_base.so": {
+      "sha256": "8486fa7ce0b400992358ad92c445ad026a3784703accf2bae8a490ed10b2ff52",
+      "needed": [
+        "libduml_frwk.so",
+        "libduml_util.so",
+        "libduml_hal.so",
+        "libduml_osal.so",
+        "libcutils.so",
+        "libflow_trace.so",
+        "libperfetto_c.so",
+        "libperf_trace.so",
+        "libc++.so",
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ]
+    },
+    "libperf_trace.so": {
+      "sha256": "506ee783a35c9d3a4e36e60e949199d3ba057b7815cf2b85edf5a95022f7b83d",
+      "needed": [
+        "libduml_util.so",
+        "libc++.so",
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ]
+    },
+    "libduml_util.so": {
+      "sha256": "cf9a3ff433000007f85b19ee4c8d281a57824fa34bc8a0e75d8c97573a14ac72",
+      "needed": [
+        "libcutils.so",
+        "libcurl.so",
+        "liblog.so",
+        "libutils.so",
+        "libutilscallstack.so",
+        "libc++.so",
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ]
+    },
+    "libutilscallstack.so": {
+      "sha256": "eeaad4bc3355086b1aa54e96ef84ec093281e4084d1dd439a41f8ab5c6e5ab6c",
+      "needed": [
+        "liblog.so",
+        "libcutils.so",
+        "libvndksupport.so",
+        "libutils.so",
+        "libbacktrace.so",
+        "libc++.so",
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ]
+    },
+    "libbacktrace.so": {
+      "sha256": "192504e48796c8e1c50daf1986fe1805fe6da0d3a2e378b0b8e070eedaa57aff",
+      "needed": [
+        "libbase.so",
+        "liblog.so",
+        "libunwind.so",
+        "libunwindstack.so",
+        "libc++.so",
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ]
+    },
+    "libunwindstack.so": {
+      "sha256": "5720e13acbada8ad705e4177fb729b114ced11107253e219b52eb340c43c3b1b",
+      "needed": [
+        "libbase.so",
+        "liblog.so",
+        "liblzma.so",
+        "libc++.so",
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ]
+    },
+    "liblzma.so": {
+      "sha256": "aac5334bc4b989deda0d61f21d4051ef6d6cba7ec382e41082647f0272d72042",
+      "needed": [
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ]
+    },
+    "libbase.so": {
+      "sha256": "e209d8d86ed695a55d6eb06515698a798460b6472c2b0fbfc95adbf97f32c9b5",
+      "needed": [
+        "liblog.so",
+        "libc++.so",
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ]
+    },
+    "libunwind.so": {
+      "sha256": "c597fcf4d032fe21d6df3a17264baa3fb4a93cfc50480094054a287795316d67",
+      "needed": [
+        "liblzma.so",
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ]
+    },
+    "libutils.so": {
+      "sha256": "faf9f25ea721bf4cf61e52c53288f35330f7d8ae6c09ab1272682df7a5671ffe",
+      "needed": [
+        "liblog.so",
+        "libcutils.so",
+        "libvndksupport.so",
+        "libc++.so",
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ]
+    },
+    "libvndksupport.so": {
+      "sha256": "7f7fc8390b1a8a9f3008b0a824219467f506af39c8eb988f401b3c348a66acf4",
+      "needed": [
+        "liblog.so",
+        "libc++.so",
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ]
+    },
+    "libcutils.so": {
+      "sha256": "36c1a5c850ebfb9bd1723147f0a32c6d017de54f35af81d0be816d7ea5a9b541",
+      "needed": [
+        "liblog.so",
+        "libc++.so",
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ]
+    },
+    "libcurl.so": {
+      "sha256": "e47088a5b7c618b9f0c9440b33cf564b3f126b09bb05c626a7771b633387fe63",
+      "needed": [
+        "libcrypto.so",
+        "libssl.so",
+        "libz.so",
+        "libc++.so",
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ]
+    },
+    "libz.so": {
+      "sha256": "fef7fbe5b6e5b9a44fac04f8c94764692baf831e184d6c6346d516bf730c8e1e",
+      "needed": [
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ]
+    },
+    "libssl.so": {
+      "sha256": "321d595050b64713bb27f6fbaec716be4041d6b0004cb5d4ede614d4ef896fa7",
+      "needed": [
+        "libcrypto.so",
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ]
+    },
+    "libcrypto.so": {
+      "sha256": "817a0c01e6b50d11bd46a80ef73087788bd33d0781bdc76d01ab7f7168e84c4e",
+      "needed": [
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ]
+    },
+    "libduml_osal.so": {
+      "sha256": "f4ec5fa1c23caebc7d05f4adf5b77970f97d30a7e904d2cc9a4544cb846feaa0",
+      "needed": [
+        "libduml_util.so",
+        "libc++.so",
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ]
+    },
+    "libduml_hal.so": {
+      "sha256": "adfb1cf834584d5c2d3e7b8a49c8ff78a919f007b4fe4ee5442a658dafc71d20",
+      "needed": [
+        "libduml_util.so",
+        "libduml_osal.so",
+        "libusb.so",
+        "libusbmuxd.so",
+        "libcutils.so",
+        "libion.so",
+        "liblog.so",
+        "libc++.so",
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ]
+    },
+    "libion.so": {
+      "sha256": "4e2033b36c0787fb9e0c809e100d4b3b92e8ef76a48a10e768ca18ad13520188",
+      "needed": [
+        "liblog.so",
+        "libc++.so",
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ]
+    },
+    "libusbmuxd.so": {
+      "sha256": "b6e2fee1f86fab481da67a0b7b1f9d68b754fca39aebd327e997085dbd5f2d2b",
+      "needed": [
+        "libplist.so",
+        "libc++.so",
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ]
+    },
+    "libplist.so": {
+      "sha256": "ecd74039940735addfe0246be63c5a201d1fea20cfd88c9bb81934f8a7db7f83",
+      "needed": [
+        "libc++.so",
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ]
+    },
+    "libusb.so": {
+      "sha256": "7f185a709a6b31fe59bedd6a2cf7406c36ee641c6971b3c31e84e8e5c8c7f708",
+      "needed": [
+        "liblog.so",
+        "libc++.so",
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ]
+    },
+    "libduml_frwk.so": {
+      "sha256": "c37925331335c70e2624f987c670afe133ac18e4ae4e22ef47a1ca31b9a07906",
+      "needed": [
+        "libduml_util.so",
+        "libduml_hal.so",
+        "libfw_util.so",
+        "libduml_shineIO.so",
+        "libduml_osal.so",
+        "liblog.so",
+        "libsqlite.so",
+        "liblog_util.so",
+        "libquicklz.so",
+        "libduml_fastrtps.so",
+        "libduml_payload.so",
+        "libcutils.so",
+        "libusb.so",
+        "libusbmuxd.so",
+        "libwl_codec.so",
+        "libwlm.so",
+        "libduml_vcodec.so",
+        "libwlm_liveview.so",
+        "libc++.so",
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ]
+    },
+    "libwlm_liveview.so": {
+      "sha256": "acf17690791742241debcaf6a331db38e1c4a42e82ca46fddef67ed7fe6e8c4b",
+      "needed": [
+        "libcutils.so",
+        "libduml_hal.so",
+        "libduml_osal.so",
+        "libduml_util.so",
+        "libwlm.so",
+        "libc++.so",
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ]
+    },
+    "libwlm.so": {
+      "sha256": "33471bd17087bcfab2fc548d73d7726eb348aa30b05f8e43fd94b4a1be5b786c",
+      "needed": [
+        "libduml_hal.so",
+        "libduml_osal.so",
+        "libduml_util.so",
+        "libcutils.so",
+        "libc++.so",
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ]
+    },
+    "libduml_vcodec.so": {
+      "sha256": "4f7cdf6d676e4e7829eba44f371ec29474ed596d6d857d450c7f63422b02e9cf",
+      "needed": [
+        "libduml_util.so",
+        "libduml_osal.so",
+        "libduml_hal.so",
+        "libperf_trace.so",
+        "libcodec_debug_hub.so",
+        "lib_vc_encoder.so",
+        "lib_vc_decoder.so",
+        "libduml_async_remux.so",
+        "lib_ljcodec.so",
+        "libjxr.so",
+        "libjxr_container.so",
+        "lib_j2kenc.so",
+        "lib_prores_enc.so",
+        "lib_msenc.so",
+        "lib_msdec.so",
+        "libc++.so",
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ]
+    },
+    "lib_msdec.so": {
+      "sha256": "5101c6e3beb1223999cd4d58e0d7247f921e7d5b294ec7b89692860db9e9b104",
+      "needed": [
+        "libc++.so",
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ]
+    },
+    "lib_msenc.so": {
+      "sha256": "231baa98f6cbb69c27620f6f9ac0bd33399dfe2aabbe62ac30a889c0a394c2ef",
+      "needed": [
+        "libperf_trace.so",
+        "libduml_osal.so",
+        "libc++.so",
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ]
+    },
+    "lib_prores_enc.so": {
+      "sha256": "06844af9400019c66b40383a7f7aff3285fd7785b8ac80ce6a93884873632420",
+      "needed": [
+        "liblog.so",
+        "libperf_trace.so",
+        "libduml_osal.so",
+        "libc++.so",
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ]
+    },
+    "lib_j2kenc.so": {
+      "sha256": "ace07ea21ac02aa7ca4f453b5560cc7fc2a412979ce2aa935212d43f43cce3a6",
+      "needed": [
+        "libc++.so",
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ]
+    },
+    "libjxr_container.so": {
+      "sha256": "14a94e06bd2054f183c6f44a51f0c1d5a7cc740a311c36da31ec66aaf7dffcf5",
+      "needed": [
+        "liblog.so",
+        "libc++.so",
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ]
+    },
+    "libjxr.so": {
+      "sha256": "ce69edab95df4366813087a45fd95f17f5bd1d65ffb83bcd19981f2811302156",
+      "needed": [
+        "liblog.so",
+        "libc++.so",
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ]
+    },
+    "lib_ljcodec.so": {
+      "sha256": "6f087b7ca86b67ad91f480bfd438c529a6418ddfc7f1bb3fbae04ab375684bc8",
+      "needed": [
+        "liblog.so",
+        "libc++.so",
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ]
+    },
+    "libduml_async_remux.so": {
+      "sha256": "cfd4796a1c49a53b1b2fd2f4083bc35346f49780e0a59e9bf01b1b5defc11ca4",
+      "needed": [
+        "libduml_util.so",
+        "libduml_osal.so",
+        "libcodec_debug_hub.so",
+        "libavcodec.so",
+        "libavformat.so",
+        "libavutil.so",
+        "libduml_hal.so",
+        "libperf_trace.so",
+        "libc++.so",
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ]
+    },
+    "libavutil.so": {
+      "sha256": "47f0e7acf5eb52e5639d55131011053df2977c64ca3c5a9c47e10f4ee8e47069",
+      "needed": [
+        "libc++.so",
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ]
+    },
+    "libavformat.so": {
+      "sha256": "2cb1d4ee35c381d8c78bccc8adc0055a0abe43d7a6d77d4c0d467c0cb669d0e9",
+      "needed": [
+        "libavutil.so",
+        "libavcodec.so",
+        "libaio.so",
+        "liburing.so",
+        "libduml_shineIO.so",
+        "libduml_mux_databuffer.so",
+        "libduml_osal.so",
+        "libduml_hal.so",
+        "libc++.so",
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ]
+    },
+    "libduml_mux_databuffer.so": {
+      "sha256": "1bef60c1a2a3757cb6e5b7307b5cedcbfb3e28edbd0c152c3b57e3b00ebcf3b5",
+      "needed": [
+        "libduml_osal.so",
+        "libduml_util.so",
+        "libc++.so",
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ]
+    },
+    "libduml_shineIO.so": {
+      "sha256": "6c5fc44b212d3df17710fdaf3133c1eacbb3ad46fde29b5692fc3aa9ded9d257",
+      "needed": [
+        "libaio.so",
+        "liburing.so",
+        "libduml_util.so",
+        "libc++.so",
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ]
+    },
+    "liburing.so": {
+      "sha256": "1133e23678e1bd9f57fc0ebf0e0f4a12a05af7ddc0d373eb932aab3c03f829e8",
+      "needed": [
+        "libc++.so",
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ]
+    },
+    "libaio.so": {
+      "sha256": "fb6310cf9d0fdbc71995111f00bb66fb8b7ae3134dc09a7efb2a6664ef006cc8",
+      "needed": [
+        "libc++.so",
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ]
+    },
+    "libavcodec.so": {
+      "sha256": "cd0392d889d9952b921d9d3161b83ff7a3ceb476443255768637bc539a14d3bd",
+      "needed": [
+        "libavutil.so",
+        "libswresample.so",
+        "libc++.so",
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ]
+    },
+    "libswresample.so": {
+      "sha256": "2feb15ed0092b14c2f99f0b52a5f8c13277233f3bc9fab15ea0ad6a8cd671a92",
+      "needed": [
+        "libavutil.so",
+        "libc++.so",
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ]
+    },
+    "libcodec_debug_hub.so": {
+      "sha256": "a4422af7176182704bdc9c5d305a86679ab0ddc42af48895f9fdc3d7df6586ec",
+      "needed": [
+        "libduml_util.so",
+        "libduml_osal.so",
+        "libduml_hal.so",
+        "libperf_trace.so",
+        "libc++.so",
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ]
+    },
+    "lib_vc_decoder.so": {
+      "sha256": "0f6b4703168a94da6c7c5555fc5fa711130e02da70115e21139971f2eb831814",
+      "needed": [
+        "libion.so",
+        "libc++.so",
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ]
+    },
+    "lib_vc_encoder.so": {
+      "sha256": "fb735710c9c55ec4400336ce378f64cb9fdb35808a88214dd25ee52f7fc09210",
+      "needed": [
+        "libion.so",
+        "libperf_trace.so",
+        "libc++.so",
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ]
+    },
+    "libwl_codec.so": {
+      "sha256": "461a3ff7d157570c466ea7cfa2a9c9dadd6d2ba6d4d72e2317f829b0196ee470",
+      "needed": [
+        "libduml_util.so",
+        "libduml_hal.so",
+        "libduml_osal.so",
+        "libduml_vcodec.so",
+        "libc++.so",
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ]
+    },
+    "libduml_payload.so": {
+      "sha256": "33269d7f9e9d44eb59ca231eb2dab99c184775128b9dbfd5c8906bcd80cf7a0e",
+      "needed": [
+        "libduml_util.so",
+        "libc++.so",
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ]
+    },
+    "libduml_fastrtps.so": {
+      "sha256": "d474ccfc8d0ba6b1f9b95021b6ec35ab655ace935e53029e428adb0663d100f2",
+      "needed": [
+        "libduml_util.so",
+        "libcutils.so",
+        "libduml_osal.so",
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ]
+    },
+    "libquicklz.so": {
+      "sha256": "1ce83bae1d2fe768f79fb87d9b5840d4ed59868ef355cb64e571eb32d31dc84c",
+      "needed": [
+        "libc++.so",
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ]
+    },
+    "liblog_util.so": {
+      "sha256": "3e46aa36ce1bfb17df13f7a917fada383c88e3c2f844e845cfa5259599e52b3f",
+      "needed": [
+        "libamt_util.so",
+        "liblog.so",
+        "libcrypto_lib.so",
+        "libduml_util.so",
+        "libc++.so",
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ]
+    },
+    "libcrypto_lib.so": {
+      "sha256": "f0b6b0cca40dd12dcb4cd53e6adb6002a2a9a7be63cec5f866b54734f3710f84",
+      "needed": [
+        "libc++.so",
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ]
+    },
+    "libamt_util.so": {
+      "sha256": "63a4addc9179587363bdc8f045d9cb4686855aa413873db8b5fdcd15bdab5902",
+      "needed": [
+        "libteec.so",
+        "libcrypto.so",
+        "libc++.so",
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ]
+    },
+    "libteec.so": {
+      "sha256": "351c0ced2cef7cf80cc5926b2ec4d06c583d7eb91832fd9d7589d91ab38e683c",
+      "needed": [
+        "libc++.so",
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ]
+    },
+    "libsqlite.so": {
+      "sha256": "fb5ff9e521c06d862d0c8c1b3d0ffbaa383495ebb16fbc510aab95c18a43c492",
+      "needed": [
+        "liblog.so",
+        "libc++.so",
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ]
+    },
+    "libfw_util.so": {
+      "sha256": "3e56db44845b23905355b6ef8550ff618d6b786be9de1057588d6de53db9e24d",
+      "needed": [
+        "libfw_util_ca.so",
+        "libion.so",
+        "libduml_osal.so",
+        "libc++.so",
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ]
+    },
+    "libfw_util_ca.so": {
+      "sha256": "96e605e3940856eec88e6d17e698cebdedde0b5d26ccc2da7088ce2707d4d84b",
+      "needed": [
+        "libteec.so",
+        "libc++.so",
+        "libc.so",
+        "libm.so",
+        "libdl.so"
+      ]
+    }
+  },
+  "qemu_sha256": "4f55e2e88dc05dc0f619562d5795b8eb25ed2ad2547504fb4835207a6911c350",
+  "qemu_version": "qemu-aarch64 version 7.2.22 (Debian 1:7.2+dfsg-7+deb12u18+b3)",
+  "compiler_version": "Android (12027248, +pgo, +bolt, +lto, +mlgo, based on r522817) clang version 18.0.1 (https://android.googlesource.com/toolchain/llvm-project d8003a456d14a3deb8054cdaa529ffbf02d9b262)",
+  "probe_sha256": "31007a33470a8f520551ae6271deed184c0c78c22524af159fa5d46776ee5283",
+  "source_sha256": {
+    "awb_original_runtime_20261021/recalib_compare.c": "3ce3d32aa6a68ffb21e5a16523989b6c902b12e3b42e8b272e3b47d1a9d7a741",
+    "awb_original_runtime_20261021/hb_recalib_exact.c": "17b6c0170d32e5e63fd166099113c68d74a31f807396ba7f778e58ff34a3065d",
+    "awb_rebuild_04_20261021/src/hb_awb_recalib.c": "679a1f1471b932d49b4cba26112604159425a1b090ec3fb8a9a862d44b0a9e07",
+    "awb_original_runtime_20261021/hb_recalib_exact.h": "d4ed0531fda83f486329dc39e64df763f714d440eaad7bd10ae36febfe0c853b",
+    "awb_original_runtime_20261021/run_recalib.py": "b11d5635343e30047596dfab12f669f0f8343c823c1a3dc72bd22146cb11b22f",
+    "awb_rebuild_04_20261021/src/hb_awb_recalib.h": "284718022c18e58ca92dd02e4a6c45adfab165660382bfde87036f9f81220087"
+  },
+  "build_command": [
+    "/workspace/scratch/910ac5420982/runtime_tools/android-ndk-r27/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android28-clang",
+    "-std=c11",
+    "-O2",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-fPIE",
+    "-pie",
+    "-Wl,-z,max-page-size=16384",
+    "-I",
+    "/workspace/scratch/910ac5420982/repo/hasselblad_native_audit/awb_rebuild_04_20261021/src",
+    "/workspace/scratch/910ac5420982/repo/hasselblad_native_audit/awb_original_runtime_20261021/recalib_compare.c",
+    "/workspace/scratch/910ac5420982/repo/hasselblad_native_audit/awb_original_runtime_20261021/hb_recalib_exact.c",
+    "/workspace/scratch/910ac5420982/repo/hasselblad_native_audit/awb_rebuild_04_20261021/src/hb_awb_recalib.c",
+    "-ldl",
+    "-o",
+    "/workspace/scratch/910ac5420982/repo/hasselblad_native_audit/awb_original_runtime_20261021/evidence/build/recalib_compare_android28_arm64"
+  ],
+  "run_command": [
+    "/workspace/scratch/910ac5420982/runtime_tools/qemu/usr/bin/qemu-aarch64-static",
+    "-L",
+    "/workspace/scratch/910ac5420982/private_runtime/extracted",
+    "/workspace/scratch/910ac5420982/repo/hasselblad_native_audit/awb_original_runtime_20261021/evidence/build/recalib_compare_android28_arm64",
+    "/workspace/scratch/910ac5420982/private_runtime/extracted/system/lib64/libaaa.so"
+  ],
+  "exit": 0,
+  "stdout": "{\"event\":\"original_android28_recalib_comparison\",\"original_calls\":27588,\"failed\":0,\"edge_grid_cases\":6561,\"random_cases\":20000,\"alias_cases\":1024,\"null_zero_cases\":3,\"zero_divisor_cases\":3049,\"input_overflow_cases\":11753,\"guarded_portable_valid_comparisons\":12304,\"seed\":\"0x20261021\",\"transcript_fnv1a64\":\"fb2b6e19008d1394\",\"original_symbol_offset\":\"0x4a39a0\",\"full_awb_validated\":false}\n",
+  "stderr": "",
+  "events": [
+    {
+      "event": "original_android28_recalib_comparison",
+      "original_calls": 27588,
+      "failed": 0,
+      "edge_grid_cases": 6561,
+      "random_cases": 20000,
+      "alias_cases": 1024,
+      "null_zero_cases": 3,
+      "zero_divisor_cases": 3049,
+      "input_overflow_cases": 11753,
+      "guarded_portable_valid_comparisons": 12304,
+      "seed": "0x20261021",
+      "transcript_fnv1a64": "fb2b6e19008d1394",
+      "original_symbol_offset": "0x4a39a0",
+      "full_awb_validated": false
+    }
+  ],
+  "all_passed": true,
+  "original_library_patched": false,
+  "dependency_stubs": false,
+  "inputs": "Synthetic integer fixtures, not authentic camera frames",
+  "full_awb_initialization_verified": false,
+  "scene_optimizer_verified": false,
+  "seven_frame_parity_verified": false,
+  "phone_tested": false
+}

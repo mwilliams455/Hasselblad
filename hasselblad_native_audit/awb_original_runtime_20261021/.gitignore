@@ -1,0 +1,6 @@
+build/
+*.so
+*.bin
+*.img
+*.zip
+*.cim

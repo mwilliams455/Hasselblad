@@ -30,7 +30,7 @@ Python requires `pyelftools`. The runner verifies the library, original symbol, 
 
 ## Remaining acceptance boundaries
 
-The initial leaf checkpoint restored execution and recalibration. The following checkpoints restore scene initialization and bounded numerical optimizer comparisons. Native E2 decoding, bounded classification/filtering and a seven-frame hybrid route are now covered below. Still missing: real camera-frame inputs and device-specific calibration, the historical seven-frame capture, a wholly owned full controller/REAWB chain, HNCS rendering and phone validation.
+The initial leaf checkpoint restored execution and recalibration. The following checkpoints restore scene initialization, native E2 decoding, bounded classification/filtering and the owned normal-slot scene body. The latest checkpoint below replaces candidate weighting, accumulation and spectral weighting and compares the complete normal body on seven generated native frames. Still missing: real camera-frame inputs and device-specific calibration, the historical seven-frame capture, a wholly owned full controller/REAWB chain, HNCS rendering and phone validation.
 
 No APK was built. `main` and the installed Native1C application remain unchanged.
 
@@ -76,9 +76,9 @@ python3 hasselblad_native_audit/awb_original_runtime_20261021/run_scene.py \
 
 ### Resume here (latest checkpoint)
 
-1. Use the existing verified runtime. The final `--prepare` and `--pipeline` commands below are the current bounded acceptance probes.
-2. Replace the remaining original scene weighting, spectral weighting, calibrated CT/tint and candidate-accumulation calls with owned implementations. The hybrid harness supplies original-prepared inputs and exact same-process whole-context comparisons.
-3. Extend controller coverage beyond the currently active normal slot 0: normal slot 1 and special slots 2–3, error paths, and wider scene/AE combinations. The owned numerical filter itself has direct tests across all four slots.
+1. Use the existing verified runtime. `--candidates` and `--pipeline` are the latest bounded acceptance probes; `--prepare` retains the preparation suite. Current reports are `CANDIDATES_RESULT.json` and `OWNED_NORMAL_SCENE_RESULT.json`.
+2. Reconstruct calibrated temperature modes 1/2 and special scene slots 2–3. Mode 0, the mode in both authentic normal-slot parameter sets, is now owned. Unsupported paths return explicitly; they must not silently fall back to original routines.
+3. Extend connected coverage beyond normal slot 0. Direct synthetic controller tests cover slots 0/1 and wider EV/gate combinations; connected original detection still activates only slot 0. Reconstruct the surrounding user/ROI/sensor/parsing/detection/face route as needed before claiming an owned full controller.
 4. Recover genuine captured-frame inputs and real sensor-calibration injection. The saved seven synthetic native E2 fixtures do not replace the lost historical seven camera frames.
 5. Continue through history, atmosphere, REAWB processing and publication/output; then phone calibration and a specifically bounded APK.
 
@@ -122,7 +122,7 @@ The final preparation suite (`evidence/CLASSIFICATION_FILTER_RESULT.json`) passe
 
 The extended secondary-region test initially found 28 mismatches: the last field skips a word in the input record. That offset was corrected, and the final run has zero mismatches. The earlier main-only checkpoint remains valid.
 
-### Connected original-prepared scene comparison
+### Earlier connected original-prepared scene comparison (historical checkpoint)
 
 `scene_pipeline_compare.c` runs **seven newly generated native-format E2 frames in one execution**. It uses original native decode/import, user/ROI preparation, sensor/parsing/detection/face stages, spectral weighting, candidate weighting and candidate accumulation. Owned automatic preparation is checked against the original at its boundary. Original-prepared candidate records then exercise the owned filter and optimizer inside a reconstructed normal-slot caller.
 
@@ -140,3 +140,33 @@ python3 hasselblad_native_audit/awb_original_runtime_20261021/run_full.py \
 Private evidence now captures each native frame, parsed data, metadata, E2 state, before/after automatic preparation, before/after original and hybrid scene contexts, and the passive REAWB handle. Same-process pointer identity is retained for byte comparison; these dumps are audit evidence, not cross-process reloadable contexts. Their hashes and source provenance are in the public reports.
 
 **Release boundary remains unchanged:** synthetic tests do not establish camera-image quality, real factory calibration, full owned AWB, historical frame parity or phone validation. No APK was built or installed.
+
+## Candidate weighting and owned normal-scene checkpoint
+
+`hb_scene_candidates.c` reconstructs candidate weighting, candidate accumulation, mode-0 CT/tint, two-dimensional weight curves, normal-slot spectral weighting, and the complete normal-slot scene body. `hb_normal_scene` calls only owned numerical routines. It includes the original per-slot metric updates and final 16-bit aggregate. The original firmware still initializes the private context and tables.
+
+`evidence/CANDIDATES_RESULT.json`: **9,858 checks, zero mismatches**:
+
+- 2,048 interpolation calls and 2,048 mode-0 CT/tint calls, including original arithmetic wraparound and degenerate table geometry.
+- 1,024 CT/probability/tint curve calls; 96 weighting and 128 accumulation calls across four slots and eight candidate indices, with low sample counts, zero weights, brightness, semantic weights, polygon overrides, gain remapping and error paths.
+- 256 spectral-distribution calls, 256 spectral-ratio calls and 64 complete spectral-state calls, including enabled, disabled, missing-statistics and malformed-knot cases.
+- 32 direct normal-controller calls with synthetic normal-slot gates and EV values. These modified gates are test inputs, not evidence that original detection activates slot 1 on camera frames.
+- Complete 920,560-byte context comparisons at stateful boundaries; the original config and passive 1,000-byte REAWB handle remain unchanged.
+
+`evidence/OWNED_NORMAL_SCENE_RESULT.json`: **156 comparisons, zero mismatches** on seven generated native E2 frames. Each frame compares the original normal body with an independent `hb_normal_scene` call, including all context bytes and status. All seven statuses are zero. The boundary harness also compares 14 weighting calls, 14 filters, 14 accumulations, seven spectral calls and seven optimizers. Filters remove 488 candidate memberships. Original detection naturally activates only normal slot 0; no detection gate is forced in this connected test.
+
+```sh
+python3 hasselblad_native_audit/awb_original_runtime_20261021/run_full.py \
+  --firmware-root /private/extracted --ndk /tools/android-ndk-r27 \
+  --qemu /tools/qemu-aarch64-static --private-output /private/candidate-check \
+  --report /private/candidates-result.json --candidates
+
+python3 hasselblad_native_audit/awb_original_runtime_20261021/run_full.py \
+  --firmware-root /private/extracted --ndk /tools/android-ndk-r27 \
+  --qemu /tools/qemu-aarch64-static --private-output /private/owned-normal-check \
+  --report /private/owned-normal-result.json --pipeline
+```
+
+Private evidence captures the generated native input and intermediate states plus original, boundary-comparison and standalone-owned scene outputs for each frame. Source, binary and dump hashes are recorded in the reports. Earlier reports describe their own pinned source snapshots and have not been rewritten.
+
+**Scope:** CT modes 1/2 and active special slots 2/3 remain explicitly unsupported. The connected harness still uses original decode/import and surrounding user/ROI/sensor/parsing/detection/face processing; automatic preparation is separately compared with owned code. The enabled spectral route has direct synthetic coverage, not camera-frame validation. History, atmosphere, final publication and REAWB processing are not covered here. No full AWB parity, real calibration recovery, APK build or phone validation is claimed.

@@ -1,11 +1,12 @@
 /* SPDX-License-Identifier: MIT
- * Hybrid boundary test: original native preparation/weighting/accumulation,
- * owned classification/filter/optimizer, and owned normal-slot caller logic.
- * This deliberately does not claim a wholly owned scene controller.
+ * Original-prepared boundary test: compare each owned normal-scene stage,
+ * then independently compare the complete owned normal-slot scene body.
+ * Surrounding preparation stages still use original firmware functions.
  */
 #include "hb_stat_prepare.h"
 #include "hb_scene_filter.h"
 #include "hb_scene_optimizer.h"
+#include "hb_scene_candidates.h"
 #include <dlfcn.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -19,7 +20,7 @@ static void w32(void *p,uint32_t v){memcpy(p,&v,4);}
 static void w16(void *p,uint16_t v){memcpy(p,&v,2);}
 static void wf(void *p,float v){memcpy(p,&v,4);}
 static void *sym(void*h,const char*n){void*p=dlsym(h,n);if(!p)_exit(3);return p;}
-static unsigned mismatches,comparisons,filter_calls,optimizer_calls,weighted_candidates,filter_removed;
+static unsigned mismatches,comparisons,filter_calls,optimizer_calls,weighted_candidates,filter_removed,accumulation_calls,spectral_calls,owned_scene_calls;
 static void same(const char *s,unsigned t,const void*a,const void*b,size_t n){
     ++comparisons;if(!memcmp(a,b,n))return;++mismatches;
     if(mismatches<=12){const unsigned char *x=a,*y=b;size_t k=0;while(k<n&&x[k]==y[k])++k;
@@ -37,14 +38,16 @@ static uint32_t hybrid_normal(unsigned char *ctx,unsigned char *cfg,unsigned fra
     uint32_t maximum=0;
     for(unsigned slot=0;slot<2;++slot){
         if(u16(ctx+0x3da50+2*slot)){
-            uint32_t st=spec(0,(int)slot);if(st)return st;
+            memcpy(scratch,ctx,C);uint32_t st=spec(0,(int)slot),ost=hb_scene_spec_weight(scratch,cfg,slot);++spectral_calls;
+            same("spec_status",frame,&st,&ost,4);same("spec_context",frame,ctx,scratch,C);memcpy(ctx,scratch,C);if(ost)return ost;
             unsigned n=cfg[0x1540+slot*0xa278],eligible=0,metric=0;
             unsigned char *params=cfg+0x154c+slot*0xa278;
             for(unsigned scene=0;scene<n;++scene){
                 unsigned char *p=params+508*scene;uint32_t ev=ctx[0x3761c];
                 if(u32(p)>ev||u32(p+4)<ev)continue;
                 eligible=1;size_t off=slot*0x10188+scene*0x2020;ctx[0x3dacc+off]=1;
-                st=weight(0,p,(int)scene,(int)slot);if(st)return st;++weighted_candidates;
+                memcpy(scratch,ctx,C);st=weight(0,p,(int)scene,(int)slot);ost=hb_candidate_weight(scratch,cfg,p,scene,slot);++weighted_candidates;
+                same("weight_status",frame,&st,&ost,4);same("weight_context",frame,ctx,scratch,C);memcpy(ctx,scratch,C);if(ost)return ost;
                 unsigned before=0,after=0;
                 for(unsigned i=0;i<u32(ctx+0x28);++i)before+=u16(ctx+0x3dace +off+2*i)!=0;
                 memcpy(scratch,ctx,C);uint32_t a=filter(0,(int)scene,(int)slot,cfg[0x1548+slot*0xa278]);
@@ -55,8 +58,9 @@ static uint32_t hybrid_normal(unsigned char *ctx,unsigned char *cfg,unsigned fra
                 if(b)return b;
                 for(unsigned i=0;i<u32(ctx+0x28);++i)after+=u16(ctx+0x3dace +off+2*i)!=0;
                 filter_removed+=before-after;
-                st=accum(0,(int)scene,(int)slot,p,cfg+slot*0xa278+0xa594,u32(cfg+slot*0xa278+0x1544),cfg[slot*0xa278+0x154a]);
-                if(st)return st;
+                memcpy(scratch,ctx,C);st=accum(0,(int)scene,(int)slot,p,cfg+slot*0xa278+0xa594,u32(cfg+slot*0xa278+0x1544),cfg[slot*0xa278+0x154a]);
+                ost=hb_candidate_accumulate(scratch,p,cfg+slot*0xa278+0xa594,scene,slot,u32(cfg+slot*0xa278+0x1544),cfg[slot*0xa278+0x154a]);++accumulation_calls;
+                same("accum_status",frame,&st,&ost,4);same("accum_context",frame,ctx,scratch,C);memcpy(ctx,scratch,C);if(ost)return ost;
                 uint32_t m=u32(ctx+0x3fae4+off);if(m>metric)metric=m;
             }
             if(n){
@@ -117,15 +121,19 @@ int hb_run_scene_pipeline(void *h,unsigned char *ctx,unsigned char *e2,void *con
         memcpy(start,ctx,C);a=scene_proc(0);memcpy(reference,ctx,C);memcpy(ctx,start,C);
         b=hybrid_normal(ctx,config,t);same("hybrid_controller_status",t,&a,&b,4);same("hybrid_controller_context",t,reference,ctx,C);
         capture(dir,t,"after_scene_original",reference,C);capture(dir,t,"after_scene_hybrid",ctx,C);
+        memcpy(ctx,start,C);b=hb_normal_scene(ctx,config);++owned_scene_calls;
+        same("owned_normal_scene_status",t,&a,&b,4);same("owned_normal_scene_context",t,reference,ctx,C);
+        capture(dir,t,"after_scene_owned",ctx,C);
         states[t]=a;++frames;
     }
     same("pipeline_config_immutable",0,config,cfgcopy,K);if(reawb)same("pipeline_passive_reawb_immutable",0,reawb,rr,R);
     if(reawb)capture(dir,7,"passive_reawb_after",reawb,R);
     unsigned ok=!mismatches&&frames==7&&active_slots&&optimizer_calls&&filter_calls;
-    printf("{\"event\":\"original_prepared_hybrid_scene\",\"all_passed\":%s,\"mismatches\":%u,\"comparisons\":%u,\"frames\":%u,"
+    printf("{\"event\":\"original_prepared_owned_normal_scene\",\"all_passed\":%s,\"mismatches\":%u,\"comparisons\":%u,\"frames\":%u,"
            "\"active_normal_slots\":%u,\"weighted_candidates\":%u,\"filter_calls\":%u,\"filter_removed\":%u,\"optimizer_calls\":%u,"
+           "\"accumulation_calls\":%u,\"spectral_calls\":%u,\"owned_scene_calls\":%u,\"normal_scene_body_owned\":true,"
            "\"statuses\":[%u,%u,%u,%u,%u,%u,%u],\"synthetic_frames\":true,\"historical_frames\":false,\"wholly_owned_controller\":false}\n",
            ok?"true":"false",mismatches,comparisons,frames,active_slots,weighted_candidates,filter_calls,filter_removed,optimizer_calls,
-           states[0],states[1],states[2],states[3],states[4],states[5],states[6]);
+           accumulation_calls,spectral_calls,owned_scene_calls,states[0],states[1],states[2],states[3],states[4],states[5],states[6]);
     return ok?0:1;
 }

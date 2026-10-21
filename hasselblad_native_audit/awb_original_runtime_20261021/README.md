@@ -30,7 +30,7 @@ Python requires `pyelftools`. The runner verifies the library, original symbol, 
 
 ## Remaining acceptance boundaries
 
-The initial leaf checkpoint restored execution and recalibration. The following checkpoints restore scene initialization, native E2 decoding, bounded classification/filtering and the complete four-slot scene stage. Candidate weighting, accumulation, spectral weighting, special-scene control, all three temperature modes, history processing and atmosphere processing now have owned implementations with original-versus-owned comparisons. The connected generated-frame comparison now uses the complete owned scene, history and atmosphere stages, then executes original post/REAWB entry points. Still missing: ownership of the surrounding and downstream AWB stages, real camera-frame inputs and device-specific calibration, the historical seven-frame capture, active REAWB parity, HNCS rendering and phone validation.
+The initial leaf checkpoint restored execution and recalibration. The following checkpoints restore scene initialization, native E2 decoding, bounded classification/filtering and the complete four-slot scene stage. Candidate weighting, accumulation, spectral weighting, special-scene control, all three temperature modes, history processing and atmosphere processing now have owned implementations with original-versus-owned comparisons. Post-result blending, final CT/tint, golden snapshots, recalibration, normalization and colour-mode helpers are now owned, together with the complete mode-2 post branch. The connected generated-frame comparison uses the complete owned scene, history and atmosphere stages, then executes original post/REAWB entry points; post-result snapshot replays are separate comparisons, not a post-controller replacement. Still missing: ownership of the surrounding and downstream AWB stages, real camera-frame inputs and device-specific calibration, the historical seven-frame capture, active REAWB parity, HNCS rendering and phone validation.
 
 No APK was built. `main` and the installed Native1C application remain unchanged.
 
@@ -76,8 +76,8 @@ python3 hasselblad_native_audit/awb_original_runtime_20261021/run_scene.py \
 
 ### Resume here (latest checkpoint)
 
-1. Use the existing verified runtime. Newest probes are `--atmosphere` and `--pipeline --atmosphere-pipeline`. Reports are `ATMOSPHERE_RESULT.json` and `ATMOSPHERE_PIPELINE_RESULT.json`; earlier scene/temperature and original-tail reports retain their own source snapshots.
-2. History and atmosphere are now owned. Next replace original post-processing (`scene_awb_post_proc`, `0x49e4f0`, 9,320 bytes) using the preserved downstream inputs/outputs. The original execution order after scene processing is history, atmosphere, post, REAWB. The new downstream baseline executes all 28 calls successfully; REAWB makes no main-context changes in these fixtures and is not active-output parity.
+1. Use the existing verified runtime. Newest probes are `--post-results` and `--pipeline --post-results-pipeline`. Reports are `POST_RESULTS_RESULT.json` and `POST_RESULTS_PIPELINE_RESULT.json`; earlier reports retain their own source snapshots.
+2. History and atmosphere are owned. `hb_post_results.c` now owns final result helpers, the two-normal-result blend primitive, and the complete mode-2 post branch. Next reconstruct the normal/special selection, history fallback and temporal publication/smoothing in post (`scene_awb_post_proc`, `0x49e4f0`; publication helper `0x4a0d80`). Preserve the rejected-frame distinction: retained gains do not imply fresh CT diagnostics. The connected normal-mode post controller remains original. All 28 original tail calls return zero; this is not active REAWB parity.
 3. Extend connected coverage beyond normal slot 0. Direct synthetic scene tests now cover all four slots, temperature modes 0/1/2, eight candidates, dense 4,096-block inputs and state carried across 12 calls. Connected original detection still activates only slot 0 with mode 0. Reconstruct the surrounding user/ROI/sensor/parsing/detection/face route before claiming a wholly owned full AWB controller.
 4. Recover genuine captured-frame inputs and real sensor-calibration injection. The saved seven synthetic native E2 fixtures do not replace the lost historical seven camera frames.
 5. Continue through post, REAWB processing and publication/output; then phone calibration and a specifically bounded APK.
@@ -296,8 +296,49 @@ The research ABI requires validated, allocated structures and nonempty nested ax
 
 Atmosphere processing directly scales scene red/blue WB gains using exposure, CT/tint and category evidence. Post-processing blends/selects the candidate results, recalibrates and normalizes gains, applies optional colour-mode gain adjustments, performs dual-camera synchronization and publishes AWB state. These stages influence the renderer through its WB inputs. They do not establish the complete HNCS pixel-rendering pipeline, tone reproduction or output colour transforms.
 
-Inspection of the original `scene_awb_color_mode_proc` (`0x4667a8`) shows that its final operation scales the red/blue gain fields at context offsets `0xb0c4c` and `0xb0c54`. Its feature-enable flag is zero in this original config, so the connected baseline does not validate an active colour-mode adjustment. This is a source-trace finding, not an owned implementation of that helper.
+Inspection of the original `scene_awb_color_mode_proc` (`0x4667a8`) shows that its final operation scales the red/blue gain fields at context offsets `0xb0c4c` and `0xb0c54`. Its feature-enable flag is zero in this original config, so the connected baseline does not validate an active colour-mode adjustment. At this atmosphere checkpoint this was only a source-trace finding; the post-result checkpoint below adds an owned implementation and active synthetic comparisons.
 
 **Next implementation:** `scene_awb_post_proc` at `0x49e4f0` (9,320 bytes), using each saved `frame_XX_after_atmosphere_owned.bin` as its audited boundary. Rebuild its blending and publication helpers, `scene_awb_result_normalise_all`, `scene_awb_compute_result_ct`, golden-gain/E-ND/unit recalibration, `scene_awb_color_mode_proc`, CT/tint-to-gain conversion and dual-sync dependencies. Original post outputs are already captured. REAWB and the surrounding user/ROI/sensor/parsing/detection/face route still require owned implementations or explicitly bounded integration.
 
 No historical camera frames, real phone calibration, full AWB/active REAWB parity, photographic quality or HNCS validation is established. No APK was built or installed; `main` and Native1C remain unchanged.
+
+
+## Post-result helpers and mode-2 checkpoint
+
+`hb_post_results.c` implements nine post-processing primitives: the two-normal-result blend, golden-gain conversion, final CT/tint calculation, golden snapshots, E-ND temperature and unit recalibration, camera recalibration, normalization, and colour-mode gain adjustment. `hb_post_finalize` composes the seven final-result helpers in the original order with matching early exits. `hb_post_mode2` owns the complete mode-2 branch, including diagnostic publication and final validation. This does **not** yet own the normal-mode `scene_awb_post_proc` controller.
+
+Original arithmetic details are preserved: 32-bit wrapping gain products and calibration shifts, 64-bit normalization products, the blend's double reciprocal rounded to float, and golden-conversion pointer write order. Normalization updates records sequentially, so a later zero channel can leave earlier records changed. The outer mode-2 branch returns its final validation status even when a helper failed; owned unsupported boundaries remain explicit. Final CT reuses the previously verified calibrated-temperature implementation with the private model supplied by the caller.
+
+Colour mode clamps the configuration's mapping count to 22, chooses one of two mapped tables and its mode-dependent subtable, then scales final red/blue gains. Endpoint correction values are loaded as 16-bit integers; interpolated values use full 32-bit words and signed float-to-integer conversion. Both behavior and diagnostic writes are compared. Its flag remains disabled in the unmodified original config, so active adjustment coverage comes from synthetic tables.
+
+`evidence/POST_RESULTS_RESULT.json`: **15,271 checks, zero mismatches**:
+
+- 4,096 golden-conversion calls, including wrapping multiplication, zero divisors, null outputs and aliased output pointers.
+- 512 normal-result blend calls, including wrapping weight sums and status 132; 1,280 snapshot/recalibration/normalization calls with complete context comparisons.
+- 512 colour-mode calls covering both mappings and subtables, 1–10 CT entries, endpoints/interpolation, high correction bits, disabled processing, count clamping and status 191. **444 calls change red or blue gains**. Configuration mutations are compared separately.
+- 192 result-CT calls: 159 successes, 11 singular-matrix returns (92) and 22 zero-channel returns (95), including partial diagnostic writes.
+- 256 composed finalizer calls: 171 successes, 11 returns of 89, 32 of 95, 31 of 133 and 11 of 191. Context and configuration match at every exit.
+- 256 complete mode-2 post calls: 192 successes and 64 final-validation returns of 151; 16 stateful finalizer calls; explicit unsupported-input guards. The original config and passive REAWB handle remain unchanged.
+
+`evidence/POST_RESULTS_PIPELINE_RESULT.json`: **227 comparisons, zero mismatches** on seven generated native E2 frames. Owned scene/history/atmosphere still feed **original post and original REAWB**. A separate replay restores the original post's pre-calibration channel snapshots, compares the original final-helper sequence with `hb_post_finalize`, then restores the actual original post output before REAWB. This is a reconstructed snapshot boundary, not interception of a live pre-finalizer call and not a wholly owned post controller.
+
+- All seven final-helper replays match complete contexts and statuses against the original helper sequence.
+- The persistent post gain/CT records match the original full post output on all seven frames. On six fresh results, the entire replay context also matches that full post output.
+- On the rejected sixth frame, original post retains the previous gains and leaves cleared CT/tint diagnostics. Deliberately replaying the finalizer repopulates those diagnostics, so this fixture is checked as a separate fallback: its original diagnostic bytes remain zero, gain records match, and original post state is restored before continuing.
+- All 28 original history/atmosphere/post/REAWB calls return zero. No active REAWB output claim is made.
+
+```sh
+python3 hasselblad_native_audit/awb_original_runtime_20261021/run_full.py \
+  --firmware-root /private/extracted --ndk /tools/android-ndk-r27 \
+  --qemu /tools/qemu-aarch64-static --private-output /private/post-results \
+  --report /private/post-results.json --post-results
+
+python3 hasselblad_native_audit/awb_original_runtime_20261021/run_full.py \
+  --firmware-root /private/extracted --ndk /tools/android-ndk-r27 \
+  --qemu /tools/qemu-aarch64-static --private-output /private/post-results-pipeline \
+  --report /private/post-results-pipeline.json --pipeline --post-results-pipeline
+```
+
+Research contract: initialized context/config, valid private temperature model, bounded ordered tables, and disjoint normal-blend input/output records. An active empty colour axis or mapping outside the two supported tables returns `HB_PREP_UNSUPPORTED`; arbitrary corrupt pointers/lengths are not supported. Other post modes are rejected by `hb_post_mode2` before modification. The general normal/special blending controller, temporal smoothing/publication, CT/tint override conversion and dual-sync dependencies remain to be integrated and compared.
+
+Next resume at `scene_awb_post_proc` with the newly captured `frame_XX_after_atmosphere_owned.bin` input and original post output. The normal blend primitive is ready; publication at `0x4a0d80` and mode/category selection at `0x4a0958` are disassembled privately for continuation. Keep fresh-result and retained-result paths distinct. These AWB gains influence colour rendering, while HNCS/pixel rendering, real phone calibration and photographic quality remain unvalidated. No APK was built or installed; `main` and Native1C remain unchanged.

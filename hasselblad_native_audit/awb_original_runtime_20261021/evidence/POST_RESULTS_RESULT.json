@@ -1,0 +1,180 @@
+{
+  "created_utc": "2026-10-21T11:52:48.111110+00:00",
+  "all_passed": true,
+  "exit": 0,
+  "mode": "owned_post_result_helpers_and_mode2",
+  "events": [
+    {
+      "stage": "awb_cfg_load",
+      "status": 0
+    },
+    {
+      "stage": "awb_lib_init",
+      "status": 0
+    },
+    {
+      "event": "original_full_initialization",
+      "initialized_marker": 1,
+      "context_bytes": 920560,
+      "config_bytes": 1502800,
+      "e2_bytes": 118416,
+      "e2_context_present": true,
+      "reawb_handle_present": true
+    },
+    {
+      "event": "original_owned_post_results",
+      "all_passed": true,
+      "checks": 15271,
+      "failures": 0,
+      "golden_conversion_calls": 4096,
+      "normal_blend_calls": 512,
+      "gain_helper_calls": 1280,
+      "color_mode_calls": 512,
+      "result_ct_calls": 192,
+      "finalize_sequence_calls": 256,
+      "complete_mode2_calls": 256,
+      "stateful_finalize_calls": 16,
+      "nonidentity_color_results": 444,
+      "ct_status_0": 159,
+      "ct_status_92": 11,
+      "ct_status_95": 22,
+      "finalize_status_0": 171,
+      "finalize_status_89": 11,
+      "finalize_status_95": 32,
+      "finalize_status_133": 31,
+      "finalize_status_191": 11,
+      "mode2_status_0": 192,
+      "mode2_status_151": 64,
+      "full_post_stage_owned": false,
+      "synthetic_fixtures": true,
+      "full_awb_validated": false
+    }
+  ],
+  "input_config_sha256": "7fa13044a6c5453b67e4ae11bf8d07828de8e1c02aa915494fe5dad20930d435",
+  "library_sha256": "7d6164eccc734de7087bb778ee72f17a0b3ccf6c0d1f20092c7ebe74a86574ba",
+  "linker_sha256": "313d7a6d94cdeb9e2b2adb4be98a8b18240b08012b22f922acea7984f42ff35d",
+  "dependency_count": 65,
+  "qemu_sha256": "4f55e2e88dc05dc0f619562d5795b8eb25ed2ad2547504fb4835207a6911c350",
+  "compiler_version": "Android (12027248, +pgo, +bolt, +lto, +mlgo, based on r522817) clang version 18.0.1 (https://android.googlesource.com/toolchain/llvm-project d8003a456d14a3deb8054cdaa529ffbf02d9b262)",
+  "source_sha256": {
+    "awb_original_runtime_20261021/full_probe.c": "67bf11586d020cc0a414ba0c35544627a102f00bd7963705409f6414618025b2",
+    "awb_original_runtime_20261021/post_results_compare.c": "5dcd8d2d5826b1c3804f430a6fc967446b404ba21626d31cae728631d7d6dd13",
+    "awb_original_runtime_20261021/hb_post_results.c": "74d1f898b5a284b1402ba07aee3d025ec9f2e537864cb74c5654805107a0e96c",
+    "awb_original_runtime_20261021/hb_temperature.c": "0fcc6e4fa025f82806af76cf0fa523172676986cc84a2a8c8c7d1cf9e0b8d5e9",
+    "awb_original_runtime_20261021/hb_scene_candidates.c": "e51cd238d5f59ed45b37e44ba09fea81bac665b6eec62a1c88d1baf43fa8274b",
+    "awb_original_runtime_20261021/hb_scene_optimizer.c": "9f65921657a49323fe3c074fa7bd1ce51b4fd4b6292049d73b3727c4f0112bdb",
+    "awb_original_runtime_20261021/hb_scene_filter.c": "15e98886438fd481c6ad8609b842a1545f2dc2b8305ef70a61b163b87bb601bb",
+    "awb_original_runtime_20261021/run_full.py": "9b9985334f5917c8d758dd5f340c6d0f7175584098fa1bad8daae0ac4d1e3983",
+    "awb_original_runtime_20261021/run_recalib.py": "b11d5635343e30047596dfab12f669f0f8343c823c1a3dc72bd22146cb11b22f",
+    "awb_original_runtime_20261021/hb_post_results.h": "066faf52ea4b94853d570fe905b7dc5df8f4a64f34721a2f5c640c8e5b6d300f",
+    "awb_original_runtime_20261021/hb_temperature.h": "bf32f5c219cfa0d0c2857f7b528228b7d6e189331c0c7546501ad5c375ceaa34",
+    "awb_original_runtime_20261021/hb_scene_candidates.h": "a905dffd20ca3d6882846deff807d1d970183eefdc89ccab9e2f17db1b2c1e35",
+    "awb_original_runtime_20261021/hb_scene_optimizer.h": "bea9a2f44e6e16ef8dba24f97b268c0a0398317c3b8ad955fb2f55d283369c2e",
+    "awb_original_runtime_20261021/hb_scene_filter.h": "d7286138ac26b5ce9443563cad5ca5fcbd67d68b8081c040d3b14b4bb3d21419",
+    "awb_original_runtime_20261021/hb_stat_prepare.h": "1f3eea206426a1ae2e399f212c51169c58fd80503656fecbf690df56c442b59b"
+  },
+  "probe_sha256": "331413d4c86a614fdb7346e463281d383ce6aba86ba4320bd7dee0f46026ca9b",
+  "build_command": [
+    "/workspace/scratch/910ac5420982/runtime_tools/android-ndk-r27/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android28-clang",
+    "-std=c11",
+    "-O2",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-fPIE",
+    "-pie",
+    "-ffp-contract=off",
+    "-Wl,-z,max-page-size=16384",
+    "-DHB_POST_RESULTS_COMPARE=1",
+    "/workspace/scratch/910ac5420982/repo/hasselblad_native_audit/awb_original_runtime_20261021/full_probe.c",
+    "/workspace/scratch/910ac5420982/repo/hasselblad_native_audit/awb_original_runtime_20261021/post_results_compare.c",
+    "/workspace/scratch/910ac5420982/repo/hasselblad_native_audit/awb_original_runtime_20261021/hb_post_results.c",
+    "/workspace/scratch/910ac5420982/repo/hasselblad_native_audit/awb_original_runtime_20261021/hb_temperature.c",
+    "/workspace/scratch/910ac5420982/repo/hasselblad_native_audit/awb_original_runtime_20261021/hb_scene_candidates.c",
+    "/workspace/scratch/910ac5420982/repo/hasselblad_native_audit/awb_original_runtime_20261021/hb_scene_optimizer.c",
+    "/workspace/scratch/910ac5420982/repo/hasselblad_native_audit/awb_original_runtime_20261021/hb_scene_filter.c",
+    "-ldl",
+    "-lm",
+    "-o",
+    "/workspace/scratch/910ac5420982/private_runtime/post_results_final/full_probe_android28_arm64"
+  ],
+  "run_command": [
+    "/workspace/scratch/910ac5420982/runtime_tools/qemu/usr/bin/qemu-aarch64-static",
+    "-L",
+    "/workspace/scratch/910ac5420982/private_runtime/extracted",
+    "/workspace/scratch/910ac5420982/private_runtime/post_results_final/full_probe_android28_arm64",
+    "/workspace/scratch/910ac5420982/private_runtime/extracted/system/lib64/libaaa.so",
+    "/workspace/scratch/910ac5420982/private_runtime/extracted/system/etc/aaa/awb_imx861.bin",
+    "/workspace/scratch/910ac5420982/private_runtime/post_results_final"
+  ],
+  "private_dump_metadata": {
+    "post_mode2_4_owned.bin": {
+      "bytes": 920560,
+      "sha256": "37fef8159a3aab5666ccbe0d6df754cd7af76964cdd7348736b5651ba337c21d"
+    },
+    "post_finalize_7_original.bin": {
+      "bytes": 920560,
+      "sha256": "422e41f08cdbc5e36c1bd8967b25acc9a8b8e47866f29b28f77e0ffe94be18ad"
+    },
+    "full_reawb.bin": {
+      "bytes": 1000,
+      "sha256": "ce74e4fbad0b9188a1955f176fc86870646efd6e18c2b42679a548c461b138a8"
+    },
+    "post_mode2_4_original.bin": {
+      "bytes": 920560,
+      "sha256": "37fef8159a3aab5666ccbe0d6df754cd7af76964cdd7348736b5651ba337c21d"
+    },
+    "post_stateful_original.bin": {
+      "bytes": 920560,
+      "sha256": "fbdd1ebbcbeb60bbe9e43863d79685bfcaef9c36d2405f368d3c67525a424b03"
+    },
+    "post_stateful_owned.bin": {
+      "bytes": 920560,
+      "sha256": "fbdd1ebbcbeb60bbe9e43863d79685bfcaef9c36d2405f368d3c67525a424b03"
+    },
+    "full_config.bin": {
+      "bytes": 1502800,
+      "sha256": "47838a263340261d499a5beb977f97050f68e41778a3891c311b17ed5c8b42c3"
+    },
+    "post_finalize_1_original.bin": {
+      "bytes": 920560,
+      "sha256": "43de19f61d32ecfc0f2eae4e1d55618c96022a2522896913aa9ae7d4c10ee1f0"
+    },
+    "full_context.bin": {
+      "bytes": 920560,
+      "sha256": "b3a798f55baa3116ca3a3a0208d73d96e8c72fea5e019da743dcc0813d2b7c56"
+    },
+    "isotemperature_table.bin": {
+      "bytes": 496,
+      "sha256": "d0e661155899dc3bf62d1a6d60ec4507a3968f0127958a9a08aaf71285223fb2"
+    },
+    "post_finalize_7_owned.bin": {
+      "bytes": 920560,
+      "sha256": "422e41f08cdbc5e36c1bd8967b25acc9a8b8e47866f29b28f77e0ffe94be18ad"
+    },
+    "post_finalize_1_owned.bin": {
+      "bytes": 920560,
+      "sha256": "43de19f61d32ecfc0f2eae4e1d55618c96022a2522896913aa9ae7d4c10ee1f0"
+    },
+    "post_mode2_1_owned.bin": {
+      "bytes": 920560,
+      "sha256": "d8687a7e0b83e7eb1e6e5548bde1aac3d39bfc989b9f2d161f1311bfe2aa0992"
+    },
+    "full_e2.bin": {
+      "bytes": 118416,
+      "sha256": "072603f17cad621bbe28a95664f29cbd7f983c23b884c01e5545ecd128a39205"
+    },
+    "post_mode2_1_original.bin": {
+      "bytes": 920560,
+      "sha256": "d8687a7e0b83e7eb1e6e5548bde1aac3d39bfc989b9f2d161f1311bfe2aa0992"
+    }
+  },
+  "original_library_patched": false,
+  "dependency_stubs": false,
+  "full_camera_device_calibration_recovered": false,
+  "authentic_frame_replayed": false,
+  "historical_seven_frame_chain_recovered": false,
+  "full_awb_validated": false,
+  "full_post_stage_owned": false,
+  "post_mode2_compared_and_owned": true
+}

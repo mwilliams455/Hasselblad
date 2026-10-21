@@ -8,6 +8,10 @@
 #include "hb_scene_optimizer.h"
 #include "hb_scene_candidates.h"
 #include "hb_scene_controller.h"
+#ifdef HB_POST_RESULTS_PIPELINE
+#include "hb_post_results.h"
+static unsigned post_result_replays,post_result_matches,post_gain_matches,post_fallback_frames;
+#endif
 #ifdef HB_ATMOSPHERE_PIPELINE
 #include "hb_atmosphere.h"
 static unsigned atmosphere_calls;
@@ -92,6 +96,12 @@ static uint32_t hybrid_normal(unsigned char *ctx,unsigned char *cfg,unsigned fra
 }
 int hb_run_scene_pipeline(void *h,unsigned char *ctx,unsigned char *e2,void *config,void *reawb,const char *dir){
     uintptr_t bias=(uintptr_t)sym(h,"get_scene_awb_context")-0x464068;
+#ifdef HB_POST_RESULTS_PIPELINE
+    float post_table[124];memcpy(post_table,(void*)(bias+0x6ce418),sizeof post_table);hb_temperature_model post_model={post_table};
+    capture(dir,7,"post_isotemperature_table",post_table,sizeof post_table);
+    const char *post_names[]={"scene_awb_compute_result_ct","scene_awb_result_update_golden_gain_auto","scene_awb_result_e_nd_temp_recalib","scene_awb_result_e_nd_unit_recalib","scene_awb_result_recalib","scene_awb_result_normalise_all","scene_awb_color_mode_proc"};
+    uint32_t (*post_fn[7])(int);for(unsigned i=0;i<7;++i)post_fn[i]=sym(h,post_names[i]);
+#endif
     spec=sym(h,"scene_awb_scene_compute_spec_ct_weight");weight=(void*)(bias+0x4a7d00);accum=(void*)(bias+0x4a88a0);
     filter=(void*)(bias+0x4a8548);opt=(void*)(bias+0x4a8c48);
     uint32_t (*set)(int,void*)=sym(h,"awb_e2_main_set_stat"),(*parse)(int,void*,void*)=sym(h,"awb_e2_main_get_stat_parse");
@@ -152,6 +162,35 @@ int hb_run_scene_pipeline(void *h,unsigned char *ctx,unsigned char *e2,void *con
             uint32_t (*tail)(int)=sym(h,tail_names[j]);uint32_t ts=tail(0);++tail_calls;tail_errors+=ts!=0;
             printf("{\"original_tail_frame\":%u,\"stage\":\"%s\",\"status\":%u}\n",t,tail_names[j],ts);
             char name[128];snprintf(name,sizeof name,"after_original_%s",tail_names[j]);capture(dir,t,name,ctx,C);
+#ifdef HB_POST_RESULTS_PIPELINE
+            if(j==2&&!ts){
+                /* A sibling replay, NOT an owned post-controller replacement.
+                 * The original post controller saved pre-calibration channels
+                 * in its golden snapshots. Restore those channels on a clone,
+                 * compare the final helper sequence, then restore the actual
+                 * post output before original REAWB continues. */
+                memcpy(reference,ctx,C);memcpy(ctx+0xb0c4c,ctx+0xb0c78,24);memcpy(ctx+0xb0ce8,ctx+0xb0d14,24);
+                memcpy(owned,ctx,C);capture(dir,t,"post_result_replay_input",ctx,C);
+                uint32_t ps=0;for(unsigned k=0;k<7&&!ps;++k)ps=post_fn[k](0);
+                uint32_t os=hb_post_finalize(owned,config,&post_model);++post_result_replays;
+                same("post_result_replay_status",t,&ps,&os,4);same("post_result_replay_context",t,ctx,owned,C);
+                capture(dir,t,"post_result_replay_original",ctx,C);capture(dir,t,"post_result_replay_owned",owned,C);
+                same("post_result_replay_gain_records",t,reference+0xb0c48,owned+0xb0c48,0x138);
+                post_gain_matches+=!ps&&!os&&!memcmp(reference+0xb0c48,owned+0xb0c48,0x138);
+                if(reference[0xb0b10]==1){
+                    same("post_result_replay_matches_full_post",t,reference,owned,C);
+                    post_result_matches+=!ps&&!os&&!memcmp(reference,owned,C);
+                }else{
+                    /* Rejected input retains gains without running the final
+                     * CT helper. Its cleared diagnostics must remain cleared. */
+                    const unsigned char zero[8]={0};++post_fallback_frames;
+                    same("fallback_ct_diagnostic_clear",t,reference+0xa8514,zero,2);
+                    same("fallback_measured_ct_diagnostic_clear",t,reference+0xa851a,zero,2);
+                    same("fallback_tint_diagnostics_clear",t,reference+0xa85d2,zero,8);
+                }
+                memcpy(ctx,reference,C);
+            }
+#endif
 #ifdef HB_HISTORY_PIPELINE
             if(j==0){uint32_t hs=hb_history_process(owned,config);++history_calls;
                 same("owned_history_status",t,&ts,&hs,4);same("owned_history_context",t,ctx,owned,C);
@@ -174,6 +213,9 @@ int hb_run_scene_pipeline(void *h,unsigned char *ctx,unsigned char *e2,void *con
 #endif
     if(reawb)capture(dir,7,"passive_reawb_after",reawb,R);
     unsigned ok=!mismatches&&frames==7&&active_slots&&optimizer_calls&&filter_calls&&full_scene_calls==7;
+#ifdef HB_POST_RESULTS_PIPELINE
+    ok=ok&&post_result_replays==7&&post_result_matches==6&&post_gain_matches==7&&post_fallback_frames==1;
+#endif
 #ifdef HB_ORIGINAL_TAIL
     ok=ok&&tail_calls==28&&!tail_errors;
 #ifdef HB_HISTORY_PIPELINE
@@ -197,8 +239,15 @@ int hb_run_scene_pipeline(void *h,unsigned char *ctx,unsigned char *e2,void *con
 #else
            "\"original_tail_baseline\":false,\"passive_reawb_immutability_checked\":true,"
 #endif
+#ifdef HB_POST_RESULTS_PIPELINE
+           "\"post_result_snapshot_replays\":%u,\"post_result_full_context_matches\":%u,\"post_result_gain_record_matches\":%u,\"post_result_fallback_frames\":%u,\"post_stage_owned\":false,\"post_controller_executed_original\":true,"
+#endif
            "\"statuses\":[%u,%u,%u,%u,%u,%u,%u],\"synthetic_frames\":true,\"historical_frames\":false,\"wholly_owned_controller\":false}\n",
            ok?"true":"false",mismatches,comparisons,frames,active_slots,weighted_candidates,filter_calls,filter_removed,optimizer_calls,
-           accumulation_calls,spectral_calls,owned_scene_calls,full_scene_calls,states[0],states[1],states[2],states[3],states[4],states[5],states[6]);
+           accumulation_calls,spectral_calls,owned_scene_calls,full_scene_calls,
+#ifdef HB_POST_RESULTS_PIPELINE
+           post_result_replays,post_result_matches,post_gain_matches,post_fallback_frames,
+#endif
+           states[0],states[1],states[2],states[3],states[4],states[5],states[6]);
     return ok?0:1;
 }

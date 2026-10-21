@@ -1,0 +1,32 @@
+{
+  "checkpoint": "AWB_LOST_STAGE_REBUILD_03",
+  "date": "2026-10-21",
+  "scope": "portable owned per-CFA/block explicit calibration, signed/raw AE evidence, classifier-zone provenance replay and candidate accumulation",
+  "status": "OWNED_CONTRACT_PASS_VENDOR_EQUIVALENCE_NOT_TESTED",
+  "fresh_reconstruction_code": ["src/hb_awb_scene_prepare.h", "src/hb_awb_scene_prepare.c"],
+  "new_tests": ["tests/test_scene_prepare.c", "tests/test_scene_prepare_python.py"],
+  "checks": {
+    "rebuild01_gcc_optimized_per_run": 33327,
+    "rebuild01_gcc_asan_ubsan_per_run": 33327,
+    "rebuild02_gcc_optimized_per_run": 33960,
+    "rebuild02_gcc_asan_ubsan_per_run": 33960,
+    "rebuild03_gcc_optimized_per_run": 801012,
+    "rebuild03_gcc_asan_ubsan_per_run": 801012,
+    "rebuild03_clang_optimized_per_run": 801012,
+    "rebuild03_clang_asan_ubsan_per_run": 801012,
+    "new_python_independent_1024_block_fixtures": 64,
+    "inherited_python_raw_frames": 64,
+    "inherited_candidate_oracle_fixtures": 256,
+    "inherited_component_oracle_fixtures": 1408,
+    "native1c_private_dng_1024_block_explicit_calibration_matched": true
+  },
+  "native1c_private_dng_sha256": "4a275648d6490ad32c156bedf1abd1d08618e942ca658893d4374ac93e23101a",
+  "original_vendor_1_3_16_2_firmware_present": false,
+  "original_7_frame_comparison_executed": false,
+  "original_E2_calibration_classification_weighting_reconstructed": false,
+  "firmware_derived_neutral_produced": false,
+  "photographic_rendering_modified": false,
+  "binary_apk_built": false,
+  "private_inputs_in_checkpoint": false,
+  "next": "Reacquire genuine vendor libaaa.so and original harness/initialized context; verify E2 ABI, real per-block calibration/AE/classifier/zone formula then continue optimizer/history"
+}

@@ -1,0 +1,127 @@
+{
+  "checkpoint": "AWB_LOST_STAGE_REBUILD_03",
+  "generated": "2026-10-21",
+  "source_repo_branch": "recovery/awb-rebuild-20261021",
+  "files": [
+    {
+      "path": ".gitignore",
+      "bytes": 58,
+      "sha256": "e8f039d2c8a10d0b476f422d0569a79f06aa98c1c7c33aceb5a179a086cbd511"
+    },
+    {
+      "path": "FIRMWARE_REACQUISITION.md",
+      "bytes": 920,
+      "sha256": "1a956fd793170526afc3d247064a6808c335447d0fa2a983e86c31bcd4512476"
+    },
+    {
+      "path": "Makefile",
+      "bytes": 1430,
+      "sha256": "885586cf035752c7d34934cd6654200cf04f8e6f31b7610a8a5332301c8f5978"
+    },
+    {
+      "path": "README.md",
+      "bytes": 6283,
+      "sha256": "e6518f7aca74499b50e767d0a707c44151c65f35a5eaf939de418b22385469c0"
+    },
+    {
+      "path": "evidence/CHECKPOINT_RESULT.json",
+      "bytes": 1757,
+      "sha256": "e2287d9aca063406f9c2eeb9107da7982bb4fd318f39b77b498cba51fad067f4"
+    },
+    {
+      "path": "evidence/PRIVATE_REPLAY_SUMMARY.json",
+      "bytes": 721,
+      "sha256": "d4dc73524df330f77ba83dc43728f0368e6352a34d1a1fd7aefc36b1a688d67a"
+    },
+    {
+      "path": "evidence/check_stdout.txt",
+      "bytes": 2568,
+      "sha256": "f9ed99578ad841425e42927152b3210ec65b49d65ffeb4499297995e331967cb"
+    },
+    {
+      "path": "src/hb_awb_frame_stats.c",
+      "bytes": 6347,
+      "sha256": "d63acb5c9532d4ff75ec1e82f30b19f461d063dbb285b76c160f166675259f48"
+    },
+    {
+      "path": "src/hb_awb_frame_stats.h",
+      "bytes": 3320,
+      "sha256": "c7fa05207910fb402d6dbdffaef9eb928b8980d0346d25eba7d53b34ceab0697"
+    },
+    {
+      "path": "src/hb_awb_recalib.c",
+      "bytes": 1953,
+      "sha256": "99d56c2ed9a72411d64b732100e016d40660bbc3ee75858dfb3de37bdc1fef5e"
+    },
+    {
+      "path": "src/hb_awb_recalib.h",
+      "bytes": 2591,
+      "sha256": "cfea84ae2528190e5e594c60abb25b073ffe60c2ae6012da3265979e1e562ea7"
+    },
+    {
+      "path": "src/hb_awb_scene_prepare.c",
+      "bytes": 6884,
+      "sha256": "2512b1e35d59739b60fe9d697d1d6ae87c1f53d019cd5549578af26d8d6a79bf"
+    },
+    {
+      "path": "src/hb_awb_scene_prepare.h",
+      "bytes": 4072,
+      "sha256": "5005d65a908d9b621978d9457a1bf7a0d6ebc4f29b4f3b49a2f5c9709de0f5b5"
+    },
+    {
+      "path": "src/hb_awb_stages.c",
+      "bytes": 7999,
+      "sha256": "6b5166e84a213f5769bdb4a916c8928cde23ce64e1a3fc93e959feade002a9cb"
+    },
+    {
+      "path": "src/hb_awb_stages.h",
+      "bytes": 5605,
+      "sha256": "92438e95613fac5975aa2099bfb35bf3be5cb7634aba000885290f8451d00af9"
+    },
+    {
+      "path": "tests/compare_original_owned.py",
+      "bytes": 2483,
+      "sha256": "714e46229c56f04020ba7a4f01ba0f03628e59158e060042a6bc31bb985e5b46"
+    },
+    {
+      "path": "tests/test_accumulation_python.py",
+      "bytes": 3452,
+      "sha256": "12f9912050668293af95f12dfafc44e4bcb2aa1d5f8dc3718404eb1c476b8333"
+    },
+    {
+      "path": "tests/test_components_python.py",
+      "bytes": 2607,
+      "sha256": "7e956e10c3d74e96435da1524f0b8a7f88de2330fdf4e27e3796ec67b238320d"
+    },
+    {
+      "path": "tests/test_frame_stats.c",
+      "bytes": 9300,
+      "sha256": "9085f404d719801282c974dace2efe3f8468a9b5c0018766d2326b98d5220cfd"
+    },
+    {
+      "path": "tests/test_frame_stats_python.py",
+      "bytes": 7763,
+      "sha256": "6db5b970b3df97f829e3848ea262652202d50eba1584859328607c2b8612d9b1"
+    },
+    {
+      "path": "tests/test_scene_prepare.c",
+      "bytes": 9085,
+      "sha256": "15132aeaf8c189e9cf307458221b98a80b7158952de0717855354bc6adb7cf0d"
+    },
+    {
+      "path": "tests/test_scene_prepare_python.py",
+      "bytes": 9879,
+      "sha256": "83fa62b3fe17910bce576881be16f4424264c7dd0ab43b39517d9366bf85b51e"
+    },
+    {
+      "path": "tests/test_stages.c",
+      "bytes": 11362,
+      "sha256": "59718dbaa83a185c9a1ae3932b594658f73e8eb97c8c6024ebb17854ab60d3f1"
+    },
+    {
+      "path": "tests/validate_private_capture.py",
+      "bytes": 4247,
+      "sha256": "3ea99d12b305fb7db38ca3d969216cb0dde9ad516a48a65c1e1ffb4381753883"
+    }
+  ]
+}

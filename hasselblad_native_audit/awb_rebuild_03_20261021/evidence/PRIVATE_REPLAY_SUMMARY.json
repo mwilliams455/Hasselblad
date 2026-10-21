@@ -1,0 +1,22 @@
+{
+  "checkpoint": "AWB_REBUILD_03",
+  "synthetic_cases": 64,
+  "blocks_checked_per_case": 1024,
+  "independent_oracle": "Python arbitrary-precision exact two-stage Q16 arithmetic / BFS / replay sums",
+  "original_vendor_firmware_compared": false,
+  "status": "PASS",
+  "private_capture": {
+    "private_capture_sha256": "4a275648d6490ad32c156bedf1abd1d08618e942ca658893d4374ac93e23101a",
+    "native1c_dng": true,
+    "raw_dimensions": [
+      4096,
+      3072
+    ],
+    "blocks_independently_checked": 1024,
+    "per_block_calibration_matched": true,
+    "raw_ae_brightness_preserved": true,
+    "selected_neutral_produced": false,
+    "no_private_pixels_in_report": true,
+    "vendor_equivalence_claimed": false
+  }
+}

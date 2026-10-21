@@ -14,6 +14,11 @@ uint32_t hb_original_user_remainder(uintptr_t);
 #include "hb_user_e_nd.h"
 #include "user_e_nd_fixtures.h"
 #endif
+#ifdef HB_USER_MANUAL_ENTRY
+#include "hb_user_manual.h"
+#include "user_manual_fixtures.h"
+static hb_temperature_model manual_model;
+#endif
 #include <dlfcn.h>
 #include <math.h>
 #include <stdio.h>
@@ -69,13 +74,18 @@ static hb_run_entry_result compare(test_state*s,unsigned t,int expected,unsigned
             ++user_prefix_calls;
 #ifdef HB_USER_E_ND_ENTRY
             b=hb_user_prepare_calibration(s->c,s->k);
+#ifdef HB_USER_MANUAL_ENTRY
+            if(!b)b=hb_user_manual_samples(s->c,s->k,&manual_model);
+#endif
             if(s->input[0xb1f86]==1&&s->c[0xb1f86]==0){unit_accepted+=s->c[0x279]==1;unit_rejected+=s->c[0x279]==0;}
 #else
             b=hb_user_prepare_prefix(s->c,s->k);
 #endif
             if(capture)dump(s->dir,"owned_user_prefix_boundary",t,s->c,C);
             if(!b){++user_remainders;
-#ifdef HB_USER_E_ND_ENTRY
+#ifdef HB_USER_MANUAL_ENTRY
+                b=hb_original_user_remainder(s->bias+0x4b16a8);
+#elif defined(HB_USER_E_ND_ENTRY)
                 b=hb_original_user_remainder(s->bias+0x4b162c);
 #else
                 b=hb_original_user_remainder(s->bias+0x4b1624);
@@ -102,6 +112,9 @@ int hb_run_entry_tests(void*h,unsigned char*c,unsigned char*e2,void*config,void*
     test_state s={.c=c,.k=k,.r=reawb,.input=malloc(C),.reference=malloc(C),.ki=malloc(K),.kr=malloc(K),.dir=dir};
     if(!base||!cfg||!k||!s.input||!s.reference||!s.ki||!s.kr)return 71;
     memcpy(base,c,C);memcpy(cfg,config,K);memcpy(rbase,reawb,R);s.bias=(uintptr_t)sym(h,"get_scene_awb_context")-0x464068;s.run=sym(h,"scene_awb_lib_run");
+#ifdef HB_USER_MANUAL_ENTRY
+    float manual_table[124];memcpy(manual_table,(void*)(s.bias+0x6ce418),sizeof manual_table);manual_model.isotemperature_31x4=manual_table;dump(dir,"manual_isotemperature",0,manual_table,sizeof manual_table);
+#endif
     for(unsigned kind=0;kind<6;++kind)for(unsigned t=0;t<(kind==5?256:128);++t){
         memcpy(c,base,C);memcpy(k,cfg,K);memcpy(c+0xb2028,&k,8);memcpy(reawb,rbase,R);
         w32(c+0x170,1);w32(c+0x174,0);k[0x24]=1;c[0xb2150]=(unsigned char)t;c[0xd338]=1;w32(c+0x17c,0);w32(c+0x184,2+t%7);w32(c+0x180,t%3==0?UINT32_MAX:t);w32(k+0x70,t%3==0?UINT32_MAX:t%3==1?t:t-1);
@@ -152,6 +165,13 @@ int hb_run_entry_tests(void*h,unsigned char*c,unsigned char*e2,void*config,void*
         compare(&s,7800+t,HB_RUN_READY,t<8);
     }
 #endif
+#ifdef HB_USER_MANUAL_ENTRY
+    for(unsigned t=0;t<64;++t){
+        memcpy(c,base,C);memcpy(k,cfg,K);memcpy(c+0xb2028,&k,8);memcpy(reawb,rbase,R);
+        k[0x24]=1;w32(k+0x78,0);w32(c+0x17c,0);w32(c+0xb2020,2);c[0xd338]=1;
+        hb_test_manual_request(c,k,t);compare(&s,7900+t,HB_RUN_READY,t<8);
+    }
+#endif
     /* Seven native E2 synthetic frames exercise full original dispatch after
      * the new owned entry. Downstream ownership is validated separately. */
     uint32_t(*set)(int,void*)=sym(h,"awb_e2_main_set_stat"),(*parse)(int,void*,void*)=sym(h,"awb_e2_main_get_stat_parse"),(*import)(int,void*,void*)=sym(h,"scene_awb_set_stat");
@@ -174,6 +194,9 @@ int hb_run_entry_tests(void*h,unsigned char*c,unsigned char*e2,void*config,void*
 #endif
 #ifdef HB_USER_E_ND_ENTRY
         if(t==0||t==3)hb_test_e_nd_request(c,k,t);
+#endif
+#ifdef HB_USER_MANUAL_ENTRY
+        if(t==1||t==4){w16(c+0xb14f4,4);for(unsigned i=0;i<4;++i)w16(c+0xb14f6+2*i,(uint16_t)(i*3));}
 #endif
         dump(dir,"native_input",t,input,0x4118);hb_run_entry_result result=compare(&s,8000+t,HB_RUN_READY,1);if(result.action!=HB_RUN_PREPARE)return 2;++native_calls;
     }

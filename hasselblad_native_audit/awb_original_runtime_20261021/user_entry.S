@@ -1,6 +1,6 @@
 /* SPDX-License-Identifier: MIT
- * Test-only ABI adapter into unmodified scene_awb_user_proc at 0x4b1624 or
- * 0x4b162c (after the separately owned unit-calibration request helper).
+ * Test-only ABI adapter into unmodified scene_awb_user_proc at 0x4b1624,
+ * 0x4b162c or 0x4b16a8 (after manual-sample selection).
  * x0 entry address. Rebuilds its saved-register/TLS frame, slot zero.
  * Original remainder returns directly to our caller; no code is patched. */
 .text

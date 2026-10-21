@@ -1,0 +1,24 @@
+{
+  "private_capture_sha256": "4a275648d6490ad32c156bedf1abd1d08618e942ca658893d4374ac93e23101a",
+  "native1c_dng": true,
+  "raw_dimensions": [
+    4096,
+    3072
+  ],
+  "blocks_independently_checked": 1024,
+  "per_block_calibration_matched": true,
+  "raw_ae_brightness_preserved": true,
+  "selected_neutral_produced": false,
+  "no_private_pixels_in_report": true,
+  "vendor_equivalence_claimed": false,
+  "phase": "owned RAW->stat->calibration->candidate->optimizer-trace replay",
+  "candidate_survivors": 320,
+  "trace_frame_serial": 124,
+  "caller_deltas_are_synthetic_test_fixtures": true,
+  "optimizer_input_fingerprint_match": true,
+  "caller_updates_applied_after_observed_return": true,
+  "double_update_rejected": true,
+  "actual_original_vendor_trace_present": false,
+  "actual_original_optimizer_reconstructed": false,
+  "original_firmware_equivalence_proven": false
+}

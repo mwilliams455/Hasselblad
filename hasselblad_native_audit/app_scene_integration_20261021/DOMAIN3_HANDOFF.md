@@ -4,8 +4,9 @@
 
 - Project repository: https://github.com/mwilliams455/Hasselblad
 - Working branch: `recovery/awb-rebuild-20261021`
-- Verified current HEAD: `6d43460b418bb921fad5c5abe665d36019881dae`
+- APK build source commit: `6d43460b418bb921fad5c5abe665d36019881dae` (documentation commits may advance the recovery branch; check its current HEAD before another change)
 - Main unchanged: `929f523aa02ae5b224be39b9c36cce5975691a10`
+- Signed Domain3 checkpoint documentation commit: `c0f95168fa189ed80918abab0a5ccfca1c1b7697` (subsequent doc corrections may advance it further)
 - Last source-only Domain2 checkpoint: `8c9060f4cf28f6745fb3c7123299dda36823a18f`
 - Domain3 Java/JNI host validation: https://github.com/mwilliams455/Hasselblad/actions/runs/39674585517 — PASS, 40 assertions (synthetic inputs) using the *actual* owned phone temperature, domain and JNI sources.
 - Domain3 signed APK build and verification: https://github.com/mwilliams455/Hasselblad/actions/runs/39674679198 — PASS.

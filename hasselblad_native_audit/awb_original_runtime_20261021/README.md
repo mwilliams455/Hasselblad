@@ -33,3 +33,18 @@ Python requires `pyelftools`. The runner verifies the library, original symbol, 
 This checkpoint restores original code execution and verifies the recalibration leaf. It does **not** establish original AWB initialization, scene-optimizer equivalence, authentic E2 frame preparation, seven-frame context/REAWB parity, full AWB, HNCS rendering, or phone validation. Next: restore calibrated original initialization, then the optimizer at `0x4a8c48` with justified state and caller-side count updates.
 
 No APK was built. `main` and the installed Native1C application remain unchanged.
+
+## Original scene initialization checkpoint
+
+The original `_create_scene_awb_lib_manager`, `scene_awb_clear_context`, `awb_cfg_load`, `scene_awb_cfg_init`, and `scene_awb_lib_init` now execute successfully using the unmodified, hash-matched AWB FlatBuffer. All five return zero; the scene initialized marker at context offset `0x170` is 1; 64-byte boundary guards remain intact around the 920,560-byte context. The original config allocation is 1,502,800 bytes.
+
+This restores the original scene configuration/initialization route. It does not prove that device-specific calibration inputs or authentic frame preparation have been recovered. Config/context bytes and vendor logs stay in a private output directory. Context hashes are per-execution audit metadata; they are not cross-process pointer-equivalence claims.
+
+```sh
+python3 hasselblad_native_audit/awb_original_runtime_20261021/run_scene.py \
+  --firmware-root /private/extracted --ndk /tools/android-ndk-r27 \
+  --qemu /tools/qemu-aarch64-static --private-output /private/init-check \
+  --report /private/init-result.json
+```
+
+Fresh result: `evidence/SCENE_INIT_RESULT.json`. Optimizer and seven-frame comparisons remain the next boundary.

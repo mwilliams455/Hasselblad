@@ -26,6 +26,22 @@ public class SaverImplementation {
     private int imageFormat;
     public final ProcessingEventsListener processingEventsListener;
 
+    private static void annotateHasselbladRawSource(ImageFrame frame, Image image,
+            int rowStride, int pixelStride, int originalCapacity, int copiedOffset, boolean binned) {
+        frame.rawSensorTimestampNs = image.getTimestamp();
+        frame.sourceRawFormat = image.getFormat();
+        frame.sourceRawWidth = image.getWidth();
+        frame.sourceRawHeight = image.getHeight();
+        frame.sourceRowStride = rowStride;
+        frame.sourcePixelStride = pixelStride;
+        frame.sourceRawBufferCapacity = originalCapacity;
+        frame.sourceCopyOffsetBytes = copiedOffset;
+        frame.sourceImageCropRect = new Rect(image.getCropRect());
+        frame.sourceBinned = binned;
+    }
+
+    public void addImage(Image image, android.view.Surface sourceSurface) { addImage(image); }
+
     public ImageFrame getFrame(Image image){
         try {
             image.getFormat();
@@ -64,6 +80,10 @@ public class SaverImplementation {
                         PhotonCamera.getSettings().binning);
                 if (frame == null) return null;
                 frame.timestamp = image.getTimestamp();
+                annotateHasselbladRawSource(frame, image, rowStride, pixelStride,
+                        image.getPlanes()[0].getBuffer().capacity(),
+                        frame.cropOriginY * rowStride + frame.cropOriginX * pixelStride,
+                        PhotonCamera.getSettings().binning);
                 return frame;
             }
         }
@@ -89,6 +109,8 @@ public class SaverImplementation {
             frame = new ImageFrame(image.getPlanes()[0].getBuffer(), image.getFormat(), width, rowStride, offset, capacity);
         }
         frame.timestamp = image.getTimestamp();
+        annotateHasselbladRawSource(frame, image, rowStride, pixelStride,
+                image.getPlanes()[0].getBuffer().capacity(), offset, doBinning);
         if (doBinning) {
             frame.width = width / 2;
             frame.height = height / 2;

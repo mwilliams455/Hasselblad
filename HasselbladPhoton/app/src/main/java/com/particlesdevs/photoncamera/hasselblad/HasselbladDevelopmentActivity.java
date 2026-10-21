@@ -36,7 +36,8 @@ public final class HasselbladDevelopmentActivity extends BaseActivity {
             ClipboardManager clipboard = getSystemService(ClipboardManager.class);
             if (clipboard != null) {
                 clipboard.setPrimaryClip(ClipData.newPlainText("Hasselblad native development check",
-                        latestReport.asText() + "\n" + HasselbladDevelopmentPolicy.captureSummary()));
+                        latestReport.asText() + "\n" + HasselbladDevelopmentPolicy.captureSummary()
+                                + "\n" + HasselbladCaptureSaveStatus.latest().display()));
                 Toast.makeText(this, R.string.hasselblad_check_copied, Toast.LENGTH_SHORT).show();
             }
         });
@@ -50,5 +51,7 @@ public final class HasselbladDevelopmentActivity extends BaseActivity {
                 HasselbladDevelopmentPolicy.captureSummary());
         ((TextView) findViewById(R.id.hasselblad_check_provenance)).setText(latestReport.provenance);
         ((TextView) findViewById(R.id.hasselblad_check_details)).setText(latestReport.details);
+        ((TextView) findViewById(R.id.hasselblad_check_capture_json)).setText(
+                HasselbladCaptureSaveStatus.latest().display());
     }
 }

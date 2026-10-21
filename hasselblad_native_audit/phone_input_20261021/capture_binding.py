@@ -26,7 +26,12 @@ def bind_capture(j, black_source):
     require(p.get('request_targets_recorded_raw_surface') is True, 'RAW target')
     opened = p['opened_camera_id']; selected = p['selected_calibration_camera_id']
     require(isinstance(opened, str) and opened and isinstance(selected, str) and selected, 'camera ids')
-    require(p['callback_session_device_id'] == opened, 'callback camera')
+    if p.get('stream_identity_source') == 'actual_OutputConfiguration_by_delivering_ImageReader_surface':
+        require(p.get('configured_output_device_id') == opened and
+                p.get('result_camera_id_matched') is True and
+                p.get('selected_result_camera_id') == selected, 'configured/result camera')
+    else:
+        require(p['callback_session_device_id'] == opened, 'callback camera')
     explicit = p.get('explicit_raw_physical_id')
     if explicit is not None:
         require(isinstance(explicit, str) and explicit and selected == explicit, 'physical camera')

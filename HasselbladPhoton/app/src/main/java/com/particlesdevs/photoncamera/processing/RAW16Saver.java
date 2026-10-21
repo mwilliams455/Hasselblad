@@ -38,7 +38,10 @@ public class RAW16Saver extends DefaultSaver{
         if (PhotonCamera.DEBUG) Log.d(TAG, "arrival pack: bits=" + frame.packedBits);
     }
 
-    public void addImage(Image image) {
+    public void addImage(Image image) { addImage(image, null); }
+
+    @Override
+    public void addImage(Image image, android.view.Surface sourceSurface) {
         if (HasselbladDevelopmentPolicy.isEnabled()) {
             Image.Plane[] planes = image.getPlanes();
             HasselbladDevelopmentPolicy.recordDeliveredRawImage(image.getWidth(), image.getHeight(),
@@ -67,6 +70,7 @@ public class RAW16Saver extends DefaultSaver{
                     } catch (InterruptedException ignored) {}
                 }*/
                 ImageFrame arrived = getFrame(image);
+                if (arrived != null) arrived.sourceReaderSurface = sourceSurface;
                 packBurstAtArrival(arrived);
                 IMAGE_BUFFER.add(arrived);
                 image.close();

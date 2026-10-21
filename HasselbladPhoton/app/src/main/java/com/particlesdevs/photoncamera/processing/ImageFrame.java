@@ -25,6 +25,15 @@ public class ImageFrame {
      */
     public int packedBits = 0;
     public long timestamp;
+    /** Observed Image/Plane geometry, captured before crop/unpack and never inferred from DNG. */
+    public long rawSensorTimestampNs;
+    public android.view.Surface sourceReaderSurface;
+    public int sourceRawFormat;
+    public int sourceRawWidth, sourceRawHeight;
+    public int sourceRowStride, sourcePixelStride;
+    public int sourceRawBufferCapacity, sourceCopyOffsetBytes;
+    public boolean sourceBinned;
+    public Rect sourceImageCropRect;
     public int width, height;
     /** Offset of this frame's crop within the full sensor frame (0,0 when uncropped). */
     public int cropOriginX;

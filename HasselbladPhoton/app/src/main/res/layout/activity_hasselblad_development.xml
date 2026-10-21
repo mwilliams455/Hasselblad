@@ -67,6 +67,14 @@
                 android:textSize="12sp"
                 android:textIsSelectable="true" />
             <TextView
+                android:id="@+id/hasselblad_check_capture_json"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:textAppearance="?attr/textAppearanceTitleSmall"
+                android:textIsSelectable="true"
+                android:text="@string/hasselblad_check_capture_json" />
+            <TextView
                 android:id="@+id/hasselblad_check_details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

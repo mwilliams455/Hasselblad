@@ -2898,6 +2898,10 @@ public class CaptureController implements MediaRecorder.OnInfoListener {
                         hdrApplyFailed = true;
                     }
                 }
+                com.particlesdevs.photoncamera.hasselblad.HasselbladRawStream.record(
+                        surfacei, mCameraDevice.getId(),
+                        Build.VERSION.SDK_INT >= Build.VERSION_CODES.P && !Objects.equals(streamPhysicalId, logicalID)
+                                ? streamPhysicalId : null);
                 applyVideoStreamUseCases(config, surfacei);
                 outputConfigurations.add(config);
             }
@@ -2925,6 +2929,10 @@ public class CaptureController implements MediaRecorder.OnInfoListener {
                                 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                             config.setPhysicalCameraId(retryStreamPhysicalId);
                         }
+                        com.particlesdevs.photoncamera.hasselblad.HasselbladRawStream.record(
+                                surfacei, mCameraDevice.getId(),
+                                Build.VERSION.SDK_INT >= Build.VERSION_CODES.P && !Objects.equals(retryStreamPhysicalId, logicalID)
+                                        ? retryStreamPhysicalId : null);
                         applyVideoStreamUseCases(config, surfacei);
                         outputConfigurations.add(config);
                     }
@@ -4038,13 +4046,18 @@ public class CaptureController implements MediaRecorder.OnInfoListener {
             float focus = mFocus;
             double frametime = ExposureIndex.time2sec(IsoExpoSelector.GenerateExpoPair(-1, this).exposure);
             //this.mCaptureSession.stopRepeating();
+            final Surface evidenceRawSurface;
             if(isDualSession) {
-                if (mTargetFormat != mPreviewTargetFormat)
-                    captureBuilder.addTarget(mImageReaderRaw.getSurface());
-                else
+                if (mTargetFormat != mPreviewTargetFormat) {
+                    evidenceRawSurface = mImageReaderRaw.getSurface();
+                    captureBuilder.addTarget(evidenceRawSurface);
+                } else {
+                    evidenceRawSurface = null;
                     captureBuilder.addTarget(mImageReaderPreview.getSurface());
+                }
             } else {
-                captureBuilder.addTarget(mImageReaderRaw.getSurface());
+                evidenceRawSurface = mImageReaderRaw.getSurface();
+                captureBuilder.addTarget(evidenceRawSurface);
                 CameraMode selectedMode = PhotonCamera.getSettings().selectedMode;
                 if(frametime > 0.06 && !isDualSession || selectedMode == CameraMode.RAWVIDEO || selectedMode == CameraMode.UNLIMITED || (!IsoExpoSelector.HDR)) {
                     captureBuilder.addTarget(surface);
@@ -4175,15 +4188,17 @@ public class CaptureController implements MediaRecorder.OnInfoListener {
                         captureBuilder.set(CaptureRequest.CONTROL_AF_MODE, mPreviewAFMode);
                         captureBuilder.set(CaptureRequest.CONTROL_AE_MODE, mPreviewAEMode);
                     }
-                    captures.add(captureBuilder.build());
+                    captures.add(com.particlesdevs.photoncamera.hasselblad.HasselbladRawStream.recordRequest(
+                            captureBuilder.build(), evidenceRawSurface));
                 }
             } else {
                 long[] times = new long[frameCount];
                 for (int i = 0; i < frameCount; i++) {
                     IsoExpoSelector.setExpo(captureBuilder, i, this);
                     times[i] = IsoExpoSelector.lastSelectedExposure;
-                    captures.add(captureBuilder.build());
-                    mCaptureRequest = captureBuilder.build();
+                    captures.add(com.particlesdevs.photoncamera.hasselblad.HasselbladRawStream.recordRequest(
+                            captureBuilder.build(), evidenceRawSurface));
+                    mCaptureRequest = captures.get(captures.size() - 1);
                 }
                 PhotonCamera.getGyro().PrepareGyroBurst(times, BurstShakiness);
             }

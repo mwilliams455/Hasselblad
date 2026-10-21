@@ -2,7 +2,15 @@
 
 Date: 21 October 2026
 
-## Scope
+## Latest checkpoint: Scene1 diagnostic APK — 21 October 2026
+
+The app integration now builds as **0.1-hb-scene1 / versionCode 27182**, preserving `com.mwilliams.hasselbladphoton` and Native1C's signer. Native1C-style capture JSON, SAF save status and original/effective metadata are restored, and the new bounded scene candidate sweep is connected before Photon modifies the frame. It records six explicit test policies, candidates/rejections and camera/frame provenance, without applying any candidate to rendering. Original HAL neutral remains separate. Stream/request identity comes from actual configuration and request construction, not a later currently-open camera lookup.
+
+Fresh checks: successful 61-task Android build; 219 desktop Java/JNI integration checks (26 Java and 19 JNI guards), plus four offline provenance checks. Original RAW and metadata remain unchanged; candidate/empty/candidate resets pass. APK manifest, signature, Native1C certificate match, 16KB ZIP and all packaged ARM64 native ELF alignments pass; packaged DEX contains the actual capture/diagnostic/JNI/save calls. The scene library imports only libc/libm/libdl. APK: `HasselbladPhoton-Scene1-27182-debug.apk`, SHA256 `ae01c67b4e5ae07649adb98f8f3ac3d6b1d84a71c1858bd23d827151c0917403`.
+
+See [app integration details and device steps](../app_scene_integration_20261021/README.md). Private evidence: `Hasselblad_Scene1_App_Integration_Evidence_PRIVATE_20261021.zip`; APK supplied separately. **The APK has not been installed or camera-tested in this session.** Main and installed Native1C remain unchanged. Next is physical-phone capture/SAF/provenance and controlled neutral-target calibration. Full phone automatic initialization/profile, photographic colour accuracy and full HNCS rendering remain open. Older no-APK entries below describe their historical checkpoints.
+
+## Historical environment recovery scope
 
 Next task: restore **actual Android 9 / API 28 / ARM64 execution** of the original Hasselblad X2D II 100C AWB library and resume original-vs-owned comparisons, rather than adding synthetic approximations.
 

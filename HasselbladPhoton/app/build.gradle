@@ -49,7 +49,7 @@ android {
             //noinspection ChromeOsAbiSupport
             abiFilters "arm64-v8a", "armeabi-v7a"
         }
-        versionName '0.1-hb-native1a'
+        versionName '0.1-hb-scene1'
         versionProps['VERSION_NAME'] = versionName
         proguardFiles
     }
@@ -79,6 +79,8 @@ android {
             zipAlignEnabled = false
         }
     }
+
+    ndkVersion "27.0.12077973"
 
     externalNativeBuild {
         cmake {

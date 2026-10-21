@@ -85,7 +85,7 @@ public class ImageSaver {
             Log.d(TAG,"Implementation:" + implementation);
             implementation.frameCount = desiredFrameCount;
             implementation.newBurst = newBurst;
-            implementation.addImage(mImage);
+            implementation.addImage(mImage, mReader.getSurface());
         } else {
             Image mImage;
             try {

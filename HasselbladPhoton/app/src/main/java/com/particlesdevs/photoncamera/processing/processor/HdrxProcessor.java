@@ -17,6 +17,8 @@ import com.particlesdevs.photoncamera.control.GyroBurst;
 import com.particlesdevs.photoncamera.processing.ImageFrame;
 import com.particlesdevs.photoncamera.processing.ImageFrameDeblur;
 import com.particlesdevs.photoncamera.processing.ImageSaver;
+import com.particlesdevs.photoncamera.hasselblad.HasselbladCaptureEvidence;
+import com.particlesdevs.photoncamera.hasselblad.HasselbladCaptureSaveStatus;
 import com.particlesdevs.photoncamera.processing.ProcessingEventsListener;
 import com.particlesdevs.photoncamera.processing.encoder.HeicSupport;
 import com.particlesdevs.photoncamera.processing.encoder.ImageFormatConfig;
@@ -39,6 +41,7 @@ import java.util.HashMap;
 public class HdrxProcessor extends ProcessorBase {
     private static final String TAG = "HdrxProcessor";
     private ArrayList<ImageFrame> mImageFramesToProcess;
+    private HasselbladCaptureEvidence captureEvidence;
     private HashMap<Long, Double> exposures;
     private int imageFormat;
     /* config */
@@ -81,6 +84,9 @@ public class HdrxProcessor extends ProcessorBase {
         this.characteristics = characteristics;
         this.captureResult = captureResult;
         this.captureRequest = captureRequest;
+        // Snapshot original still values before Run() applies Photon Camera2 fixes.
+        this.captureEvidence = HasselbladCaptureEvidence.begin(
+                imageBuffer, characteristics, captureResult, captureRequest);
         Log.d(TAG, "HdrxProcessor called start()");
         Run();
     }
@@ -211,6 +217,7 @@ public class HdrxProcessor extends ProcessorBase {
 
         processingParameters.FillDynamicParameters(captureResult, captureRequest,ISO);
         processingParameters.cameraRotation = cameraRotation;
+        if (captureEvidence != null) captureEvidence.recordEffective(processingParameters, captureResult);
 
         ParseExif.syncWithParameters(exifData, processingParameters);
         ImageFrameDeblur imageFrameDeblur = new ImageFrameDeblur(processingParameters);
@@ -368,6 +375,10 @@ public class HdrxProcessor extends ProcessorBase {
             Log.e(TAG, "HEIC save mode on unsupported device; JPEG fallback");
             useHeic = false;
         }
+        if ((!ImageFormatConfig.savesRaw(saveMode) || alignAlgorithm == 2)
+                && captureEvidence != null) {
+            HasselbladCaptureSaveStatus.skipped("DNG not requested for this capture mode.");
+        }
         if (ImageFormatConfig.savesRaw(saveMode) && alignAlgorithm != 2) {
             // DNG carries uint16 raw counts: re-encode the fp16 merge back to
             // the IncreasedWL scale (FAKE_WL, black 0) just for the save.
@@ -380,6 +391,7 @@ public class HdrxProcessor extends ProcessorBase {
                     processingParameters);
             if (dngOut != output) Allocator.free(dngOut);
             processingEventsListener.notifyImageSavedStatus(imageSaved, dngFile);
+            if (captureEvidence != null) captureEvidence.finishRawSave(dngFile, imageSaved);
             if (ImageFormatConfig.isRawOnly(saveMode)) {
                 processingEventsListener.onProcessingFinished("HdrX RAW Processing Finished");
                 callback.onFinished();

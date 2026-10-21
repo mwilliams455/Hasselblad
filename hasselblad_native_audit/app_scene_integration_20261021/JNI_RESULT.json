@@ -1,0 +1,11 @@
+{
+  "candidate_empty_candidate_reset": true,
+  "checks": 219,
+  "jni_rejections": 19,
+  "java_rejections": 26,
+  "metadata_unmodified": true,
+  "raw_unmodified": true,
+  "android_device_tested": false,
+  "host_jvm_jni_checked": true,
+  "offline_provenance_checks": 4
+}

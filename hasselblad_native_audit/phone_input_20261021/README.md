@@ -39,8 +39,18 @@ PYTHONDONTWRITEBYTECODE=1 python3 hasselblad_native_audit/phone_input_20261021/v
 
 The native adapter/probe does not load `libaaa.so`; the Android replay uses only the restored Bionic runtime. Its C dependencies are the retained RAW accumulator and stage-helper source. The standalone TIFF reader is reused from `hasselblad_device_validation_20261019/raw_audit/audit_dng.py`. Source, input and binary hashes are in `PHONE_RAW_RESULT.json`. Derived grids, original metadata, executable probes and logs are private in `Hasselblad_Phone_RAW_Adapter_Evidence_PRIVATE_20261021.zip`. The original capture remains `hasselblad.zip`, Library `libfile_20a4cdf4b5b8819198e741fda306316b`, SHA256 `a6a7f61d3bff33d43ebdf497673a40e2ae9328776315bb5e3f2b30b9253ddcfc`.
 
-## Next boundary
+## Current application boundary
 
-The [temperature submodel](TEMPERATURE_MODEL.md) and [ordinary scene-candidate bridge](SCENE_CANDIDATES.md) now run from original phone data. Integrate the diagnostic-only candidate and explicit policy/rejection metadata after restoring Native1C capture behavior. The remaining complete automatic profile still requires calibrated scene acceptance, exposure scale, spatial mapping and history/recovery defaults. These are not determined by the matrix-derived locus or one uncontrolled indoor photograph. Retain original HAL neutral separately from any candidate and preserve coherent one-time WB ownership. Missing auxiliary spectral measurements stay unavailable.
+The temperature/scene candidate route is now integrated into the restored app as
+Scene1 (versionCode27182), with capture JSON and save-status behavior restored.
+See [the app integration checkpoint](../app_scene_integration_20261021/README.md)
+for the verified APK and first device checks. It is diagnostic-only and has not
+been installed or physically validated in this session. No acceptance policy
+has been calibrated or applied to rendering. Full phone automatic model/profile
+initialization and photographic HNCS remain open.
 
-Then restore Native1C capture-JSON/save-status behavior in the recovered app source and connect the bounded path for a useful test APK. The current source is still Native1A-era app plumbing; do not deliver it as an upgrade. Preserve application ID/signing, versionCode>27179, JSON/DNG/JPEG and the single-RAW/no-stacking policy. This checkpoint changes no photographic rendering, builds no APK and leaves main/installed Native1C unchanged.
+The offline binder accepts both historical Native1C callback identity and the
+new explicit output-configuration/result-camera identity, retaining strict
+camera, frame, RAW and DNG binding. New provenance guard coverage is recorded
+in the app integration report. Previous RAW/temperature/scene numerical reports
+remain evidence for their recorded source revisions.

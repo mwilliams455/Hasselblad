@@ -1,0 +1,239 @@
+{
+  "apk": {
+    "application_id": "com.mwilliams.hasselbladphoton",
+    "version_name": "0.1-hb-scene1",
+    "version_code": 27182,
+    "apk_name": "HasselbladPhoton-Scene1-27182-debug.apk",
+    "apk_bytes": 70786246,
+    "apk_sha256": "ae01c67b4e5ae07649adb98f8f3ac3d6b1d84a71c1858bd23d827151c0917403",
+    "certificate_sha256": "255cb09eaddd26a9cc680786e4985372cf24d0e54bb120fc44d48f3273ff3956",
+    "signature_verified": true,
+    "zip_alignment_16k_verified": true,
+    "packaged_native_libraries": [
+      "lib/arm64-v8a/liballocator.so",
+      "lib/arm64-v8a/libarchive-jni.so",
+      "lib/arm64-v8a/libcamera2native.so",
+      "lib/arm64-v8a/libdngCreator.so",
+      "lib/arm64-v8a/libflacRecorder.so",
+      "lib/arm64-v8a/libhalidealign.so",
+      "lib/arm64-v8a/libhasselblad_scene_jni.so",
+      "lib/arm64-v8a/libhasselblad_wb_jni.so",
+      "lib/arm64-v8a/libmcraw.so",
+      "lib/arm64-v8a/libncnnMl.so",
+      "lib/armeabi-v7a/liballocator.so",
+      "lib/armeabi-v7a/libarchive-jni.so",
+      "lib/armeabi-v7a/libcamera2native.so",
+      "lib/armeabi-v7a/libdngCreator.so",
+      "lib/armeabi-v7a/libflacRecorder.so",
+      "lib/armeabi-v7a/libhasselblad_wb_jni.so",
+      "lib/armeabi-v7a/libmcraw.so",
+      "lib/armeabi-v7a/libncnnMl.so"
+    ],
+    "apk_installed": false,
+    "android_device_tested": false
+  },
+  "host_integration": {
+    "candidate_empty_candidate_reset": true,
+    "checks": 219,
+    "jni_rejections": 19,
+    "java_rejections": 26,
+    "metadata_unmodified": true,
+    "raw_unmodified": true,
+    "android_device_tested": false,
+    "host_jvm_jni_checked": true,
+    "offline_provenance_checks": 4
+  },
+  "packaged_dex": {
+    "capture_path_invokes_snapshot": true,
+    "snapshot_invokes_scene_diagnostics": true,
+    "diagnostic_invokes_native_sweep": true,
+    "actual_scene_library_name": true,
+    "capture_sidecar_finalizer": true
+  },
+  "packaged_native_elf": {
+    "lib/arm64-v8a/liballocator.so": {
+      "load_alignments": [
+        16384,
+        16384,
+        16384
+      ],
+      "at_least_16k": true
+    },
+    "lib/arm64-v8a/libarchive-jni.so": {
+      "load_alignments": [
+        16384,
+        16384,
+        16384
+      ],
+      "at_least_16k": true
+    },
+    "lib/arm64-v8a/libcamera2native.so": {
+      "load_alignments": [
+        16384,
+        16384,
+        16384
+      ],
+      "at_least_16k": true
+    },
+    "lib/arm64-v8a/libdngCreator.so": {
+      "load_alignments": [
+        16384,
+        16384,
+        16384
+      ],
+      "at_least_16k": true
+    },
+    "lib/arm64-v8a/libflacRecorder.so": {
+      "load_alignments": [
+        16384,
+        16384,
+        16384
+      ],
+      "at_least_16k": true
+    },
+    "lib/arm64-v8a/libhalidealign.so": {
+      "load_alignments": [
+        16384,
+        16384,
+        16384
+      ],
+      "at_least_16k": true
+    },
+    "lib/arm64-v8a/libhasselblad_scene_jni.so": {
+      "load_alignments": [
+        16384,
+        16384
+      ],
+      "at_least_16k": true
+    },
+    "lib/arm64-v8a/libhasselblad_wb_jni.so": {
+      "load_alignments": [
+        16384,
+        16384
+      ],
+      "at_least_16k": true
+    },
+    "lib/arm64-v8a/libmcraw.so": {
+      "load_alignments": [
+        16384,
+        16384,
+        16384
+      ],
+      "at_least_16k": true
+    },
+    "lib/arm64-v8a/libncnnMl.so": {
+      "load_alignments": [
+        16384,
+        16384,
+        16384
+      ],
+      "at_least_16k": true
+    },
+    "lib/armeabi-v7a/liballocator.so": {
+      "load_alignments": [
+        16384,
+        16384,
+        16384
+      ],
+      "at_least_16k": true
+    },
+    "lib/armeabi-v7a/libarchive-jni.so": {
+      "load_alignments": [
+        4096,
+        4096,
+        4096
+      ],
+      "at_least_16k": false
+    },
+    "lib/armeabi-v7a/libcamera2native.so": {
+      "load_alignments": [
+        16384,
+        16384,
+        16384
+      ],
+      "at_least_16k": true
+    },
+    "lib/armeabi-v7a/libdngCreator.so": {
+      "load_alignments": [
+        16384,
+        16384,
+        16384
+      ],
+      "at_least_16k": true
+    },
+    "lib/armeabi-v7a/libflacRecorder.so": {
+      "load_alignments": [
+        16384,
+        16384,
+        16384
+      ],
+      "at_least_16k": true
+    },
+    "lib/armeabi-v7a/libhasselblad_wb_jni.so": {
+      "load_alignments": [
+        16384,
+        16384
+      ],
+      "at_least_16k": true
+    },
+    "lib/armeabi-v7a/libmcraw.so": {
+      "load_alignments": [
+        16384,
+        16384,
+        16384
+      ],
+      "at_least_16k": true
+    },
+    "lib/armeabi-v7a/libncnnMl.so": {
+      "load_alignments": [
+        16384,
+        16384,
+        16384
+      ],
+      "at_least_16k": true
+    }
+  },
+  "build": {
+    "success": true,
+    "tasks": 61,
+    "jdk": "17.0.19",
+    "gradle": "8.11.1",
+    "compile_sdk": 36,
+    "build_tools": "35.0.0",
+    "ndk": "27.0.12077973",
+    "cmake": "3.22.1"
+  },
+  "scene_render_applied": false,
+  "full_automatic_controller_called": false,
+  "shipping_acceptance_policy_selected": false,
+  "firmware_library_bundled": false,
+  "device_install_test": false,
+  "source_sha256": {
+    "HasselbladPhoton/app/build.gradle": "111a74878da1cffa8289969e31fb0d1875b4e396fb8a68eac051f96ef684f7ed",
+    "HasselbladPhoton/app/src/main/cpp/CMakeLists.txt": "977cd78ad9de61f7e2f5b6765cadb092c62f8552ba8771249a15c9440afb33a8",
+    "HasselbladPhoton/app/src/main/java/com/particlesdevs/photoncamera/capture/CaptureController.java": "b27a5909d3ff8bf1bb18aa19066180595f9c3dcf97be0709bc59b229fbbe6ef4",
+    "HasselbladPhoton/app/src/main/java/com/particlesdevs/photoncamera/hasselblad/HasselbladDevelopmentActivity.java": "af512b8355feed89ca575de5e62cc1c14ab663fba2ebfe62ecdbb2dbcdc3b579",
+    "HasselbladPhoton/app/src/main/java/com/particlesdevs/photoncamera/processing/ImageFrame.java": "e75ddb92ae23ff8e89288a11770d75905e0db207c728007853d4aac55f352575",
+    "HasselbladPhoton/app/src/main/java/com/particlesdevs/photoncamera/processing/ImageSaver.java": "7389dc806219b22106345ba69de8f9a9020b727e80f736cd15d746177d38e059",
+    "HasselbladPhoton/app/src/main/java/com/particlesdevs/photoncamera/processing/RAW16Saver.java": "96b870a0d5c6ab5d4c5c7733bc11498c3e763e6aaa0642f83de0cbe166b96780",
+    "HasselbladPhoton/app/src/main/java/com/particlesdevs/photoncamera/processing/SaverImplementation.java": "be926aa0b8ae24bb9a35e9caecb12e58c6171938abe9548a06849922e8f1015e",
+    "HasselbladPhoton/app/src/main/java/com/particlesdevs/photoncamera/processing/processor/HdrxProcessor.java": "557be451fe080b09e2facd9605f501c7f4aeb6dbf9d90fc3bdfebcdf4fbe7903",
+    "HasselbladPhoton/app/src/main/res/layout/activity_hasselblad_development.xml": "9f0edf5660253953c31322b6967fd188b3c74bbc7bf8f8e4d348c8bbc847ddd2",
+    "HasselbladPhoton/app/src/main/res/values/hasselblad_development.xml": "ee31f15686aaa5f1acd13b75e2843d2433fd9d44f836c5024dfff5d973f4a720",
+    "HasselbladPhoton/app/version.properties": "d6ce76320c3b89df6cc860ed1629ddf1be81cc39a767734bd8b97608bffee9b7",
+    "hasselblad_native_audit/phone_input_20261021/capture_binding.py": "2a67667a3381e5f712cf438f11dac23aed8f8473ec32dc47530409414393df55",
+    "hasselblad_native_audit/recovery_20261021/Native1C_Capture_Source_Reconstruction_20261021.patch": "d29cb2d5d1fca3a314f5c826ce6f274e628097419c971667c5313c76268afb3a",
+    "HasselbladPhoton/app/src/main/cpp/hasselblad/hb_phone_scene_jni.c": "481d4709df8b80e6eec1be716a3056cea9b82019619378bdda2b48e0c18ed349",
+    "HasselbladPhoton/app/src/main/java/com/particlesdevs/photoncamera/hasselblad/HasselbladCaptureEvidence.java": "70a5dfe7859e8d67e0636fa9aaba9d209fb3ccc42b4aab5a9b42e65053caef22",
+    "HasselbladPhoton/app/src/main/java/com/particlesdevs/photoncamera/hasselblad/HasselbladCaptureSaveStatus.java": "568010188ed5b2b28a9b6844e7a38854a9577d8dc2350cf804d65bd0b40e5288",
+    "HasselbladPhoton/app/src/main/java/com/particlesdevs/photoncamera/hasselblad/HasselbladRawStream.java": "89530b14bfab0991bf6db949fc00bbacd2f0e834fd83754939307292e06ffee7",
+    "HasselbladPhoton/app/src/main/java/com/particlesdevs/photoncamera/hasselblad/HasselbladSceneDiagnostics.java": "ff981bdcf3c2bf01e218684eef6d9f21ff3e6da5a9776af094a57bb3593f724d",
+    "hasselblad_native_audit/app_scene_integration_20261021/SceneJniHarness.java": "6656fbc2f13fa43116aa6e77e4788d487339159b338bfe80a3b1ee0532480310",
+    "hasselblad_native_audit/app_scene_integration_20261021/verify_jni.py": "547bea49680c84a3f2675558c21faab1e5e8765c22b4007baf7052d335a9a6b3"
+  },
+  "unchanged_render_source_sha256": {
+    "Converter.java": "7b80a4532a8623cfe4f41c3c325db6967919bd9e7583eea1cbacd7d9e55be326",
+    "Parameters.java": "75b09b643dc3e5e7829daebfa8ab74401a31685924abb08bf410674253e7d64c"
+  },
+  "version_properties_note": "Existing Gradle auto-increment retains next counter 27183; verified APK manifest/BuildConfig is 27182."
+}

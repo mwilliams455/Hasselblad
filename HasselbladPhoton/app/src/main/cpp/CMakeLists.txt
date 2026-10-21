@@ -46,6 +46,28 @@ add_library(hasselblad_wb_jni SHARED
 target_compile_options(hasselblad_wb_jni PRIVATE -Wall -Wextra -Werror)
 set_target_properties(hasselblad_wb_jni PROPERTIES C_STANDARD 11 C_STANDARD_REQUIRED ON)
 
+# This owned research ABI is ARM64 only. Other ABIs keep the existing renderer
+# and explicitly report that the optional candidate diagnostic is unavailable.
+if(ANDROID_ABI STREQUAL "arm64-v8a")
+    get_filename_component(HB_AUDIT "${CMAKE_CURRENT_SOURCE_DIR}/../../../../../hasselblad_native_audit" ABSOLUTE)
+    set(HB_PHONE "${HB_AUDIT}/phone_input_20261021")
+    set(HB_RUNTIME "${HB_AUDIT}/awb_original_runtime_20261021")
+    set(HB_STATS "${HB_AUDIT}/awb_rebuild_04_20261021/src")
+    add_library(hasselblad_scene_jni SHARED
+        hasselblad/hb_phone_scene_jni.c
+        ${HB_PHONE}/hb_phone_scene.c ${HB_PHONE}/hb_phone_temperature.c ${HB_PHONE}/hb_phone_raw.c
+        ${HB_RUNTIME}/hb_temperature.c ${HB_RUNTIME}/hb_user_controls.c
+        ${HB_RUNTIME}/hb_scene_optimizer.c ${HB_RUNTIME}/hb_scene_candidates.c ${HB_RUNTIME}/hb_scene_filter.c
+        ${HB_STATS}/hb_awb_frame_stats.c ${HB_STATS}/hb_awb_stages.c)
+    target_include_directories(hasselblad_scene_jni PRIVATE ${HB_PHONE})
+    target_compile_options(hasselblad_scene_jni PRIVATE -O2 -Wall -Wextra -Werror
+        -Wno-misleading-indentation -ffp-contract=off -ffunction-sections -fdata-sections -fvisibility=hidden)
+    target_link_libraries(hasselblad_scene_jni m)
+    set_target_properties(hasselblad_scene_jni PROPERTIES C_STANDARD 11 C_STANDARD_REQUIRED ON
+        LINK_FLAGS "-Wl,--gc-sections,-z,defs,-z,max-page-size=16384")
+endif()
+
+
 find_program(PYTHON3_EXECUTABLE python3)
 
 # ---------------------------------------------------------------------------

@@ -30,7 +30,7 @@ Python requires `pyelftools`. The runner verifies the library, original symbol, 
 
 ## Remaining acceptance boundaries
 
-The complete four-slot scene, history, atmosphere and post-processing stages have owned implementations compared with the original firmware. Final result copies, outer completion/recovery, shading temperature, three bounded passive REAWB routes and diagnostic packing with no-file user-dump are now owned too. The connected seven-frame comparison feeds owned scene → history → atmosphere → post → passive REAWB → diagnostics → shading → completion, with original functions used as comparison oracles. The composed output also matches one uninterrupted original controller execution from its prepared scene entry on all seven frames. A separate checkpoint now owns entry guards, fixed-result publication, cadence/rate scheduling and E-ND change flags, comparing owned entry plus original remainder with actual full original calls. These two replacement paths have not yet been joined into a wholly owned controller. Still missing: intervening E-ND/user preparation, mode dispatch and ROI/sensor/parsing/detection/face ownership, active REAWB and linked storage if required, real camera-frame inputs and device-specific calibration, the historical seven-frame capture, HNCS rendering and phone validation. Diagnostic file I/O is intentionally outside the owned no-file scope. These are bounded synthetic comparisons, not exhaustive proof of every input or device behavior.
+The complete four-slot scene, history, atmosphere and post-processing stages have owned implementations compared with the original firmware. Final result copies, outer completion/recovery, shading temperature, three bounded passive REAWB routes and diagnostic packing with no-file user-dump are now owned too. The connected seven-frame comparison feeds owned scene → history → atmosphere → post → passive REAWB → diagnostics → shading → completion, with original functions used as comparison oracles. The composed output also matches one uninterrupted original controller execution from its prepared scene entry on all seven frames. A separate checkpoint now owns entry guards, fixed-result publication, cadence/rate scheduling, E-ND change flags and white-reference LUT preparation, comparing owned entry/LUT plus original remainder with actual full original calls. These two replacement paths have not yet been joined into a wholly owned controller. Still missing: intervening user preparation, mode dispatch and ROI/sensor/parsing/detection/face ownership, active REAWB and linked storage if required, real camera-frame inputs and device-specific calibration, the historical seven-frame capture, HNCS rendering and phone validation. Diagnostic file I/O is intentionally outside the owned no-file scope. These are bounded synthetic comparisons, not exhaustive proof of every input or device behavior.
 
 No APK was built. `main` and the installed Native1C application remain unchanged.
 
@@ -76,9 +76,9 @@ python3 hasselblad_native_audit/awb_original_runtime_20261021/run_scene.py \
 
 ### Resume here (latest checkpoint)
 
-1. Use the existing verified runtime. Latest probe is `--run-entry`, report `RUN_ENTRY_RESULT.json`: 7,419 checks, zero mismatches. The earlier `--diagnostics` and `--pipeline --diagnostics-pipeline` reports retain their own source snapshots and remain available.
-2. `hb_run_entry.c` owns entry guards, fixed-result publication, cadence/rate scheduling and E-ND change flags through the boundary before `0x471e50`. Its test compares complete original calls against owned entry plus the original remainder; it does not combine this entry with the separately owned scene-through-completion chain. Latest private evidence: `Hasselblad_Run_Entry_Evidence_PRIVATE_20261021.zip`. The earlier diagnostics packet preserves the connected downstream comparison.
-3. Next reconstruct `scene_awb_stat_e_nd_white_lut_proc` (`0x4ab5f0`, helper `0x4ab960`), `scene_awb_user_proc` (`0x4b09c0`), statistics-difference checking (`0x4aacb8`), then mode dispatch and remaining ROI/sensor/parsing/detection/face dependencies. Final cleanup/recovery and no-file diagnostics are already owned and compared; do not rebuild them again. Connected original detection still activates only normal slot 0; direct generated tests cover other scene slots and post features.
+1. Use the existing verified runtime. Latest probes: `--white-lut` (11,302 checks) and `--run-entry --white-lut-entry` (7,611 checks), both zero mismatches. Reports are `WHITE_LUT_RESULT.json` and `WHITE_LUT_ENTRY_RESULT.json`. Earlier reports retain their own source snapshots.
+2. `hb_white_lut.c` owns sparse white-reference expansion, E-ND interpolation/selection and baseline restoration. Entry plus LUT now hands off to original user processing at `0x471e64`. The separately verified owned scene-through-completion chain has not yet been joined to this prefix. Latest private evidence: `Hasselblad_White_LUT_Evidence_PRIVATE_20261021.zip`.
+3. Next reconstruct `scene_awb_user_proc` (`0x4b09c0`), statistics-difference checking (`0x4aacb8`), then mode dispatch and remaining ROI/sensor/parsing/detection/face dependencies. White-LUT preparation (`0x4ab5f0`, expansion helper `0x4ab960`), final cleanup/recovery and no-file diagnostics are already owned. Full-controller fixtures must keep active white-reference point counts consistent with the baseline count used by downstream statistics search; the new owned LUT guard rejects a mismatch.
 4. Active REAWB and save requests that enter linked storage remain explicit unsupported paths in the passive port. Represent linked state if implementing them; copying the 1,000-byte handle does not clone allocations. The owned debug path rejects actual file-write requests before mutation; unscheduled/exhausted/disabled requests are handled.
 5. Recover genuine captured-frame inputs, map Camera2 statistics and inject real per-sensor phone calibration. Continue to a specifically bounded APK only after its relevant integration and stability checks. HNCS rendering remains a separate acceptance boundary.
 
@@ -449,3 +449,47 @@ python3 hasselblad_native_audit/awb_original_runtime_20261021/run_full.py \
 **Meaning for colour and a phone port:** these results support faithful AWB software behavior for the tested inputs and state. Atmosphere and post-processing influence colour through the white-balance gains they supply. They do not establish matching finished photographs: a phone still needs correctly mapped statistics, its own sensor/lens calibration, coherent one-time WB application with its colour matrices, separate HNCS/pixel-rendering work and physical capture comparisons across lighting conditions. Passing synthetic comparisons is a foundation for that integration, not a guarantee of photographic equivalence.
 
 Next: E-ND white-LUT and user preparation, statistics-difference checking, remaining dispatch and detection dependencies. Their original disassembly is preserved privately. Active REAWB/linked storage remains outside the passive scope. No APK was built or installed; main and Native1C remain unchanged.
+
+
+## White-reference LUT preparation checkpoint
+
+`hb_white_lut.c/.h` reconstructs sparse white-reference expansion (`0x4ab960`) and `scene_awb_stat_e_nd_white_lut_proc` (`0x4ab5f0`) without firmware callbacks. Expansion creates the 81-row reference curve and its sparse-point indices, preserving wrapped fixed-point slope arithmetic, truncating signed division, repeated CT indices, first/last extrapolation, radius flooring and partial writes before statuses 30/33. The original two-point path does not extrapolate above its last point. Zero/one-point inputs clear the first index without filling the table.
+
+Preparation implements the exact enable/change/cache gates, baseline restoration of both reference tables, active E-ND axis selection and floating-point blending of all four point fields. Active processing updates the first table only. Above-all-axis values select the **first** table in the original; this behavior is preserved. The scalar implementation preserves separate multiply/add rounding, with floating-point contraction disabled.
+
+Fresh `WHITE_LUT_RESULT.json`: **11,302 checks, zero mismatches**:
+
+- 1,024 direct expansion calls across counts 0–15, endpoints, off-grid CTs, equal/decreasing indices, wrapping gains and positive/negative slopes. Compare status, complete context, complete output with canaries, and immutable input points.
+- 1,024 preparation calls across gate flags, empty tables, baseline restoration, endpoints/interiors, above-range inputs, NaN/infinite input values and synthetic gain extremes.
+- 256 consecutive preparation calls carrying table/cache state across enabled and disabled transitions. Preparation calls total 1,280; compare all context bytes and config immutability on every call.
+- Across expansion/preparation: 201 original status-30 and 66 status-33 returns; 386 successful active table changes and 122 successful baseline restorations.
+- 36 owned-only guard checks are included, not original-equivalence cases. They cover unsafe counts/CTs, inconsistent active/baseline or interpolation counts, and a nonfinite interpolation endpoint. Original configuration and REAWB-handle immutability are checked separately.
+
+Fresh `WHITE_LUT_ENTRY_RESULT.json`: **7,611 checks, zero mismatches**, from **1,335 full original controller calls**. Restore the same input and replace both entry and white-LUT preparation; continue with the unmodified original user-processing remainder at `0x471e64`. There are 853 entry early returns, 32 white-LUT failure returns and 450 original-remainder executions. Every call compares full context/config/REAWB handle and final status. The suite retains 144 scheduling boundary cases, 256 stateful calls and seven synthetic native E2 frames; three native frames enable E-ND with consistent synthetic reference tables. The 32 LUT failures verify partial writes and direct return without running user processing or shared completion. This still does not combine the owned prefix with the separately owned downstream chain.
+
+### Fixture issue found and resolved
+
+The first connected active-E-ND fixture supplied three reference points while leaving the baseline count at eight. The downstream statistics search consumes that baseline count, so the shorter active update left stale segment indices. The unmodified full original controller failed to finish the fourth synthetic frame; a native-only reproduction did the same. This was an inconsistent synthetic fixture, not an owned/original numerical mismatch. Keeping the E-ND point count equal to the baseline count makes the complete connected suite pass. The owned preparation API now rejects that mismatch before mutation. The earlier logs/probe witness remain private; they are not successful evidence or real-camera failures.
+
+### Research contract and meaning for porting
+
+Context/config allocations must already be initialized. Sparse tables have at most 15 points; for count ≥2, CTs must lie within 2000–10000. Inputs and output/scratch regions must be disjoint. Selected interpolated axes are finite and ordered, and selected point counts agree with each other and the baseline count. Unsupported inputs return `0xfffffffe` before mutation; original errors 30/33 retain their original partial-write behavior. These are bounded research APIs, not an untrusted-input camera adapter. Active E-ND white-reference preparation is verified here; this is not a claim that all E-ND calibration/history/atmosphere branches are owned.
+
+```sh
+python3 hasselblad_native_audit/awb_original_runtime_20261021/run_full.py \
+  --firmware-root /private/extracted --ndk /tools/android-ndk-r27 \
+  --qemu /tools/qemu-aarch64-static --private-output /private/white-lut \
+  --report /private/white-lut-result.json --white-lut
+# For connected entry plus LUT, use separate output/report paths and:
+# --run-entry --white-lut-entry
+```
+
+| Project work | Current position |
+| --- | --- |
+| Recovery and original-code comparison runtime | Working and verified |
+| AWB reconstruction and verification | Current phase: major numerical/downstream stages, entry and white-reference preparation are owned; remaining user/control/detection connections are next |
+| Phone statistics, sensor calibration and app integration | Still required before a representative phone trial |
+| HNCS/pixel colour rendering | Separate unfinished work, beyond white-balance gains |
+| Physical capture validation and release build | Follows the relevant integration work; no new APK in this checkpoint |
+
+The immediate next boundary is `scene_awb_user_proc`, followed by statistics-difference checking and remaining dispatch/detection. Keep the generic-phone architecture and approximately 12.5 MP single-RAW route. Main and Native1C remain unchanged.

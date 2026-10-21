@@ -3,6 +3,9 @@
  * remainder. Early-return cases are wholly owned; continuation is explicit. */
 #include "hb_run_entry.h"
 #include "hb_stat_prepare.h"
+#ifdef HB_WHITE_LUT_ENTRY
+#include "hb_white_lut.h"
+#endif
 #include <dlfcn.h>
 #include <math.h>
 #include <stdio.h>
@@ -12,12 +15,23 @@
 enum{C=920560,K=1502800,R=1000,P=0x20200,M=0x100};
 uint32_t hb_original_prepared_completion(uintptr_t,unsigned char*,uint32_t,uintptr_t);
 static unsigned checks,failures,reasons[6],continued,early,native_calls,stateful_calls;
+static unsigned white_errors,active_native;
 static uint32_t rng=0xe0212026;
 static uint32_t next(void){rng^=rng<<13;rng^=rng>>17;rng^=rng<<5;return rng;}
 static uint32_t u32(const void*p){uint32_t v;memcpy(&v,p,4);return v;}
 static void w32(void*p,uint32_t v){memcpy(p,&v,4);}
 static void w16(void*p,uint16_t v){memcpy(p,&v,2);}
 static void wf(void*p,float v){memcpy(p,&v,4);}
+#ifdef HB_WHITE_LUT_ENTRY
+static void synthetic_white_axes(unsigned char*k){
+    /* The later statistics search uses the BASE count, so E-ND tables must
+     * use the same count; fewer points leave stale segment indices. */
+    unsigned n=k[0xc88];if(n>15)_exit(1);
+    k[0xd7c]=3;
+    for(unsigned axis=0;axis<3;++axis){unsigned char*p=k+0xd80+248*axis;wf(p,(float)axis*2);p[4]=(unsigned char)n;
+        for(unsigned j=0;j<n;++j){const unsigned char*q=k+0xc8c+16*j;memcpy(p+8+16*j,q,16);w32(p+12+16*j,u32(q+4)+axis*250);w32(p+16+16*j,u32(q+8)+axis*200);}}
+}
+#endif
 static void *sym(void*h,const char*s){void*p=dlsym(h,s);if(!p)_exit(3);return p;}
 static void same(const char*s,unsigned t,const void*a,const void*b,size_t n){++checks;if(!memcmp(a,b,n))return;++failures;if(failures<=20){const unsigned char*x=a,*y=b;size_t i=0;while(i<n&&x[i]==y[i])++i;printf("{\"entry_mismatch\":\"%s\",\"case\":%u,\"offset\":%zu,\"original\":%u,\"owned\":%u}\n",s,t,i,x[i],y[i]);}}
 static void dump(const char*dir,const char*kind,unsigned t,const void*p,size_t n){char path[4096];if(snprintf(path,sizeof path,"%s/%s_%u.bin",dir,kind,t)>=(int)sizeof path)_exit(64);FILE*f=fopen(path,"wb");if(!f||fwrite(p,1,n,f)!=n)_exit(74);fclose(f);}
@@ -28,7 +42,15 @@ static hb_run_entry_result compare(test_state*s,unsigned t,int expected,unsigned
     memcpy(s->c,s->input,C);memcpy(s->k,s->ki,K);memcpy(s->r,s->ri,R);
     hb_run_entry_result result;uint32_t api=hb_run_entry(s->c,s->k,&result),zero=0;same("entry_supported",t,&api,&zero,4);if(api)_exit(1);
     if(capture)dump(s->dir,"owned_entry_boundary",t,s->c,C);
-    uint32_t b=result.status;if(result.action==HB_RUN_PREPARE){++continued;b=hb_original_prepared_completion(s->bias+0x471e50,s->c,0,s->bias+0x791348);}else ++early;
+    uint32_t b=result.status;if(result.action==HB_RUN_PREPARE){
+#ifdef HB_WHITE_LUT_ENTRY
+        b=hb_white_lut_prepare(s->c,s->k);
+        if(capture)dump(s->dir,"owned_white_lut_boundary",t,s->c,C);
+        if(!b){++continued;b=hb_original_prepared_completion(s->bias+0x471e64,s->c,0,s->bias+0x791348);}else ++white_errors;
+#else
+        ++continued;b=hb_original_prepared_completion(s->bias+0x471e50,s->c,0,s->bias+0x791348);
+#endif
+    }else ++early;
     if((unsigned)result.reason>=6)_exit(1);++reasons[result.reason];
     same("run_status",t,&a,&b,4);same("run_context",t,s->reference,s->c,C);same("run_config",t,s->kr,s->k,K);same("run_reawb",t,s->rr,s->r,R);
     if(expected>=0){unsigned want=(unsigned)expected,actual=result.reason;same("entry_reason",t,&actual,&want,4);}
@@ -51,7 +73,11 @@ int hb_run_entry_tests(void*h,unsigned char*c,unsigned char*e2,void*config,void*
         if(kind==3)w32(c+0x17c,t%2?1:UINT32_MAX);
         if(kind==4){w32(k+0x78,1);c[0xe0bb0]=0;w32(c+0x188,t%2?11:9);w32(c+0x9c1a0,10);wf(c+0x9c1a4,10000);w32(k+0x7c,100);}
         if(kind==5){w32(k+0x78,0);w32(c+0xb2020,2);c[0xd338]=0;c[0x990dc]=t%4;c[0xd4c1]=(t/4)%4;c[0xe0bb0]=(t/16)%3;c[0x279]=(t/8)%2;k[0x16e648]=(t/2)%2;k[0x16e940]=(t/3)%2;
-            static const float v[]={0,0.009f,0.01f,0.010001f,0.5f,1,2,4};wf(c+0x990d8,v[t%8]);wf(c+0xd4bc,v[(t/8)%8]);}
+            static const float v[]={0,0.009f,0.01f,0.010001f,0.5f,1,2,4};wf(c+0x990d8,v[t%8]);wf(c+0xd4bc,v[(t/8)%8]);
+#ifdef HB_WHITE_LUT_ENTRY
+            synthetic_white_axes(k);
+#endif
+        }
         compare(&s,kind*1000+t,(int)kind,t<2);
     }
     /* Numeric scheduling boundaries: zero/negative/NaN/infinite durations,
@@ -60,18 +86,36 @@ int hb_run_entry_tests(void*h,unsigned char*c,unsigned char*e2,void*config,void*
     for(unsigned t=0;t<144;++t){memcpy(c,base,C);memcpy(k,cfg,K);memcpy(c+0xb2028,&k,8);memcpy(reawb,rbase,R);k[0x24]=1;w32(c+0x174,0);w32(c+0x17c,0);w32(k+0x78,1);w32(k+0x7c,t%4==0?UINT32_MAX:100);c[0xe0bb0]=t%7==0?1:0;w32(c+0xb2020,2);w32(c+0x9c1a0,t%3==0?0:100);w32(c+0x188,t%3==1?99:101);wf(c+0x9c1a4,durations[t%9]);compare(&s,6000+t,-1,t<2);}
     memcpy(c,base,C);memcpy(k,cfg,K);memcpy(c+0xb2028,&k,8);memcpy(reawb,rbase,R);k[0x24]=1;w32(k+0x78,0);w32(c+0x184,3);w32(c+0x17c,0);w32(c+0xb2020,2);
     for(unsigned t=0;t<256;++t){w32(c+0x9c1a0,t+1);compare(&s,7000+t,-1,t<2);++stateful_calls;}
+#ifdef HB_WHITE_LUT_ENTRY
+    /* White-LUT failures return directly from the original controller,
+     * without entering user processing or the shared completion suffix. */
+    for(unsigned t=0;t<32;++t){
+        memcpy(c,base,C);memcpy(k,cfg,K);memcpy(c+0xb2028,&k,8);memcpy(reawb,rbase,R);
+        k[0x24]=1;k[0xc88]=3;w32(k+0x78,0);w32(c+0x17c,0);c[0x990dc]=0;c[0xd4c0]=0;c[0xd338]=1;
+        for(unsigned j=0;j<3;++j){unsigned char*p=k+0xc8c+16*j;w32(p,t%3==2?(j==0?2000:j==1?6000:5000):2500+3000*j);
+            w32(p+4,t%3==0?100+15000*j:8000+1000*j);w32(p+8,t%3==1?100+15000*j:9000+1000*j);w32(p+12,1400);}
+        compare(&s,7500+t,HB_RUN_READY,t<2);
+    }
+#endif
     /* Seven native E2 synthetic frames exercise full original dispatch after
      * the new owned entry. Downstream ownership is validated separately. */
     uint32_t(*set)(int,void*)=sym(h,"awb_e2_main_set_stat"),(*parse)(int,void*,void*)=sym(h,"awb_e2_main_get_stat_parse"),(*import)(int,void*,void*)=sym(h,"scene_awb_set_stat");
     unsigned char*input=calloc(1,0x4118),*parsed=calloc(1,P),*meta=calloc(1,M);if(!input||!parsed||!meta)return 71;
     memcpy(c,base,C);memcpy(k,cfg,K);memcpy(c+0xb2028,&k,8);memcpy(reawb,rbase,R);k[0x24]=1;w32(k+0x78,0);w32(c+0x17c,0);w32(c+0x184,0);w32(c+0xb2020,0);
+#ifdef HB_WHITE_LUT_ENTRY
+    synthetic_white_axes(k);
+#endif
     const unsigned rows[]={15,25,35,45,55,35,20};
     for(unsigned t=0;t<7;++t){memset(input,0,0x4118);w32(input,u32(e2+0x4120));w32(input+4,0x4118);w32(input+8,t+1);w32(input+12,u32(e2+0x412c));
         for(unsigned i=0;i<1024;++i){unsigned row=i%17==0?(rows[t]+12)%81:rows[t];uint32_t r=u32(c+0x348+16*row),b=u32(c+0x34c+16*row),g=2048+(i%7)*64;unsigned char*p=input+16+16*i;w16(p,(uint16_t)((g<<12)/r));w16(p+2,(uint16_t)g);w16(p+4,(uint16_t)g);w16(p+6,(uint16_t)((g<<12)/b));p[8]=t==5?9:255;}
         uint32_t st=set(0,input);if(!st)st=parse(0,parsed,meta);if(!st)st=import(0,parsed,meta);if(st)return 2;
         wf(c+0x990d4,8.0f+(float)(t%3));w32(c+0x990e4,16);wf(c+0x990e8,1024);for(unsigned i=0;i<16;++i)wf(c+0x990ec+4*i,64);
+#ifdef HB_WHITE_LUT_ENTRY
+        c[0x990dc]=(t>=2&&t<=4)?1:0;wf(c+0x990d8,(float)t*1.125f);
+        active_native+=c[0x990dc]==1;
+#endif
         dump(dir,"native_input",t,input,0x4118);hb_run_entry_result result=compare(&s,8000+t,HB_RUN_READY,1);if(result.action!=HB_RUN_PREPARE)return 2;++native_calls;
     }
     same("initial_config_immutable",0,config,cfg,K);memcpy(c,base,C);memcpy(reawb,rbase,R);
-    printf("{\"event\":\"owned_run_entry\",\"checks\":%u,\"mismatches\":%u,\"early_returns\":%u,\"original_remainder_calls\":%u,\"reason_counts\":[%u,%u,%u,%u,%u,%u],\"rate_boundary_cases\":144,\"stateful_calls\":%u,\"native_frames\":%u,\"all_passed\":%s,\"whole_controller_owned\":false,\"original_remainder_used\":true,\"synthetic_inputs\":true}\n",checks,failures,early,continued,reasons[0],reasons[1],reasons[2],reasons[3],reasons[4],reasons[5],stateful_calls,native_calls,failures?"false":"true");return failures?1:0;
+    printf("{\"event\":\"owned_run_entry\",\"checks\":%u,\"mismatches\":%u,\"early_returns\":%u,\"original_remainder_calls\":%u,\"reason_counts\":[%u,%u,%u,%u,%u,%u],\"rate_boundary_cases\":144,\"stateful_calls\":%u,\"native_frames\":%u,\"white_lut_failure_returns\":%u,\"active_e_nd_native_frames\":%u,\"all_passed\":%s,\"whole_controller_owned\":false,\"original_remainder_used\":true,\"synthetic_inputs\":true}\n",checks,failures,early,continued,reasons[0],reasons[1],reasons[2],reasons[3],reasons[4],reasons[5],stateful_calls,native_calls,white_errors,active_native,failures?"false":"true");return failures?1:0;
 }

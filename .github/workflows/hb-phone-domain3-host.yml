@@ -37,7 +37,7 @@ jobs:
           phone="$audit/phone_input_20261021"
           rt="$audit/awb_original_runtime_20261021"
           cc -std=c11 -O2 -Wall -Wextra -Werror -Wno-misleading-indentation \
-             -ffp-contract=off -ffunction-sections -fdata-sections -fPIC \
+             -ffp-contract=off -ffunction-sections -fdata-sections -fPIC -fvisibility=hidden \
              -I "$JAVA_HOME/include" -I "$JAVA_HOME/include/linux" -I "$phone" \
              -shared HasselbladPhoton/app/src/main/cpp/hasselblad/hb_phone_domain_jni.c \
              "$phone/hb_phone_domain.c" "$phone/hb_phone_temperature.c" \
@@ -64,6 +64,6 @@ jobs:
         with:
           name: hb-domain3-jni-host
           path: |
-            \${{ runner.temp }}/domain3-host/Dom3_JNI_PASS.log
+            ${{ runner.temp }}/domain3-host/Dom3_JNI_PASS.log
           if-no-files-found: warn
           retention-days: 7

@@ -1,0 +1,8 @@
+make: Entering directory '/mnt/data/hb_reconstruction/awb_stage_rebuild_20261021'
+./build/tests_opt
+{"result":"PASS","checks":33327,"original_firmware_compared":false,"scope":"bounded recorded contracts and synthetic scaffolding"}
+./build/tests_san
+{"result":"PASS","checks":33327,"original_firmware_compared":false,"scope":"bounded recorded contracts and synthetic scaffolding"}
+python3 tests/test_components_python.py
+{"status": "PASS", "oracle": "independent Python BFS, not vendor firmware", "cases": 1408, "topologies": [4, 8], "vendor_comparison": false}
+make: Leaving directory '/mnt/data/hb_reconstruction/awb_stage_rebuild_20261021'

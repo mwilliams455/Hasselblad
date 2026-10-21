@@ -1,0 +1,75 @@
+{
+  "date": "2026-10-21",
+  "checkpoint": "AWB_LOST_STAGE_REBUILD_01",
+  "result": "HOST_TEST_PASS_VENDOR_NOT_RUN",
+  "original_firmware_present": false,
+  "original_firmware_compared": false,
+  "source_found": "archived Native1A plus conversation handoff, not lost AWB source",
+  "optimized_c_checks": 33327,
+  "asan_ubsan_c_checks": 33327,
+  "independent_python_bfs_cases": 1408,
+  "synthetic_only": true,
+  "source_files": [
+    {
+      "file": ".gitignore",
+      "bytes": 58,
+      "sha256": "e8f039d2c8a10d0b476f422d0569a79f06aa98c1c7c33aceb5a179a086cbd511"
+    },
+    {
+      "file": "Makefile",
+      "bytes": 685,
+      "sha256": "4caaa206741e7aa30a78e1de976f0dd6e738a2f30df3cabc71243835e6675fa1"
+    },
+    {
+      "file": "README.md",
+      "bytes": 6126,
+      "sha256": "8468604d5db7850b45303f047de869d35aee70e9719d2227f6cc1f749bb12d6b"
+    },
+    {
+      "file": "src/hb_awb_stages.c",
+      "bytes": 7999,
+      "sha256": "6b5166e84a213f5769bdb4a916c8928cde23ce64e1a3fc93e959feade002a9cb"
+    },
+    {
+      "file": "src/hb_awb_stages.h",
+      "bytes": 5605,
+      "sha256": "92438e95613fac5975aa2099bfb35bf3be5cb7634aba000885290f8451d00af9"
+    },
+    {
+      "file": "src/hb_awb_recalib.c",
+      "bytes": 1953,
+      "sha256": "99d56c2ed9a72411d64b732100e016d40660bbc3ee75858dfb3de37bdc1fef5e"
+    },
+    {
+      "file": "src/hb_awb_recalib.h",
+      "bytes": 2591,
+      "sha256": "cfea84ae2528190e5e594c60abb25b073ffe60c2ae6012da3265979e1e562ea7"
+    },
+    {
+      "file": "tests/test_stages.c",
+      "bytes": 11362,
+      "sha256": "59718dbaa83a185c9a1ae3932b594658f73e8eb97c8c6024ebb17854ab60d3f1"
+    },
+    {
+      "file": "tests/test_components_python.py",
+      "bytes": 2607,
+      "sha256": "7e956e10c3d74e96435da1524f0b8a7f88de2330fdf4e27e3796ec67b238320d"
+    },
+    {
+      "file": "tests/compare_original_owned.py",
+      "bytes": 2483,
+      "sha256": "714e46229c56f04020ba7a4f01ba0f03628e59158e060042a6bc31bb985e5b46"
+    },
+    {
+      "file": "evidence/check_stdout.txt",
+      "bytes": 642,
+      "sha256": "ef35686f67e58d81f4758dbdaea57149284183ea3c57a80f3e99936788378b8c"
+    }
+  ],
+  "firmware_identity_pins": {
+    "version": "1.3.16.2",
+    "libaaa_sha256": "7d6164eccc734de7087bb778ee72f17a0b3ccf6c0d1f20092c7ebe74a86574ba",
+    "cim_sha256": "9789d6a9843d388034bc12341ad9a97585c25cb98cf11a0da8b768399b4842f6"
+  },
+  "next_blocker": "original firmware and same-execution seven-frame comparison harness must be privately reconstructed"
+}

@@ -1,0 +1,8 @@
+build/
+*.bin
+*.so
+*.cim
+*.dng
+*.jpg
+*.capture.json
+*.snap

@@ -1,0 +1,85 @@
+name: Phone Domain1 Android ARM64 link check
+
+"on":
+  push:
+    branches: [recovery/awb-rebuild-20261021]
+    paths:
+      - .github/workflows/hb-phone-domain-arm64.yml
+      - hasselblad_native_audit/phone_input_20261021/**
+      - hasselblad_native_audit/awb_original_runtime_20261021/**
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  android-arm64-link:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Check out exact recovery commit
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Locate or install pinned Android NDK
+        shell: bash
+        run: |
+          set -euo pipefail
+          sdk="${ANDROID_SDK_ROOT:-${ANDROID_HOME:-/usr/local/lib/android/sdk}}"
+          ndk="$sdk/ndk/27.0.12077973"
+          if [[ ! -x "$ndk/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android28-clang" ]]; then
+            printf 'Pinned NDK not present; installing under %s\n' "$sdk"
+            yes | "$sdk/cmdline-tools/latest/bin/sdkmanager" --sdk_root="$sdk" --install 'ndk;27.0.12077973' || [[ -x "$ndk/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android28-clang" ]]
+          fi
+          test -x "$ndk/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android28-clang"
+          echo "HB_NDK=$ndk" >> "$GITHUB_ENV"
+      - name: Cross-compile actual Domain1 plus owned leaves
+        shell: bash
+        run: |
+          set -euo pipefail
+          hb=hasselblad_native_audit/phone_input_20261021
+          rt=hasselblad_native_audit/awb_original_runtime_20261021
+          clang="$HB_NDK/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android28-clang"
+          root="$RUNNER_TEMP/hb-domain-arm64"
+          mkdir -p "$root"
+          common=(-std=c11 -O2 -fPIC -Wall -Wextra -Werror -Wno-misleading-indentation -ffp-contract=off -ffunction-sections -fdata-sections -I "$hb")
+          for source in "$hb/hb_phone_domain.c" "$hb/hb_phone_temperature.c" \
+                        "$rt/hb_temperature.c" "$rt/hb_user_controls.c" "$rt/hb_scene_optimizer.c"; do
+            obj="$root/$(basename "${source%.c}").o"
+            extra=()
+            if [[ "$source" == "$rt/"* ]]; then extra=(-fvisibility=hidden); fi
+            "$clang" "${common[@]}" "${extra[@]}" -c "$source" -o "$obj"
+          done
+          "$clang" -shared -Wl,--gc-sections,-z,defs,-z,max-page-size=16384 \
+            "$root"/*.o -lm -o "$root/libphone_domain_android_arm64.so"
+          readelf -h "$root/libphone_domain_android_arm64.so" | grep -q 'AArch64'
+          readelf -Ws "$root/libphone_domain_android_arm64.so" | grep -q 'hb_phone_domain_evaluate'
+          python3 - "$root/libphone_domain_android_arm64.so" "$root/PHONE_DOMAIN_ANDROID_ARM64_RESULT.json" <<'PY'
+          import hashlib,json,pathlib,re,subprocess,sys
+          path=pathlib.Path(sys.argv[1])
+          ph=subprocess.check_output(['readelf','-lW',str(path)],text=True)
+          align=[]
+          for line in ph.splitlines():
+              fields=line.split()
+              if fields and fields[0]=='LOAD':align.append(int(fields[-1],16))
+          assert align and all(a>=16384 and a%16384==0 for a in align),align
+          report={'status':'PASS','target':'aarch64-linux-android28','abi':'arm64-v8a',
+                  'ndk_revision':'27.0.12077973','shared_library':path.name,
+                  'source':'actual owned temperature implementation plus Domain1',
+                  'elf_load_alignment_bytes':align,
+                  'binary_sha256':hashlib.sha256(path.read_bytes()).hexdigest(),
+                  'android_phone_executed':False,'jpeg_dng_rendering_changed':False,
+                  'new_apk_built':False}
+          pathlib.Path(sys.argv[2]).write_text(json.dumps(report,indent=2)+'\n')
+          print(json.dumps(report,indent=2))
+          PY
+      - name: Upload Android ARM64 link proof
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hb-domain-android-arm64-link
+          path: |
+            ${{ runner.temp }}/hb-domain-arm64/PHONE_DOMAIN_ANDROID_ARM64_RESULT.json
+            ${{ runner.temp }}/hb-domain-arm64/libphone_domain_android_arm64.so
+          retention-days: 7
+          if-no-files-found: warn

@@ -1,0 +1,103 @@
+name: Hasselblad Photon Domain3 signed diagnostic APK
+
+"on":
+  workflow_dispatch:
+  push:
+    branches:
+      - recovery/awb-rebuild-20261021
+    paths:
+      - HasselbladPhoton/app/**
+      - hasselblad_native_audit/phone_input_20261021/**
+      - .github/workflows/hb-photon-domain3-apk.yml
+
+permissions:
+  contents: read
+
+jobs:
+  build-domain3:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - name: Check out exact recovery source commit
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+      - name: Install pinned Android build toolchain
+        shell: bash
+        run: |
+          set -euo pipefail
+          yes | sdkmanager --licenses >/dev/null || true
+          sdkmanager --install 'platforms;android-36' 'build-tools;35.0.0' \
+              'cmake;3.22.1' 'ndk;27.0.12077973' >/dev/null
+          echo "ANDROID SDK: $ANDROID_HOME"
+          test -f "$ANDROID_HOME/ndk/27.0.12077973/source.properties"
+      - name: Assemble signed debug APK with separate Domain1 native library
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd HasselbladPhoton
+          chmod +x ./gradlew
+          ./gradlew --no-daemon --stacktrace --console=plain :app:assembleDebug
+      - name: Verify package, version, signer and ARM64 library
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/domain3-apk"
+          apk="$(find HasselbladPhoton/app/build/outputs/apk -type f -name '*debug.apk' -print -quit)"
+          test -n "$apk"
+          "$ANDROID_HOME/build-tools/35.0.0/apksigner" verify --verbose --print-certs "$apk" \
+             > "$RUNNER_TEMP/domain3-apk/signature.txt"
+          grep -F -i '255cb09eaddd26a9cc680786e4985372cf24d0e54bb120fc44d48f3273ff3956' \
+             "$RUNNER_TEMP/domain3-apk/signature.txt"
+          "$ANDROID_HOME/build-tools/35.0.0/aapt" dump badging "$apk" \
+             > "$RUNNER_TEMP/domain3-apk/badging.txt"
+          grep -F "name='com.mwilliams.hasselbladphoton'" "$RUNNER_TEMP/domain3-apk/badging.txt"
+          grep -F "versionCode='27184'" "$RUNNER_TEMP/domain3-apk/badging.txt"
+          python3 - "$apk" "$RUNNER_TEMP/domain3-apk" <<'PY'
+          import hashlib, json, pathlib, re, subprocess, sys, zipfile
+          apk, out=pathlib.Path(sys.argv[1]),pathlib.Path(sys.argv[2])
+          with zipfile.ZipFile(apk) as archive:
+              names=set(archive.namelist())
+              target="lib/arm64-v8a/libhasselblad_domain_jni.so"
+              assert target in names, "Domain1 ARM64 library absent"
+              assert "lib/arm64-v8a/libhasselblad_scene_jni.so" in names, "Scene1B native library absent"
+              elf=out/"libhasselblad_domain_jni.so"
+              elf.write_bytes(archive.read(target))
+              readelf=subprocess.check_output(["readelf","-lW",str(elf)],text=True)
+              aligns=[int(line.strip().split()[-1],16) for line in readelf.splitlines()
+                      if re.match(r'\s*LOAD\s+',line)]
+              assert aligns and all(a>=16384 for a in aligns), aligns
+              report={"status":"PASS","application_id":"com.mwilliams.hasselbladphoton",
+                      "version_code":27184,"version_name":"0.1-hb-domain3",
+                      "apk_filename":"HasselbladPhoton-Domain3-27184-debug.apk",
+                      "apk_bytes":apk.stat().st_size,
+                      "apk_sha256":hashlib.sha256(apk.read_bytes()).hexdigest(),
+                      "domain_jni_arm64_sha256":hashlib.sha256(elf.read_bytes()).hexdigest(),
+                      "domain_jni_elf_load_alignments_bytes":aligns,
+                      "original_scene_jni_present":True,
+                      "render_modified":False,
+                      "domain1_on_hardware_tested":False}
+              (out/"APK_VERIFICATION.json").write_text(json.dumps(report,indent=2)+"\n")
+              print(json.dumps(report,indent=2))
+          PY
+          cp "$apk" "$RUNNER_TEMP/domain3-apk/HasselbladPhoton-Domain3-27184-debug.apk"
+          rm -f "$RUNNER_TEMP/domain3-apk/libhasselblad_domain_jni.so"
+      - name: Upload signed APK and verification report
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HasselbladPhoton-Domain3-27184
+          path: |
+            ${{ runner.temp }}/domain3-apk/HasselbladPhoton-Domain3-27184-debug.apk
+            ${{ runner.temp }}/domain3-apk/APK_VERIFICATION.json
+            ${{ runner.temp }}/domain3-apk/signature.txt
+            ${{ runner.temp }}/domain3-apk/badging.txt
+          retention-days: 7
+          if-no-files-found: error

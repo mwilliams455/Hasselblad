@@ -30,7 +30,7 @@ Python requires `pyelftools`. The runner verifies the library, original symbol, 
 
 ## Remaining acceptance boundaries
 
-The complete four-slot scene, history, atmosphere and post-processing stages have owned implementations compared with the original firmware. Final result copies, outer completion/recovery, shading temperature, three bounded passive REAWB routes and diagnostic packing with no-file user-dump are now owned too. The connected seven-frame comparison feeds owned scene → history → atmosphere → post → passive REAWB → diagnostics → shading → completion, with original functions used as comparison oracles. The composed output also matches one uninterrupted original controller execution from its prepared scene entry on all seven frames. A separate checkpoint now owns entry guards, fixed-result publication, cadence/rate scheduling, E-ND change flags and white-reference LUT preparation, comparing owned entry/LUT plus original remainder with actual full original calls. These two replacement paths have not yet been joined into a wholly owned controller. Still missing: intervening user preparation, mode dispatch and ROI/sensor/parsing/detection/face ownership, active REAWB and linked storage if required, real camera-frame inputs and device-specific calibration, the historical seven-frame capture, HNCS rendering and phone validation. Diagnostic file I/O is intentionally outside the owned no-file scope. These are bounded synthetic comparisons, not exhaustive proof of every input or device behavior.
+The complete four-slot scene, history, atmosphere and post-processing stages have owned implementations compared with the original firmware. Final result copies, outer completion/recovery, shading temperature, three bounded passive REAWB routes and diagnostic packing with no-file user-dump are now owned too. The connected seven-frame comparison feeds owned scene → history → atmosphere → post → passive REAWB → diagnostics → shading → completion, with original functions used as comparison oracles. The composed output also matches one uninterrupted original controller execution from its prepared scene entry on all seven frames. A separate checkpoint now owns entry guards, fixed-result publication, cadence/rate scheduling, E-ND change flags, white-reference LUT preparation and the user calibration-import prefix, comparing owned entry/LUT/user prefix plus original remainder with actual full original calls. These two replacement paths have not yet been joined into a wholly owned controller. Still missing: remaining user preparation/requests, statistics-difference checking, mode dispatch and ROI/sensor/parsing/detection/face ownership, active REAWB and linked storage if required, real camera-frame inputs and device-specific calibration, the historical seven-frame capture, HNCS rendering and phone validation. Diagnostic file I/O is intentionally outside the owned no-file scope. These are bounded synthetic comparisons, not exhaustive proof of every input or device behavior.
 
 No APK was built. `main` and the installed Native1C application remain unchanged.
 
@@ -76,9 +76,9 @@ python3 hasselblad_native_audit/awb_original_runtime_20261021/run_scene.py \
 
 ### Resume here (latest checkpoint)
 
-1. Use the existing verified runtime. Latest probes: `--white-lut` (11,302 checks) and `--run-entry --white-lut-entry` (7,611 checks), both zero mismatches. Reports are `WHITE_LUT_RESULT.json` and `WHITE_LUT_ENTRY_RESULT.json`. Earlier reports retain their own source snapshots.
-2. `hb_white_lut.c` owns sparse white-reference expansion, E-ND interpolation/selection and baseline restoration. Entry plus LUT now hands off to original user processing at `0x471e64`. The separately verified owned scene-through-completion chain has not yet been joined to this prefix. Latest private evidence: `Hasselblad_White_LUT_Evidence_PRIVATE_20261021.zip`.
-3. Next reconstruct `scene_awb_user_proc` (`0x4b09c0`), statistics-difference checking (`0x4aacb8`), then mode dispatch and remaining ROI/sensor/parsing/detection/face dependencies. White-LUT preparation (`0x4ab5f0`, expansion helper `0x4ab960`), final cleanup/recovery and no-file diagnostics are already owned. Full-controller fixtures must keep active white-reference point counts consistent with the baseline count used by downstream statistics search; the new owned LUT guard rejects a mismatch.
+1. Latest probes: `--user-prepare` (5,529 checks) and `--run-entry --user-prepare-entry` (8,187 checks), both zero mismatches. Reports: `USER_PREPARE_RESULT.json` and `USER_PREPARE_ENTRY_RESULT.json`. The shared adapter also passes the 302-check downstream regression in `USER_PREPARE_DOWNSTREAM_REGRESSION.json`. Earlier reports retain their own source snapshots.
+2. `hb_user_prepare.c` owns base/E-ND/temperature calibration imports, the calibration getter, manual LUT refresh and a separately tested mode-switch helper. Connected entry plus white LUT plus calibration prefix hands off to original user processing at `0x4b1624`, then original outer dispatch at `0x471e78`. The separately owned scene-through-completion chain is still not combined with this prefix. Latest private evidence: `Hasselblad_User_Preparation_Evidence_PRIVATE_20261021.zip`.
+3. Next: remaining user processing starting with ancillary request helper `0x4af328`, then manual-sample selection and CT/CT-tint/gain handlers (`0x4adc68`, `0x4ae3a8`, `0x4aeb40`), statistics-difference checking (`0x4aacb8`), dispatch and ROI/sensor/parsing/detection/face dependencies. Do not redo the completed white LUT, calibration imports, final cleanup or no-file diagnostics. Active white-reference counts must match the baseline count consumed by downstream statistics search.
 4. Active REAWB and save requests that enter linked storage remain explicit unsupported paths in the passive port. Represent linked state if implementing them; copying the 1,000-byte handle does not clone allocations. The owned debug path rejects actual file-write requests before mutation; unscheduled/exhausted/disabled requests are handled.
 5. Recover genuine captured-frame inputs, map Camera2 statistics and inject real per-sensor phone calibration. Continue to a specifically bounded APK only after its relevant integration and stability checks. HNCS rendering remains a separate acceptance boundary.
 
@@ -493,3 +493,40 @@ python3 hasselblad_native_audit/awb_original_runtime_20261021/run_full.py \
 | Physical capture validation and release build | Follows the relevant integration work; no new APK in this checkpoint |
 
 The immediate next boundary is `scene_awb_user_proc`, followed by statistics-difference checking and remaining dispatch/detection. Keep the generic-phone architecture and approximately 12.5 MP single-RAW route. Main and Native1C remain unchanged.
+
+
+## User calibration preparation checkpoint
+
+`hb_user_prepare.c/.h` owns the import prefix of `scene_awb_user_proc`, from `0x4b09c0` to the boundary before `0x4b1624`. The owned code has no original-firmware callbacks. It consumes base calibration requests, imports E-ND calibration groups, sorts reference keys stably as unsigned integers, computes wrapped Q12 ratios and publishes temperature-correction rows. Original statuses 83/84 preserve request consumption and any preceding successful stage writes. An E-ND group without an exact-1 request stops the group loop, leaving later group requests pending; baseline calibration is disabled only when all requested groups finish.
+
+The module also owns the calibration gain getter, manual LUT refresh and the mode-request helper. The getter's upper endpoint writes CT 10000 into context even when the requested CT is below 10000; this is distinct from the existing statistics calibration helper. Manual refresh preserves zero-divisor AArch64 division behavior and wrapped shifts. The mode helper retains the previous mode when no change occurs and refreshes three pending flags from exact-1 enable flags. It is directly compared; the connected remainder still executes the original mode helper.
+
+`USER_PREPARE_RESULT.json`: **5,529 checks, zero mismatches**:
+
+- 384 calibration-getter calls, including endpoints, interiors, large unsigned values and aliased red/blue outputs with canaries.
+- 256 manual-LUT calls and 256 base-import calls, comparing complete context and configuration immutability.
+- 256 mode-helper calls comparing complete context; the original helper has no defined return-status contract.
+- 512 complete original user-processing comparisons: 384 independent cases and 128 stateful calls. Restore the input, run the owned prefix, and on success continue the unmodified original user routine at `0x4b1624` through `user_entry.S`.
+- The user remainder runs 345 times. Across direct base-import and complete-user comparisons, 161 original status-83 and 48 status-84 returns match. Prefix state changes include 209 base imports, 297 E-ND group imports and 242 temperature imports; these are overlapping activity counters.
+- 24 owned-only unsupported-shape checks are included, separately from original equivalence. The original configuration is retained unchanged.
+
+`USER_PREPARE_ENTRY_RESULT.json`: **8,187 checks, zero mismatches**, against **1,431 actual full original controller calls**. The replacement path uses owned entry → white LUT → user calibration prefix → original user remainder → original outer remainder. All 920,560 context bytes, 1,502,800 config bytes, 1,000 REAWB-handle bytes and final status match. There are 853 entry early returns, 32 LUT-error returns, 546 user-prefix executions, 72 user-error returns (48 status 83; 24 status 84) and 474 successful continuations. Coverage retains 144 scheduling boundaries, 256 stateful calls and seven native-format synthetic frames, three with E-ND enabled; two frames submit calibration requests. Ninety-six added controller fixtures cover calibration requests and error routing.
+
+The test-only outer adapter now initializes the saved-canary pointer register for the new `0x471e78` continuation. Its immediate mode-2 return uses that register before another original call can initialize it. The first connected trial failed in this adapter; correcting the register setup makes the complete suite pass. The failed probe/logs are private diagnostic evidence, not a firmware algorithm failure. The existing owned scene → history → atmosphere → post → passive REAWB → diagnostics → shading → completion comparison was rerun after this shared-adapter change: `USER_PREPARE_DOWNSTREAM_REGRESSION.json`, **302 comparisons, seven synthetic frames, zero mismatches**. It is still a separate path from the new prefix.
+
+### Bounded user-preparation contract
+
+Use already initialized context/config allocations and distinct context/config storage. Base calibration supports at most two points; E-ND supports at most two groups with two points each; temperature imports support one or two rows, each containing ten ratios. The temperature count uses its low byte, matching the original. Zero temperature rows are rejected because the original sorting path underflows its loop bound. Manual LUTs support at most 15 points, a research limit rather than a proved full struct capacity. Getter outputs are valid uint32 pointers; they may alias each other and are external to context/config. Shape guards return `0xfffffffe` before prefix mutation; supported original validation failures retain partial state changes. This is not a production untrusted-input API.
+
+```sh
+python3 hasselblad_native_audit/awb_original_runtime_20261021/run_full.py \
+  --firmware-root /private/extracted --ndk /tools/android-ndk-r27 \
+  --qemu /tools/qemu-aarch64-static --private-output /private/user-prepare \
+  --report /private/user-prepare-result.json --user-prepare
+# Separate output/report paths for controller integration:
+# --run-entry --user-prepare-entry
+# Shared-adapter downstream regression:
+# --pipeline --diagnostics-pipeline
+```
+
+We remain in AWB reconstruction and original-code verification. The full user stage, outer dispatch/preparation and detection connections remain incomplete. Active REAWB/linked storage, genuine captured frames, phone calibration/integration and HNCS photographic rendering remain separate boundaries. No new APK was built or installed; main and Native1C are unchanged.

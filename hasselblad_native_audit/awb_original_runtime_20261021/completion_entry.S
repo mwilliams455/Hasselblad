@@ -26,6 +26,9 @@ hb_original_prepared_completion:
     mrs x24,tpidr_el0
     ldr x8,[x24,#0x28]
     str x8,[sp,#0x40]
+    /* The after-user entry can return before making another call. Its
+     * shared epilogue expects x12 to address this saved canary. */
+    add x12,sp,#0x40
     br x16
 .size hb_original_prepared_completion,.-hb_original_prepared_completion
 .section .note.GNU-stack,"",%progbits

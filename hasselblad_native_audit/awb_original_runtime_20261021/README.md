@@ -30,7 +30,7 @@ Python requires `pyelftools`. The runner verifies the library, original symbol, 
 
 ## Remaining acceptance boundaries
 
-The complete four-slot scene, history, atmosphere and post-processing stages have owned implementations compared with the original firmware. Final result copies, outer completion/recovery, shading temperature, three bounded passive REAWB routes and diagnostic packing with no-file user-dump are now owned too. The connected seven-frame comparison feeds owned scene → history → atmosphere → post → passive REAWB → diagnostics → shading → completion, with original functions used as comparison oracles. The composed output also matches one uninterrupted original controller execution from its prepared scene entry on all seven frames. Still missing: surrounding AWB entry/scheduling/dispatch and user/ROI/sensor/parsing/detection/face ownership, active REAWB and linked storage if required, real camera-frame inputs and device-specific calibration, the historical seven-frame capture, HNCS rendering and phone validation. Diagnostic file I/O is intentionally outside the owned no-file scope. These are bounded synthetic comparisons, not exhaustive proof of every input or device behavior.
+The complete four-slot scene, history, atmosphere and post-processing stages have owned implementations compared with the original firmware. Final result copies, outer completion/recovery, shading temperature, three bounded passive REAWB routes and diagnostic packing with no-file user-dump are now owned too. The connected seven-frame comparison feeds owned scene → history → atmosphere → post → passive REAWB → diagnostics → shading → completion, with original functions used as comparison oracles. The composed output also matches one uninterrupted original controller execution from its prepared scene entry on all seven frames. A separate checkpoint now owns entry guards, fixed-result publication, cadence/rate scheduling and E-ND change flags, comparing owned entry plus original remainder with actual full original calls. These two replacement paths have not yet been joined into a wholly owned controller. Still missing: intervening E-ND/user preparation, mode dispatch and ROI/sensor/parsing/detection/face ownership, active REAWB and linked storage if required, real camera-frame inputs and device-specific calibration, the historical seven-frame capture, HNCS rendering and phone validation. Diagnostic file I/O is intentionally outside the owned no-file scope. These are bounded synthetic comparisons, not exhaustive proof of every input or device behavior.
 
 No APK was built. `main` and the installed Native1C application remain unchanged.
 
@@ -76,9 +76,9 @@ python3 hasselblad_native_audit/awb_original_runtime_20261021/run_scene.py \
 
 ### Resume here (latest checkpoint)
 
-1. Use the existing verified runtime. Latest probes are `--diagnostics` and `--pipeline --diagnostics-pipeline`; reports are `DIAGNOSTICS_RESULT.json` and `DIAGNOSTICS_PIPELINE_RESULT.json`. Earlier reports retain their own source snapshots.
-2. `hb_diagnostics.c` now owns carry-forward, two-section encoding, full/reduced/coarse statistics packing and no-file user-dump behavior. The connected chain is owned from scene through completion within the passive/no-file scope, and its final state matches one uninterrupted original controller suffix on all seven synthetic frames. Latest private evidence: `Hasselblad_Diagnostics_Evidence_PRIVATE_20261021.zip`.
-3. Next reconstruct outer entry/scheduling/dispatch at `scene_awb_lib_run` (`0x471a38`) and the remaining user/ROI/sensor/parsing/detection/face dependencies. Final cleanup/recovery is already owned and compared; do not rebuild it again. Connected original detection still activates only normal slot 0; direct generated tests cover other scene slots and post features.
+1. Use the existing verified runtime. Latest probe is `--run-entry`, report `RUN_ENTRY_RESULT.json`: 7,419 checks, zero mismatches. The earlier `--diagnostics` and `--pipeline --diagnostics-pipeline` reports retain their own source snapshots and remain available.
+2. `hb_run_entry.c` owns entry guards, fixed-result publication, cadence/rate scheduling and E-ND change flags through the boundary before `0x471e50`. Its test compares complete original calls against owned entry plus the original remainder; it does not combine this entry with the separately owned scene-through-completion chain. Latest private evidence: `Hasselblad_Run_Entry_Evidence_PRIVATE_20261021.zip`. The earlier diagnostics packet preserves the connected downstream comparison.
+3. Next reconstruct `scene_awb_stat_e_nd_white_lut_proc` (`0x4ab5f0`, helper `0x4ab960`), `scene_awb_user_proc` (`0x4b09c0`), statistics-difference checking (`0x4aacb8`), then mode dispatch and remaining ROI/sensor/parsing/detection/face dependencies. Final cleanup/recovery and no-file diagnostics are already owned and compared; do not rebuild them again. Connected original detection still activates only normal slot 0; direct generated tests cover other scene slots and post features.
 4. Active REAWB and save requests that enter linked storage remain explicit unsupported paths in the passive port. Represent linked state if implementing them; copying the 1,000-byte handle does not clone allocations. The owned debug path rejects actual file-write requests before mutation; unscheduled/exhausted/disabled requests are handled.
 5. Recover genuine captured-frame inputs, map Camera2 statistics and inject real per-sensor phone calibration. Continue to a specifically bounded APK only after its relevant integration and stability checks. HNCS rendering remains a separate acceptance boundary.
 
@@ -421,3 +421,31 @@ Fresh connected evidence: `evidence/DIAGNOSTICS_PIPELINE_RESULT.json`, **302 com
 The rejected sixth frame preserves the already verified retained-gain behavior and cleared fresh-result diagnostics through the new owned debug stage. `completion_entry.S` remains test scaffolding only. All old commands are retained; `--diagnostics-pipeline` implies `--completion-pipeline` and its earlier stage replacements. Public reports include source/header/compiler/runtime/probe and private-dump hashes. Raw state, logs and original disassembly remain private.
 
 Next: outer controller entry, scheduling and dispatch, then remaining preparation/detection dependencies. Full AWB, active REAWB, authentic camera-frame recovery, phone calibration and HNCS/pixel rendering remain unvalidated. No APK was built or installed.
+
+
+## Controller entry and scheduling checkpoint
+
+`hb_run_entry.c/.h` owns the outer entry from `scene_awb_lib_run` (`0x471a38`) through the boundary immediately before E-ND white-LUT preparation at `0x471e50`. It implements the wrapping entry counter, initialized/busy guards, fixed-result gains/CT/tint publication to live/combined/confirmed/manual records, warm-up counter, frame-skip cadence, rate limiting and E-ND feature/change flags. It makes no firmware calls. Fixed-result and scheduling returns bypass shared completion, preserving pending reference requests as the original does.
+
+`hb_run_entry` returns its research-operation status separately from `hb_run_entry_result`. `HB_RUN_RETURN` supplies an original final status; `HB_RUN_PREPARE` means processing must continue, not that AWB has completed or produced a fresh estimate. Null arguments return unsupported. This is an initialized-allocation research ABI, not a production phone adapter.
+
+Fresh evidence: `evidence/RUN_ENTRY_RESULT.json`, **7,419 checks, zero mismatches**, from **1,303 actual full original controller calls**:
+
+- 896 base cases covering initialized/busy flags, fixed-result publication, cadence, rate gating and ready paths. Fixed gains preserve wrapping products, unsigned tint conversion, untouched record fields and all seven result destinations.
+- 144 scheduling numeric-boundary cases, including timestamp clamping, equality, negative/zero/NaN/infinite durations and saturated unsigned conversion.
+- 256 consecutive calls carrying cadence and other controller state forward.
+- Seven synthetic native E2 frames through full original dispatch, including a rejected frame.
+- Outcome counts: 128 uninitialized, 128 busy, 128 fixed-result, 320 cadence-skip, 149 rate-skip and 450 ready. Thus 853 owned early returns and 450 owned-entry/original-remainder executions. Complete context (920,560 bytes), config (1,502,800 bytes), REAWB handle (1,000 bytes) and final status match for every case.
+
+The harness saves initialized state, calls the actual full original controller, restores that state, runs owned entry, then either returns its early result or enters the unmodified original remainder at `0x471e50` using the existing test-only ABI adapter. This validates replacement behavior with the original remainder. It does not independently capture an original mid-entry boundary, combine entry with the owned downstream chain, or establish full-controller ownership. Original initialization, private tables and remaining preparation/detection still participate.
+
+```sh
+python3 hasselblad_native_audit/awb_original_runtime_20261021/run_full.py \
+  --firmware-root /private/extracted --ndk /tools/android-ndk-r27 \
+  --qemu /tools/qemu-aarch64-static --private-output /private/run-entry \
+  --report /private/run-entry-result.json --run-entry
+```
+
+**Meaning for colour and a phone port:** these results support faithful AWB software behavior for the tested inputs and state. Atmosphere and post-processing influence colour through the white-balance gains they supply. They do not establish matching finished photographs: a phone still needs correctly mapped statistics, its own sensor/lens calibration, coherent one-time WB application with its colour matrices, separate HNCS/pixel-rendering work and physical capture comparisons across lighting conditions. Passing synthetic comparisons is a foundation for that integration, not a guarantee of photographic equivalence.
+
+Next: E-ND white-LUT and user preparation, statistics-difference checking, remaining dispatch and detection dependencies. Their original disassembly is preserved privately. Active REAWB/linked storage remains outside the passive scope. No APK was built or installed; main and Native1C remain unchanged.

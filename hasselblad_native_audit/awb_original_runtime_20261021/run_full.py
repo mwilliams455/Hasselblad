@@ -19,6 +19,8 @@ def main():
     p.add_argument('--pipeline',action='store_true',help='Compare the owned complete scene stage on seven synthetic native E2 frames')
     p.add_argument('--candidates',action='store_true',help='Compare candidate weighting, accumulation and normal scene control')
     p.add_argument('--temperature',action='store_true',help='Compare all temperature modes and their matrix/xy helpers')
+    p.add_argument('--stat-difference',action='store_true',help='Compare frame-change gate, ROI hold and refresh cadence')
+    p.add_argument('--stat-difference-entry',action='store_true',help='With --run-entry, replace user stage and automatic dispatch gate')
     p.add_argument('--user-finish',action='store_true',help='Compare final user requests and the complete owned user stage')
     p.add_argument('--user-finish-entry',action='store_true',help='With --run-entry, replace the complete user stage')
     p.add_argument('--user-controls',action='store_true',help='Compare CT/tint/gain requests and inverse conversion')
@@ -47,6 +49,7 @@ def main():
     p.add_argument('--post-results-pipeline',action='store_true',help='With --pipeline, replay post-result helpers from original golden snapshots; post controller remains original')
     p.add_argument('--atmosphere-pipeline',action='store_true',help='With --pipeline, compare owned scene/history/atmosphere before original post/REAWB')
     a=p.parse_args()
+    if a.stat_difference_entry:a.user_finish_entry=True
     if a.user_finish_entry:a.user_controls_entry=True
     if a.user_controls_entry:a.user_manual_entry=True
     if a.user_manual_entry:a.user_e_nd_entry=True
@@ -61,7 +64,7 @@ def main():
     if a.history_pipeline:
         if not a.pipeline:p.error('--history-pipeline requires --pipeline')
         a.tail_baseline=True
-    if sum([a.prepare,a.pipeline,a.candidates,a.temperature,a.controller,a.history,a.atmosphere,a.post_results,a.post,a.completion,a.diagnostics,a.run_entry,a.white_lut,a.user_prepare,a.user_e_nd,a.user_manual,a.user_controls,a.user_finish])>1:p.error('Choose one comparison mode')
+    if sum([a.prepare,a.pipeline,a.candidates,a.temperature,a.controller,a.history,a.atmosphere,a.post_results,a.post,a.completion,a.diagnostics,a.run_entry,a.white_lut,a.user_prepare,a.user_e_nd,a.user_manual,a.user_controls,a.user_finish,a.stat_difference])>1:p.error('Choose one comparison mode')
     if a.white_lut_entry and not a.run_entry:p.error('--white-lut-entry requires --run-entry')
     if a.tail_baseline and not a.pipeline:p.error('--tail-baseline requires --pipeline')
     root=a.firmware_root.resolve();out=a.private_output.resolve()
@@ -83,6 +86,9 @@ def main():
     if a.history or a.atmosphere:sources.extend([HERE/('atmosphere_compare.c' if a.atmosphere else 'history_compare.c'),HERE/'hb_history.c',HERE/'hb_scene_optimizer.c',HERE/'hb_scene_controller.c',HERE/'hb_scene_candidates.c',HERE/'hb_scene_filter.c',HERE/'hb_temperature.c'])
     if a.post_results:sources.extend([HERE/'post_results_compare.c',HERE/'hb_post_results.c',HERE/'hb_temperature.c',HERE/'hb_scene_candidates.c',HERE/'hb_scene_optimizer.c',HERE/'hb_scene_filter.c'])
     if a.post or a.completion:sources.extend([HERE/('completion_compare.c' if a.completion else 'post_compare.c'),HERE/'hb_post_controller.c',HERE/'hb_post_results.c',HERE/'hb_atmosphere.c',HERE/'hb_history.c',HERE/'hb_temperature.c',HERE/'hb_scene_controller.c',HERE/'hb_scene_candidates.c',HERE/'hb_scene_optimizer.c',HERE/'hb_scene_filter.c'])
+    if a.stat_difference:sources.append(HERE/'stat_difference_compare.c')
+    if a.stat_difference or a.stat_difference_entry:sources.append(HERE/'hb_stat_difference.c')
+    if a.stat_difference_entry:sources.append(HERE/'hb_run_dispatch.c')
     if a.user_finish:sources.append(HERE/'user_finish_compare.c')
     if a.user_finish or a.user_finish_entry:sources.append(HERE/'hb_user_finish.c')
     if a.user_controls:sources.append(HERE/'user_controls_compare.c')
@@ -109,6 +115,8 @@ def main():
     if a.atmosphere_pipeline:sources.append(HERE/'hb_atmosphere.c')
     cmd=[str(compiler),'-std=c11','-O2','-Wall','-Wextra','-Werror','-fPIE','-pie',
          '-ffp-contract=off','-Wl,-z,max-page-size=16384']
+    if a.stat_difference:cmd+=['-DHB_STAT_DIFFERENCE_COMPARE=1']
+    if a.stat_difference_entry:cmd+=['-DHB_STAT_DIFFERENCE_ENTRY=1']
     if a.user_finish:cmd+=['-DHB_USER_FINISH_COMPARE=1']
     if a.user_finish_entry:cmd+=['-DHB_USER_FINISH_ENTRY=1']
     if a.user_controls:cmd+=['-DHB_USER_CONTROLS_COMPARE=1']
@@ -149,10 +157,11 @@ def main():
                      capture_output=True,text=True,timeout=30,preexec_fn=limits)
     (out/'stdout.txt').write_text(r.stdout);(out/'stderr.txt').write_text(r.stderr)
     events=[json.loads(line) for line in r.stdout.splitlines() if line.startswith('{')]
-    ok=(r.returncode==0 and len(events)==(39 if a.tail_baseline else 11 if a.pipeline else 4 if (a.prepare or a.candidates or a.temperature or a.controller or a.history or a.atmosphere or a.post_results or a.post or a.completion or a.diagnostics or a.run_entry or a.white_lut or a.user_prepare or a.user_e_nd or a.user_manual or a.user_controls or a.user_finish) else 3)
+    ok=(r.returncode==0 and len(events)==(39 if a.tail_baseline else 11 if a.pipeline else 5 if a.stat_difference_entry else 4 if (a.prepare or a.candidates or a.temperature or a.controller or a.history or a.atmosphere or a.post_results or a.post or a.completion or a.diagnostics or a.run_entry or a.white_lut or a.user_prepare or a.user_e_nd or a.user_manual or a.user_controls or a.user_finish or a.stat_difference) else 3)
         and [e.get('stage') for e in events[:2]]==['awb_cfg_load','awb_lib_init']
         and all(e.get('status')==0 for e in events[:2])
         and events[2].get('initialized_marker')==1 and events[2].get('e2_context_present') is True)
+    if a.stat_difference:ok &= events[-1].get('all_passed') is True
     if a.user_finish:ok &= events[-1].get('all_passed') is True
     if a.user_controls:ok &= events[-1].get('all_passed') is True
     if a.user_manual:ok &= events[-1].get('all_passed') is True
@@ -190,8 +199,10 @@ def main():
     if a.user_prepare or a.user_prepare_entry or a.user_e_nd or a.user_manual or a.user_controls or a.user_finish:headers.extend([HERE/'hb_user_prepare.h',HERE/'hb_stat_prepare.h'])
     if a.run_entry:headers.extend([HERE/'hb_run_entry.h',HERE/'hb_stat_prepare.h'])
     if a.user_finish or a.user_finish_entry:headers.extend([HERE/'hb_user_finish.h',HERE/'user_finish_fixtures.h'])
+    if a.stat_difference or a.stat_difference_entry:headers.extend([HERE/'hb_stat_difference.h',HERE/'stat_difference_fixtures.h',HERE/'hb_stat_prepare.h'])
+    if a.stat_difference_entry:headers.append(HERE/'hb_run_dispatch.h')
     report={'created_utc':datetime.now(timezone.utc).isoformat(),'all_passed':ok,'exit':r.returncode,
-            'mode':'owned_entry_complete_user_original_outer_remainder' if a.user_finish_entry else 'owned_complete_user_stage' if a.user_finish else 'owned_entry_through_controls_original_remainder' if a.user_controls_entry else 'owned_user_ct_tint_gain_controls' if a.user_controls else 'owned_entry_through_manual_samples_original_remainder' if a.user_manual_entry else 'owned_manual_samples_and_e_nd_updates' if a.user_manual else 'owned_entry_user_calibration_and_unit_original_remainder' if a.user_e_nd_entry else 'owned_user_e_nd_unit_request' if a.user_e_nd else 'owned_entry_white_lut_user_prefix_original_remainder' if a.user_prepare_entry else 'owned_user_calibration_prefix' if a.user_prepare else 'owned_white_lut_prepare' if a.white_lut else 'owned_white_lut_and_entry_original_remainder' if a.white_lut_entry else 'owned_run_entry_original_remainder' if a.run_entry else 'owned_diagnostics_pipeline' if a.diagnostics_pipeline else 'owned_diagnostics_no_file' if a.diagnostics else 'owned_completion_pipeline' if a.completion_pipeline else 'owned_completion_and_passive_reawb' if a.completion else 'owned_post_pipeline' if a.post_pipeline else 'owned_post_controller' if a.post else 'post_result_snapshot_replay_pipeline' if a.post_results_pipeline else 'owned_post_result_helpers_and_mode2' if a.post_results else 'owned_scene_history_atmosphere_pipeline' if a.atmosphere_pipeline else 'owned_atmosphere' if a.atmosphere else 'owned_history_scene_pipeline' if a.history_pipeline else 'owned_history' if a.history else 'original_downstream_baseline' if a.tail_baseline else 'owned_scene_controller' if a.controller else 'owned_complete_scene_pipeline' if a.pipeline else 'calibrated_temperature' if a.temperature else 'candidate_weighting_accumulation' if a.candidates else 'preparation_classification_filter' if a.prepare else 'full_initialization',
+            'mode':'owned_entry_user_difference_dispatch_original_remainders' if a.stat_difference_entry else 'owned_statistics_difference' if a.stat_difference else 'owned_entry_complete_user_original_outer_remainder' if a.user_finish_entry else 'owned_complete_user_stage' if a.user_finish else 'owned_entry_through_controls_original_remainder' if a.user_controls_entry else 'owned_user_ct_tint_gain_controls' if a.user_controls else 'owned_entry_through_manual_samples_original_remainder' if a.user_manual_entry else 'owned_manual_samples_and_e_nd_updates' if a.user_manual else 'owned_entry_user_calibration_and_unit_original_remainder' if a.user_e_nd_entry else 'owned_user_e_nd_unit_request' if a.user_e_nd else 'owned_entry_white_lut_user_prefix_original_remainder' if a.user_prepare_entry else 'owned_user_calibration_prefix' if a.user_prepare else 'owned_white_lut_prepare' if a.white_lut else 'owned_white_lut_and_entry_original_remainder' if a.white_lut_entry else 'owned_run_entry_original_remainder' if a.run_entry else 'owned_diagnostics_pipeline' if a.diagnostics_pipeline else 'owned_diagnostics_no_file' if a.diagnostics else 'owned_completion_pipeline' if a.completion_pipeline else 'owned_completion_and_passive_reawb' if a.completion else 'owned_post_pipeline' if a.post_pipeline else 'owned_post_controller' if a.post else 'post_result_snapshot_replay_pipeline' if a.post_results_pipeline else 'owned_post_result_helpers_and_mode2' if a.post_results else 'owned_scene_history_atmosphere_pipeline' if a.atmosphere_pipeline else 'owned_atmosphere' if a.atmosphere else 'owned_history_scene_pipeline' if a.history_pipeline else 'owned_history' if a.history else 'original_downstream_baseline' if a.tail_baseline else 'owned_scene_controller' if a.controller else 'owned_complete_scene_pipeline' if a.pipeline else 'calibrated_temperature' if a.temperature else 'candidate_weighting_accumulation' if a.candidates else 'preparation_classification_filter' if a.prepare else 'full_initialization',
             'events':events,'input_config_sha256':sha(config),'library_sha256':sha(root/'system/lib64/libaaa.so'),
             'linker_sha256':linker_sha,'dependency_count':len(closure),'qemu_sha256':sha(a.qemu),
             'compiler_version':subprocess.check_output([str(compiler),'--version'],text=True).splitlines()[0],
@@ -208,7 +219,10 @@ def main():
             'user_unit_request_owned':a.user_e_nd or a.user_e_nd_entry or a.user_manual or a.user_controls or a.user_finish,'e_nd_temperature_gain_owned':a.user_e_nd or a.user_e_nd_entry or a.user_manual or a.user_controls or a.user_finish,
             'user_calibration_prefix_owned':a.user_prepare or a.user_prepare_entry or a.user_e_nd or a.user_manual or a.user_controls or a.user_finish,'user_mode_helper_owned':a.user_prepare or a.user_controls or a.user_controls_entry or a.user_finish,'full_user_stage_owned':a.user_finish or a.user_finish_entry,
             'user_remainder_entry':None if (a.user_finish or a.user_finish_entry) else '0x4b16d4' if (a.user_controls or a.user_controls_entry) else '0x4b16a8' if (a.user_manual or a.user_manual_entry) else '0x4b162c' if (a.user_e_nd or a.user_e_nd_entry) else '0x4b1624' if (a.user_prepare or a.user_prepare_entry) else None,
-            'controller_remainder_after_user':'0x471e78' if a.user_prepare_entry else None,
+            'statistics_difference_owned':a.stat_difference or a.stat_difference_entry,
+            'automatic_dispatch_gate_owned':a.stat_difference_entry,'full_mode_bodies_owned':False,
+            'dispatch_remainder_entries':{'automatic_refresh':'0x471f10','automatic_reuse':'0x472274','manual':'0x471ff0','custom':'0x472100','error_completion':'0x4722b0'} if a.stat_difference_entry else None,
+            'controller_remainder_after_user':None if a.stat_difference_entry else'0x471e78' if a.user_prepare_entry else None,
             'prepared_entry_adapter_used':a.user_finish or a.user_controls or a.user_manual or a.user_e_nd or a.user_prepare or a.completion or a.completion_pipeline or a.run_entry,
             'white_lut_owned':a.white_lut or a.white_lut_entry,'white_lut_original_remainder_entry':'0x471e64' if (a.white_lut_entry and not a.user_prepare_entry) else None,
             'run_entry_owned':a.run_entry,'original_remainder_after_owned_entry':a.run_entry,

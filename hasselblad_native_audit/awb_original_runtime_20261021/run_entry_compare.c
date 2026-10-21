@@ -27,6 +27,10 @@ static hb_temperature_model manual_model;
 #include "hb_user_finish.h"
 #include "user_finish_fixtures.h"
 #endif
+#ifdef HB_STAT_DIFFERENCE_ENTRY
+#include "hb_run_dispatch.h"
+static unsigned dispatch_counts[6];
+#endif
 #include <dlfcn.h>
 #include <math.h>
 #include <stdio.h>
@@ -66,10 +70,17 @@ static void synthetic_user_requests(unsigned char*c,unsigned t,unsigned faults){
 static void *sym(void*h,const char*s){void*p=dlsym(h,s);if(!p)_exit(3);return p;}
 static void same(const char*s,unsigned t,const void*a,const void*b,size_t n){++checks;if(!memcmp(a,b,n))return;++failures;if(failures<=20){const unsigned char*x=a,*y=b;size_t i=0;while(i<n&&x[i]==y[i])++i;printf("{\"entry_mismatch\":\"%s\",\"case\":%u,\"offset\":%zu,\"original\":%u,\"owned\":%u}\n",s,t,i,x[i],y[i]);}}
 static void dump(const char*dir,const char*kind,unsigned t,const void*p,size_t n){char path[4096];if(snprintf(path,sizeof path,"%s/%s_%u.bin",dir,kind,t)>=(int)sizeof path)_exit(64);FILE*f=fopen(path,"wb");if(!f||fwrite(p,1,n,f)!=n)_exit(74);fclose(f);}
-typedef struct{unsigned char*c,*k,*r,*input,*reference,*ki,*kr;unsigned char ri[R],rr[R];uintptr_t bias;uint32_t(*run)(int);const char*dir;} test_state;
+typedef struct{unsigned char*c,*k,*r,*input,*reference,*ki,*kr;unsigned char ri[R],rr[R];uintptr_t bias;unsigned missing_reawb;uint32_t(*run)(int);const char*dir;} test_state;
 static hb_run_entry_result compare(test_state*s,unsigned t,int expected,unsigned capture){
     memcpy(s->input,s->c,C);memcpy(s->ki,s->k,K);memcpy(s->ri,s->r,R);
-    uint32_t a=s->run(0);memcpy(s->reference,s->c,C);memcpy(s->kr,s->k,K);memcpy(s->rr,s->r,R);
+#ifdef HB_STAT_DIFFERENCE_ENTRY
+    void**reawb_global=(void**)(s->bias+0x791450);if(s->missing_reawb)*reawb_global=NULL;
+#endif
+    uint32_t a=s->run(0);
+#ifdef HB_STAT_DIFFERENCE_ENTRY
+    *reawb_global=s->r;
+#endif
+    memcpy(s->reference,s->c,C);memcpy(s->kr,s->k,K);memcpy(s->rr,s->r,R);
     memcpy(s->c,s->input,C);memcpy(s->k,s->ki,K);memcpy(s->r,s->ri,R);
     hb_run_entry_result result;uint32_t api=hb_run_entry(s->c,s->k,&result),zero=0;same("entry_supported",t,&api,&zero,4);if(api)_exit(1);
     if(capture)dump(s->dir,"owned_entry_boundary",t,s->c,C);
@@ -110,7 +121,20 @@ static hb_run_entry_result compare(test_state*s,unsigned t,int expected,unsigned
 #endif
             }
 #endif
-            if(!b){++continued;b=hb_original_prepared_completion(s->bias+0x471e78,s->c,0,s->bias+0x791348);}else{++user_errors;user_errors83+=b==83;user_errors84+=b==84;}
+            if(!b){
+#ifdef HB_STAT_DIFFERENCE_ENTRY
+                hb_dispatch_result dispatch;uint32_t supported=hb_run_dispatch(s->c,s->k,s->missing_reawb?NULL:s->r,&dispatch);
+                same("dispatch_supported",t,&supported,&zero,4);if(supported)_exit(1);
+                if((unsigned)dispatch.action>=6)_exit(1);++dispatch_counts[dispatch.action];
+                b=dispatch.status;if(capture)dump(s->dir,"owned_dispatch_boundary",t,s->c,C);
+                if(dispatch.action!=HB_DISPATCH_RETURN){
+                    static const uintptr_t entries[]={0,0x471f10,0x472274,0x471ff0,0x472100,0x4722b0};
+                    ++continued;b=hb_original_prepared_completion(s->bias+entries[dispatch.action],s->c,b,s->bias+0x791348);
+                }
+#else
+                ++continued;b=hb_original_prepared_completion(s->bias+0x471e78,s->c,0,s->bias+0x791348);
+#endif
+            }else{++user_errors;user_errors83+=b==83;user_errors84+=b==84;}
 #else
             ++continued;b=hb_original_prepared_completion(s->bias+0x471e64,s->c,0,s->bias+0x791348);
 #endif
@@ -242,6 +266,33 @@ int hb_run_entry_tests(void*h,unsigned char*c,unsigned char*e2,void*config,void*
 #endif
         dump(dir,"native_input",t,input,0x4118);hb_run_entry_result result=compare(&s,8000+t,HB_RUN_READY,1);if(result.action!=HB_RUN_PREPARE)return 2;++native_calls;
     }
+#ifdef HB_STAT_DIFFERENCE_ENTRY
+    unsigned char*dispatch_base=malloc(C),*dispatch_cfg=malloc(K),dispatch_r[R];if(!dispatch_base||!dispatch_cfg)return 71;
+    memcpy(dispatch_base,c,C);memcpy(dispatch_cfg,k,K);memcpy(dispatch_r,reawb,R);
+    for(unsigned t=0;t<48;++t){
+        memcpy(c,dispatch_base,C);memcpy(k,dispatch_cfg,K);memcpy(reawb,dispatch_r,R);
+        /* Preserve the imported1024-sample geometry and calibrated gains. */
+        w32(c+0xb2020,0);w32(c+0x194,t<32?t%2:t<40?2:3);w32(c+0x174,0);w32(c+0x17c,0);w32(c+0x184,0);c[0xd338]=0;
+        k[0x1531a8]=k[0x1531ac]=1;k[0x1531ad]=1;w32(k+0x1531b0,0xffffffff);w32(c+0x2c,0);w16(c+0xef3e,0);c[0xdb60]=0;w32(c+0xeeac,0);
+        c[0xd328]=c[0xd329]=0;c[0xd32a]=(unsigned char)(t%4==0);((unsigned char*)reawb)[0x1c]=0;
+        w16(c+0xb6962,(uint16_t)(t%3));c[0xb6960]=0;w32(c+0xb6964,0xffffffff);
+        if(t%4==1)w16(c+0xef3e,2);if(t%4==2){k[0x1531ad]=3;w32(c+0x9c1a0,4);}
+        /* fixture arithmetic already compared directly; this set tests the
+         * caller's mode selection, refresh/reuse and scratch-clearing edges. */
+        compare(&s,9000+t,HB_RUN_READY,t<8||t==32||t==40);
+    }
+    /* Missing REAWB + disabled difference returns UINT32_MAX, which must
+     * reach the normal error completion/recovery path in the outer caller. */
+    for(unsigned t=0;t<4;++t){
+        memcpy(c,dispatch_base,C);memcpy(k,dispatch_cfg,K);memcpy(reawb,dispatch_r,R);
+        w32(c+0xb2020,0);w32(c+0x194,t%2);w32(c+0x174,0);w32(c+0x17c,0);w32(c+0x184,0);c[0xd338]=t%2;
+        k[0x1531a8]=t<2?0:1;k[0x1531ac]=t<2?1:0;w32(c+0x28,0);
+        w16(c+0xb6962,1);c[0xb6960]=0;s.missing_reawb=1;
+        compare(&s,9100+t,HB_RUN_READY,1);
+    }
+    s.missing_reawb=0;
+    printf("{\"event\":\"owned_dispatch_counts\",\"suspended_returns\":%u,\"automatic_refresh\":%u,\"automatic_reuse\":%u,\"manual_remainders\":%u,\"custom_remainders\":%u,\"error_completions\":%u}\n",dispatch_counts[0],dispatch_counts[1],dispatch_counts[2],dispatch_counts[3],dispatch_counts[4],dispatch_counts[5]);
+#endif
     same("initial_config_immutable",0,config,cfg,K);memcpy(c,base,C);memcpy(reawb,rbase,R);
     printf("{\"event\":\"owned_run_entry\",\"checks\":%u,\"mismatches\":%u,\"early_returns\":%u,\"original_remainder_calls\":%u,\"reason_counts\":[%u,%u,%u,%u,%u,%u],\"rate_boundary_cases\":144,\"stateful_calls\":%u,\"native_frames\":%u,\"white_lut_failure_returns\":%u,\"active_e_nd_native_frames\":%u,\"user_prefix_calls\":%u,\"user_failure_returns\":%u,\"original_user_remainders\":%u,\"user_status_83_returns\":%u,\"user_status_84_returns\":%u,\"unit_requests_accepted\":%u,\"unit_requests_rejected\":%u,\"all_passed\":%s,\"whole_controller_owned\":false,\"original_remainder_used\":true,\"synthetic_inputs\":true}\n",checks,failures,early,continued,reasons[0],reasons[1],reasons[2],reasons[3],reasons[4],reasons[5],stateful_calls,native_calls,white_errors,active_native,user_prefix_calls,user_errors,user_remainders,user_errors83,user_errors84,unit_accepted,unit_rejected,failures?"false":"true");return failures?1:0;
 }

@@ -1,0 +1,20 @@
+{
+  "checkpoint": "AWB_REBUILD_02_CAPTURE_PROVENANCE",
+  "result": "PASS",
+  "source": "private Native1C DNG + capture sidecar, no redistribution",
+  "fixture_dng_sha256": "4a275648d6490ad32c156bedf1abd1d08618e942ca658893d4374ac93e23101a",
+  "capture_format": "RAW_SENSOR",
+  "raw_dimensions": [
+    4096,
+    3072
+  ],
+  "raw_sensor_samples": 12582912,
+  "frame_timestamp_and_camera_provenance": "matched",
+  "dng_as_shot_neutral_matches_original_camera2": true,
+  "effective_export_black_distinct_from_dynamic_black": true,
+  "both_original_dynamic_and_export_black_reruns_match_independent_reference": true,
+  "block_count_checked_per_black_variant": 1024,
+  "synthetic_original_vendor_comparison": false,
+  "original_vendor_E2_semantics_proven": false,
+  "raw_pixel_values_or_sidecar_in_output": false
+}

@@ -1,0 +1,32 @@
+{
+  "checkpoint": "AWB_REBUILD_02",
+  "host_synthetic_random_frames": 61,
+  "oracle": "independent NumPy integer reduction and min/max, NOT vendor AWB",
+  "real_capture": {
+    "fixture": "Native1C private capture DNG",
+    "capture_sha256": "4a275648d6490ad32c156bedf1abd1d08618e942ca658893d4374ac93e23101a",
+    "dimensions": [
+      4096,
+      3072
+    ],
+    "raw_sites": 12582912,
+    "grid": [
+      32,
+      32
+    ],
+    "blocks_independently_compared": 1024,
+    "all_four_channel_sums_exact": true,
+    "brightness_and_guard_counts_exact": true,
+    "white_code": 1023,
+    "black_level_codes": [
+      64,
+      64,
+      64,
+      64
+    ],
+    "pixel_data_in_report": false
+  },
+  "original_firmware_compared": false,
+  "vendor_E2_equivalence_proven": false,
+  "status": "PASS"
+}

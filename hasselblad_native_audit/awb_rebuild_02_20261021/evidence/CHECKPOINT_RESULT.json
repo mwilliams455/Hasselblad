@@ -1,0 +1,58 @@
+{
+  "checkpoint": "AWB_LOST_STAGE_REBUILD_02",
+  "date": "2026-10-21",
+  "status": "HOST_CONTRACT_AND_REAL_CAPTURE_REPLAY_PASS_VENDOR_COMPARISON_NOT_RUN",
+  "source": "native1a Q12 + checkpoint01 owned fragments + new owned RAW/Q16 32x32 block/accumulation adapter",
+  "firmware_present": false,
+  "vendor_original_replay_run": false,
+  "complete_original_AWB_recovered": false,
+  "original_E2_layout_reconstructed": false,
+  "original_scene_weighting_reconstructed": false,
+  "raw_input": "uint16 little endian, explicit row/pixel stride, Bayer four modes, 2x2 aligned crop, signed Q16 black",
+  "raw_block_grid": [
+    32,
+    32
+  ],
+  "block_count": 1024,
+  "brightness_method": "sum of signed black-subtracted raw code Q16 samples, NOT CIE-Y or vendor E2 brightness",
+  "candidate_accumulation": "caller-supplied weights with <=3 component filtering; weight rule and neighbour topology NOT vendor verified",
+  "checks": {
+    "checkpoint01_gcc_opt": 33327,
+    "checkpoint01_gcc_asan_ubsan": 33327,
+    "checkpoint02_gcc_opt": 33960,
+    "checkpoint02_gcc_asan_ubsan": 33960,
+    "checkpoint02_clang_opt": 33960,
+    "checkpoint02_clang_asan_ubsan": 33960,
+    "numpy_independent_random_raw_frames": 64,
+    "python_independent_candidate_cases": 256,
+    "python_independent_component_cases": 1408,
+    "private_dng_blocks_checked_for_each_black": 1024,
+    "private_dng_selected_and_dynamic_black_variants": 2,
+    "private_dng_all_block_sums_and_brightness_exact": true,
+    "private_camera2_dng_pairing_checks": true
+  },
+  "private_capture_anchor": {
+    "dng_sha256": "4a275648d6490ad32c156bedf1abd1d08618e942ca658893d4374ac93e23101a",
+    "raw_samples": 12582912,
+    "dimensions": [
+      4096,
+      3072
+    ],
+    "dng_black_codes": [
+      64,
+      64,
+      64,
+      64
+    ],
+    "original_dynamic_black_codes": [
+      63.9375,
+      63.9375,
+      63.9375,
+      63.9375
+    ],
+    "white_code": 1023
+  },
+  "proprietary_data_in_archive": false,
+  "private_capture_pixels_or_sidecar_in_archive": false,
+  "next": "restore original X2D II vendor E2 ABI/calibration and same-execution ARM64 harness before equivalence claims"
+}

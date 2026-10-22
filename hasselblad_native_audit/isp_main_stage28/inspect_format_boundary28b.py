@@ -10,10 +10,6 @@ import argparse, hashlib, json
 from bisect import bisect_right
 from pathlib import Path
 
-DRIVER_SHA="29309a225f2dcd8327b6fdaca477425b2c21ba580daa83599c1e6b0ea0a83d2f4ff419d0"
-# The checksum above is intentionally a sentinel so an unreviewed alternative
-# firmware cannot be silently processed. The expected exact module identity is
-# specified below and checked before any ELF investigation.
 EXACT_DRIVER_SHA="29309a225f2dcd8327b6fdaca477425b2c21ba580daa83599c1ea8699b7e450e"
 B2R_NAME="b2r_pad_set_fh_fmt"
 CCM_FMT="ccm_set_fmt"
@@ -126,6 +122,7 @@ def inspect(module):
                      and r["type"] in (CALL26,JUMP26)]
         # Inspect an exact function only; do not release original sequences.
         decoder=Cs(CS_ARCH_ARM64,CS_MODE_LITTLE_ENDIAN)
+        decoder.detail=True
         insn=list(decoder.disasm(text[b2r[0]:b2r[0]+b2r[1]],b2r[0]))
         check(sum(x.size for x in insn)==b2r[1],"incomplete_b2r_decode")
         # Snapshot of immediate values near the ccm_set_fmt call is intentionally

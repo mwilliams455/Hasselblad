@@ -20,6 +20,16 @@ This distinction emerged after the Stage15 X1D II firmware examination found `hd
 - Stage15: older X1D II `libmod_x1dm2.so` exposes model-specific CCM tuning descriptors, while older HDR/HDR2 CEVA firmware is packaged separately. Those are not a proven X2D II ISP pixel equation.
 - Stage16's new original-firmware script compares X2D II HDR/RAW and CCM function names, static saved-still route metadata, and MAIN source selection axes. It never invokes a camera library and never outputs firmware code bytes or private tables.
 
+## New direct Stage16 original-firmware static findings
+
+The script was run in GitHub Actions against the **exact original** X2D II firmware, not just archived reports. The original `libdcam_pp.so` defined 737 functions; 37 names matched HDR/highlight terms (`_calc_hdr_ev_list`, `cap31_hlrec_proc`, `cap31_hdrgm_proc`), 30 matched fusion/stack/merge terms (`cap3_fusion17`, `cap3_fusion17_frame_select_ceva_buf_trans`, `raw_merge`), and eight named RAW-to-RGB components (`raw2rgb`, `raw2rgb_hlrec_drc`, `med_ev_raw2rgb`, `min_ev_raw2rgb`). These are **source capabilities and symbol names**, not an observed execution path for an individual photo. Not every match is necessarily a multi-exposure operation.
+
+The original `vcam_driver.ko` defines nine RHDR-related control functions, including `teng_set_rhdr_frame_cnt_mode`, `teng_set_rhdr_frame_mode` and `teng_set_rhdr_lut`; this makes it plausible that the platform can support a hardware multi-frame or multi-exposure HDR mode. This **does not** prove the X2D II's HNCS HDR JPEG feature enables those RHDR registers when a photo is taken.
+
+The exact original `librcam.so` has 76 CCM-related function names including preparation getters for `main_ccm_lmtx_fw`, desaturation, brightness/hue offsets and level control. The kernel `vcam_driver.ko` has 23 CCM-related control/probe functions, including `ccm_set_ig0_config`. These names and the previously proven 16×6 signed register layout do **not** establish a six-coefficient pixel colour transform, its scale or region selection. The research pipeline continues to refuse production photographic rendering.
+
+Result metadata: `STAGE16_ORIGINAL_HDR_CCM_RECEIPT.json`, from successful [GitHub Actions run 39772731818](https://github.com/mwilliams455/Hasselblad/actions/runs/39772731818). No original vendor instructions, IQ tuning values or camera photographs are published.
+
 ## Proposed port architecture (design decision, not implementation)
 
 Keep the original 12 MP single-frame RAW and current SDR output as the reference. Add a **future explicit opt-in HDR-output variant**, not a capture-fusion change:

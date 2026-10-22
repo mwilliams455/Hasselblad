@@ -29,8 +29,9 @@ def test():
     require(containing_object(a,0x108)==[a[0]],"owner_interval")
     require(containing_object(a,0x118)==[],"owner_end_exclusive")
     require(containing_object(a,0x1010)==[],"owner_outside")
+    require((0x5658-0x55a8)==0xb0 and (0xb0//8)==22,"callback_slot_index")
     return {"schema":"stage29d-callback-object-synthetic-v1",
-            "status":"PASS_synthetic","object_boundary_cases":3,
+            "status":"PASS_synthetic","object_boundary_cases":4,
             "firmware_loaded":False,"X2D_record_type_proven":False}
 
 def inspect(path):
@@ -46,6 +47,13 @@ def inspect(path):
         s=elf.get_section_by_name(".symtab")
         require(s is not None,"symtab_missing")
         symbols=list(s.iter_symbols())
+        tidx=elf.get_section_index(".text")
+        check(tidx is not None,"missing_text_for_local_callback_resolution")
+        text_by_offset={}
+        for sym in symbols:
+            if (sym.name and sym["st_shndx"]==tidx and
+                sym["st_info"]["type"]=="STT_FUNC"):
+                text_by_offset.setdefault(int(sym["st_value"]),set()).add(sym.name)
         objects=[(int(sym["st_value"]),int(sym["st_size"]),sym.name)
                  for sym in symbols if sym.name and sym["st_shndx"]==roindex and
                  sym["st_info"]["type"]=="STT_OBJECT" and int(sym["st_size"])>0]
@@ -59,9 +67,14 @@ def inspect(path):
                 off=int(row["r_offset"])
                 if abs(off-REFERENCE_OFFSET)>WINDOW:continue
                 target=tab.get_symbol(int(row["r_info_sym"]))
+                resolved=None
+                if (not target.name and target["st_shndx"]==tidx and row.is_RELA()):
+                    possible=text_by_offset.get(int(target["st_value"])+int(row["r_addend"]),set())
+                    if len(possible)==1:resolved=next(iter(possible))
                 rel.append({"source_offset":off,"source_offset_hex":hex(off),
                     "relocation_type":int(row["r_info_type"]),
                     "target_symbol":target.name or None,
+                    "resolved_original_function_from_section_addend":resolved,
                     "target_symbol_type":target["st_info"]["type"],
                     "target_section_index":str(target["st_shndx"]),
                     "addend":int(row["r_addend"]) if row.is_RELA() else None})
@@ -75,6 +88,8 @@ def inspect(path):
         neighborhood=[{"slot_offset_hex":a["source_offset_hex"],
                         "relative_to_B2R_slot_bytes":a["source_offset"]-REFERENCE_OFFSET,
                         "target_symbol":a["target_symbol"],
+                        "resolved_original_function_from_section_addend":
+                            a["resolved_original_function_from_section_addend"],
                         "relocation_type":a["relocation_type"],
                         "target_is_function":a["target_symbol_type"]=="STT_FUNC"}
                       for a in rel]
@@ -85,6 +100,10 @@ def inspect(path):
                 "candidate_containing_STT_OBJECT_symbols":[
                     {"name":name,"start_hex":hex(offset),"size_bytes":size}
                     for offset,size,name in owners],
+                "b2r_pad_ops_callback_slot_index":
+                    (REFERENCE_OFFSET-owners[0][0])//8 if len(owners)==1 and
+                    owners[0][2]=="b2r_pad_ops" and (REFERENCE_OFFSET-owners[0][0])%8==0 else None,
+                "callback_slot_position_proves_standard_V4L2_ops_layout":False,
                 "neighboring_relocation_symbols":neighborhood,
                 "nearby_struct_name_is_not_type_or_ABI_proof":True,
                 "original_X2D_B2R_record_type_identified":False,

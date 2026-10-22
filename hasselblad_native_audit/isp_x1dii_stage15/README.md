@@ -37,3 +37,9 @@ The networked second command is intended for the ephemeral GitHub Actions runner
 1. Identify where X1D II exports its X1DM2-specific CCM coefficient **descriptors**, versus any actual pixel math; compare the older register/colour path with the independently proven X2D II 16-by-6 CCM register layout.
 2. If a candidate pixel-math routine is found, audit its original ARM32 instruction effects on **synthetic** bounded inputs, then compare its numeric model with the original X2D II pathway. Any difference is valuable and must not be silently hidden.
 3. Maintain strict distinction between the Stage14 synthetic software-ISP *display LUT* hypothesis and the actual photographic MAIN CCM/GAMMA/LUT processing. **No new APK or photographic colour enablement from this audit alone.**
+
+## Stage 15B: targeted model-specific IQ pointer audit
+
+The newer `audit_ccm_descriptors.py` inspects the **32-byte X1DM2 and IMX378 CCM, gamma and apost-LUT descriptor objects** as bounded ELF data, counting relocations and identifying the *sections* of pointer targets without exposing coefficient bytes. It also groups the X1D framework's `image_get_color_matrix1/2` with nearby exported functions so that TIFF/DNG metadata accessors cannot be mistaken for an ISP pixel transform. The targeted audit is independent of the generic exported-symbol audit above. A matching descriptor layout across two old sensors suggests the older firmware used a shared configuration ABI, but by itself says nothing about the X2DII hardware pixel equation.
+
+The complete original firmware libraries remain ephemeral and do not enter GitHub commits, reports or Android APKs.

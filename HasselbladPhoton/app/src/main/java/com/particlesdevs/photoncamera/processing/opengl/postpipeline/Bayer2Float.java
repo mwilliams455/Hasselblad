@@ -6,6 +6,7 @@ import com.particlesdevs.photoncamera.settings.annotations.Tunable;
 import com.particlesdevs.photoncamera.util.Log;
 
 import com.particlesdevs.photoncamera.app.PhotonCamera;
+import com.particlesdevs.photoncamera.hasselblad.HasselbladGpuStageProbe;
 import com.particlesdevs.photoncamera.processing.opengl.GLDrawParams;
 import com.particlesdevs.photoncamera.processing.opengl.GLFormat;
 import com.particlesdevs.photoncamera.processing.opengl.GLImage;
@@ -117,6 +118,14 @@ public class Bayer2Float extends Node {
         WorkingTexture = basePipeline.main2;
 
         drawMain();
+        // Stage6 executes only for the ONE frame-specific session explicitly
+        // armed from the development screen. Read existing framebuffer after
+        // its final draw without modifying the shader, texture or colour path.
+        if (postPipeline.stage6Session != null) {
+            postPipeline.stage6Session.sample(WorkingTexture,
+                    hlChromaResult != null, OpposedGL.CLIP_MAGIC * hlClip,
+                    !tileActive() && !basePipeline.mParameters.isCropped);
+        }
         // main1 must stay eagerly allocated here: deferring it moved the
         // GLTexture construction (whose constructor leaves the active texture
         // unit at GL_TEXTURE1 + name) to a different point in the render,

@@ -38,3 +38,11 @@ This is a **ranking**, not evidence of per-pixel hardware behaviour. A candidate
 Next: seek a MAIN-linked sampler/register bitfield definition or bounded hardware output oracle with an asymmetric test table. In parallel, validate an explicitly *empirical* Phocus-like output using genuine paired RAW+Phocus SDR renders and physical reference targets, with scene-level holdouts. Keep film tone and HDR gain-map output separate from WB-dependent colour.
 
 No proprietary code, tune bytes, original photographs, captured hashes, camera-specific matrices or IMaH firmware in public GitHub. Original user RAW and ROI reports remain private in the project Library.
+
+## Result from original-firmware first audit (source-derived ranking only)
+
+Verified GitHub Actions first original-IQ comparison on 22 October 2026 (run `39786133861`, exact pin X2D II 1.3.16.2). Each of the eight MAIN source profiles and eight LCDC source profiles preferred a three-planar-bank candidate over interleaving under the defined smooth/near-identity heuristic. The exact Stage9 DISPLAY bank/axis decoder was one of the six tied top-order candidates on all eight MAIN and eight LCDC profiles. The two LCDC source arrays are byte-identical, so their repeated result is **not independent confirmation**.
+
+Averaging over **six distinct** profile contents per block (not counting duplicate warm anchor profiles twice), MAIN had planar score `0.123847705` versus interleaved `0.727361884` (ratio **5.873**); LCDC0 had planar `0.115538862` versus interleaved `0.653124557` (ratio **5.653**). Those unitless numbers come from our authored heuristic; they are **not** evidence of a photographic Delta-E score or closeness to Hasselblad reference renders. Higher-quality prior knowledge (original ISP code/controlled pixel tests) would override them.
+
+**New scientific limit identified:** all six joint axis+component relabellings are tied for each profile under this symmetric metric. Their physically correct R/G/B interpretation is **unidentifiable** from smoothness and a symmetric RGB-identity prior alone. Additionally the present 72-model family list excludes possible Morton swizzles, grid shapers, and undocumented hardware coefficient transformations. We can prioritize planar candidates for future hardware testing, but **cannot declare the photographic MAIN cube format or sampler proven**.

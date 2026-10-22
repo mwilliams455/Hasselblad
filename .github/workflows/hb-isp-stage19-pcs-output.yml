@@ -1,0 +1,92 @@
+name: Hasselblad Stage19 PCS output and Phocus selector (no photo renderer)
+'on':
+  push:
+    branches:
+      - recovery/awb-rebuild-20261021
+    paths:
+      - 'hasselblad_native_audit/isp_colour_stage19/**'
+      - '.github/workflows/hb-isp-stage19-pcs-output.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  output-research:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - name: Checkout pinned research history
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Protect Stage18 DNG model and installed phone renderer
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --quiet c74374b27678236d01d1014573e0e5c7e22afe25 HEAD -- \
+            HasselbladPhoton/app \
+            hasselblad_native_audit/isp_dng_stage18 \
+            hasselblad_native_audit/isp_research_stage14 \
+            hasselblad_native_audit/photographic_profile_stage8 \
+            hasselblad_native_audit/main_colour_20261019
+          if git ls-files 'hasselblad_native_audit/isp_colour_stage19' | \
+             grep -E '\.(dng|cim|jpg|jpeg|heic|png|npz|apk|zip|so|o)$'; then
+            echo 'Forbidden binary or personal image committed into public Stage19' >&2
+            exit 1
+          fi
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install independent maths reference
+        run: python -m pip install --disable-pip-version-check 'numpy>=2.0,<3.0'
+      - name: Native output primaries + Phocus selector against NumPy (GCC + Clang)
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 hasselblad_native_audit/isp_colour_stage19/tests/test_colour_stage19.py \
+            --output "$RUNNER_TEMP/STAGE19_PUBLIC_TEST.json"
+      - name: Stage18 to Stage19 end-to-end synthetic camera→D50→sRGB/P3
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 hasselblad_native_audit/isp_colour_stage19/tests/test_stage18_stage19_chain.py \
+            --output "$RUNNER_TEMP/STAGE19_CHAIN_PUBLIC_TEST.json"
+      - name: Run AddressSanitizer and UndefinedBehaviorSanitizer
+        shell: bash
+        run: |
+          set -euo pipefail
+          cc -std=c11 -O1 -g -Wall -Wextra -Werror -fsanitize=address,undefined \
+             -fno-omit-frame-pointer -I hasselblad_native_audit/isp_colour_stage19/src \
+             hasselblad_native_audit/isp_colour_stage19/tests/asan_stage19.c \
+             hasselblad_native_audit/isp_colour_stage19/src/hb_colour_stage19.c -lm \
+             -o "$RUNNER_TEMP/hb_stage19_sanitizer"
+          ASAN_OPTIONS=detect_leaks=1:halt_on_error=1 \
+          UBSAN_OPTIONS=halt_on_error=1 "$RUNNER_TEMP/hb_stage19_sanitizer"
+      - name: Confirm production and Phocus source-value gates closed
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - "$RUNNER_TEMP/STAGE19_PUBLIC_TEST.json" "$RUNNER_TEMP/STAGE19_CHAIN_PUBLIC_TEST.json" <<'PY'
+          import json,sys
+          result=json.load(open(sys.argv[1])); chain=json.load(open(sys.argv[2]))
+          assert result['status']=='PASS' and chain['status']=='PASS'
+          assert len(result['runtimes'])==2 and len(chain['results'])==2
+          for run in result['runtimes']:
+              assert run['status']=='PASS' and run['source_tuning_payload_present'] is False
+              assert run['hasselblad_original_pixel_pipeline_verified'] is False
+              assert run['production_renderer_unchanged'] is True
+              assert run['phocus_selector_cases']>=4000
+          assert chain['original_camera_lut_absent'] is True
+          assert chain['original_main_ccm_pixel_equation_not_established'] is True
+          assert chain['photo_saved'] is False
+          print('Stage19 SOURCE ONLY: PASS, original photographic pixel transformation still gated.')
+          PY
+      - name: Upload safe numerical evidence only
+        uses: actions/upload-artifact@v4
+        with:
+          name: HasselbladStage19-PCS-and-Phocus-selector-math
+          path: |
+            ${{ runner.temp }}/STAGE19_PUBLIC_TEST.json
+            ${{ runner.temp }}/STAGE19_CHAIN_PUBLIC_TEST.json
+          retention-days: 7
+          if-no-files-found: error

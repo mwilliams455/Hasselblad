@@ -1,0 +1,22 @@
+{
+  "axis_mapping_unidentifiable_without_input_pixel_oracle": true,
+  "compiler": "gcc",
+  "encoded_transfer_control_winner": "encoded_standard_gamut",
+  "full_grid_axis_permutations_proven_score_invariant": 6,
+  "identity_negative_control_winner": "identity",
+  "linear_known_bank_winner": "201",
+  "monochrome_equal_bank_ambiguity_confirmed": true,
+  "no_original_vendor_data_in_synthetic_test": true,
+  "photographic_render_authorized": false,
+  "renderer_unchanged": true,
+  "schema": "hasselblad-stage22-synthetic-gamut-check-v1",
+  "standard_primaries_vs_stage19_bridge_max_error": 5.551115123125783e-16,
+  "status": "PASS",
+  "synthetic_grid_nodes": 4096,
+  "tested_output_bank_permutations": 6,
+  "tested_transfer_hypotheses": [
+    "identity",
+    "linear_standard_gamut",
+    "encoded_standard_gamut"
+  ]
+}

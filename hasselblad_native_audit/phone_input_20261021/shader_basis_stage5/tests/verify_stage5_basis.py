@@ -42,13 +42,14 @@ def build(out,compiler='cc',opt='-O2',label='host'):
     lib.hb_s5_project.restype=C.c_int
     return lib,path
 
-def invoke(lib, raw, mp, study=2,black=64,white=1023):
+def invoke(lib, raw, mp, study=2,black=64,white=1023,
+           timestamp=123456789,exposure=24000000,iso=50):
     assert raw.dtype==np.uint16 and raw.ndim==2 and raw.flags.c_contiguous
     assert mp.dtype==np.float32 and mp.ndim==3 and mp.shape[2]==4 and mp.flags.c_contiguous
     h,w=raw.shape; my,mx,_=mp.shape
     inp=Input(raw.view(np.uint8).ctypes.data_as(C.POINTER(C.c_uint8)),int(raw.nbytes),
         w,h,w*2,0,black,white,mp.ctypes.data_as(C.POINTER(C.c_float)),mx,my,int(mp.size),study,
-        219959124714440,24000000,50,1,1)
+        timestamp,exposure,iso,1,1)
     out=Output()
     status=lib.hb_s5_project(C.byref(inp),C.byref(out))
     return status,inp,out
@@ -90,8 +91,10 @@ def oracle(raw,mp,study=2,black=64,white=1023):
 def frame_means(out):
     return np.asarray([[float(x) for x in b.mean] for b in out.observation.blocks])
 
-def assert_aligned(lib,raw,mp,study,black=64,white=1023):
-    status,inp,out=invoke(lib,raw,mp,study,black=black,white=white)
+def assert_aligned(lib,raw,mp,study,black=64,white=1023,
+                   timestamp=123456789,exposure=24000000,iso=50):
+    status,inp,out=invoke(lib,raw,mp,study,black=black,white=white,
+                          timestamp=timestamp,exposure=exposure,iso=iso)
     assert status==0,(status,raw.shape,study)
     measured=frame_means(out)
     expected=oracle(raw,mp,study,black=black,white=white)
@@ -148,7 +151,18 @@ def replay_private(lib,capture_path,dng,domain_path,private_report):
     assert capture['dng']['sha256']==sha and capture['dng']['bytes']==dng.stat().st_size
     assert str(domain_json['source_frame_number'])==capture['frame_number']==capture['original_still']['selected_result_frame_number']
     assert domain_json['source_sensor_timestamp_ns']==capture['delivered_raw']['sensor_timestamp_ns']
-    assert capture['original_still']['sensor_provenance']['sensor_provenance_matched']
+    orig=capture['original_still']
+    prov=orig['sensor_provenance']
+    assert prov['sensor_provenance_matched'] and prov['result_camera_id_matched']
+    assert prov['request_targets_recorded_raw_surface'] and prov['selected_and_logical_frame_number_matched']
+    assert not prov['selected_characteristics_are_logical']
+    assert prov['selected_calibration_camera_id']==prov['selected_result_camera_id']==domain_json['physical_sensor_id']
+    assert capture['delivered_raw']['sensor_timestamp_ns']==domain_json['source_sensor_timestamp_ns']
+    assert orig['selected_sensor_timestamp_ns']==orig['selected_raw_sensor_result']['android.sensor.timestamp']
+    assert capture['delivered_raw']['format']==32 and capture['delivered_raw']['binned'] is False
+    assert capture['delivered_raw']['delivered_width']==int(capture['delivered_raw']['copied_width'])
+    assert capture['delivered_raw']['delivered_height']==int(capture['delivered_raw']['copied_height'])
+    assert capture['delivered_raw']['image_crop_rect']==[0,0,int(capture['delivered_raw']['delivered_width']),int(capture['delivered_raw']['delivered_height'])]
     map_json=capture['original_still']['selected_raw_sensor_result']['android.statistics.lensShadingCorrectionMap']
     mp=np.ascontiguousarray(np.asarray(map_json['gains'],np.float32).reshape(map_json['rows'],map_json['columns'],4))
     original=capture['original_still']['selected_raw_sensor_result']
@@ -157,11 +171,16 @@ def replay_private(lib,capture_path,dng,domain_path,private_report):
     white=original['android.sensor.dynamicWhiteLevel']
     assert black[0]==int(black[0]) and isinstance(white,int)
     raw=np.ascontiguousarray(tifffile.imread(dng).astype(np.uint16))
+    assert raw.shape==(capture['delivered_raw']['delivered_height'],capture['delivered_raw']['delivered_width'])
+    timestamp=int(original['android.sensor.timestamp'])
+    exposure=int(original['android.sensor.exposureTime'])
+    iso=int(original['android.sensor.sensitivity'])
     results=[]
     stage4,_=build_stage4(ROOT/'artifacts')
     domain=load_domain(domain_json)
     for study in (1,2):
-        err,inp,out=assert_aligned(lib,raw,mp,study,black=int(black[0]),white=white)
+        err,inp,out=assert_aligned(lib,raw,mp,study,black=int(black[0]),white=white,
+                                    timestamp=timestamp,exposure=exposure,iso=iso)
         assert out.saturated_blocks==0 and out.invalid_ratio_blocks==0
         row={'basis':'original_unshaded' if study==1 else 'hypothetical_photon_relative_lens_gain',
              'max_normalized_site_mean_abs_error':err,'result':[]}

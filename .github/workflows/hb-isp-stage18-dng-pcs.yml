@@ -53,6 +53,11 @@ jobs:
               assert t['photo_render_authorized'] is False
           print('PASS: 256 synthetic profiles, 393216 scalar checks, no photographic renderer.')
           PY
+      - name: Verify synthetic Bayer CFA site-channel ordering (no real DNG)
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 hasselblad_native_audit/isp_dng_stage18/tests/dng_cfa_probe.py
       - name: Test C bounds with address and undefined-behaviour sanitizers
         shell: bash
         run: |

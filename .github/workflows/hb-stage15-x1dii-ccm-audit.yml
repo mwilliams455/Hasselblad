@@ -44,6 +44,13 @@ jobs:
           mkdir -p "$RUNNER_TEMP/hb-stage15"
           python hasselblad_native_audit/isp_x1dii_stage15/inspect_x1dii_isp.py \
             --output "$RUNNER_TEMP/hb-stage15/STAGE15_X1DII_ELF_AUDIT.json"
+      - name: Trace X1DM2 CCM/gamma/3D LUT descriptor pointers and matrix-accessor neighbours
+        shell: bash
+        run: |
+          set -euo pipefail
+          python hasselblad_native_audit/isp_x1dii_stage15/audit_ccm_descriptors.py --self-test
+          python hasselblad_native_audit/isp_x1dii_stage15/audit_ccm_descriptors.py \
+            --output "$RUNNER_TEMP/hb-stage15/STAGE15_X1DII_CCM_DESCRIPTORS.json"
       - name: Protect production Photon code and filter artifact content
         shell: bash
         run: |
@@ -65,12 +72,19 @@ jobs:
           assert j['source_platform']['platform']['android_sdk']=='23'
           assert len([x for x in j['library_inspection'] if x.startswith('lib/')])==8
           assert p.stat().st_size < 350000
+          d=json.loads(p.with_name('STAGE15_X1DII_CCM_DESCRIPTORS.json').read_text())
+          assert d['x1dm2']['descriptors']['x1dm2_iq_ccm_settings']['found'] is True
+          assert d['generic_imx378']['descriptors']['imx378_iq_ccm_settings']['found'] is True
+          assert d['vendor_numeric_tables_in_report'] is False
+          assert d['x2dii_ccm_16_by_6_pixel_equation_proven'] is False
           print('PASS Stage15 public metadata only; no vendor payloads, no false original CCM proof')
           PY
       - name: Upload only JSON symbol metadata and findings
         uses: actions/upload-artifact@v4
         with:
           name: Hasselblad-Stage15-X1DII-CrossGeneration-CCM-Leads
-          path: ${{ runner.temp }}/hb-stage15/STAGE15_X1DII_ELF_AUDIT.json
+          path: |
+            ${{ runner.temp }}/hb-stage15/STAGE15_X1DII_ELF_AUDIT.json
+            ${{ runner.temp }}/hb-stage15/STAGE15_X1DII_CCM_DESCRIPTORS.json
           if-no-files-found: error
           retention-days: 7

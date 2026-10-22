@@ -43,3 +43,7 @@ The networked second command is intended for the ephemeral GitHub Actions runner
 The newer `audit_ccm_descriptors.py` inspects the **32-byte X1DM2 and IMX378 CCM, gamma and apost-LUT descriptor objects** as bounded ELF data, counting relocations and identifying the *sections* of pointer targets without exposing coefficient bytes. It also groups the X1D framework's `image_get_color_matrix1/2` with nearby exported functions so that TIFF/DNG metadata accessors cannot be mistaken for an ISP pixel transform. The targeted audit is independent of the generic exported-symbol audit above. A matching descriptor layout across two old sensors suggests the older firmware used a shared configuration ABI, but by itself says nothing about the X2DII hardware pixel equation.
 
 The complete original firmware libraries remain ephemeral and do not enter GitHub commits, reports or Android APKs.
+
+## Stage 15C: vendor OTA partition (new research target)
+
+The upstream public tree also holds a 17,530,880-byte `vendor.new.dat` and `vendor.transfer.list`, but does not expose their contents as a searchable directory. The new `inspect_vendor_partition.py` reconstructs the OTA ext4 vendor partition *temporarily* from the pinned Git blob IDs, lists camera/DSP/ISP candidate filenames, sizes and hashes, and erases the working image. It never commits or exports vendor firmware bytes, executes anything, or claims this yields the CCM formula. This inventory can determine whether a further DSP or ISP oracle is even present in the older firmware.

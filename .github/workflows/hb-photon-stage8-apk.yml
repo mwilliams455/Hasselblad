@@ -1,19 +1,6 @@
 name: Hasselblad Stage8 portable profile probe APK
 
 "on":
-  push:
-    branches:
-      - recovery/awb-rebuild-20261021
-    paths:
-      - 'hasselblad_native_audit/photographic_profile_stage8/**'
-      - 'HasselbladPhoton/app/src/main/java/com/particlesdevs/photoncamera/hasselblad/HasselbladProfilePreparationCheck.java'
-      - 'HasselbladPhoton/app/src/main/cpp/hasselblad/hb_photo_profile_jni.c'
-      - 'HasselbladPhoton/app/src/main/cpp/CMakeLists.txt'
-      - 'HasselbladPhoton/app/src/main/res/layout/activity_hasselblad_development.xml'
-      - 'HasselbladPhoton/app/src/main/java/com/particlesdevs/photoncamera/hasselblad/HasselbladDevelopmentActivity.java'
-      - 'HasselbladPhoton/app/build.gradle'
-      - 'HasselbladPhoton/app/version.properties'
-      - '.github/workflows/hb-photon-stage8-apk.yml'
   workflow_dispatch:
 
 permissions:
@@ -26,6 +13,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          # Stage8 is the frozen rollback baseline; do not rebuild the latest
+          # research branch and mislabel newer Stage26 bits as Stage8.
+          ref: 16a733a93742725cfbc864e67fb2ec748cb85589
           persist-credentials: false
       - uses: actions/setup-java@v4
         with:

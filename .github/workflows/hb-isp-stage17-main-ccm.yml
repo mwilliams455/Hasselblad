@@ -31,6 +31,7 @@ jobs:
         run: |
           set -euo pipefail
           python3 hasselblad_native_audit/isp_ccm_stage17/inspect_ccm_constraints.py --self-test
+          python3 hasselblad_native_audit/isp_ccm_stage17/inspect_ccm_kernel_headers.py --self-test
       - name: Fetch original signed camera firmware as transient research data
         shell: bash
         run: |
@@ -50,6 +51,9 @@ jobs:
           python3 hasselblad_native_audit/isp_ccm_stage17/inspect_ccm_constraints.py \
             --firmware-root hasselblad_native_audit/firmware/extracted \
             --output "$RUNNER_TEMP/STAGE17_ORIGINAL_CCM_CONSTRAINTS.json"
+          python3 hasselblad_native_audit/isp_ccm_stage17/inspect_ccm_kernel_headers.py \
+            --module hasselblad_native_audit/firmware/extracted/system/lib/modules/kheaders.ko \
+            --output "$RUNNER_TEMP/STAGE17_ORIGINAL_CCM_KERNEL_HEADERS.json"
       - name: Enforce research/evidence boundaries and inspect structural findings
         shell: bash
         run: |
@@ -76,12 +80,25 @@ jobs:
           assert j['vendor_ccm_coefficient_bytes_exported'] is False
           print('PASS Stage17 structural original-file/source analysis; pixel CCM remains unproven')
           PY
+          python3 - "$RUNNER_TEMP/STAGE17_ORIGINAL_CCM_KERNEL_HEADERS.json" <<'PY'
+          import json,sys
+          j=json.load(open(sys.argv[1]))
+          assert j['status']=='verified_header_archive_bounded_content_search'
+          assert j['original_kheaders_module_sha256']=='b7cbbd598da206e828b96d8103650f790ef7508bd0e1835ab3485c04aad9621b'
+          assert j['unresolved_core_pixel_ccm_equation'] is True
+          assert j['vendor_header_contents_exported'] is False
+          assert j['firmware_tables_or_values_exported'] is False
+          assert j['member_count']>9000
+          print('PASS Stage17 original kernel header bounds and safe metadata')
+          PY
           test -z "$(git ls-files 'hasselblad_native_audit/firmware/*.cim')"
       - name: Upload filtered original-source CCM structure report only
         if: success()
         uses: actions/upload-artifact@v4
         with:
           name: Hasselblad-Stage17-MAIN-CCM-Constraints
-          path: ${{ runner.temp }}/STAGE17_ORIGINAL_CCM_CONSTRAINTS.json
+          path: |
+            ${{ runner.temp }}/STAGE17_ORIGINAL_CCM_CONSTRAINTS.json
+            ${{ runner.temp }}/STAGE17_ORIGINAL_CCM_KERNEL_HEADERS.json
           if-no-files-found: error
           retention-days: 7

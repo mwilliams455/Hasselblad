@@ -88,9 +88,53 @@ def config_analysis(conf):
                               'axis':p.get('axis'),'mem_cfgen':p.get('mem_cfgen')})
                     val['records'].append(d)
                 modules.append(val)
+    # Recompute the original camera's per-6144-word source-profile classes
+    # without exporting actual vendor tuning values or bytes.
+    raw_profiles=[]
+    import struct
+    for block in ('main_3dlut','lcdc_3dlut0','lcdc_3dlut1',
+                  'pyra_3dlut0','pyra_3dlut1','pyra_3dlut2'):
+        entries=data[0].get(block,[])
+        if not isinstance(entries,list) or len(entries)!=1 or not isinstance(entries[0],dict):continue
+        key='lut_data' if block=='main_3dlut' else 'tlut'
+        values=entries[0].get(key)
+        if not isinstance(values,list) or len(values)%6144 or not values:continue
+        require(all(type(n) is int and 0<=n<=4294967295 for n in values),
+                'not_uint32_lut_'+block)
+        profilehashes=[]
+        for offset in range(0,len(values),6144):
+            buf=struct.pack('<6144I',*values[offset:offset+6144])
+            profilehashes.append(hashlib.sha256(buf).hexdigest())
+        classes=[]
+        for h in dict.fromkeys(profilehashes):
+            classes.append([i for i,x in enumerate(profilehashes) if x==h])
+        raw_profiles.append({'block':block,'profile_count':len(profilehashes),
+                             'distinct_hashes':len(classes),
+                             'equal_profile_index_groups':classes,
+                             'sha256_per_profile':profilehashes})
+    camera=conf.get('camera',{})
+    # This is publicly named IQ-axis metadata, not sensor calibration/tuning.
+    reg={}
+    if isinstance(camera,dict):
+        for key in ('cc_color_temp','color_gamut','liveview_scenario','lut3d',
+                    'local_lut3d_num','color_temp'):
+            v=camera.get(key)
+            if isinstance(v,list):
+                record={'present':True,'count':len(v)}
+                if len(v)<=32 and all(type(i) in (int,str,bool) for i in v):
+                    record['declared_axis_values']=v
+            elif type(v) in (int,str,bool):
+                record={'present':True,'scalar':v}
+            else:record={'present':False,'python_type':type(v).__name__}
+            reg[key]=record
+    related_camera_key_names=sorted(k for k in camera if
+        any(x in k.lower() for x in ('lut3d','scenario','mode'))) if isinstance(camera,dict) else []
     return {'source':'exact_HASH_pinned_original_hb722_config.json',
             'scan_scope':'Named top-level IQ data/modules containing 3dlut/post_hdr/post_scap3/scap3/hdr; numeric values deliberately excluded',
             'data_group_count':len(data),
+            'camera_axis_registry':reg,
+            'related_camera_key_names':related_camera_key_names,
+            'independent_original_6144_word_profile_identity_groups':raw_profiles,
             'matching_data_groups':inventory,
             'matching_module_descriptors':modules}
 

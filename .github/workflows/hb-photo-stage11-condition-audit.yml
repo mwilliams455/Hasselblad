@@ -1,0 +1,65 @@
+name: Hasselblad Stage11 conditional photo LUT evidence audit
+
+"on":
+  push:
+    branches:
+      - recovery/awb-rebuild-20261021
+    paths:
+      - hasselblad_native_audit/photographic_condition_stage11/**
+      - .github/workflows/hb-photo-stage11-condition-audit.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Exercise bounded selector and input guards
+        run: python3 hasselblad_native_audit/photographic_condition_stage11/condition_audit.py --self-test
+      - name: Verify original public reports and condition graph
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 hasselblad_native_audit/photographic_condition_stage11/condition_audit.py \
+            --output "$RUNNER_TEMP/STAGE11_PUBLIC_EVIDENCE.json"
+          python3 - "$RUNNER_TEMP/STAGE11_PUBLIC_EVIDENCE.json" <<'PY'
+          import json,sys
+          j=json.load(open(sys.argv[1]))
+          assert j['status']=='PASS' and j['render_permitted'] is False
+          assert j['main_lut']['unique_stored_profile_payloads']==6
+          assert j['main_lut']['native_real_asset_cases_already_verified']==10
+          assert j['distinct_lut_asset_families']['family_count']==3
+          assert j['other_condition_dependence']['gamma']['still4_knee_enabled']
+          assert j['other_condition_dependence']['ccm']['secondary_profile_banks_identical_in_this_config']
+          assert len(j['selector_scenarios'])==20
+          assert j['original_firmware_executed_in_this_stage'] is False
+          assert j['photographic_renderer_modified'] is False
+          print('PASS Stage11 static routing, native-hash anchors, negative claims and no render authorization')
+          PY
+      - name: Guard Stage8 phone renderer, Stage9/10 and prior capture evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          base=61f3810b2db52cae91f1c8f0c6dca99f005b3390
+          test -z "$(git diff --name-only "$base" HEAD -- HasselbladPhoton/app/ \
+            hasselblad_native_audit/photographic_pixel_stage9/ \
+            hasselblad_native_audit/photographic_main_stage10/)"
+          ! grep -R -E 'samples_r_base64|raw_sensor_timestamp_ns|original_dng_sha256' \
+            hasselblad_native_audit/photographic_condition_stage11/ --exclude='*.yml'
+      - name: Upload public research receipt (no firmware or captures)
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HasselbladStage11-Condition-Evidence
+          path: ${{ runner.temp }}/STAGE11_PUBLIC_EVIDENCE.json
+          retention-days: 7
+          if-no-files-found: error

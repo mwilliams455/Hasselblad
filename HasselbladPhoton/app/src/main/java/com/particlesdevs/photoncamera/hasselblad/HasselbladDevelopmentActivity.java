@@ -23,6 +23,8 @@ public final class HasselbladDevelopmentActivity extends BaseActivity {
     private boolean domainBusy;
     private volatile String latestStage8Json;
     private boolean stage8Busy;
+    private volatile String latestStage26Json;
+    private boolean stage26Busy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +94,17 @@ public final class HasselbladDevelopmentActivity extends BaseActivity {
                 Toast.makeText(this,"Stage8 report copied",Toast.LENGTH_SHORT).show();
             }
         });
+        findViewById(R.id.hasselblad_stage26_run).setOnClickListener(view -> runStage26());
+        findViewById(R.id.hasselblad_stage26_copy).setOnClickListener(view -> {
+            String json = latestStage26Json;
+            if (json == null) return;
+            ClipboardManager clipboard = getSystemService(ClipboardManager.class);
+            if (clipboard != null) {
+                clipboard.setPrimaryClip(ClipData.newPlainText(
+                        "Hasselblad Stage26 neutral JNI synthetic diagnostic", json));
+                Toast.makeText(this, "Stage26 JSON copied", Toast.LENGTH_SHORT).show();
+            }
+        });
         refreshStage6();
         runCheck();
     }
@@ -141,6 +154,37 @@ public final class HasselbladDevelopmentActivity extends BaseActivity {
                         +"\nPhoton colour unchanged. Copy JSON for diagnostic details.");
             });
         },"HB-stage8-profile-on-demand").start();
+    }
+
+    /** Synthetic neutral PCS matrix test: no original MAIN processing or photo writes. */
+    private void runStage26() {
+        if (stage26Busy) return;
+        stage26Busy = true;
+        latestStage26Json = null;
+        MaterialButton button = findViewById(R.id.hasselblad_stage26_run);
+        button.setEnabled(false);
+        findViewById(R.id.hasselblad_stage26_copy).setEnabled(false);
+        ((TextView) findViewById(R.id.hasselblad_stage26_status)).setText(
+                "Checking bounded Stage24 native linear colour tiles, without accessing photos...");
+        new Thread(() -> {
+            final String json = HasselbladColourReferenceCheck.run();
+            runOnUiThread(() -> {
+                if (isFinishing() || isDestroyed()) return;
+                latestStage26Json = json;
+                stage26Busy = false;
+                button.setEnabled(true);
+                findViewById(R.id.hasselblad_stage26_copy).setEnabled(true);
+                boolean passed = false;
+                try { passed = "PASS".equals(new JSONObject(json).optString("status")); }
+                catch (Exception ignored) { }
+                ((TextView) findViewById(R.id.hasselblad_stage26_status)).setText(
+                        (passed ? "Stage26 PASS" : "Stage26 NOT PASSED")
+                        + " — Stage24 colourimetry through Android JNI, synthetic pixels only."
+                        + "\nNo Hasselblad MAIN CCM/gamma/LUT pixel parity; no HNCS look."
+                        + "\nNo RAW photo read, saved JPEG change or WB calibration."
+                        + "\nCopy JSON for timing, pass counts and scope.");
+            });
+        }, "HB-stage26-neutral-on-demand").start();
     }
 
     private void runDomain() {

@@ -1,0 +1,107 @@
+name: Hasselblad Stage27 original MAIN CCM invariant proof
+
+"on":
+  push:
+    branches:
+      - recovery/awb-rebuild-20261021
+    paths:
+      - 'hasselblad_native_audit/isp_main_stage27/**'
+      - '.github/workflows/hb-stage27-main-ccm-invariants.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  original-ccm-invariants:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - name: Read-only checkout of research branch
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify no Stage27 camera production modifications
+        run: |
+          set -euo pipefail
+          test -z "$(git diff --name-only 6c8c687609cf92f2ca3b0256728b5b2000d3ec1b HEAD -- HasselbladPhoton)"
+      - name: Synthetic group/bank counterexamples and C versus Python
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 hasselblad_native_audit/isp_main_stage27/audit_ccm_invariants27.py             --self-test --repo-root . --compiler gcc             --output "$RUNNER_TEMP/STAGE27_SYNTHETIC.json"
+          python3 - "$RUNNER_TEMP/STAGE27_SYNTHETIC.json" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          assert d['status']=='PASS_synthetic_controls'
+          assert d['adversarial_group_counterexample_detected'] is True
+          assert d['adversarial_bank_counterexample_detected'] is True
+          assert d['sampled_CCTs']>=100 and d['sampled_Q8_weights']==8
+          assert d['pixel_equation_proven'] is False
+          PY
+      - name: Install exact-source inert firmware parser dependencies
+        run: |
+          set -euo pipefail
+          python -m pip install --disable-pip-version-check             'cryptography>=42,<47' 'brotli>=1.1,<2' 'dissect.extfs>=3,<4'             'pyelftools>=0.31,<1' 'capstone>=5,<6'
+      - name: Retrieve official exact X2D II firmware in transient storage
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p hasselblad_native_audit/firmware
+          firmware=hasselblad_native_audit/firmware/X2DII_100C_v1_3_16_2.cim
+          curl --fail --location --retry 2 --retry-delay 4 --connect-timeout 25 --max-time 520             --silent --show-error             'https://cdn.hasselblad.com/firmware/X2D_II_100C_Firmware/1.3.16.2/X2DII_100C_v1_3_16_2(1).cim'             --output "$firmware"
+          test "$(stat -c %s "$firmware")" -eq 364814336
+          echo '9789d6a9843d388034bc12341ad9a97585c25cb98cf11a0da8b768399b4842f6  '"$firmware" | sha256sum -c -
+      - name: Extract hash-pinned firmware without executing it
+        run: |
+          set -euo pipefail
+          python3 hasselblad_native_audit/extract_official.py > "$RUNNER_TEMP/STAGE27_PRIVATE_EXTRACTION.log"
+      - name: Establish static MAIN CCM selector and bank invariants
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 hasselblad_native_audit/isp_main_stage27/audit_ccm_invariants27.py             --repo-root .             --firmware-root hasselblad_native_audit/firmware/extracted             --compiler gcc             --output "$RUNNER_TEMP/STAGE27_CCM_INVARIANTS.json"
+          python3 - "$RUNNER_TEMP/STAGE27_CCM_INVARIANTS.json" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          assert d['status']=='PASS_exact_table_invariants'
+          assert d['original_table_hash_matched'] is True
+          assert d['original_source_profiles']==8
+          assert d['region_groups']==16 and d['coefficients_per_group']==6
+          assert d['all_source_groups_equal'] is True
+          assert d['all_source_high_ISO_banks_equal'] is True
+          assert d['prepared_groups_equal_for_all_CCTs'] is True
+          assert d['prepared_coefficients_independent_of_bank_weight_for_all_CCTs'] is True
+          assert d['six_coefficient_pixel_equation_proven'] is False
+          assert d['photographic_render_authorized'] is False
+          assert d['vendor_tuning_values_exported'] is False
+          assert d['phone_renderer_modified'] is False
+          PY
+      - name: Check aggregate-only outputs and delete original assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - "$RUNNER_TEMP/STAGE27_CCM_INVARIANTS.json" "$RUNNER_TEMP/STAGE27_SYNTHETIC.json" <<'PY'
+          import json,sys
+          for p in sys.argv[1:]:
+              d=json.load(open(p))
+              assert not any(k in d for k in ('original_coefficients','raw_pixels','vendor_values','source_table'))
+              assert d.get('camera_renderer_modified',d.get('phone_renderer_modified')) is False
+              assert d.get('pixel_equation_proven',d.get('six_coefficient_pixel_equation_proven')) is False
+          PY
+          rm -f hasselblad_native_audit/firmware/X2DII_100C_v1_3_16_2.cim
+          rm -rf hasselblad_native_audit/firmware/extracted
+          test -z "$(git status --porcelain --untracked-files=no)"
+      - name: Publish sanitized invariant reports only
+        uses: actions/upload-artifact@v4
+        with:
+          name: Hasselblad-Stage27-MAIN-CCM-Invariants-Safe
+          path: |
+            ${{ runner.temp }}/STAGE27_CCM_INVARIANTS.json
+            ${{ runner.temp }}/STAGE27_SYNTHETIC.json
+          if-no-files-found: error
+          retention-days: 14

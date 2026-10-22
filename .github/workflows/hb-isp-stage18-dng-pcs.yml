@@ -1,0 +1,72 @@
+name: Hasselblad Stage18 DNG camera-to-PCS reference (synthetic only)
+'on':
+  push:
+    branches:
+      - recovery/awb-rebuild-20261021
+    paths:
+      - 'hasselblad_native_audit/isp_dng_stage18/**'
+      - '.github/workflows/hb-isp-stage18-dng-pcs.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  dng-forward-matrix-reference:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Protect prior original research and production camera
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --quiet 1e58eb4212e4d4d99893c57cd51637b39aa31aba HEAD -- \
+            HasselbladPhoton/app \
+            hasselblad_native_audit/isp_research_stage14 \
+            hasselblad_native_audit/isp_ccm_stage17 \
+            hasselblad_native_audit/photographic_profile_stage8 \
+            hasselblad_native_audit/photographic_pixel_stage9
+          test "$(git ls-files 'hasselblad_native_audit/firmware/*.cim' | wc -l)" -eq 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install independent numerical reference dependency
+        run: python -m pip install 'numpy>=2.0,<3'
+      - name: Run synthetic dual-compiler matrix and white-neutral tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 hasselblad_native_audit/isp_dng_stage18/tests/test_dng_pcs_bridge.py \
+             --output "$RUNNER_TEMP/STAGE18_PUBLIC_TEST.json"
+          python3 - "$RUNNER_TEMP/STAGE18_PUBLIC_TEST.json" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1]));assert d['status']=='PASS'
+          assert len(d['test_runs'])==2
+          for t in d['test_runs']:
+              assert t['synthetic_profile_cases']==128
+              assert t['synthetic_pixel_scalars_compared']==196608
+              assert t['negative_guard_cases']>=15
+              assert t['max_abs_error']<1e-12
+              assert t['original_hasselblad_ccm_verified'] is False
+              assert t['photo_render_authorized'] is False
+          print('PASS: 256 synthetic profiles, 393216 scalar checks, no photographic renderer.')
+          PY
+      - name: Test C bounds with address and undefined-behaviour sanitizers
+        shell: bash
+        run: |
+          set -euo pipefail
+          cc -std=c11 -O1 -g -fno-omit-frame-pointer -fsanitize=address,undefined \
+            -Wall -Wextra -Werror \
+            hasselblad_native_audit/isp_dng_stage18/src/hb_dng_pcs_bridge.c \
+            hasselblad_native_audit/isp_dng_stage18/tests/asan_bridge.c \
+            -lm -o "$RUNNER_TEMP/hb_stage18_asan"
+          ASAN_OPTIONS=detect_leaks=1 "$RUNNER_TEMP/hb_stage18_asan"
+      - name: Upload safe mathematical receipt only
+        uses: actions/upload-artifact@v4
+        with:
+          name: Hasselblad-Stage18-Camera-to-PCS-Math-Only
+          path: ${{ runner.temp }}/STAGE18_PUBLIC_TEST.json
+          retention-days: 7
+          if-no-files-found: error

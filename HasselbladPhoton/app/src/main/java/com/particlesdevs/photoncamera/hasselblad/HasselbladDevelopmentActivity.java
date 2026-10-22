@@ -131,7 +131,9 @@ public final class HasselbladDevelopmentActivity extends BaseActivity {
                 stage8Busy=false;
                 findViewById(R.id.hasselblad_stage8_run).setEnabled(true);
                 findViewById(R.id.hasselblad_stage8_copy).setEnabled(true);
-                boolean passed=result.contains("\\"status\\":\\"PASS\\"");
+                boolean passed=false;
+                try { passed="PASS".equals(new JSONObject(result).optString("status")); }
+                catch (Exception ignored) { }
                 ((TextView)findViewById(R.id.hasselblad_stage8_status)).setText(
                         (passed?"Stage8 PASS":"Stage8 NOT PASSED")
                         +" — original native fixture and full-size synthetic profile tests."

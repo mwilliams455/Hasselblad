@@ -193,6 +193,12 @@ def demosaic_linear_rg_reference(mosaic: np.ndarray) -> np.ndarray:
         if (support<=0).any():
             raise ValueError('Demosaic CFA support lost')
         out[:,:,channel]=weighted/support
+        # Bilinear demosaicing must preserve the original sensor sample at
+        # every CFA site of its own channel (especially the two green sites).
+        # The normalized-convolution stencil otherwise blends diagonal G
+        # neighbours into an already measured green sample.
+        occupied = mask != 0
+        out[:,:,channel][occupied] = mosaic[occupied]
     if not np.isfinite(out).all():
         raise ValueError('Demosaic produced invalid channel')
     return out

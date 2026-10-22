@@ -39,7 +39,8 @@ class Receipt(C.Structure):
         'unresolved_contracts_mask')]
 
 def lib_compile(directory:Path, optimization='-O2'):
-    libpath=directory/'libhb_isp_research.so'
+    # Unique SONAME/path prevents dlopen from reusing the prior optimization's handle.
+    libpath=directory/('libhb_isp_research_'+optimization.lstrip('-')+'.so')
     args=[os.environ.get('CC','cc'),'-std=c11',optimization,'-Wall','-Wextra','-Werror','-ffp-contract=off',
           '-fPIC','-shared',
           '-I'+str(ROOT/'src'),'-I'+str(MAIN_HEADER),

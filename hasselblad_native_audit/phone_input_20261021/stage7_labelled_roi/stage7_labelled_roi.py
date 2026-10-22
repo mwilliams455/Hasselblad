@@ -73,6 +73,11 @@ def verify_capture(cap, dng_path, raw):
     white = int(still['selected_raw_sensor_result']['android.sensor.dynamicWhiteLevel'])
     check(black.shape == (4,) and np.isfinite(black).all() and
           (black >= 0).all() and white > max(black), 'invalid_dynamic_levels')
+    original_result = still['selected_raw_sensor_result']
+    exposure = int(original_result['android.sensor.exposureTime'])
+    iso = int(original_result['android.sensor.sensitivity'])
+    check(1000 <= exposure <= 60_000_000_000 and 1 <= iso <= 409600,
+          'unusable_exposure_or_iso')
     neutral = [rational(e) for e in still['selected_raw_sensor_result']['android.sensor.neutralColorPoint']]
     check(len(neutral) == 3 and abs(neutral[1] - 1) < 1e-8, 'invalid_green_normalization')
     export = cap['effective_photon_export']
@@ -84,7 +89,7 @@ def verify_capture(cap, dng_path, raw):
         'frame': cap['frame_number'], 'timestamp': dr['sensor_timestamp_ns'],
         'dng_sha256': identity['sha256'], 'width': w, 'height': h,
         'dynamic_black': black, 'static_black': np.asarray(characteristics['android.sensor.blackLevelPattern'],dtype=np.float64),
-        'white': white, 'hal_neutral': neutral,
+        'white': white, 'hal_neutral': neutral, 'exposure_time_ns': exposure, 'ISO': iso,
         'raw_binning_factor_reported': still['selected_raw_sensor_result'].get('android.sensor.rawBinningFactorUsed'),
     }
 
@@ -223,8 +228,11 @@ def evaluate(cap, raw, ann, binding):
         sources = model_sites(raw,rect,binding,mp)
         canonical = sources['original_dng_no_extra_shading_dynamic_black']
         valid = np.all((canonical >= .005)&(canonical <= .95)&np.isfinite(canonical),axis=-1)
+        too_dim = np.any(canonical < .005,axis=-1)
+        too_bright = np.any(canonical > .95,axis=-1)
         hist = {'total_cells':int(valid.size),'valid_cells':int(valid.sum()),
                 'excluded_dim_or_saturated_cells':int(valid.size-valid.sum()),
+                'dim_cells':int(too_dim.sum()), 'near_saturation_cells':int(too_bright.sum()),
                 'valid_fraction':float(valid.mean())}
         bases = {}
         for name, z in sources.items():
@@ -274,6 +282,25 @@ def test():
          'regions':[{'id':'gray_card','role':'neutral_reference','source':'measured_reference_card',
                      'illuminant':'daylight','rect_raw_xywh':[0,0,64,64]}]}
     verify_annotations(ann,binding)
+    # A perfectly neutral-looking synthetic sample is not, by its pixels,
+    # grounds to select a WB. Even an annotated card remains reference-only.
+    mockcap={'original_still':{'selected_raw_sensor_result':{}},
+       'scene_candidate_diagnostics':{'policies':[{'decision':'diagnostic_candidate',
+           'radius_q12':128,'gain_q12':[8192,4096,16384]}]}}
+    outcome=evaluate(mockcap,raw,ann,binding)
+    assert outcome['production_wb_unchanged'] and not outcome['automatic_wb_selected']
+    assert outcome['regions'][0]['eligible_for_future_controlled_reference_study']
+    assert not outcome['regions'][0]['render_permitted']
+    assert outcome['regions'][0]['basis_hypotheses']['original_dng_no_extra_shading_dynamic_black']['comparisons_not_truth_checks']['stage4_diagnostic_radius_q12_128']['max_abs_gain_residual_stops']<1e-12
+    ann['regions'][0]['role']='nonneutral_holdout'
+    ann['regions'][0]['source']='human_visual_annotation'
+    ann['regions'][0]['illuminant']='unknown'
+    outcome=evaluate(mockcap,raw,ann,binding)
+    assert not outcome['regions'][0]['eligible_for_future_controlled_reference_study']
+    assert not outcome['regions'][0]['render_permitted']
+    ann['regions'][0]['role']='neutral_reference'
+    ann['regions'][0]['source']='measured_reference_card'
+    ann['regions'][0]['illuminant']='daylight'
     import copy
     for bad, value in [('rect_raw_xywh',[1,0,32,32]),('role','not_really_neutral'),('source','unlabelled')]:
         other=copy.deepcopy(ann);other['regions'][0][bad]=value

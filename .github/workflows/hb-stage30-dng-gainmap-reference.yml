@@ -1,0 +1,122 @@
+name: Hasselblad Stage30 DNG GainMap neutral RAW reference
+
+"on":
+  push:
+    branches:
+      - recovery/awb-rebuild-20261021
+    paths:
+      - 'hasselblad_native_audit/isp_dng_stage30/**'
+      - 'hasselblad_native_audit/isp_colour_stage24/src/offline_render24.py'
+      - '.github/workflows/hb-stage30-dng-gainmap-reference.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  offline-gainmap-reference:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - name: Check out recovery source without write credentials
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Validate unchanged Android camera renderer and native colour engine
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -z "$(git diff --name-only 759fbf0bdf34b1b48ee89047d0e22a9a686a8767 HEAD -- HasselbladPhoton)"
+          test -z "$(git diff --name-only 759fbf0bdf34b1b48ee89047d0e22a9a686a8767 HEAD -- \
+            hasselblad_native_audit/isp_colour_stage24/src/hb24_renderer.c \
+            hasselblad_native_audit/isp_colour_stage24/src/hb24_renderer.h \
+            hasselblad_native_audit/isp_dng_stage18 \
+            hasselblad_native_audit/isp_colour_stage19 \
+            hasselblad_native_audit/isp_main_stage21)"
+          python3 -m py_compile hasselblad_native_audit/isp_dng_stage30/src/dng_gainmap30.py
+          python3 -m py_compile hasselblad_native_audit/isp_colour_stage24/src/offline_render24.py
+          python3 -m py_compile hasselblad_native_audit/isp_dng_stage30/tests/test_gainmap30.py
+          python3 -m py_compile hasselblad_native_audit/isp_dng_stage30/tests/test_stage24_integration30.py
+      - name: Install public scientific dependencies only
+        run: |
+          python3 -m pip install --disable-pip-version-check \
+            'numpy>=1.26,<3' 'pillow>=10,<13' 'tifffile>=2024,<2028' \
+            'opencv-python-headless>=4.9,<5'
+      - name: Test strict GainMap framing and independent scalar reference
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 hasselblad_native_audit/isp_dng_stage30/tests/test_gainmap30.py \
+            | tee "$RUNNER_TEMP/STAGE30_GAINMAP_SYNTHETIC.json"
+          python3 - "$RUNNER_TEMP/STAGE30_GAINMAP_SYNTHETIC.json" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          assert d['status']=='PASS' and d['checks_passed']>=27
+          assert d['max_scalar_vs_vector_difference']<1e-6
+          assert d['supports_four_independent_Bayer_gainmaps'] is True
+          assert d['unknown_optional_opcodes_rejected'] is True
+          assert d['real_dng_tested'] is False
+          assert d['sdk_bit_exact_parity_proven'] is False
+          assert d['vendor_hncs_equivalence'] is False
+          assert d['photographic_renderer_modified'] is False
+          PY
+      - name: Verify Stage24 original and new opt-in integration paths
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 hasselblad_native_audit/isp_dng_stage30/tests/test_stage24_integration30.py \
+            | tee "$RUNNER_TEMP/STAGE30_STAGE24_INTEGRATION.json"
+          python3 - "$RUNNER_TEMP/STAGE30_STAGE24_INTEGRATION.json" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          assert d['status']=='PASS'
+          assert d['stage24_original_demosaic_untouched'] is True
+          assert d['real_dng_processed'] is False
+          assert d['original_x2d_isp_equivalence'] is False
+          assert d['original_phone_JPEG_modified'] is False
+          PY
+      - name: Re-run Stage24 exact native colourimetric synthetic parity under GCC
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 hasselblad_native_audit/isp_colour_stage24/tests/test_renderer24.py \
+            --compiler gcc --output "$RUNNER_TEMP/STAGE30_STAGE24_GCC.json"
+      - name: Re-run Stage24 exact native colourimetric synthetic parity under Clang
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 hasselblad_native_audit/isp_colour_stage24/tests/test_renderer24.py \
+            --compiler clang --output "$RUNNER_TEMP/STAGE30_STAGE24_CLANG.json"
+      - name: Bound public artifact payload and refuse private vendor/photo files
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - "$RUNNER_TEMP" <<'PY'
+          import json,pathlib,sys
+          root=pathlib.Path(sys.argv[1]); research=pathlib.Path('hasselblad_native_audit/isp_dng_stage30')
+          assert not any(f.suffix.lower() in ('.dng','.3fr','.cim','.jpg','.jpeg','.tif','.tiff','.so','.apk') for f in research.rglob('*') if f.is_file())
+          for path in ('STAGE30_GAINMAP_SYNTHETIC.json','STAGE30_STAGE24_INTEGRATION.json','STAGE30_STAGE24_GCC.json','STAGE30_STAGE24_CLANG.json'):
+              d=json.loads((root/path).read_text())
+              assert d.get('status')=='PASS'
+              if 'photographic_renderer_modified' in d: assert d['photographic_renderer_modified'] is False
+              if 'production_saved_photo_renderer_unchanged' in d: assert d['production_saved_photo_renderer_unchanged'] is True
+              assert d.get('real_dng_tested',d.get('real_dng_processed',False)) is False
+              assert d.get('vendor_hncs_equivalence',d.get('Hasselblad_ISP_equivalence_proven',False)) is False
+          print('PASS synthetic-only provenance and no private photographic assets')
+          PY
+          test -z "$(git status --porcelain --untracked-files=no)"
+      - name: Upload numeric synthetic receipts only
+        uses: actions/upload-artifact@v4
+        with:
+          name: Hasselblad-Stage30-Opcode2-GainMap-Synthetic-Safe
+          path: |
+            ${{ runner.temp }}/STAGE30_GAINMAP_SYNTHETIC.json
+            ${{ runner.temp }}/STAGE30_STAGE24_INTEGRATION.json
+            ${{ runner.temp }}/STAGE30_STAGE24_GCC.json
+            ${{ runner.temp }}/STAGE30_STAGE24_CLANG.json
+          if-no-files-found: error
+          retention-days: 14

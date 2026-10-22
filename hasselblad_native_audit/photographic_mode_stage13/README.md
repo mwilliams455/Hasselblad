@@ -1,0 +1,11 @@
+# Stage13 — Fresh original X2D II still/HDR LUT path inspection
+
+The central unresolved question is whether normal still, enhanced normal, or HDR changes the **actual photographic MAIN 3D LUT** when CCT and gamut are held fixed. Earlier research has identified three original functions, a global `MAIN_3DLUT.lut_data` with CCT/gamut axes and verified the portable mathematical profile calculation, but has **not proven equivalent mode inputs, effective submitted table hashes or MAIN pixel sampling**.
+
+Stage13 is an optional **fresh original-firmware static inspection** designed to get closer to that proof: locate precisely named IQ data and module records for MAIN, post-SCAP3 and post-HDR; validate the original ARM64 function identities; and compare their direct dispatcher and register-set call patterns. Neither disassembly syntax nor original vendor bytes are exported in the result.
+
+The CI downloads **only the official firmware** `X2DII_100C_v1_3_16_2(1).cim` temporarily, validates its complete SHA-256 (`9789d6a9843d388034bc12341ad9a97585c25cb98cf11a0da8b768399b4842f6`) and uses the existing pinned `extract_official.py` to read the original IQ and `librcam.so` in ephemeral GitHub Actions storage. The derived public artifact contains only configuration key names, metadata type/group/axes, numeric table lengths, function sizes and pinned direct-call addresses. **No extracted firmware, proprietary tuning arrays, user photos, DSP code, native binary or full assembly dumps are added to GitHub or uploaded as artifacts.**
+
+Scope remains **static** even if CI passes. The exact mode-dependent selected LUT pointer and effective MAIN register 2998 table hash require a validated original-runtime trace or device hardware test; reading a callsite cannot automatically establish source identity. This stage does not modify a camera application, create an APK or apply colour processing.
+
+If the public CDN is inaccessible to the Actions runner or dependencies fail, the result is explicitly an attempted original-firmware inspection with an external-access blocker. The already-successful Stage12 report remains the verified evidence. Do not fabricate a runtime oracle or fallback to guessing MAIN/display equivalence.

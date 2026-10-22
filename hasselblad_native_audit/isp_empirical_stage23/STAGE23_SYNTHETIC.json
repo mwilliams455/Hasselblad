@@ -1,0 +1,8 @@
+{
+  "negative_cases_passed": 4,
+  "photographic_render_authorized": false,
+  "schema": "hasselblad-stage23-x2dii-empirical-reference-v1",
+  "source_input": "synthetic_only",
+  "status": "PASS_synthetic_arithmetic_and_provenance",
+  "tests": "identity_mutation_exposure_and_provenance"
+}

@@ -56,3 +56,31 @@ The matching GitHub Actions workflow downloads and hash-verifies the official CI
 The hard remaining proof is an original **MAIN CCM input/output contract**: selector/group semantics, coefficient Q format, effective six-value pixel operation, channel coordinate domain, clipping, rounding, and relation to MAIN gamma/LUT. New work should pursue a directly matched Eagle2 hardware description or controlled ISP input/output probes. Once these exist, Stage14 can implement the pixel operation in a host-side software ISP and compare against it; only afterward should any colour transform be connected to the phone APK. HDR output is tracked separately as a possible single-exposure gain-map workflow.
 
 Branch safety: only the `recovery/awb-rebuild-20261021` research tree changes; no APK, Stage8 JNI or Photon photographic rendering changes; `main` stays untouched.
+
+## Stage 17 original-run results (verified GitHub Actions)
+
+The exact original IQ and driver audit at run `39774929119` completed successfully. The result contains only structural/boolean metadata:
+
+- **Four distinct MAIN CCM CCT anchor profiles:** 2400, 3050, 5550, 9100 K. This contrasts with the previously audited photographic MAIN LUT's equal **2400/3050 K** source profiles within each gamut. Therefore a white-balance/CCT change in that warm interval still changes CCM preparation even though the MAIN LUT source does not change.
+- At all four CCM anchors, **each of the six coefficient positions changes across the anchors**; no anchor-position coefficient is zero. Their signs differ by anchor (first component changes sign between warm and daylight entries), which is not a pixel-equation identification.
+- Within **each** of eight stored source profiles, all **16 six-coefficient groups** are numerically identical. Between the two stored high-ISO banks, corresponding profile values are numerically identical. The interpreter checked nine colour temperatures and five independent high-ISO Q8 weights (0/64/128/192/256): every prepared output retained 16 identical rows and was independent of the tested HISO weight.
+- All four `enable_lpf`, `enable_hue_mod`, `enable_desaturation` and `enable_level_ctrl` selectors are zero in the examined `data[0]` source. Those off switches do not prove all CCM companion parameters are unused; e.g. `offset` and `ycoef` are distinct configuration fields.
+- `ccm_set_fn0_config`, `ccm_set_ig0_config` and `lite_ccm_set_info` were checked against original code extents and hashes. None has an ARM multiply instruction; they configure registers rather than transforming full RGB frames. This is a bounded observation of the selected routines only.
+
+The additional original kernel-header scan at GitHub Actions run `39775535710` also passed. `system/lib/modules/kheaders.ko` SHA256 `b7cbbd598da206e828b96d8103650f790ef7508bd0e1835ab3485c04aad9621b` embeds an XZ archive of 9,329 header members, compressed stream SHA256 `e0a474714b6980b41d9d7701a6bd768240a63d0889d8b37ae726f976d3199c27`. Among 38 headers with lexical CCM hits, six were in prioritized vendor/media/ISP paths:
+
+- `include/media/dji/isp/apical_ext_config.h`: names a *different* Apical ISP family of RGB coefficient registers, not a proven X2D II MAIN CCM equation.
+- `include/soc/dji/display/dji_e4_disp_gfx_ccm.h` and `include/soc/dji/display/dji_e4_disp_vid_tm_ccm.h`: display/video-tone CCM register macros, not MAIN photographic CCM.
+- `include/dt-bindings/reset-controller/eagle2-resets.h`: `VI_ISP_YUF_PIPE_CCM_RST` and `VI_ISP_YUF_PIPE_CCM_DUP_RST` name reset-controlled blocks; the names alone do not map pixel equations or input domains.
+- The other prioritized matches are LCDC display CCM and generic Apical calibration control headers.
+
+**No header gave the target MAIN CCM's six-coefficient Q encoding, output equation, interpolation/rounding, or a matching physical register specification.** Missing documentation is a limitation, not permission to substitute another SoC's standard 3×3 equation.
+
+## Research route after Stage 17
+
+1. Find a MAIN-specific Eagle2 YUV/CCM hardware register specification or a controlled ISP before/after pixel oracle. If none exists, mark exact reproduction as blocked by unknown ISP computation instead of repeatedly testing parameter preparation.
+2. Separately recover the available MAIN gamma curve sampling and the MAIN 3D LUT packing/input domain. The display LUT implementation in Stage 9 is **not** the same as a proven MAIN sampler.
+3. Establish a physically bound phone RAW adapter with measured grey-card illumination references, then run side-by-side actual photographic comparisons. Measured color-matrix approximations based on X2D output, if used, must be labelled as measured approximations rather than recovered original Q-format arithmetic.
+4. Keep any HDR gain-map output optional and downstream of the validated SDR photographic pipeline; do not enable generic stacked smartphone HDR as a substitute for X2D HDR.
+
+No new photographic colour code has been applied to the Android app or to user images. The Stage 8 APK build 27186 remains the last phone-validated experimental application. `main` stays unchanged.

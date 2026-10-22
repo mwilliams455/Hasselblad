@@ -93,6 +93,29 @@ if(ANDROID_ABI STREQUAL "arm64-v8a")
     set_target_properties(hasselblad_profile_jni PROPERTIES
         C_STANDARD 11 C_STANDARD_REQUIRED ON
         LINK_FLAGS "-Wl,--gc-sections,-z,defs,-z,max-page-size=16384")
+
+    # Stage26: original Stage24 PCS-only colourimetry through a bounded JNI tile.
+    # It is NOT connected to Camera2, raw processing, saved JPEG or the camera
+    # viewfinder. No vendor CCM/LUT assets or HNCS mode are bundled.
+    set(HB_STAGE24 "${HB_AUDIT}/isp_colour_stage24/src")
+    set(HB_STAGE18 "${HB_AUDIT}/isp_dng_stage18/src")
+    set(HB_STAGE19 "${HB_AUDIT}/isp_colour_stage19/src")
+    set(HB_STAGE21 "${HB_AUDIT}/isp_main_stage21/src")
+    add_library(hasselblad_colour_reference_jni SHARED
+        hasselblad/hb_colour_reference_jni.c
+        "${HB_STAGE24}/hb24_renderer.c"
+        "${HB_STAGE18}/hb_dng_pcs_bridge.c"
+        "${HB_STAGE19}/hb_colour_stage19.c"
+        "${HB_STAGE21}/hb_main_candidate21.c")
+    target_include_directories(hasselblad_colour_reference_jni PRIVATE
+        "${HB_STAGE24}" "${HB_STAGE18}" "${HB_STAGE19}" "${HB_STAGE21}")
+    target_compile_options(hasselblad_colour_reference_jni PRIVATE
+        -O2 -Wall -Wextra -Werror -ffp-contract=off
+        -fvisibility=hidden -ffunction-sections -fdata-sections)
+    set_target_properties(hasselblad_colour_reference_jni PROPERTIES
+        C_STANDARD 11 C_STANDARD_REQUIRED ON
+        LINK_FLAGS "-Wl,--gc-sections,-z,defs,-z,max-page-size=16384")
+    target_link_libraries(hasselblad_colour_reference_jni m)
 endif()
 
 

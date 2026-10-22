@@ -39,7 +39,7 @@ jobs:
           python3 - "$RUNNER_TEMP/STAGE29_SYNTHETIC.json" <<'PY'
           import json,sys
           d=json.load(open(sys.argv[1]))
-          assert d['status']=='PASS_synthetic' and d['invariant_cases']==7
+          assert d['status']=='PASS_synthetic' and d['invariant_cases']==8
           assert d['vendor_firmware_loaded'] is False
           assert d['hardware_pixel_equation_recovered'] is False
           assert d['photo_renderer_changed'] is False
@@ -81,6 +81,7 @@ jobs:
           a=d['B2R_related_format_callsite_argflow']['ccm_set_fmt']
           assert a['callsite_section_offset']=='0x6d598'
           assert sorted(a['candidate_ABI_argument_registers'])==['x0','x1','x2','x3']
+          assert 'common_record_pointer_x19_last_writers' in a
           b=d['CCM_format_to_fn0_argflow']['ccm_set_fn0_config']
           assert b['callsite_section_offset']=='0x314f0'
           print(json.dumps({'status':'PASS_stage29_original_argument_scope',

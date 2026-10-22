@@ -122,6 +122,14 @@ def main():
     rgb=demosaic_linear_rg_reference(flat)
     assert np.allclose(rgb[2:-2,2:-2],np.asarray([.75,.32,.125]),atol=3e-6);n+=1
     assert rgb.dtype==np.float32 and rgb.shape==(*wh,3);n+=1
+    # Bilinear demosaic must not change the recorded green sites when the two
+    # green photosite classes have different shading gains.
+    split_green=flat.copy()
+    split_green[::2,1::2]=.52
+    split_green[1::2,::2]=.21
+    parsed=demosaic_linear_rg_reference(split_green)
+    assert np.array_equal(parsed[::2,1::2,1],split_green[::2,1::2])
+    assert np.array_equal(parsed[1::2,::2,1],split_green[1::2,::2]);n+=1
     verify_reject(lambda:demosaic_linear_rg_reference(flat.astype(np.float64)));n+=1
     verify_reject(lambda:apply_gainmaps(np.zeros((18,24),dtype=np.uint16),maps));n+=1
     assert len(maps)==4;n+=1

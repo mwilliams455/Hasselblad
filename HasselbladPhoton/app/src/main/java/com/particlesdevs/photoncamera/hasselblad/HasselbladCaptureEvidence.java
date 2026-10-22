@@ -250,6 +250,66 @@ public final class HasselbladCaptureEvidence {
         }
     }
 
+    /**
+     * Stage6 ties its GPU samples to an already-saved, checksum-identified
+     * DNG, a proven physical sensor, and exactly one unmodified RAW frame.
+     * This is read-only. No CaptureResult/RAW value is changed by the probe.
+     * The Stage6 result is copied from the dev screen AFTER rendering because
+     * the original .capture.json sidecar has already been saved at this point.
+     */
+    public JSONObject stage6OriginalIdentity() {
+        try {
+            if (!document.getBoolean("calibration_evidence_usable")
+                    || !"image_timestamp_equals_selected_still_result_timestamp"
+                    .equals(document.getString("pairing_status")) || !document.has("dng"))
+                return null;
+            JSONObject original=document.getJSONObject("original_still");
+            JSONObject provenance=original.getJSONObject("sensor_provenance");
+            if (!provenance.getBoolean("sensor_provenance_matched")
+                    || !provenance.getBoolean("result_camera_id_matched")
+                    || !provenance.getBoolean("request_targets_recorded_raw_surface")
+                    || !provenance.getBoolean("selected_and_logical_frame_number_matched")
+                    || provenance.getBoolean("selected_characteristics_are_logical"))
+                return null;
+            String camera=provenance.getString("selected_calibration_camera_id");
+            if (!camera.equals(provenance.getString("selected_result_camera_id")))
+                return null;
+            String frame=document.getString("frame_number");
+            String stamp=original.getString("selected_sensor_timestamp_ns");
+            if (!frame.equals(original.getString("selected_result_frame_number"))
+                    || !stamp.equals(original.getJSONObject("selected_raw_sensor_result")
+                    .getString("android.sensor.timestamp"))
+                    || !stamp.equals(document.getJSONObject("delivered_raw")
+                    .getString("sensor_timestamp_ns")))
+                return null;
+            JSONObject raw=document.getJSONObject("delivered_raw");
+            if (raw.getInt("delivered_width")!=raw.getInt("copied_width")
+                    || raw.getInt("delivered_height")!=raw.getInt("copied_height")
+                    || raw.getInt("copy_offset_bytes")!=0 || raw.getBoolean("binned"))
+                return null;
+            JSONObject dng=document.getJSONObject("dng");
+            String hash=dng.getString("sha256");
+            if (!hash.matches("[0-9a-f]{64}") || dng.getLong("bytes")<=0)
+                return null;
+            JSONObject out=new JSONObject();
+            out.put("physical_sensor_proven",true);
+            out.put("physical_sensor_id",camera);
+            out.put("frame_number",frame);
+            out.put("sensor_timestamp_ns",stamp);
+            out.put("width",raw.getInt("copied_width"));
+            out.put("height",raw.getInt("copied_height"));
+            out.put("cfa",original.getJSONObject("selected_sensor_characteristics")
+                    .getInt("android.sensor.info.colorFilterArrangement"));
+            out.put("original_dng_name",dng.getString("name"));
+            out.put("original_dng_bytes",dng.getLong("bytes"));
+            out.put("original_dng_sha256",hash);
+            out.put("original_metadata_binding","image+physical_sensor+frame+timestamp+saved_DNG_hash");
+            return out;
+        } catch (Exception ignored) {
+            return null;
+        }
+    }
+
     /** Must be called after FillDynamicParameters but BEFORE processingParameter mutation for render. */
     public void recordEffective(Parameters p, CaptureResult fixedResult) {
         if (p == null) return;

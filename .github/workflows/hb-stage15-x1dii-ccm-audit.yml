@@ -31,7 +31,7 @@ jobs:
         run: |
           set -euo pipefail
           python -m pip install --disable-pip-version-check --no-cache-dir \
-            'pyelftools==0.32' 'capstone==5.0.6'
+            'pyelftools==0.32' 'capstone==5.0.6' 'dissect.extfs>=3,<4'
       - name: Validate hash pins, parser logic and classification safeguards
         shell: bash
         run: |
@@ -51,6 +51,13 @@ jobs:
           python hasselblad_native_audit/isp_x1dii_stage15/audit_ccm_descriptors.py --self-test
           python hasselblad_native_audit/isp_x1dii_stage15/audit_ccm_descriptors.py \
             --output "$RUNNER_TEMP/hb-stage15/STAGE15_X1DII_CCM_DESCRIPTORS.json"
+      - name: Inspect previously unexpanded X1D II vendor filesystem for camera DSP candidates
+        shell: bash
+        run: |
+          set -euo pipefail
+          python hasselblad_native_audit/isp_x1dii_stage15/inspect_vendor_partition.py --self-test
+          python hasselblad_native_audit/isp_x1dii_stage15/inspect_vendor_partition.py \
+            --output "$RUNNER_TEMP/hb-stage15/STAGE15_X1DII_VENDOR_INVENTORY.json"
       - name: Protect production Photon code and filter artifact content
         shell: bash
         run: |
@@ -77,6 +84,10 @@ jobs:
           assert d['generic_imx378']['descriptors']['imx378_iq_ccm_settings']['found'] is True
           assert d['vendor_numeric_tables_in_report'] is False
           assert d['x2dii_ccm_16_by_6_pixel_equation_proven'] is False
+          inv=json.loads(p.with_name('STAGE15_X1DII_VENDOR_INVENTORY.json').read_text())
+          assert inv['partition']['all_source_data_consumed'] is True
+          assert inv['vendor_payload_copied_into_report'] is False
+          assert inv['original_isp_pixel_ccm_equation_verified'] is False
           print('PASS Stage15 public metadata only; no vendor payloads, no false original CCM proof')
           PY
       - name: Upload only JSON symbol metadata and findings
@@ -86,5 +97,6 @@ jobs:
           path: |
             ${{ runner.temp }}/hb-stage15/STAGE15_X1DII_ELF_AUDIT.json
             ${{ runner.temp }}/hb-stage15/STAGE15_X1DII_CCM_DESCRIPTORS.json
+            ${{ runner.temp }}/hb-stage15/STAGE15_X1DII_VENDOR_INVENTORY.json
           if-no-files-found: error
           retention-days: 7

@@ -74,6 +74,28 @@
                 android:textIsSelectable="true"
                 android:text="Run this diagnostic after a RAW photo. Photon colour is unchanged." />
 
+            <!-- Stage6 is armed manually and samples only one later Bayer draw. -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/hasselblad_stage6_arm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Arm Stage6 GPU comparison for next RAW photo" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/hasselblad_stage6_copy"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:text="Copy Stage6 GPU report JSON" />
+            <TextView
+                android:id="@+id/hasselblad_stage6_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textIsSelectable="true"
+                android:text="Stage6 is not armed. GPU data never changes saved photo colours." />
+
             <TextView
                 android:id="@+id/hasselblad_check_policy"
                 android:layout_width="match_parent"

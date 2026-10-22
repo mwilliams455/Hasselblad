@@ -1,0 +1,21 @@
+{
+  "status": "PASS",
+  "schema": "hasselblad-domain3-pair-and-shading-public-v1",
+  "strict_dng_frame_pairing_proven": true,
+  "original_dng_sha256_verified": true,
+  "dng_file_size_verified": true,
+  "original_physical_camera_and_timestamp_verified": true,
+  "device_domain_frame_matches_capture_sidecar": true,
+  "camera2_to_dng_numerical_value_matches": 59,
+  "camera2_to_dng_exact_rational_matches": 47,
+  "camera2_to_dng_equivalent_zero_denominator_changes": 12,
+  "original_HAL_and_effective_Photon_neutral_equal": true,
+  "original_and_effective_lens_shading_map_equal": true,
+  "scene1b_shading_unchanged": true,
+  "shading_sensitivity_evaluated_not_rendered": true,
+  "shading_explains_tint_offset_fully": false,
+  "photographic_renderer_changed": false,
+  "shipping_neutral_selected": false,
+  "jpeg_file_level_pairing_proven": false,
+  "missing_external_physical_light_and_target_calibration": true
+}

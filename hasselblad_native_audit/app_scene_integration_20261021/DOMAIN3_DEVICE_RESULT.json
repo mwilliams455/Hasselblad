@@ -9,17 +9,26 @@
     "scene_signed_gain": 3,
     "temperature_clipped": 19
   },
+  "equivalent_zero_value_denominator_changes": 12,
   "grid_points_checked": 729,
   "hncs_rendering_integrated": false,
   "jpeg_file_pairing_proven": false,
   "new_apk_required_for_this_verification": false,
   "on_device_domain1_reported": true,
+  "original_camera2_calibration_numerical_matches": 59,
+  "original_camera2_lens_shading_map_matches_Photon_export": true,
+  "original_camera2_rational_exact_matches": 47,
+  "original_dng_hash_and_size_verified_from_capture_sidecar": true,
+  "original_photon_neutral_matches_HAL": true,
   "photographic_wb_changed": false,
   "raw_blocks_checked": 1024,
   "schema": "hasselblad-domain3-device-verification-public-v1",
+  "shading_sensitivity_fully_explains_model_tint_offset": false,
   "shipping_policy_selected": false,
+  "sidecar_frame_timestamp_and_physical_camera_bind_to_domain": true,
   "status": "PASS",
-  "strict_dng_frame_pairing_proven": false,
+  "strict_dng_frame_pairing_proven": true,
+  "supplementary_pair_shading_report": "DOMAIN3_PAIR_SHADING_RESULT.json",
   "validation_scope": "One real phone calibration and RAW mode; real native phone report plus independent host DNG-matrix replay. No physical Kelvin accuracy or device generalization.",
-  "warning": "Do not infer physical illuminant from reconstructed CT/tint on uncertified surfaces. White-like and colored subjects can both match 2D chromaticity curves."
+  "warning": "Pairing is now verified with the original DNG hash, physical camera and timestamp. Numerical model parity does not establish physical illuminant accuracy or a calibrated neutral selector."
 }

@@ -88,8 +88,8 @@ def inspect(driver:Path,prior_path:Path)->dict[str,Any]:
         symbols=list(symtab.iter_symbols())
         by_name={}
         for sym in symbols:
-            if sym.name and sym["st_shndx"]==text_idx and
-                    sym["st_info"]["type"]=="STT_FUNC":
+            if (sym.name and sym["st_shndx"]==text_idx and
+                    sym["st_info"]["type"]=="STT_FUNC"):
                 by_name.setdefault(sym.name,[]).append(sym)
         for name,(at,size) in EXPECTED.items():
             arr=by_name.get(name,[])

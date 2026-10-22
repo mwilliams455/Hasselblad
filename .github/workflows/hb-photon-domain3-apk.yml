@@ -1,14 +1,9 @@
 name: Hasselblad Photon Domain3 signed diagnostic APK
 
+# Historical Domain3 27184 reproduction: use its pinned source commit.
+# Stage6 has a separate workflow; do not rebuild Domain3 on Stage6 changes.
 "on":
   workflow_dispatch:
-  push:
-    branches:
-      - recovery/awb-rebuild-20261021
-    paths:
-      - HasselbladPhoton/app/**
-      - hasselblad_native_audit/phone_input_20261021/**
-      - .github/workflows/hb-photon-domain3-apk.yml
 
 permissions:
   contents: read

@@ -1,0 +1,37 @@
+name: Hasselblad Stage9 DISPLAY candidate maths (not photographic MAIN)
+
+"on":
+  push:
+    branches:
+      - recovery/awb-rebuild-20261021
+    paths:
+      - 'hasselblad_native_audit/photographic_pixel_stage9/**'
+      - '.github/workflows/hb-photo-stage9-display-math.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  display-native-reference:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Original display-native fixture parity and negative guards
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 hasselblad_native_audit/photographic_pixel_stage9/tests/test_display_lut16.py
+      - name: Reject vendor/photo content and any app renderer edits in this change
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -z "$(git diff --name-only 26d473c79119c0b5e41cd84c6709133e3c641cab HEAD -- \
+            HasselbladPhoton/app/src/main/assets/shaders \
+            HasselbladPhoton/app/src/main/java/com/particlesdevs/photoncamera/processing \
+            HasselbladPhoton/app/src/main/cpp/CMakeLists.txt)"
+          test ! -e hasselblad_native_audit/photographic_pixel_stage9/camera_lut_words.bin
+          ! grep -Fq 'MAIN_3DLUT verified' hasselblad_native_audit/photographic_pixel_stage9/STAGE9_README.md

@@ -48,3 +48,21 @@ rm -rf "$PAIR_TEMP"
 Original images must be handled within the rights and limitations of the public contributor's sharing terms. This repository does not distribute those images. No external rendering source is executable by these research modules.
 
 **Next scientific gate:** multiple independent X2D II same-shutter RAW+camera JPEG+**default Phocus TIFF** samples with an explicitly recorded illuminant/colour-chart target and several scene types; these can validate a real phone-to-HNCS approximation without pretending it matches the ISP instruction-for-instruction. The original pixel hardware oracle remains an independent goal. Phone baseline Stage8 `27186` remains unchanged; `photographic_render_authorized=false`.
+
+## Completed original-image result (22 October 2026)
+
+Exact published source: `kmichels-x2dii-2026-07` first pair `B_31325`; immutable Hncs manifest `eddba2570ba2d19f443920483e5228685830127f` at commit `5f1dd7e8f4fa64b16032842e4be50208c16a4140`. Authored research commit `41bc0e3722815f14b8bfe4003e33b3888e39eb77`; GitHub Actions run **39800282664**, with all job steps marked passed, retrieved artifact `Hasselblad-Stage23-Original-Camera-Reference-Metrics.zip`. The camera RAW and JPEG downloaded successfully into the temporary runner, were verified as the same source stem and X2D II camera, ISO50 with zero-second EXIF capture-time difference, and both yielded all 24 independently detected chart patches. Downloaded image bytes were deleted locally after the run and excluded from public source/artifacts.
+
+The public aggregate-only result is `STAGE23_REFERENCE_PUBLIC_AGGREGATE.json`:
+
+| Mean colour difference (CIEDE2000), 24-patch ColorChecker | Rawpy vs camera JPEG |
+|---|---:|
+| Unmodified LibRaw interpretation | **4.59745** |
+| Following a single neutral-exposure scale of **1.11921×** | **3.37876** |
+| Chromatic patch mean, exposure-scaled | **3.42121** |
+| Neutral patch mean, exposure-scaled | **3.25140** |
+| 95th-percentile patch discrepancy, exposure-scaled | **5.17445** |
+
+The JPEG had **no embedded ICC profile**, so its SDR base is interpreted as sRGB (an assumption retained in the result). The original gain map, if any, was not decoded. The reference is the camera JPEG, **not a default Phocus export or physically characterized scene illuminant**. The experiment is one 24-patch chart from one lighting session and cannot support a measured illuminant-dependent interpolation rule, generalize to diverse scenes, prove the true six-coefficient MAIN CCM equation, or validate our Stage21 MAIN sampler's physical RGB ordering. Colour difference is relative to an explicitly chosen LibRaw colour/WB/demosaic path, not absolute colourimetric accuracy or camera-to-XYZ truth.
+
+**Engineering consequence:** A real same-capture X2D reference comparison is now operational. The next gating data are genuine separately identified **camera JPEG and default Phocus 16-bit TIFF** exports under multiple lighting situations, ideally accompanied by measured ColorChecker illumination and varied real scenes. Comparing different decoding paths with the same TIFF/JPEG reference will identify which differences belong to basic RAW colour restoration and which to Hasselblad-specific artistic rendering. Do not optimize a production look based on one chart and one illumination.

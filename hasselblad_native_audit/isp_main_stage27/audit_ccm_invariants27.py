@@ -187,8 +187,7 @@ def main():
         (_ for _ in ()).throw(ValueError('exact_firmware_root_required')),a.compiler)
     if a.output:
         a.output.parent.mkdir(parents=True,exist_ok=True)
-        a.output.write_text(json.dumps(report,indent=2,sort_keys=True)+'
-')
+        a.output.write_text(json.dumps(report,indent=2,sort_keys=True)+'\n')
     print(json.dumps(report,sort_keys=True))
 
 if __name__=='__main__': main()

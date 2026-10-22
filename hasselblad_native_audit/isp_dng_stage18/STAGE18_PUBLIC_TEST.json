@@ -1,0 +1,36 @@
+{
+  "schema": "stage18-forward-matrix-pcs-reference-v1",
+  "status": "PASS",
+  "test_runs": [
+    {
+      "compiler": "gcc",
+      "status": "PASS",
+      "synthetic_profile_cases": 128,
+      "synthetic_pixel_scalars_compared": 196608,
+      "max_abs_error": 2.6645352591003757e-15,
+      "negative_guard_cases": 15,
+      "real_dng_test_omitted": true,
+      "vendor_hncs_pixel_math_verified": false,
+      "original_hasselblad_ccm_verified": false,
+      "photo_render_authorized": false
+    },
+    {
+      "compiler": "clang",
+      "status": "PASS",
+      "synthetic_profile_cases": 128,
+      "synthetic_pixel_scalars_compared": 196608,
+      "max_abs_error": 2.6645352591003757e-15,
+      "negative_guard_cases": 15,
+      "real_dng_test_omitted": true,
+      "vendor_hncs_pixel_math_verified": false,
+      "original_hasselblad_ccm_verified": false,
+      "photo_render_authorized": false
+    }
+  ],
+  "notes": [
+    "Uses Adobe SDK ForwardMatrix normalization and CameraToPCS factorization",
+    "AsShotNeutral supplies bounded white input; NeutralToXY iteration not replicated",
+    "Dual differing forward/calibration matrices rejected",
+    "No original X2D CCM pixel, HNCS FilmCurve, gamma or MAIN LUT sampling claim"
+  ]
+}

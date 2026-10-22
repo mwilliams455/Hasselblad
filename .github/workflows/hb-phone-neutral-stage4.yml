@@ -36,7 +36,9 @@ jobs:
              -lm -o "$output/neutral_binding_probe"
           ASAN_OPTIONS=detect_leaks=1 "$output/neutral_probe"
           ASAN_OPTIONS=detect_leaks=1 "$output/neutral_binding_probe"
-          python3 -m py_compile "$root/tests/verify_phone_neutral_observation.py"
+          python3 -m py_compile "$root/tests/verify_phone_neutral_observation.py" "$root/tests/verify_photon_color_boundary.py"
+          python3 "$root/tests/verify_photon_color_boundary.py" \
+              --repo . --out "$output/photon_color_boundary.json"
           echo 'PASS: standalone neutral observation and typed RAW/Domain1 adapter (ASan, UBSan)' \
              | tee "$output/host_result.txt"
       - name: Cross-compile both Stage4 native modules for Android API 28 ARM64
@@ -86,6 +88,7 @@ jobs:
           name: hasselblad-stage4-native
           path: |
             ${{ runner.temp }}/hb-neutral-stage4/host_result.txt
+            ${{ runner.temp }}/hb-neutral-stage4/photon_color_boundary.json
             ${{ runner.temp }}/hb-neutral-stage4/arm64_result.json
             ${{ runner.temp }}/hb-neutral-stage4/libhasselblad_stage4_arm64.so
           retention-days: 7

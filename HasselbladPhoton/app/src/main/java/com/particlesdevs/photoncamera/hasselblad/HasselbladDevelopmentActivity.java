@@ -60,7 +60,45 @@ public final class HasselbladDevelopmentActivity extends BaseActivity {
         ((TextView)findViewById(R.id.hasselblad_domain_summary)).setText(
                 "Domain1 has not run. Take one RAW photo first, then return here. "+
                 "This check never changes saved colour.");
+        findViewById(R.id.hasselblad_stage6_arm).setOnClickListener(view -> {
+            HasselbladGpuStageProbe.arm();
+            refreshStage6();
+            Toast.makeText(this, "Stage6 armed for the next verified RAW+JPEG capture",
+                    Toast.LENGTH_LONG).show();
+        });
+        findViewById(R.id.hasselblad_stage6_copy).setOnClickListener(view -> {
+            try {
+                JSONObject data=new JSONObject(HasselbladGpuStageProbe.latestJson());
+                String status=data.optString("status");
+                if (!"completed".equals(status) && !"skipped".equals(status)) return;
+                ClipboardManager clipboard=getSystemService(ClipboardManager.class);
+                if (clipboard!=null) {
+                    clipboard.setPrimaryClip(ClipData.newPlainText(
+                            "Hasselblad Stage6 GPU diagnostic JSON", data.toString()));
+                    Toast.makeText(this,"Stage6 report copied",Toast.LENGTH_SHORT).show();
+                }
+            } catch (Exception ignored) {}
+        });
+        refreshStage6();
         runCheck();
+    }
+
+    @Override protected void onResume() {
+        super.onResume();
+        if (findViewById(R.id.hasselblad_stage6_status) != null) refreshStage6();
+    }
+    private void refreshStage6() {
+        ((TextView)findViewById(R.id.hasselblad_stage6_status))
+                .setText(HasselbladGpuStageProbe.status());
+        boolean copied = false;
+        try {
+            String state=new JSONObject(HasselbladGpuStageProbe.latestJson())
+                    .optString("status");
+            copied="completed".equals(state)||"skipped".equals(state);
+        } catch (Exception ignored) {}
+        findViewById(R.id.hasselblad_stage6_copy).setEnabled(copied);
+        findViewById(R.id.hasselblad_stage6_arm)
+                .setEnabled(!HasselbladGpuStageProbe.isArmed());
     }
 
     private void runDomain() {

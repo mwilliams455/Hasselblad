@@ -187,7 +187,29 @@ def writer_summary(writer: str, instruction_map: dict[int, object]) -> dict[str,
         cat = "conditional_select"
     else:
         cat = "other_or_unresolved"
-    return {"last_writer_kind": cat, "at_section_offset": hex(at)}
+    out = {"last_writer_kind": cat, "at_section_offset": hex(at)}
+    # A constrained structural operand summary is useful for later provenance
+    # tracing; do not export original disassembly, instruction bytes or values.
+    from capstone.arm64 import ARM64_OP_MEM, ARM64_OP_REG
+    if cat in ("load_8bit", "load_16bit", "memory_load"):
+        for op in ins.operands:
+            if op.type == ARM64_OP_MEM:
+                base = ins.reg_name(op.mem.base)
+                index = ins.reg_name(op.mem.index) if op.mem.index else None
+                out["input_memory_address"] = {
+                    "base_register": base,
+                    "displacement": op.mem.disp,
+                    "index_register": index,
+                    "is_stack_relative": base == "sp"}
+                break
+        if ins.operands and ins.operands[0].type == ARM64_OP_REG:
+            out["destination_register_width"] = (
+                64 if ins.reg_name(ins.operands[0].reg).startswith("x") else 32)
+    if cat == "move_or_bitwise" and len(ins.operands) >= 2:
+        second = ins.operands[1]
+        if second.type == ARM64_OP_REG:
+            out["direct_register_source"] = ins.reg_name(second.reg)
+    return out
 
 
 def analyze_function(text: bytes, entry: int, size: int, observations: dict[str, int]):

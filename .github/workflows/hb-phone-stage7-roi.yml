@@ -1,0 +1,36 @@
+name: Hasselblad Stage7 labelled RAW ROI reference
+
+on:
+  push:
+    branches:
+      - recovery/awb-rebuild-20261021
+    paths:
+      - hasselblad_native_audit/phone_input_20261021/stage7_labelled_roi/**
+      - .github/workflows/hb-phone-stage7-roi.yml
+  workflow_dispatch:
+
+jobs:
+  public-synthetic-only:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install offline reference dependencies
+        run: python -m pip install numpy tifffile Pillow
+      - name: Synthetic no-image tests
+        run: |
+          python hasselblad_native_audit/phone_input_20261021/stage7_labelled_roi/stage7_labelled_roi.py --self-test
+          python hasselblad_native_audit/phone_input_20261021/stage7_labelled_roi/stage7_jpeg_to_raw_roi.py --self-test
+      - name: Verify no production colour writes
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('hasselblad_native_audit/phone_input_20261021/stage7_labelled_roi/stage7_labelled_roi.py')
+          s = p.read_text()
+          for required in ("'render_permitted':False", "'calibration_authorized':False", "'production_wb_unchanged':True"):
+              assert required in s, required
+          assert 'libaaa.so' not in s
+          print('PASS Stage7 diagnostic has explicit non-rendering, abstention guards')
+          PY

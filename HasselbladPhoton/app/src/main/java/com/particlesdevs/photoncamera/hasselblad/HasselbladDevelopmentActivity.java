@@ -21,6 +21,8 @@ public final class HasselbladDevelopmentActivity extends BaseActivity {
     private HasselbladNativeCheck.Report latestReport;
     private volatile JSONObject latestDomainReport;
     private boolean domainBusy;
+    private volatile String latestStage8Json;
+    private boolean stage8Busy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +81,17 @@ public final class HasselbladDevelopmentActivity extends BaseActivity {
                 }
             } catch (Exception ignored) {}
         });
+        findViewById(R.id.hasselblad_stage8_run).setOnClickListener(view -> runStage8());
+        findViewById(R.id.hasselblad_stage8_copy).setOnClickListener(view -> {
+            String json=latestStage8Json;
+            if (json==null) return;
+            ClipboardManager clipboard=getSystemService(ClipboardManager.class);
+            if (clipboard!=null) {
+                clipboard.setPrimaryClip(ClipData.newPlainText(
+                        "Hasselblad Stage8 native profile preparation JSON",json));
+                Toast.makeText(this,"Stage8 report copied",Toast.LENGTH_SHORT).show();
+            }
+        });
         refreshStage6();
         runCheck();
     }
@@ -99,6 +112,33 @@ public final class HasselbladDevelopmentActivity extends BaseActivity {
         findViewById(R.id.hasselblad_stage6_copy).setEnabled(copied);
         findViewById(R.id.hasselblad_stage6_arm)
                 .setEnabled(!HasselbladGpuStageProbe.isArmed());
+    }
+
+    /** Synthetic LUT preparation only; never touches camera/RAW/rendering. */
+    private void runStage8() {
+        if(stage8Busy)return;
+        stage8Busy=true;
+        latestStage8Json=null;
+        findViewById(R.id.hasselblad_stage8_run).setEnabled(false);
+        findViewById(R.id.hasselblad_stage8_copy).setEnabled(false);
+        ((TextView)findViewById(R.id.hasselblad_stage8_status)).setText(
+                "Checking recorded X2D native fixture outputs and synthetic 6144-word profiles...");
+        new Thread(() -> {
+            final String result=HasselbladProfilePreparationCheck.run();
+            runOnUiThread(() -> {
+                if(isFinishing()||isDestroyed())return;
+                latestStage8Json=result;
+                stage8Busy=false;
+                findViewById(R.id.hasselblad_stage8_run).setEnabled(true);
+                findViewById(R.id.hasselblad_stage8_copy).setEnabled(true);
+                boolean passed=result.contains("\\"status\\":\\"PASS\\"");
+                ((TextView)findViewById(R.id.hasselblad_stage8_status)).setText(
+                        (passed?"Stage8 PASS":"Stage8 NOT PASSED")
+                        +" — original native fixture and full-size synthetic profile tests."
+                        +"\nNo vendor camera LUT, photographic pixel renderer or calibrated AWB is enabled."
+                        +"\nPhoton colour unchanged. Copy JSON for diagnostic details.");
+            });
+        },"HB-stage8-profile-on-demand").start();
     }
 
     private void runDomain() {

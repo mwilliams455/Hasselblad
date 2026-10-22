@@ -226,6 +226,29 @@ def original_report(root:Path)->dict:
                      'chosen_layout_frequency_under_heuristic':groups,
                      'profiles':profiles}
     require(reports['lcdc_3dlut0']['source_sha256']==reports['lcdc_3dlut1']['source_sha256'], 'lcdc_identical_assets_expected')
+    family_summary={}
+    canonical=model_name('planar',('r','g','b'),(0,1,2))
+    for source, record in reports.items():
+      # Report both physical profile count and independent profile contents.
+      unique={}
+      for p in record['profiles']: unique.setdefault(p['source_profile_sha256'],p)
+      distinct=list(unique.values())
+      all_entries=record['profiles']
+      planar_is_lower=sum(p['lowest_rank_score_by_family']['planar'] < p['lowest_rank_score_by_family']['interleaved'] for p in all_entries)
+      canonical_at_best=sum(canonical in p['equivalent_top_models_under_axis_colour_relabelling'] for p in all_entries)
+      means={family:round(sum(p['lowest_rank_score_by_family'][family] for p in distinct)/len(distinct),9)
+             for family in ('planar','interleaved')}
+      family_summary[source]={
+          'stored_profiles':len(all_entries),
+          'unique_profile_contents':len(distinct),
+          'planar_family_lower_heuristic_count':planar_is_lower,
+          'Stage9_original_DISPLAY_canonical_decode_in_best_equivalence_class_count':canonical_at_best,
+          'unique_content_mean_family_heuristic_score':means,
+          'mean_interleaved_to_planar_score_ratio':round(means['interleaved']/means['planar'],6),
+          'canonical_RGB_axis_or_bank_order_proven':False,
+          'spatial_interpolation_algorithm_proven':False,
+          'rank_not_a_photographic_similarity_or_deltaE':True,
+      }
     return {'schema':'hasselblad-stage20-LUT-spatial-consistency-v1',
             'status':'PASS_original_X2D_IQ_structural_audit',
             'firmware':'X2D II 100C 1.3.16.2',
@@ -237,6 +260,9 @@ def original_report(root:Path)->dict:
             'MAIN_ccm_and_gamma_order_proven':False,'original_ISP_pixel_oracle_available':False,
             'render_applied':False,'phone_colour_still_Photon':True,
             'hypothesis_selection_is_smooth_identity_prior_not_hardware_parity':True,
+            'candidate_families_are_not_exhaustive':True,
+            'not_evaluated_layouts':['Morton_or_other_hardware_swizzles','nonuniform_3D_grid','per-channel_nonstandard_scaling'],
+            'unique_content_aggregate_summary':family_summary,
             'results':reports}
 
 

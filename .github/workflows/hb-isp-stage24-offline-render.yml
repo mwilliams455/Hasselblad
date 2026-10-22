@@ -1,10 +1,5 @@
 name: Hasselblad Stage24 native colour reference renderer (no HNCS claim)
-on:
-  push:
-    branches: ['recovery/awb-rebuild-20261021']
-    paths:
-      - 'hasselblad_native_audit/isp_colour_stage24/**'
-      - '.github/workflows/hb-isp-stage24-offline-render.yml'
+"on":
   workflow_dispatch:
 permissions:
   contents: read
@@ -15,6 +10,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          # Frozen Stage24 research baseline. Stage30's own CI tests the
+          # updated optional DNG GainMap processing and still reruns Stage24.
+          ref: 16a733a93742725cfbc864e67fb2ec748cb85589
           persist-credentials: false
           fetch-depth: 0
       - name: Prevent production changes or unrelated research overwrites

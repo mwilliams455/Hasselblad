@@ -12,16 +12,20 @@ import java.nio.ByteOrder;
 /**
  * Stage6: one explicitly armed Bayer2Float GPU readback on its owning GL thread.
  * Never selects WB, modifies RAW, publishes a neutral, rerenders, or touches
- * the shader. Sample allocation <= 4 KiB; only 16 isolated 8x8 patches.
+ * the shader. Samples total at most 4 KiB plus bounded GL staging;
+ * only 16 isolated 8x8 patches are read.
  * The exact physical camera/frame/timestamp comes from the original proven
  * RAW metadata in HasselbladCaptureEvidence, NOT from a current camera ID.
  */
 public final class HasselbladGpuStageProbe {
     private static boolean armed;
+    private static long epoch;
     private static volatile String latest = "{\"schema\":\"hb-stage6-gpu-v1\",\"status\":\"not_armed\"}";
     private HasselbladGpuStageProbe() { }
 
     public static synchronized void arm() {
+        if (latest.contains("\"status\":\"pending\"")) return;
+        epoch++;
         armed = true;
         latest = "{\"schema\":\"hb-stage6-gpu-v1\",\"status\":\"armed_next_eligible_raw\","
                 + "\"render_applied\":false}";
@@ -98,7 +102,7 @@ public final class HasselbladGpuStageProbe {
             j.put("cpu_gpu_parity_verified", false);
             j.put("hasselblad_wb_selected",false);
             latest = j.toString();
-            return new Session(j, width, height);
+            return new Session(j, width, height, epoch);
         } catch (Exception ex) {
             skipped("cannot_copy_proven_capture_identity");
             return null;
@@ -121,11 +125,19 @@ public final class HasselbladGpuStageProbe {
     public static final class Session {
         private final JSONObject document;
         private final int width, height;
+        private final long epoch;
         private boolean finished;
-        private Session(JSONObject document, int width, int height) {
+        private Session(JSONObject document, int width, int height, long epoch) {
             this.document = document;
             this.width = width;
             this.height = height;
+            this.epoch = epoch;
+        }
+        private void publish() {
+            synchronized (HasselbladGpuStageProbe.class) {
+                if (epoch == HasselbladGpuStageProbe.epoch)
+                    latest = document.toString();
+            }
         }
         public void finishIfMissing(String reason) {
             if (finished) return;
@@ -137,7 +149,7 @@ public final class HasselbladGpuStageProbe {
                 document.put("status", "skipped");
                 document.put("reason", reason);
             } catch (Exception ignored) {}
-            latest = document.toString();
+            publish();
         }
 
         /** Called immediately after Bayer2Float.drawMain(), before any later
@@ -154,12 +166,16 @@ public final class HasselbladGpuStageProbe {
                 return;
             }
             final int[] oldFbo={0}, oldPackBuffer={0}, oldAlign={0};
+            final int[] oldRowLength={0}, oldSkipRows={0}, oldSkipPixels={0};
             boolean saved = false;
             long start=System.nanoTime();
             try {
                 GLES30.glGetIntegerv(GLES30.GL_READ_FRAMEBUFFER_BINDING,oldFbo,0);
                 GLES30.glGetIntegerv(GLES30.GL_PIXEL_PACK_BUFFER_BINDING,oldPackBuffer,0);
                 GLES30.glGetIntegerv(GLES30.GL_PACK_ALIGNMENT,oldAlign,0);
+                GLES30.glGetIntegerv(GLES30.GL_PACK_ROW_LENGTH,oldRowLength,0);
+                GLES30.glGetIntegerv(GLES30.GL_PACK_SKIP_ROWS,oldSkipRows,0);
+                GLES30.glGetIntegerv(GLES30.GL_PACK_SKIP_PIXELS,oldSkipPixels,0);
                 saved=true;
                 int prior=GLES30.glGetError();
                 if (prior != GLES30.GL_NO_ERROR)
@@ -167,6 +183,9 @@ public final class HasselbladGpuStageProbe {
                 GLES30.glBindFramebuffer(GLES30.GL_READ_FRAMEBUFFER,texture.mBuffer);
                 GLES30.glBindBuffer(GLES30.GL_PIXEL_PACK_BUFFER,0);
                 GLES30.glPixelStorei(GLES30.GL_PACK_ALIGNMENT,1);
+                GLES30.glPixelStorei(GLES30.GL_PACK_ROW_LENGTH,0);
+                GLES30.glPixelStorei(GLES30.GL_PACK_SKIP_ROWS,0);
+                GLES30.glPixelStorei(GLES30.GL_PACK_SKIP_PIXELS,0);
                 if(GLES30.glCheckFramebufferStatus(GLES30.GL_READ_FRAMEBUFFER)
                         != GLES30.GL_FRAMEBUFFER_COMPLETE)
                     throw new IllegalStateException("incomplete_read_framebuffer");
@@ -175,7 +194,6 @@ public final class HasselbladGpuStageProbe {
                 ByteBuffer packed = ByteBuffer.allocateDirect(HasselbladStage6Contract.SAMPLES*4)
                         .order(ByteOrder.LITTLE_ENDIAN);
                 JSONArray patches=new JSONArray();
-                JSONArray failures=new JSONArray();
                 // First probe: fall back to float32 ONLY if the driver rejects
                 // GL_HALF_FLOAT. A different type is labelled, never mistaken
                 // for the exact GPU R16F storage bits.
@@ -232,7 +250,7 @@ public final class HasselbladGpuStageProbe {
                 document.put("elapsed_ms",(System.nanoTime()-start)/1e6);
                 document.put("status","completed");
                 finished=true;
-                latest=document.toString();
+                publish();
             } catch (Exception | OutOfMemoryError error) {
                 fail("readback_unavailable_"+error.getClass().getSimpleName()
                         +(error.getMessage()==null?"":"_"+error.getMessage()));
@@ -242,6 +260,9 @@ public final class HasselbladGpuStageProbe {
                         GLES30.glBindFramebuffer(GLES30.GL_READ_FRAMEBUFFER,oldFbo[0]);
                         GLES30.glBindBuffer(GLES30.GL_PIXEL_PACK_BUFFER,oldPackBuffer[0]);
                         GLES30.glPixelStorei(GLES30.GL_PACK_ALIGNMENT,oldAlign[0]);
+                        GLES30.glPixelStorei(GLES30.GL_PACK_ROW_LENGTH,oldRowLength[0]);
+                        GLES30.glPixelStorei(GLES30.GL_PACK_SKIP_ROWS,oldSkipRows[0]);
+                        GLES30.glPixelStorei(GLES30.GL_PACK_SKIP_PIXELS,oldSkipPixels[0]);
                     } catch (Exception ignored) {
                         // Never hide the original render error or rerender.
                     }

@@ -1,0 +1,33 @@
+{
+  "status": "PASS",
+  "scope": "static source contract only; no GPU parity, no device invocation",
+  "checks": {
+    "default_chain_uses_bayer2float": true,
+    "default_chain_initial_tone_path": true,
+    "prelinear_uploads_parameter_gainmap": true,
+    "prelinear_binds_gainmap": true,
+    "prelinear_binds_whitepoint": true,
+    "camera2_map_loaded": true,
+    "shader_gainmap_enabled": true,
+    "shader_green_average": true,
+    "shader_normalises_shading_gain": true,
+    "shader_whitepoint_divides_bayer": true,
+    "shader_whitepoint_by_site": true,
+    "shader_gain_channel_applies_to_bayer": true,
+    "rgb_alternative_is_separate": true,
+    "initial_consumes_gainmap": true
+  },
+  "check_count": 14,
+  "failures": [],
+  "boundary": "Default PostPipeline Bayer2Float per-CFA-site WB division plus mean-normalised chromatic lens map, before Initial tone processing",
+  "photon_neutral_from_camera2_metadata_premise": "Verified separately in the Domain3 original capture sidecar, not fitted here",
+  "hal_neutral_reused_as_new_awb_fallback": false,
+  "renderer_changed": false,
+  "shader_source_sha256": {
+    "pipeline": "3ae01a7d1f748fd560897b57674503852dd49604a4a626ca033235ea81dc0243",
+    "bayer": "9b66696ab5568ecb1742e9304a64e136760c3a297bd1d90c055d2b5fafb42d7d",
+    "parameters": "75b09b643dc3e5e7829daebfa8ab74401a31685924abb08bf410674253e7d64c",
+    "shader": "74525128b2b27f5e847ea23cea6b10e3ab373ce602f16244b1fe7be27d99e8d5",
+    "initial": "465077535626c4c3edf44325b4ac349024521151bc7e6d58385598d2feb406bc"
+  }
+}

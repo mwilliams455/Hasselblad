@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "arm64_abi": "aarch64-linux-android28",
+  "elf_load_alignments_bytes": [
+    16384,
+    16384,
+    16384
+  ],
+  "library_sha256": "7e7dc24e61a00b081559cd78a2059937fdc60c3e182e4026d769682022684aae",
+  "typed_phone_raw_and_domain_bridge_compiled": true,
+  "device_execution_tested": false,
+  "render_applied": false,
+  "apk_built": false
+}

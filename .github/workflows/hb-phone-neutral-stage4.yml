@@ -1,0 +1,92 @@
+name: Hasselblad Stage4 neutral evidence native checks
+
+"on":
+  push:
+    branches: [recovery/awb-rebuild-20261021]
+    paths:
+      - .github/workflows/hb-phone-neutral-stage4.yml
+      - hasselblad_native_audit/phone_input_20261021/neutral_observation/**
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  standalone-abi-and-android-arm64:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Checkout recovery commit only
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Compile real typed bridge and standalone observation with fatal sanitizers
+        shell: bash
+        run: |
+          set -euo pipefail
+          root=hasselblad_native_audit/phone_input_20261021/neutral_observation
+          output="$RUNNER_TEMP/hb-neutral-stage4"
+          mkdir -p "$output"
+          common=(-std=c11 -O1 -g -Wall -Wextra -Werror -Wno-misleading-indentation
+                  -fno-omit-frame-pointer -fsanitize=address,undefined -I "$root/src")
+          cc "${common[@]}" "$root/src/hb_phone_neutral_observation.c" \
+             "$root/tests/neutral_probe.c" -lm -o "$output/neutral_probe"
+          cc "${common[@]}" "$root/src/hb_phone_neutral_observation.c" \
+             "$root/src/hb_phone_neutral_binding.c" "$root/tests/neutral_binding_probe.c" \
+             -lm -o "$output/neutral_binding_probe"
+          ASAN_OPTIONS=detect_leaks=1 "$output/neutral_probe"
+          ASAN_OPTIONS=detect_leaks=1 "$output/neutral_binding_probe"
+          python3 -m py_compile "$root/tests/verify_phone_neutral_observation.py"
+          echo 'PASS: standalone neutral observation and typed RAW/Domain1 adapter (ASan, UBSan)' \
+             | tee "$output/host_result.txt"
+      - name: Cross-compile both Stage4 native modules for Android API 28 ARM64
+        shell: bash
+        run: |
+          set -euo pipefail
+          sdk="${ANDROID_SDK_ROOT:-${ANDROID_HOME:-/usr/local/lib/android/sdk}}"
+          ndk="$sdk/ndk/27.0.12077973"
+          clang="$ndk/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android28-clang"
+          if [[ ! -x "$clang" ]]; then
+            yes | "$sdk/cmdline-tools/latest/bin/sdkmanager" --sdk_root="$sdk" \
+              --install 'ndk;27.0.12077973' || test -x "$clang"
+          fi
+          test -x "$clang"
+          root=hasselblad_native_audit/phone_input_20261021/neutral_observation
+          out="$RUNNER_TEMP/hb-neutral-stage4"
+          mkdir -p "$out"
+          "$clang" -std=c11 -O2 -Wall -Wextra -Werror -Wno-misleading-indentation \
+             -fPIC -ffp-contract=off -ffunction-sections -fdata-sections -shared \
+             -I "$root/src" "$root/src/hb_phone_neutral_observation.c" \
+             "$root/src/hb_phone_neutral_binding.c" \
+             -Wl,--gc-sections,-z,defs,-z,max-page-size=16384 -lm \
+             -o "$out/libhasselblad_stage4_arm64.so"
+          readelf -h "$out/libhasselblad_stage4_arm64.so" | grep -q AArch64
+          readelf -Ws "$out/libhasselblad_stage4_arm64.so" | grep -q hb_phone_neutral_observe
+          readelf -Ws "$out/libhasselblad_stage4_arm64.so" | grep -q hb_phone_neutral_bind
+          python3 - "$out/libhasselblad_stage4_arm64.so" "$out/arm64_result.json" <<'PY'
+          import hashlib,json,pathlib,subprocess,sys
+          elf=pathlib.Path(sys.argv[1])
+          loads=[]
+          for line in subprocess.check_output(['readelf','-lW',str(elf)],text=True).splitlines():
+              f=line.split()
+              if f and f[0]=='LOAD':loads.append(int(f[-1],16))
+          assert loads and all(x>=16384 and x%16384==0 for x in loads),loads
+          report={'status':'PASS','arm64_abi':'aarch64-linux-android28',
+                  'elf_load_alignments_bytes':loads,
+                  'library_sha256':hashlib.sha256(elf.read_bytes()).hexdigest(),
+                  'typed_phone_raw_and_domain_bridge_compiled':True,
+                  'device_execution_tested':False,'render_applied':False,'apk_built':False}
+          pathlib.Path(sys.argv[2]).write_text(json.dumps(report,indent=2)+'\n')
+          print(json.dumps(report,indent=2))
+          PY
+      - name: Retain public-safe native verification evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hasselblad-stage4-native
+          path: |
+            ${{ runner.temp }}/hb-neutral-stage4/host_result.txt
+            ${{ runner.temp }}/hb-neutral-stage4/arm64_result.json
+            ${{ runner.temp }}/hb-neutral-stage4/libhasselblad_stage4_arm64.so
+          retention-days: 7
+          if-no-files-found: warn

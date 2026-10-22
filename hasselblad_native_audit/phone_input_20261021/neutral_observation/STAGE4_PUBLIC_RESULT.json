@@ -1,0 +1,21 @@
+{
+  "status": "PASS",
+  "stage": "Stage4 bounded phone scene-neutral evidence; source only",
+  "raw_frame_replays": 4,
+  "block_oracle_comparisons": 4096,
+  "native_api_guard_cases": 14,
+  "synthetic_abstention_cases": 6,
+  "native_sanitizer_probe": "separate executable",
+  "raw_and_domain_inputs_unchanged": true,
+  "domain1_representation_preserved": true,
+  "scene1b_original_81_point_ABI_preserved": true,
+  "shipping_policy_selected": false,
+  "renderer_changed": false,
+  "hal_neutral_used_for_selection": false,
+  "original_firmware_parity_newly_claimed": false,
+  "source_hashes": {
+    "hb_phone_neutral_observation.c": "338429a66699ed63472320bf2a86c31905095331ef9404fff54da65ffbec4769",
+    "hb_phone_neutral_observation.h": "e58b5595179e5a0d829dccf1fef024c5a8f02512195e48cfc87eefa90217a3e0",
+    "verify_phone_neutral_observation.py": "cea37a327d06d6889305542b6c4ae4d92e3cd6398001369aaf87a4a7eb06bb3e"
+  }
+}

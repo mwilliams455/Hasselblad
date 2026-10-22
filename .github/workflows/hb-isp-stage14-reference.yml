@@ -21,6 +21,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           persist-credentials: false
+          fetch-depth: 0  # allow historical source-protection diffs
       - name: Check production renderer and pinned mathematical components unchanged
         shell: bash
         run: |

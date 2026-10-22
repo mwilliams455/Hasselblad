@@ -80,7 +80,14 @@ jobs:
           assert j['MAIN_pixel_sampler_proven'] is False
           assert j['vendor_code_executed'] is False and j['source_bytes_exported'] is False
           assert j['render_applied'] is False
+          assert j['candidate_families_are_not_exhaustive'] is True
           assert set(j['results'])=={'main_3dlut','lcdc_3dlut0','lcdc_3dlut1'}
+          for asset_name,aggregate in j['unique_content_aggregate_summary'].items():
+              assert aggregate['stored_profiles']==8 and aggregate['unique_profile_contents']==6
+              assert aggregate['canonical_RGB_axis_or_bank_order_proven'] is False
+              assert aggregate['Stage9_original_DISPLAY_canonical_decode_in_best_equivalence_class_count']==8
+              assert aggregate['planar_family_lower_heuristic_count']==8
+              assert aggregate['mean_interleaved_to_planar_score_ratio']>4.0
           for asset in j['results'].values():
               assert len(asset['profiles'])==8
               for p in asset['profiles']:

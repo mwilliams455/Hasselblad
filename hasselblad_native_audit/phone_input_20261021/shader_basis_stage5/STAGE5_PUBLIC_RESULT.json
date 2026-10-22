@@ -1,0 +1,14 @@
+{
+  "schema": "hasselblad-stage5-color-basis-verification-v1",
+  "status": "PASS",
+  "n_builds": 3,
+  "negative_cases_per_build": 15,
+  "source": "Standalone C pixel-wise full-frame RGGB reference and independent Python float64/FP16 texture oracle",
+  "max_synthetic_oracle_error": 0.0,
+  "private_capture_replayed": true,
+  "device_gpu_parity": false,
+  "production_color_calibrated": false,
+  "render_modified": false,
+  "no_render_neutral_generated": true,
+  "no_shutter_hook": true
+}

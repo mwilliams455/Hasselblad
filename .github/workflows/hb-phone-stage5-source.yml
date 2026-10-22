@@ -1,0 +1,93 @@
+name: Hasselblad Stage5 pixel-basis source verification
+
+"on":
+  push:
+    branches: [recovery/awb-rebuild-20261021]
+    paths:
+      - hasselblad_native_audit/phone_input_20261021/shader_basis_stage5/**
+      - .github/workflows/hb-phone-stage5-source.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  host-arm64-source:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - name: Check out exact recovery source
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Compile the actual Stage4 ABI consumer with sanitizers
+        shell: bash
+        run: |
+          set -euo pipefail
+          s=hasselblad_native_audit/phone_input_20261021/shader_basis_stage5
+          old=hasselblad_native_audit/phone_input_20261021/neutral_observation
+          mkdir -p "$RUNNER_TEMP/hb-stage5"
+          cc -std=c11 -O1 -g -Wall -Wextra -Werror -fno-omit-frame-pointer \
+              -fsanitize=address,undefined -I "$s/src" -I "$old/src" \
+              "$s/src/hb_phone_stage5_basis.c" \
+              "$s/tests/stage5_sanitizer_probe.c" -lm \
+              -o "$RUNNER_TEMP/hb-stage5/stage5_asan"
+          ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 \
+              "$RUNNER_TEMP/hb-stage5/stage5_asan"
+      - name: Run independent Python synthetic numerical oracle
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/stage5-venv"
+          "$RUNNER_TEMP/stage5-venv/bin/python" -m pip install --disable-pip-version-check \
+              'numpy>=2.0,<3' 'tifffile>=2025.5,<2027'
+          "$RUNNER_TEMP/stage5-venv/bin/python" \
+              hasselblad_native_audit/phone_input_20261021/shader_basis_stage5/tests/verify_stage5_basis.py \
+              --out "$RUNNER_TEMP/hb-stage5/STAGE5_HOST_RESULT.json"
+      - name: Locate pinned Android NDK
+        shell: bash
+        run: |
+          set -euo pipefail
+          sdk="${ANDROID_SDK_ROOT:-${ANDROID_HOME:-/usr/local/lib/android/sdk}}"
+          ndk="$sdk/ndk/27.0.12077973"
+          if [[ ! -x "$ndk/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android28-clang" ]]; then
+            yes | "$sdk/cmdline-tools/latest/bin/sdkmanager" --sdk_root="$sdk" --install 'ndk;27.0.12077973' || [[ -x "$ndk/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android28-clang" ]]
+          fi
+          test -x "$ndk/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android28-clang"
+          echo "HB_NDK=$ndk" >> "$GITHUB_ENV"
+      - name: Link Stage5 standalone on Android ARM64 API28 and inspect ELF
+        shell: bash
+        run: |
+          set -euo pipefail
+          s=hasselblad_native_audit/phone_input_20261021/shader_basis_stage5
+          old=hasselblad_native_audit/phone_input_20261021/neutral_observation
+          clang="$HB_NDK/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android28-clang"
+          output="$RUNNER_TEMP/hb-stage5/libhb_stage5_arm64.so"
+          "$clang" -std=c11 -O2 -Wall -Wextra -Werror -fPIC -ffp-contract=off \
+              -ffunction-sections -fdata-sections -I "$s/src" -I "$old/src" \
+              -shared "$s/src/hb_phone_stage5_basis.c" \
+              -Wl,--gc-sections,-z,defs,-z,max-page-size=16384 -lm -o "$output"
+          readelf -h "$output" | grep -q AArch64
+          readelf -Ws "$output" | grep -q hb_s5_project
+          python3 - "$output" "$RUNNER_TEMP/hb-stage5/STAGE5_ARM64_RESULT.json" <<'PY'
+          import hashlib,json,pathlib,subprocess,sys
+          path=pathlib.Path(sys.argv[1]); headers=subprocess.check_output(['readelf','-lW',str(path)],text=True)
+          align=[int(line.split()[-1],16) for line in headers.splitlines() if line.strip().startswith('LOAD ')]
+          assert align and all(a>=16384 for a in align),align
+          status={'status':'PASS','abi':'aarch64-linux-android28','ndk_revision':'27.0.12077973',
+              'elf_load_alignments_bytes':align,'binary_sha256':hashlib.sha256(path.read_bytes()).hexdigest(),
+              'render_modified':False,'on_phone_gpu_tested':False,'new_apk':False}
+          pathlib.Path(sys.argv[2]).write_text(json.dumps(status,indent=2)+'\n')
+          print(json.dumps(status))
+          PY
+      - name: Preserve public-safe source verification
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hasselblad-stage5-source-native
+          path: |
+            ${{ runner.temp }}/hb-stage5/STAGE5_HOST_RESULT.json
+            ${{ runner.temp }}/hb-stage5/STAGE5_ARM64_RESULT.json
+            ${{ runner.temp }}/hb-stage5/libhb_stage5_arm64.so
+          if-no-files-found: warn
+          retention-days: 7

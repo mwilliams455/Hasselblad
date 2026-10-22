@@ -118,6 +118,29 @@
                 android:textIsSelectable="true"
                 android:text="Stage8 not run. Synthetic profile generation only; Photon colour remains active." />
 
+            <!-- Stage26: on-demand only; exercises native PCS maths on synthetic tiles.
+                 No photographic rendering or X2D MAIN pixel stages run. -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/hasselblad_stage26_run"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Run Stage26 neutral colour JNI self-test" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/hasselblad_stage26_copy"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:text="Copy Stage26 diagnostic JSON" />
+            <TextView
+                android:id="@+id/hasselblad_stage26_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textIsSelectable="true"
+                android:text="Stage26 not run. Linear DNG PCS reference only; Photon JPEG colour is unchanged." />
+
             <TextView
                 android:id="@+id/hasselblad_check_policy"
                 android:layout_width="match_parent"

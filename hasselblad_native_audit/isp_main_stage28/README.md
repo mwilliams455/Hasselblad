@@ -53,6 +53,14 @@ One of the following is necessary to authorize genuine MAIN CCM pixel code:
 
 An X2D camera JPEG versus 3FR RAW is a valuable end-to-end evaluator, **not** an isolated CCM oracle because WB, gamma, LUT, tone, demosaic, shading and exposure also differ. An X1D II dump cannot be used as X2D II hardware truth without platform/version-specific equivalence evidence.
 
+## Independent public-source oracle check
+
+The original X-System QEMU DevKit explicitly states that it runs the original UI using mocked camera services and **does not emulate capture, the ISP, AF, the lens or the original camera kernel**. It is useful for studying user-facing behaviours and bounded original host routines but cannot answer the pixel-CCM arithmetic question by treating the QEMU UI as a rendered-image oracle:
+
+https://github.com/derrickyau9/Hasselblad-X-System-QEMU-DevKit
+
+The published X1D II 50C v1.0.0 dump belongs to an older camera/firmware lineage with an archived rcam_dji.ko driver, whereas the exact X2D II 1.3.16.2 audit uses vcam_driver.ko. A shared Hasselblad/DJI affiliation is not sufficient to assume register-level or pixel-algorithm equivalence. This does not exclude useful version-specific comparison later.
+
 ## Reproduce (no vendor input)
 
 ~~~bash

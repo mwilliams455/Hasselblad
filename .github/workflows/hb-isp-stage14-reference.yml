@@ -1,0 +1,92 @@
+name: Hasselblad Stage14 software ISP reference (research only)
+
+"on":
+  push:
+    branches:
+      - recovery/awb-rebuild-20261021
+    paths:
+      - 'hasselblad_native_audit/isp_research_stage14/**'
+      - '.github/workflows/hb-isp-stage14-reference.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  software-isp-reference:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Check out pinned recovery tree
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Check production renderer and pinned mathematical components unchanged
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --quiet 26d473c79119c0b5e41cd84c6709133e3c641cab HEAD -- HasselbladPhoton/app
+          git diff --quiet cbf564928d9f6161b836ef8deb69b85f066c0e59 HEAD -- \
+            hasselblad_native_audit/photographic_profile_stage8/src/hb_main_lut_profile.c \
+            hasselblad_native_audit/photographic_profile_stage8/src/hb_main_lut_profile.h \
+            hasselblad_native_audit/photographic_pixel_stage9/src/hb_display_lut16.c \
+            hasselblad_native_audit/photographic_pixel_stage9/src/hb_display_lut16.h \
+            hasselblad_native_audit/main_colour_20261019/ccm/ccm_prepare.c
+          test -z "$(find hasselblad_native_audit/isp_research_stage14 -type f \
+            \( -name '*.so' -o -name '*.apk' -o -name '*.dng' -o -name '*.cim' -o -name '*.bin' \) -print)"
+      - name: Compile and check GCC and Clang composition against independent reference
+        shell: bash
+        run: |
+          set -euo pipefail
+          export HB_STAGE8_LUT_C="$PWD/hasselblad_native_audit/photographic_profile_stage8/src/hb_main_lut_profile.c"
+          export HB_STAGE9_DISPLAY_C="$PWD/hasselblad_native_audit/photographic_pixel_stage9/src/hb_display_lut16.c"
+          export HB_CCM_PREPARE_C="$PWD/hasselblad_native_audit/main_colour_20261019/ccm/ccm_prepare.c"
+          mkdir -p "$RUNNER_TEMP/hb-stage14"
+          CC=gcc python3 hasselblad_native_audit/isp_research_stage14/tests/test_isp_research.py \
+            --output "$RUNNER_TEMP/hb-stage14/STAGE14_GCC_REFERENCE.json"
+          CC=clang python3 hasselblad_native_audit/isp_research_stage14/tests/test_isp_research.py \
+            --output "$RUNNER_TEMP/hb-stage14/STAGE14_CLANG_REFERENCE.json"
+          python3 - "$RUNNER_TEMP/hb-stage14" <<'PY'
+          import json,pathlib,sys
+          path=pathlib.Path(sys.argv[1])
+          a=json.loads((path/'STAGE14_GCC_REFERENCE.json').read_text())
+          b=json.loads((path/'STAGE14_CLANG_REFERENCE.json').read_text())
+          keys=['status','prepared_synthetic_profile_cases','synthetic_pixel_components_compared',
+                'max_pixel_absolute_difference','total_independent_checks',
+                'photographic_render_authorized','original_isp_or_dsp_executed_in_this_study',
+                'automatic_wb_calibrated','main_missing_contracts_mask']
+          assert all(a[k]==b[k] for k in keys)
+          assert a['status']=='PASS' and a['prepared_synthetic_profile_cases']==72
+          assert a['synthetic_pixel_components_compared']==221184
+          assert a['main_missing_contracts_mask']==255
+          assert not a['photographic_render_authorized']
+          assert not a['original_isp_or_dsp_executed_in_this_study']
+          print('PASS — GCC+Clang independent synthetic math and fail-closed production gate')
+          PY
+      - name: Build and run isolated ASan plus UBSan C test
+        shell: bash
+        run: |
+          set -euo pipefail
+          rt=hasselblad_native_audit/isp_research_stage14
+          clang -std=c11 -O1 -g -ffp-contract=off -fno-omit-frame-pointer \
+            -fsanitize=address,undefined -Wall -Wextra -Werror \
+            -I"$rt/src" \
+            -Ihasselblad_native_audit/photographic_profile_stage8/src \
+            -Ihasselblad_native_audit/photographic_pixel_stage9/src \
+            -Ihasselblad_native_audit/main_colour_20261019/ccm \
+            "$rt/tests/test_isp_sanitized.c" "$rt/src/hb_isp_research.c" \
+            hasselblad_native_audit/photographic_profile_stage8/src/hb_main_lut_profile.c \
+            hasselblad_native_audit/photographic_pixel_stage9/src/hb_display_lut16.c \
+            hasselblad_native_audit/main_colour_20261019/ccm/ccm_prepare.c \
+            -lm -o "$RUNNER_TEMP/hb-stage14/isp_asan"
+          ASAN_OPTIONS=detect_leaks=1 "$RUNNER_TEMP/hb-stage14/isp_asan"
+      - name: Publish public synthetic receipt only
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Hasselblad-Stage14-Software-ISP-Research
+          path: |
+            ${{ runner.temp }}/hb-stage14/STAGE14_GCC_REFERENCE.json
+            ${{ runner.temp }}/hb-stage14/STAGE14_CLANG_REFERENCE.json
+          retention-days: 7
+          if-no-files-found: error

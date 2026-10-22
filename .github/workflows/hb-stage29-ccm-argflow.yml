@@ -32,12 +32,14 @@ jobs:
           test -z "$(git diff --name-only a5c4409b60c40eb4b703395cc221fcf8e14816d1 HEAD -- HasselbladPhoton)"
           python3 -m py_compile hasselblad_native_audit/isp_main_stage29/inspect_ccm_argflow29.py
           python3 -m py_compile hasselblad_native_audit/isp_main_stage29/inspect_b2r_record29c.py
+          python3 -m py_compile hasselblad_native_audit/isp_main_stage29/inspect_b2r_callback29d.py
       - name: Self-test path joins, call clobbers and unreachable code
         shell: bash
         run: |
           set -euo pipefail
           python3 hasselblad_native_audit/isp_main_stage29/inspect_ccm_argflow29.py --self-test --output "$RUNNER_TEMP/STAGE29_SYNTHETIC.json"
           python3 hasselblad_native_audit/isp_main_stage29/inspect_b2r_record29c.py --self-test --output "$RUNNER_TEMP/STAGE29C_SYNTHETIC.json"
+          python3 hasselblad_native_audit/isp_main_stage29/inspect_b2r_callback29d.py --self-test --output "$RUNNER_TEMP/STAGE29D_SYNTHETIC.json"
           python3 - "$RUNNER_TEMP/STAGE29_SYNTHETIC.json" <<'PY'
           import json,sys
           d=json.load(open(sys.argv[1]))
@@ -69,6 +71,7 @@ jobs:
           set -euo pipefail
           python3 hasselblad_native_audit/isp_main_stage29/inspect_ccm_argflow29.py --module hasselblad_native_audit/firmware/extracted/system/lib/modules/vcam_driver.ko --output "$RUNNER_TEMP/STAGE29_CCM_ARGFLOW.json"
           python3 hasselblad_native_audit/isp_main_stage29/inspect_b2r_record29c.py --module hasselblad_native_audit/firmware/extracted/system/lib/modules/vcam_driver.ko --output "$RUNNER_TEMP/STAGE29C_B2R_RECORD.json"
+          python3 hasselblad_native_audit/isp_main_stage29/inspect_b2r_callback29d.py --module hasselblad_native_audit/firmware/extracted/system/lib/modules/vcam_driver.ko --output "$RUNNER_TEMP/STAGE29D_B2R_CALLBACK.json"
           python3 - "$RUNNER_TEMP/STAGE29_CCM_ARGFLOW.json" <<'PY'
           import json,sys
           d=json.load(open(sys.argv[1]))
@@ -111,11 +114,26 @@ jobs:
                          d['CCM_argument_2_word32_from_record_offset']],
               'format_fields_semantics_proven':False}))
           PY_RECORD
+          python3 - "$RUNNER_TEMP/STAGE29D_B2R_CALLBACK.json" <<'PY_CALLBACK'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          assert d['status']=='PASS_original_B2R_callback_reference_verified'
+          assert d['B2R_function_pointer_rodata_offset_hex']=='0x5658'
+          assert d['B2R_pointer_relocation_type']==257
+          assert d['original_X2D_B2R_record_type_identified'] is False
+          assert d['X2D_frame_width_height_semantics_proven'] is False
+          assert d['MAIN_CCM_pixel_equation_proven'] is False
+          assert d['Android_saved_photo_changed'] is False
+          print(json.dumps({'status':d['status'],
+                'candidate_owner_names':[x['name'] for x in d['candidate_containing_STT_OBJECT_symbols']],
+                'neighboring_rel_ref_count':len(d['neighboring_relocation_symbols']),
+                'vendor_pixel_equation_proven':False}))
+          PY_CALLBACK
       - name: Guard published metadata and remove original firmware
         shell: bash
         run: |
           set -euo pipefail
-          python3 - "$RUNNER_TEMP/STAGE29_CCM_ARGFLOW.json" "$RUNNER_TEMP/STAGE29C_B2R_RECORD.json" <<'PY'
+          python3 - "$RUNNER_TEMP/STAGE29_CCM_ARGFLOW.json" "$RUNNER_TEMP/STAGE29C_B2R_RECORD.json" "$RUNNER_TEMP/STAGE29D_B2R_CALLBACK.json" <<'PY'
           import json,sys
           d=json.load(open(sys.argv[1]))
           forbidden_keys={'instruction_hex','vendor_instruction_bytes',
@@ -142,6 +160,11 @@ jobs:
           assert c['vendor_instruction_bytes_exported'] is False
           assert c['vendor_tuning_values_exported'] is False
           assert c['original_camera_frames_processed'] is False
+          cb=json.load(open(sys.argv[3]))
+          audit(cb)
+          assert cb['vendor_instruction_bytes_exported'] is False
+          assert cb['vendor_IQ_values_exported'] is False
+          assert cb['Android_saved_photo_changed'] is False
           PY
           rm -f hasselblad_native_audit/firmware/X2DII_100C_v1_3_16_2.cim
           rm -rf hasselblad_native_audit/firmware/extracted
@@ -155,5 +178,7 @@ jobs:
             ${{ runner.temp }}/STAGE29_SYNTHETIC.json
             ${{ runner.temp }}/STAGE29C_B2R_RECORD.json
             ${{ runner.temp }}/STAGE29C_SYNTHETIC.json
+            ${{ runner.temp }}/STAGE29D_B2R_CALLBACK.json
+            ${{ runner.temp }}/STAGE29D_SYNTHETIC.json
           if-no-files-found: error
           retention-days: 14

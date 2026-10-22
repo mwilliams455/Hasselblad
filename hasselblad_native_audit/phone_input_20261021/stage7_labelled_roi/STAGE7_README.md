@@ -44,6 +44,7 @@ Input `labels.json` (private):
       "id": "certified_matte_gray_card",
       "role": "neutral_reference",
       "source": "measured_reference_card",
+      "reference_target_id": "matte_gray_card_A",
       "illuminant": "daylight",
       "rect_raw_xywh": [1000, 700, 320, 256]
     },
@@ -81,6 +82,7 @@ A separate optional mapper supports a full-frame, uncropped DNG with TIFF Orient
     "id": "reference_card_daylight",
     "role": "neutral_reference",
     "source": "measured_reference_card",
+    "reference_target_id": "matte_gray_card_A",
     "illuminant": "daylight",
     "rect_jpeg_xywh": [200, 100, 150, 120]
   }]
@@ -97,3 +99,68 @@ python stage7_jpeg_to_raw_roi.py \
 ## Exit criteria for choosing a new phone WB
 
 A region's near match to a Stage4 temperature/tint candidate **does not authorize selection**, even if its green-site split is tiny. Stage7 will require independently grounded reference targets under multiple lights, explicitly coloured holdouts, supported provenance and mode/lens breakdown, shading-basis resolution, exposure robustness and failure/abstention conditions before a future development-only Hasselblad WB A/B can be enabled. White balance and HNCS CCM/tone/LUT remain separate stages.
+
+## Stage 7B: cross-capture evidence (new)
+
+After obtaining individually verified private Stage7 ROI reports, run the
+`stage7_cross_capture.py` aggregator. Each **neutral reference** ROI must now
+carry a user-declared stable `reference_target_id` (e.g. the same physical grey
+card under two lighting conditions). The ID is a study label, not proof the card
+has been spectrally characterized. Holdout and unlabelled ROIs must not carry a
+card ID. The ROI evaluator binds an opaque SHA-256 of the physical camera's
+calibration matrices/metadata plus exposure time and ISO to each private report.
+The SHA is only a consistency test, not an individual camera identification
+that should be published.
+
+Create a **private** study manifest alongside the private report files:
+
+```json
+{
+  "schema": "hasselblad-stage7b-study-manifest-v1",
+  "reports": [
+    { "id": "daylight_01",
+      "path": "daylight_01.private.json",
+      "binding": {
+        "dng_sha256": "<exact DNG hash from original capture>",
+        "physical_sensor_id": "<physical camera>",
+        "frame_number": "<frame number>",
+        "sensor_timestamp_ns": "<sensor timestamp>"
+      }
+    }
+  ]
+}
+```
+
+`id` values must be unique. Paths must be relative to the manifest directory,
+inside that directory, without `..` traversal. Repeat for all reference and
+holdout captures; reuse the **same reference_target_id** only for shots of the
+same physical card, and independently label `daylight` or `warm_artificial` in
+each ROI. The study analysis never edits images and cannot infer Kelvin or
+spectral neutrality from these self-reported labels.
+
+```sh
+python stage7_labelled_roi.py --self-test
+python stage7_jpeg_to_raw_roi.py --self-test
+python stage7_cross_capture.py --self-test
+python stage7_cross_capture.py \
+  --manifest PRIVATE_study_manifest.json \
+  --private-report PRIVATE_study_result.json \
+  --public-report PUBLIC_study_audit.json
+```
+
+The tool never pools different camera-profile hashes, physical cameras, Bayer
+geometries or reported RAW-binning states; it never pools different reference
+cards. Repeated ROIs from a single photograph are collapsed into **one frame**
+when computing within-light repeatability. All lens-shading hypotheses remain
+separate. It calculates descriptive medians, median absolute deviations in
+R/G and B/G log2 stops and HAL/Stage4 residuals, plus coloured-holdout ratio
+collisions. The default `0.125` stop holdout collision radius is **research
+only**, not a validated acceptance threshold.
+
+The *minimum exploratory coverage* marker requires two independent captures
+of **the same card** under daylight and two under warm artificial lighting,
+plus a coloured holdout for that camera profile. This is a completeness
+checkpoint only: it never establishes light temperature, true spectral
+neutrality, a firmware controller, a calibrated AWB policy, HNCS or permission
+to change a photographic white point. No original RAW/JPEG or private study
+report belongs in this public repository.

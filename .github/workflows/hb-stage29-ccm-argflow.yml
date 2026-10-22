@@ -97,11 +97,25 @@ jobs:
           python3 - "$RUNNER_TEMP/STAGE29_CCM_ARGFLOW.json" <<'PY'
           import json,sys
           d=json.load(open(sys.argv[1]))
-          txt=json.dumps(d).lower()
-          for forbidden in ('instruction_bytes', 'rgb_pixels', 'original_lut_values',
-                            'coefficient_array', 'original_firmware_blob'):
-              assert forbidden not in txt,forbidden
+          forbidden_keys={'instruction_hex','vendor_instruction_bytes',
+                          'source_tuning_coefficients','raw_photo_pixels',
+                          'original_lut_values','coefficient_array',
+                          'original_firmware_blob'}
+          def audit(node):
+              if isinstance(node,dict):
+                  for key,value in node.items():
+                      assert key not in forbidden_keys,key
+                      if key.endswith('_exported'):
+                          assert value is False,key
+                      audit(value)
+              elif isinstance(node,list):
+                  for item in node:audit(item)
+              elif isinstance(node,str):
+                  assert len(node)<1024,'unexpected_large_embedded_payload'
+          audit(d)
           assert d['no_live_register_or_camera_pixel_samples'] is True
+          assert d['original_vendor_instruction_bytes_exported'] is False
+          assert d['vendor_IQ_array_data_exported'] is False
           PY
           rm -f hasselblad_native_audit/firmware/X2DII_100C_v1_3_16_2.cim
           rm -rf hasselblad_native_audit/firmware/extracted

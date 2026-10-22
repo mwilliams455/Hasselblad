@@ -1,0 +1,144 @@
+name: Hasselblad Stage26 neutral JNI diagnostic signed APK
+
+"on":
+  push:
+    branches:
+      - recovery/awb-rebuild-20261021
+    paths:
+      - 'hasselblad_native_audit/isp_android_stage26/**'
+      - 'HasselbladPhoton/app/src/main/cpp/hasselblad/hb_colour_reference_jni.c'
+      - 'HasselbladPhoton/app/src/main/java/com/particlesdevs/photoncamera/hasselblad/HasselbladColourReferenceCheck.java'
+      - 'HasselbladPhoton/app/src/main/cpp/CMakeLists.txt'
+      - 'HasselbladPhoton/app/src/main/java/com/particlesdevs/photoncamera/hasselblad/HasselbladDevelopmentActivity.java'
+      - 'HasselbladPhoton/app/src/main/res/layout/activity_hasselblad_development.xml'
+      - 'HasselbladPhoton/app/build.gradle'
+      - 'HasselbladPhoton/app/version.properties'
+      - '.github/workflows/hb-photon-stage26-neutral-bridge.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  host-and-android:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 50
+    steps:
+      - name: Check out recovery source
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Preserve previous saved-photo renderer
+        shell: bash
+        run: |
+          set -euo pipefail
+          # Stage24 is the first independent colour reference, not an ISP hook.
+          test -z "$(git diff --name-only 16a733a93742725cfbc864e67fb2ec748cb85589 HEAD --             HasselbladPhoton/app/src/main/java/com/particlesdevs/photoncamera/capture/CaptureController.java             HasselbladPhoton/app/src/main/java/com/particlesdevs/photoncamera/processing/render             HasselbladPhoton/app/src/main/java/com/particlesdevs/photoncamera/processing/processor             HasselbladPhoton/app/src/main/java/com/particlesdevs/photoncamera/processing/opengl/postpipeline             HasselbladPhoton/app/src/main/assets/shaders)"
+          ! grep -Eq 'HB24_MAIN_HYPOTHESIS|hb21_sample_candidate|Camera2|SaveJpeg'               HasselbladPhoton/app/src/main/cpp/hasselblad/hb_colour_reference_jni.c
+      - name: Compile host native JNI and verify synthetic Java-to-C end-to-end
+        shell: bash
+        run: |
+          set -euo pipefail
+          a=HasselbladPhoton/app
+          r=hasselblad_native_audit
+          mkdir -p "$RUNNER_TEMP/stage26/classes" "$RUNNER_TEMP/stage26/lib"
+          javac --release 17 -d "$RUNNER_TEMP/stage26/classes"             "$a/src/main/java/com/particlesdevs/photoncamera/hasselblad/HasselbladColourReferenceCheck.java"             "$r/isp_android_stage26/tests/Stage26BridgeSmoke.java"
+          cc -std=c11 -O2 -Wall -Wextra -Werror -fPIC -ffp-contract=off -shared             -I"$JAVA_HOME/include" -I"$JAVA_HOME/include/linux"             -I"$r/isp_dng_stage18/src" -I"$r/isp_colour_stage19/src"             -I"$r/isp_main_stage21/src" -I"$r/isp_colour_stage24/src"             "$a/src/main/cpp/hasselblad/hb_colour_reference_jni.c"             "$r/isp_colour_stage24/src/hb24_renderer.c"             "$r/isp_dng_stage18/src/hb_dng_pcs_bridge.c"             "$r/isp_colour_stage19/src/hb_colour_stage19.c"             "$r/isp_main_stage21/src/hb_main_candidate21.c"             -Wl,--no-undefined -lm             -o "$RUNNER_TEMP/stage26/lib/libhasselblad_colour_reference_jni.so"
+          java -Djava.library.path="$RUNNER_TEMP/stage26/lib"             -cp "$RUNNER_TEMP/stage26/classes" Stage26BridgeSmoke             | tee "$RUNNER_TEMP/stage26/STAGE26_HOST_JNI_SYNTHETIC.json"
+      - name: Check original Stage24 numeric reference and memory controls
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m pip install --disable-pip-version-check 'numpy>=1.26,<3'
+          python3 hasselblad_native_audit/isp_colour_stage24/tests/test_renderer24.py             --compiler gcc --output "$RUNNER_TEMP/stage26/STAGE24_GCC.json"
+      - name: Install pinned Android tools
+        shell: bash
+        run: |
+          set -euo pipefail
+          sdk="${ANDROID_HOME:-/usr/local/lib/android/sdk}"
+          echo "ANDROID_HOME=$sdk" >> "$GITHUB_ENV"
+          echo "$sdk/cmdline-tools/latest/bin" >> "$GITHUB_PATH"
+          yes | "$sdk/cmdline-tools/latest/bin/sdkmanager" --licenses >/dev/null || true
+          "$sdk/cmdline-tools/latest/bin/sdkmanager" --install             'platforms;android-36' 'build-tools;35.0.0'             'cmake;3.22.1' 'ndk;27.0.12077973' >/dev/null
+      - name: Build signed Stage26 diagnostic upgrade APK
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd HasselbladPhoton
+          chmod +x gradlew
+          ./gradlew --no-daemon --console=plain :app:assembleDebug
+      - name: Check package identity, signer, arm64 JNI, ELF alignment and scope
+        shell: bash
+        run: |
+          set -euo pipefail
+          output="$RUNNER_TEMP/stage26-apk"
+          mkdir -p "$output"
+          apk="$(find HasselbladPhoton/app/build/outputs/apk -type f -name '*debug.apk' -print -quit)"
+          test -s "$apk"
+          "$ANDROID_HOME/build-tools/35.0.0/apksigner" verify --verbose --print-certs "$apk" > "$output/signature.txt"
+          grep -F -i '255cb09eaddd26a9cc680786e4985372cf24d0e54bb120fc44d48f3273ff3956' "$output/signature.txt"
+          "$ANDROID_HOME/build-tools/35.0.0/aapt" dump badging "$apk" > "$output/badging.txt"
+          grep -F "name='com.mwilliams.hasselbladphoton'" "$output/badging.txt"
+          grep -F "versionCode='27187'" "$output/badging.txt"
+          grep -F "versionName='0.1-hb-neutral26'" "$output/badging.txt"
+          python3 - "$apk" "$output" <<'PY'
+          import hashlib,json,pathlib,re,subprocess,sys,zipfile
+          apk,out=pathlib.Path(sys.argv[1]),pathlib.Path(sys.argv[2])
+          libs=[
+              "lib/arm64-v8a/libhasselblad_wb_jni.so",
+              "lib/arm64-v8a/libhasselblad_scene_jni.so",
+              "lib/arm64-v8a/libhasselblad_domain_jni.so",
+              "lib/arm64-v8a/libhasselblad_profile_jni.so",
+              "lib/arm64-v8a/libhasselblad_colour_reference_jni.so"
+          ]
+          with zipfile.ZipFile(apk) as z:
+              names=set(z.namelist())
+              assert all(lib in names for lib in libs),"Missing native test libraries"
+              path=out/"libneutral.so";path.write_bytes(z.read(libs[-1]))
+              data=subprocess.check_output(["readelf","-lW",str(path)],text=True)
+              aligns=[int(line.split()[-1],16) for line in data.splitlines()
+                      if re.match(r"\s*LOAD\s+",line)]
+              assert aligns and all(align>=16384 for align in aligns),aligns
+              symbols=subprocess.check_output(["nm","-D",str(path)],text=True)
+              assert "Java_com_particlesdevs_photoncamera_hasselblad_HasselbladColourReferenceCheck_nativeLinearTile" in symbols
+              path.unlink()
+          report={
+              "schema":"hasselblad-stage26-signed-diagnostic-apk-v1",
+              "status":"PASS",
+              "source_commit":subprocess.check_output(["git","rev-parse","HEAD"],text=True).strip(),
+              "application_id":"com.mwilliams.hasselbladphoton",
+              "version_code":27187,"version_name":"0.1-hb-neutral26",
+              "preserved_signer":True,
+              "arm64_load_segment_alignment":aligns,
+              "native_stage24_colour_reference_included":True,
+              "stage26_android_device_execution_proven":False,
+              "stage26_saved_raw_image_rendered":False,
+              "photographic_colour_still_photon":True,
+              "original_hasselblad_MAIN_ccm_gamma_lut_pixel_proven":False,
+              "vendor_lut_payload_bundled":False,
+              "apk_sha256":hashlib.sha256(apk.read_bytes()).hexdigest(),
+              "apk_bytes":apk.stat().st_size
+          }
+          (out/"STAGE26_APK_VERIFICATION.json").write_text(json.dumps(report,indent=2)+"\n")
+          print(json.dumps(report,indent=2))
+          PY
+          cp "$apk" "$output/HasselbladPhoton-Stage26-27187-debug.apk"
+      - name: Upload signed APK and bounded synthetic evidence only
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HasselbladPhoton-Stage26-27187
+          path: |
+            ${{ runner.temp }}/stage26-apk/HasselbladPhoton-Stage26-27187-debug.apk
+            ${{ runner.temp }}/stage26-apk/STAGE26_APK_VERIFICATION.json
+            ${{ runner.temp }}/stage26-apk/signature.txt
+            ${{ runner.temp }}/stage26-apk/badging.txt
+            ${{ runner.temp }}/stage26/STAGE26_HOST_JNI_SYNTHETIC.json
+            ${{ runner.temp }}/stage26/STAGE24_GCC.json
+          if-no-files-found: error
+          retention-days: 10

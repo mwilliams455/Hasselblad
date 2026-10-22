@@ -14,7 +14,7 @@ from PIL import Image
 import cv2
 
 HERE=Path(__file__).resolve().parent
-ROOT=HERE.parents[2]  # when checked in as .../hasselblad_native_audit/isp_colour_stage24/src/
+ROOT=HERE.parents[1]  # repository path .../hasselblad_native_audit/isp_colour_stage24/src/
 MAX=1024
 LIB_PATHS={
     'stage18':ROOT/'isp_dng_stage18/src',

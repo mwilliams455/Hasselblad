@@ -1,0 +1,53 @@
+{
+  "schema": "hb-stage24-owned-software-renderer-artifacts-v1",
+  "date": "2026-10-22",
+  "photographic_vendor_equivalence": false,
+  "existing_android_renderer_unchanged": true,
+  "files": [
+    {
+      "path": "src/hb24_renderer.h",
+      "size": 2742,
+      "sha256": "e7e1c5fdac2fbec9ee20d6d3ddc6ea8236fa1499663bd6805e8c01a1241830dc"
+    },
+    {
+      "path": "src/hb24_renderer.c",
+      "size": 4647,
+      "sha256": "19bfb95366cdd9c2a805edb87deec4d5b0c2e27e8d3711d2276fe843ed7a7a4f"
+    },
+    {
+      "path": "src/offline_render24.py",
+      "size": 15508,
+      "sha256": "620710351fb7b246674f79424dc57bd3c37b04a81cb824a19af8a79bbaef2c3f"
+    },
+    {
+      "path": "tests/test_renderer24.py",
+      "size": 7744,
+      "sha256": "30badcd3f50f7de47f6f29928b02806e62c4e95908b6e7ad691c2f84cab46525"
+    },
+    {
+      "path": "tests/test_renderer24_sanitized.c",
+      "size": 2701,
+      "sha256": "fb0351fa47711e33178ecbffcf675d1684bd1ff90eb06dc2410c8ddc9513646b"
+    },
+    {
+      "path": "ci/hb-isp-stage24-offline-render.yml",
+      "size": 3959,
+      "sha256": "1dbaf16706d3af70f3916581038233898cf86bbde2fc235661adf329420867ff"
+    },
+    {
+      "path": "README.md",
+      "size": 8405,
+      "sha256": "9d39ba28db7f90c2e82eaaff4c846ad8dc1879fc4709e11e971101fadbb84946"
+    },
+    {
+      "path": "reports/STAGE24_SYNTHETIC_GCC.json",
+      "size": 502,
+      "sha256": "bf5a266c02b98531e9d5001c70df32e914d663033bec601e32fbf3ad8a2cb8ad"
+    },
+    {
+      "path": "reports/STAGE24_SYNTHETIC_CLANG.json",
+      "size": 504,
+      "sha256": "43e30990fd23639ff42e0a364bb7476bf650cf33b87af8511c4fbc2dbe4cbf36"
+    }
+  ]
+}

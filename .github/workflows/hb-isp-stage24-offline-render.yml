@@ -1,0 +1,85 @@
+name: Hasselblad Stage24 native colour reference renderer (no HNCS claim)
+on:
+  push:
+    branches: ['recovery/awb-rebuild-20261021']
+    paths:
+      - 'hasselblad_native_audit/isp_colour_stage24/**'
+      - '.github/workflows/hb-isp-stage24-offline-render.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  native-colour-reference:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Prevent production changes or unrelated research overwrites
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --name-only e7d91730cbec23e40778cfb6e6f5761374a66dd3 HEAD > /tmp/stage24_changed_paths
+          if grep -Ev '^(hasselblad_native_audit/isp_colour_stage24/|\.github/workflows/hb-isp-stage24-offline-render\.yml$)' /tmp/stage24_changed_paths; then
+            echo 'Unrelated or production source changed in Stage24 scope'; exit 1
+          fi
+          if git diff --name-only e7d91730cbec23e40778cfb6e6f5761374a66dd3 HEAD | grep '^HasselbladPhoton/app/'; then
+            echo 'Phone rendering must remain unchanged'; exit 1
+          fi
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Numerical research dependencies only
+        run: python3 -m pip install --disable-pip-version-check numpy pillow tifffile opencv-python-headless
+      - name: C native full pipeline versus independent NumPy (GCC)
+        run: |
+          python3 hasselblad_native_audit/isp_colour_stage24/tests/test_renderer24.py \
+            --compiler gcc --output /tmp/STAGE24_SYNTHETIC_GCC.json
+      - name: C native full pipeline versus independent NumPy (Clang)
+        run: |
+          python3 hasselblad_native_audit/isp_colour_stage24/tests/test_renderer24.py \
+            --compiler clang --output /tmp/STAGE24_SYNTHETIC_CLANG.json
+      - name: C memory checks with AddressSanitizer and UndefinedBehaviorSanitizer
+        shell: bash
+        run: |
+          set -euo pipefail
+          root=hasselblad_native_audit
+          cc -std=c11 -O1 -g -Wall -Wextra -Werror -fsanitize=address,undefined -fno-omit-frame-pointer \
+            -I $root/isp_dng_stage18/src -I $root/isp_colour_stage19/src \
+            -I $root/isp_main_stage21/src -I $root/isp_colour_stage24/src \
+            $root/isp_colour_stage24/tests/test_renderer24_sanitized.c \
+            $root/isp_colour_stage24/src/hb24_renderer.c \
+            $root/isp_dng_stage18/src/hb_dng_pcs_bridge.c \
+            $root/isp_colour_stage19/src/hb_colour_stage19.c \
+            $root/isp_main_stage21/src/hb_main_candidate21.c \
+            -lm -o /tmp/hb24_asan
+          ASAN_OPTIONS=detect_leaks=1:halt_on_error=1 /tmp/hb24_asan
+      - name: Prohibit private photo and original firmware in published receipts
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          root=Path('hasselblad_native_audit/isp_colour_stage24')
+          for p in root.glob('STAGE24_SYNTHETIC_*.json'):
+              d=json.loads(p.read_text())
+              assert d['status']=='PASS'
+              assert not d['Hasselblad_ISP_equivalence_proven']
+              assert not d['vendor_main_lut_data_used']
+              assert d['production_saved_photo_renderer_unchanged']
+          for p in root.rglob('*'):
+              if p.is_file():
+                  assert p.suffix not in ('.dng','.3fr','.cim','.apk','.jpg','.jpeg','.png','.tif','.tiff','.so')
+                  assert 'private' not in p.parts
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Hasselblad-Stage24-Synthetic-C-Renderer-Only
+          path: |
+            /tmp/STAGE24_SYNTHETIC_GCC.json
+            /tmp/STAGE24_SYNTHETIC_CLANG.json
+          if-no-files-found: error
+          retention-days: 14

@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "schema": "stage24_native_colourimetric_composition-v1",
+  "compiler": "gcc",
+  "synthetic_camera_profile_gamut_cases": 128,
+  "synthetic_channel_outputs_compared": 98304,
+  "C_vs_Numpy_max_abs_error": 5.329070518200751e-15,
+  "negative_synthetic_output_components_preserved": 14911,
+  "candidate_identity_and_finite_fail_closed_cases": 7,
+  "Hasselblad_ISP_equivalence_proven": false,
+  "vendor_main_lut_data_used": false,
+  "production_saved_photo_renderer_unchanged": true
+}

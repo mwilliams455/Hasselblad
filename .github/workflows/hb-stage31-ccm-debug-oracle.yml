@@ -31,6 +31,7 @@ jobs:
           set -euo pipefail
           test -z "$(git diff --name-only 7e9856287e5682d7bd34c49f66b2003e0403c087 HEAD -- HasselbladPhoton)"
           python3 -m py_compile hasselblad_native_audit/isp_main_stage31/inspect_ccm_debug31.py
+          python3 -m py_compile hasselblad_native_audit/isp_main_stage31/inspect_ccm_debug_callers31c.py
       - name: Validate synthetic register-memory classification and no-oracle guards
         shell: bash
         run: |
@@ -43,6 +44,14 @@ jobs:
           assert d['status']=='PASS_synthetic' and d['checks']==8
           assert d['pixel_oracle_proven'] is False and d['phone_renderer_modified'] is False
           PY
+          python3 hasselblad_native_audit/isp_main_stage31/inspect_ccm_debug_callers31c.py \
+            --self-test --output "$RUNNER_TEMP/STAGE31C_SYNTHETIC.json"
+          python3 - "$RUNNER_TEMP/STAGE31C_SYNTHETIC.json" <<'PY_C'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          assert d['status']=='PASS_synthetic' and d['tests']==6
+          assert d['pixel_oracle_proven'] is False
+          PY_C
       - name: Install inert firmware parser and AArch64 disassembler
         shell: bash
         run: |
@@ -74,6 +83,26 @@ jobs:
           python3 hasselblad_native_audit/isp_main_stage31/inspect_ccm_debug31.py \
             --module hasselblad_native_audit/firmware/extracted/system/lib/modules/vcam_driver.ko \
             --output "$RUNNER_TEMP/STAGE31_CCM_DEBUG.json"
+          python3 hasselblad_native_audit/isp_main_stage31/inspect_ccm_debug_callers31c.py \
+            --module hasselblad_native_audit/firmware/extracted/system/lib/modules/vcam_driver.ko \
+            --output "$RUNNER_TEMP/STAGE31C_CCM_DEBUG_CALLERS.json"
+          python3 - "$RUNNER_TEMP/STAGE31C_CCM_DEBUG_CALLERS.json" <<'PY_C'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          assert d['status']=='PASS_exact_debug_call_relocation_inventory'
+          assert d['debug_mux_width_bits_from_stage31B']==5
+          assert d['debug_mux_possible_selector_count']==32
+          assert d['numeric_selector_meanings_recovered'] is False
+          assert d['real_pixel_value_readback_proven'] is False
+          assert d['six_coefficient_pixel_equation_proven'] is False
+          assert d['vendor_instruction_bytes_exported'] is False
+          assert d['firmware_or_private_pixels_uploaded'] is False
+          assert d['Android_saved_photo_renderer_unchanged'] is True
+          print(json.dumps({'status':d['status'],
+                            'incoming':{k:{ty:len(v[ty]) for ty in v}
+                                        for k,v in d['incoming'].items()},
+                            'selector_meanings_recovered':False}))
+          PY_C
           python3 - "$RUNNER_TEMP/STAGE31_CCM_DEBUG.json" <<'PY'
           import json,sys
           d=json.load(open(sys.argv[1]))
@@ -117,6 +146,13 @@ jobs:
               for mem in f['load_store_records']:
                   assert mem['physical_MMIO_offset_proven'] is False
           PY
+          python3 - "$RUNNER_TEMP/STAGE31C_CCM_DEBUG_CALLERS.json" <<'PY_C'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          assert d['vendor_instruction_bytes_exported'] is False
+          assert d['firmware_or_private_pixels_uploaded'] is False
+          assert d['real_pixel_value_readback_proven'] is False
+          PY_C
           rm -f hasselblad_native_audit/firmware/X2DII_100C_v1_3_16_2.cim
           rm -rf hasselblad_native_audit/firmware/extracted
           test -z "$(git status --porcelain --untracked-files=no)"
@@ -127,5 +163,7 @@ jobs:
           path: |
             ${{ runner.temp }}/STAGE31_CCM_DEBUG.json
             ${{ runner.temp }}/STAGE31_SYNTHETIC.json
+            ${{ runner.temp }}/STAGE31C_CCM_DEBUG_CALLERS.json
+            ${{ runner.temp }}/STAGE31C_SYNTHETIC.json
           if-no-files-found: error
           retention-days: 14

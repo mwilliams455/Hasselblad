@@ -19,6 +19,25 @@ The exact-source report inventories CCM-named executable functions, incoming AAr
 
 The script rejects a changed firmware hash, changed prior driver evidence, missing section/symbol contract, or changed previously verified ccm_set_fmt to ccm_set_fn0_config branch relocation.
 
+## Verified Stage28A/28B original-firmware results
+
+Two independent original-source scripts completed under hosted CI:
+
+- Stage28A: https://github.com/mwilliams455/Hasselblad/actions/runs/39830443284
+- Stage28B: https://github.com/mwilliams455/Hasselblad/actions/runs/39831395107
+
+Both runs verified the exact official source package, including the same 3,150,240-byte AArch64 vcam_driver.ko and previous Stage17 driver evidence. All synthetic boundary tests passed. The report is sanitized; original instructions and tuning data are not uploaded.
+
+**New original call edge:** b2r_pad_set_fh_fmt at .text+0x6d598 calls ccm_set_fmt, which in turn calls ccm_set_fn0_config at .text+0x314f0. The old ccm_probe binding to plat_eagle2_probe_components at .text+0x59fbc was also reconfirmed.
+
+**Other format/configuration relationships from the same B2R function** include lsc_set_fmt, wbc_set_fmt, demosaic_set_fmt, pfr_set_format, cac_set_fmt, ccm_set_fmt, gamma_set_fmt, hncs_set_fmt, rltm_set_fmt, rgb_stats_output_config, ae_awb_stats_output_config, yuv_top_set_mux and v4l2_mbus_fmt_2_cfa_pattern. Its exact function size is 912 bytes / 228 decoded instructions. These are *format/control calls*, not evidence of every module's activation, pixel pipeline execution order or a mathematical colour transform. In particular, a call to hncs_set_fmt does not override the separately observed MAIN_HNCS bypass in the three audited still reprocessing topologies.
+
+**The missing CCM IG0 setter reference was investigated further.** ccm_set_ig0_config has no incoming *named* relocation in this kernel module. One source-relative reference to its start offset appears in .altinstructions, relocation type 261. This is kernel alternate-instruction patch metadata, not proof of ordinary runtime invocation. No unrelocated BL to its exact function entry was found by the bounded scan. These observations do **not** prove the IG0 function is unreachable; runtime registration or userland direct register submission remain unexcluded.
+
+The CCM section currently exposes 20 ccm_-prefixed functions, including register format/setup, probes and diagnostic/busy/counter accessors. No recovered original RGB pixel equation emerges from the verified call/relocation evidence.
+
+**Important:** do not expand the symbol B2R into a definite Bayer-to-RGB pixel algorithm solely from its name; the association with downstream format setters is demonstrated, but its precise image-domain contract still needs dataflow evidence.
+
 ## What it does NOT establish
 
 Neither an incoming call nor a static function-pointer reference is a pixel oracle. The recovered setters move configuration into hardware registers; they do not multiply RGB samples in userland. The six lmtx_fw values remain **signed16 register data**, not a proven 2×3, affine or constrained 3×3 matrix. No coordinate/working-space/Q-scale, rounding, per-frame overrides, clipping or gamma/LUT handoff is declared proven.

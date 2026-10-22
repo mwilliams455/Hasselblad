@@ -21,6 +21,7 @@ SCHEMA = 'hasselblad-stage7-labelled-roi-v1'
 ROLES = ('neutral_reference', 'nonneutral_holdout', 'unlabelled_scene')
 SOURCES = ('measured_reference_card', 'human_visual_annotation', 'unlabelled')
 ILLUMINANTS = ('daylight', 'warm_artificial', 'mixed', 'other', 'unknown')
+TARGET_ID = __import__('re').compile(r'^[A-Za-z0-9_.-]{1,64}$')
 
 
 def check(condition, message):
@@ -84,7 +85,23 @@ def verify_capture(cap, dng_path, raw):
     check(export['camera_id'] == provenance['selected_calibration_camera_id'], 'effective_camera_mismatch')
     check(export['raw_size'] == [w, h] and export['cfa_pattern'] == 0, 'effective_raw_mismatch')
     check(np.allclose(export['neutral_used'], neutral, atol=1e-6, rtol=0), 'effective_neutral_mismatch')
+    # A private, stable camera-profile binding. Different ROMs/physical sensors can
+    # reuse an integer camera ID: compare only reports with identical calibration
+    # evidence, rather than accidentally pooling unrelated per-device RAW ratios.
+    profile = {'sensor_id': provenance['selected_calibration_camera_id'],
+               'cfa': characteristics['android.sensor.info.colorFilterArrangement'],
+               'size': [w,h]}
+    for key in ('android.sensor.referenceIlluminant1','android.sensor.referenceIlluminant2',
+                'android.sensor.calibrationTransform1','android.sensor.calibrationTransform2',
+                'android.sensor.colorTransform1','android.sensor.colorTransform2',
+                'android.sensor.forwardMatrix1','android.sensor.forwardMatrix2',
+                'android.sensor.blackLevelPattern','android.sensor.info.whiteLevel'):
+        check(key in characteristics, 'missing_profile_field_'+key)
+        profile[key] = characteristics[key]
+    profile_fingerprint = hashlib.sha256(json.dumps(profile,sort_keys=True,
+                    separators=(',',':')).encode('utf-8')).hexdigest()
     return {
+        'camera_profile_sha256': profile_fingerprint,
         'sensor_id': provenance['selected_calibration_camera_id'],
         'frame': cap['frame_number'], 'timestamp': dr['sensor_timestamp_ns'],
         'dng_sha256': identity['sha256'], 'width': w, 'height': h,
@@ -113,6 +130,12 @@ def verify_annotations(ann, binding):
         check(r.get('illuminant') in ILLUMINANTS, 'invalid_illuminant_label')
         check(r['role'] != 'neutral_reference' or r['source'] == 'measured_reference_card',
               'neutral_requires_known_reference_card')
+        target_id=r.get('reference_target_id')
+        if r['role']=='neutral_reference':
+            check(isinstance(target_id,str) and TARGET_ID.fullmatch(target_id),
+                  'reference_target_id_required')
+        else:
+            check(target_id is None, 'reference_target_id_must_be_card_only')
         if r['source'] == 'measured_reference_card':
             check(r['role'] == 'neutral_reference', 'reference_card_label_conflict')
             check(r['illuminant'] in ('daylight','warm_artificial','other'),
@@ -243,6 +266,7 @@ def evaluate(cap, raw, ann, binding):
             bases[name] = m
         original = bases['original_dng_no_extra_shading_dynamic_black']
         roi_result = {'id':reg['id'],'role':reg['role'],'source':reg['source'],
+                      'reference_target_id':reg.get('reference_target_id'),
                       'illuminant':reg['illuminant'],'rect_raw_xywh':rect,
                       'cell_quality':hist,'basis_hypotheses':bases,
                       'eligible_for_future_controlled_reference_study':reg['role']=='neutral_reference' and
@@ -256,6 +280,8 @@ def evaluate(cap, raw, ann, binding):
                 'dng_sha256':binding['dng_sha256'],'physical_sensor_id':binding['sensor_id'],
                 'frame_number':binding['frame'],'sensor_timestamp_ns':binding['timestamp'],
                 'width':binding['width'],'height':binding['height'],
+                'camera_profile_sha256':binding['camera_profile_sha256'],
+                'exposure_time_ns':binding['exposure_time_ns'],'ISO':binding['ISO'],
                 'raw_binning_factor_used_reported':binding['raw_binning_factor_reported']},
             'neutral_comparators':[{'id':x['id'],'role':x['role']} for x in candidates],
             'scope':'DNG Bayer ROI evidence; hypothetical shading bases. No illuminant ground truth inferred from pixels.',
@@ -270,7 +296,8 @@ def test():
     raw[1::2,1::2]=114
     binding={'width':64,'height':64,'dynamic_black':np.full(4,64.),'static_black':np.full(4,64.),'white':1024,
              'dng_sha256':'a','sensor_id':'2','frame':'1','timestamp':'2','hal_neutral':[.5,1,.25],
-             'raw_binning_factor_reported':False}
+             'raw_binning_factor_reported':False,'camera_profile_sha256':'9'*64,
+             'exposure_time_ns':10_000_000,'ISO':100}
     v=model_sites(raw,[0,0,64,64],binding,np.ones((2,2,4),dtype=np.float16))
     k=summarize_sites(v['original_dng_no_extra_shading_dynamic_black'],np.ones((32,32),bool))
     assert abs(k['neutral_green_normalized'][0]-.5)<1e-12
@@ -280,7 +307,8 @@ def test():
     assert np.allclose(v['original_dng_no_extra_shading_dynamic_black'],v['hypothetical_absolute_hal_shading'])
     ann={'schema':SCHEMA,'binding':{'dng_sha256':'a','physical_sensor_id':'2','frame_number':'1','sensor_timestamp_ns':'2'},
          'regions':[{'id':'gray_card','role':'neutral_reference','source':'measured_reference_card',
-                     'illuminant':'daylight','rect_raw_xywh':[0,0,64,64]}]}
+                     'illuminant':'daylight','reference_target_id':'neutral_card_A',
+                     'rect_raw_xywh':[0,0,64,64]}]}
     verify_annotations(ann,binding)
     # A perfectly neutral-looking synthetic sample is not, by its pixels,
     # grounds to select a WB. Even an annotated card remains reference-only.
@@ -295,18 +323,26 @@ def test():
     ann['regions'][0]['role']='nonneutral_holdout'
     ann['regions'][0]['source']='human_visual_annotation'
     ann['regions'][0]['illuminant']='unknown'
+    ann['regions'][0].pop('reference_target_id')
     outcome=evaluate(mockcap,raw,ann,binding)
     assert not outcome['regions'][0]['eligible_for_future_controlled_reference_study']
     assert not outcome['regions'][0]['render_permitted']
     ann['regions'][0]['role']='neutral_reference'
     ann['regions'][0]['source']='measured_reference_card'
     ann['regions'][0]['illuminant']='daylight'
+    ann['regions'][0]['reference_target_id']='neutral_card_A'
     import copy
     for bad, value in [('rect_raw_xywh',[1,0,32,32]),('role','not_really_neutral'),('source','unlabelled')]:
         other=copy.deepcopy(ann);other['regions'][0][bad]=value
         try:verify_annotations(other,binding)
         except ValueError:pass
         else:raise AssertionError('invalid_roi_not_rejected:'+bad)
+    for badtarget in (None, 'invalid space', '../oops'):
+        other=copy.deepcopy(ann)
+        other['regions'][0]['reference_target_id']=badtarget
+        try:verify_annotations(other,binding)
+        except ValueError:pass
+        else:raise AssertionError('unsafe_reference_target_id_accepted')
     other=copy.deepcopy(ann);other['binding']['dng_sha256']='wrong'
     try:verify_annotations(other,binding)
     except ValueError:pass

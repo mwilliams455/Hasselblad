@@ -122,6 +122,28 @@ def demosaic(raw,black,white):
     raw_rgb=cv2.cvtColor(raw,cv2.COLOR_BayerRG2BGR)
     return raw_rgb
 
+def stage30_opcode2_gainmap_reference(raw, metadata, opcode_blob):
+    """Opt-in strictly GainMap-only Stage2 range-mapped Bayer correction.
+
+    Neither the parser nor demosaic is the original phone/Hasselblad ISP.
+    No RAW photos or calibration values are retained in public research.
+    """
+    sys.path.insert(0, str(ROOT/'isp_dng_stage30/src'))
+    from dng_gainmap30 import (
+        parse_opcode_list2, apply_gainmaps, demosaic_linear_rg_reference)
+    if raw.dtype!=np.uint16 or raw.ndim!=2:
+        raise ValueError('Stage30 requires uint16 single-plane Bayer input')
+    gainmaps=parse_opcode_list2(opcode_blob,raw.shape)
+    denom=metadata['white']-metadata['black']
+    if not np.isfinite(denom) or denom<=0:
+        raise ValueError('Stage30 invalid DNG black/white normalization')
+    normalized=(raw.astype(np.float32)-metadata['black'])/denom
+    normalized=np.ascontiguousarray(normalized,dtype=np.float32)
+    corrected,receipt=apply_gainmaps(normalized,gainmaps)
+    rgb=demosaic_linear_rg_reference(corrected)
+    return rgb,receipt
+
+
 def render(lib,ctx,raw_rgb,black,white):
     h,w,_=raw_rgb.shape
     result=np.empty((h,w,3),dtype=np.float32)
@@ -186,6 +208,8 @@ def main(argv=None):
     a.add_argument('--out-directory',type=Path,required=True)
     a.add_argument('--gamut',choices=('srgb','p3'),default='srgb')
     a.add_argument('--accept-unhandled-dng-opcodes',action='store_true')
+    a.add_argument('--apply-supported-dng-gainmaps',action='store_true',
+        help='Offline opt-in: require OpcodeList2 GainMap-only DNG, run Bayer shading then float demosaic; not HNCS')
     a.add_argument('--preview-exposure-ev',type=float,default=0.)
     a.add_argument('--linear-tiff',action='store_true',help='Emit 32-bit scene-linear TIFF; no clipping')
     a.add_argument('--reference-jpeg',type=Path,help='Optional private JPEG for labelled visual comparison')
@@ -193,6 +217,8 @@ def main(argv=None):
         help='With --reference-jpeg, output a separate scalar EV-matched diagnostic (NOT HNCS)')
     a.add_argument('--verify-private-matrix',type=Path,help='Stage18 private receipt, not uploaded publicly')
     args=a.parse_args(argv)
+    if args.apply_supported_dng_gainmaps and args.accept_unhandled_dng_opcodes:
+        raise ValueError('Do not combine GainMap correction with unhandled-opcode acceptance')
     if args.match_display_exposure and args.reference_jpeg is None:
         raise ValueError('Matching display exposure requires a reference JPEG')
     if not np.isfinite(args.preview_exposure_ev) or abs(args.preview_exposure_ev)>3:
@@ -202,8 +228,14 @@ def main(argv=None):
     source_hash=hashlib.file_digest(args.dng.open('rb'),'sha256').hexdigest()
     with tifffile.TiffFile(args.dng) as doc:
         pg=doc.pages[0];m=extract_metadata(pg.tags)
-        if m['unhandled_dng_opcodes'] and not args.accept_unhandled_dng_opcodes:
-            raise ValueError('Original DNG contains opcodes; rerun with explicit diagnostic-only acceptance')
+        listed=m['unhandled_dng_opcodes']
+        opcode2_blob=None
+        if args.apply_supported_dng_gainmaps:
+            if listed!=['OpcodeList2']:
+                raise ValueError('Stage30 requires only OpcodeList2; OpcodeList1/3 or absent GainMaps are unsupported')
+            opcode2_blob=bytes(pg.tags['OpcodeList2'].value)
+        elif listed and not args.accept_unhandled_dng_opcodes:
+            raise ValueError('Original DNG contains opcodes; enable explicit GainMap correction or diagnostic-only acceptance')
         raw=pg.asarray()
     if raw.dtype!=np.uint16 or raw.ndim!=2:raise ValueError('Unsupported DNG Bayer image type')
     if m['white']>np.iinfo(raw.dtype).max:raise ValueError('Bad DNG white')
@@ -218,9 +250,16 @@ def main(argv=None):
             mat=np.asarray(list(ctx.camera_to_xyz_d50),dtype=np.float64).reshape(3,3)
             if not np.allclose(mat,np.asarray(prev['camera_to_xyz_d50']),rtol=0,atol=1e-13):
                 raise ValueError('Stage18 matrix no longer agrees with private reference')
-        dem=demosaic(raw,m['black'],m['white'])
+        correction=None
+        if args.apply_supported_dng_gainmaps:
+            # Stage30 already black/white range maps the Bayer values.
+            dem,correction=stage30_opcode2_gainmap_reference(raw,m,opcode2_blob)
+            input_black,input_white=0.,1.
+        else:
+            dem=demosaic(raw,m['black'],m['white'])
+            input_black,input_white=m['black'],m['white']
         del raw
-        linear,stats=render(lib,ctx,dem,m['black'],m['white'])
+        linear,stats=render(lib,ctx,dem,input_black,input_white)
         del dem
     if args.linear_tiff:
         tifffile.imwrite(dest/'Stage24_NeutralReference_linear_RGB_float32.tif',
@@ -253,9 +292,19 @@ def main(argv=None):
       'source_raw_size_wh':[int(linear.shape[1]),int(linear.shape[0])],
       'orientation':m['orientation'],'input_cfa':'RGGB',
       'output_gamut':args.gamut,'native_pipeline':'C Stage18 camera→D50→C Stage19 linear display RGB',
-      'demosaic':'OpenCV BayerRG2BGR diagnostic, not Photon/ISP demosaic',
-      'lens_shading_correction_applied':False,
-      'dng_opcode_state':{'present':m['unhandled_dng_opcodes'],'applied':False,'explicitly_accepted':args.accept_unhandled_dng_opcodes},
+      'demosaic':('Stage30 float32 RGGB bilinear diagnostic, not Photon/ISP demosaic'
+          if args.apply_supported_dng_gainmaps else
+          'OpenCV BayerRG2BGR diagnostic, not Photon/ISP demosaic'),
+      'lens_shading_correction_applied':bool(correction),
+      'lens_shading_correction_scope':('DNG OpcodeList2 GainMap-only, Bayer stage2; independent mathematical reference'
+          if correction else 'none; unhandled if accepted'),
+      'dng_opcode_state':{
+          'present':m['unhandled_dng_opcodes'],
+          'applied':bool(correction),
+          'applied_opcode_IDs':([9]*correction['gainmap_count'] if correction else []),
+          'explicitly_accepted_unhandled':args.accept_unhandled_dng_opcodes,
+          'stage30_details':correction,
+          'stage30_SDK_bit_exact_parity_proven':False},
       'white_balance':'DNG AsShotNeutral, phone HAL; not original calibrated Hasselblad',
       'preview_encoding':'display-only sRGB OETF and clip; no HNCS tone/colour',
       'preview_exposure_ev':args.preview_exposure_ev,

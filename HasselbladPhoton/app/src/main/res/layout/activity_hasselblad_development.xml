@@ -96,6 +96,28 @@
                 android:textIsSelectable="true"
                 android:text="Stage6 is not armed. GPU data never changes saved photo colours." />
 
+            <!-- Stage8: explicit opt-in, synthetic LUT preparation self-test only. -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/hasselblad_stage8_run"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Run Stage8 LUT preparation self-test" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/hasselblad_stage8_copy"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:text="Copy Stage8 test report JSON" />
+            <TextView
+                android:id="@+id/hasselblad_stage8_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textIsSelectable="true"
+                android:text="Stage8 not run. Synthetic profile generation only; Photon colour remains active." />
+
             <TextView
                 android:id="@+id/hasselblad_check_policy"
                 android:layout_width="match_parent"

@@ -5,7 +5,9 @@ name: Hasselblad Stage6 GPU probe signed APK
     branches:
       - recovery/awb-rebuild-20261021
     paths:
-      - HasselbladPhoton/app/**
+      - 'HasselbladPhoton/app/src/main/java/com/particlesdevs/photoncamera/hasselblad/HasselbladGpuStageProbe.java'
+      - 'HasselbladPhoton/app/src/main/java/com/particlesdevs/photoncamera/hasselblad/HasselbladStage6Contract.java'
+      - 'HasselbladPhoton/app/src/main/java/com/particlesdevs/photoncamera/processing/opengl/postpipeline/Bayer2Float.java'
       - hasselblad_native_audit/phone_input_20261021/stage6_gpu/**
       - .github/workflows/hb-photon-stage6-apk.yml
   workflow_dispatch:

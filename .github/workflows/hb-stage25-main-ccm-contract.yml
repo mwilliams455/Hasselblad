@@ -87,7 +87,8 @@ jobs:
           assert d['pixel_samples_processed'] is False
           assert d['vendor_tuning_values_exported'] is False
           PY
-          rm -rf hasselblad_native_audit/firmware
+          rm -f hasselblad_native_audit/firmware/X2DII_100C_v1_3_16_2.cim
+          rm -rf hasselblad_native_audit/firmware/extracted
           test -z "$(git status --porcelain --untracked-files=no)"
       - name: Upload sanitized evidence only
         uses: actions/upload-artifact@v4

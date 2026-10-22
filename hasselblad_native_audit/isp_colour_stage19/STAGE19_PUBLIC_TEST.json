@@ -1,0 +1,84 @@
+{
+  "schema": "hasselblad-stage19-pcs-output-and-phocus-selector-v1",
+  "status": "PASS",
+  "runtimes": [
+    {
+      "compiler": "gcc",
+      "status": "PASS",
+      "max_abs_error": 5.329070518200751e-15,
+      "output_spaces_checked": 2,
+      "linear_rgb_sample_pixels": 98304,
+      "phocus_selector_cases": 4025,
+      "float32_synthetic_selector_values": 7168,
+      "compared_scalars": 625479,
+      "negative_guards": 11,
+      "matrix_results": {
+        "0": {
+          "matrix_sha256_le": "510639084fd2be8346936cf5e74e197d81ef17e923939a7c6b3e337afe72389e",
+          "D50_white_to_linear_rgb": [
+            1.0000000000000004,
+            1.0,
+            1.0
+          ],
+          "out_of_range_retained": true
+        },
+        "1": {
+          "matrix_sha256_le": "ade52c3bbfc11f080adab131b649ffef72b6c67d84084cd29a9cea054fc5136c",
+          "D50_white_to_linear_rgb": [
+            1.0000000000000007,
+            0.9999999999999999,
+            0.9999999999999998
+          ],
+          "out_of_range_retained": true
+        }
+      },
+      "source_tuning_payload_present": false,
+      "hasselblad_original_pixel_pipeline_verified": false,
+      "production_renderer_unchanged": true
+    },
+    {
+      "compiler": "clang",
+      "status": "PASS",
+      "max_abs_error": 5.329070518200751e-15,
+      "output_spaces_checked": 2,
+      "linear_rgb_sample_pixels": 98304,
+      "phocus_selector_cases": 4025,
+      "float32_synthetic_selector_values": 7168,
+      "compared_scalars": 625479,
+      "negative_guards": 11,
+      "matrix_results": {
+        "0": {
+          "matrix_sha256_le": "510639084fd2be8346936cf5e74e197d81ef17e923939a7c6b3e337afe72389e",
+          "D50_white_to_linear_rgb": [
+            1.0000000000000004,
+            1.0,
+            1.0
+          ],
+          "out_of_range_retained": true
+        },
+        "1": {
+          "matrix_sha256_le": "ade52c3bbfc11f080adab131b649ffef72b6c67d84084cd29a9cea054fc5136c",
+          "D50_white_to_linear_rgb": [
+            1.0000000000000007,
+            0.9999999999999999,
+            0.9999999999999998
+          ],
+          "out_of_range_retained": true
+        }
+      },
+      "source_tuning_payload_present": false,
+      "hasselblad_original_pixel_pipeline_verified": false,
+      "production_renderer_unchanged": true
+    }
+  ],
+  "origin": {
+    "Stage18_D50": "portable-phone-DNG-colourimetric-conversion",
+    "output_gamut": "CIE/ICC primaries, D65 and Bradford numerical reference",
+    "Phocus_selector": "Public fishvivfish/HNCS-Lightroom/hncs_core/phocus401_wb.py; NOT X2DII firmware"
+  },
+  "limitations": [
+    "No original Phocus numeric color-correction records were obtained or used.",
+    "P3/sRGB transforms are standard output primaries, not the X2D II MAIN 3DLUT space.",
+    "No Film Curve, RAW demosaic, HDR gainmap, or saved-photo colour rendering."
+  ]
+}

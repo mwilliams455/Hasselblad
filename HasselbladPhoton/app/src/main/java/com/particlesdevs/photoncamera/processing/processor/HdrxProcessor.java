@@ -18,6 +18,8 @@ import com.particlesdevs.photoncamera.processing.ImageFrame;
 import com.particlesdevs.photoncamera.processing.ImageFrameDeblur;
 import com.particlesdevs.photoncamera.processing.ImageSaver;
 import com.particlesdevs.photoncamera.hasselblad.HasselbladCaptureEvidence;
+import com.particlesdevs.photoncamera.hasselblad.HasselbladGpuStageProbe;
+
 import com.particlesdevs.photoncamera.hasselblad.HasselbladCaptureSaveStatus;
 import com.particlesdevs.photoncamera.processing.ProcessingEventsListener;
 import com.particlesdevs.photoncamera.processing.encoder.HeicSupport;
@@ -414,6 +416,18 @@ public class HdrxProcessor extends ProcessorBase {
         processingParameters.noiseModeler.computeStackingNoiseModel(images.size());
 
         PostPipeline pipeline = new PostPipeline();
+        // Stage6 is a one-shot diagnostic, gated after DNG save. Its session
+        // belongs to THIS PostPipeline only: never discover frame identity
+        // from a static current-camera ID on the GPU rendering thread.
+        pipeline.stage6Session = HasselbladGpuStageProbe.claim(
+                captureEvidence == null ? null : captureEvidence.stage6OriginalIdentity(),
+                processingParameters.rawSize.x, processingParameters.rawSize.y,
+                processingParameters.cfaPattern, mImageFramesToProcess.size(),
+                processingParameters.isCropped || PhotonCamera.getSettings().aspect169,
+                outputF16 || first.sourceBinned || first.fp16 || first.packedBits != 0,
+                alignAlgorithm != 2,
+                processingParameters.whitePoint, processingParameters.whiteLevel,
+                processingParameters.blackLevel);
         pipeline.kernelParams = esd4d != null ? esd4d.kernelsMapCPU : null;
         pipeline.kernelParamsSize = esd4d != null ? esd4d.kernelsMapCPUSize : null;
         pipeline.kernelParamsBase = esd4d != null ? esd4d.kernelsMapBase : null;
@@ -425,7 +439,13 @@ public class HdrxProcessor extends ProcessorBase {
             esd4d.kernelsMapBase = null;
         }
 
-        Bitmap img = pipeline.Run(output, processingParameters);
+        Bitmap img;
+        try {
+            img = pipeline.Run(output, processingParameters);
+        } finally {
+            if (pipeline.stage6Session != null)
+                pipeline.stage6Session.finishIfMissing("bayer2float_readback_not_completed");
+        }
         Allocator.logStage(TAG, "post-render");
         Allocator.logProc(TAG, "post-render");
         // The merged RAW frame is dead once it has been rendered - free it

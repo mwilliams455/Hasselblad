@@ -1,0 +1,84 @@
+name: Hasselblad Stage13 exact official firmware mode inspection
+
+'on':
+  push:
+    branches:
+      - recovery/awb-rebuild-20261021
+    paths:
+      - 'hasselblad_native_audit/photographic_mode_stage13/**'
+      - '.github/workflows/hb-photo-stage13-original-inspection.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  original-static-inspection:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install audited static-read dependencies
+        run: |
+          set -euo pipefail
+          python -m pip install --disable-pip-version-check 'cryptography>=42,<47' 'brotli>=1.1,<2' 'dissect.extfs>=3,<4' 'capstone>=5,<6' 'pyelftools>=0.31,<1'
+      - name: Retrieve EXACT official Hasselblad firmware into ephemeral runner only
+        shell: bash
+        run: |
+          set -euo pipefail
+          firmware='hasselblad_native_audit/firmware/X2DII_100C_v1_3_16_2.cim'
+          mkdir -p 'hasselblad_native_audit/firmware'
+          curl --fail --location --retry 2 --retry-delay 4 --connect-timeout 25 --max-time 520 \
+            --silent --show-error \
+            'https://cdn.hasselblad.com/firmware/X2D_II_100C_Firmware/1.3.16.2/X2DII_100C_v1_3_16_2(1).cim' \
+            --output "$firmware"
+          test "$(stat -c %s "$firmware")" -eq 364814336
+          echo '9789d6a9843d388034bc12341ad9a97585c25cb98cf11a0da8b768399b4842f6  '"$firmware" | sha256sum -c -
+          echo 'Exact official file validated; no firmware bytes in Git or artifacts.'
+      - name: Reconstruct firmware into ephemeral directory with original hash-pinned extractor
+        shell: bash
+        run: |
+          set -euo pipefail
+          python hasselblad_native_audit/extract_official.py \
+            > "$RUNNER_TEMP/STAGE13_EXTRACTION_INTERNAL.log"
+          echo 'Exact firmware extracted. Original binary content remains on ephemeral runner.'
+      - name: Inspect original MAIN/SCAP/HDR code and IQ source paths statically
+        shell: bash
+        run: |
+          set -euo pipefail
+          python hasselblad_native_audit/photographic_mode_stage13/original_mode_inspect.py \
+            --firmware-root 'hasselblad_native_audit/firmware/extracted' \
+            --output "$RUNNER_TEMP/STAGE13_PUBLIC_STATIC_REPORT.json"
+          python - "$RUNNER_TEMP/STAGE13_PUBLIC_STATIC_REPORT.json" <<'PY'
+          import json,sys
+          j=json.load(open(sys.argv[1]))
+          assert j['original_librcam_sha256']=='3dd5b37b3db18b3e6b54271e1501b4dd337e101c06cdd386a896b1547b662f66'
+          assert j['original_iq_config_sha256']=='2a4fd76e5299937a6607da8454add17e9746347c54adcf5da1360799de634286'
+          assert j['vendor_binary_executed'] is False and j['vendor_tuning_payload_exported'] is False
+          assert j['mode_condition_same_LUT_proven'] is False
+          assert len(j['native_function_direct_calls'])==5
+          assert j['phone_photographic_render_unchanged'] is True
+          print('PASS Stage13: exact original source, five static functions, result deliberately no runtime mode-oracle')
+          PY
+      - name: Guard app and historical research source boundaries
+        run: |
+          set -euo pipefail
+          test -z "$(git diff --name-only 8a291f0195bac2e7f99c626025afbdb1bf403580 HEAD -- \
+            HasselbladPhoton hasselblad_native_audit/photographic_path \
+            hasselblad_native_audit/pixel_contract_20261019 \
+            hasselblad_native_audit/main_colour_20261019 \
+            hasselblad_native_audit/photographic_mode_stage12)"
+          test "$(git ls-files 'hasselblad_native_audit/firmware/*.cim' | wc -l)" -eq 0
+      - name: Upload only filtered hash-and-structure result
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Hasselblad-Stage13-Original-Static-Mode-Findings
+          path: ${{ runner.temp }}/STAGE13_PUBLIC_STATIC_REPORT.json
+          retention-days: 7
+          if-no-files-found: error

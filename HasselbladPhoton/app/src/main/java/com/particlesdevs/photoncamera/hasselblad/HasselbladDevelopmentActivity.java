@@ -3,9 +3,12 @@ package com.particlesdevs.photoncamera.hasselblad;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.os.Bundle;
+import android.net.Uri;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -25,6 +28,12 @@ public final class HasselbladDevelopmentActivity extends BaseActivity {
     private boolean stage8Busy;
     private volatile String latestStage26Json;
     private boolean stage26Busy;
+    private volatile String latestStage32Json;
+    private boolean stage32Busy;
+    private final ActivityResultLauncher<String[]> stage32DocumentPicker =
+            registerForActivityResult(new ActivityResultContracts.OpenDocument(), uri -> {
+                if (uri != null) runStage32(uri);
+            });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +112,19 @@ public final class HasselbladDevelopmentActivity extends BaseActivity {
                 clipboard.setPrimaryClip(ClipData.newPlainText(
                         "Hasselblad Stage26 neutral JNI synthetic diagnostic", json));
                 Toast.makeText(this, "Stage26 JSON copied", Toast.LENGTH_SHORT).show();
+            }
+        });
+        findViewById(R.id.hasselblad_stage32_pick).setOnClickListener(view -> {
+            if (!stage32Busy) stage32DocumentPicker.launch(new String[]{"*/*"});
+        });
+        findViewById(R.id.hasselblad_stage32_copy).setOnClickListener(view -> {
+            String json = latestStage32Json;
+            if (json == null) return;
+            ClipboardManager clipboard = getSystemService(ClipboardManager.class);
+            if (clipboard != null) {
+                clipboard.setPrimaryClip(ClipData.newPlainText(
+                        "Hasselblad Stage32 picked DNG neutral tile diagnostic", json));
+                Toast.makeText(this, "Stage32 report JSON copied", Toast.LENGTH_SHORT).show();
             }
         });
         refreshStage6();
@@ -185,6 +207,42 @@ public final class HasselbladDevelopmentActivity extends BaseActivity {
                         + "\nCopy JSON for timing, pass counts and scope.");
             });
         }, "HB-stage26-neutral-on-demand").start();
+    }
+
+    /**
+     * Stage32 is entirely separate from camera capture/save. The system document
+     * picker gives read access to ONE chosen DNG; only bounded local statistics
+     * are reported, and private temporary bytes are deleted when finished.
+     */
+    private void runStage32(Uri uri) {
+        if (stage32Busy) return;
+        stage32Busy = true;
+        latestStage32Json = null;
+        MaterialButton pick = findViewById(R.id.hasselblad_stage32_pick);
+        pick.setEnabled(false);
+        findViewById(R.id.hasselblad_stage32_copy).setEnabled(false);
+        ((TextView) findViewById(R.id.hasselblad_stage32_status)).setText(
+                "Reading selected DNG in a bounded local worker; saved images remain untouched...");
+        new Thread(() -> {
+            final String report = HasselbladRealDngDiagnostic.inspect(
+                    getApplicationContext(), uri);
+            runOnUiThread(() -> {
+                if (isFinishing() || isDestroyed()) return;
+                stage32Busy = false;
+                latestStage32Json = report;
+                pick.setEnabled(true);
+                findViewById(R.id.hasselblad_stage32_copy).setEnabled(true);
+                String status = "INVALID_REPORT";
+                try { status = new JSONObject(report).optString("status", "INVALID_REPORT"); }
+                catch (Exception ignored) { }
+                ((TextView) findViewById(R.id.hasselblad_stage32_status)).setText(
+                        "Stage32: " + status
+                        + "\nA single 32 x 32 existing DNG centre tile; no original photo modified."
+                        + "\nOnly a DNG-neutral PCS calculation when metadata and native bridge permit."
+                        + "\nNeither Hasselblad HNCS nor original MAIN pixel equivalence is claimed."
+                        + "\nCopy JSON for file hash, support checks and numerical statistics.");
+            });
+        }, "HB-stage32-user-picked-dng").start();
     }
 
     private void runDomain() {

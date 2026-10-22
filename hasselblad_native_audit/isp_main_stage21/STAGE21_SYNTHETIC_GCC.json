@@ -1,0 +1,28 @@
+{
+  "schema": "hb-stage21-candidate-tests-v1",
+  "status": "PASS",
+  "cc": "gcc",
+  "optimization": "-O2",
+  "reference": "independent_numpy_and_original_verified_stage9_DISPLAY_sampler",
+  "synthetic_cube_families": 3,
+  "input_points_per_case": 1024,
+  "tested_permutations": 6,
+  "modes": [
+    "trilinear",
+    "tetrahedral"
+  ],
+  "validated_scalar_outputs": 110592,
+  "max_absolute_error_vs_numpy": 0,
+  "stage9_display_baseline_max_absolute_error": 0,
+  "synthetic_permutation_mode_cases": 36,
+  "negative_and_nonmutation_checks": 30,
+  "tetrahedral_vs_trilinear_max_on_synthetic_per_case": [
+    3.3306690738754696e-16,
+    0.00015377457157395025,
+    0.0006002728907681387
+  ],
+  "original_main_isp_pixel_oracle_used": false,
+  "original_vendor_table_values_used": false,
+  "photographic_render_authorized": false,
+  "photo_renderer_modified": false
+}

@@ -1,0 +1,18 @@
+{
+  "schema": "hasselblad-stage9-display-format-native-parity-v1",
+  "status": "PASS",
+  "original_vendor_reference": "X2D II libduml_hal.so, saved native output fixture, 2026-10-19",
+  "reference_scope": "DISPLAY-HAL only, NOT photographic MAIN_3DLUT",
+  "vendor_library_reexecuted_in_this_run": false,
+  "original_synthetic_trilinear_vectors": 20,
+  "max_absolute_native_vector_error": 1.1102230246251565e-16,
+  "node_coordinates_verified": 4096,
+  "node_channel_values_verified": 12288,
+  "max_absolute_node_error": 0.0,
+  "negative_nonmutating_cases": 10,
+  "original_data_mutated": false,
+  "not_a_photographic_renderer": true,
+  "camera_main_lut_format_verified": false,
+  "phone_colour_changed": false,
+  "camera_profile_payload_used": false
+}

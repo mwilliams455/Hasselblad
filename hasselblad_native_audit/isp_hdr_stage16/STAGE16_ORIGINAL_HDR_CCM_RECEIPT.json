@@ -1,0 +1,419 @@
+{
+  "IQ_selector_and_post_hdr_modules": {
+    "IQ_data_derived_hdr_or_scap_named_groups": [],
+    "IQ_module_derived_hdr_or_scap_named_groups": [],
+    "MAIN_CCT_knots": [
+      2400,
+      3050,
+      5550,
+      9100
+    ],
+    "MAIN_LUT_source_bytes_exported": false,
+    "MAIN_global_LUT_selector_inputs": [
+      "cc_color_temp",
+      "color_gamut"
+    ]
+  },
+  "classification": {
+    "HDR_requires_exposure_stacking_proven": false,
+    "HDR_uses_no_exposure_stacking_proven_from_static_firmware": false,
+    "MAIN_CCM_pixel_equation_proven": false,
+    "MAIN_LUT_pixel_sampler_proven": false,
+    "firmware_has_hdr_named_configuration_and_entrypoints": true,
+    "official_HDR_available_during_exposure_bracketing": false,
+    "official_product_supports_HDR_HEIF_and_Ultra_HDR_JPEG": true,
+    "photo_or_gpu_render_modified": false,
+    "still_HDR_segment_is_same_as_end_to_end_HNCS_HDR_proven": false,
+    "vendor_binary_executed": false,
+    "vendor_instruction_bytes_exported": false,
+    "vendor_tuning_tables_exported": false
+  },
+  "external_product_documents": {
+    "official_X2D_II_HDR_FAQ": "https://www.hasselblad.com/x-system/x2d-ii-100c-faq/",
+    "official_camera_HDR_JPEG_HEIF_from_one_RAW_possible": "not_original_firmware_verified",
+    "reviewer_HDR_output_gainmap_description": "https://www.dpreview.com/reviews/hasselblad-x2d-ii-100c-in-depth-review/"
+  },
+  "firmware": "X2D II 100C 1.3.16.2",
+  "limitations": [
+    "There is no established ISP pixel input/output oracle or on-camera capture trace.",
+    "The original IMG codec and on-device HDR gainmap are not observed in a live capture.",
+    "The older X1D II HDR2 frame-stacking implementation is a distinct original generation.",
+    "Numerical CCM register values and their pixel interpretation remain unresolved."
+  ],
+  "original_libdcam_pp_function_categories": {
+    "dynamics_symbol_names_not_captured_all": true,
+    "main_and_post_hdr_functions": {},
+    "matching_symbol_categories": {
+      "CCM_named": {
+        "count": 0,
+        "representative_names": []
+      },
+      "DYNAMIC_RANGE_named": {
+        "count": 45,
+        "representative_names": [
+          "acr_tone_m1_clip_p1",
+          "acr_tone_m1_clip_p2",
+          "ai_cap3_auto_mode_is_dsp_tone_manual",
+          "call_cap31_drc",
+          "cap31_drc_adj",
+          "cap31_drc_apply_add_offset_trans",
+          "cap31_drc_build",
+          "cap31_drc_calc_glb_hist_trans",
+          "cap31_drc_detail_enhance_trans",
+          "cap31_drc_input_dump",
+          "cap31_drc_non_lowlight_calc_ae_stat",
+          "cap31_drc_output_dump",
+          "cap31_drc_param_dump",
+          "cap31_drc_proc",
+          "cap31_drc_sub_offset_down_hist_trans",
+          "cap31_ltm_face_tone_rgb_trans",
+          "cap3_hl_rec_and_drc_ceva_buf_trans",
+          "detail_tone_mapping_function",
+          "detail_tone_mapping_function_dsp",
+          "drc_bezier_knee",
+          "drc_curve_calc",
+          "drc_init_fxp",
+          "drc_tone_calc",
+          "drc_tone_calc_lowlight",
+          "dsp_tone_proc",
+          "fast_preview_and_dsp_tone_mutex_create",
+          "fast_preview_and_dsp_tone_mutex_destroy",
+          "get_mask_tone_clip",
+          "get_mask_tone_m2_clip",
+          "get_sd_hl_tone_clip",
+          "get_sd_hl_tone_dsp_p1",
+          "get_sd_hl_tone_dsp_p2",
+          "hl_rec_drc_dsp_and_arm_proc",
+          "hl_rec_drc_message_buf_trans",
+          "hl_rec_drc_proc"
+        ]
+      },
+      "HDR_named": {
+        "count": 37,
+        "representative_names": [
+          "_calc_hdr_ev_list",
+          "_calc_hdr_hr_ev_list",
+          "_calc_hdr_nn_ev_list",
+          "_hdr_gen",
+          "_msn_hdr_hr_gen",
+          "call_cap31_hlrec",
+          "cap31_hdrgm_adj",
+          "cap31_hdrgm_buf_trans",
+          "cap31_hdrgm_build_pull",
+          "cap31_hdrgm_copy_ceva_buf_trans",
+          "cap31_hdrgm_input_dump",
+          "cap31_hdrgm_norm_buf_trans",
+          "cap31_hdrgm_output_dump",
+          "cap31_hdrgm_param_dump",
+          "cap31_hdrgm_proc",
+          "cap31_hlrec_a_b_up_8x8_trans",
+          "cap31_hlrec_adj",
+          "cap31_hlrec_build",
+          "cap31_hlrec_gain_apply_add_offset_trans",
+          "cap31_hlrec_get_hist_b_trans",
+          "cap31_hlrec_gf_and_detail_enh_trans",
+          "cap31_hlrec_gf_mean_a_b_trans",
+          "cap31_hlrec_input_dump",
+          "cap31_hlrec_output_dump",
+          "cap31_hlrec_param_dump",
+          "cap31_hlrec_proc",
+          "cap31_hlrec_proc_mode012",
+          "cap31_hlrec_proc_mode3",
+          "cap31_hlrec_rggb2raw_trans",
+          "cap31_hlrec_wb_trans",
+          "get_hdr_gamma",
+          "hlrec_drc_tone_get_clip",
+          "load_cap31_hdrgm_params",
+          "load_cap31_hlrec_params",
+          "parse_cap31_hdrgm_param"
+        ]
+      },
+      "RAW_RGB_named": {
+        "count": 8,
+        "representative_names": [
+          "_raw2rgb_pull_buf_cb",
+          "cap3_raw2rgb_ceva_buf_trans",
+          "med_ev_raw2rgb",
+          "min_ev_raw2rgb",
+          "raw2rgb",
+          "raw2rgb_hlrec_drc",
+          "raw2rgb_proc",
+          "raw_to_rgb_init_fxp"
+        ]
+      },
+      "STACK_or_FUSION_named": {
+        "count": 30,
+        "representative_names": [
+          "_cap3_fusion17_adj_gen",
+          "blend_and_fusion",
+          "cap31_ltm_merge_trans",
+          "cap3_fusion17",
+          "cap3_fusion17_adj",
+          "cap3_fusion17_deinit",
+          "cap3_fusion17_delta_ceva_buf_trans",
+          "cap3_fusion17_dilate_ceva_buf_trans",
+          "cap3_fusion17_dump_double_array",
+          "cap3_fusion17_dump_u16_array",
+          "cap3_fusion17_dump_u32_array",
+          "cap3_fusion17_frame_select_ceva_buf_trans",
+          "cap3_fusion17_in_buff_dump",
+          "cap3_fusion17_init",
+          "cap3_fusion17_mask_down_ceva_buf_trans",
+          "cap3_fusion17_mask_refine_ceva_buf_trans",
+          "cap3_fusion17_motion_ceva_buf_trans",
+          "cap3_fusion17_out_buff_dump",
+          "cap3_fusion17_param_dump",
+          "cap3_fusion17_pyra_fuse_ceva_buf_trans",
+          "cap3_fusion17_region_ceva_buf_trans",
+          "cap3_fusion17_tmp_buff_dump",
+          "cap3_fusion17_total_buff_init",
+          "cap3_fusion17_total_buff_init_lowlight",
+          "cap3_fusion17_wt_update_ceva_buf_trans",
+          "proc_cap3_fusion17",
+          "proc_cap3_fusion17_lowlight",
+          "raw_merge",
+          "rltm_fusion_trans",
+          "rltm_llf_merge_trans"
+        ]
+      }
+    },
+    "total_defined_functions": 737
+  },
+  "original_librcam_function_categories": {
+    "dynamics_symbol_names_not_captured_all": true,
+    "main_and_post_hdr_functions": {
+      "main_3dlut_calc_frame": {
+        "size_bytes": 2148,
+        "symbol_table": "gnu_debugdata",
+        "virtual_address": "0x39ce88"
+      },
+      "post_hdr_calc_3dlut": {
+        "size_bytes": 820,
+        "symbol_table": "gnu_debugdata",
+        "virtual_address": "0x301b00"
+      },
+      "post_scap3_calc_3dlut": {
+        "size_bytes": 820,
+        "symbol_table": "gnu_debugdata",
+        "virtual_address": "0x2f2d08"
+      }
+    },
+    "matching_symbol_categories": {
+      "CCM_named": {
+        "count": 76,
+        "representative_names": [
+          "DIQ_dng_items_color_matrix1",
+          "DIQ_dng_items_color_matrix1_rgb",
+          "DIQ_dng_items_color_matrix2",
+          "DIQ_dng_items_color_matrix2_rgb",
+          "DIQ_iq_main_ccm_desat_bri_wts",
+          "DIQ_iq_main_ccm_desat_sig_wts",
+          "DIQ_iq_main_ccm_desat_sig_wts_hl",
+          "DIQ_iq_main_ccm_desat_strength_lut",
+          "DIQ_iq_main_ccm_desat_strength_lut_hl",
+          "DIQ_iq_main_ccm_enable_desaturation",
+          "DIQ_iq_main_ccm_enable_hue_mod",
+          "DIQ_iq_main_ccm_enable_level_ctrl",
+          "DIQ_iq_main_ccm_enable_lpf",
+          "DIQ_iq_main_ccm_hsv_bri_wts",
+          "DIQ_iq_main_ccm_hue_kp",
+          "DIQ_iq_main_ccm_hue_slope",
+          "DIQ_iq_main_ccm_level_ctrl_deltap_scale",
+          "DIQ_iq_main_ccm_level_ctrl_gb_scale",
+          "DIQ_iq_main_ccm_level_ctrl_gr_scale",
+          "DIQ_iq_main_ccm_level_ctrl_inv_lut",
+          "DIQ_iq_main_ccm_level_ctrl_lut",
+          "DIQ_iq_main_ccm_level_ctrl_p0",
+          "DIQ_iq_main_ccm_lmtx_fw",
+          "DIQ_iq_main_ccm_offset",
+          "DIQ_iq_main_ccm_offset_brightness",
+          "DIQ_iq_main_ccm_offset_brightness_hl",
+          "DIQ_iq_main_ccm_offset_saturation",
+          "DIQ_iq_main_ccm_slope_brightness",
+          "DIQ_iq_main_ccm_slope_brightness_hl",
+          "DIQ_iq_main_ccm_slope_saturation",
+          "DIQ_iq_main_ccm_ycoef",
+          "DIQ_iq_metadata_prores_raw_color_matrix",
+          "DIQ_iq_sub_cc_lmtx_fw",
+          "DIQ_mod_main_ccm_desat_bri_wts",
+          "DIQ_mod_main_ccm_desat_sig_wts"
+        ]
+      },
+      "DYNAMIC_RANGE_named": {
+        "count": 11,
+        "representative_names": [
+          "DIQ_dng_items_tone_curve",
+          "DIQ_iq_main_das_luma_sharpen_tone_level_ctrl",
+          "DIQ_iq_main_rltm_algo_iir_tone_scale",
+          "DIQ_iq_sub_ycc_tone_sharpen_strength",
+          "DIQ_iq_sub_ycc_tone_sharpen_th",
+          "DIQ_mod_main_das_luma_sharpen_tone_level_ctrl",
+          "DIQ_mod_main_rltm_algo_iir_tone_scale",
+          "DIQ_mod_sub_ycc_tone_sharpen_strength",
+          "DIQ_mod_sub_ycc_tone_sharpen_th",
+          "lz4ex_f_decompress",
+          "zip_uncompress_file"
+        ]
+      },
+      "HDR_named": {
+        "count": 52,
+        "representative_names": [
+          "DIQ_iq_main_teng_rhdr_ctrl0_ratio",
+          "DIQ_iq_main_teng_rhdr_ctrl1_white_level",
+          "DIQ_iq_main_teng_rhdr_dg0_k",
+          "DIQ_iq_main_teng_rhdr_dg2_swap_err",
+          "DIQ_iq_main_teng_rhdr_dg2_swap_intp",
+          "DIQ_iq_main_teng_rhdr_dg2_use_avg",
+          "DIQ_iq_main_teng_rhdr_dg2_wtlv",
+          "DIQ_iq_main_teng_rhdr_group0_blend_ratio",
+          "DIQ_iq_main_teng_rhdr_group1_slope0",
+          "DIQ_iq_main_teng_rhdr_group2_slope1",
+          "DIQ_iq_main_teng_rhdr_group3_np_src",
+          "DIQ_iq_main_teng_rhdr_group4_np_ref",
+          "DIQ_mod_main_teng_rhdr_ctrl0_ratio",
+          "DIQ_mod_main_teng_rhdr_ctrl1_white_level",
+          "DIQ_mod_main_teng_rhdr_dg0_k",
+          "DIQ_mod_main_teng_rhdr_dg2_swap_err",
+          "DIQ_mod_main_teng_rhdr_dg2_swap_intp",
+          "DIQ_mod_main_teng_rhdr_dg2_use_avg",
+          "DIQ_mod_main_teng_rhdr_dg2_wtlv",
+          "DIQ_mod_main_teng_rhdr_group0_blend_ratio",
+          "DIQ_mod_main_teng_rhdr_group1_slope0",
+          "DIQ_mod_main_teng_rhdr_group2_slope1",
+          "DIQ_mod_main_teng_rhdr_group3_np_src",
+          "DIQ_mod_main_teng_rhdr_group4_np_ref",
+          "_calc_hdr_lerp_mx_Lut_reg",
+          "_calc_vhdr_br_ctrl",
+          "_calc_vhdr_det_db",
+          "_calc_vhdr_det_ev",
+          "_calc_vhdr_top_ctrl",
+          "_calc_vhdr_wb_gain",
+          "_hdr_dgain_hiso_calc_mod_das",
+          "_hdr_long_hiso_calc_mod_das",
+          "_hdr_normal_hiso_calc_mod_das",
+          "_hdr_short_hiso_calc_mod_das",
+          "_update_vhdr_ltm_mesh_parcel_data"
+        ]
+      },
+      "RAW_RGB_named": {
+        "count": 0,
+        "representative_names": []
+      },
+      "STACK_or_FUSION_named": {
+        "count": 12,
+        "representative_names": [
+          "_Calc_LerpMxLutMemMerge2",
+          "_Calc_LerpMxLutMemMerge4",
+          "_Calc_LerpMxLutMemMerge8",
+          "_Calc_LutMemMerge2",
+          "_Calc_LutMemMerge4",
+          "_Calc_LutMemMerge8",
+          "_calc_knee_fusion",
+          "_calc_knee_fusion_index",
+          "_calc_lerp_mx_lut_mem_merge2_ex",
+          "_calc_lerp_mx_lut_mem_merge2_idx_v5",
+          "_calc_simple_lut_mem_merge2_idx_v5",
+          "adj_plat_calc_knee_fusion"
+        ]
+      }
+    },
+    "total_defined_functions": 7372
+  },
+  "original_sha256_pins_verified": {
+    "system/etc/iq/hb722_config.json": {
+      "bytes": 27277188,
+      "sha256": "2a4fd76e5299937a6607da8454add17e9746347c54adcf5da1360799de634286"
+    },
+    "system/lib/modules/vcam_driver.ko": {
+      "bytes": 3150240,
+      "sha256": "29309a225f2dcd8327b6fdaca477425b2c21ba580daa83599c1ea8699b7e450e"
+    },
+    "system/lib64/libdcam_pp.so": {
+      "bytes": 2504984,
+      "sha256": "bacca08dcf56e4a599cbfdfa041baf60a43754ec5a1a9d23dab89bd129ea41e9"
+    },
+    "system/lib64/librcam.so": {
+      "bytes": 5846216,
+      "sha256": "3dd5b37b3db18b3e6b54271e1501b4dd337e101c06cdd386a896b1547b662f66"
+    }
+  },
+  "original_vcam_driver_function_categories": {
+    "dynamics_symbol_names_not_captured_all": true,
+    "main_and_post_hdr_functions": {},
+    "matching_symbol_categories": {
+      "CCM_named": {
+        "count": 23,
+        "representative_names": [
+          "ccm_get_dbg_err_info_hsize",
+          "ccm_get_dbg_err_info_vsize",
+          "ccm_get_dbg_h_busy",
+          "ccm_get_dbg_info_by_mux",
+          "ccm_get_dbg_res_cnt_in_hsize",
+          "ccm_get_dbg_res_cnt_in_vsize",
+          "ccm_get_dbg_res_cnt_prc_hsize",
+          "ccm_get_dbg_res_cnt_prc_vsize",
+          "ccm_get_dbg_shd_id_rcam",
+          "ccm_get_dbg_shd_id_vcam",
+          "ccm_get_dbg_v_busy",
+          "ccm_init_seq",
+          "ccm_lite_probe",
+          "ccm_lite_remove",
+          "ccm_probe",
+          "ccm_remove",
+          "ccm_set_dbg_mux",
+          "ccm_set_fmt",
+          "ccm_set_fn0_config",
+          "ccm_set_ig0_config",
+          "lite_ccm_get_busy",
+          "lite_ccm_init_seq",
+          "lite_ccm_set_info"
+        ]
+      },
+      "DYNAMIC_RANGE_named": {
+        "count": 1,
+        "representative_names": [
+          "grace_mode_is_compressed"
+        ]
+      },
+      "HDR_named": {
+        "count": 9,
+        "representative_names": [
+          "teng_set_rhdr_blend_ratio",
+          "teng_set_rhdr_crop_pos",
+          "teng_set_rhdr_dg_limit",
+          "teng_set_rhdr_dg_ratio",
+          "teng_set_rhdr_dg_slope",
+          "teng_set_rhdr_frame_cnt_mode",
+          "teng_set_rhdr_frame_mode",
+          "teng_set_rhdr_lut",
+          "teng_set_rhdr_white_level"
+        ]
+      },
+      "RAW_RGB_named": {
+        "count": 0,
+        "representative_names": []
+      },
+      "STACK_or_FUSION_named": {
+        "count": 0,
+        "representative_names": []
+      }
+    },
+    "total_defined_functions": 2725
+  },
+  "prior_pinned_saved_still_segment_mapping": [
+    {
+      "segment_name": "frog_raw_reprocess_2-r2y-still",
+      "still_mode": "still3"
+    },
+    {
+      "segment_name": "frog_raw_reprocess_2-r2y-still_scap3_enh_normal",
+      "still_mode": "still0"
+    },
+    {
+      "segment_name": "frog_raw_reprocess_2-r2y-still_scap3_enh_hdr",
+      "still_mode": "still0"
+    }
+  ],
+  "schema": "hasselblad-stage16-hdr-vs-isp-ccm-original-static-v1",
+  "status": "PASS_original_firmware_static_inspection"
+}

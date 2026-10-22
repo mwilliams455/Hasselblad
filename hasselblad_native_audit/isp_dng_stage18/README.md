@@ -33,6 +33,7 @@ Input to `hb_dng_pcs_apply` must already be **demosaiced linear camera RGB with 
 - `src/hb_dng_pcs_bridge.c/.h` — portable C11 forward-matrix numerical bridge; exact input lengths; refusal of invalid matrices, non-finite/zero neutrals, overlapping storage, and differing dual-illuminant forward/calibration matrices; transactionally preserves output on error. It has no sensor IDs, phone-specific defaults, firmware imports, JNI, camera or renderer calls.
 - `tests/test_dng_pcs_bridge.py` — builds with GCC and Clang; verifies independent NumPy matrix results and camera neutral D50 response for 128 synthetic camera profiles × 512 probe pixels per compiler, including out-of-range linear samples; negative cases and buffer nonmutation checks.
 - `tests/asan_bridge.c` — additional isolated ASan/UBSan-compatible smoke.
+- `tests/dng_cfa_probe.py` — **diagnostic-only** RGGB bilinear reconstruction: 324 synthetic Bayer-centre checks; a separate private 1,024-location RAW sampling exercise feeds Stage18 C/NumPy conversion. It is not the Photon or Hasselblad demosaic and performs no saved-photo rendering.
 - `.github/workflows/hb-isp-stage18-dng-pcs.yml` — synthetic-only hosted tests, production source protection, public metadata receipt.
 
 Run locally:
@@ -46,7 +47,9 @@ python3 hasselblad_native_audit/isp_dng_stage18/tests/test_dng_pcs_bridge.py \
 
 The original 4096×3072 Stage6/7 camera DNG was checked **locally** using `--private-dng` against this same C bridge and an independent NumPy reference. Its two ForwardMatrix values and two CameraCalibration values agree, so this restricted code path is applicable. The neutral maps to D50 within floating-point precision. The resulting camera matrix and per-capture hashes are retained **only** in the private handoff/Library, never GitHub.
 
-This test confirms **numeric consistency with the DNG metadata**, not true scene colour or neutral calibration. The original phone's `AsShotNeutral` is still the Android HAL/Photon white point; Stage7's physically calibrated neutral policy still abstains. No X2D II camera colour transform, Film Curve or HNCS is inferred.
+This test confirms **numeric consistency with the DNG metadata**, not true scene colour or neutral calibration.
+
+**Private actual pixel exercise:** 1,024 interior RGGB sampling locations from that original DNG were reconstructed with a simple independent bilinear CFA diagnostic; Stage18 C and NumPy XYZ results agreed to `1.11e-16`. Four resulting XYZ components were below zero, and all were preserved rather than clipped. This explicitly tests finite signed intermediate behaviour, **not** the original photographic reconstruction, corrected lens shading or a Hasselblad visual match. No pixel coordinates, XYZ samples, source hashes, or camera-calibration matrices are committed. The original phone's `AsShotNeutral` is still the Android HAL/Photon white point; Stage7's physically calibrated neutral policy still abstains. No X2D II camera colour transform, Film Curve or HNCS is inferred.
 
 ## Next photographic-colour gates
 

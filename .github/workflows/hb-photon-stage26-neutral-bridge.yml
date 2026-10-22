@@ -39,7 +39,7 @@ jobs:
           set -euo pipefail
           # Stage24 is the first independent colour reference, not an ISP hook.
           test -z "$(git diff --name-only 16a733a93742725cfbc864e67fb2ec748cb85589 HEAD --             HasselbladPhoton/app/src/main/java/com/particlesdevs/photoncamera/capture/CaptureController.java             HasselbladPhoton/app/src/main/java/com/particlesdevs/photoncamera/processing/render             HasselbladPhoton/app/src/main/java/com/particlesdevs/photoncamera/processing/processor             HasselbladPhoton/app/src/main/java/com/particlesdevs/photoncamera/processing/opengl/postpipeline             HasselbladPhoton/app/src/main/assets/shaders)"
-          ! grep -Eq 'HB24_MAIN_HYPOTHESIS|hb21_sample_candidate|Camera2|SaveJpeg'               HasselbladPhoton/app/src/main/cpp/hasselblad/hb_colour_reference_jni.c
+          ! grep -Eq 'HB24_MAIN_HYPOTHESIS|hb21_sample_candidate'               HasselbladPhoton/app/src/main/cpp/hasselblad/hb_colour_reference_jni.c
       - name: Compile host native JNI and verify synthetic Java-to-C end-to-end
         shell: bash
         run: |

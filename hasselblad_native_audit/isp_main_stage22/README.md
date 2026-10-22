@@ -65,3 +65,48 @@ python hasselblad_native_audit/isp_main_stage22/src/gamut_relation22.py \
 ## Following this study
 
 An actual MAIN-linked pixel oracle, or matched genuine X2D II 3FR/Phocus captures with known illuminant, scene and source gamut, is required to resolve the remaining physical RGB ordering, gamma/CCM behaviour and working-space connection. Stage22 is *evidence about which assumptions are numerically plausible on available tables*, not a reconstruction of Hasselblad colour rendering. Stage8 Android build **27186** remains the phone-tested baseline, with **Photon photographic colour still active**. No HDR or scene-dependent look was introduced here.
+
+
+## Completed original-firmware result — negative channel-ID evidence
+
+The hosted original-firmware run **39794374224** completed successfully at source
+commit `4487d3cde9613a69af522658aa1b27943d4e89cf`:
+<https://github.com/mwilliams455/Hasselblad/actions/runs/39794374224>.
+All ten output hashes for the original CCT/gamut conditions matched the archived
+X2D II `librcam.so` native preparation outputs. Its only original-table output
+is the aggregate report `STAGE22_ORIGINAL_GAMUT_AGGREGATES.json` — no original
+camera LUT values, pixels, photos, or vendor binaries.
+
+**Measured normalized absolute differences** (each CCT uses 4096 hypothetical
+planar table nodes × 3 components, not real photographed pixel colours):
+
+| CCT | Lowest MAE among 18 tests | Candidate bank map | MAE | Best unchanged-values MAE | Runner-up / best |
+|---|---|---|---:|---:|---:|
+| 2400 K | linear primary conversion | `210` | 0.037153216 | 0.038692185 | 1.0414 |
+| 4300 K | linear primary conversion | `210` | 0.036423129 | 0.038264497 | 1.0506 |
+| 5550 K | linear primary conversion | `210` | 0.036793728 | 0.037898336 | 1.0300 |
+| 7001 K | linear primary conversion | `210` | 0.036455546 | 0.037514229 | 1.0290 |
+| 9100 K | unchanged values (all bank permutations tied) | **indeterminate** | 0.037000471 | 0.037000471 | 1.0000 |
+
+The four intermediate/warm cases improve the unchanged-values baseline by only
+approximately 3–5% under one *assumed* linear-output colourimetric model. The
+remaining normalized residuals are much greater than a 12-bit code value, so
+the sRGB and P3 tables cannot be convincingly identified by a simple standard
+primary transform with this candidate decode. At 9100 K the preferred model is
+identity with exact bank-permutation ties; therefore even the apparent `210`
+pattern is **not stable** across CCT.
+
+### Evidence conclusion
+
+**NO channel mapping, input domain, interpolation, source transfer function, or
+MAIN hardware pixel equation has been established.** `210` is only the minimum
+numerical residual for a particular oversimplified model at four CCT values,
+not a camera hardware discovery or production setting. The mismatches could
+reflect independent colour rendering in the P3 bank, an incorrect assumed
+colour space or EOTF, or an incorrect planar decoder/channel convention.
+These options cannot be distinguished by the available table-only data.
+
+The original-data comparison is a **valuable negative control**: the presence
+of named sRGB/P3 banks does not authorize replacing one with a standard
+colour-primary conversion or concluding that the physical output bank map has
+been found. Stage22 remains research-only; no Pixel/Photon code changed.

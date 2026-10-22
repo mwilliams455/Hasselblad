@@ -57,6 +57,8 @@ def make_annotation(cap, dng_path, jpeg_path, spec):
          'regions':[]}
     for r in spec['regions']:
         region={k:r[k] for k in ['id','role','source','illuminant']}
+        if 'reference_target_id' in r:
+            region['reference_target_id']=r['reference_target_id']
         region['rect_raw_xywh']=jpeg_to_raw(r['rect_jpeg_xywh'],jw,jh,rw,rh,orientation)
         out['regions'].append(region)
     return out

@@ -1,0 +1,31 @@
+{
+  "schema": "hasselblad-stage26-on-device-synthetic-confirmation-v1",
+  "date": "2026-10-22",
+  "source": "user-provided in-app Stage26 development check report",
+  "test_target": "Stage26 JNI neutral reference bridge, synthetic only",
+  "android_library_built_from_commit": "6c8c687609cf92f2ca3b0256728b5b2000d3ec1b",
+  "application_version_code": 27187,
+  "diagnostic": {
+    "schema": "hasselblad-stage26-neutral-jni-synthetic-v1",
+    "status": "PASS",
+    "tests_passed": 11,
+    "tests_total": 11,
+    "elapsed_ms": 4.625,
+    "exception_type": "",
+    "input_is_synthetic": true,
+    "output_linear_light": true,
+    "hncs_pixel_equivalence_proven": false,
+    "main_lut_hypothesis_invoked": false,
+    "photographic_render_authorized": false,
+    "saved_photo_colour_still_photon": true
+  },
+  "asserted_scope": [
+    "JNI accessible and executes synthetic native tests in installed Android application",
+    "No actual phone DNG/RAW colourimetric rendering is validated",
+    "No original X2D MAIN ISP/HNCS pixel equivalence",
+    "Runtime elapsed is for in-app synthetic self-test, not full-frame photo processing"
+  ],
+  "includes_photos": false,
+  "includes_private_calibration": false,
+  "includes_original_firmware_values": false
+}

@@ -1,0 +1,125 @@
+name: Hasselblad Stage6 GPU probe signed APK
+
+"on":
+  push:
+    branches:
+      - recovery/awb-rebuild-20261021
+    paths:
+      - HasselbladPhoton/app/**
+      - hasselblad_native_audit/phone_input_20261021/stage6_gpu/**
+      - .github/workflows/hb-photon-stage6-apk.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test-and-build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - name: Check out exact recovery source
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Run pure Stage6 sampling contract tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/stage6-contract"
+          javac -d "$RUNNER_TEMP/stage6-contract" \
+            HasselbladPhoton/app/src/main/java/com/particlesdevs/photoncamera/hasselblad/HasselbladStage6Contract.java \
+            hasselblad_native_audit/phone_input_20261021/stage6_gpu/Stage6ContractHarness.java
+          java -cp "$RUNNER_TEMP/stage6-contract" Stage6ContractHarness
+      - name: Verify prior renderer shaders and calibration remain unchanged
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -z "$(git diff --name-only fce303f6dc51bed5c8c955d51a20af12651fa55d HEAD -- \
+            HasselbladPhoton/app/src/main/assets/shaders \
+            HasselbladPhoton/app/src/main/java/com/particlesdevs/photoncamera/processing/render/Converter.java \
+            HasselbladPhoton/app/src/main/java/com/particlesdevs/photoncamera/processing/render/Parameters.java)"
+          test "$(git grep -l 'HasselbladGpuStageProbe.claim' -- HasselbladPhoton/app/src/main/java/com/particlesdevs/photoncamera/processing/processor/HdrxProcessor.java | wc -l)" -eq 1
+          test "$(git grep -l 'stage6Session.sample' -- HasselbladPhoton/app/src/main/java/com/particlesdevs/photoncamera/processing/opengl/postpipeline/Bayer2Float.java | wc -l)" -eq 1
+      - name: Use preinstalled Android SDK
+        shell: bash
+        run: |
+          set -euo pipefail
+          sdk="${ANDROID_HOME:-/usr/local/lib/android/sdk}"
+          test -x "$sdk/cmdline-tools/latest/bin/sdkmanager"
+          echo "ANDROID_HOME=$sdk" >> "$GITHUB_ENV"
+          echo "$sdk/cmdline-tools/latest/bin" >> "$GITHUB_PATH"
+      - name: Install pinned Android build tools
+        shell: bash
+        run: |
+          set -euo pipefail
+          yes | sdkmanager --licenses >/dev/null || true
+          sdkmanager --install 'platforms;android-36' 'build-tools;35.0.0' \
+              'cmake;3.22.1' 'ndk;27.0.12077973' >/dev/null
+          test -f "$ANDROID_HOME/ndk/27.0.12077973/source.properties"
+      - name: Build signed Stage6 opt-in GPU diagnostic APK
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd HasselbladPhoton
+          chmod +x ./gradlew
+          ./gradlew --no-daemon --stacktrace --console=plain :app:assembleDebug
+      - name: Verify signed upgrade, version and retained diagnostics
+        shell: bash
+        run: |
+          set -euo pipefail
+          output="$RUNNER_TEMP/stage6-apk"
+          mkdir -p "$output"
+          apk="$(find HasselbladPhoton/app/build/outputs/apk -type f -name '*debug.apk' -print -quit)"
+          test -s "$apk"
+          "$ANDROID_HOME/build-tools/35.0.0/apksigner" verify --verbose --print-certs "$apk" > "$output/signature.txt"
+          grep -F -i '255cb09eaddd26a9cc680786e4985372cf24d0e54bb120fc44d48f3273ff3956' "$output/signature.txt"
+          "$ANDROID_HOME/build-tools/35.0.0/aapt" dump badging "$apk" > "$output/badging.txt"
+          grep -F "name='com.mwilliams.hasselbladphoton'" "$output/badging.txt"
+          grep -F "versionCode='27185'" "$output/badging.txt"
+          grep -F "versionName='0.1-hb-gpu6'" "$output/badging.txt"
+          python3 - "$apk" "$output" <<'PY'
+          import hashlib,json,pathlib,re,subprocess,sys,zipfile
+          apk,out=pathlib.Path(sys.argv[1]),pathlib.Path(sys.argv[2])
+          with zipfile.ZipFile(apk) as z:
+            names=set(z.namelist())
+            targets=["lib/arm64-v8a/libhasselblad_domain_jni.so",
+                     "lib/arm64-v8a/libhasselblad_scene_jni.so"]
+            assert all(t in names for t in targets),"Prior verified native diagnostics missing"
+            assert any(x.startswith("classes") and x.endswith(".dex") for x in names)
+            so=out/"libdomain.so"
+            so.write_bytes(z.read(targets[0]))
+            headers=subprocess.check_output(["readelf","-lW",str(so)],text=True)
+            aligns=[int(l.split()[-1],16) for l in headers.splitlines()
+                    if re.match(r"\s*LOAD\s+",l)]
+            assert aligns and all(a>=16384 for a in aligns),aligns
+            so.unlink()
+          report={"status":"PASS","source_commit":subprocess.check_output(["git","rev-parse","HEAD"],text=True).strip(),
+                  "application_id":"com.mwilliams.hasselbladphoton",
+                  "version_code":27185,"version_name":"0.1-hb-gpu6",
+                  "apk_sha256":hashlib.sha256(apk.read_bytes()).hexdigest(),
+                  "apk_bytes":apk.stat().st_size,"prior_scene_and_domain_native_libraries_present":True,
+                  "domain_native_elf_load_alignments":aligns,
+                  "stage6_gpu_on_hardware_tested":False,
+                  "stage6_gpu_readback":"armed_only_1024_pixel_samples",
+                  "stage6_render_colour_changed":False}
+          (out/"STAGE6_APK_VERIFICATION.json").write_text(json.dumps(report,indent=2)+"\n")
+          print(json.dumps(report,indent=2))
+          PY
+          cp "$apk" "$output/HasselbladPhoton-Stage6-27185-debug.apk"
+      - name: Upload installable APK and report
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HasselbladPhoton-Stage6-27185
+          path: |
+            ${{ runner.temp }}/stage6-apk/HasselbladPhoton-Stage6-27185-debug.apk
+            ${{ runner.temp }}/stage6-apk/STAGE6_APK_VERIFICATION.json
+            ${{ runner.temp }}/stage6-apk/signature.txt
+            ${{ runner.temp }}/stage6-apk/badging.txt
+          retention-days: 7
+          if-no-files-found: error

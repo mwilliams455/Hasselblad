@@ -1,0 +1,69 @@
+name: Hasselblad Stage12 matched-mode MAIN LUT evidence
+
+'on':
+  push:
+    branches:
+      - recovery/awb-rebuild-20261021
+    paths:
+      - 'hasselblad_native_audit/photographic_mode_stage12/**'
+      - '.github/workflows/hb-photo-stage12-modes.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  original-report-audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Test bounded hypothesis and negative-input behaviour
+        run: |
+          set -euo pipefail
+          python3 hasselblad_native_audit/photographic_mode_stage12/stage12_mode_lut_audit.py --self-test
+      - name: Run archived-original-report audit (no firmware or camera pixels)
+        run: |
+          set -euo pipefail
+          python3 hasselblad_native_audit/photographic_mode_stage12/stage12_mode_lut_audit.py \
+            --output "$RUNNER_TEMP/STAGE12_MODE_CONDITIONAL_PUBLIC.json"
+          python3 - "$RUNNER_TEMP/STAGE12_MODE_CONDITIONAL_PUBLIC.json" <<'PY'
+          import json,sys
+          j=json.load(open(sys.argv[1]))
+          assert j['schema']=='hasselblad-stage12-mode-main-lut-evidence-v1'
+          assert j['counterfactual_count']==10 and j['predicted_route_outputs']==30
+          assert j['counterfactual_is_runtime_observation'] is False
+          assert j['native_original_real_asset_receipts']['vendor_original_functions_executed_in_THIS_Stage12'] is False
+          assert j['two_enhanced_routes_same_still_mode'] is True
+          assert j['photographic_render_applied'] is False
+          assert j['new_phone_APK_created'] is False
+          assert j['main_source_table']['source_words_total']==49152
+          assert j['main_source_table']['unique_profile_contents']==6
+          for c in j['fixed_condition_counterfactuals']:
+              assert len(c['route_predictions'])==3
+              assert len({r['predicted_sha256'] for r in c['route_predictions']})==1
+              assert not any(r['observed_mode_specific_hardware_output'] for r in c['route_predictions'])
+          print('PASS Stage12: 10 native receipts; 30 conditional (not observed) matched-mode predictions')
+          PY
+      - name: Protect production camera and earlier verified checkpoints
+        run: |
+          set -euo pipefail
+          # The published prior Stage11 source/checkpoint is the source-change base.
+          test -z "$(git diff --name-only 8467a2c7c9321e1170019670d61f4740c92d7d34 HEAD -- \
+            HasselbladPhoton hasselblad_native_audit/photographic_profile_stage8 \
+            hasselblad_native_audit/photographic_pixel_stage9 \
+            hasselblad_native_audit/photographic_main_stage10 \
+            hasselblad_native_audit/photographic_condition_stage11)"
+          test -z "$(git diff --name-only 8467a2c7c9321e1170019670d61f4740c92d7d34 HEAD -- \
+            hasselblad_native_audit/photographic_path \
+            hasselblad_native_audit/main_colour_20261019 \
+            hasselblad_native_audit/pixel_contract_20261019)"
+      - name: Publish compact metadata-only receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: Hasselblad-Stage12-Mode-LUT-Source-Audit
+          path: ${{ runner.temp }}/STAGE12_MODE_CONDITIONAL_PUBLIC.json
+          retention-days: 7
+          if-no-files-found: error

@@ -77,7 +77,7 @@ def register_bits(ins,register):
 
 def inspect(path:Path)->dict[str,Any]:
     from capstone import Cs,CS_ARCH_ARM64,CS_MODE_LITTLE_ENDIAN
-    from capstone.arm64 import ARM64_OP_MEM,ARM64_OP_REG
+    from capstone.arm64 import ARM64_OP_MEM,ARM64_OP_REG,ARM64_OP_IMM
     from elftools.elf.elffile import ELFFile
     from elftools.elf.relocation import RelocationSection
     with path.open('rb') as f:
@@ -115,9 +115,18 @@ def inspect(path:Path)->dict[str,Any]:
             writes=[]
             vector_count=0
             calls=0
+            bitwise_fields=[]
             for i in inst:
                 mnemonics.add(i.mnemonic)
                 if i.mnemonic in ('bl','blr'):calls+=1
+                # A bounded semantic synopsis, not a reconstructed vendor
+                # instruction listing. This applies ONLY to the two original
+                # CCM debug-mux accessor functions.
+                if name in ('ccm_get_dbg_info_by_mux','ccm_set_dbg_mux') and \
+                        i.mnemonic in ('ubfx','sbfx','ubfiz','sbfiz','and','orr','lsl','lsr'):
+                    imms=[int(o.imm) for o in i.operands if o.type==ARM64_OP_IMM]
+                    bitwise_fields.append({'operator':i.mnemonic,
+                                           'encoded_constants':imms[:2]})
                 for o in i.operands:
                     if o.type==ARM64_OP_REG and register_bits(i,o.reg)==128:
                         vector_count+=1
@@ -137,11 +146,23 @@ def inspect(path:Path)->dict[str,Any]:
                 'raw_load_store_operand_count':len(mem),
                 'register_relative_write_offsets':sorted(set(writes)),
                 'decoded_call_instruction_count':calls,
+                'debug_mux_bitfield_operations':bitwise_fields,
                 'potential_128bit_register_operand_occurrences':vector_count,
                 'has_arithmetic_multiply_mnemonic':bool({'mul','madd','smaddl','fmul','fmadd'}&mnemonics),
                 'actual_image_samples_or_pixel_math_proven':False,
                 'physical_register_meanings_proven':False,
             }
+        require(results['ccm_get_dbg_info_by_mux']['decoded_instruction_count']==3,
+                'original_debug_mux_getter_shape_changed')
+        require(results['ccm_set_dbg_mux']['decoded_instruction_count']==7,
+                'original_debug_mux_setter_shape_changed')
+        require(results['ccm_get_dbg_info_by_mux']['raw_load_store_operand_count']==1,
+                'original_debug_mux_getter_read_shape_changed')
+        require(results['ccm_set_dbg_mux']['raw_load_store_operand_count']==2,
+                'original_debug_mux_setter_RMW_shape_changed')
+        require(all(results[n]['potential_128bit_register_operand_occurrences']==0
+                    for n in FNS if 'dbg' in n),
+                'unexpected_vector_access_in_original_debug_interface')
         # A scalar debug getter may read hardware status fields; this alone
         # is NOT an oracle for actual input/output RGB of the CCM datapath.
         require(results['ccm_set_fmt']['function_bytes']==80,'CCM_set_fmt_identity_changed')
@@ -158,6 +179,8 @@ def inspect(path:Path)->dict[str,Any]:
             'proven_pixel_input_RGB_readback':False,
             'proven_pixel_output_RGB_readback':False,
             'hardware_debug_mux_semantics_recovered':False,
+            'original_debug_mux_scalar_read_write_rmw_shape_verified':True,
+            'CCM_debug_getter_is_a_multiframe_RGB_stream_proven':False,
             'six_coefficient_pixel_equation_recovered':False,
             'vendor_instruction_bytes_exported':False,
             'vendor_coefficients_exported':False,

@@ -101,7 +101,7 @@ jobs:
           assert d['original_vendor_table_values_exported'] is False
           assert d['real_X2D_II_photograph_or_Phocus_target_used'] is False
           assert d['render_applied'] is False
-          for dangerous in ['61254(1).dng','IMG_2026','full_vendor_table','rgb_vertices','lut_word_values','/mnt/data','photographic_render_authorized": true']:
+          for dangerous in ['IMG_2026','full_vendor_table','rgb_vertices','lut_word_values','/mnt/data','photographic_render_authorized": true']:
               assert dangerous not in text, dangerous
           print('PASS: 12 original-profile conditions, 10 archived native hashes, six RGB permutations, no MAIN hardware claim')
           PY

@@ -141,6 +141,29 @@
                 android:textIsSelectable="true"
                 android:text="Stage26 not run. Linear DNG PCS reference only; Photon JPEG colour is unchanged." />
 
+            <!-- Stage32: explicitly selected existing DNG only. No capture,
+                 photo save, camera HAL or vendor colour operation is changed. -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/hasselblad_stage32_pick"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Stage32: Pick existing DNG for neutral tile test" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/hasselblad_stage32_copy"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:text="Copy Stage32 DNG diagnostic JSON" />
+            <TextView
+                android:id="@+id/hasselblad_stage32_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textIsSelectable="true"
+                android:text="Stage32 not run. Choose a local DNG; no image modification or Hasselblad pixel render." />
+
             <TextView
                 android:id="@+id/hasselblad_check_policy"
                 android:layout_width="match_parent"

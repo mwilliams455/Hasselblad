@@ -1,0 +1,136 @@
+name: Hasselblad Stage8 portable profile probe APK
+
+"on":
+  push:
+    branches:
+      - recovery/awb-rebuild-20261021
+    paths:
+      - 'hasselblad_native_audit/photographic_profile_stage8/**'
+      - 'HasselbladPhoton/app/src/main/java/com/particlesdevs/photoncamera/hasselblad/HasselbladProfilePreparationCheck.java'
+      - 'HasselbladPhoton/app/src/main/cpp/hasselblad/hb_photo_profile_jni.c'
+      - 'HasselbladPhoton/app/src/main/cpp/CMakeLists.txt'
+      - 'HasselbladPhoton/app/src/main/res/layout/activity_hasselblad_development.xml'
+      - 'HasselbladPhoton/app/src/main/java/com/particlesdevs/photoncamera/hasselblad/HasselbladDevelopmentActivity.java'
+      - 'HasselbladPhoton/app/build.gradle'
+      - 'HasselbladPhoton/app/version.properties'
+      - '.github/workflows/hb-photon-stage8-apk.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  host-and-android:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Verify 12 original native vectors and bounded 6144-word C profile parity
+        run: |
+          set -euo pipefail
+          python3 hasselblad_native_audit/photographic_profile_stage8/tests/test_profile_native_fixture.py
+      - name: Verify Java-to-native profile test without Android dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          p=hasselblad_native_audit/photographic_profile_stage8
+          a=HasselbladPhoton/app
+          mkdir -p "$RUNNER_TEMP/stage8/classes" "$RUNNER_TEMP/stage8/lib"
+          javac --release 17 -d "$RUNNER_TEMP/stage8/classes" \
+            "$a/src/main/java/com/particlesdevs/photoncamera/hasselblad/HasselbladProfilePreparationCheck.java" \
+            "$p/tests/Stage8NativeSmoke.java"
+          cc -std=c11 -O2 -Wall -Wextra -Werror -fPIC -shared \
+            -I"$JAVA_HOME/include" -I"$JAVA_HOME/include/linux" -I"$p/src" \
+            "$a/src/main/cpp/hasselblad/hb_photo_profile_jni.c" \
+            "$p/src/hb_main_lut_profile.c" \
+            -o "$RUNNER_TEMP/stage8/lib/libhasselblad_profile_jni.so"
+          java -Djava.library.path="$RUNNER_TEMP/stage8/lib" \
+            -cp "$RUNNER_TEMP/stage8/classes" Stage8NativeSmoke
+      - name: Guard Stage6 pixel renderer and RAW metadata boundaries
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -z "$(git diff --name-only 608bb7ef61898f828836ac2d64d229d67cd1a42f HEAD -- \
+            HasselbladPhoton/app/src/main/assets/shaders \
+            HasselbladPhoton/app/src/main/java/com/particlesdevs/photoncamera/processing/render/Converter.java \
+            HasselbladPhoton/app/src/main/java/com/particlesdevs/photoncamera/processing/render/Parameters.java \
+            HasselbladPhoton/app/src/main/java/com/particlesdevs/photoncamera/processing/processor/HdrxProcessor.java \
+            HasselbladPhoton/app/src/main/java/com/particlesdevs/photoncamera/processing/opengl/postpipeline/Bayer2Float.java)"
+          ! grep -q 'photographic_render_authorized=1' "$GITHUB_WORKSPACE/hasselblad_native_audit/photographic_profile_stage8/src/hb_main_lut_profile.c"
+      - name: Set up pinned Android SDK / NDK
+        shell: bash
+        run: |
+          set -euo pipefail
+          sdk="${ANDROID_HOME:-/usr/local/lib/android/sdk}"
+          echo "ANDROID_HOME=$sdk" >> "$GITHUB_ENV"
+          echo "$sdk/cmdline-tools/latest/bin" >> "$GITHUB_PATH"
+          yes | "$sdk/cmdline-tools/latest/bin/sdkmanager" --licenses >/dev/null || true
+          "$sdk/cmdline-tools/latest/bin/sdkmanager" --install 'platforms;android-36' 'build-tools;35.0.0' \
+            'cmake;3.22.1' 'ndk;27.0.12077973' >/dev/null
+      - name: Build signed in-place-upgrade Stage8 APK
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd HasselbladPhoton
+          chmod +x gradlew
+          ./gradlew --no-daemon --console=plain :app:assembleDebug
+      - name: Verify APK identity, signer, Stage8 library and 16KB ELF alignment
+        shell: bash
+        run: |
+          set -euo pipefail
+          output="$RUNNER_TEMP/stage8-apk"
+          mkdir -p "$output"
+          apk="$(find HasselbladPhoton/app/build/outputs/apk -type f -name '*debug.apk' -print -quit)"
+          test -s "$apk"
+          "$ANDROID_HOME/build-tools/35.0.0/apksigner" verify --verbose --print-certs "$apk" > "$output/signature.txt"
+          grep -F -i '255cb09eaddd26a9cc680786e4985372cf24d0e54bb120fc44d48f3273ff3956' "$output/signature.txt"
+          "$ANDROID_HOME/build-tools/35.0.0/aapt" dump badging "$apk" > "$output/badging.txt"
+          grep -F "name='com.mwilliams.hasselbladphoton'" "$output/badging.txt"
+          grep -F "versionCode='27186'" "$output/badging.txt"
+          grep -F "versionName='0.1-hb-stage8'" "$output/badging.txt"
+          python3 - "$apk" "$output" <<'PY'
+          import hashlib,json,pathlib,re,subprocess,sys,zipfile
+          apk,out=pathlib.Path(sys.argv[1]),pathlib.Path(sys.argv[2])
+          libs=['lib/arm64-v8a/libhasselblad_scene_jni.so',
+                'lib/arm64-v8a/libhasselblad_domain_jni.so',
+                'lib/arm64-v8a/libhasselblad_profile_jni.so']
+          with zipfile.ZipFile(apk) as z:
+              names=set(z.namelist())
+              assert all(x in names for x in libs),"Missing preserved or new native diagnostic"
+              profile=out/'libstage8profile.so'
+              profile.write_bytes(z.read(libs[-1]))
+              headers=subprocess.check_output(['readelf','-lW',str(profile)],text=True)
+              align=[int(line.split()[-1],16) for line in headers.splitlines() if re.match(r'\s*LOAD\s+',line)]
+              assert align and all(a>=16384 for a in align),align
+              profile.unlink()
+          data={'status':'PASS','source_commit':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),
+                'application_id':'com.mwilliams.hasselbladphoton',
+                'version_code':27186,'version_name':'0.1-hb-stage8',
+                'signed_upgrade':True,'preserved_native_scene_domain':True,
+                'new_stage8_profile_library':True,'native_load_alignment':align,
+                'apk_sha256':hashlib.sha256(apk.read_bytes()).hexdigest(),
+                'apk_bytes':apk.stat().st_size,
+                'camera_lut_payload_bundled':False,
+                'stage8_on_device_tested':False,'photographic_colour_changed':False}
+          (out/'STAGE8_APK_VERIFICATION.json').write_text(json.dumps(data,indent=2)+'\n')
+          print(json.dumps(data,indent=2))
+          PY
+          cp "$apk" "$output/HasselbladPhoton-Stage8-27186-debug.apk"
+      - name: Upload signed APK and validation report
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HasselbladPhoton-Stage8-27186
+          path: |
+            ${{ runner.temp }}/stage8-apk/HasselbladPhoton-Stage8-27186-debug.apk
+            ${{ runner.temp }}/stage8-apk/STAGE8_APK_VERIFICATION.json
+            ${{ runner.temp }}/stage8-apk/signature.txt
+            ${{ runner.temp }}/stage8-apk/badging.txt
+          if-no-files-found: error
+          retention-days: 7

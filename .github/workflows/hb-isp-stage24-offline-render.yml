@@ -75,11 +75,53 @@ jobs:
                   assert p.suffix not in ('.dng','.3fr','.cim','.apk','.jpg','.jpeg','.png','.tif','.tiff','.so')
                   assert 'private' not in p.parts
           PY
+      - name: Cross-compile bounded colour core for Android ARM64 (not integrated into APK)
+        shell: bash
+        run: |
+          set -euo pipefail
+          sdk="${ANDROID_HOME:-/usr/local/lib/android/sdk}"
+          cc="$sdk/ndk/27.0.12077973/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android28-clang"
+          if [ ! -x "$cc" ]; then
+            yes | "$sdk/cmdline-tools/latest/bin/sdkmanager" --licenses >/dev/null || true
+            "$sdk/cmdline-tools/latest/bin/sdkmanager" --install 'ndk;27.0.12077973' >/dev/null
+          fi
+          test -x "$cc"
+          root=hasselblad_native_audit
+          mkdir -p "$RUNNER_TEMP/stage24-android"
+          "$cc" -std=c11 -O2 -fPIC -shared -ffp-contract=off -Wall -Wextra -Werror \
+            -Wl,--no-undefined -Wl,-z,max-page-size=16384 \
+            -I "$root/isp_dng_stage18/src" -I "$root/isp_colour_stage19/src" \
+            -I "$root/isp_main_stage21/src" -I "$root/isp_colour_stage24/src" \
+            "$root/isp_colour_stage24/src/hb24_renderer.c" \
+            "$root/isp_dng_stage18/src/hb_dng_pcs_bridge.c" \
+            "$root/isp_colour_stage19/src/hb_colour_stage19.c" \
+            "$root/isp_main_stage21/src/hb_main_candidate21.c" \
+            -lm -o "$RUNNER_TEMP/stage24-android/libhasselblad_colour_stage24.so"
+          readelf -h "$RUNNER_TEMP/stage24-android/libhasselblad_colour_stage24.so" | grep 'AArch64'
+          readelf -Wl "$RUNNER_TEMP/stage24-android/libhasselblad_colour_stage24.so" | grep 'LOAD'
+          nm -D "$RUNNER_TEMP/stage24-android/libhasselblad_colour_stage24.so" | grep 'hb24_build'
+          nm -D "$RUNNER_TEMP/stage24-android/libhasselblad_colour_stage24.so" | grep 'hb24_process'
+          python3 - <<'PY_EMBEDDED'
+          import hashlib,json,os,pathlib,re,subprocess
+          path=pathlib.Path(os.environ['RUNNER_TEMP'])/'stage24-android/libhasselblad_colour_stage24.so'
+          read=subprocess.check_output(['readelf','-Wl',str(path)],text=True)
+          align=[int(line.split()[-1],16) for line in read.splitlines() if re.match(r'\s*LOAD\s+',line)]
+          assert align and min(align)>=16384,align
+          doc={'schema':'stage24-arm64-library-source-only-v1','abi':'arm64-v8a',
+               'android_api':28,'status':'PASS','load_segment_alignment':align,
+               'sha256':hashlib.sha256(path.read_bytes()).hexdigest(),
+               'proprietary_lut_bundled':False,'hasselblad_isp_parity_proven':False,
+               'installed_apk_created':False,'source_only_research_library':True}
+          (path.parent/'STAGE24_ARM64_COMPILE.json').write_text(json.dumps(doc,indent=2)+'\n')
+          print(json.dumps(doc))
+          PY_EMBEDDED
       - uses: actions/upload-artifact@v4
         with:
           name: Hasselblad-Stage24-Synthetic-C-Renderer-Only
           path: |
             /tmp/STAGE24_SYNTHETIC_GCC.json
             /tmp/STAGE24_SYNTHETIC_CLANG.json
+            ${{ runner.temp }}/stage24-android/STAGE24_ARM64_COMPILE.json
+            ${{ runner.temp }}/stage24-android/libhasselblad_colour_stage24.so
           if-no-files-found: error
           retention-days: 14

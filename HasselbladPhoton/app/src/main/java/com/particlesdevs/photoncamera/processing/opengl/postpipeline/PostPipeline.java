@@ -8,6 +8,7 @@ import com.particlesdevs.photoncamera.util.Log;
 import static android.opengl.GLES31.GL_CLAMP_TO_EDGE;
 import static android.opengl.GLES31.GL_LINEAR;
 
+import com.particlesdevs.photoncamera.hasselblad.HasselbladGpuStageProbe;
 import com.particlesdevs.photoncamera.api.CameraMode;
 import com.particlesdevs.photoncamera.app.PhotonCamera;
 import com.particlesdevs.photoncamera.processing.ImageFrame;
@@ -34,6 +35,9 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 
 public class PostPipeline extends GLBasePipeline {
+    /** Session is explicitly assigned by the owning RAW processor, or null.
+     * No global current-frame lookup in the GL pipeline. */
+    public HasselbladGpuStageProbe.Session stage6Session;
     public ByteBuffer stackFrame;
     /** Set once the merged raw has been freed by its last GL consumer. */
     private boolean stackFrameReleased;

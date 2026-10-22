@@ -80,6 +80,19 @@ if(ANDROID_ABI STREQUAL "arm64-v8a")
     target_link_libraries(hasselblad_domain_jni m)
     set_target_properties(hasselblad_domain_jni PROPERTIES C_STANDARD 11 C_STANDARD_REQUIRED ON
         LINK_FLAGS "-Wl,--gc-sections,-z,defs,-z,max-page-size=16384")
+
+    # Stage8 isolated ARM64 profile interpolation JNI, opt-in diagnostic only.
+    # No sensor, RAW, camera table, photographic pixel or renderer hooks.
+    set(HB_PHOTO_STAGE8 "${HB_AUDIT}/photographic_profile_stage8")
+    add_library(hasselblad_profile_jni SHARED
+        hasselblad/hb_photo_profile_jni.c
+        "${HB_PHOTO_STAGE8}/src/hb_main_lut_profile.c")
+    target_include_directories(hasselblad_profile_jni PRIVATE "${HB_PHOTO_STAGE8}/src")
+    target_compile_options(hasselblad_profile_jni PRIVATE -O2 -Wall -Wextra -Werror
+        -fvisibility=hidden -ffunction-sections -fdata-sections)
+    set_target_properties(hasselblad_profile_jni PROPERTIES
+        C_STANDARD 11 C_STANDARD_REQUIRED ON
+        LINK_FLAGS "-Wl,--gc-sections,-z,defs,-z,max-page-size=16384")
 endif()
 
 

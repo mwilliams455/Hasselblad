@@ -54,7 +54,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python3 -m pip install --disable-pip-version-check 'numpy>=1.26,<3'
+          python3 -m pip install --disable-pip-version-check numpy pillow tifffile opencv-python-headless
           python3 hasselblad_native_audit/isp_colour_stage24/tests/test_renderer24.py             --compiler gcc --output "$RUNNER_TEMP/stage26/STAGE24_GCC.json"
       - name: Install pinned Android tools
         shell: bash

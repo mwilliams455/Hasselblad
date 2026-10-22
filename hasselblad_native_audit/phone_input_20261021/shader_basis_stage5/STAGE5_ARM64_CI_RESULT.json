@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "abi": "aarch64-linux-android28",
+  "ndk_revision": "27.0.12077973",
+  "elf_load_alignments_bytes": [
+    16384,
+    16384,
+    16384
+  ],
+  "binary_sha256": "e0a65a3d35a86eb57a3dd5a9a5b4c28a2049037596545762d8ce6605aa354235",
+  "render_modified": false,
+  "on_phone_gpu_tested": false,
+  "new_apk": false
+}

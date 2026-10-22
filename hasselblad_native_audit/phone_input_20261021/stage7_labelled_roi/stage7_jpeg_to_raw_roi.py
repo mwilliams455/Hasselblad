@@ -7,6 +7,7 @@ NOT prove JPEG pixels have no resampling, distortion or per-pixel warping.
 """
 import argparse
 import json
+import math
 from pathlib import Path
 from PIL import Image
 import tifffile
@@ -18,7 +19,7 @@ def req(ok, why):
 
 def even_down(v): return int(v)//2*2
 
-def even_up(v): return (int(v+0.999999)+1)//2*2
+def even_up(v): return math.ceil(v/2)*2
 
 
 def jpeg_to_raw(rect, jw, jh, rw, rh, orientation):

@@ -1,0 +1,29 @@
+{
+  "schema": "hasselblad-stage19-synthetic-stage18-to-stage19-chain-v1",
+  "status": "PASS",
+  "results": [
+    {
+      "compiler": "gcc",
+      "status": "PASS",
+      "end_to_end_camera_profile_cases": 64,
+      "target_gamut_checks": 128,
+      "compared_output_scalars": 393216,
+      "max_abs_error": 1.0658141036401503e-14,
+      "photographic_look_or_HNCS_applied": false
+    },
+    {
+      "compiler": "clang",
+      "status": "PASS",
+      "end_to_end_camera_profile_cases": 64,
+      "target_gamut_checks": 128,
+      "compared_output_scalars": 393216,
+      "max_abs_error": 1.0658141036401503e-14,
+      "photographic_look_or_HNCS_applied": false
+    }
+  ],
+  "source_data": "synthetic_only",
+  "original_camera_lut_absent": true,
+  "original_main_ccm_pixel_equation_not_established": true,
+  "dng_dual_differing_matrices_still_unsupported": true,
+  "photo_saved": false
+}

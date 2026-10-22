@@ -31,11 +31,13 @@ jobs:
           set -euo pipefail
           test -z "$(git diff --name-only a5c4409b60c40eb4b703395cc221fcf8e14816d1 HEAD -- HasselbladPhoton)"
           python3 -m py_compile hasselblad_native_audit/isp_main_stage29/inspect_ccm_argflow29.py
+          python3 -m py_compile hasselblad_native_audit/isp_main_stage29/inspect_b2r_record29c.py
       - name: Self-test path joins, call clobbers and unreachable code
         shell: bash
         run: |
           set -euo pipefail
-          python3 hasselblad_native_audit/isp_main_stage29/inspect_ccm_argflow29.py             --self-test --output "$RUNNER_TEMP/STAGE29_SYNTHETIC.json"
+          python3 hasselblad_native_audit/isp_main_stage29/inspect_ccm_argflow29.py --self-test --output "$RUNNER_TEMP/STAGE29_SYNTHETIC.json"
+          python3 hasselblad_native_audit/isp_main_stage29/inspect_b2r_record29c.py --self-test --output "$RUNNER_TEMP/STAGE29C_SYNTHETIC.json"
           python3 - "$RUNNER_TEMP/STAGE29_SYNTHETIC.json" <<'PY'
           import json,sys
           d=json.load(open(sys.argv[1]))
@@ -65,7 +67,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python3 hasselblad_native_audit/isp_main_stage29/inspect_ccm_argflow29.py             --module hasselblad_native_audit/firmware/extracted/system/lib/modules/vcam_driver.ko             --output "$RUNNER_TEMP/STAGE29_CCM_ARGFLOW.json"
+          python3 hasselblad_native_audit/isp_main_stage29/inspect_ccm_argflow29.py --module hasselblad_native_audit/firmware/extracted/system/lib/modules/vcam_driver.ko --output "$RUNNER_TEMP/STAGE29_CCM_ARGFLOW.json"
+          python3 hasselblad_native_audit/isp_main_stage29/inspect_b2r_record29c.py --module hasselblad_native_audit/firmware/extracted/system/lib/modules/vcam_driver.ko --output "$RUNNER_TEMP/STAGE29C_B2R_RECORD.json"
           python3 - "$RUNNER_TEMP/STAGE29_CCM_ARGFLOW.json" <<'PY'
           import json,sys
           d=json.load(open(sys.argv[1]))
@@ -91,11 +94,28 @@ jobs:
                      if v['unique_reaching_writer_in_static_CFG']],
                 'photographic_HNCS_authorized':False}))
           PY
+          python3 - "$RUNNER_TEMP/STAGE29C_B2R_RECORD.json" <<'PY_RECORD'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          assert d['status']=='PASS_original_B2R_record_pointer_and_field_reads'
+          assert d['B2R_pointer_x19_bound_to_entry_x1_at_hex']=='0x6d314'
+          assert d['entry_x1_unchanged_before_pointer_binding'] is True
+          assert d['CCM_argument_1_word32_from_record_offset']==8
+          assert d['CCM_argument_2_word32_from_record_offset']==12
+          assert d['public_V4L2_subdev_format_layout_candidate']['X2D_function_record_proven_to_have_this_type'] is False
+          assert d['format_fields_proven_to_be_dimensions'] is False
+          assert d['six_coefficient_pixel_equation_proven'] is False
+          assert d['Android_saved_photo_renderer_changed'] is False
+          print(json.dumps({'status':'PASS_Stage29C_exact_record_reads',
+              'offsets':[d['CCM_argument_1_word32_from_record_offset'],
+                         d['CCM_argument_2_word32_from_record_offset']],
+              'format_fields_semantics_proven':False}))
+          PY_RECORD
       - name: Guard published metadata and remove original firmware
         shell: bash
         run: |
           set -euo pipefail
-          python3 - "$RUNNER_TEMP/STAGE29_CCM_ARGFLOW.json" <<'PY'
+          python3 - "$RUNNER_TEMP/STAGE29_CCM_ARGFLOW.json" "$RUNNER_TEMP/STAGE29C_B2R_RECORD.json" <<'PY'
           import json,sys
           d=json.load(open(sys.argv[1]))
           forbidden_keys={'instruction_hex','vendor_instruction_bytes',
@@ -117,6 +137,11 @@ jobs:
           assert d['no_live_register_or_camera_pixel_samples'] is True
           assert d['original_vendor_instruction_bytes_exported'] is False
           assert d['vendor_IQ_array_data_exported'] is False
+          c=json.load(open(sys.argv[2]))
+          audit(c)
+          assert c['vendor_instruction_bytes_exported'] is False
+          assert c['vendor_tuning_values_exported'] is False
+          assert c['original_camera_frames_processed'] is False
           PY
           rm -f hasselblad_native_audit/firmware/X2DII_100C_v1_3_16_2.cim
           rm -rf hasselblad_native_audit/firmware/extracted
@@ -128,5 +153,7 @@ jobs:
           path: |
             ${{ runner.temp }}/STAGE29_CCM_ARGFLOW.json
             ${{ runner.temp }}/STAGE29_SYNTHETIC.json
+            ${{ runner.temp }}/STAGE29C_B2R_RECORD.json
+            ${{ runner.temp }}/STAGE29C_SYNTHETIC.json
           if-no-files-found: error
           retention-days: 14

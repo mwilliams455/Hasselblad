@@ -1,0 +1,354 @@
+{
+  "schema": "hasselblad-stage10-main-pixel-contract-discrimination-v1",
+  "status": "PASS",
+  "device_MAIN_pixel_oracle_available": false,
+  "photographic_MAIN_3DLUT_compatible_with_DISPLAY_proven": false,
+  "hypotheses_are_not_vendor_implementations": true,
+  "observed_vendor_facts": {
+    "MAIN_words": 6144,
+    "MAIN_profile_prep_axes": [
+      "cc_color_temp",
+      "color_gamut"
+    ],
+    "DISPLAY_words": 6144,
+    "DISPLAY_verified_cubic_grid_size": 16,
+    "DISPLAY_verified_trilinear_subset": true
+  },
+  "research_stage9_portable_parity": {
+    "status": "PASS",
+    "display_node_components_compared": 12288,
+    "display_trilinear_components_compared": 96,
+    "max_abs_node_residual": 0.0,
+    "max_abs_sample_residual": 0.0,
+    "existing_stage9_source_sha256": "863422a823fd5af9e0eb62fb955571e67a9e83b0f04d898a46becf7fe8c545d7"
+  },
+  "synthetic_fixture_sha256": "392b913d9ad0fe9becad87ba19dc4d964eaef315dcb19e9b55608e4a29e48848",
+  "fixture_contains_user_photo_or_vendor_table": false,
+  "alternative_models": [
+    "display_planar_b_fast_trilinear",
+    "node_interleaved_rgb_trilinear",
+    "display_planar_r_fast_trilinear",
+    "display_planar_bgr_banks_trilinear",
+    "display_planar_b_fast_tetrahedral"
+  ],
+  "probe_count": 32,
+  "discriminating_probes": [
+    {
+      "index": 17,
+      "input_RGB": [
+        1.0,
+        0.345,
+        0.678
+      ],
+      "min_pairwise_model_delta": 0.15538809523809516,
+      "predictions": {
+        "display_planar_b_fast_trilinear": [
+          0.484521001,
+          0.572974176,
+          0.722081746
+        ],
+        "node_interleaved_rgb_trilinear": [
+          0.215200611,
+          0.243923565,
+          0.47632851
+        ],
+        "display_planar_r_fast_trilinear": [
+          0.642912088,
+          0.144933883,
+          0.720284737
+        ],
+        "display_planar_bgr_banks_trilinear": [
+          0.722081746,
+          0.572974176,
+          0.484521001
+        ],
+        "display_planar_b_fast_tetrahedral": [
+          0.426503053,
+          0.417586081,
+          0.795409035
+        ]
+      }
+    },
+    {
+      "index": 29,
+      "input_RGB": [
+        0.538,
+        0.622,
+        0.482
+      ],
+      "min_pairwise_model_delta": 0.10570058632478635,
+      "predictions": {
+        "display_planar_b_fast_trilinear": [
+          0.815775157,
+          0.549795646,
+          0.403108779
+        ],
+        "node_interleaved_rgb_trilinear": [
+          0.540276834,
+          0.659477236,
+          0.681526027
+        ],
+        "display_planar_r_fast_trilinear": [
+          0.762089738,
+          0.44409506,
+          0.300028862
+        ],
+        "display_planar_bgr_banks_trilinear": [
+          0.403108779,
+          0.549795646,
+          0.815775157
+        ],
+        "display_planar_b_fast_tetrahedral": [
+          0.714964591,
+          0.676363858,
+          0.306730159
+        ]
+      }
+    },
+    {
+      "index": 26,
+      "input_RGB": [
+        0.765,
+        0.221,
+        0.515
+      ],
+      "min_pairwise_model_delta": 0.09035303266178263,
+      "predictions": {
+        "display_planar_b_fast_trilinear": [
+          0.556362564,
+          0.509648632,
+          0.646715597
+        ],
+        "node_interleaved_rgb_trilinear": [
+          0.396652793,
+          0.789594892,
+          0.420555305
+        ],
+        "display_planar_r_fast_trilinear": [
+          0.494552725,
+          0.36362708,
+          0.596272867
+        ],
+        "display_planar_bgr_banks_trilinear": [
+          0.646715597,
+          0.509648632,
+          0.556362564
+        ],
+        "display_planar_b_fast_tetrahedral": [
+          0.59708547,
+          0.377373626,
+          0.611467643
+        ]
+      }
+    },
+    {
+      "index": 25,
+      "input_RGB": [
+        0.135,
+        0.555,
+        0.845
+      ],
+      "min_pairwise_model_delta": 0.08770480006105069,
+      "predictions": {
+        "display_planar_b_fast_trilinear": [
+          0.240336443,
+          0.448375786,
+          0.519788088
+        ],
+        "node_interleaved_rgb_trilinear": [
+          0.361451748,
+          0.426116712,
+          0.626825317
+        ],
+        "display_planar_r_fast_trilinear": [
+          0.542019097,
+          0.408668437,
+          0.428088534
+        ],
+        "display_planar_bgr_banks_trilinear": [
+          0.519788088,
+          0.448375786,
+          0.240336443
+        ],
+        "display_planar_b_fast_tetrahedral": [
+          0.240879121,
+          0.536080586,
+          0.510982906
+        ]
+      }
+    },
+    {
+      "index": 18,
+      "input_RGB": [
+        0.123,
+        1.0,
+        0.789
+      ],
+      "min_pairwise_model_delta": 0.0844502075702076,
+      "predictions": {
+        "display_planar_b_fast_trilinear": [
+          0.133499365,
+          0.613789646,
+          0.239839292
+        ],
+        "node_interleaved_rgb_trilinear": [
+          0.306346722,
+          0.677811551,
+          0.62774619
+        ],
+        "display_planar_r_fast_trilinear": [
+          0.310162875,
+          0.790130464,
+          0.703561746
+        ],
+        "display_planar_bgr_banks_trilinear": [
+          0.239839292,
+          0.613789646,
+          0.133499365
+        ],
+        "display_planar_b_fast_tetrahedral": [
+          0.166748474,
+          0.529339438,
+          0.233897436
+        ]
+      }
+    },
+    {
+      "index": 27,
+      "input_RGB": [
+        0.975,
+        0.415,
+        0.235
+      ],
+      "min_pairwise_model_delta": 0.07996346535409049,
+      "predictions": {
+        "display_planar_b_fast_trilinear": [
+          0.539794242,
+          0.578417468,
+          0.459830777
+        ],
+        "node_interleaved_rgb_trilinear": [
+          0.475160886,
+          0.481627137,
+          0.506117502
+        ],
+        "display_planar_r_fast_trilinear": [
+          0.498784627,
+          0.381521291,
+          0.568335508
+        ],
+        "display_planar_bgr_banks_trilinear": [
+          0.459830777,
+          0.578417468,
+          0.539794242
+        ],
+        "display_planar_b_fast_tetrahedral": [
+          0.448919414,
+          0.532564103,
+          0.40982906
+        ]
+      }
+    },
+    {
+      "index": 19,
+      "input_RGB": [
+        0.123,
+        0.456,
+        1.0
+      ],
+      "min_pairwise_model_delta": 0.07443179487179497,
+      "predictions": {
+        "display_planar_b_fast_trilinear": [
+          0.229212161,
+          0.827813626,
+          0.440126545
+        ],
+        "node_interleaved_rgb_trilinear": [
+          0.481686349,
+          0.444480391,
+          0.80742105
+        ],
+        "display_planar_r_fast_trilinear": [
+          0.643868425,
+          0.479287912,
+          0.673849621
+        ],
+        "display_planar_bgr_banks_trilinear": [
+          0.440126545,
+          0.827813626,
+          0.229212161
+        ],
+        "display_planar_b_fast_tetrahedral": [
+          0.203172161,
+          0.902245421,
+          0.411797314
+        ]
+      }
+    },
+    {
+      "index": 20,
+      "input_RGB": [
+        0.283,
+        0.371,
+        0.659
+      ],
+      "min_pairwise_model_delta": 0.06785076193528672,
+      "predictions": {
+        "display_planar_b_fast_trilinear": [
+          0.241150994,
+          0.478451024,
+          0.545964867
+        ],
+        "node_interleaved_rgb_trilinear": [
+          0.335040587,
+          0.751173535,
+          0.586709681
+        ],
+        "display_planar_r_fast_trilinear": [
+          0.709719879,
+          0.56714865,
+          0.478319219
+        ],
+        "display_planar_bgr_banks_trilinear": [
+          0.545964867,
+          0.478451024,
+          0.241150994
+        ],
+        "display_planar_b_fast_tetrahedral": [
+          0.256136752,
+          0.444098901,
+          0.613815629
+        ]
+      }
+    }
+  ],
+  "baseline_vs_alternative_differences": {
+    "node_interleaved_rgb_trilinear": {
+      "probes_distinguishing_at_1_lsb": 32,
+      "probes_total": 32,
+      "max_normalized_difference": 0.8048472746031744,
+      "median_normalized_difference": 0.2957264957264957
+    },
+    "display_planar_r_fast_trilinear": {
+      "probes_distinguishing_at_1_lsb": 25,
+      "probes_total": 32,
+      "max_normalized_difference": 0.6771672771672771,
+      "median_normalized_difference": 0.33744230769230776
+    },
+    "display_planar_bgr_banks_trilinear": {
+      "probes_distinguishing_at_1_lsb": 32,
+      "probes_total": 32,
+      "max_normalized_difference": 0.7863247863247863,
+      "median_normalized_difference": 0.2371184371184371
+    },
+    "display_planar_b_fast_tetrahedral": {
+      "probes_distinguishing_at_1_lsb": 20,
+      "probes_total": 32,
+      "max_normalized_difference": 0.29056776556776565,
+      "median_normalized_difference": 0.025422161172160673
+    }
+  },
+  "acceptance_gate": "Controlled original MAIN pixel outputs with specified register state, input numeric basis and known submitted synthetic table. Until then no MAIN format or photographic colour decision.",
+  "render_applied": false,
+  "pixel_colour_pipeline_modified": false
+}

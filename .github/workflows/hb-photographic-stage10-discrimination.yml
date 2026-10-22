@@ -1,0 +1,50 @@
+name: Hasselblad Stage10 MAIN pixel-format discriminator (synthetic only)
+
+'on':
+  push:
+    branches: [recovery/awb-rebuild-20261021]
+    paths:
+      - 'hasselblad_native_audit/photographic_main_stage10/**'
+      - '.github/workflows/hb-photographic-stage10-discrimination.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  synthetic-differentiation:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Stage10 hypothesis and guarded input tests
+        run: |
+          set -euo pipefail
+          python3 hasselblad_native_audit/photographic_main_stage10/src/main_format_discriminator.py --self-test
+      - name: Compare synthetic candidate models to the exact Stage9 portable DISPLAY mathematics
+        run: |
+          set -euo pipefail
+          python3 hasselblad_native_audit/photographic_main_stage10/src/main_format_discriminator.py \
+             --stage9-source hasselblad_native_audit/photographic_pixel_stage9/src/hb_display_lut16.c \
+             --output "$RUNNER_TEMP/MAIN_CANDIDATE_RESULT.json"
+          python3 - "$RUNNER_TEMP/MAIN_CANDIDATE_RESULT.json" <<'PY'
+          import json,sys
+          r=json.load(open(sys.argv[1]))
+          assert r['status']=='PASS'
+          assert r['research_stage9_portable_parity']['status']=='PASS'
+          assert r['research_stage9_portable_parity']['display_node_components_compared']==12288
+          assert r['device_MAIN_pixel_oracle_available'] is False
+          assert r['photographic_MAIN_3DLUT_compatible_with_DISPLAY_proven'] is False
+          assert r['render_applied'] is False
+          assert r['fixture_contains_user_photo_or_vendor_table'] is False
+          assert len(r['discriminating_probes'])==8
+          assert all(a['probes_distinguishing_at_1_lsb']>0 for a in r['baseline_vs_alternative_differences'].values())
+          print('PASS: synthetic hypotheses distinguishable; no photographic MAIN claim')
+          PY
+      - name: Guard production camera, Stage8 JNI and Stage9 reference unchanged
+        run: |
+          set -euo pipefail
+          test -z "$(git diff --name-only 26d473c79119c0b5e41cd84c6709133e3c641cab HEAD -- HasselbladPhoton/app)"
+          test -z "$(git diff --name-only cbf564928d9f6161b836ef8deb69b85f066c0e59 HEAD -- hasselblad_native_audit/photographic_pixel_stage9)"

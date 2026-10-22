@@ -48,7 +48,7 @@ def inspect(path):
         require(s is not None,"symtab_missing")
         symbols=list(s.iter_symbols())
         tidx=elf.get_section_index(".text")
-        check(tidx is not None,"missing_text_for_local_callback_resolution")
+        require(tidx is not None,"missing_text_for_local_callback_resolution")
         text_by_offset={}
         for sym in symbols:
             if (sym.name and sym["st_shndx"]==tidx and

@@ -16,7 +16,8 @@ import java.util.Locale;
 public final class HasselbladColourReferenceCheck {
     private HasselbladColourReferenceCheck() { }
 
-    private static native int nativeLinearTile(
+    // Internal package-only JNI: Stage32 sends only validated user-picked centre tiles.
+    static native int nativeLinearTile(
             double[] forwardMatrix1, double[] forwardMatrix2,
             double[] cameraCalibration1, double[] cameraCalibration2,
             double[] analogBalance, double[] asShotNeutral,

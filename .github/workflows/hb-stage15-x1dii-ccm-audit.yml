@@ -1,0 +1,76 @@
+name: Hasselblad Stage15 X1D II original CCM-lead inspection
+
+"on":
+  push:
+    branches:
+      - recovery/awb-rebuild-20261021
+    paths:
+      - hasselblad_native_audit/isp_x1dii_stage15/**
+      - .github/workflows/hb-stage15-x1dii-ccm-audit.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  inspect-inert-old-firmware:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    steps:
+      - name: Checkout only our reproducible research code
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Prepare Python tooling
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install static ARM ELF inspectors (never execute vendor code)
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install --disable-pip-version-check --no-cache-dir \
+            'pyelftools==0.32' 'capstone==5.0.6'
+      - name: Validate hash pins, parser logic and classification safeguards
+        shell: bash
+        run: |
+          set -euo pipefail
+          python hasselblad_native_audit/isp_x1dii_stage15/inspect_x1dii_isp.py --self-test
+      - name: Inspect exact X1D II 1.0.0 original public binaries as inert data
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/hb-stage15"
+          python hasselblad_native_audit/isp_x1dii_stage15/inspect_x1dii_isp.py \
+            --output "$RUNNER_TEMP/hb-stage15/STAGE15_X1DII_ELF_AUDIT.json"
+      - name: Protect production Photon code and filter artifact content
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --quiet d6fbc6f6891dd856a7f9bbaa2dcecab7c97d14e1 HEAD -- \
+            HasselbladPhoton/app \
+            hasselblad_native_audit/isp_research_stage14 \
+            hasselblad_native_audit/main_colour_20261019 \
+            hasselblad_native_audit/photographic_path
+          test -z "$(git status --porcelain)"
+          python - "$RUNNER_TEMP/hb-stage15/STAGE15_X1DII_ELF_AUDIT.json" <<'PY'
+          import json,sys,pathlib
+          p=pathlib.Path(sys.argv[1]); j=json.loads(p.read_text())
+          assert j['status']=='inert_public_upstream_source_inspected'
+          assert j['input_git_blob_integrity_verified'] is True
+          assert j['comparison_to_x2dii']['cross_generation_ccm_equation_proven'] is False
+          assert j['comparison_to_x2dii']['real_isp_pixel_output_compared'] is False
+          assert j['vendor_payloads_in_public_report'] is False
+          assert j['source_platform']['platform']['android_sdk']=='23'
+          assert len([x for x in j['library_inspection'] if x.startswith('lib/')])==8
+          assert p.stat().st_size < 350000
+          print('PASS Stage15 public metadata only; no vendor payloads, no false original CCM proof')
+          PY
+      - name: Upload only JSON symbol metadata and findings
+        uses: actions/upload-artifact@v4
+        with:
+          name: Hasselblad-Stage15-X1DII-CrossGeneration-CCM-Leads
+          path: ${{ runner.temp }}/hb-stage15/STAGE15_X1DII_ELF_AUDIT.json
+          if-no-files-found: error
+          retention-days: 7

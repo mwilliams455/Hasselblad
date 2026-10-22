@@ -1,0 +1,25 @@
+{
+  "automatic_controller_in_phone": false,
+  "dng_model_grid_comparisons": 729,
+  "dng_model_grid_mismatches": 0,
+  "domain3_report_status": "completed",
+  "domain_counts": {
+    "adjacent_duplicate": 0,
+    "representable": 707,
+    "scene_signed_gain": 3,
+    "temperature_clipped": 19
+  },
+  "grid_points_checked": 729,
+  "hncs_rendering_integrated": false,
+  "jpeg_file_pairing_proven": false,
+  "new_apk_required_for_this_verification": false,
+  "on_device_domain1_reported": true,
+  "photographic_wb_changed": false,
+  "raw_blocks_checked": 1024,
+  "schema": "hasselblad-domain3-device-verification-public-v1",
+  "shipping_policy_selected": false,
+  "status": "PASS",
+  "strict_dng_frame_pairing_proven": false,
+  "validation_scope": "One real phone calibration and RAW mode; real native phone report plus independent host DNG-matrix replay. No physical Kelvin accuracy or device generalization.",
+  "warning": "Do not infer physical illuminant from reconstructed CT/tint on uncertified surfaces. White-like and colored subjects can both match 2D chromaticity curves."
+}

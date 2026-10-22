@@ -22,6 +22,8 @@ CCM_CALL_FN0 = 0x314f0
 CALL26 = 283
 STAGES = ("wbc_set_fmt", "demosaic_set_fmt", "ccm_set_fmt", "gamma_set_fmt", "hncs_set_fmt")
 ABI = tuple(f"x{i}" for i in range(4))
+TRACKED = tuple(f"x{i}" for i in range(29))
+CALLER_SAVED = tuple(f"x{i}" for i in range(19))
 
 
 def require(condition: bool, why: str) -> None:
@@ -55,7 +57,7 @@ def solve(addresses: list[int], successor: dict[int, set[int]],
     require(all(set(v) <= domain for v in successor.values()), "out_of_function_edge")
     entry = addresses[0]
     incoming: dict[int, dict[str, frozenset[str]]] = {
-        entry: {r: frozenset({"entry:" + r}) for r in ABI}
+        entry: {r: frozenset({"entry:" + r}) for r in TRACKED}
     }
     queue = deque([entry])
     iterations = 0
@@ -66,10 +68,10 @@ def solve(addresses: list[int], successor: dict[int, set[int]],
         previous = incoming[at]
         current = dict(previous)
         if at in callsites:
-            for reg in ABI:
+            for reg in CALLER_SAVED:
                 current[reg] = frozenset({"call:" + hex(at)})
-        for reg in (writes.get(at, set()) - ({*ABI} if at in callsites else set())):
-            if reg in ABI:
+        for reg in (writes.get(at, set()) - (set(CALLER_SAVED) if at in callsites else set())):
+            if reg in TRACKED:
                 current[reg] = frozenset({"write:" + hex(at)})
         for after in successor[at]:
             existing = incoming.get(after)
@@ -77,7 +79,7 @@ def solve(addresses: list[int], successor: dict[int, set[int]],
                 incoming[after] = dict(current)
                 queue.append(after)
                 continue
-            union = {reg: existing[reg] | current[reg] for reg in ABI}
+            union = {reg: existing[reg] | current[reg] for reg in TRACKED}
             require(all(len(v) <= 512 for v in union.values()), "ambiguous_writer_set_overflow")
             if union != existing:
                 incoming[after] = union
@@ -97,6 +99,9 @@ def mock_tests() -> dict[str, object]:
     # A call invalidates return/clobbered arguments, not x19 callee-saved.
     got = solve([0, 4, 8], {0: {4}, 4: {8}, 8: set()}, {0: {"x0"}}, {4})
     require(got[8]["x0"] == {"call:0x4"}, "abi_call_clobber")
+    # Caller-saved x0 is invalidated; callee-saved x19 survives.
+    got = solve([0, 4, 8], {0: {4}, 4: {8}, 8: set()}, {0: {"x19"}}, {4})
+    require(got[8]["x19"] == {"write:0x0"}, "callee_saved_survives")
     # Unreachable instructions do not manufacture reaching definitions.
     got = solve([0, 4, 8], {0: {8}, 4: {8}, 8: set()}, {4: {"x3"}}, set())
     require(got[8]["x3"] == {"entry:x3"}, "unreachable_writer")
@@ -107,7 +112,7 @@ def mock_tests() -> dict[str, object]:
     require(normalized_reg("w2") == normalized_reg("x2") == "x2", "register_alias")
     require(normalized_reg("sp") is None and normalized_reg("wzr") is None, "invalid_register")
     return {"schema": "hasselblad-stage29-CFG-ABI-synthetic-v1",
-            "status": "PASS_synthetic", "invariant_cases": 7,
+            "status": "PASS_synthetic", "invariant_cases": 8,
             "vendor_firmware_loaded": False,
             "hardware_pixel_equation_recovered": False,
             "photo_renderer_changed": False}
@@ -155,7 +160,7 @@ def extract_graph(inst, function_start: int, function_end: int):
             writes[at] = {r for id in write_ids if (r := normalized_reg(i.reg_name(id)))}
         except Exception:
             unresolved.append(hex(at))
-            writes[at] = set(ABI)  # fail conservatively: unknown instruction effects
+            writes[at] = set(TRACKED)  # fail conservatively on unknown effects
     return addr, successors, writes, calls, sorted(set(unresolved))
 
 
@@ -234,8 +239,24 @@ def analyze_function(text: bytes, entry: int, size: int, observations: dict[str,
                 "proven_value_or_parameter_semantics": False,
                 "last_writers": [writer_summary(k, imap) for k in last[:8]],
                 "truncated_if_more_than_eight": len(last) > 8}
+        # Extra read-only provenance for the commonly loaded B2R frame-record
+        # pointer. x19 is callee-saved, so a prior call must not erase it.
+        base_writer = sorted(state["x19"])
+        base_source = []
+        for token in base_writer[:8]:
+            item = writer_summary(token, imap)
+            if token.startswith("write:"):
+                instr_at = int(token[6:], 16)
+                direct = item.get("direct_register_source")
+                canon = normalized_reg(direct) if direct else None
+                if canon in TRACKED:
+                    item["source_reaching_writers_at_definition"] = [
+                        writer_summary(w, imap) for w in sorted(states[instr_at][canon])[:8]]
+            base_source.append(item)
         result[label] = {"callsite_section_offset": hex(at),
                          "candidate_ABI_argument_registers": arg,
+                         "common_record_pointer_x19_last_writers": base_source,
+                         "common_record_pointer_writer_count": len(base_writer),
                          "complete_static_branch_targets": not unresolved}
     return result, {"instruction_count": len(ins),
                     "unknown_or_unresolved_branch_offsets": unresolved,

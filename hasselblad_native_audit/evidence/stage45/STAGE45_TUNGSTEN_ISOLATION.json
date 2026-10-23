@@ -1,0 +1,201 @@
+{
+  "schema": "hasselblad-stage45-tungsten-isolation-v1",
+  "status": "PASS_HOST_AND_ORIGINAL_PIXEL_SAMPLES",
+  "phone_fixture": "Earlier Stage42 cat DNG; latest tungsten-room RAW unavailable",
+  "film_code": 0,
+  "white_balance_owner": "unchanged DNG camera-to-D50 transform",
+  "exposure_unchanged": true,
+  "temperature_cases": {
+    "2400": {
+      "clipping": {
+        "pixels": 786432,
+        "nonpositive_luminance_pixels": 0,
+        "lut_coordinate_clamped_pixels": 544,
+        "pre_curve_below_zero_channels": 29,
+        "pre_curve_above_65535_channels": 1639,
+        "post_curve_code_65535_channels": 1667,
+        "display_linear_below_zero_channels": 2868,
+        "display_linear_above_one_channels": 2021,
+        "display_linear_above_one_pct": 0.08566114637586805,
+        "display_rgb8_zero_channels": 3152,
+        "display_rgb8_255_channels": 3026
+      },
+      "trace_channels_exact": 2359296,
+      "original_arm64_channels_exact": 1536,
+      "vs_4000K": {
+        "mean_abs_rgb8": 0.19339158799913195,
+        "p95_abs_rgb8": 1.0,
+        "max_abs_rgb8": 28.0,
+        "pixels_with_any_change_gt_2_pct": 0.14101664225260419
+      },
+      "neutral_controls_vs_4000K": {
+        "mean_abs_rgb8": 0.0,
+        "p95_abs_rgb8": 0.0,
+        "max_abs_rgb8": 0.0,
+        "pixels_with_any_change_gt_2_pct": 0.0
+      }
+    },
+    "2850": {
+      "clipping": {
+        "pixels": 786432,
+        "nonpositive_luminance_pixels": 0,
+        "lut_coordinate_clamped_pixels": 544,
+        "pre_curve_below_zero_channels": 6,
+        "pre_curve_above_65535_channels": 1644,
+        "post_curve_code_65535_channels": 1668,
+        "display_linear_below_zero_channels": 2912,
+        "display_linear_above_one_channels": 2025,
+        "display_linear_above_one_pct": 0.0858306884765625,
+        "display_rgb8_zero_channels": 3201,
+        "display_rgb8_255_channels": 3033
+      },
+      "trace_channels_exact": 2359296,
+      "original_arm64_channels_exact": 1536,
+      "vs_4000K": {
+        "mean_abs_rgb8": 0.13876130845811632,
+        "p95_abs_rgb8": 1.0,
+        "max_abs_rgb8": 23.0,
+        "pixels_with_any_change_gt_2_pct": 0.06268819173177084
+      },
+      "neutral_controls_vs_4000K": {
+        "mean_abs_rgb8": 0.0,
+        "p95_abs_rgb8": 0.0,
+        "max_abs_rgb8": 0.0,
+        "pixels_with_any_change_gt_2_pct": 0.0
+      }
+    },
+    "3050": {
+      "clipping": {
+        "pixels": 786432,
+        "nonpositive_luminance_pixels": 0,
+        "lut_coordinate_clamped_pixels": 544,
+        "pre_curve_below_zero_channels": 4,
+        "pre_curve_above_65535_channels": 1645,
+        "post_curve_code_65535_channels": 1670,
+        "display_linear_below_zero_channels": 2928,
+        "display_linear_above_one_channels": 2028,
+        "display_linear_above_one_pct": 0.08595784505208333,
+        "display_rgb8_zero_channels": 3214,
+        "display_rgb8_255_channels": 3040
+      },
+      "trace_channels_exact": 2359296,
+      "original_arm64_channels_exact": 1536,
+      "vs_4000K": {
+        "mean_abs_rgb8": 0.11461766560872395,
+        "p95_abs_rgb8": 1.0,
+        "max_abs_rgb8": 20.0,
+        "pixels_with_any_change_gt_2_pct": 0.03980000813802083
+      },
+      "neutral_controls_vs_4000K": {
+        "mean_abs_rgb8": 0.0,
+        "p95_abs_rgb8": 0.0,
+        "max_abs_rgb8": 0.0,
+        "pixels_with_any_change_gt_2_pct": 0.0
+      }
+    },
+    "3200": {
+      "clipping": {
+        "pixels": 786432,
+        "nonpositive_luminance_pixels": 0,
+        "lut_coordinate_clamped_pixels": 544,
+        "pre_curve_below_zero_channels": 4,
+        "pre_curve_above_65535_channels": 1646,
+        "post_curve_code_65535_channels": 1673,
+        "display_linear_below_zero_channels": 2949,
+        "display_linear_above_one_channels": 2030,
+        "display_linear_above_one_pct": 0.08604261610243055,
+        "display_rgb8_zero_channels": 3220,
+        "display_rgb8_255_channels": 3042
+      },
+      "trace_channels_exact": 2359296,
+      "original_arm64_channels_exact": 1536,
+      "vs_4000K": {
+        "mean_abs_rgb8": 0.09661314222547743,
+        "p95_abs_rgb8": 1.0,
+        "max_abs_rgb8": 18.0,
+        "pixels_with_any_change_gt_2_pct": 0.025304158528645832
+      },
+      "neutral_controls_vs_4000K": {
+        "mean_abs_rgb8": 0.0,
+        "p95_abs_rgb8": 0.0,
+        "max_abs_rgb8": 0.0,
+        "pixels_with_any_change_gt_2_pct": 0.0
+      }
+    },
+    "4000": {
+      "clipping": {
+        "pixels": 786432,
+        "nonpositive_luminance_pixels": 0,
+        "lut_coordinate_clamped_pixels": 544,
+        "pre_curve_below_zero_channels": 3,
+        "pre_curve_above_65535_channels": 1655,
+        "post_curve_code_65535_channels": 1679,
+        "display_linear_below_zero_channels": 3031,
+        "display_linear_above_one_channels": 2030,
+        "display_linear_above_one_pct": 0.08604261610243055,
+        "display_rgb8_zero_channels": 3300,
+        "display_rgb8_255_channels": 3061
+      },
+      "trace_channels_exact": 2359296,
+      "original_arm64_channels_exact": 1536,
+      "vs_4000K": {
+        "mean_abs_rgb8": 0.0,
+        "p95_abs_rgb8": 0.0,
+        "max_abs_rgb8": 0.0,
+        "pixels_with_any_change_gt_2_pct": 0.0
+      },
+      "neutral_controls_vs_4000K": {
+        "mean_abs_rgb8": 0.0,
+        "p95_abs_rgb8": 0.0,
+        "max_abs_rgb8": 0.0,
+        "pixels_with_any_change_gt_2_pct": 0.0
+      }
+    },
+    "5550": {
+      "clipping": {
+        "pixels": 786432,
+        "nonpositive_luminance_pixels": 0,
+        "lut_coordinate_clamped_pixels": 544,
+        "pre_curve_below_zero_channels": 1,
+        "pre_curve_above_65535_channels": 1652,
+        "post_curve_code_65535_channels": 1686,
+        "display_linear_below_zero_channels": 3261,
+        "display_linear_above_one_channels": 2041,
+        "display_linear_above_one_pct": 0.08650885687934028,
+        "display_rgb8_zero_channels": 3544,
+        "display_rgb8_255_channels": 3093
+      },
+      "trace_channels_exact": 2359296,
+      "original_arm64_channels_exact": 1536,
+      "vs_4000K": {
+        "mean_abs_rgb8": 0.18701934814453125,
+        "p95_abs_rgb8": 1.0,
+        "max_abs_rgb8": 28.0,
+        "pixels_with_any_change_gt_2_pct": 0.1247406005859375
+      },
+      "neutral_controls_vs_4000K": {
+        "mean_abs_rgb8": 0.0,
+        "p95_abs_rgb8": 0.0,
+        "max_abs_rgb8": 0.0,
+        "pixels_with_any_change_gt_2_pct": 0.0
+      }
+    }
+  },
+  "trial_temperature": 3050,
+  "trial_temperature_is_measured_phone_illuminant": false,
+  "trial_basis": "Recovered profile tungsten LUT calibration anchor; controlled diagnostic only",
+  "profile_changes_only": [
+    "temperature field",
+    "chroma LUT",
+    "checksum"
+  ],
+  "profile_sha256": "f8f36fc274328d2a3410eb97c0475cff774e5aff230914872dd0df0eab6b9820",
+  "profile_bytes": 412032,
+  "source_inputs_unchanged": true,
+  "panel_from_renderer_outputs": true,
+  "capture_renderer_changed": false,
+  "phone_temperature_mapping_validated": false,
+  "full_phocus_equivalence": false,
+  "new_apk_required": false,
+  "AI_image_editing_used": false
+}

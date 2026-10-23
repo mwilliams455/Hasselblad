@@ -1,0 +1,1246 @@
+{
+  "schema": "hasselblad-stage45-android-parameters-v1",
+  "status": "PASS_BOUNDED_NATIVE_PARAMETERS",
+  "parameter_cases": [
+    {
+      "temperature": 2400,
+      "tint_fixture": -0.003,
+      "requested_film": 0,
+      "scalar_fixture": 1.0,
+      "factory_temperature_exact": true,
+      "gain_vector": {
+        "values": 4,
+        "exact_values": 4,
+        "max_abs_difference": 0.0
+      },
+      "input_matrix": {
+        "values": 12,
+        "exact_values": 12,
+        "max_abs_difference": 0.0
+      },
+      "output_matrix": {
+        "values": 12,
+        "exact_values": 12,
+        "max_abs_difference": 0.0
+      },
+      "lut_float32": {
+        "values": 37380,
+        "exact_values": 37380,
+        "max_abs_difference": 0.0
+      },
+      "other_uniforms_exact": true,
+      "film_filter_normalized_curve": {
+        "values": 65536,
+        "exact_values": 65536,
+        "max_abs_difference": 0.0
+      },
+      "source_objects_unchanged": true
+    },
+    {
+      "temperature": 2400,
+      "tint_fixture": -0.003,
+      "requested_film": 0,
+      "scalar_fixture": 1.7,
+      "factory_temperature_exact": true,
+      "gain_vector": {
+        "values": 4,
+        "exact_values": 4,
+        "max_abs_difference": 0.0
+      },
+      "input_matrix": {
+        "values": 12,
+        "exact_values": 12,
+        "max_abs_difference": 0.0
+      },
+      "output_matrix": {
+        "values": 12,
+        "exact_values": 12,
+        "max_abs_difference": 0.0
+      },
+      "lut_float32": {
+        "values": 37380,
+        "exact_values": 37380,
+        "max_abs_difference": 0.0
+      },
+      "other_uniforms_exact": true,
+      "film_filter_normalized_curve": {
+        "values": 65536,
+        "exact_values": 65536,
+        "max_abs_difference": 0.0
+      },
+      "source_objects_unchanged": true
+    },
+    {
+      "temperature": 2400,
+      "tint_fixture": 0.003,
+      "requested_film": 1,
+      "scalar_fixture": 1.0,
+      "factory_temperature_exact": true,
+      "gain_vector": {
+        "values": 4,
+        "exact_values": 4,
+        "max_abs_difference": 0.0
+      },
+      "input_matrix": {
+        "values": 12,
+        "exact_values": 12,
+        "max_abs_difference": 0.0
+      },
+      "output_matrix": {
+        "values": 12,
+        "exact_values": 12,
+        "max_abs_difference": 0.0
+      },
+      "lut_float32": {
+        "values": 37380,
+        "exact_values": 37380,
+        "max_abs_difference": 0.0
+      },
+      "other_uniforms_exact": true,
+      "film_filter_normalized_curve": {
+        "values": 65536,
+        "exact_values": 65536,
+        "max_abs_difference": 0.0
+      },
+      "source_objects_unchanged": true
+    },
+    {
+      "temperature": 2400,
+      "tint_fixture": 0.003,
+      "requested_film": 1,
+      "scalar_fixture": 1.7,
+      "factory_temperature_exact": true,
+      "gain_vector": {
+        "values": 4,
+        "exact_values": 4,
+        "max_abs_difference": 0.0
+      },
+      "input_matrix": {
+        "values": 12,
+        "exact_values": 12,
+        "max_abs_difference": 0.0
+      },
+      "output_matrix": {
+        "values": 12,
+        "exact_values": 12,
+        "max_abs_difference": 0.0
+      },
+      "lut_float32": {
+        "values": 37380,
+        "exact_values": 37380,
+        "max_abs_difference": 0.0
+      },
+      "other_uniforms_exact": true,
+      "film_filter_normalized_curve": {
+        "values": 65536,
+        "exact_values": 65536,
+        "max_abs_difference": 0.0
+      },
+      "source_objects_unchanged": true
+    },
+    {
+      "temperature": 2850,
+      "tint_fixture": -0.003,
+      "requested_film": 0,
+      "scalar_fixture": 1.0,
+      "factory_temperature_exact": true,
+      "gain_vector": {
+        "values": 4,
+        "exact_values": 4,
+        "max_abs_difference": 0.0
+      },
+      "input_matrix": {
+        "values": 12,
+        "exact_values": 12,
+        "max_abs_difference": 0.0
+      },
+      "output_matrix": {
+        "values": 12,
+        "exact_values": 12,
+        "max_abs_difference": 0.0
+      },
+      "lut_float32": {
+        "values": 37380,
+        "exact_values": 37380,
+        "max_abs_difference": 0.0
+      },
+      "other_uniforms_exact": true,
+      "film_filter_normalized_curve": {
+        "values": 65536,
+        "exact_values": 65536,
+        "max_abs_difference": 0.0
+      },
+      "source_objects_unchanged": true
+    },
+    {
+      "temperature": 2850,
+      "tint_fixture": -0.003,
+      "requested_film": 0,
+      "scalar_fixture": 1.7,
+      "factory_temperature_exact": true,
+      "gain_vector": {
+        "values": 4,
+        "exact_values": 4,
+        "max_abs_difference": 0.0
+      },
+      "input_matrix": {
+        "values": 12,
+        "exact_values": 12,
+        "max_abs_difference": 0.0
+      },
+      "output_matrix": {
+        "values": 12,
+        "exact_values": 12,
+        "max_abs_difference": 0.0
+      },
+      "lut_float32": {
+        "values": 37380,
+        "exact_values": 37380,
+        "max_abs_difference": 0.0
+      },
+      "other_uniforms_exact": true,
+      "film_filter_normalized_curve": {
+        "values": 65536,
+        "exact_values": 65536,
+        "max_abs_difference": 0.0
+      },
+      "source_objects_unchanged": true
+    },
+    {
+      "temperature": 2850,
+      "tint_fixture": 0.003,
+      "requested_film": 1,
+      "scalar_fixture": 1.0,
+      "factory_temperature_exact": true,
+      "gain_vector": {
+        "values": 4,
+        "exact_values": 4,
+        "max_abs_difference": 0.0
+      },
+      "input_matrix": {
+        "values": 12,
+        "exact_values": 12,
+        "max_abs_difference": 0.0
+      },
+      "output_matrix": {
+        "values": 12,
+        "exact_values": 12,
+        "max_abs_difference": 0.0
+      },
+      "lut_float32": {
+        "values": 37380,
+        "exact_values": 37380,
+        "max_abs_difference": 0.0
+      },
+      "other_uniforms_exact": true,
+      "film_filter_normalized_curve": {
+        "values": 65536,
+        "exact_values": 65536,
+        "max_abs_difference": 0.0
+      },
+      "source_objects_unchanged": true
+    },
+    {
+      "temperature": 2850,
+      "tint_fixture": 0.003,
+      "requested_film": 1,
+      "scalar_fixture": 1.7,
+      "factory_temperature_exact": true,
+      "gain_vector": {
+        "values": 4,
+        "exact_values": 4,
+        "max_abs_difference": 0.0
+      },
+      "input_matrix": {
+        "values": 12,
+        "exact_values": 12,
+        "max_abs_difference": 0.0
+      },
+      "output_matrix": {
+        "values": 12,
+        "exact_values": 12,
+        "max_abs_difference": 0.0
+      },
+      "lut_float32": {
+        "values": 37380,
+        "exact_values": 37380,
+        "max_abs_difference": 0.0
+      },
+      "other_uniforms_exact": true,
+      "film_filter_normalized_curve": {
+        "values": 65536,
+        "exact_values": 65536,
+        "max_abs_difference": 0.0
+      },
+      "source_objects_unchanged": true
+    },
+    {
+      "temperature": 3050,
+      "tint_fixture": -0.003,
+      "requested_film": 0,
+      "scalar_fixture": 1.0,
+      "factory_temperature_exact": true,
+      "gain_vector": {
+        "values": 4,
+        "exact_values": 4,
+        "max_abs_difference": 0.0
+      },
+      "input_matrix": {
+        "values": 12,
+        "exact_values": 12,
+        "max_abs_difference": 0.0
+      },
+      "output_matrix": {
+        "values": 12,
+        "exact_values": 12,
+        "max_abs_difference": 0.0
+      },
+      "lut_float32": {
+        "values": 37380,
+        "exact_values": 37380,
+        "max_abs_difference": 0.0
+      },
+      "other_uniforms_exact": true,
+      "film_filter_normalized_curve": {
+        "values": 65536,
+        "exact_values": 65536,
+        "max_abs_difference": 0.0
+      },
+      "source_objects_unchanged": true
+    },
+    {
+      "temperature": 3050,
+      "tint_fixture": -0.003,
+      "requested_film": 0,
+      "scalar_fixture": 1.7,
+      "factory_temperature_exact": true,
+      "gain_vector": {
+        "values": 4,
+        "exact_values": 4,
+        "max_abs_difference": 0.0
+      },
+      "input_matrix": {
+        "values": 12,
+        "exact_values": 12,
+        "max_abs_difference": 0.0
+      },
+      "output_matrix": {
+        "values": 12,
+        "exact_values": 12,
+        "max_abs_difference": 0.0
+      },
+      "lut_float32": {
+        "values": 37380,
+        "exact_values": 37380,
+        "max_abs_difference": 0.0
+      },
+      "other_uniforms_exact": true,
+      "film_filter_normalized_curve": {
+        "values": 65536,
+        "exact_values": 65536,
+        "max_abs_difference": 0.0
+      },
+      "source_objects_unchanged": true
+    },
+    {
+      "temperature": 3050,
+      "tint_fixture": 0.003,
+      "requested_film": 1,
+      "scalar_fixture": 1.0,
+      "factory_temperature_exact": true,
+      "gain_vector": {
+        "values": 4,
+        "exact_values": 4,
+        "max_abs_difference": 0.0
+      },
+      "input_matrix": {
+        "values": 12,
+        "exact_values": 12,
+        "max_abs_difference": 0.0
+      },
+      "output_matrix": {
+        "values": 12,
+        "exact_values": 12,
+        "max_abs_difference": 0.0
+      },
+      "lut_float32": {
+        "values": 37380,
+        "exact_values": 37380,
+        "max_abs_difference": 0.0
+      },
+      "other_uniforms_exact": true,
+      "film_filter_normalized_curve": {
+        "values": 65536,
+        "exact_values": 65536,
+        "max_abs_difference": 0.0
+      },
+      "source_objects_unchanged": true
+    },
+    {
+      "temperature": 3050,
+      "tint_fixture": 0.003,
+      "requested_film": 1,
+      "scalar_fixture": 1.7,
+      "factory_temperature_exact": true,
+      "gain_vector": {
+        "values": 4,
+        "exact_values": 4,
+        "max_abs_difference": 0.0
+      },
+      "input_matrix": {
+        "values": 12,
+        "exact_values": 12,
+        "max_abs_difference": 0.0
+      },
+      "output_matrix": {
+        "values": 12,
+        "exact_values": 12,
+        "max_abs_difference": 0.0
+      },
+      "lut_float32": {
+        "values": 37380,
+        "exact_values": 37380,
+        "max_abs_difference": 0.0
+      },
+      "other_uniforms_exact": true,
+      "film_filter_normalized_curve": {
+        "values": 65536,
+        "exact_values": 65536,
+        "max_abs_difference": 0.0
+      },
+      "source_objects_unchanged": true
+    },
+    {
+      "temperature": 3200,
+      "tint_fixture": -0.003,
+      "requested_film": 0,
+      "scalar_fixture": 1.0,
+      "factory_temperature_exact": true,
+      "gain_vector": {
+        "values": 4,
+        "exact_values": 4,
+        "max_abs_difference": 0.0
+      },
+      "input_matrix": {
+        "values": 12,
+        "exact_values": 12,
+        "max_abs_difference": 0.0
+      },
+      "output_matrix": {
+        "values": 12,
+        "exact_values": 12,
+        "max_abs_difference": 0.0
+      },
+      "lut_float32": {
+        "values": 37380,
+        "exact_values": 37380,
+        "max_abs_difference": 0.0
+      },
+      "other_uniforms_exact": true,
+      "film_filter_normalized_curve": {
+        "values": 65536,
+        "exact_values": 65536,
+        "max_abs_difference": 0.0
+      },
+      "source_objects_unchanged": true
+    },
+    {
+      "temperature": 3200,
+      "tint_fixture": -0.003,
+      "requested_film": 0,
+      "scalar_fixture": 1.7,
+      "factory_temperature_exact": true,
+      "gain_vector": {
+        "values": 4,
+        "exact_values": 4,
+        "max_abs_difference": 0.0
+      },
+      "input_matrix": {
+        "values": 12,
+        "exact_values": 12,
+        "max_abs_difference": 0.0
+      },
+      "output_matrix": {
+        "values": 12,
+        "exact_values": 12,
+        "max_abs_difference": 0.0
+      },
+      "lut_float32": {
+        "values": 37380,
+        "exact_values": 37380,
+        "max_abs_difference": 0.0
+      },
+      "other_uniforms_exact": true,
+      "film_filter_normalized_curve": {
+        "values": 65536,
+        "exact_values": 65536,
+        "max_abs_difference": 0.0
+      },
+      "source_objects_unchanged": true
+    },
+    {
+      "temperature": 3200,
+      "tint_fixture": 0.003,
+      "requested_film": 1,
+      "scalar_fixture": 1.0,
+      "factory_temperature_exact": true,
+      "gain_vector": {
+        "values": 4,
+        "exact_values": 4,
+        "max_abs_difference": 0.0
+      },
+      "input_matrix": {
+        "values": 12,
+        "exact_values": 12,
+        "max_abs_difference": 0.0
+      },
+      "output_matrix": {
+        "values": 12,
+        "exact_values": 12,
+        "max_abs_difference": 0.0
+      },
+      "lut_float32": {
+        "values": 37380,
+        "exact_values": 37380,
+        "max_abs_difference": 0.0
+      },
+      "other_uniforms_exact": true,
+      "film_filter_normalized_curve": {
+        "values": 65536,
+        "exact_values": 65536,
+        "max_abs_difference": 0.0
+      },
+      "source_objects_unchanged": true
+    },
+    {
+      "temperature": 3200,
+      "tint_fixture": 0.003,
+      "requested_film": 1,
+      "scalar_fixture": 1.7,
+      "factory_temperature_exact": true,
+      "gain_vector": {
+        "values": 4,
+        "exact_values": 4,
+        "max_abs_difference": 0.0
+      },
+      "input_matrix": {
+        "values": 12,
+        "exact_values": 12,
+        "max_abs_difference": 0.0
+      },
+      "output_matrix": {
+        "values": 12,
+        "exact_values": 12,
+        "max_abs_difference": 0.0
+      },
+      "lut_float32": {
+        "values": 37380,
+        "exact_values": 37380,
+        "max_abs_difference": 0.0
+      },
+      "other_uniforms_exact": true,
+      "film_filter_normalized_curve": {
+        "values": 65536,
+        "exact_values": 65536,
+        "max_abs_difference": 0.0
+      },
+      "source_objects_unchanged": true
+    },
+    {
+      "temperature": 4000,
+      "tint_fixture": -0.003,
+      "requested_film": 0,
+      "scalar_fixture": 1.0,
+      "factory_temperature_exact": true,
+      "gain_vector": {
+        "values": 4,
+        "exact_values": 4,
+        "max_abs_difference": 0.0
+      },
+      "input_matrix": {
+        "values": 12,
+        "exact_values": 12,
+        "max_abs_difference": 0.0
+      },
+      "output_matrix": {
+        "values": 12,
+        "exact_values": 12,
+        "max_abs_difference": 0.0
+      },
+      "lut_float32": {
+        "values": 37380,
+        "exact_values": 37380,
+        "max_abs_difference": 0.0
+      },
+      "other_uniforms_exact": true,
+      "film_filter_normalized_curve": {
+        "values": 65536,
+        "exact_values": 65536,
+        "max_abs_difference": 0.0
+      },
+      "source_objects_unchanged": true
+    },
+    {
+      "temperature": 4000,
+      "tint_fixture": -0.003,
+      "requested_film": 0,
+      "scalar_fixture": 1.7,
+      "factory_temperature_exact": true,
+      "gain_vector": {
+        "values": 4,
+        "exact_values": 4,
+        "max_abs_difference": 0.0
+      },
+      "input_matrix": {
+        "values": 12,
+        "exact_values": 12,
+        "max_abs_difference": 0.0
+      },
+      "output_matrix": {
+        "values": 12,
+        "exact_values": 12,
+        "max_abs_difference": 0.0
+      },
+      "lut_float32": {
+        "values": 37380,
+        "exact_values": 37380,
+        "max_abs_difference": 0.0
+      },
+      "other_uniforms_exact": true,
+      "film_filter_normalized_curve": {
+        "values": 65536,
+        "exact_values": 65536,
+        "max_abs_difference": 0.0
+      },
+      "source_objects_unchanged": true
+    },
+    {
+      "temperature": 4000,
+      "tint_fixture": 0.003,
+      "requested_film": 1,
+      "scalar_fixture": 1.0,
+      "factory_temperature_exact": true,
+      "gain_vector": {
+        "values": 4,
+        "exact_values": 4,
+        "max_abs_difference": 0.0
+      },
+      "input_matrix": {
+        "values": 12,
+        "exact_values": 12,
+        "max_abs_difference": 0.0
+      },
+      "output_matrix": {
+        "values": 12,
+        "exact_values": 12,
+        "max_abs_difference": 0.0
+      },
+      "lut_float32": {
+        "values": 37380,
+        "exact_values": 37380,
+        "max_abs_difference": 0.0
+      },
+      "other_uniforms_exact": true,
+      "film_filter_normalized_curve": {
+        "values": 65536,
+        "exact_values": 65536,
+        "max_abs_difference": 0.0
+      },
+      "source_objects_unchanged": true
+    },
+    {
+      "temperature": 4000,
+      "tint_fixture": 0.003,
+      "requested_film": 1,
+      "scalar_fixture": 1.7,
+      "factory_temperature_exact": true,
+      "gain_vector": {
+        "values": 4,
+        "exact_values": 4,
+        "max_abs_difference": 0.0
+      },
+      "input_matrix": {
+        "values": 12,
+        "exact_values": 12,
+        "max_abs_difference": 0.0
+      },
+      "output_matrix": {
+        "values": 12,
+        "exact_values": 12,
+        "max_abs_difference": 0.0
+      },
+      "lut_float32": {
+        "values": 37380,
+        "exact_values": 37380,
+        "max_abs_difference": 0.0
+      },
+      "other_uniforms_exact": true,
+      "film_filter_normalized_curve": {
+        "values": 65536,
+        "exact_values": 65536,
+        "max_abs_difference": 0.0
+      },
+      "source_objects_unchanged": true
+    },
+    {
+      "temperature": 5550,
+      "tint_fixture": -0.003,
+      "requested_film": 0,
+      "scalar_fixture": 1.0,
+      "factory_temperature_exact": true,
+      "gain_vector": {
+        "values": 4,
+        "exact_values": 4,
+        "max_abs_difference": 0.0
+      },
+      "input_matrix": {
+        "values": 12,
+        "exact_values": 12,
+        "max_abs_difference": 0.0
+      },
+      "output_matrix": {
+        "values": 12,
+        "exact_values": 12,
+        "max_abs_difference": 0.0
+      },
+      "lut_float32": {
+        "values": 37380,
+        "exact_values": 37380,
+        "max_abs_difference": 0.0
+      },
+      "other_uniforms_exact": true,
+      "film_filter_normalized_curve": {
+        "values": 65536,
+        "exact_values": 65536,
+        "max_abs_difference": 0.0
+      },
+      "source_objects_unchanged": true
+    },
+    {
+      "temperature": 5550,
+      "tint_fixture": -0.003,
+      "requested_film": 0,
+      "scalar_fixture": 1.7,
+      "factory_temperature_exact": true,
+      "gain_vector": {
+        "values": 4,
+        "exact_values": 4,
+        "max_abs_difference": 0.0
+      },
+      "input_matrix": {
+        "values": 12,
+        "exact_values": 12,
+        "max_abs_difference": 0.0
+      },
+      "output_matrix": {
+        "values": 12,
+        "exact_values": 12,
+        "max_abs_difference": 0.0
+      },
+      "lut_float32": {
+        "values": 37380,
+        "exact_values": 37380,
+        "max_abs_difference": 0.0
+      },
+      "other_uniforms_exact": true,
+      "film_filter_normalized_curve": {
+        "values": 65536,
+        "exact_values": 65536,
+        "max_abs_difference": 0.0
+      },
+      "source_objects_unchanged": true
+    },
+    {
+      "temperature": 5550,
+      "tint_fixture": 0.003,
+      "requested_film": 1,
+      "scalar_fixture": 1.0,
+      "factory_temperature_exact": true,
+      "gain_vector": {
+        "values": 4,
+        "exact_values": 4,
+        "max_abs_difference": 0.0
+      },
+      "input_matrix": {
+        "values": 12,
+        "exact_values": 12,
+        "max_abs_difference": 0.0
+      },
+      "output_matrix": {
+        "values": 12,
+        "exact_values": 12,
+        "max_abs_difference": 0.0
+      },
+      "lut_float32": {
+        "values": 37380,
+        "exact_values": 37380,
+        "max_abs_difference": 0.0
+      },
+      "other_uniforms_exact": true,
+      "film_filter_normalized_curve": {
+        "values": 65536,
+        "exact_values": 65536,
+        "max_abs_difference": 0.0
+      },
+      "source_objects_unchanged": true
+    },
+    {
+      "temperature": 5550,
+      "tint_fixture": 0.003,
+      "requested_film": 1,
+      "scalar_fixture": 1.7,
+      "factory_temperature_exact": true,
+      "gain_vector": {
+        "values": 4,
+        "exact_values": 4,
+        "max_abs_difference": 0.0
+      },
+      "input_matrix": {
+        "values": 12,
+        "exact_values": 12,
+        "max_abs_difference": 0.0
+      },
+      "output_matrix": {
+        "values": 12,
+        "exact_values": 12,
+        "max_abs_difference": 0.0
+      },
+      "lut_float32": {
+        "values": 37380,
+        "exact_values": 37380,
+        "max_abs_difference": 0.0
+      },
+      "other_uniforms_exact": true,
+      "film_filter_normalized_curve": {
+        "values": 65536,
+        "exact_values": 65536,
+        "max_abs_difference": 0.0
+      },
+      "source_objects_unchanged": true
+    }
+  ],
+  "effective_film_cases": [
+    {
+      "enabled": false,
+      "model": 0,
+      "requested_film": 0,
+      "source_film": 0,
+      "selected": 0
+    },
+    {
+      "enabled": false,
+      "model": 0,
+      "requested_film": 0,
+      "source_film": 1,
+      "selected": 1
+    },
+    {
+      "enabled": false,
+      "model": 0,
+      "requested_film": 1,
+      "source_film": 0,
+      "selected": 0
+    },
+    {
+      "enabled": false,
+      "model": 0,
+      "requested_film": 1,
+      "source_film": 1,
+      "selected": 1
+    },
+    {
+      "enabled": false,
+      "model": 0,
+      "requested_film": 4,
+      "source_film": 0,
+      "selected": 0
+    },
+    {
+      "enabled": false,
+      "model": 0,
+      "requested_film": 4,
+      "source_film": 1,
+      "selected": 1
+    },
+    {
+      "enabled": false,
+      "model": 0,
+      "requested_film": 7,
+      "source_film": 0,
+      "selected": 0
+    },
+    {
+      "enabled": false,
+      "model": 0,
+      "requested_film": 7,
+      "source_film": 1,
+      "selected": 1
+    },
+    {
+      "enabled": false,
+      "model": 1,
+      "requested_film": 0,
+      "source_film": 0,
+      "selected": 0
+    },
+    {
+      "enabled": false,
+      "model": 1,
+      "requested_film": 0,
+      "source_film": 1,
+      "selected": 1
+    },
+    {
+      "enabled": false,
+      "model": 1,
+      "requested_film": 1,
+      "source_film": 0,
+      "selected": 0
+    },
+    {
+      "enabled": false,
+      "model": 1,
+      "requested_film": 1,
+      "source_film": 1,
+      "selected": 1
+    },
+    {
+      "enabled": false,
+      "model": 1,
+      "requested_film": 4,
+      "source_film": 0,
+      "selected": 0
+    },
+    {
+      "enabled": false,
+      "model": 1,
+      "requested_film": 4,
+      "source_film": 1,
+      "selected": 1
+    },
+    {
+      "enabled": false,
+      "model": 1,
+      "requested_film": 7,
+      "source_film": 0,
+      "selected": 0
+    },
+    {
+      "enabled": false,
+      "model": 1,
+      "requested_film": 7,
+      "source_film": 1,
+      "selected": 1
+    },
+    {
+      "enabled": false,
+      "model": 4,
+      "requested_film": 0,
+      "source_film": 0,
+      "selected": 0
+    },
+    {
+      "enabled": false,
+      "model": 4,
+      "requested_film": 0,
+      "source_film": 1,
+      "selected": 1
+    },
+    {
+      "enabled": false,
+      "model": 4,
+      "requested_film": 1,
+      "source_film": 0,
+      "selected": 0
+    },
+    {
+      "enabled": false,
+      "model": 4,
+      "requested_film": 1,
+      "source_film": 1,
+      "selected": 1
+    },
+    {
+      "enabled": false,
+      "model": 4,
+      "requested_film": 4,
+      "source_film": 0,
+      "selected": 0
+    },
+    {
+      "enabled": false,
+      "model": 4,
+      "requested_film": 4,
+      "source_film": 1,
+      "selected": 1
+    },
+    {
+      "enabled": false,
+      "model": 4,
+      "requested_film": 7,
+      "source_film": 0,
+      "selected": 0
+    },
+    {
+      "enabled": false,
+      "model": 4,
+      "requested_film": 7,
+      "source_film": 1,
+      "selected": 1
+    },
+    {
+      "enabled": true,
+      "model": 0,
+      "requested_film": 0,
+      "source_film": 0,
+      "selected": 0
+    },
+    {
+      "enabled": true,
+      "model": 0,
+      "requested_film": 0,
+      "source_film": 1,
+      "selected": 0
+    },
+    {
+      "enabled": true,
+      "model": 0,
+      "requested_film": 1,
+      "source_film": 0,
+      "selected": 1
+    },
+    {
+      "enabled": true,
+      "model": 0,
+      "requested_film": 1,
+      "source_film": 1,
+      "selected": 1
+    },
+    {
+      "enabled": true,
+      "model": 0,
+      "requested_film": 4,
+      "source_film": 0,
+      "selected": 0
+    },
+    {
+      "enabled": true,
+      "model": 0,
+      "requested_film": 4,
+      "source_film": 1,
+      "selected": 1
+    },
+    {
+      "enabled": true,
+      "model": 0,
+      "requested_film": 7,
+      "source_film": 0,
+      "selected": 7
+    },
+    {
+      "enabled": true,
+      "model": 0,
+      "requested_film": 7,
+      "source_film": 1,
+      "selected": 7
+    },
+    {
+      "enabled": true,
+      "model": 1,
+      "requested_film": 0,
+      "source_film": 0,
+      "selected": 7
+    },
+    {
+      "enabled": true,
+      "model": 1,
+      "requested_film": 0,
+      "source_film": 1,
+      "selected": 7
+    },
+    {
+      "enabled": true,
+      "model": 1,
+      "requested_film": 1,
+      "source_film": 0,
+      "selected": 7
+    },
+    {
+      "enabled": true,
+      "model": 1,
+      "requested_film": 1,
+      "source_film": 1,
+      "selected": 7
+    },
+    {
+      "enabled": true,
+      "model": 1,
+      "requested_film": 4,
+      "source_film": 0,
+      "selected": 7
+    },
+    {
+      "enabled": true,
+      "model": 1,
+      "requested_film": 4,
+      "source_film": 1,
+      "selected": 7
+    },
+    {
+      "enabled": true,
+      "model": 1,
+      "requested_film": 7,
+      "source_film": 0,
+      "selected": 7
+    },
+    {
+      "enabled": true,
+      "model": 1,
+      "requested_film": 7,
+      "source_film": 1,
+      "selected": 7
+    },
+    {
+      "enabled": true,
+      "model": 4,
+      "requested_film": 0,
+      "source_film": 0,
+      "selected": 7
+    },
+    {
+      "enabled": true,
+      "model": 4,
+      "requested_film": 0,
+      "source_film": 1,
+      "selected": 7
+    },
+    {
+      "enabled": true,
+      "model": 4,
+      "requested_film": 1,
+      "source_film": 0,
+      "selected": 7
+    },
+    {
+      "enabled": true,
+      "model": 4,
+      "requested_film": 1,
+      "source_film": 1,
+      "selected": 7
+    },
+    {
+      "enabled": true,
+      "model": 4,
+      "requested_film": 4,
+      "source_film": 0,
+      "selected": 7
+    },
+    {
+      "enabled": true,
+      "model": 4,
+      "requested_film": 4,
+      "source_film": 1,
+      "selected": 7
+    },
+    {
+      "enabled": true,
+      "model": 4,
+      "requested_film": 7,
+      "source_film": 0,
+      "selected": 7
+    },
+    {
+      "enabled": true,
+      "model": 4,
+      "requested_film": 7,
+      "source_film": 1,
+      "selected": 7
+    }
+  ],
+  "original_functions_executed": [
+    "_ZN10CGradationC1EbPdS0_ibb",
+    "_ZN11Scaled2DLUT12FromCbCrDataEP5sCbCriiiii",
+    "_ZN12CCubicSpline4initEPdS0_i",
+    "_ZN12CCubicSpline6splineEPdS0_iddS0_",
+    "_ZN12CCubicSpline6splintEPdS0_S0_idS0_",
+    "_ZN12CCubicSplineC1Ev",
+    "_ZN12CCubicSplineD1Ev",
+    "_ZN12CUniqueImageIdLi2ENSt6__ndk110unique_ptrIA_d14AlignedDeleterIdEEEEC2Eiii",
+    "_ZN12CUniqueImageIfLi4ENSt6__ndk110unique_ptrIA_f14AlignedDeleterIfEEEEC2Eiii",
+    "_ZN15CRawColorParams11GetPtrOfLUTE9eCCDTypes13eIRFilterTypei",
+    "_ZN15CRawColorParams19GetRawRGB2XYZMatrixEi9eCCDTypes13eIRFilterTypei",
+    "_ZN15CRawColorParams30GetXYZ2RawRGBNeutralizedMatrixE13uColorProfile11eIlluminant",
+    "_ZN15CRawColorParams30GetXYZ2RawRGBNeutralizedMatrixE9eCCDTypes13eIRFilterType11eIlluminanti",
+    "_ZN15CRawColorParams7GetCPIDE9eCCDTypes13eIRFilterTypei",
+    "_ZN16CColorCorrection22CalculateLinearizationEd",
+    "_ZN16CColorCorrection7SetupCCE9Matrix3x3S0_P7CXMLLutibNSt6__ndk14spanIKfLm18446744073709551615EEEPttddbb",
+    "_ZN16CFilmCurveFilter16UpdateParametersEv",
+    "_ZN16CFilmCurveFilter17CreateLinearCurveEv",
+    "_ZN17CGradationManager17GetGradationCurveEv",
+    "_ZN17CGradationManager19InitGradationCurvesEv",
+    "_ZN17CGradationManager20ReturnGradationCurveE14eFilmCurveType11eCompandingbdb",
+    "_ZN17CGradationManagerC2E14eFilmCurveType11eCompanding",
+    "_ZN19CRawColorCorrection17GetGradationCurveEv",
+    "_ZN19CRawColorCorrection22CalculateLinearizationEd",
+    "_ZN19CRawColorCorrection23GetGradationCurveUpdateEv",
+    "_ZN19CRawColorCorrection23InitCRawColorCorrectionEv",
+    "_ZN19CRawColorCorrection25GetColorSpaceChangeMatrixE13eWorkingSpace",
+    "_ZN20CColorTempConversionC1E9eCCDTypes13eIRFilterType",
+    "_ZN20CColorTempConversionD1Ev",
+    "_ZN22CColorCorrectAllFilter16UpdateParametersEv",
+    "_ZN24ColorCorrectionAllFilter21CreateColorCorrectionEPK15sRawDescriptionPK16CImageCorrection",
+    "_ZN24ColorCorrectionAllFilter7GetHrEVEPK16CImageCorrectionPK15sRawDescription",
+    "_ZN24ColorCorrectionAllFilterC1Ev",
+    "_ZN24ColorCorrectionAllFilterD1Ev",
+    "_ZN7CXMLLut10DecodeFromEP9CKeyCoder",
+    "_ZN7CXMLLut14InitializeLUTsEbii",
+    "_ZN9Matrix3x33RowEi",
+    "_ZN9Matrix3x33SetEPKd",
+    "_ZN9Matrix3x34CopyES_",
+    "_ZN9Matrix3x36ColumnEi",
+    "_ZN9Matrix3x3C1E6CArrayIdLi3E23Matrix3x1InitializationES2_S2_",
+    "_ZN9Matrix3x3C1EPKd",
+    "_ZN9Matrix3x3C1Ev",
+    "_ZNK16CImageCorrection15GetHDRLimitGainEv",
+    "_ZNK16CImageCorrection18EffectiveFilmCurveE14eFilmCurveType",
+    "_ZNK19CRawColorCorrection18GetColorCorrectionERP16CColorCorrection",
+    "_ZNK19CRawColorCorrection9GetXMLLutEv",
+    "_ZNK20CColorTempConversion17TempAndTintToGainEid",
+    "_ZNK7CXMLLut12CalculateLUTEib",
+    "_ZNK7CXMLLut15CalculateMatrixEPdi",
+    "_ZNK7CXMLLut19GetColorMatrixFlashEv",
+    "_ZNK7CXMLLut21GetNeutralVectorFlashEv",
+    "_ZNK9Matrix3x33GetEPd",
+    "_ZNK9Matrix3x36InvertEv",
+    "_ZNK9Matrix3x3mlE6CArrayIdLi3E23Matrix3x1InitializationE",
+    "_ZNK9Matrix3x3mlES_",
+    "_ZNK9Matrix3x3mlEd",
+    "_ZNSt6__ndk16vectorIfNS_9allocatorIfEEE18__assign_with_sizeB8ne180000IPKfS6_EEvT_T0_l",
+    "local_gradation_initializer",
+    "local_gradation_manager_initializer",
+    "local_raw_initializer"
+  ],
+  "factory_is_argument_recording_fixture": true,
+  "factory_returns_prepared_original_raw_object": true,
+  "lens_gain_reduction_is_scalar_fixture": true,
+  "destruction_is_ownership_fixture": true,
+  "full_update_body_executed": true,
+  "profile_and_source_immutability_pass": true,
+  "film_filter_update_and_curve_preparation_executed": true,
+  "allocation_and_object_guards_pass": true,
+  "live_android_settings_observed": false,
+  "gpu_shader_executed": false,
+  "phone_temperature_mapping_validated": false,
+  "capture_renderer_changed": false,
+  "full_phocus_equivalence": false,
+  "bounds": "Sensor22/filter6, normal model, working space0, SDR tool code2; no live factory/lens/gain-map lifecycle or GPU dispatch.",
+  "static_shader_inspection": {
+    "symbol": "colorCorrectAll_fragmentShaderSource",
+    "source_sha256": "ae0eede7e9f151fc537751180c8f8acf7a04baecb310ef8dcba23580772fed22",
+    "declares_gain_uniform": true,
+    "active_main_references_gain_uniform": false,
+    "active_main_calls_local_white_balance": false,
+    "shader_executed": false,
+    "upstream_white_balance_ownership_resolved": false
+  }
+}

@@ -31,6 +31,15 @@ jobs:
           python3 -m py_compile hasselblad_native_audit/isp_liveview_stage41/inspect_original_liveview_xrefs41b.py
           python3 -m py_compile hasselblad_native_audit/isp_liveview_stage41/inspect_original_sbpc_processing41c.py
           python3 -m py_compile hasselblad_native_audit/isp_liveview_stage41/inspect_original_sbpc_labels41d.py
+          python3 -m py_compile hasselblad_native_audit/isp_liveview_stage41/inspect_original_sbpc_pointer41e.py
+          python3 hasselblad_native_audit/isp_liveview_stage41/inspect_original_sbpc_pointer41e.py \
+            --self-test --output "$RUNNER_TEMP/STAGE41E_SYNTHETIC.json"
+          python3 - "$RUNNER_TEMP/STAGE41E_SYNTHETIC.json" <<'PY_E'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          assert d['status']=='PASS_synthetic' and d['checks']==9
+          assert d['firmware_loaded'] is False and d['pixel_oracle_proven'] is False
+          PY_E
           python3 hasselblad_native_audit/isp_liveview_stage41/inspect_original_sbpc_labels41d.py \
             --self-test --output "$RUNNER_TEMP/STAGE41D_SYNTHETIC.json"
           python3 - "$RUNNER_TEMP/STAGE41D_SYNTHETIC.json" <<'PY_D'
@@ -220,6 +229,30 @@ jobs:
               'relocation_references':len(d['data_relocation_references_to_literal']),
               'CCM_equation_proven':False},sort_keys=True))
           PY_D
+      - name: Trace original SBPC string relocation pointer to owning objects
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 hasselblad_native_audit/isp_liveview_stage41/inspect_original_sbpc_pointer41e.py \
+            --firmware-root hasselblad_native_audit/firmware/extracted \
+            --output "$RUNNER_TEMP/STAGE41E_ORIGINAL_SBPC_POINTER_SAFE.json"
+          python3 - "$RUNNER_TEMP/STAGE41E_ORIGINAL_SBPC_POINTER_SAFE.json" <<'PY_E'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          assert d['status']=='PASS_exact_original_camera_service_data_pointer_provenance'
+          assert d['relative_pointer_section']=='.data.rel.ro'
+          assert d['original_label_table_statically_present'] is True
+          assert d['relative_pointer_relocation_kind']==1027
+          assert d['original_frame_format_or_stage_location_verified'] is False
+          assert d['active_hook_installed_or_executed_verified'] is False
+          assert d['MAIN_CCM_before_after_pixel_oracle_proven'] is False
+          assert d['vendor_function_bytes_or_raw_strings_exported'] is False
+          assert d['private_camera_data_or_vendor_tuning_exported'] is False
+          print(json.dumps({'status':d['status'],
+            'owners':d['matched_named_containing_objects'],
+            'pointer_use_candidates':d['code_pointer_uses']['bounded_pointer_site_candidates'],
+            'CCM_pixel_oracle':False},sort_keys=True))
+          PY_E
       - name: Remove vendor firmware and upstream source even on error
         if: always()
         shell: bash
@@ -239,10 +272,12 @@ jobs:
             ${{ runner.temp }}/STAGE41B_SYNTHETIC.json
             ${{ runner.temp }}/STAGE41C_SYNTHETIC.json
             ${{ runner.temp }}/STAGE41D_SYNTHETIC.json
+            ${{ runner.temp }}/STAGE41E_SYNTHETIC.json
             ${{ runner.temp }}/STAGE41_UPSTREAM_SYNTHETIC.json
             ${{ runner.temp }}/STAGE41_ORIGINAL_LIVEVIEW_INTERFACE_SAFE.json
             ${{ runner.temp }}/STAGE41B_ORIGINAL_SBPC_XREFS_SAFE.json
             ${{ runner.temp }}/STAGE41C_ORIGINAL_SBPC_PROCESSING_SAFE.json
             ${{ runner.temp }}/STAGE41D_ORIGINAL_STAGE_LABELS_SAFE.json
+            ${{ runner.temp }}/STAGE41E_ORIGINAL_SBPC_POINTER_SAFE.json
           if-no-files-found: error
           retention-days: 14

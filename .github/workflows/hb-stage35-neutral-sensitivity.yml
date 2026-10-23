@@ -70,7 +70,7 @@ jobs:
           import json,sys
           d=json.load(open(sys.argv[1]))
           assert d['input_is_synthetic'] is True and d['real_user_sidecar_used_in_CI'] is False
-          assert d['DNG_SDK_exact_interpolation_verified'] is False
+          assert d['DNG_sdk_exact_interpolation_verified'] is False
           assert d['Stage24_identity_AnalogBalance_assumed'] is True
           assert d['photographic_colour_error_measured'] is False
           assert d['private_file_hash_camera_id_timestamp_calibration_values_exported'] is False

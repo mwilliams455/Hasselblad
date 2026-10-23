@@ -30,6 +30,7 @@ jobs:
           test "$(git rev-parse refs/remotes/origin/main)" = 929f523aa02ae5b224be39b9c36cce5975691a10
           python3 -m py_compile hasselblad_native_audit/isp_main_stage38/inspect_original_pixel_oracle_surfaces38.py
           python3 -m py_compile hasselblad_native_audit/isp_main_stage38/inspect_original_pixel_oracle_calls38b.py
+          python3 -m py_compile hasselblad_native_audit/isp_main_stage38/inspect_dump_cross_importers38c.py
           python3 hasselblad_native_audit/isp_main_stage38/inspect_original_pixel_oracle_surfaces38.py \
             --self-test --output "$RUNNER_TEMP/STAGE38_SYNTHETIC.json"
           python3 - "$RUNNER_TEMP/STAGE38_SYNTHETIC.json" <<'PY'
@@ -48,6 +49,14 @@ jobs:
           assert d['status']=='PASS_synthetic' and d['checks']==13
           assert d['firmware_loaded'] is False and d['pixel_oracle_proven'] is False
           PY_B
+          python3 hasselblad_native_audit/isp_main_stage38/inspect_dump_cross_importers38c.py \
+            --self-test --output "$RUNNER_TEMP/STAGE38C_SYNTHETIC.json"
+          python3 - "$RUNNER_TEMP/STAGE38C_SYNTHETIC.json" <<'PY_C'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          assert d['status']=='PASS_synthetic' and d['checks']==8
+          assert d['firmware_used'] is False and d['original_ccm_pixel_oracle_proven'] is False
+          PY_C
       - name: Install inert ELF and firmware extraction dependencies
         shell: bash
         run: |
@@ -128,6 +137,37 @@ jobs:
                      for name,fn in entry['routines'].items()}
                      for src,entry in d['source_reports'].items()}},sort_keys=True))
           PY_B
+      - name: Resolve original cross-library direct callers of frame-file exporters
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 hasselblad_native_audit/isp_main_stage38/inspect_dump_cross_importers38c.py \
+            --firmware-root hasselblad_native_audit/firmware/extracted \
+            --output "$RUNNER_TEMP/STAGE38C_CROSS_IMPORT_CALLS.json"
+          python3 - "$RUNNER_TEMP/STAGE38C_CROSS_IMPORT_CALLS.json" <<'PY_C'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          assert d['status']=='PASS_exact_original_ELF_cross_importers'
+          assert len(d['original_importer_sources'])==3
+          assert d['isolated_original_ccm_before_after_samples_proven'] is False
+          assert d['main_ccm_pixel_equation_proven'] is False
+          assert d['dsp_or_camera_hardware_executed'] is False
+          assert d['original_vendor_codes_or_tuning_or_pixels_exported'] is False
+          assert d['photo_renderer_main_branch_unchanged'] is True
+          assert d['original_importer_sources']['system/lib64/libdcam_pp.so']['plt_ordinal_mapping_validated'] is True
+          for src,x in d['original_importer_sources'].items():
+              assert x['source_sha256']
+              if x['plt_ordinal_mapping_validated']:
+                  assert len(x['dump_imports'])==4
+                  for name,v in x['dump_imports'].items():
+                      assert v['name_only_same_stage_ccm_proof'] is False
+              else:
+                  assert x['dump_imports'] is None
+          print(json.dumps({'status':d['status'],
+                  'direct_exporter_calls_by_importer':{src:{name:v['direct_callsite_count']
+                      for name,v in x['dump_imports'].items()}
+                      for src,x in d['original_importer_sources'].items() if x['dump_imports'] is not None}},sort_keys=True))
+          PY_C
       - name: Remove original firmware regardless of inspection status
         if: always()
         shell: bash
@@ -142,7 +182,9 @@ jobs:
           path: |
             ${{ runner.temp }}/STAGE38_SYNTHETIC.json
             ${{ runner.temp }}/STAGE38B_SYNTHETIC.json
+            ${{ runner.temp }}/STAGE38C_SYNTHETIC.json
             ${{ runner.temp }}/STAGE38_ORIGINAL_ISP_ORACLE_SURFACES.json
             ${{ runner.temp }}/STAGE38B_ORIGINAL_ORACLE_CALLS.json
+            ${{ runner.temp }}/STAGE38C_CROSS_IMPORT_CALLS.json
           if-no-files-found: error
           retention-days: 14

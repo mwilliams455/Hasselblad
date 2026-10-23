@@ -1,0 +1,391 @@
+{
+  "schema": "hasselblad-stage41j-real-3fr-baseline-v1",
+  "renderer": "LibRaw conventional half-size linear sRGB; explicit metadata black/white/crop and as-shot WB; manual sRGB encoding",
+  "rawpy_version": "0.27.1",
+  "libraw_version": [
+    0,
+    22,
+    1
+  ],
+  "opencv_version": "5.0.0",
+  "numpy_version": "2.3.5",
+  "tifffile_version": "2026.10.15",
+  "main_ccm_equation_recovered": false,
+  "hncs_rendering_implemented": false,
+  "production_photo_output_changed": false,
+  "preview_colour_space_assumed": "sRGB (untagged preview); tagged JPEG checked separately",
+  "metrics_scope": "Descriptive within-image measurements; per-image exposure fitted on those same pixels, not held-out validation or chart accuracy; residual includes decoder, tone, colour, optical, sharpening and noise differences",
+  "pairs": [
+    {
+      "label": "A",
+      "camera_model": "X2D II 100C",
+      "capture_software": "1.1.6.3",
+      "sensor_shape": [
+        8842,
+        11904
+      ],
+      "full_sensor_decoder_matches_storage": true,
+      "cfa": "RGGB (LibRaw RGBG indices 0,1 / 3,2)",
+      "default_crop_origin": [
+        128,
+        96
+      ],
+      "default_crop_size": [
+        11656,
+        8742
+      ],
+      "libraw_default_crop_applied": false,
+      "decoder_black_minus_declared_per_channel": [
+        -1,
+        -1,
+        -1,
+        -1
+      ],
+      "white_level_matches_metadata": true,
+      "as_shot_wb_matches_inverse_neutral": true,
+      "applied_wb_normalized_max_error": 2.220446049250313e-16,
+      "reference_preview_has_icc": false,
+      "secondary_jpeg_profile": "sRGB",
+      "analysis_size": [
+        768,
+        576
+      ],
+      "registration": {
+        "matches": 1067,
+        "inliers": 1045,
+        "median_inlier_error_px": 0.1486323366395974,
+        "p95_inlier_error_px": 0.5726809859946747,
+        "scale": 1.001465614243541,
+        "rotation_degrees": -0.0006586297731841117,
+        "translation_px": [
+          -0.5324586521305286,
+          -0.382595850250006
+        ]
+      },
+      "exposure_fit_EV": 1.4589308173170252,
+      "original_unchanged": true,
+      "baseline_vs_preview": {
+        "pixels": 92787,
+        "rgb_mae_8bit": 22.027082443237305,
+        "median_deltaE76_srgb_assumption": 8.411537170410156,
+        "p90_deltaE76_srgb_assumption": 26.314380645751953,
+        "median_abs_deltaL": 7.861328125,
+        "median_ab_distance": 1.1744762659072876
+      },
+      "exposure_only_vs_preview": {
+        "pixels": 92787,
+        "rgb_mae_8bit": 7.685294151306152,
+        "median_deltaE76_srgb_assumption": 3.8292136192321777,
+        "p90_deltaE76_srgb_assumption": 6.488606929779053,
+        "median_abs_deltaL": 2.703857421875,
+        "median_ab_distance": 1.5386459827423096
+      },
+      "exposure_only_vs_tagged_jpeg": {
+        "pixels": 92787,
+        "rgb_mae_8bit": 8.925960540771484,
+        "median_deltaE76_srgb_assumption": 4.32789945602417,
+        "p90_deltaE76_srgb_assumption": 11.919839859008789,
+        "median_abs_deltaL": 2.79541015625,
+        "median_ab_distance": 1.8318605422973633
+      },
+      "preview_vs_tagged_jpeg": {
+        "pixels": 92787,
+        "rgb_mae_8bit": 3.6505136489868164,
+        "median_deltaE76_srgb_assumption": 1.1069731712341309,
+        "p90_deltaE76_srgb_assumption": 9.47323989868164,
+        "median_abs_deltaL": 0.18310546875,
+        "median_ab_distance": 1.077218770980835
+      },
+      "exposure_only_rgb_mae_reduction_percent": 65.10979531169971
+    },
+    {
+      "label": "B",
+      "camera_model": "X2D II 100C",
+      "capture_software": "1.1.6.3",
+      "sensor_shape": [
+        8842,
+        11904
+      ],
+      "full_sensor_decoder_matches_storage": true,
+      "cfa": "RGGB (LibRaw RGBG indices 0,1 / 3,2)",
+      "default_crop_origin": [
+        128,
+        96
+      ],
+      "default_crop_size": [
+        11656,
+        8742
+      ],
+      "libraw_default_crop_applied": false,
+      "decoder_black_minus_declared_per_channel": [
+        -2,
+        -2,
+        -2,
+        -2
+      ],
+      "white_level_matches_metadata": true,
+      "as_shot_wb_matches_inverse_neutral": true,
+      "applied_wb_normalized_max_error": 0.0,
+      "reference_preview_has_icc": false,
+      "secondary_jpeg_profile": "sRGB",
+      "analysis_size": [
+        576,
+        768
+      ],
+      "registration": {
+        "matches": 1967,
+        "inliers": 1522,
+        "median_inlier_error_px": 0.6101225177735385,
+        "p95_inlier_error_px": 1.1682231088322184,
+        "scale": 0.9982446724635756,
+        "rotation_degrees": -0.025345383301412325,
+        "translation_px": [
+          0.15961520938441495,
+          0.47750506835001993
+        ]
+      },
+      "exposure_fit_EV": 0.6339288007656556,
+      "original_unchanged": true,
+      "baseline_vs_preview": {
+        "pixels": 211229,
+        "rgb_mae_8bit": 24.982913970947266,
+        "median_deltaE76_srgb_assumption": 11.69404125213623,
+        "p90_deltaE76_srgb_assumption": 13.013540267944336,
+        "median_abs_deltaL": 11.5234375,
+        "median_ab_distance": 1.6130872964859009
+      },
+      "exposure_only_vs_preview": {
+        "pixels": 211229,
+        "rgb_mae_8bit": 6.445028305053711,
+        "median_deltaE76_srgb_assumption": 2.6805074214935303,
+        "p90_deltaE76_srgb_assumption": 6.241309642791748,
+        "median_abs_deltaL": 1.91650390625,
+        "median_ab_distance": 1.378015160560608
+      },
+      "exposure_only_vs_tagged_jpeg": {
+        "pixels": 211229,
+        "rgb_mae_8bit": 6.429133892059326,
+        "median_deltaE76_srgb_assumption": 2.8846380710601807,
+        "p90_deltaE76_srgb_assumption": 6.152135848999023,
+        "median_abs_deltaL": 1.89208984375,
+        "median_ab_distance": 2.000244140625
+      },
+      "preview_vs_tagged_jpeg": {
+        "pixels": 211229,
+        "rgb_mae_8bit": 1.2427607774734497,
+        "median_deltaE76_srgb_assumption": 1.0749908685684204,
+        "p90_deltaE76_srgb_assumption": 1.6677151918411255,
+        "median_abs_deltaL": 0.140380859375,
+        "median_ab_distance": 1.0387980937957764
+      },
+      "exposure_only_rgb_mae_reduction_percent": 74.20225553933115
+    },
+    {
+      "label": "C",
+      "camera_model": "X2D II 100C",
+      "capture_software": "1.1.6.3",
+      "sensor_shape": [
+        8842,
+        11904
+      ],
+      "full_sensor_decoder_matches_storage": true,
+      "cfa": "RGGB (LibRaw RGBG indices 0,1 / 3,2)",
+      "default_crop_origin": [
+        128,
+        96
+      ],
+      "default_crop_size": [
+        11656,
+        8742
+      ],
+      "libraw_default_crop_applied": false,
+      "decoder_black_minus_declared_per_channel": [
+        0,
+        0,
+        1,
+        2
+      ],
+      "white_level_matches_metadata": true,
+      "as_shot_wb_matches_inverse_neutral": true,
+      "applied_wb_normalized_max_error": 2.220446049250313e-16,
+      "reference_preview_has_icc": false,
+      "secondary_jpeg_profile": "sRGB",
+      "analysis_size": [
+        576,
+        768
+      ],
+      "registration": {
+        "matches": 102,
+        "inliers": 86,
+        "median_inlier_error_px": 0.35049518682397085,
+        "p95_inlier_error_px": 1.0500167929757025,
+        "scale": 1.0064154997270525,
+        "rotation_degrees": -0.019874740780365146,
+        "translation_px": [
+          -2.003785348711732,
+          -2.53751267162413
+        ]
+      },
+      "exposure_fit_EV": 2.0772882254537457,
+      "original_unchanged": true,
+      "baseline_vs_preview": {
+        "pixels": 273355,
+        "rgb_mae_8bit": 36.58089065551758,
+        "median_deltaE76_srgb_assumption": 13.283452033996582,
+        "p90_deltaE76_srgb_assumption": 34.816097259521484,
+        "median_abs_deltaL": 12.152099609375,
+        "median_ab_distance": 2.9964170455932617
+      },
+      "exposure_only_vs_preview": {
+        "pixels": 273355,
+        "rgb_mae_8bit": 7.910932540893555,
+        "median_deltaE76_srgb_assumption": 4.438774585723877,
+        "p90_deltaE76_srgb_assumption": 7.550743579864502,
+        "median_abs_deltaL": 2.734375,
+        "median_ab_distance": 2.969407796859741
+      },
+      "exposure_only_vs_tagged_jpeg": {
+        "pixels": 273355,
+        "rgb_mae_8bit": 7.779481410980225,
+        "median_deltaE76_srgb_assumption": 4.144104480743408,
+        "p90_deltaE76_srgb_assumption": 10.26357364654541,
+        "median_abs_deltaL": 2.716064453125,
+        "median_ab_distance": 2.7970495223999023
+      },
+      "preview_vs_tagged_jpeg": {
+        "pixels": 273355,
+        "rgb_mae_8bit": 2.246060371398926,
+        "median_deltaE76_srgb_assumption": 1.7382988929748535,
+        "p90_deltaE76_srgb_assumption": 5.66673469543457,
+        "median_abs_deltaL": 0.274658203125,
+        "median_ab_distance": 1.669244408607483
+      },
+      "exposure_only_rgb_mae_reduction_percent": 78.37413906787879
+    },
+    {
+      "label": "D",
+      "camera_model": "X2D II 100C",
+      "capture_software": "1.1.6.3",
+      "sensor_shape": [
+        8842,
+        11904
+      ],
+      "full_sensor_decoder_matches_storage": true,
+      "cfa": "RGGB (LibRaw RGBG indices 0,1 / 3,2)",
+      "default_crop_origin": [
+        128,
+        96
+      ],
+      "default_crop_size": [
+        11656,
+        8742
+      ],
+      "libraw_default_crop_applied": false,
+      "decoder_black_minus_declared_per_channel": [
+        -3,
+        -2,
+        -2,
+        -2
+      ],
+      "white_level_matches_metadata": true,
+      "as_shot_wb_matches_inverse_neutral": true,
+      "applied_wb_normalized_max_error": 0.0,
+      "reference_preview_has_icc": false,
+      "secondary_jpeg_profile": "sRGB",
+      "analysis_size": [
+        576,
+        768
+      ],
+      "registration": {
+        "matches": 487,
+        "inliers": 468,
+        "median_inlier_error_px": 0.40858137630945257,
+        "p95_inlier_error_px": 0.9191094895214491,
+        "scale": 1.0056040379860034,
+        "rotation_degrees": 0.017555280128610743,
+        "translation_px": [
+          -1.3630252202263478,
+          -2.2528023451601324
+        ]
+      },
+      "exposure_fit_EV": 0.5411354452050537,
+      "original_unchanged": true,
+      "baseline_vs_preview": {
+        "pixels": 289500,
+        "rgb_mae_8bit": 21.816715240478516,
+        "median_deltaE76_srgb_assumption": 11.68718433380127,
+        "p90_deltaE76_srgb_assumption": 13.492595672607422,
+        "median_abs_deltaL": 10.6201171875,
+        "median_ab_distance": 4.329309463500977
+      },
+      "exposure_only_vs_preview": {
+        "pixels": 289500,
+        "rgb_mae_8bit": 8.194119453430176,
+        "median_deltaE76_srgb_assumption": 7.557422637939453,
+        "p90_deltaE76_srgb_assumption": 8.557808876037598,
+        "median_abs_deltaL": 2.7099609375,
+        "median_ab_distance": 7.123800754547119
+      },
+      "exposure_only_vs_tagged_jpeg": {
+        "pixels": 289500,
+        "rgb_mae_8bit": 7.583012580871582,
+        "median_deltaE76_srgb_assumption": 7.305338382720947,
+        "p90_deltaE76_srgb_assumption": 8.568364143371582,
+        "median_abs_deltaL": 2.557373046875,
+        "median_ab_distance": 6.976260662078857
+      },
+      "preview_vs_tagged_jpeg": {
+        "pixels": 289500,
+        "rgb_mae_8bit": 4.052399635314941,
+        "median_deltaE76_srgb_assumption": 3.3124871253967285,
+        "p90_deltaE76_srgb_assumption": 3.9706385135650635,
+        "median_abs_deltaL": 0.1708984375,
+        "median_ab_distance": 3.3024611473083496
+      },
+      "exposure_only_rgb_mae_reduction_percent": 62.44109453183453
+    }
+  ],
+  "sky_diagnostic": {
+    "label": "D",
+    "region": "clear sky; inspected manually",
+    "normalized_box_xyxy": [
+      0.1,
+      0.06,
+      0.85,
+      0.23
+    ],
+    "pixels": 56592,
+    "reference": {
+      "metrics": {
+        "pixels": 56592,
+        "rgb_mae_8bit": 6.958102226257324,
+        "median_deltaE76_srgb_assumption": 8.027917861938477,
+        "p90_deltaE76_srgb_assumption": 8.706079483032227,
+        "median_abs_deltaL": 2.9541015625,
+        "median_ab_distance": 7.503286838531494
+      },
+      "median_signed_delta_Lab": [
+        -2.9541015625,
+        4.0,
+        -6.34375
+      ],
+      "median_chroma_difference": 6.189300537109375
+    },
+    "jpeg": {
+      "metrics": {
+        "pixels": 56592,
+        "rgb_mae_8bit": 5.641996383666992,
+        "median_deltaE76_srgb_assumption": 7.956459045410156,
+        "p90_deltaE76_srgb_assumption": 8.686521530151367,
+        "median_abs_deltaL": 2.734375,
+        "median_ab_distance": 7.426478862762451
+      },
+      "median_signed_delta_Lab": [
+        -2.734375,
+        6.5,
+        -3.578125
+      ],
+      "median_chroma_difference": 3.0857906341552734
+    }
+  }
+}

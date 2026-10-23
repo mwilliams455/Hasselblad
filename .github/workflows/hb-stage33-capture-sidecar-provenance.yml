@@ -1,0 +1,88 @@
+name: Hasselblad Stage33 verified DNG to Camera2 capture sidecar match
+
+"on":
+  push:
+    branches:
+      - recovery/awb-rebuild-20261021
+    paths:
+      - 'hasselblad_native_audit/isp_android_stage33/**'
+      - '.github/workflows/hb-stage33-capture-sidecar-provenance.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  synthetic-sidecar-provenance:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - name: Checkout recovery branch without GitHub write permissions
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Ensure no changes to camera binary or photographic colour pipeline
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -z "$(git diff --name-only 256c05e3248c1cc7aaa6f675a7698bd1774f5265 HEAD -- HasselbladPhoton)"
+          python -m py_compile \
+            hasselblad_native_audit/isp_android_stage33/verify_capture_binding33.py \
+            hasselblad_native_audit/isp_android_stage33/tests/test_capture_binding33.py
+      - name: Verify original CaptureEvidence-shaped sensor and file binding
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m unittest discover \
+            -s hasselblad_native_audit/isp_android_stage33/tests \
+            -p 'test_capture_binding33.py' -v \
+            2>&1 | tee "$RUNNER_TEMP/STAGE33_HOST_BINDING_TESTS.log"
+          python - <<'PY' > "$RUNNER_TEMP/STAGE33_SYNTHETIC_RECEIPT.json"
+          import json,sys
+          sys.path.insert(0,'hasselblad_native_audit/isp_android_stage33/tests')
+          from test_capture_binding33 import fixtures
+          sys.path.insert(0,'hasselblad_native_audit/isp_android_stage33')
+          from verify_capture_binding33 import proof
+          a,b=fixtures()
+          p=proof(a,b)
+          assert p['status']=='PASS_RECORDED_DNG_PHYSICAL_FRAME_BINDING'
+          assert p['matching_dng_hash_verified'] is True
+          assert p['independent_hardware_attestation_proven'] is False
+          assert p['private_hash_camera_id_timestamp_or_pixels_exported'] is False
+          assert p['original_hasselblad_MAIN_pixel_equivalence_proven'] is False
+          assert p['saved_photo_renderer_still_photon'] is True
+          p.update({'input_synthetic':True,
+                    'real_private_capture_sidecar_tested':False,
+                    'original_phone_photo_files_uploaded':False,
+                    'host_regression_cases':26})
+          print(json.dumps(p,indent=2,sort_keys=True))
+          PY
+      - name: Refuse sensitive image and Camera2 identifiers in public report
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - "$RUNNER_TEMP/STAGE33_SYNTHETIC_RECEIPT.json" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          assert d['input_synthetic'] is True
+          assert d['real_private_capture_sidecar_tested'] is False
+          assert not d['private_hash_camera_id_timestamp_or_pixels_exported']
+          assert not d['independent_hardware_attestation_proven']
+          forbidden=['PRIVATE_NOT_EXPORTABLE','private_physical_camera_A',
+                     '227922340825514','a'*64]
+          text=json.dumps(d)
+          assert not any(x in text for x in forbidden)
+          PY
+      - name: Publish safe synthetic result only
+        uses: actions/upload-artifact@v4
+        with:
+          name: Hasselblad-Stage33-Capture-Binding-Synthetic-Safe
+          path: |
+            ${{ runner.temp }}/STAGE33_SYNTHETIC_RECEIPT.json
+            ${{ runner.temp }}/STAGE33_HOST_BINDING_TESTS.log
+          if-no-files-found: error
+          retention-days: 14

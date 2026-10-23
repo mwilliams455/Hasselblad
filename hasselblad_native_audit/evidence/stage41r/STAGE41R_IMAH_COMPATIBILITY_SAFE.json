@@ -1,0 +1,600 @@
+{
+  "schema": "hasselblad-stage41r-imah-key-compatibility-v1",
+  "upstream_repository": "https://github.com/o-gs/dji-firmware-tools",
+  "upstream_commit": "195692263c2684cf1ddc4995f2736be6c0fb135e",
+  "upstream_tool_sha256": "955c6798f3e42b07799358208b390e9c5f167479f3a6b81e06f482d200146b9d",
+  "synthetic_checks": {
+    "valid_signed_encrypted_fixture_extracts_exactly": true,
+    "wrong_key_rejected_by_plaintext_checksum": true,
+    "corrupted_ciphertext_rejected_by_both_integrity_checks": true
+  },
+  "files": [
+    {
+      "file": "ask_dsp.img",
+      "source_sha256": "bc64b8862f5e0eb2026eb90e20c6efb3e6d31ee2934bd20d93656747fde40128",
+      "bytes": 140928,
+      "version": 2,
+      "auth_algorithm": 262147,
+      "header_size": 320,
+      "signature_size": 384,
+      "payload_size": 140224,
+      "auth_id": "PRAK",
+      "encryption_id": "TBIE",
+      "chunks": [
+        {
+          "id": "DATE",
+          "offset": 0,
+          "size": 32,
+          "padded_size": 32,
+          "attrib": 0,
+          "load_address": "0xf3dc0000"
+        },
+        {
+          "id": "DATE",
+          "offset": 32,
+          "size": 32,
+          "padded_size": 32,
+          "attrib": 0,
+          "load_address": "0xf3dc0000"
+        },
+        {
+          "id": "CODI",
+          "offset": 64,
+          "size": 117740,
+          "padded_size": 117760,
+          "attrib": 0,
+          "load_address": "0xf3d80000"
+        },
+        {
+          "id": "DATI",
+          "offset": 117824,
+          "size": 22388,
+          "padded_size": 22400,
+          "attrib": 0,
+          "load_address": "0xf3da0000"
+        }
+      ],
+      "payload_digest_matches": true,
+      "encrypted_checksum_matches": true,
+      "authentication_trials": [
+        {
+          "key_name": "PRAK-2021-09",
+          "signature_length_matches": true,
+          "signature_verifies_under_upstream_algorithm": false
+        },
+        {
+          "key_name": "PRAK-2020-04",
+          "signature_length_matches": false,
+          "signature_verifies_under_upstream_algorithm": false
+        },
+        {
+          "key_name": "PRAK-2018-01",
+          "signature_length_matches": false,
+          "signature_verifies_under_upstream_algorithm": false
+        },
+        {
+          "key_name": "PRAK-2020-01",
+          "signature_length_matches": false,
+          "signature_verifies_under_upstream_algorithm": false
+        },
+        {
+          "key_name": "PRAK-2019-09",
+          "signature_length_matches": false,
+          "signature_verifies_under_upstream_algorithm": false
+        },
+        {
+          "key_name": "PRAK-2017-12",
+          "signature_length_matches": false,
+          "signature_verifies_under_upstream_algorithm": false
+        },
+        {
+          "key_name": "PRAK-2017-08",
+          "signature_length_matches": false,
+          "signature_verifies_under_upstream_algorithm": false
+        },
+        {
+          "key_name": "PRAK-2017-01",
+          "signature_length_matches": false,
+          "signature_verifies_under_upstream_algorithm": false
+        }
+      ],
+      "encryption_trials": [
+        {
+          "key_name": "TBIE-2021-08",
+          "forced_tool_exit": 0,
+          "tool_plaintext_checksum_failure_reported": true,
+          "independent_plaintext_checksum_matches": false,
+          "independent_decode_matches_all_upstream_chunk_bytes": true,
+          "accepted_as_decrypted_code": false
+        },
+        {
+          "key_name": "TBIE-2021-06",
+          "forced_tool_exit": 0,
+          "tool_plaintext_checksum_failure_reported": true,
+          "independent_plaintext_checksum_matches": false,
+          "independent_decode_matches_all_upstream_chunk_bytes": true,
+          "accepted_as_decrypted_code": false
+        },
+        {
+          "key_name": "TBIE-2020-04",
+          "forced_tool_exit": 0,
+          "tool_plaintext_checksum_failure_reported": true,
+          "independent_plaintext_checksum_matches": false,
+          "independent_decode_matches_all_upstream_chunk_bytes": true,
+          "accepted_as_decrypted_code": false
+        },
+        {
+          "key_name": "TBIE-2020-02",
+          "forced_tool_exit": 0,
+          "tool_plaintext_checksum_failure_reported": true,
+          "independent_plaintext_checksum_matches": false,
+          "independent_decode_matches_all_upstream_chunk_bytes": true,
+          "accepted_as_decrypted_code": false
+        },
+        {
+          "key_name": "TBIE-2019-11",
+          "forced_tool_exit": 0,
+          "tool_plaintext_checksum_failure_reported": true,
+          "independent_plaintext_checksum_matches": false,
+          "independent_decode_matches_all_upstream_chunk_bytes": true,
+          "accepted_as_decrypted_code": false
+        },
+        {
+          "key_name": "TBIE-2018-07",
+          "forced_tool_exit": 0,
+          "tool_plaintext_checksum_failure_reported": true,
+          "independent_plaintext_checksum_matches": false,
+          "independent_decode_matches_all_upstream_chunk_bytes": true,
+          "accepted_as_decrypted_code": false
+        }
+      ],
+      "unmodified_tool_strict_exit": 10,
+      "strict_signature_failure_reported": true,
+      "original_unchanged": true,
+      "reserved_field_nonzero": true,
+      "reserved2_field_nonzero": false
+    },
+    {
+      "file": "ss_dsp0.fw",
+      "source_sha256": "5dd6da299227bca0d4bf3c1e92482ebcebf709216fc1e1e9efde8bd2cfab5344",
+      "bytes": 6100480,
+      "version": 2,
+      "auth_algorithm": 262147,
+      "header_size": 320,
+      "signature_size": 384,
+      "payload_size": 6099776,
+      "auth_id": "PRAK",
+      "encryption_id": "TBIE",
+      "chunks": [
+        {
+          "id": "CODI",
+          "offset": 0,
+          "size": 27712,
+          "padded_size": 27712,
+          "attrib": 0,
+          "load_address": "0xf0200000"
+        },
+        {
+          "id": "DATI",
+          "offset": 27712,
+          "size": 524240,
+          "padded_size": 524256,
+          "attrib": 0,
+          "load_address": "0xf0000000"
+        },
+        {
+          "id": "CODE",
+          "offset": 551968,
+          "size": 4599392,
+          "padded_size": 4599392,
+          "attrib": 0,
+          "load_address": "0x20200000"
+        },
+        {
+          "id": "DATE",
+          "offset": 5151360,
+          "size": 948416,
+          "padded_size": 948416,
+          "attrib": 0,
+          "load_address": "0x20e00000"
+        }
+      ],
+      "payload_digest_matches": true,
+      "encrypted_checksum_matches": true,
+      "authentication_trials": [
+        {
+          "key_name": "PRAK-2021-09",
+          "signature_length_matches": true,
+          "signature_verifies_under_upstream_algorithm": false
+        },
+        {
+          "key_name": "PRAK-2020-04",
+          "signature_length_matches": false,
+          "signature_verifies_under_upstream_algorithm": false
+        },
+        {
+          "key_name": "PRAK-2018-01",
+          "signature_length_matches": false,
+          "signature_verifies_under_upstream_algorithm": false
+        },
+        {
+          "key_name": "PRAK-2020-01",
+          "signature_length_matches": false,
+          "signature_verifies_under_upstream_algorithm": false
+        },
+        {
+          "key_name": "PRAK-2019-09",
+          "signature_length_matches": false,
+          "signature_verifies_under_upstream_algorithm": false
+        },
+        {
+          "key_name": "PRAK-2017-12",
+          "signature_length_matches": false,
+          "signature_verifies_under_upstream_algorithm": false
+        },
+        {
+          "key_name": "PRAK-2017-08",
+          "signature_length_matches": false,
+          "signature_verifies_under_upstream_algorithm": false
+        },
+        {
+          "key_name": "PRAK-2017-01",
+          "signature_length_matches": false,
+          "signature_verifies_under_upstream_algorithm": false
+        }
+      ],
+      "encryption_trials": [
+        {
+          "key_name": "TBIE-2021-08",
+          "forced_tool_exit": 0,
+          "tool_plaintext_checksum_failure_reported": true,
+          "independent_plaintext_checksum_matches": false,
+          "independent_decode_matches_all_upstream_chunk_bytes": true,
+          "accepted_as_decrypted_code": false
+        },
+        {
+          "key_name": "TBIE-2021-06",
+          "forced_tool_exit": 0,
+          "tool_plaintext_checksum_failure_reported": true,
+          "independent_plaintext_checksum_matches": false,
+          "independent_decode_matches_all_upstream_chunk_bytes": true,
+          "accepted_as_decrypted_code": false
+        },
+        {
+          "key_name": "TBIE-2020-04",
+          "forced_tool_exit": 0,
+          "tool_plaintext_checksum_failure_reported": true,
+          "independent_plaintext_checksum_matches": false,
+          "independent_decode_matches_all_upstream_chunk_bytes": true,
+          "accepted_as_decrypted_code": false
+        },
+        {
+          "key_name": "TBIE-2020-02",
+          "forced_tool_exit": 0,
+          "tool_plaintext_checksum_failure_reported": true,
+          "independent_plaintext_checksum_matches": false,
+          "independent_decode_matches_all_upstream_chunk_bytes": true,
+          "accepted_as_decrypted_code": false
+        },
+        {
+          "key_name": "TBIE-2019-11",
+          "forced_tool_exit": 0,
+          "tool_plaintext_checksum_failure_reported": true,
+          "independent_plaintext_checksum_matches": false,
+          "independent_decode_matches_all_upstream_chunk_bytes": true,
+          "accepted_as_decrypted_code": false
+        },
+        {
+          "key_name": "TBIE-2018-07",
+          "forced_tool_exit": 0,
+          "tool_plaintext_checksum_failure_reported": true,
+          "independent_plaintext_checksum_matches": false,
+          "independent_decode_matches_all_upstream_chunk_bytes": true,
+          "accepted_as_decrypted_code": false
+        }
+      ],
+      "unmodified_tool_strict_exit": 10,
+      "strict_signature_failure_reported": true,
+      "original_unchanged": true,
+      "reserved_field_nonzero": true,
+      "reserved2_field_nonzero": false
+    },
+    {
+      "file": "ss_dsp1.fw",
+      "source_sha256": "03f08813e18b577219986495c653b8ad1b58ed9edaad10ffb86cab4c29890572",
+      "bytes": 5838336,
+      "version": 2,
+      "auth_algorithm": 262147,
+      "header_size": 320,
+      "signature_size": 384,
+      "payload_size": 5837632,
+      "auth_id": "PRAK",
+      "encryption_id": "TBIE",
+      "chunks": [
+        {
+          "id": "CODI",
+          "offset": 0,
+          "size": 27712,
+          "padded_size": 27712,
+          "attrib": 0,
+          "load_address": "0xf0a00000"
+        },
+        {
+          "id": "DATI",
+          "offset": 27712,
+          "size": 262096,
+          "padded_size": 262112,
+          "attrib": 0,
+          "load_address": "0xf0800000"
+        },
+        {
+          "id": "CODE",
+          "offset": 289824,
+          "size": 4599392,
+          "padded_size": 4599392,
+          "attrib": 0,
+          "load_address": "0x21200000"
+        },
+        {
+          "id": "DATE",
+          "offset": 4889216,
+          "size": 948416,
+          "padded_size": 948416,
+          "attrib": 0,
+          "load_address": "0x21e00000"
+        }
+      ],
+      "payload_digest_matches": true,
+      "encrypted_checksum_matches": true,
+      "authentication_trials": [
+        {
+          "key_name": "PRAK-2021-09",
+          "signature_length_matches": true,
+          "signature_verifies_under_upstream_algorithm": false
+        },
+        {
+          "key_name": "PRAK-2020-04",
+          "signature_length_matches": false,
+          "signature_verifies_under_upstream_algorithm": false
+        },
+        {
+          "key_name": "PRAK-2018-01",
+          "signature_length_matches": false,
+          "signature_verifies_under_upstream_algorithm": false
+        },
+        {
+          "key_name": "PRAK-2020-01",
+          "signature_length_matches": false,
+          "signature_verifies_under_upstream_algorithm": false
+        },
+        {
+          "key_name": "PRAK-2019-09",
+          "signature_length_matches": false,
+          "signature_verifies_under_upstream_algorithm": false
+        },
+        {
+          "key_name": "PRAK-2017-12",
+          "signature_length_matches": false,
+          "signature_verifies_under_upstream_algorithm": false
+        },
+        {
+          "key_name": "PRAK-2017-08",
+          "signature_length_matches": false,
+          "signature_verifies_under_upstream_algorithm": false
+        },
+        {
+          "key_name": "PRAK-2017-01",
+          "signature_length_matches": false,
+          "signature_verifies_under_upstream_algorithm": false
+        }
+      ],
+      "encryption_trials": [
+        {
+          "key_name": "TBIE-2021-08",
+          "forced_tool_exit": 0,
+          "tool_plaintext_checksum_failure_reported": true,
+          "independent_plaintext_checksum_matches": false,
+          "independent_decode_matches_all_upstream_chunk_bytes": true,
+          "accepted_as_decrypted_code": false
+        },
+        {
+          "key_name": "TBIE-2021-06",
+          "forced_tool_exit": 0,
+          "tool_plaintext_checksum_failure_reported": true,
+          "independent_plaintext_checksum_matches": false,
+          "independent_decode_matches_all_upstream_chunk_bytes": true,
+          "accepted_as_decrypted_code": false
+        },
+        {
+          "key_name": "TBIE-2020-04",
+          "forced_tool_exit": 0,
+          "tool_plaintext_checksum_failure_reported": true,
+          "independent_plaintext_checksum_matches": false,
+          "independent_decode_matches_all_upstream_chunk_bytes": true,
+          "accepted_as_decrypted_code": false
+        },
+        {
+          "key_name": "TBIE-2020-02",
+          "forced_tool_exit": 0,
+          "tool_plaintext_checksum_failure_reported": true,
+          "independent_plaintext_checksum_matches": false,
+          "independent_decode_matches_all_upstream_chunk_bytes": true,
+          "accepted_as_decrypted_code": false
+        },
+        {
+          "key_name": "TBIE-2019-11",
+          "forced_tool_exit": 0,
+          "tool_plaintext_checksum_failure_reported": true,
+          "independent_plaintext_checksum_matches": false,
+          "independent_decode_matches_all_upstream_chunk_bytes": true,
+          "accepted_as_decrypted_code": false
+        },
+        {
+          "key_name": "TBIE-2018-07",
+          "forced_tool_exit": 0,
+          "tool_plaintext_checksum_failure_reported": true,
+          "independent_plaintext_checksum_matches": false,
+          "independent_decode_matches_all_upstream_chunk_bytes": true,
+          "accepted_as_decrypted_code": false
+        }
+      ],
+      "unmodified_tool_strict_exit": 10,
+      "strict_signature_failure_reported": true,
+      "original_unchanged": true,
+      "reserved_field_nonzero": true,
+      "reserved2_field_nonzero": false
+    },
+    {
+      "file": "ss_dsp2.fw",
+      "source_sha256": "037fdd1476fcb0d738b1ce0f5933d8ddd64ce0a87862e0209dda394e5c6d8b5f",
+      "bytes": 5838336,
+      "version": 2,
+      "auth_algorithm": 262147,
+      "header_size": 320,
+      "signature_size": 384,
+      "payload_size": 5837632,
+      "auth_id": "PRAK",
+      "encryption_id": "TBIE",
+      "chunks": [
+        {
+          "id": "CODI",
+          "offset": 0,
+          "size": 27712,
+          "padded_size": 27712,
+          "attrib": 0,
+          "load_address": "0xf1200000"
+        },
+        {
+          "id": "DATI",
+          "offset": 27712,
+          "size": 262096,
+          "padded_size": 262112,
+          "attrib": 0,
+          "load_address": "0xf1000000"
+        },
+        {
+          "id": "CODE",
+          "offset": 289824,
+          "size": 4599392,
+          "padded_size": 4599392,
+          "attrib": 0,
+          "load_address": "0x22200000"
+        },
+        {
+          "id": "DATE",
+          "offset": 4889216,
+          "size": 948416,
+          "padded_size": 948416,
+          "attrib": 0,
+          "load_address": "0x22e00000"
+        }
+      ],
+      "payload_digest_matches": true,
+      "encrypted_checksum_matches": true,
+      "authentication_trials": [
+        {
+          "key_name": "PRAK-2021-09",
+          "signature_length_matches": true,
+          "signature_verifies_under_upstream_algorithm": false
+        },
+        {
+          "key_name": "PRAK-2020-04",
+          "signature_length_matches": false,
+          "signature_verifies_under_upstream_algorithm": false
+        },
+        {
+          "key_name": "PRAK-2018-01",
+          "signature_length_matches": false,
+          "signature_verifies_under_upstream_algorithm": false
+        },
+        {
+          "key_name": "PRAK-2020-01",
+          "signature_length_matches": false,
+          "signature_verifies_under_upstream_algorithm": false
+        },
+        {
+          "key_name": "PRAK-2019-09",
+          "signature_length_matches": false,
+          "signature_verifies_under_upstream_algorithm": false
+        },
+        {
+          "key_name": "PRAK-2017-12",
+          "signature_length_matches": false,
+          "signature_verifies_under_upstream_algorithm": false
+        },
+        {
+          "key_name": "PRAK-2017-08",
+          "signature_length_matches": false,
+          "signature_verifies_under_upstream_algorithm": false
+        },
+        {
+          "key_name": "PRAK-2017-01",
+          "signature_length_matches": false,
+          "signature_verifies_under_upstream_algorithm": false
+        }
+      ],
+      "encryption_trials": [
+        {
+          "key_name": "TBIE-2021-08",
+          "forced_tool_exit": 0,
+          "tool_plaintext_checksum_failure_reported": true,
+          "independent_plaintext_checksum_matches": false,
+          "independent_decode_matches_all_upstream_chunk_bytes": true,
+          "accepted_as_decrypted_code": false
+        },
+        {
+          "key_name": "TBIE-2021-06",
+          "forced_tool_exit": 0,
+          "tool_plaintext_checksum_failure_reported": true,
+          "independent_plaintext_checksum_matches": false,
+          "independent_decode_matches_all_upstream_chunk_bytes": true,
+          "accepted_as_decrypted_code": false
+        },
+        {
+          "key_name": "TBIE-2020-04",
+          "forced_tool_exit": 0,
+          "tool_plaintext_checksum_failure_reported": true,
+          "independent_plaintext_checksum_matches": false,
+          "independent_decode_matches_all_upstream_chunk_bytes": true,
+          "accepted_as_decrypted_code": false
+        },
+        {
+          "key_name": "TBIE-2020-02",
+          "forced_tool_exit": 0,
+          "tool_plaintext_checksum_failure_reported": true,
+          "independent_plaintext_checksum_matches": false,
+          "independent_decode_matches_all_upstream_chunk_bytes": true,
+          "accepted_as_decrypted_code": false
+        },
+        {
+          "key_name": "TBIE-2019-11",
+          "forced_tool_exit": 0,
+          "tool_plaintext_checksum_failure_reported": true,
+          "independent_plaintext_checksum_matches": false,
+          "independent_decode_matches_all_upstream_chunk_bytes": true,
+          "accepted_as_decrypted_code": false
+        },
+        {
+          "key_name": "TBIE-2018-07",
+          "forced_tool_exit": 0,
+          "tool_plaintext_checksum_failure_reported": true,
+          "independent_plaintext_checksum_matches": false,
+          "independent_decode_matches_all_upstream_chunk_bytes": true,
+          "accepted_as_decrypted_code": false
+        }
+      ],
+      "unmodified_tool_strict_exit": 10,
+      "strict_signature_failure_reported": true,
+      "original_unchanged": true,
+      "reserved_field_nonzero": true,
+      "reserved2_field_nonzero": false
+    }
+  ],
+  "scope": "Offline data extraction only. No vendor firmware execution/signing, device access or flashing. Only the synthetic test fixture is signed.",
+  "signature_warning": "Ciphertext integrity and plaintext checksum are not substitutes for a verified signature.",
+  "production_photo_output_changed": false,
+  "main_pixel_equation_recovered": false,
+  "upstream_tool_unchanged": true,
+  "all_originals_unchanged": true,
+  "validated_decrypted_payloads": 0
+}

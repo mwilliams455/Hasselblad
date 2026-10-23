@@ -1,0 +1,103 @@
+name: Hasselblad Stage37 original X2D II MAIN CCM ARM computation triage
+
+"on":
+  push:
+    branches: [recovery/awb-rebuild-20261021]
+    paths:
+      - 'hasselblad_native_audit/isp_main_stage37/**'
+      - '.github/workflows/hb-stage37-cpu-main-ccm.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  original-main-ccm-cpu37:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - name: Checkout research branch
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Validate exact research-only source scope
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -z "$(git diff --name-only dda5d250a29f2716acba8fdf878b0b990f267cba HEAD -- HasselbladPhoton)"
+          test "$(git rev-parse refs/remotes/origin/main)" = 929f523aa02ae5b224be39b9c36cce5975691a10
+          python3 -m py_compile hasselblad_native_audit/isp_main_stage37/inspect_main_ccm_cpu37.py
+          python3 hasselblad_native_audit/isp_main_stage37/inspect_main_ccm_cpu37.py \
+            --self-test --output "$RUNNER_TEMP/STAGE37_SYNTHETIC.json"
+          python3 - "$RUNNER_TEMP/STAGE37_SYNTHETIC.json" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          assert d['status']=='PASS_synthetic' and d['checks']==14
+          assert d['vendor_assets_loaded'] is False and d['ccm_pixel_equation_proven'] is False
+          PY
+      - name: Install static inspection and extraction dependencies
+        run: |
+          set -euo pipefail
+          python3 -m pip install --disable-pip-version-check \
+            'cryptography>=42,<47' 'brotli>=1.1,<2' 'dissect.extfs>=3,<4' \
+            'pyelftools>=0.31,<1' 'capstone>=5,<6'
+      - name: Download only the exact official firmware transiently
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p hasselblad_native_audit/firmware
+          f=hasselblad_native_audit/firmware/X2DII_100C_v1_3_16_2.cim
+          curl --fail --location --retry 2 --retry-delay 4 --connect-timeout 25 --max-time 520 \
+            --silent --show-error \
+            'https://cdn.hasselblad.com/firmware/X2D_II_100C_Firmware/1.3.16.2/X2DII_100C_v1_3_16_2(1).cim' \
+            --output "$f"
+          test "$(stat -c %s "$f")" -eq 364814336
+          echo '9789d6a9843d388034bc12341ad9a97585c25cb98cf11a0da8b768399b4842f6  '"$f" | sha256sum -c -
+      - name: Extract official firmware without executing vendor code
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 hasselblad_native_audit/extract_official.py > "$RUNNER_TEMP/STAGE37_PRIVATE_EXTRACTION.log"
+      - name: Static bounded CPU CCM candidate audit
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 hasselblad_native_audit/isp_main_stage37/inspect_main_ccm_cpu37.py \
+            --firmware-root hasselblad_native_audit/firmware/extracted \
+            --output "$RUNNER_TEMP/STAGE37_CPU_MAIN_CCM.json"
+          python3 - "$RUNNER_TEMP/STAGE37_CPU_MAIN_CCM.json" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          assert d['status']=='PASS_exact_pinned_static_symbol_and_instruction_triage'
+          assert len(d['source_files'])==4
+          assert d['new_original_ccm_pixel_equation_recovered'] is False
+          assert d['full_frame_or_pixel_samples_processed'] is False
+          assert d['firmware_OR_vendor_code_OR_coefficients_exported'] is False
+          assert d['photographic_output_modified'] is False
+          for name,src in d['source_files'].items():
+              assert src['bounded_functions_scanned'] > 0 and src['bounded_functions_scanned'] <= 60
+              assert src['sha256'] and src['required_prior_symbols_confirmed']
+              assert src['new_original_software_ccm_oracle_demonstrated'] is False
+              print(json.dumps({'source':name,'named_scanned':src['bounded_functions_scanned'],
+                                'matching_named_symbols':src['bounded_names_matching_query'],
+                                'unresolved_arithmetic_candidate_count':src['unresolved_named_arithmetic_count'],
+                                'unresolved_arithmetic_names_for_manual_review':src['unresolved_named_arithmetic_candidates_for_manual_review']}))
+          PY
+      - name: Delete all original vendor bytes even if analysis failed
+        if: always()
+        shell: bash
+        run: |
+          rm -f hasselblad_native_audit/firmware/X2DII_100C_v1_3_16_2.cim
+          rm -rf hasselblad_native_audit/firmware/extracted
+          test -z "$(git status --porcelain --untracked-files=no)"
+      - name: Publish sanitized research JSON only
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Hasselblad-Stage37-CCM-ARM-Triage-Safe
+          path: |
+            ${{ runner.temp }}/STAGE37_CPU_MAIN_CCM.json
+            ${{ runner.temp }}/STAGE37_SYNTHETIC.json
+          if-no-files-found: error
+          retention-days: 14

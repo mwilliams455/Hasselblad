@@ -40,7 +40,7 @@ public final class Stage36NativeDngSmoke {
         require(diff.overallRmse>0.000001,"measurable native delta");
         require(Double.isFinite(diff.overallMeanAbsoluteDelta),"finite native delta");
         require(diff.originalsNegative==0&&diff.effectiveNegative==0,"synthetic positive");
-        require(diff.originalsOverUnity==0&&diff.effectiveOverUnity==0,"synthetic no over-range");
+        require(diff.originalsOverUnity>0 || diff.effectiveOverUnity>0,"Stage24 preserves over-range linear output");
         double[] repeat = sentinel();
         int statusRepeat = HasselbladColourReferenceCheck.nativeLinearTile(
                 dng.forwardMatrix1,dng.forwardMatrix2,dng.calibration1,

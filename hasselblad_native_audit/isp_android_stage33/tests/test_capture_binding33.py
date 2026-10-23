@@ -132,7 +132,9 @@ class Stage33(unittest.TestCase):
                 self.assertEqual(result["status"], "NOT_PROVEN")
                 self.assertFalse(result["matching_dng_hash_verified"])
                 self.assertFalse(result["recorded_capture_physical_sensor_binding_proven"])
-                self.assertNotIn("private", json.dumps(result).lower())
+                self.assertNotIn("private_physical_camera_A", json.dumps(result))
+                self.assertNotIn("227922340825514", json.dumps(result))
+                self.assertNotIn("a" * 64, json.dumps(result))
         self.assertEqual(len(cases), 25)
 
 

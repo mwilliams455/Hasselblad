@@ -1,0 +1,496 @@
+{
+  "schema": "hasselblad-stage41t-embedded-public-key-audit-v1",
+  "bootarea_sha256": "0fb41e070f52cf6e0e6f36f6cce1b5d20bb8c2512afb73dcdcf7f38ce6d8d9e5",
+  "public_key": {
+    "file_offset": 0,
+    "record_bytes": 780,
+    "modulus_bits": 3072,
+    "exponent": 65537,
+    "record_sha256": "8335ac87baa1465a4d04805ce660f801d9eadaaf46f933f75f6f8e7ebfcfa080",
+    "spki_sha256": "99057b679a5e2a2f85fc7994f759e01e7a045501d7d019c1377e33720cce746e",
+    "montgomery_n0inv_matches": true,
+    "montgomery_rr_matches": true,
+    "contains_private_key": false,
+    "matching_bundled_PRAK_variants": []
+  },
+  "boot_layout": {
+    "complete_byte_coverage": true,
+    "regions": [
+      {
+        "offset": 0,
+        "bytes": 780,
+        "classification": "RSA_public_record",
+        "sha256": "8335ac87baa1465a4d04805ce660f801d9eadaaf46f933f75f6f8e7ebfcfa080",
+        "nonzero_bytes": 773
+      },
+      {
+        "offset": 780,
+        "bytes": 244,
+        "classification": "unclassified_prefix_tail",
+        "sha256": "80dd21220993e61792bfd4ab9df3f1f42d97c94111eb096eb125617477aaf741",
+        "nonzero_bytes": 17
+      },
+      {
+        "offset": 1024,
+        "bytes": 209344,
+        "classification": "encrypted_IMaH_bootloader",
+        "sha256": "b23702bd2a0793b43b5d1c983f73504ae329f44f350ed8fa37ecf9df3d0eed6a",
+        "nonzero_bytes": 208422
+      },
+      {
+        "offset": 210368,
+        "bytes": 19008,
+        "classification": "zero_padding",
+        "sha256": "f707021cf3e753304665f159518bbc0da5d731405120188e414b30e90746622e",
+        "nonzero_bytes": 0
+      },
+      {
+        "offset": 229376,
+        "bytes": 800,
+        "classification": "PLI_partition_table",
+        "sha256": "82962c99f2ad55ee9eaec57fa280c61cce60c660647367742f7db7eed1b42048",
+        "nonzero_bytes": 179
+      },
+      {
+        "offset": 230176,
+        "bytes": 3296,
+        "classification": "zero_padding",
+        "sha256": "2127f2dbfb83f4c2e9d3aa6928b2abe5ae4465fdbd6368b273291d307ee2fd6b",
+        "nonzero_bytes": 0
+      },
+      {
+        "offset": 233472,
+        "bytes": 640,
+        "classification": "encrypted_IMaH_board_info",
+        "sha256": "bd4afb31964e9e16486bdf54eba304d72dc3ff3183b120c375eb46de6a5d78ac",
+        "nonzero_bytes": 521
+      },
+      {
+        "offset": 234112,
+        "bytes": 28032,
+        "classification": "zero_padding",
+        "sha256": "166a879cbafe8d38d5ed4577d541cbfe76c2c28920743b00218a40a9b898e376",
+        "nonzero_bytes": 0
+      },
+      {
+        "offset": 262144,
+        "bytes": 294912,
+        "classification": "zero_extended_16bit_values_in_32bit_slots",
+        "sha256": "89e1375b0fdcbee03721d126aa26bc86693a97c7f3940a99da3bba19780e1919",
+        "nonzero_bytes": 73467
+      }
+    ],
+    "partition_table": {
+      "offset": 229376,
+      "bytes": 800,
+      "declared_partition_count": 16,
+      "area_names": [
+        "userarea",
+        "bootarea"
+      ],
+      "partition_names": [
+        "bootloader",
+        "pli",
+        "bd_info",
+        "fc_fw",
+        "gpt_pri",
+        "env",
+        "amt",
+        "cali",
+        "recovery",
+        "normal",
+        "system",
+        "vendor",
+        "cache",
+        "userdata",
+        "blackbox",
+        "gpt_second"
+      ],
+      "numeric_field_units_not_established": true
+    },
+    "tail_storage": {
+      "offset": 262144,
+      "u32_slots": 73728,
+      "all_upper_16bits_zero": true,
+      "nonzero_page_runs": [
+        {
+          "start": 262144,
+          "end": 331776
+        },
+        {
+          "start": 360448,
+          "end": 409600
+        },
+        {
+          "start": 425984,
+          "end": 430080
+        },
+        {
+          "start": 458752,
+          "end": 507904
+        },
+        {
+          "start": 536576,
+          "end": 540672
+        }
+      ],
+      "instruction_set_identified": false,
+      "function_identified": false,
+      "decryption_or_MAIN_ISP_code_established": false
+    }
+  },
+  "containers": [
+    {
+      "label": "vendor/firmware/dspf/ask_dsp.img",
+      "source_sha256": "bc64b8862f5e0eb2026eb90e20c6efb3e6d31ee2934bd20d93656747fde40128",
+      "bytes": 140928,
+      "header_bytes": 320,
+      "signature_bytes": 384,
+      "auth_id": "PRAK",
+      "encryption_id": "TBIE",
+      "signature_scheme": "RSA-PSS/SHA256/MGF1-SHA256/salt32",
+      "verification": {
+        "pycryptodome": {
+          "original_signature_passes": true,
+          "modified_header_rejected": true,
+          "modified_signature_rejected": true
+        },
+        "cryptography_openssl": {
+          "original_signature_passes": true,
+          "modified_header_rejected": true,
+          "modified_signature_rejected": true
+        }
+      },
+      "original_payload_digest_matches": true,
+      "original_encrypted_checksum_matches": true,
+      "payload_only_mutation": {
+        "header_signature_still_passes": true,
+        "payload_digest_rejects": true,
+        "encrypted_checksum_rejects": true
+      },
+      "upstream_strict_check": {
+        "force_continue": false,
+        "signature_pass_reported": true,
+        "encryption_variant": "TBIE-2021-08",
+        "stopped_at": "Decrypted chunks checksum verification failed.",
+        "reserved_field_warning": true
+      },
+      "validated_plaintext_recovered": false
+    },
+    {
+      "label": "vendor/firmware/dspf/ss_dsp0.fw",
+      "source_sha256": "5dd6da299227bca0d4bf3c1e92482ebcebf709216fc1e1e9efde8bd2cfab5344",
+      "bytes": 6100480,
+      "header_bytes": 320,
+      "signature_bytes": 384,
+      "auth_id": "PRAK",
+      "encryption_id": "TBIE",
+      "signature_scheme": "RSA-PSS/SHA256/MGF1-SHA256/salt32",
+      "verification": {
+        "pycryptodome": {
+          "original_signature_passes": true,
+          "modified_header_rejected": true,
+          "modified_signature_rejected": true
+        },
+        "cryptography_openssl": {
+          "original_signature_passes": true,
+          "modified_header_rejected": true,
+          "modified_signature_rejected": true
+        }
+      },
+      "original_payload_digest_matches": true,
+      "original_encrypted_checksum_matches": true,
+      "payload_only_mutation": {
+        "header_signature_still_passes": true,
+        "payload_digest_rejects": true,
+        "encrypted_checksum_rejects": true
+      },
+      "upstream_strict_check": {
+        "force_continue": false,
+        "signature_pass_reported": true,
+        "encryption_variant": "TBIE-2021-08",
+        "stopped_at": "Decrypted chunks checksum verification failed.",
+        "reserved_field_warning": true
+      },
+      "validated_plaintext_recovered": false
+    },
+    {
+      "label": "vendor/firmware/dspf/ss_dsp1.fw",
+      "source_sha256": "03f08813e18b577219986495c653b8ad1b58ed9edaad10ffb86cab4c29890572",
+      "bytes": 5838336,
+      "header_bytes": 320,
+      "signature_bytes": 384,
+      "auth_id": "PRAK",
+      "encryption_id": "TBIE",
+      "signature_scheme": "RSA-PSS/SHA256/MGF1-SHA256/salt32",
+      "verification": {
+        "pycryptodome": {
+          "original_signature_passes": true,
+          "modified_header_rejected": true,
+          "modified_signature_rejected": true
+        },
+        "cryptography_openssl": {
+          "original_signature_passes": true,
+          "modified_header_rejected": true,
+          "modified_signature_rejected": true
+        }
+      },
+      "original_payload_digest_matches": true,
+      "original_encrypted_checksum_matches": true,
+      "payload_only_mutation": {
+        "header_signature_still_passes": true,
+        "payload_digest_rejects": true,
+        "encrypted_checksum_rejects": true
+      },
+      "upstream_strict_check": {
+        "force_continue": false,
+        "signature_pass_reported": true,
+        "encryption_variant": "TBIE-2021-08",
+        "stopped_at": "Decrypted chunks checksum verification failed.",
+        "reserved_field_warning": true
+      },
+      "validated_plaintext_recovered": false
+    },
+    {
+      "label": "vendor/firmware/dspf/ss_dsp2.fw",
+      "source_sha256": "037fdd1476fcb0d738b1ce0f5933d8ddd64ce0a87862e0209dda394e5c6d8b5f",
+      "bytes": 5838336,
+      "header_bytes": 320,
+      "signature_bytes": 384,
+      "auth_id": "PRAK",
+      "encryption_id": "TBIE",
+      "signature_scheme": "RSA-PSS/SHA256/MGF1-SHA256/salt32",
+      "verification": {
+        "pycryptodome": {
+          "original_signature_passes": true,
+          "modified_header_rejected": true,
+          "modified_signature_rejected": true
+        },
+        "cryptography_openssl": {
+          "original_signature_passes": true,
+          "modified_header_rejected": true,
+          "modified_signature_rejected": true
+        }
+      },
+      "original_payload_digest_matches": true,
+      "original_encrypted_checksum_matches": true,
+      "payload_only_mutation": {
+        "header_signature_still_passes": true,
+        "payload_digest_rejects": true,
+        "encrypted_checksum_rejects": true
+      },
+      "upstream_strict_check": {
+        "force_continue": false,
+        "signature_pass_reported": true,
+        "encryption_variant": "TBIE-2021-08",
+        "stopped_at": "Decrypted chunks checksum verification failed.",
+        "reserved_field_warning": true
+      },
+      "validated_plaintext_recovered": false
+    },
+    {
+      "label": "vendor/ta/09db16c0-873b-4fed-b87ea5d2b86293a2.ta",
+      "source_sha256": "69433f4aca40dde5b950d80e232489e5ff4e9bd0dfa1b72332a8a565e6fcde0b",
+      "bytes": 207360,
+      "header_bytes": 224,
+      "signature_bytes": 384,
+      "auth_id": "PRAK",
+      "encryption_id": "TBIE",
+      "signature_scheme": "RSA-PSS/SHA256/MGF1-SHA256/salt32",
+      "verification": {
+        "pycryptodome": {
+          "original_signature_passes": true,
+          "modified_header_rejected": true,
+          "modified_signature_rejected": true
+        },
+        "cryptography_openssl": {
+          "original_signature_passes": true,
+          "modified_header_rejected": true,
+          "modified_signature_rejected": true
+        }
+      },
+      "original_payload_digest_matches": true,
+      "original_encrypted_checksum_matches": true,
+      "payload_only_mutation": {
+        "header_signature_still_passes": true,
+        "payload_digest_rejects": true,
+        "encrypted_checksum_rejects": true
+      },
+      "upstream_strict_check": {
+        "force_continue": false,
+        "signature_pass_reported": true,
+        "encryption_variant": "TBIE-2021-08",
+        "stopped_at": "Decrypted chunks checksum verification failed.",
+        "reserved_field_warning": true
+      },
+      "validated_plaintext_recovered": false
+    },
+    {
+      "label": "vendor/ta/e91c9402-64a0-470f-88e7bf5d3c606b6a.ta",
+      "source_sha256": "9a271b4c8f62c1e3e7de07bd7ae58b06ed3ed89deb15d26194d78a9cedf15db4",
+      "bytes": 272128,
+      "header_bytes": 224,
+      "signature_bytes": 384,
+      "auth_id": "PRAK",
+      "encryption_id": "TBIE",
+      "signature_scheme": "RSA-PSS/SHA256/MGF1-SHA256/salt32",
+      "verification": {
+        "pycryptodome": {
+          "original_signature_passes": true,
+          "modified_header_rejected": true,
+          "modified_signature_rejected": true
+        },
+        "cryptography_openssl": {
+          "original_signature_passes": true,
+          "modified_header_rejected": true,
+          "modified_signature_rejected": true
+        }
+      },
+      "original_payload_digest_matches": true,
+      "original_encrypted_checksum_matches": true,
+      "payload_only_mutation": {
+        "header_signature_still_passes": true,
+        "payload_digest_rejects": true,
+        "encrypted_checksum_rejects": true
+      },
+      "upstream_strict_check": {
+        "force_continue": false,
+        "signature_pass_reported": true,
+        "encryption_variant": "TBIE-2021-08",
+        "stopped_at": "Decrypted chunks checksum verification failed.",
+        "reserved_field_warning": true
+      },
+      "validated_plaintext_recovered": false
+    },
+    {
+      "label": "OTA/tos.img",
+      "source_sha256": "6a92ba4e36a286a9e372599ff76419a0c6258721cc5583269d60fba55c0b927b",
+      "bytes": 462272,
+      "header_bytes": 256,
+      "signature_bytes": 384,
+      "auth_id": "PRAK",
+      "encryption_id": "TBIE",
+      "signature_scheme": "RSA-PSS/SHA256/MGF1-SHA256/salt32",
+      "verification": {
+        "pycryptodome": {
+          "original_signature_passes": true,
+          "modified_header_rejected": true,
+          "modified_signature_rejected": true
+        },
+        "cryptography_openssl": {
+          "original_signature_passes": true,
+          "modified_header_rejected": true,
+          "modified_signature_rejected": true
+        }
+      },
+      "original_payload_digest_matches": true,
+      "original_encrypted_checksum_matches": true,
+      "payload_only_mutation": {
+        "header_signature_still_passes": true,
+        "payload_digest_rejects": true,
+        "encrypted_checksum_rejects": true
+      },
+      "upstream_strict_check": {
+        "force_continue": false,
+        "signature_pass_reported": true,
+        "encryption_variant": "TBIE-2021-08",
+        "stopped_at": "Decrypted chunks checksum verification failed.",
+        "reserved_field_warning": true
+      },
+      "validated_plaintext_recovered": false
+    },
+    {
+      "label": "OTA/bootarea.img@1024",
+      "source_sha256": "b23702bd2a0793b43b5d1c983f73504ae329f44f350ed8fa37ecf9df3d0eed6a",
+      "bytes": 209344,
+      "header_bytes": 256,
+      "signature_bytes": 384,
+      "auth_id": "PRAK",
+      "encryption_id": "TBIE",
+      "signature_scheme": "RSA-PSS/SHA256/MGF1-SHA256/salt32",
+      "verification": {
+        "pycryptodome": {
+          "original_signature_passes": true,
+          "modified_header_rejected": true,
+          "modified_signature_rejected": true
+        },
+        "cryptography_openssl": {
+          "original_signature_passes": true,
+          "modified_header_rejected": true,
+          "modified_signature_rejected": true
+        }
+      },
+      "original_payload_digest_matches": true,
+      "original_encrypted_checksum_matches": true,
+      "payload_only_mutation": {
+        "header_signature_still_passes": true,
+        "payload_digest_rejects": true,
+        "encrypted_checksum_rejects": true
+      },
+      "upstream_strict_check": {
+        "force_continue": false,
+        "signature_pass_reported": true,
+        "encryption_variant": "TBIE-2021-08",
+        "stopped_at": "Decrypted chunks checksum verification failed.",
+        "reserved_field_warning": true
+      },
+      "validated_plaintext_recovered": false
+    },
+    {
+      "label": "OTA/bootarea.img@233472",
+      "source_sha256": "bd4afb31964e9e16486bdf54eba304d72dc3ff3183b120c375eb46de6a5d78ac",
+      "bytes": 640,
+      "header_bytes": 224,
+      "signature_bytes": 384,
+      "auth_id": "PRAK",
+      "encryption_id": "TBIE",
+      "signature_scheme": "RSA-PSS/SHA256/MGF1-SHA256/salt32",
+      "verification": {
+        "pycryptodome": {
+          "original_signature_passes": true,
+          "modified_header_rejected": true,
+          "modified_signature_rejected": true
+        },
+        "cryptography_openssl": {
+          "original_signature_passes": true,
+          "modified_header_rejected": true,
+          "modified_signature_rejected": true
+        }
+      },
+      "original_payload_digest_matches": true,
+      "original_encrypted_checksum_matches": true,
+      "payload_only_mutation": {
+        "header_signature_still_passes": true,
+        "payload_digest_rejects": true,
+        "encrypted_checksum_rejects": true
+      },
+      "upstream_strict_check": {
+        "force_continue": false,
+        "signature_pass_reported": true,
+        "encryption_variant": "TBIE-2021-08",
+        "stopped_at": "Decrypted chunks checksum verification failed.",
+        "reserved_field_warning": true
+      },
+      "validated_plaintext_recovered": false
+    }
+  ],
+  "verified_containers": 9,
+  "independent_crypto_backends": 2,
+  "upstream_strict_signature_passes": 9,
+  "upstream_tool_sha256": "955c6798f3e42b07799358208b390e9c5f167479f3a6b81e06f482d200146b9d",
+  "upstream_commit": "195692263c2684cf1ddc4995f2736be6c0fb135e",
+  "runtime": {
+    "cryptography": "46.0.7",
+    "pycryptodome": "4.1.0",
+    "numpy": "2.3.5"
+  },
+  "trust_scope": "Signatures verify against the public key embedded in this same firmware package. No independent manufacturer trust anchor or live-device fuse comparison is asserted.",
+  "encryption_key_recovered": false,
+  "decrypted_DSP_or_TEE_recovered": false,
+  "main_pixel_equation_recovered": false,
+  "production_rendering_changed": false,
+  "hardware_accessed": false,
+  "vendor_code_executed": false,
+  "original_inputs_and_upstream_source_unchanged": true,
+  "private_key_material_or_vendor_payload_exported": false
+}

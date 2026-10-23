@@ -4,6 +4,8 @@ Date: 2026-10-23. Research branch: `recovery/awb-rebuild-20261021`.
 Baseline research commit: `8190969f37bc5e91cc9668eba68ab5670944f51a` (Stage41Q).
 Production `main` remains `929f523aa02ae5b224be39b9c36cce5975691a10`.
 
+Later result: [Stage41T](STAGE41T_BOOTAREA_PUBLIC_KEY_20261023.md) extracts a matching public RSA record from `bootarea.img`. All four DSP signatures now verify against that embedded key; the bundled-key results below are retained as historical evidence. The TBIE decryption failure remains unresolved.
+
 The user supplied the appropriate container-family tool: [o-gs/dji-firmware-tools, dji_imah_fwsig.py](https://github.com/o-gs/dji-firmware-tools/blob/195692263c2684cf1ddc4995f2736be6c0fb135e/dji_imah_fwsig.py). It parses the X2D II DSP containers, but none of its six bundled TBIE encryption-key variants yields a matching plaintext checksum for any of the four images. No decoded DSP program or MAIN pixel implementation was recovered.
 
 This is a tested incompatibility with the pinned tool/key set, not evidence that decryption is impossible. It also does not uniquely distinguish an unavailable key variant from a derivation/algorithm difference unsupported by that tool.

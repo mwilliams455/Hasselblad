@@ -5,6 +5,8 @@ Research branch: `recovery/awb-rebuild-20261021`.
 Baseline research commit: `46fda21b40b0e0b52016fb0268ed2ae5f5fb5205`.
 Production main baseline: `929f523aa02ae5b224be39b9c36cce5975691a10`.
 
+Later result: [Stage41T](STAGE41T_BOOTAREA_PUBLIC_KEY_20261023.md) identifies the public RSA record in `bootarea.img` and verifies all nine DSP/TA/TOS/boot-container signatures. The bundled-key failures below remain historical test results; signature verification is now resolved against the embedded key. Payload decryption remains unresolved.
+
 The readable host loader passes DSP firmware to a specific trusted application through the TEE client API. The service UUID resolves to a file already present in the extracted firmware. That application and the secure-OS image are themselves encrypted IMaH containers. This is direct X2D II evidence of the secure-service loading boundary, rather than an inference from another DJI device.
 
 No DSP payload, MAIN pixel equation, encryption key, or secure-side decryption implementation was recovered. No Android rendering or APK change is made.

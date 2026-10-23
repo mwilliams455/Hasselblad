@@ -1,0 +1,5 @@
+capstone==5.0.9
+numpy==2.3.5
+pyelftools==0.33
+tifffile==2026.10.15
+unicorn==2.1.4

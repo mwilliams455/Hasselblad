@@ -188,6 +188,30 @@
                 android:textIsSelectable="true"
                 android:text="Stage34 not run. Pick the original DNG with Stage32 first." />
 
+            <!-- Stage36: no new capture or file selection. Reuse the Stage32 DNG
+                 and Stage34 verified capture sidecar for two native PCS calls. -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/hasselblad_stage36_run"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:enabled="false"
+                android:text="Stage36: Compare Camera2 vs Photon white balance on real RAW" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/hasselblad_stage36_copy"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:text="Copy Stage36 dual-neutral JSON" />
+            <TextView
+                android:id="@+id/hasselblad_stage36_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textIsSelectable="true"
+                android:text="Stage36 not run. Select a DNG and matching capture sidecar in Stages 32 and 34 first." />
+
             <TextView
                 android:id="@+id/hasselblad_check_policy"
                 android:layout_width="match_parent"

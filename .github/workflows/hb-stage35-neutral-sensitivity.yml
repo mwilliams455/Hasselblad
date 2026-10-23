@@ -1,0 +1,89 @@
+name: Hasselblad Stage35 DNG neutral PCS input sensitivity regression
+
+"on":
+  push:
+    branches:
+      - recovery/awb-rebuild-20261021
+    paths:
+      - 'hasselblad_native_audit/isp_android_stage35/**'
+      - '.github/workflows/hb-stage35-neutral-sensitivity.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  bounded-neutral-comparison:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Checkout original recovery research without write credentials
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Ensure photo output and Android code are unchanged
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -z "$(git diff --name-only 19be33311a3dd10f6787075fc600ff505e83ef23 HEAD -- HasselbladPhoton)"
+          python3 -m py_compile \
+            hasselblad_native_audit/isp_android_stage35/neutral_sensitivity35.py \
+            hasselblad_native_audit/isp_android_stage35/tests/test_neutral_sensitivity35.py
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install public numerical dependency only
+        run: python3 -m pip install --disable-pip-version-check 'numpy>=2,<3'
+      - name: Check Stage18 single-profile neutral reference against synthetic fixtures
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover \
+            -s hasselblad_native_audit/isp_android_stage35/tests \
+            -p test_neutral_sensitivity35.py -v \
+            2>&1 | tee "$RUNNER_TEMP/STAGE35_TEST_LOG.txt"
+          python3 - <<'PY' > "$RUNNER_TEMP/STAGE35_SYNTHETIC_SAFE.json"
+          import sys,json
+          sys.path.insert(0,'hasselblad_native_audit/isp_android_stage35')
+          sys.path.insert(0,'hasselblad_native_audit/isp_android_stage35/tests')
+          from test_neutral_sensitivity35 import fixture
+          from neutral_sensitivity35 import assess
+          data=fixture()
+          data['effective_photon_export']['neutral_used'][2]=0.26
+          report=assess(data)
+          assert report['status']=='PASS_PRIVATE_METADATA_LINEAR_PCS_SENSITIVITY_ONLY'
+          assert report['Stage18_blue_column_scale_effective_over_original'] < 1.
+          assert report['source_DNG_pixels_loaded'] is False
+          assert report['existing_phone_DNG_and_JPEG_modified'] is False
+          assert report['original_Hasselblad_Eagle2_CCM_equation_proven'] is False
+          assert report['private_file_hash_camera_id_timestamp_calibration_values_exported'] is False
+          report['input_is_synthetic']=True
+          report['real_user_sidecar_used_in_CI']=False
+          print(json.dumps(report,sort_keys=True,indent=2))
+          PY
+      - name: Check sanitized synthetic-only output before public upload
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - "$RUNNER_TEMP/STAGE35_SYNTHETIC_SAFE.json" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          assert d['input_is_synthetic'] is True and d['real_user_sidecar_used_in_CI'] is False
+          assert d['DNG_SDK_exact_interpolation_verified'] is False
+          assert d['Stage24_identity_AnalogBalance_assumed'] is True
+          assert d['photographic_colour_error_measured'] is False
+          assert d['private_file_hash_camera_id_timestamp_calibration_values_exported'] is False
+          for prohibited in ('source_dng_sha256','neutral_used','sensor_timestamp_ns',
+                             'physical_sensor_id','private_DNG_pixels'):
+              assert prohibited not in d
+          PY
+      - name: Publish synthetic-only numerical receipts
+        uses: actions/upload-artifact@v4
+        with:
+          name: Hasselblad-Stage35-Neutral-PCS-Synthetic-Safe
+          path: |
+            ${{ runner.temp }}/STAGE35_SYNTHETIC_SAFE.json
+            ${{ runner.temp }}/STAGE35_TEST_LOG.txt
+          if-no-files-found: error
+          retention-days: 14

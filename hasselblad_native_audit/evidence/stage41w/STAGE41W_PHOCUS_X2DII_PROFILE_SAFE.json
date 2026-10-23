@@ -1,0 +1,1933 @@
+{
+  "schema": "hasselblad-stage41w-phocus-x2dii-profile-v1",
+  "apk_sha256": "5ee52bbb2b7a3fa708628ba251b409a551ae099697668427cf54b523328ccf68",
+  "library_sha256": "d757237554529f8ab485f88f2c5e5399fbc8d56035c79b8e057b41a40fd055e4",
+  "asset_count": 26,
+  "native_block_replay": {
+    "synthetic_blocks": 32,
+    "asset_blocks": 104,
+    "exact_blocks": 136,
+    "input_unchanged_and_output_guards_pass": true,
+    "crypto_rounds_stubbed": false
+  },
+  "profiles": [
+    {
+      "file": "374adw566wecu4ai5xgw.dat",
+      "ciphertext_sha256": "8cc0f67eded49cfd309cef49c7312ed6926e76a2c548fe20bde990886fa1868d",
+      "decoded_sha256": "47a26d8966c74ca9edb08f410f9ea4e0669aedaf8c6f8e0e84f62675ee62be45",
+      "decoded_bytes": 2035229,
+      "valid_padding": true,
+      "xml_plist_parsed": true,
+      "profile_version": "1.0",
+      "array_lengths": {
+        "LUTTableFlashRepro": 18690,
+        "LUTTableFlashStd": 18690,
+        "LUTTableTSRepro": 18690,
+        "LUTTableTSStd": 18690,
+        "mf": 9,
+        "mfd": 9,
+        "mlt": 9,
+        "mt": 9,
+        "vf": 3,
+        "vt": 3
+      },
+      "reference_temperatures": {
+        "tf": 6000,
+        "tt": 2550,
+        "tlt": 2100
+      }
+    },
+    {
+      "file": "3v3gs37kfuzt3pvzkos4.dat",
+      "ciphertext_sha256": "a81f2564da7d9888f0e9225c651a131c1d86485776409e3562156dec48148c9f",
+      "decoded_sha256": "b8a57a11cb3fd16913a8da5bbe6cc2f153badc177d2bbdf8d7eaabecc0f210d4",
+      "decoded_bytes": 2110554,
+      "valid_padding": true,
+      "xml_plist_parsed": true,
+      "profile_version": "1.0",
+      "array_lengths": {
+        "LUTTableFlashRepro": 18690,
+        "LUTTableFlashStd": 18690,
+        "LUTTableTSRepro": 18690,
+        "LUTTableTSStd": 18690,
+        "mf": 9,
+        "mfd": 9,
+        "mlt": 9,
+        "mt": 9,
+        "vf": 3,
+        "vt": 3
+      },
+      "reference_temperatures": {
+        "tf": 5550,
+        "tt": 2850,
+        "tlt": 2100
+      }
+    },
+    {
+      "file": "4dvxtxwss6pma3sinntd.dat",
+      "ciphertext_sha256": "bd833ee6f3701f2900abc00e8481a02fe6edfb021a7187a7faf63079451afc8c",
+      "decoded_sha256": "a1647c8ca700bdf2c4add20352500b011abfe6a383f5a0a8be774f39528010f3",
+      "decoded_bytes": 2111351,
+      "valid_padding": true,
+      "xml_plist_parsed": true,
+      "profile_version": "1.0",
+      "array_lengths": {
+        "LUTTableFlashRepro": 18690,
+        "LUTTableFlashStd": 18690,
+        "LUTTableTSRepro": 18690,
+        "LUTTableTSStd": 18690,
+        "mf": 9,
+        "mfd": 9,
+        "mlt": 9,
+        "mt": 9,
+        "vf": 3,
+        "vt": 3
+      },
+      "reference_temperatures": {
+        "tf": 5600,
+        "tt": 2900,
+        "tlt": 2200
+      }
+    },
+    {
+      "file": "5z2xpkwuxlsw7s52ogew.dat",
+      "ciphertext_sha256": "bd5d1eb222628725cc2d7b25bb816b93b34684e31ba31092149dae8b2eda138d",
+      "decoded_sha256": "e8d4a8dab5e43863b8ecebdc1b6aa6ac2e80f86fb98da994678509d42de52fbe",
+      "decoded_bytes": 2110100,
+      "valid_padding": true,
+      "xml_plist_parsed": true,
+      "profile_version": "1.0",
+      "array_lengths": {
+        "LUTTableFlashRepro": 18690,
+        "LUTTableFlashStd": 18690,
+        "LUTTableTSRepro": 18690,
+        "LUTTableTSStd": 18690,
+        "mf": 9,
+        "mfd": 9,
+        "mlt": 9,
+        "mt": 9,
+        "vf": 3,
+        "vt": 3
+      },
+      "reference_temperatures": {
+        "tf": 5700,
+        "tt": 3000,
+        "tlt": 2400
+      }
+    },
+    {
+      "file": "6rett63a7u3ymthirovr.dat",
+      "ciphertext_sha256": "8c48843ee8729fe4fc5f8d19c5aea4d75ba415c3cbe42bb2d7e657bd632124ca",
+      "decoded_sha256": "9d242f2995cdb41f349f379fe29eadbcb86ee6038f408c0a863bcb58fa3cc856",
+      "decoded_bytes": 1653365,
+      "valid_padding": true,
+      "xml_plist_parsed": true,
+      "profile_version": "2.0",
+      "array_lengths": {
+        "vf": 3,
+        "vt": 3,
+        "mf": 9,
+        "mfd": 9,
+        "mt": 9,
+        "LUTTableFlashStd": 18690,
+        "LUTTableTSStd": 18690,
+        "LUTTableFlashRepro": 18690,
+        "LUTTableTSRepro": 18690
+      },
+      "reference_temperatures": {
+        "tf": 5130,
+        "tt": 3238
+      }
+    },
+    {
+      "file": "atrsjhfdpwin6lcabrqg.dat",
+      "ciphertext_sha256": "da73e614e2ca8eedb0b80a32588928aed4ccc2121e183962e8406671a60c3813",
+      "decoded_sha256": "8d2b5d648ca22af2806f25cf4de982762ca0881336c3da118508e507c4507302",
+      "decoded_bytes": 1716897,
+      "valid_padding": true,
+      "xml_plist_parsed": true,
+      "profile_version": "2.0",
+      "array_lengths": {
+        "vf": 3,
+        "vt": 3,
+        "mf": 9,
+        "mfd": 9,
+        "mt": 9,
+        "LUTTableFlashStd": 18690,
+        "LUTTableTSStd": 18689,
+        "LUTTableFlashRepro": 18690,
+        "LUTTableTSRepro": 18689
+      },
+      "reference_temperatures": {
+        "tf": 5000,
+        "tt": 2900
+      }
+    },
+    {
+      "file": "bohnjuhtuvuvtxyydb56.dat",
+      "ciphertext_sha256": "3e508e7e7cf0ee1f71cc33e6b087dad46e84038a1385320d8c7b162984dd5d57",
+      "decoded_sha256": "c2b3d08e0d489eb852610c12a9b985e9d0340a4dd544f5b0b5b7a6a4f3427e95",
+      "decoded_bytes": 3115577,
+      "valid_padding": true,
+      "xml_plist_parsed": true,
+      "profile_version": "3.0",
+      "array_lengths": {
+        "LUTTableFlashRepro": 18690,
+        "LUTTableFlashStd": 18690,
+        "LUTTableTSRepro": 18690,
+        "LUTTableTSStd": 18690,
+        "LUTTableHTRepro": 18690,
+        "LUTTableHTStd": 18690,
+        "mf": 9,
+        "mfd": 9,
+        "mlt": 9,
+        "mt": 9,
+        "mh": 9,
+        "vf": 3,
+        "vt": 3,
+        "vh": 3
+      },
+      "reference_temperatures": {
+        "tf": 5550,
+        "tt": 3050,
+        "tlt": 2400,
+        "th": 9100
+      }
+    },
+    {
+      "file": "cdw4627ghtz2rfx7ygch.dat",
+      "ciphertext_sha256": "9abd3ca08427edff1876a6938eb133183b329e5d273c868b311842e5af428f48",
+      "decoded_sha256": "97acc21474f78e722a14cba4e6117a935b1e63ab568648a199273b829f461fae",
+      "decoded_bytes": 898366,
+      "valid_padding": true,
+      "xml_plist_parsed": true,
+      "profile_version": null,
+      "array_lengths": {
+        "LUTTable": 37380
+      },
+      "reference_temperatures": {}
+    },
+    {
+      "file": "ci4ev4psd3mrymlscnhk.dat",
+      "ciphertext_sha256": "80779fa1fc64d13ce5e4f62fb591a97d8ffbb65f96b5d8e21d39fb23d53cb0f9",
+      "decoded_sha256": "ac1e11257611a2b0632322fed05c3d85c3fdfcf6c0bdf381723085a29d85c104",
+      "decoded_bytes": 1653656,
+      "valid_padding": true,
+      "xml_plist_parsed": true,
+      "profile_version": "2.0",
+      "array_lengths": {
+        "vf": 3,
+        "vt": 3,
+        "mf": 9,
+        "mfd": 9,
+        "mt": 9,
+        "LUTTableFlashStd": 18690,
+        "LUTTableTSStd": 18690,
+        "LUTTableFlashRepro": 18690,
+        "LUTTableTSRepro": 18690
+      },
+      "reference_temperatures": {
+        "tf": 5750,
+        "tt": 3000
+      }
+    },
+    {
+      "file": "cz635rnm5l2hkqajtux4.dat",
+      "ciphertext_sha256": "8f09571dc7b16c8303f89a6d5556147bfc2c4af7970f0370840b4e288dd9be64",
+      "decoded_sha256": "a2e9f80d302070e0ec664924656afb6e3deec2647bb71122d1fe9e0b618fe3d4",
+      "decoded_bytes": 1653945,
+      "valid_padding": true,
+      "xml_plist_parsed": true,
+      "profile_version": "2.0",
+      "array_lengths": {
+        "vf": 3,
+        "vt": 3,
+        "mf": 9,
+        "mfd": 9,
+        "mt": 9,
+        "mlt": 9,
+        "LUTTableFlashStd": 18690,
+        "LUTTableTSStd": 18690,
+        "LUTTableFlashRepro": 18690,
+        "LUTTableTSRepro": 18690
+      },
+      "reference_temperatures": {
+        "tf": 5400,
+        "tt": 2850,
+        "tlt": 2050
+      }
+    },
+    {
+      "file": "dwswfnbnhalbooci5rqd.dat",
+      "ciphertext_sha256": "3edaa0de51b773308bcd64f9078c0ad3c3ffc4500916e4737d770d0a12296242",
+      "decoded_sha256": "54ebd212e2d7ea378411a2a19f2aafbdd4ff00e2ac28031364caa5dc109c6ea6",
+      "decoded_bytes": 935545,
+      "valid_padding": true,
+      "xml_plist_parsed": true,
+      "profile_version": null,
+      "array_lengths": {
+        "LUTTable": 37380
+      },
+      "reference_temperatures": {}
+    },
+    {
+      "file": "er5ymloaq43pg23qeafi.dat",
+      "ciphertext_sha256": "a214ed5014e83f15733b5103d37c1b0d0bb8e334f317da816f12b4d7f9e4145b",
+      "decoded_sha256": "fb3d4dfff003cdbab9e3717a243d1bf63cb66b62330aeb61bd8feba67a13beff",
+      "decoded_bytes": 3051784,
+      "valid_padding": true,
+      "xml_plist_parsed": true,
+      "profile_version": "3.0",
+      "array_lengths": {
+        "LUTTableFlashRepro": 18690,
+        "LUTTableFlashStd": 18690,
+        "LUTTableTSRepro": 18690,
+        "LUTTableTSStd": 18690,
+        "LUTTableHTRepro": 18690,
+        "LUTTableHTStd": 18690,
+        "mf": 9,
+        "mfd": 9,
+        "mlt": 9,
+        "mt": 9,
+        "mh": 9,
+        "vf": 3,
+        "vt": 3,
+        "vh": 3
+      },
+      "reference_temperatures": {
+        "tf": 5650,
+        "tt": 2950,
+        "tlt": 2100,
+        "th": 9200
+      }
+    },
+    {
+      "file": "f45ztndkb5yu7rcno7nz.dat",
+      "ciphertext_sha256": "c8c3c859407b1ca979d7598ae89e846d6c28303884b462e3173977f8a28e9292",
+      "decoded_sha256": "22018b3a8107a0941fc220010a0c00376e085163bba09f5a0dc21f19d5b86186",
+      "decoded_bytes": 2110677,
+      "valid_padding": true,
+      "xml_plist_parsed": true,
+      "profile_version": "1.0",
+      "array_lengths": {
+        "LUTTableFlashRepro": 18690,
+        "LUTTableFlashStd": 18690,
+        "LUTTableTSRepro": 18690,
+        "LUTTableTSStd": 18690,
+        "mf": 9,
+        "mfd": 9,
+        "mlt": 9,
+        "mt": 9,
+        "vf": 3,
+        "vt": 3
+      },
+      "reference_temperatures": {
+        "tf": 5600,
+        "tt": 2950,
+        "tlt": 2050
+      }
+    },
+    {
+      "file": "fx77eloqamxuqijs5plh.dat",
+      "ciphertext_sha256": "b8d8a7ba2392f47c88eea7fc21c8d404356d045a25d53d4eb247bbbef7fa412d",
+      "decoded_sha256": "cf907782ff55cd7f824159964633f03b65a125879680885a1ad736e22ce1d5ae",
+      "decoded_bytes": 1651090,
+      "valid_padding": true,
+      "xml_plist_parsed": true,
+      "profile_version": "2.0",
+      "array_lengths": {
+        "vf": 3,
+        "vt": 3,
+        "mf": 9,
+        "mfd": 9,
+        "mt": 9,
+        "LUTTableFlashStd": 18690,
+        "LUTTableTSStd": 18690,
+        "LUTTableFlashRepro": 18690,
+        "LUTTableTSRepro": 18690
+      },
+      "reference_temperatures": {
+        "tf": 5000,
+        "tt": 2900
+      }
+    },
+    {
+      "file": "gl77kcracyokrc4ma7j7.dat",
+      "ciphertext_sha256": "48a28bdacb240d20ca34bb1236dae068bb073f8c6619069ea3f30771cdb0ab5b",
+      "decoded_sha256": "066e5399c099ec7f64dd391fda24925e31d8b26af7fda67d1a7c6a262bf1ff0d",
+      "decoded_bytes": 898080,
+      "valid_padding": true,
+      "xml_plist_parsed": true,
+      "profile_version": null,
+      "array_lengths": {
+        "LUTTable": 37380
+      },
+      "reference_temperatures": {}
+    },
+    {
+      "file": "hzdkqixccpbhkyi5kewj.dat",
+      "ciphertext_sha256": "1f729e788a39db22a29089a19db0caedb1c8174435ee31a22bab75da33151d4b",
+      "decoded_sha256": "0460ff3ba5fe8659bcddd9b1408b97bc17abbb25af34082cbf5f1901547e78d1",
+      "decoded_bytes": 1652274,
+      "valid_padding": true,
+      "xml_plist_parsed": true,
+      "profile_version": "2.0",
+      "array_lengths": {
+        "vf": 3,
+        "vt": 3,
+        "mf": 9,
+        "mfd": 9,
+        "mt": 9,
+        "LUTTableFlashStd": 18690,
+        "LUTTableTSStd": 18690,
+        "LUTTableFlashRepro": 18690,
+        "LUTTableTSRepro": 18690
+      },
+      "reference_temperatures": {
+        "tf": 5000,
+        "tt": 2900
+      }
+    },
+    {
+      "file": "mq7w3wb56dc3gq3hhv3s.dat",
+      "ciphertext_sha256": "cd65b6cab96790bf51e1608a05270f24f2e5909e7b6a73e8ed387746836a050b",
+      "decoded_sha256": "4baf70a1393ff9035a161f449cfe9e28fac6d42f01de1bb1665a9a33c1a769fb",
+      "decoded_bytes": 3051833,
+      "valid_padding": true,
+      "xml_plist_parsed": true,
+      "profile_version": "3.0",
+      "array_lengths": {
+        "LUTTableFlashRepro": 18690,
+        "LUTTableFlashStd": 18690,
+        "LUTTableTSRepro": 18690,
+        "LUTTableTSStd": 18690,
+        "LUTTableHTRepro": 18690,
+        "LUTTableHTStd": 18690,
+        "mf": 9,
+        "mfd": 9,
+        "mlt": 9,
+        "mt": 9,
+        "mh": 9,
+        "vf": 3,
+        "vt": 3,
+        "vh": 3
+      },
+      "reference_temperatures": {
+        "tf": 5550,
+        "tt": 3100,
+        "tlt": 2400,
+        "th": 9100
+      }
+    },
+    {
+      "file": "ooy2px6dqqqdvk3bolic.dat",
+      "ciphertext_sha256": "0db90b5c575d17fcb678d04f99e930ec28005372a9af091df1330bc00fe01f9a",
+      "decoded_sha256": "948fb6c37460f5adee32cf05e1abd60d4537d05118ed99a54ef17f6c9ccc972d",
+      "decoded_bytes": 898153,
+      "valid_padding": true,
+      "xml_plist_parsed": true,
+      "profile_version": null,
+      "array_lengths": {
+        "LUTTable": 37380
+      },
+      "reference_temperatures": {}
+    },
+    {
+      "file": "pj2rtfkvmvcocnsthgxj.dat",
+      "ciphertext_sha256": "e6351dcff52fe9bf2afd12b3885581d83e22510c81a737631489dfba7bd60c0b",
+      "decoded_sha256": "876a03e60eb62a35f9dd164083ba24eacdd5431adb5a1e3371abbcfd1fca4302",
+      "decoded_bytes": 1651878,
+      "valid_padding": true,
+      "xml_plist_parsed": true,
+      "profile_version": "2.0",
+      "array_lengths": {
+        "vf": 3,
+        "vt": 3,
+        "mf": 9,
+        "mfd": 9,
+        "mt": 9,
+        "LUTTableFlashStd": 18690,
+        "LUTTableTSStd": 18690,
+        "LUTTableFlashRepro": 18690,
+        "LUTTableTSRepro": 18690
+      },
+      "reference_temperatures": {
+        "tf": 5400,
+        "tt": 3200
+      }
+    },
+    {
+      "file": "v7xcumi3eqoxbfelm4sb.dat",
+      "ciphertext_sha256": "b8daf1df3c8377efcada53d29378d04352bdef966571d1330e6b537f5230136b",
+      "decoded_sha256": "efdb3836645dab9e10d6e25880309592152be872c519d2e80ac3e6666932a89f",
+      "decoded_bytes": 1653014,
+      "valid_padding": true,
+      "xml_plist_parsed": true,
+      "profile_version": "2.0",
+      "array_lengths": {
+        "vf": 3,
+        "vt": 3,
+        "mf": 9,
+        "mfd": 9,
+        "mt": 9,
+        "LUTTableFlashStd": 18690,
+        "LUTTableTSStd": 18690,
+        "LUTTableFlashRepro": 18690,
+        "LUTTableTSRepro": 18690
+      },
+      "reference_temperatures": {
+        "tf": 5130,
+        "tt": 3238
+      }
+    },
+    {
+      "file": "vouzhcyvtlb3c65lbpc2.dat",
+      "ciphertext_sha256": "67278986fc9ff7483eacde78b918c605106ca75f6bdb4e3f2bd25198d72d6710",
+      "decoded_sha256": "26f717762842882c30ccaa638893e76b20e2aab3409a335dd61e2eaddfc78912",
+      "decoded_bytes": 2111357,
+      "valid_padding": true,
+      "xml_plist_parsed": true,
+      "profile_version": "1.0",
+      "array_lengths": {
+        "LUTTableFlashRepro": 18690,
+        "LUTTableFlashStd": 18690,
+        "LUTTableTSRepro": 18690,
+        "LUTTableTSStd": 18690,
+        "mf": 9,
+        "mfd": 9,
+        "mlt": 9,
+        "mt": 9,
+        "vf": 3,
+        "vt": 3
+      },
+      "reference_temperatures": {
+        "tf": 5600,
+        "tt": 2900,
+        "tlt": 2200
+      }
+    },
+    {
+      "file": "vto23zbibzdmitbjdg2m.dat",
+      "ciphertext_sha256": "587f7ca026c57b4126f6a3bd6a573d32423d43494c9337f9bfc6f36ec3c943ce",
+      "decoded_sha256": "b0895f65e72acae871adeb3f05494aca00ddf863dc092391b826506860db8afb",
+      "decoded_bytes": 2111356,
+      "valid_padding": true,
+      "xml_plist_parsed": true,
+      "profile_version": "1.0",
+      "array_lengths": {
+        "LUTTableFlashRepro": 18690,
+        "LUTTableFlashStd": 18690,
+        "LUTTableTSRepro": 18690,
+        "LUTTableTSStd": 18690,
+        "mf": 9,
+        "mfd": 9,
+        "mlt": 9,
+        "mt": 9,
+        "vf": 3,
+        "vt": 3
+      },
+      "reference_temperatures": {
+        "tf": 5600,
+        "tt": 3000,
+        "tlt": 2200
+      }
+    },
+    {
+      "file": "woaitvdykvaksnyuaegm.dat",
+      "ciphertext_sha256": "03a8a6bf0cb48ade40f71888cec7a499738a5bfa9eca07a46cde641f48b38807",
+      "decoded_sha256": "5e92884efa89ea50a86f32d7e80685d27766d9847ec21fa3f025a44bd86c8c85",
+      "decoded_bytes": 2110015,
+      "valid_padding": true,
+      "xml_plist_parsed": true,
+      "profile_version": "1.0",
+      "array_lengths": {
+        "LUTTableFlashRepro": 18690,
+        "LUTTableFlashStd": 18690,
+        "LUTTableTSRepro": 18690,
+        "LUTTableTSStd": 18690,
+        "mf": 9,
+        "mfd": 9,
+        "mlt": 9,
+        "mt": 9,
+        "vf": 3,
+        "vt": 3
+      },
+      "reference_temperatures": {
+        "tf": 5650,
+        "tt": 2950,
+        "tlt": 2100
+      }
+    },
+    {
+      "file": "wzgvam54lehu2ofp6mn3.dat",
+      "ciphertext_sha256": "8ee50f4eeb931eb1f316aff0bab90d522f65e7ded6713eac6ce0716ce03be74c",
+      "decoded_sha256": "942a2abdd06abf949fb552a42be49d5ee16ee4c58675fa00d50971b1b8841685",
+      "decoded_bytes": 2110442,
+      "valid_padding": true,
+      "xml_plist_parsed": true,
+      "profile_version": "1.0",
+      "array_lengths": {
+        "LUTTableFlashRepro": 18690,
+        "LUTTableFlashStd": 18690,
+        "LUTTableTSRepro": 18690,
+        "LUTTableTSStd": 18690,
+        "mf": 9,
+        "mfd": 9,
+        "mlt": 9,
+        "mt": 9,
+        "vf": 3,
+        "vt": 3
+      },
+      "reference_temperatures": {
+        "tf": 5600,
+        "tt": 3000,
+        "tlt": 2050
+      }
+    },
+    {
+      "file": "xcsmihuzljuqlyjislw5.dat",
+      "ciphertext_sha256": "4bcf73d06c63bf44e6e43cc0e7e3faf00511a54231103671035493ceb70b8306",
+      "decoded_sha256": "c0062f833294bbd53a12b35a5815da074113a5a3998f97664f09c2628e0af7b9",
+      "decoded_bytes": 1653108,
+      "valid_padding": true,
+      "xml_plist_parsed": true,
+      "profile_version": "2.0",
+      "array_lengths": {
+        "vf": 3,
+        "vt": 3,
+        "mf": 9,
+        "mfd": 9,
+        "mt": 9,
+        "LUTTableFlashStd": 18690,
+        "LUTTableTSStd": 18690,
+        "LUTTableFlashRepro": 18690,
+        "LUTTableTSRepro": 18690
+      },
+      "reference_temperatures": {
+        "tf": 5130,
+        "tt": 3238
+      }
+    },
+    {
+      "file": "y22fh7amwo4umjevnl6o.dat",
+      "ciphertext_sha256": "b315fead10961d20526e6bc76452c73e5993861c6616c4877843dfd28363052c",
+      "decoded_sha256": "7614ed32104f47a8ab5dc2e370fbb454b4f6db1b942f9b0e35376d4d35af2e2c",
+      "decoded_bytes": 1653531,
+      "valid_padding": true,
+      "xml_plist_parsed": true,
+      "profile_version": "2.0",
+      "array_lengths": {
+        "vf": 3,
+        "vt": 3,
+        "mf": 9,
+        "mfd": 9,
+        "mt": 9,
+        "mlt": 9,
+        "LUTTableFlashStd": 18690,
+        "LUTTableTSStd": 18690,
+        "LUTTableFlashRepro": 18690,
+        "LUTTableTSRepro": 18690
+      },
+      "reference_temperatures": {
+        "tf": 5550,
+        "tt": 2850,
+        "tlt": 2200
+      }
+    }
+  ],
+  "native_profile_filename_mapping": [
+    {
+      "cpid": "0x4",
+      "file": "fx77eloqamxuqijs5plh.dat"
+    },
+    {
+      "cpid": "0x7",
+      "file": "atrsjhfdpwin6lcabrqg.dat"
+    },
+    {
+      "cpid": "0x8",
+      "file": "pj2rtfkvmvcocnsthgxj.dat"
+    },
+    {
+      "cpid": "0x9",
+      "file": "hzdkqixccpbhkyi5kewj.dat"
+    },
+    {
+      "cpid": "0x404",
+      "file": "v7xcumi3eqoxbfelm4sb.dat"
+    },
+    {
+      "cpid": "0x408",
+      "file": "xcsmihuzljuqlyjislw5.dat"
+    },
+    {
+      "cpid": "0x409",
+      "file": "6rett63a7u3ymthirovr.dat"
+    },
+    {
+      "cpid": "0x40b",
+      "file": "ci4ev4psd3mrymlscnhk.dat"
+    },
+    {
+      "cpid": "0x40d",
+      "file": "y22fh7amwo4umjevnl6o.dat"
+    },
+    {
+      "cpid": "0x40c",
+      "file": "cz635rnm5l2hkqajtux4.dat"
+    },
+    {
+      "cpid": "0x50b",
+      "file": "f45ztndkb5yu7rcno7nz.dat"
+    },
+    {
+      "cpid": "0x50d",
+      "file": "wzgvam54lehu2ofp6mn3.dat"
+    },
+    {
+      "cpid": "0x50c",
+      "file": "vto23zbibzdmitbjdg2m.dat"
+    },
+    {
+      "cpid": "0x40e",
+      "file": "4dvxtxwss6pma3sinntd.dat"
+    },
+    {
+      "cpid": "0x50e",
+      "file": "4dvxtxwss6pma3sinntd.dat"
+    },
+    {
+      "cpid": "0x50f",
+      "file": "woaitvdykvaksnyuaegm.dat"
+    },
+    {
+      "cpid": "0x690f",
+      "file": "er5ymloaq43pg23qeafi.dat"
+    },
+    {
+      "cpid": "0x510",
+      "file": "vouzhcyvtlb3c65lbpc2.dat"
+    },
+    {
+      "cpid": "0x511",
+      "file": "3v3gs37kfuzt3pvzkos4.dat"
+    },
+    {
+      "cpid": "0x514",
+      "file": "mq7w3wb56dc3gq3hhv3s.dat"
+    },
+    {
+      "cpid": "0x614",
+      "file": "mq7w3wb56dc3gq3hhv3s.dat"
+    },
+    {
+      "cpid": "0x714",
+      "file": "mq7w3wb56dc3gq3hhv3s.dat"
+    },
+    {
+      "cpid": "0x615",
+      "file": "bohnjuhtuvuvtxyydb56.dat"
+    },
+    {
+      "cpid": "0x616",
+      "file": "bohnjuhtuvuvtxyydb56.dat"
+    },
+    {
+      "cpid": "0x12",
+      "file": "5z2xpkwuxlsw7s52ogew.dat"
+    },
+    {
+      "cpid": "0x13",
+      "file": "374adw566wecu4ai5xgw.dat"
+    }
+  ],
+  "native_mapping_roundtrips": 26,
+  "selection": {
+    "sensor": 22,
+    "filter": 6,
+    "back": 71,
+    "native_back_label": "Hasselblad X2D II 100C",
+    "config_queries": [
+      "ClosedLoop"
+    ],
+    "config_boolean_fixture": false,
+    "normal_cpid": "0x616",
+    "selected_file": "bohnjuhtuvuvtxyydb56.dat",
+    "alternate_boolean_true_cpid": "0x10616",
+    "actual_running_app_config_observed": false
+  },
+  "raw_metadata_samples": [
+    {
+      "sample": 1,
+      "model": "X2D II 100C",
+      "sensor_tag_0x11": 22,
+      "back_tag_0x12": 71,
+      "filter_tag_0x16": 6
+    },
+    {
+      "sample": 2,
+      "model": "X2D II 100C",
+      "sensor_tag_0x11": 22,
+      "back_tag_0x12": 71,
+      "filter_tag_0x16": 6
+    },
+    {
+      "sample": 3,
+      "model": "X2D II 100C",
+      "sensor_tag_0x11": 22,
+      "back_tag_0x12": 71,
+      "filter_tag_0x16": 6
+    },
+    {
+      "sample": 4,
+      "model": "X2D II 100C",
+      "sensor_tag_0x11": 22,
+      "back_tag_0x12": 71,
+      "filter_tag_0x16": 6
+    }
+  ],
+  "native_profile_load": {
+    "original_decode_from_executed": true,
+    "original_initialize_luts_executed": true,
+    "native_xml_parser_executed": false,
+    "object_initialization": "zeroed complete-input fixture",
+    "xml_parsing_and_key_value_getters": "Python facade; native array conversion and table construction",
+    "arrays": [
+      {
+        "key": "vf",
+        "count": 3,
+        "object_offset": "0xf0",
+        "stored_times_half_plus_one_exact": true
+      },
+      {
+        "key": "vt",
+        "count": 3,
+        "object_offset": "0x108",
+        "stored_times_half_plus_one_exact": true
+      },
+      {
+        "key": "mf",
+        "count": 9,
+        "object_offset": "0x120",
+        "stored_times_half_plus_one_exact": true
+      },
+      {
+        "key": "mfd",
+        "count": 9,
+        "object_offset": "0x168",
+        "stored_times_half_plus_one_exact": true
+      },
+      {
+        "key": "mt",
+        "count": 9,
+        "object_offset": "0x1b0",
+        "stored_times_half_plus_one_exact": true
+      },
+      {
+        "key": "mlt",
+        "count": 9,
+        "object_offset": "0x1f8",
+        "stored_times_half_plus_one_exact": true
+      },
+      {
+        "key": "mh",
+        "count": 9,
+        "object_offset": "0x240",
+        "stored_times_half_plus_one_exact": true
+      }
+    ],
+    "tables": [
+      {
+        "key": "LUTTableFlashStd",
+        "double_count": 18690,
+        "pointer_offset": "0x2a0",
+        "all_doubles_exact": true
+      },
+      {
+        "key": "LUTTableTSStd",
+        "double_count": 18690,
+        "pointer_offset": "0x2a8",
+        "all_doubles_exact": true
+      },
+      {
+        "key": "LUTTableHTStd",
+        "double_count": 18690,
+        "pointer_offset": "0x2b0",
+        "all_doubles_exact": true
+      },
+      {
+        "key": "LUTTableFlashRepro",
+        "double_count": 18690,
+        "pointer_offset": "0x2b8",
+        "all_doubles_exact": true
+      },
+      {
+        "key": "LUTTableTSRepro",
+        "double_count": 18690,
+        "pointer_offset": "0x2c0",
+        "all_doubles_exact": true
+      },
+      {
+        "key": "LUTTableHTRepro",
+        "double_count": 18690,
+        "pointer_offset": "0x2c8",
+        "all_doubles_exact": true
+      }
+    ],
+    "allocation_and_object_guards_pass": true,
+    "native_functions": [
+      "_ZN7CXMLLut10DecodeFromEP9CKeyCoder",
+      "_ZN7CXMLLut14InitializeLUTsEbii"
+    ],
+    "read_requests": [
+      {
+        "key": "vf",
+        "count": 3,
+        "length_query": false,
+        "object_offset": "0xf0"
+      },
+      {
+        "key": "vt",
+        "count": 3,
+        "length_query": false,
+        "object_offset": "0x108"
+      },
+      {
+        "key": "mf",
+        "count": 9,
+        "length_query": false,
+        "object_offset": "0x120"
+      },
+      {
+        "key": "mfd",
+        "count": 9,
+        "length_query": false,
+        "object_offset": "0x168"
+      },
+      {
+        "key": "mt",
+        "count": 9,
+        "length_query": false,
+        "object_offset": "0x1b0"
+      },
+      {
+        "key": "mlt",
+        "count": 9,
+        "length_query": false,
+        "object_offset": "0x1f8"
+      },
+      {
+        "key": "LUTTableFlashStd",
+        "count": 18690,
+        "length_query": true,
+        "object_offset": null
+      },
+      {
+        "key": "LUTTableFlashStd",
+        "count": 18690,
+        "length_query": false,
+        "object_offset": null
+      },
+      {
+        "key": "LUTTableTSStd",
+        "count": 18690,
+        "length_query": false,
+        "object_offset": null
+      },
+      {
+        "key": "LUTTableFlashRepro",
+        "count": 18690,
+        "length_query": false,
+        "object_offset": null
+      },
+      {
+        "key": "LUTTableTSRepro",
+        "count": 18690,
+        "length_query": false,
+        "object_offset": null
+      },
+      {
+        "key": "mh",
+        "count": 9,
+        "length_query": false,
+        "object_offset": "0x240"
+      },
+      {
+        "key": "LUTTableHTStd",
+        "count": 18690,
+        "length_query": false,
+        "object_offset": null
+      },
+      {
+        "key": "LUTTableHTRepro",
+        "count": 18690,
+        "length_query": false,
+        "object_offset": null
+      }
+    ]
+  },
+  "static_evidence": {
+    "functions": [
+      {
+        "name": "_ZN7CXMLLut11GetFileNameE13uColorProfile",
+        "address": "0x3502480",
+        "bytes": 3456,
+        "sha256": "8666daef029f2996385377c4fcce90e59087c03e74c14bcbff0c1f308b99b478",
+        "direct_plt_edges": [
+          {
+            "site": "0x35024c0",
+            "callee": "_Znwm"
+          },
+          {
+            "site": "0x3502508",
+            "callee": "_Znwm"
+          },
+          {
+            "site": "0x3502548",
+            "callee": "_Znwm"
+          },
+          {
+            "site": "0x3502584",
+            "callee": "_Znwm"
+          },
+          {
+            "site": "0x35025c4",
+            "callee": "_Znwm"
+          },
+          {
+            "site": "0x3502600",
+            "callee": "_Znwm"
+          },
+          {
+            "site": "0x3502640",
+            "callee": "_Znwm"
+          },
+          {
+            "site": "0x350267c",
+            "callee": "_Znwm"
+          },
+          {
+            "site": "0x35026bc",
+            "callee": "_Znwm"
+          },
+          {
+            "site": "0x35026fc",
+            "callee": "_Znwm"
+          },
+          {
+            "site": "0x3502740",
+            "callee": "_Znwm"
+          },
+          {
+            "site": "0x3502780",
+            "callee": "_Znwm"
+          },
+          {
+            "site": "0x35027c4",
+            "callee": "_Znwm"
+          },
+          {
+            "site": "0x3502804",
+            "callee": "_Znwm"
+          },
+          {
+            "site": "0x350284c",
+            "callee": "_Znwm"
+          },
+          {
+            "site": "0x3502880",
+            "callee": "_Znwm"
+          },
+          {
+            "site": "0x35028c8",
+            "callee": "_Znwm"
+          },
+          {
+            "site": "0x350290c",
+            "callee": "_Znwm"
+          },
+          {
+            "site": "0x3502954",
+            "callee": "_Znwm"
+          },
+          {
+            "site": "0x3502998",
+            "callee": "_Znwm"
+          },
+          {
+            "site": "0x35029e4",
+            "callee": "_Znwm"
+          },
+          {
+            "site": "0x3502a1c",
+            "callee": "_Znwm"
+          },
+          {
+            "site": "0x3502a58",
+            "callee": "_Znwm"
+          },
+          {
+            "site": "0x3502aa0",
+            "callee": "_Znwm"
+          },
+          {
+            "site": "0x3502adc",
+            "callee": "_Znwm"
+          },
+          {
+            "site": "0x3502b20",
+            "callee": "_Znwm"
+          },
+          {
+            "site": "0x3502bf0",
+            "callee": "_ZNSt6__ndk112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE17__assign_no_aliasILb0EEERS5_PKcm"
+          },
+          {
+            "site": "0x3502c00",
+            "callee": "_ZNSt6__ndk112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE17__assign_no_aliasILb1EEERS5_PKcm"
+          },
+          {
+            "site": "0x3502c30",
+            "callee": "_ZNSt6__ndk112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE17__assign_externalEPKcm"
+          },
+          {
+            "site": "0x3502c50",
+            "callee": "_ZNSt6__ndk112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE17__assign_externalEPKcm"
+          },
+          {
+            "site": "0x3502d44",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3502d54",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3502d64",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3502d74",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3502d84",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3502d94",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3502da4",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3502db4",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3502dc4",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3502dd4",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3502de4",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3502df4",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3502e04",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3502e14",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3502e24",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3502e34",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3502e44",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3502e54",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3502e64",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3502e74",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3502e84",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3502e94",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3502ea4",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3502eb4",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3502ec4",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3502ed4",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3502ee4",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3503004",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3503014",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3503024",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3503034",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3503044",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3503054",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3503064",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3503074",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3503084",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3503094",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x35030a4",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x35030b4",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x35030c4",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x35030d4",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x35030e4",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x35030f4",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3503104",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3503114",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3503124",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3503134",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3503144",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3503154",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3503164",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3503174",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3503184",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3503194",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x35031a4",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x35031b4",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x35031d0",
+            "callee": "__stack_chk_fail"
+          },
+          {
+            "site": "0x35031f8",
+            "callee": "_ZdlPv"
+          }
+        ]
+      },
+      {
+        "name": "_ZN15CRawColorParams7GetCPIDE9eCCDTypes13eIRFilterTypei",
+        "address": "0x34cac88",
+        "bytes": 392,
+        "sha256": "361792bb8e12a5c5f252b22a520f425645f8b550f2f5828f6d0ba63379157e37",
+        "direct_plt_edges": [
+          {
+            "site": "0x34cad08",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x34cad9c",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x34cadf0",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x34cae0c",
+            "callee": "__stack_chk_fail"
+          }
+        ]
+      },
+      {
+        "name": "_ZN7CXMLLut10DecodeFromEP9CKeyCoder",
+        "address": "0x3505e98",
+        "bytes": 4768,
+        "sha256": "d0d411a217d7d5844c0f01df8d4e55af433f47e0715a47a91356f8d48190fb00",
+        "direct_plt_edges": [
+          {
+            "site": "0x3505efc",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3505f3c",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3505f7c",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3505fc0",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3506004",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x35060b0",
+            "callee": "_ZN7CXMLLut4InitEv"
+          },
+          {
+            "site": "0x3506134",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3506204",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x35062d8",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x35063a8",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3506474",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3506534",
+            "callee": "_ZNK9Matrix3x3ixEi"
+          },
+          {
+            "site": "0x3506544",
+            "callee": "_ZNK9Matrix3x3ixEi"
+          },
+          {
+            "site": "0x3506554",
+            "callee": "_ZNK9Matrix3x3ixEi"
+          },
+          {
+            "site": "0x3506564",
+            "callee": "_ZNK9Matrix3x3ixEi"
+          },
+          {
+            "site": "0x3506574",
+            "callee": "_ZNK9Matrix3x3ixEi"
+          },
+          {
+            "site": "0x3506584",
+            "callee": "_ZNK9Matrix3x3ixEi"
+          },
+          {
+            "site": "0x3506594",
+            "callee": "_ZNK9Matrix3x3ixEi"
+          },
+          {
+            "site": "0x35065a4",
+            "callee": "_ZNK9Matrix3x3ixEi"
+          },
+          {
+            "site": "0x35065b4",
+            "callee": "_ZNK9Matrix3x3ixEi"
+          },
+          {
+            "site": "0x3506698",
+            "callee": "_ZN7CXMLLut14InitializeLUTsEbii"
+          },
+          {
+            "site": "0x35066b0",
+            "callee": "_Znam"
+          },
+          {
+            "site": "0x3506d58",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3506dd8",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3506f54",
+            "callee": "_ZdaPv"
+          },
+          {
+            "site": "0x3507114",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3507134",
+            "callee": "__stack_chk_fail"
+          }
+        ]
+      },
+      {
+        "name": "_ZN7CXMLLutC2E13uColorProfilei",
+        "address": "0x3501e08",
+        "bytes": 1656,
+        "sha256": "49eba76b10c3589dca6c1d9134dd4287cd55dadc941ba0bb69c2699b1887c9fc",
+        "direct_plt_edges": [
+          {
+            "site": "0x3501e3c",
+            "callee": "_ZN11CStreamableC2Ev"
+          },
+          {
+            "site": "0x3501e60",
+            "callee": "_ZN9CFileSpecC1Ev"
+          },
+          {
+            "site": "0x3501e94",
+            "callee": "_ZN9Matrix3x3C1Ev"
+          },
+          {
+            "site": "0x3501e9c",
+            "callee": "_ZN9Matrix3x3C1Ev"
+          },
+          {
+            "site": "0x3501ea4",
+            "callee": "_ZN9Matrix3x3C1Ev"
+          },
+          {
+            "site": "0x3501eac",
+            "callee": "_ZN9Matrix3x3C1Ev"
+          },
+          {
+            "site": "0x3501eb4",
+            "callee": "_ZN9Matrix3x3C1Ev"
+          },
+          {
+            "site": "0x3501efc",
+            "callee": "_ZN7CXMLLut4InitEv"
+          },
+          {
+            "site": "0x3501f14",
+            "callee": "_ZN7CXMLLut4CopyERKS_"
+          },
+          {
+            "site": "0x3501f28",
+            "callee": "_ZN7CXMLLut11GetFileNameE13uColorProfile"
+          },
+          {
+            "site": "0x3501fb0",
+            "callee": "_ZN7CXMLLut10GetXMLPathERKNSt6__ndk112basic_stringIcNS0_11char_traitsIcEENS0_9allocatorIcEEEE"
+          },
+          {
+            "site": "0x3502008",
+            "callee": "_ZNSt6__ndk112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE25__init_copy_ctor_externalEPKcm"
+          },
+          {
+            "site": "0x3502038",
+            "callee": "_ZN9CFileSpecD1Ev"
+          },
+          {
+            "site": "0x3502068",
+            "callee": "_Znwm"
+          },
+          {
+            "site": "0x3502080",
+            "callee": "memset"
+          },
+          {
+            "site": "0x35020e0",
+            "callee": "_ZN17HBCryptoNameSpace7decryptERKNSt6__ndk16vectorIhNS0_9allocatorIhEEEERS4_PNS0_12basic_stringIcNS0_11char_traitsIcEENS2_IcEEEE"
+          },
+          {
+            "site": "0x35020f4",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3502114",
+            "callee": "_Znwm"
+          },
+          {
+            "site": "0x3502124",
+            "callee": "_ZN19CStreamDirectMemoryC1EPhm"
+          },
+          {
+            "site": "0x350214c",
+            "callee": "_ZN14CStreamFactory17NewUniqueKeyCoderEP7CStreamm"
+          },
+          {
+            "site": "0x350218c",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x350219c",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x35021ac",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x35021b4",
+            "callee": "_ZN9CFileSpecD1Ev"
+          },
+          {
+            "site": "0x35021c4",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3502248",
+            "callee": "fprintf"
+          },
+          {
+            "site": "0x350227c",
+            "callee": "fprintf"
+          },
+          {
+            "site": "0x35022b0",
+            "callee": "_ZN11CStreamableD2Ev"
+          },
+          {
+            "site": "0x3502304",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x350232c",
+            "callee": "_ZN9CFileSpecD1Ev"
+          },
+          {
+            "site": "0x350234c",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x350235c",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3502370",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3502378",
+            "callee": "_ZN9CFileSpecD1Ev"
+          },
+          {
+            "site": "0x3502388",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x35023c4",
+            "callee": "_ZN14CThreadedCacheI11Scaled2DLUTED2Ev"
+          },
+          {
+            "site": "0x35023fc",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3502404",
+            "callee": "_ZN9CFileSpecD1Ev"
+          },
+          {
+            "site": "0x3502414",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x350241c",
+            "callee": "_ZN11CStreamableD2Ev"
+          },
+          {
+            "site": "0x350243c",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x350244c",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x350245c",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x350246c",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x350247c",
+            "callee": "__stack_chk_fail"
+          }
+        ]
+      },
+      {
+        "name": "_ZN15CRawColorParams11GetPtrOfLUTE9eCCDTypes13eIRFilterTypei",
+        "address": "0x34cb06c",
+        "bytes": 136,
+        "sha256": "9266354c9db1f03f24e78ff55e189cbe53324247f1cba24841cb36c0a4152cf5",
+        "direct_plt_edges": [
+          {
+            "site": "0x34cb0a0",
+            "callee": "_Znwm"
+          },
+          {
+            "site": "0x34cb0a8",
+            "callee": "_ZN15CRawColorParamsC1Ev"
+          },
+          {
+            "site": "0x34cb0bc",
+            "callee": "_ZN15CRawColorParams7GetCPIDE9eCCDTypes13eIRFilterTypei"
+          },
+          {
+            "site": "0x34cb0dc",
+            "callee": "_ZN15CRawColorParams3LUTE13uColorProfile"
+          },
+          {
+            "site": "0x34cb0e8",
+            "callee": "_ZdlPv"
+          }
+        ]
+      },
+      {
+        "name": "_ZN15CRawColorParams3LUTE13uColorProfile",
+        "address": "0x34ca578",
+        "bytes": 608,
+        "sha256": "eb4af04aa66dfc15512068971eb2e5d39f9e47381832b6f06b3cebccc6b5183d",
+        "direct_plt_edges": [
+          {
+            "site": "0x34ca5b4",
+            "callee": "_ZN15CMutexProtectorC1EP7CXMutex"
+          },
+          {
+            "site": "0x34ca604",
+            "callee": "_Znwm"
+          },
+          {
+            "site": "0x34ca614",
+            "callee": "_ZN7CXMLLutC1E13uColorProfilei"
+          },
+          {
+            "site": "0x34ca65c",
+            "callee": "_Znwm"
+          },
+          {
+            "site": "0x34ca6f0",
+            "callee": "_ZN15CMutexProtectorD1Ev"
+          },
+          {
+            "site": "0x34ca72c",
+            "callee": "_Znwm"
+          },
+          {
+            "site": "0x34ca784",
+            "callee": "_ZN15CMutexProtectorD1Ev"
+          },
+          {
+            "site": "0x34ca798",
+            "callee": "__stack_chk_fail"
+          },
+          {
+            "site": "0x34ca7ac",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x34ca7bc",
+            "callee": "_ZN15CMutexProtectorD1Ev"
+          }
+        ]
+      },
+      {
+        "name": "_ZN12CBodyAndBack21CameraBackModelStringE16eCameraBackModel9eCCDTypes",
+        "address": "0x3661cc0",
+        "bytes": 4092,
+        "sha256": "c980a9d782696a61242bf79f1a853d907f6b768d7c1e5612e07f122585e94a3e",
+        "direct_plt_edges": [
+          {
+            "site": "0x36620f4",
+            "callee": "_Znwm"
+          },
+          {
+            "site": "0x3662438",
+            "callee": "_Znwm"
+          },
+          {
+            "site": "0x3662460",
+            "callee": "memmove"
+          },
+          {
+            "site": "0x366247c",
+            "callee": "_Znwm"
+          },
+          {
+            "site": "0x36624a4",
+            "callee": "memmove"
+          },
+          {
+            "site": "0x36624d0",
+            "callee": "_Znwm"
+          },
+          {
+            "site": "0x36624f8",
+            "callee": "memmove"
+          },
+          {
+            "site": "0x3662514",
+            "callee": "_Znwm"
+          },
+          {
+            "site": "0x366253c",
+            "callee": "memmove"
+          },
+          {
+            "site": "0x366256c",
+            "callee": "_Znwm"
+          },
+          {
+            "site": "0x3662594",
+            "callee": "memmove"
+          },
+          {
+            "site": "0x36625b0",
+            "callee": "_Znwm"
+          },
+          {
+            "site": "0x36625d8",
+            "callee": "memmove"
+          },
+          {
+            "site": "0x36625f4",
+            "callee": "_Znwm"
+          },
+          {
+            "site": "0x366261c",
+            "callee": "memmove"
+          },
+          {
+            "site": "0x3662700",
+            "callee": "_Znwm"
+          },
+          {
+            "site": "0x3662728",
+            "callee": "memmove"
+          },
+          {
+            "site": "0x36627fc",
+            "callee": "_Znwm"
+          },
+          {
+            "site": "0x3662824",
+            "callee": "memmove"
+          },
+          {
+            "site": "0x3662858",
+            "callee": "_Znwm"
+          },
+          {
+            "site": "0x3662880",
+            "callee": "memmove"
+          },
+          {
+            "site": "0x36628b4",
+            "callee": "_Znwm"
+          },
+          {
+            "site": "0x36628dc",
+            "callee": "memmove"
+          },
+          {
+            "site": "0x3662914",
+            "callee": "_Znwm"
+          },
+          {
+            "site": "0x366293c",
+            "callee": "memmove"
+          },
+          {
+            "site": "0x3662958",
+            "callee": "_Znwm"
+          },
+          {
+            "site": "0x3662980",
+            "callee": "memmove"
+          },
+          {
+            "site": "0x3662998",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x36629b0",
+            "callee": "_ZN12CBodyAndBack15IsMultiShotBackE16eCameraBackModel"
+          },
+          {
+            "site": "0x3662a1c",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3662a68",
+            "callee": "_Znwm"
+          },
+          {
+            "site": "0x3662a90",
+            "callee": "memmove"
+          },
+          {
+            "site": "0x3662c9c",
+            "callee": "_ZdlPv"
+          },
+          {
+            "site": "0x3662cb8",
+            "callee": "__stack_chk_fail"
+          }
+        ]
+      },
+      {
+        "name": "_ZN17CRawImageFileData7CCDTypeEP14CRawTiffHeader",
+        "address": "0x35b5bcc",
+        "bytes": 40,
+        "sha256": "212ce779d6e2b15d42049f15d8358a22fbdd10ab9cdbe80ed566af5f2e192b16",
+        "direct_plt_edges": [
+          {
+            "site": "0x35b5be0",
+            "callee": "_ZN14CRawTiffHeader3GetIiQntsr3stdE9is_same_vIT_jEEENSt6__ndk18optionalIS1_EE12eRawIfdIndext"
+          }
+        ]
+      },
+      {
+        "name": "_ZN17CRawImageFileData12GetBackModelEP14CRawTiffHeader",
+        "address": "0x35b73c0",
+        "bytes": 92,
+        "sha256": "22d332d3f21a6e908428af1ec41255fef2834ab6613e8b5192813ad57dc7ed40",
+        "direct_plt_edges": [
+          {
+            "site": "0x35b73e8",
+            "callee": "_ZN14CRawTiffHeader13GetIntegerTagE12eRawIfdIndextRi"
+          },
+          {
+            "site": "0x35b7418",
+            "callee": "__stack_chk_fail"
+          }
+        ]
+      },
+      {
+        "name": "_ZN17CRawImageFileData9SetIrTypeEP14CRawTiffHeader13eIRFilterType",
+        "address": "0x35b5228",
+        "bytes": 20,
+        "sha256": "19d3fe099a79b618a1861126661a855df8870c72ec9d5f33faba1fe3c27a14ff",
+        "direct_plt_edges": [
+          {
+            "site": "0x35b5238",
+            "callee": "_ZN14CRawTiffHeader13SetIntegerTagE12eRawIfdIndexti13eTIFFDataType"
+          }
+        ]
+      }
+    ],
+    "constructor_vtable_slot_0x38_resolves_to_decode_from": true
+  },
+  "bounds": {
+    "camera_firmware_decrypted": false,
+    "camera_main_isp_equivalence_proven": false,
+    "full_app_or_end_to_end_raw_pipeline_executed": false,
+    "complete_raw_photo_rendered": false,
+    "production_renderer_changed": false,
+    "calibration_arrays_or_crypto_tables_exported": false
+  },
+  "runtime": {
+    "numpy": "2.3.5",
+    "unicorn": "2.1.4",
+    "capstone": "5.0.9",
+    "pyelftools": "0.33",
+    "tifffile": "2026.10.15"
+  }
+}

@@ -1,0 +1,78 @@
+name: Hasselblad Stage41G original pixel export and SBPC route
+
+"on":
+  push:
+    branches: [recovery/awb-rebuild-20261021]
+    paths:
+      - 'hasselblad_native_audit/isp_liveview_stage41g/**'
+      - '.github/workflows/hb-stage41g-pixel-export.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  original-pixel-export:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Preserve production and phone renderer
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse refs/remotes/origin/main)" = 929f523aa02ae5b224be39b9c36cce5975691a10
+          test -z "$(git diff --name-only d6785aa6dbe8bb573d278af95edbbb39904a3862 HEAD -- HasselbladPhoton)"
+          python3 -m py_compile hasselblad_native_audit/isp_liveview_stage41g/pixel_export41g.py
+      - name: Install inert audit dependencies
+        run: python3 -m pip install --disable-pip-version-check 'cryptography>=42,<47' 'brotli>=1.1,<2' 'dissect.extfs>=3,<4' 'pyelftools>=0.31,<1' 'capstone>=5,<6' 'unicorn>=2,<3'
+      - name: Download hash-pinned original firmware as transient data
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p hasselblad_native_audit/firmware
+          p=hasselblad_native_audit/firmware/X2DII_100C_v1_3_16_2.cim
+          curl --fail --location --silent --show-error --retry 3 --connect-timeout 30 --max-time 600 \
+            'https://cdn.hasselblad.com/firmware/X2D_II_100C_Firmware/1.3.16.2/X2DII_100C_v1_3_16_2(1).cim' --output "$p"
+          test "$(stat -c %s "$p")" -eq 364814336
+          echo '9789d6a9843d388034bc12341ad9a97585c25cb98cf11a0da8b768399b4842f6  '"$p" | sha256sum -c -
+      - name: Inspect bounded original SBPC source graph and execute synthetic exporter tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 hasselblad_native_audit/extract_official.py > "$RUNNER_TEMP/STAGE41G_PRIVATE_EXTRACT.log"
+          libroot=hasselblad_native_audit/firmware/extracted/system/lib64
+          python3 hasselblad_native_audit/isp_liveview_stage41g/inspect_pixel_route41g.py \
+            --lib-root "$libroot" --output "$RUNNER_TEMP/STAGE41G_ORIGINAL_SBPC_ROUTE_SAFE.json"
+          python3 hasselblad_native_audit/isp_liveview_stage41g/pixel_export41g.py \
+            --lib-root "$libroot" --output "$RUNNER_TEMP/STAGE41G_ORIGINAL_PIXEL_EXPORT_SAFE.json"
+          python3 - "$RUNNER_TEMP/STAGE41G_ORIGINAL_PIXEL_EXPORT_SAFE.json" <<'PY_CHECK'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          assert d['status']=='PASS_original_ARM64_exporter_synthetic_NV12'
+          assert len(d['cases'])==6
+          assert all(x['input_unchanged'] for x in d['cases'])
+          assert d['platform_memory_backend_and_stdio_simulated'] is True
+          assert d['actual_camera_pixels_obtained'] is False
+          assert d['vendor_bytes_exported'] is False
+          PY_CHECK
+      - name: Remove all firmware before artifact publication
+        if: always()
+        shell: bash
+        run: |
+          rm -f hasselblad_native_audit/firmware/X2DII_100C_v1_3_16_2.cim
+          rm -rf hasselblad_native_audit/firmware/extracted
+          rm -f "$RUNNER_TEMP/STAGE41G_PRIVATE_EXTRACT.log"
+      - name: Publish bounded source metadata and synthetic test receipts
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Hasselblad-Stage41G-Original-Pixel-Access-Safe
+          path: |
+            ${{ runner.temp }}/STAGE41G_ORIGINAL_PIXEL_EXPORT_SAFE.json
+            ${{ runner.temp }}/STAGE41G_ORIGINAL_SBPC_ROUTE_SAFE.json
+          if-no-files-found: error
+          retention-days: 14

@@ -33,6 +33,9 @@ public final class HasselbladDevelopmentActivity extends BaseActivity {
     private Uri latestStage32SourceUri;
     private volatile String latestStage34Json;
     private boolean stage34Busy;
+    private Uri latestStage34SidecarUri;
+    private volatile String latestStage36Json;
+    private boolean stage36Busy;
     private final ActivityResultLauncher<String[]> stage32DocumentPicker =
             registerForActivityResult(new ActivityResultContracts.OpenDocument(), uri -> {
                 if (uri != null) runStage32(uri);
@@ -140,6 +143,17 @@ public final class HasselbladDevelopmentActivity extends BaseActivity {
                 stage34SidecarPicker.launch(new String[]{"*/*"});
             }
         });
+        findViewById(R.id.hasselblad_stage36_run).setOnClickListener(view -> runStage36());
+        findViewById(R.id.hasselblad_stage36_copy).setOnClickListener(view -> {
+            String json = latestStage36Json;
+            if (json == null) return;
+            ClipboardManager clipboard = getSystemService(ClipboardManager.class);
+            if (clipboard != null) {
+                clipboard.setPrimaryClip(ClipData.newPlainText(
+                        "Hasselblad Stage36 original versus Photon neutral PCS tile", json));
+                Toast.makeText(this, "Stage36 JSON copied", Toast.LENGTH_SHORT).show();
+            }
+        });
         findViewById(R.id.hasselblad_stage34_copy).setOnClickListener(view -> {
             String json = latestStage34Json;
             if (json == null) return;
@@ -238,11 +252,17 @@ public final class HasselbladDevelopmentActivity extends BaseActivity {
      * are reported, and private temporary bytes are deleted when finished.
      */
     private void runStage32(Uri uri) {
-        if (stage32Busy || stage34Busy) return;
+        if (stage32Busy || stage34Busy || stage36Busy) return;
         stage32Busy = true;
         latestStage32Json = null;
         latestStage32SourceUri = null;
         latestStage34Json = null;
+        latestStage34SidecarUri = null;
+        latestStage36Json = null;
+        findViewById(R.id.hasselblad_stage36_run).setEnabled(false);
+        findViewById(R.id.hasselblad_stage36_copy).setEnabled(false);
+        ((TextView) findViewById(R.id.hasselblad_stage36_status))
+                .setText("Stage36 not run. Re-select your matched DNG and capture JSON.");
         findViewById(R.id.hasselblad_stage34_pick_sidecar).setEnabled(false);
         findViewById(R.id.hasselblad_stage34_copy).setEnabled(false);
         ((TextView)findViewById(R.id.hasselblad_stage34_status)).setText(
@@ -287,10 +307,16 @@ public final class HasselbladDevelopmentActivity extends BaseActivity {
      * with original Camera2 and Photon-effective neutral without exporting them.
      */
     private void runStage34(Uri sidecarUri) {
-        if (stage34Busy || stage32Busy || latestStage32SourceUri == null
-                || latestStage32Json == null) return;
+        if (stage34Busy || stage32Busy || stage36Busy
+                || latestStage32SourceUri == null || latestStage32Json == null) return;
         stage34Busy = true;
         latestStage34Json = null;
+        latestStage34SidecarUri = null;
+        latestStage36Json = null;
+        findViewById(R.id.hasselblad_stage36_run).setEnabled(false);
+        findViewById(R.id.hasselblad_stage36_copy).setEnabled(false);
+        ((TextView) findViewById(R.id.hasselblad_stage36_status))
+                .setText("Stage36 requires a passed Stage34 re-bound DNG and capture sidecar.");
         final Uri dngUri = latestStage32SourceUri;
         final String stage32 = latestStage32Json;
         findViewById(R.id.hasselblad_stage32_pick).setEnabled(false);
@@ -315,6 +341,12 @@ public final class HasselbladDevelopmentActivity extends BaseActivity {
                     status = result.optString("status", status);
                     origin = result.optString("DNG_AsShotNeutral_origin", origin);
                 } catch (Exception ignored) { }
+                if ("PASS_RECORD_BINDING_AND_DNG_WB_TAG_INSPECTED".equals(status)) {
+                    latestStage34SidecarUri = sidecarUri;
+                    findViewById(R.id.hasselblad_stage36_run).setEnabled(true);
+                    ((TextView) findViewById(R.id.hasselblad_stage36_status)).setText(
+                            "Stage36 ready: run the two-neutral PCS comparison on the same DNG tile.");
+                }
                 ((TextView) findViewById(R.id.hasselblad_stage34_status)).setText(
                         "Stage34: " + status
                         + "\nDNG AsShotNeutral source: " + origin
@@ -323,6 +355,50 @@ public final class HasselbladDevelopmentActivity extends BaseActivity {
                         + "\nCopy the privacy-safe JSON for exact comparison flags.");
             });
         }, "HB-stage34-WB-provenance").start();
+    }
+
+    /**
+     * Independent, explicitly requested Stage36 diagnostic on the exact same
+     * DNG and sidecar previously selected for Stage32 and Stage34. Does not
+     * hook, capture, alter, display or save a photograph.
+     */
+    private void runStage36() {
+        if (stage36Busy || stage32Busy || stage34Busy
+                || latestStage32SourceUri == null || latestStage34SidecarUri == null
+                || latestStage32Json == null || latestStage34Json == null) return;
+        stage36Busy = true;
+        latestStage36Json = null;
+        final Uri dngUri = latestStage32SourceUri;
+        final Uri sidecarUri = latestStage34SidecarUri;
+        final String stage32 = latestStage32Json, stage34 = latestStage34Json;
+        findViewById(R.id.hasselblad_stage32_pick).setEnabled(false);
+        findViewById(R.id.hasselblad_stage34_pick_sidecar).setEnabled(false);
+        findViewById(R.id.hasselblad_stage36_run).setEnabled(false);
+        findViewById(R.id.hasselblad_stage36_copy).setEnabled(false);
+        ((TextView) findViewById(R.id.hasselblad_stage36_status)).setText(
+                "Rechecking original RAW/frame provenance and computing two 1024-pixel native PCS tiles...");
+        new Thread(() -> {
+            final String report = HasselbladDualNeutralDiagnostic36.compare(
+                    getApplicationContext(), dngUri, sidecarUri, stage32, stage34);
+            runOnUiThread(() -> {
+                if (isFinishing() || isDestroyed()) return;
+                stage36Busy = false;
+                latestStage36Json = report;
+                findViewById(R.id.hasselblad_stage32_pick).setEnabled(true);
+                findViewById(R.id.hasselblad_stage34_pick_sidecar).setEnabled(true);
+                findViewById(R.id.hasselblad_stage36_run).setEnabled(true);
+                findViewById(R.id.hasselblad_stage36_copy).setEnabled(true);
+                String status = "NOT_PROVEN";
+                try { status = new JSONObject(report).optString("status", status); }
+                catch (Exception ignored) { }
+                ((TextView) findViewById(R.id.hasselblad_stage36_status)).setText(
+                        "Stage36: " + status
+                        + "\nIdentical centre RAW samples and calibration; only Camera2 vs Photon neutral differs."
+                        + "\nOutput: scene-linear sRGB differences, not perceptual colour error."
+                        + "\nOriginal DNG/JPEG untouched; Hasselblad HNCS remains unimplemented."
+                        + "\nCopy JSON for numeric differences and validity details.");
+            });
+        }, "HB-stage36-dual-neutral-on-demand").start();
     }
 
     private void runDomain() {

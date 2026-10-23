@@ -46,3 +46,15 @@ The actual output of this tool is a **symbol/entrypoint triage**, *not* a succes
 The previously tested X2D II QEMU DevKit reproduces menus/UI but **not** camera ISP hardware; it is not a pixel oracle. Public X2D II ADB/diagnostic projects establish possible authorized diagnostic access to a real camera, not a working ISP frame-tap protocol or owner permission. No hardware modification or ADB enablement is part of this stage.
 
 **No APK built; Stage36 `27190` remains the last signed and phone-tested diagnostic.**
+
+## Stage38A original-firmware result (23 October 2026)
+
+Original-source GitHub Actions CI https://github.com/mwilliams455/Hasselblad/actions/runs/39913809691 completed **SUCCESS**. Six exact hash-pinned ELF symbol tables were inspected; 61 named functions matched the broad potential-frame-readout heuristic and five the broad synthetic-input heuristic. Those numbers contain false positives (e.g., DMA-buffer export and an unrelated sensor-level test-pattern setter), and are **not** a count of original MAIN CCM pixel oracles. Relevant real original names include `pp_dump_frame_to_file_base`, `pp_dump_plane_to_file`, `rcam_dbg_capture`, `rcam_dbg_dump_isp`, `rcam_dbg_enable_segment_switch_isp_dump`, and `_imgsys_set_test_pattern`. File-output function names suggest a diagnostic frame route but cannot distinguish an actual intermediate image from ancillary configuration metadata.
+
+## Stage38B — named original callsite and buffer-domain triage
+
+`inspect_original_pixel_oracle_calls38b.py` takes **19 exact named original functions** from four hash-pinned ELF files, disassembles only those selected function bodies, resolves PLT imports only if their layout is proven, and inventories direct same-binary BL calls and callers (AArch64 `CALL26` relocations in the original kernel object). It records counts and bounded original symbol names but **no instructions, literals, decoded pixels, vendor colour values, frame buffers, dumped files or hardware changes**. The named upstream callers and downstream I/O/register calls should help distinguish ISP-register-only dumps, sensor test patterns, and actual buffer-to-file helpers.
+
+Stage38B remains **static provenance**: a function calling `fwrite` or named `frame` is not by itself proof of a CCM-before/after pixel oracle. Only independently verified runtime buffer identity, stage provenance, coefficient control and same-pixel sample comparisons can establish that. No live camera operations or APK changes are authorized.
+
+Run `python3 hasselblad_native_audit/isp_main_stage38/inspect_original_pixel_oracle_calls38b.py --self-test`; the updated workflow executes the original on ephemeral hash-pinned firmware and produces a separate sanitized report.

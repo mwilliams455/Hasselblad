@@ -29,6 +29,7 @@ jobs:
           test -z "$(git diff --name-only dda5d250a29f2716acba8fdf878b0b990f267cba HEAD -- HasselbladPhoton)"
           test "$(git rev-parse refs/remotes/origin/main)" = 929f523aa02ae5b224be39b9c36cce5975691a10
           python3 -m py_compile hasselblad_native_audit/isp_main_stage38/inspect_original_pixel_oracle_surfaces38.py
+          python3 -m py_compile hasselblad_native_audit/isp_main_stage38/inspect_original_pixel_oracle_calls38b.py
           python3 hasselblad_native_audit/isp_main_stage38/inspect_original_pixel_oracle_surfaces38.py \
             --self-test --output "$RUNNER_TEMP/STAGE38_SYNTHETIC.json"
           python3 - "$RUNNER_TEMP/STAGE38_SYNTHETIC.json" <<'PY'
@@ -39,13 +40,21 @@ jobs:
           assert x['original_isp_pixel_oracle_found'] is False
           assert x['photographic_renderer_changed'] is False
           PY
+          python3 hasselblad_native_audit/isp_main_stage38/inspect_original_pixel_oracle_calls38b.py \
+            --self-test --output "$RUNNER_TEMP/STAGE38B_SYNTHETIC.json"
+          python3 - "$RUNNER_TEMP/STAGE38B_SYNTHETIC.json" <<'PY_B'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          assert d['status']=='PASS_synthetic' and d['checks']==13
+          assert d['firmware_loaded'] is False and d['pixel_oracle_proven'] is False
+          PY_B
       - name: Install inert ELF and firmware extraction dependencies
         shell: bash
         run: |
           set -euo pipefail
           python3 -m pip install --disable-pip-version-check \
             'cryptography>=42,<47' 'brotli>=1.1,<2' 'dissect.extfs>=3,<4' \
-            'pyelftools>=0.31,<1'
+            'pyelftools>=0.31,<1' 'capstone>=5,<6'
       - name: Fetch exact official X2D II 1.3.16.2 only
         shell: bash
         run: |
@@ -89,6 +98,36 @@ jobs:
                   'potential_test_input_names':src['candidate_categories_total'].get('potential_synthetic_input_name',0),
                   'string_anchor_counts':src['bounded_string_signals']},sort_keys=True))
           PY
+      - name: Trace 19 original-frame readout and injection functions
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 hasselblad_native_audit/isp_main_stage38/inspect_original_pixel_oracle_calls38b.py \
+            --firmware-root hasselblad_native_audit/firmware/extracted \
+            --output "$RUNNER_TEMP/STAGE38B_ORIGINAL_ORACLE_CALLS.json"
+          python3 - "$RUNNER_TEMP/STAGE38B_ORIGINAL_ORACLE_CALLS.json" <<'PY_B'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          assert d['status']=='PASS_original_static_named_callee_caller_audit'
+          assert len(d['source_reports'])==4
+          assert sum(len(f['routines']) for f in d['source_reports'].values())==19
+          assert d['same_stage_pre_post_ccm_RGB_pixels_demonstrated'] is False
+          assert d['original_six_coefficient_ccm_pixel_arithmetic_recovered'] is False
+          assert d['vendor_code_instruction_bytes_or_private_tuning_exported'] is False
+          assert d['saved_photographs_or_production_branch_modified'] is False
+          for src,entry in d['source_reports'].items():
+              assert entry['sha256'] and entry['original_image_or_frame_data_processed_by_this_audit'] is False
+              for name,fn in entry['routines'].items():
+                  assert fn['decoded_instructions'] > 0
+                  assert fn['actual_image_buffer_abi_proven'] is False
+                  assert fn['original_ccm_isolated_pixel_readback_proven'] is False
+                  assert fn['reverse_direct_callers']['actual_runtime_called_or_pixel_domain_proven'] is False
+          print(json.dumps({'status':d['status'],
+                'interesting_sources':{src:{name:{'calls':fn['static_direct_call_count'],
+                     'callers':fn['reverse_direct_callers']['direct_call_candidate_count']}
+                     for name,fn in entry['routines'].items()}
+                     for src,entry in d['source_reports'].items()}},sort_keys=True))
+          PY_B
       - name: Remove original firmware regardless of inspection status
         if: always()
         shell: bash
@@ -102,6 +141,8 @@ jobs:
           name: Hasselblad-Stage38-Original-ISP-Oracle-Interfaces-Safe
           path: |
             ${{ runner.temp }}/STAGE38_SYNTHETIC.json
+            ${{ runner.temp }}/STAGE38B_SYNTHETIC.json
             ${{ runner.temp }}/STAGE38_ORIGINAL_ISP_ORACLE_SURFACES.json
+            ${{ runner.temp }}/STAGE38B_ORIGINAL_ORACLE_CALLS.json
           if-no-files-found: error
           retention-days: 14

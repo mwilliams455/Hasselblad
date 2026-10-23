@@ -1,0 +1,126 @@
+name: Hasselblad Stage40F new original MAIN LUT profile arithmetic
+"on":
+  push:
+    branches:
+      - recovery/awb-rebuild-20261021
+    paths:
+      - 'hasselblad_native_audit/isp_firmware_stage40/replay_new_original_lut40f.py'
+      - '.github/workflows/hb-stage40f-new-lut-native-replay.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-main-lut-profile:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Verify production unchanged and run 17 synthetic tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse refs/remotes/origin/main)" = 929f523aa02ae5b224be39b9c36cce5975691a10
+          test -z "$(git diff --name-only dda5d250a29f2716acba8fdf878b0b990f267cba HEAD -- HasselbladPhoton)"
+          git diff --quiet 929f523aa02ae5b224be39b9c36cce5975691a10 HEAD -- \
+            hasselblad_native_audit/photographic_path/lut_profile_probe.c \
+            hasselblad_native_audit/main_colour_20261019/ccm/ccm_prepare_probe.c
+          python3 -m py_compile hasselblad_native_audit/isp_firmware_stage40/replay_new_original_lut40f.py
+          python3 hasselblad_native_audit/isp_firmware_stage40/replay_new_original_lut40f.py \
+            --self-test --output "$RUNNER_TEMP/STAGE40F_SYNTHETIC.json"
+          python3 - "$RUNNER_TEMP/STAGE40F_SYNTHETIC.json" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          assert d['status']=='PASS_synthetic' and d['checks']==17
+          assert d['vendor_library_executed'] is False and d['camera_pixels_processed'] is False
+          PY
+      - name: Install inert parsers, official firmware extractors
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m pip install --disable-pip-version-check \
+            'cryptography>=42,<47' 'brotli>=1.1,<2' \
+            'dissect.extfs>=3,<4' 'pyelftools>=0.31,<1'
+      - name: Find Android 28 AArch64 compiler and QEMU
+        shell: bash
+        run: |
+          set -euo pipefail
+          sdk="${ANDROID_SDK_ROOT:-${ANDROID_HOME:-/usr/local/lib/android/sdk}}"
+          dirs=()
+          if [ -n "${ANDROID_NDK_LATEST_HOME:-}" ]; then dirs+=("$ANDROID_NDK_LATEST_HOME"); fi
+          if [ -n "${ANDROID_NDK_HOME:-}" ]; then dirs+=("$ANDROID_NDK_HOME"); fi
+          if [ -d "$sdk/ndk" ]; then
+            while IFS= read -r d; do dirs+=("$d"); done < <(find "$sdk/ndk" -mindepth 1 -maxdepth 1 -type d | sort -rV)
+          fi
+          clang=''
+          for d in "${dirs[@]}"; do
+            p="$d/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android28-clang"
+            if [ -x "$p" ]; then clang="$p"; break; fi
+          done
+          if [ -z "$clang" ]; then
+            sdkmanager="$sdk/cmdline-tools/latest/bin/sdkmanager"
+            test -x "$sdkmanager"
+            yes | "$sdkmanager" --sdk_root="$sdk" 'ndk;27.2.12479018' > "$RUNNER_TEMP/STAGE40F_PRIVATE_NDK_INSTALL.log" || test -d "$sdk/ndk/27.2.12479018"
+            clang="$sdk/ndk/27.2.12479018/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android28-clang"
+          fi
+          test -x "$clang"
+          qemu="$(command -v qemu-aarch64 || true)"
+          if [ -z "$qemu" ]; then
+            sudo apt-get update -qq
+            sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq qemu-user > "$RUNNER_TEMP/STAGE40F_PRIVATE_QEMU_INSTALL.log"
+            qemu="$(command -v qemu-aarch64 || true)"
+          fi
+          test -x "$qemu"
+          echo "HB40F_CLANG=$clang" >> "$GITHUB_ENV"
+          echo "HB40F_QEMU=$qemu" >> "$GITHUB_ENV"
+      - name: Read exact official new firmware and run native LUT arithmetic
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/hb40f"
+          p="$RUNNER_TEMP/hb40f/X2DII_100C_v1_3_18_1.cim"
+          curl --fail --location --retry 3 --retry-delay 4 --connect-timeout 30 --max-time 610 \
+            --silent --show-error \
+            'https://cdn.hasselblad.com/firmware/X2D_II_100C_Firmware/1.3.18.1/X2DII_100C_v1_3_18_1.cim' \
+            --output "$p"
+          test "$(stat -c %s "$p")" -eq 365283840
+          echo 'c65970cbc1519f876aa3296411f8bb5075995dabc9479bb8abb635945dad6496  '"$p" | sha256sum -c -
+          python3 hasselblad_native_audit/isp_firmware_stage40/extract_exact40.py \
+            --source "$p" --version 1.3.18.1 \
+            --output "$RUNNER_TEMP/hb40f/extracted" > "$RUNNER_TEMP/STAGE40F_PRIVATE_EXTRACT.log"
+          python3 hasselblad_native_audit/isp_firmware_stage40/replay_new_original_lut40f.py \
+            --firmware-root "$RUNNER_TEMP/hb40f/extracted" \
+            --clang "$HB40F_CLANG" --qemu "$HB40F_QEMU" \
+            --output "$RUNNER_TEMP/STAGE40F_NATIVE_LUT_SAFE.json"
+          python3 - "$RUNNER_TEMP/STAGE40F_NATIVE_LUT_SAFE.json" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          assert d['status']=='PASS_original_new_1_3_18_1_MAIN_LUT_profile_preparation'
+          assert d['total_native_cases']==22
+          assert d['actual_camera_profiles']['scalar_lanes_checked']==122880
+          assert d['actual_camera_profiles']['matched_independent_python'] is True
+          assert d['synthetic_profiles']['native_cases']==12
+          assert d['new_firmware_calc_dispatch_table_or_branch_proven'] is False
+          assert d['saved_photo_colour_or_MAIN_pixel_3DLUT_parity_proven'] is False
+          assert d['six_coefficient_CCM_pixel_equation_proven'] is False
+          assert d['original_vendor_bytes_or_private_photos_or_LUT_words_exported'] is False
+          assert d['production_main_or_Android_renderer_modified'] is False
+          PY
+      - name: Delete original vendor data and temporary inputs
+        if: always()
+        shell: bash
+        run: |
+          rm -rf "$RUNNER_TEMP/hb40f"
+          rm -f "$RUNNER_TEMP/STAGE40F_PRIVATE_EXTRACT.log" "$RUNNER_TEMP/STAGE40F_PRIVATE_NDK_INSTALL.log" "$RUNNER_TEMP/STAGE40F_PRIVATE_QEMU_INSTALL.log"
+      - name: Publish only sanitized native arithmetic receipt
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Hasselblad-Stage40F-New-Original-LUT-Preparation-Safe
+          path: |
+            ${{ runner.temp }}/STAGE40F_SYNTHETIC.json
+            ${{ runner.temp }}/STAGE40F_NATIVE_LUT_SAFE.json
+          if-no-files-found: error
+          retention-days: 14

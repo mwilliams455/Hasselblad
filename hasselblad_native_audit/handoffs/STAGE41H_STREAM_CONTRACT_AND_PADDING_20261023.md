@@ -1,5 +1,7 @@
 # Stage41H: declared SBPC route, runtime descriptors, and padded pixel export
 
+> Scope clarification (Stage41I): the synthetic/no-camera-pixels flags below describe this stage's firmware replay. Real saved phone RAW pixels were already tested in Stage36 and have now been read in full in Work Mode. See `STAGE41I_REAL_RAW_ACCESS_CLARIFICATION_20261023.md`. The unresolved acquisition is an isolated X2D II internal processing-stage reference.
+
 Date: 2026-10-23. Research branch: `recovery/awb-rebuild-20261021`.
 Implementation commit: `9dbfdc56c7664b6f7eeaa4176c51e41a21497ba8`.
 Predecessor: `1c2a4d639462540032e908e99a9ccd50b0d83677` (Stage41G).

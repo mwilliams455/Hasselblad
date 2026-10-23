@@ -1,5 +1,7 @@
 # Stage 41G — original pixel exporter verified; live camera acquisition still required
 
+> Scope clarification (Stage41I): the synthetic/no-camera-pixels flags below describe this stage's firmware replay. Real saved phone RAW pixels were already tested in Stage36 and have now been read in full in Work Mode. See `STAGE41I_REAL_RAW_ACCESS_CLARIFICATION_20261023.md`. The unresolved acquisition is an isolated X2D II internal processing-stage reference.
+
 23 October 2026 (UK).
 
 We found an original SBPC frame-processing route with diagnostic YUV dumps on

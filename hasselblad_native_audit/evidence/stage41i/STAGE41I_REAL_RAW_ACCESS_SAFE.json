@@ -1,0 +1,46 @@
+{
+  "DNG_hash_and_length_match_capture_record": true,
+  "Hasselblad_pixel_renderer_executed": false,
+  "calibration_corrections_or_demosaic_applied": false,
+  "capture_timestamp_pairing_record_present": true,
+  "independent_hardware_attestation": false,
+  "input_is_synthetic": false,
+  "isolated_MAIN_CCM_before_after_pixels_obtained": false,
+  "private_pixel_values_hashes_camera_IDs_or_calibration_arrays_exported": false,
+  "raw": {
+    "cfa": "RGGB",
+    "colour_metadata_presence": {
+      "AsShotNeutral": true,
+      "BlackLevel": true,
+      "ColorMatrix1": true,
+      "ColorMatrix2": true,
+      "ForwardMatrix1": true,
+      "ForwardMatrix2": true,
+      "OpcodeList2": true,
+      "WhiteLevel": true
+    },
+    "compression": "none",
+    "decoded_raw_bytes": 25165824,
+    "full_array_read": true,
+    "height": 3072,
+    "independent_raw_strip_comparison": "exact",
+    "is_demosaiced_RGB": false,
+    "nonconstant_samples": true,
+    "sensor_samples": 12582912,
+    "storage_bits": 16,
+    "width": 4096
+  },
+  "schema": "hasselblad-stage41i-real-RAW-access-v1",
+  "source_DNG_unmodified": true,
+  "source_is_phone_DNG_not_X2D_II_internal_buffer": true,
+  "status": "PASS_real_saved_RAW_pixels_accessible_in_Work_Mode",
+  "supplied_jpeg": {
+    "dimensions_equal_raw_without_rotation_or_resampling": false,
+    "full_array_decoded": true,
+    "height": 2048,
+    "icc_profile_present": true,
+    "mode": "RGB",
+    "same_capture_binding_independently_proven": false,
+    "width": 1536
+  }
+}

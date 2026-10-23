@@ -1,0 +1,1661 @@
+{
+  "schema": "hasselblad-stage41z-input-preparation-v1",
+  "apk_sha256": "5ee52bbb2b7a3fa708628ba251b409a551ae099697668427cf54b523328ccf68",
+  "library_sha256": "d757237554529f8ab485f88f2c5e5399fbc8d56035c79b8e057b41a40fd055e4",
+  "audit": {
+    "converter_constructor_cases": [
+      {
+        "CCNC_fixture": false,
+        "forward_matrix": {
+          "values": 9,
+          "exact_values": 2,
+          "max_abs_difference": 2.220446049250313e-16
+        },
+        "inverse_matrix": {
+          "values": 9,
+          "exact_values": 4,
+          "max_abs_difference": 2.220446049250313e-16
+        }
+      },
+      {
+        "CCNC_fixture": true,
+        "forward_matrix": {
+          "values": 9,
+          "exact_values": 9,
+          "max_abs_difference": 0.0
+        },
+        "inverse_matrix": {
+          "values": 9,
+          "exact_values": 9,
+          "max_abs_difference": 0.0
+        }
+      }
+    ],
+    "temperature_to_gain_cases": [
+      {
+        "CCNC_fixture": false,
+        "temperature": 2000,
+        "tint_fixture": -0.01,
+        "values": 3,
+        "exact_values": 1,
+        "max_abs_difference": 3.197442310920451e-14
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature": 2000,
+        "tint_fixture": 0.0,
+        "values": 3,
+        "exact_values": 1,
+        "max_abs_difference": 3.552713678800501e-15
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature": 2000,
+        "tint_fixture": 0.01,
+        "values": 3,
+        "exact_values": 2,
+        "max_abs_difference": 4.440892098500626e-16
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature": 2400,
+        "tint_fixture": -0.01,
+        "values": 3,
+        "exact_values": 1,
+        "max_abs_difference": 1.7763568394002505e-15
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature": 2400,
+        "tint_fixture": 0.0,
+        "values": 3,
+        "exact_values": 2,
+        "max_abs_difference": 6.661338147750939e-16
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature": 2400,
+        "tint_fixture": 0.01,
+        "values": 3,
+        "exact_values": 1,
+        "max_abs_difference": 3.552713678800501e-15
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature": 3050,
+        "tint_fixture": -0.01,
+        "values": 3,
+        "exact_values": 2,
+        "max_abs_difference": 5.773159728050814e-15
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature": 3050,
+        "tint_fixture": 0.0,
+        "values": 3,
+        "exact_values": 1,
+        "max_abs_difference": 3.552713678800501e-15
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature": 3050,
+        "tint_fixture": 0.01,
+        "values": 3,
+        "exact_values": 1,
+        "max_abs_difference": 4.440892098500626e-15
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature": 4000,
+        "tint_fixture": -0.01,
+        "values": 3,
+        "exact_values": 1,
+        "max_abs_difference": 1.3322676295501878e-15
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature": 4000,
+        "tint_fixture": 0.0,
+        "values": 3,
+        "exact_values": 1,
+        "max_abs_difference": 4.440892098500626e-16
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature": 4000,
+        "tint_fixture": 0.01,
+        "values": 3,
+        "exact_values": 1,
+        "max_abs_difference": 1.1102230246251565e-15
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature": 5550,
+        "tint_fixture": -0.01,
+        "values": 3,
+        "exact_values": 1,
+        "max_abs_difference": 1.7763568394002505e-15
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature": 5550,
+        "tint_fixture": 0.0,
+        "values": 3,
+        "exact_values": 1,
+        "max_abs_difference": 8.881784197001252e-16
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature": 5550,
+        "tint_fixture": 0.01,
+        "values": 3,
+        "exact_values": 1,
+        "max_abs_difference": 8.881784197001252e-16
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature": 8000,
+        "tint_fixture": -0.01,
+        "values": 3,
+        "exact_values": 1,
+        "max_abs_difference": 1.7763568394002505e-15
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature": 8000,
+        "tint_fixture": 0.0,
+        "values": 3,
+        "exact_values": 1,
+        "max_abs_difference": 1.3322676295501878e-15
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature": 8000,
+        "tint_fixture": 0.01,
+        "values": 3,
+        "exact_values": 1,
+        "max_abs_difference": 1.3322676295501878e-15
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature": 9100,
+        "tint_fixture": -0.01,
+        "values": 3,
+        "exact_values": 1,
+        "max_abs_difference": 1.3322676295501878e-15
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature": 9100,
+        "tint_fixture": 0.0,
+        "values": 3,
+        "exact_values": 1,
+        "max_abs_difference": 1.3322676295501878e-15
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature": 9100,
+        "tint_fixture": 0.01,
+        "values": 3,
+        "exact_values": 1,
+        "max_abs_difference": 8.881784197001252e-16
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature": 10000,
+        "tint_fixture": -0.01,
+        "values": 3,
+        "exact_values": 1,
+        "max_abs_difference": 1.3322676295501878e-15
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature": 10000,
+        "tint_fixture": 0.0,
+        "values": 3,
+        "exact_values": 2,
+        "max_abs_difference": 2.220446049250313e-16
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature": 10000,
+        "tint_fixture": 0.01,
+        "values": 3,
+        "exact_values": 1,
+        "max_abs_difference": 1.3322676295501878e-15
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature": 20000,
+        "tint_fixture": -0.01,
+        "values": 3,
+        "exact_values": 1,
+        "max_abs_difference": 1.7763568394002505e-15
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature": 20000,
+        "tint_fixture": 0.0,
+        "values": 3,
+        "exact_values": 1,
+        "max_abs_difference": 8.881784197001252e-16
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature": 20000,
+        "tint_fixture": 0.01,
+        "values": 3,
+        "exact_values": 1,
+        "max_abs_difference": 4.440892098500626e-16
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature": 50000,
+        "tint_fixture": -0.01,
+        "values": 3,
+        "exact_values": 1,
+        "max_abs_difference": 8.881784197001252e-16
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature": 50000,
+        "tint_fixture": 0.0,
+        "values": 3,
+        "exact_values": 1,
+        "max_abs_difference": 8.881784197001252e-16
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature": 50000,
+        "tint_fixture": 0.01,
+        "values": 3,
+        "exact_values": 1,
+        "max_abs_difference": 4.440892098500626e-16
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature": 2000,
+        "tint_fixture": -0.01,
+        "values": 3,
+        "exact_values": 2,
+        "max_abs_difference": 2.7569058147491887e-12
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature": 2000,
+        "tint_fixture": 0.0,
+        "values": 3,
+        "exact_values": 3,
+        "max_abs_difference": 0.0
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature": 2000,
+        "tint_fixture": 0.01,
+        "values": 3,
+        "exact_values": 2,
+        "max_abs_difference": 1.7763568394002505e-15
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature": 2400,
+        "tint_fixture": -0.01,
+        "values": 3,
+        "exact_values": 2,
+        "max_abs_difference": 1.2434497875801753e-14
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature": 2400,
+        "tint_fixture": 0.0,
+        "values": 3,
+        "exact_values": 2,
+        "max_abs_difference": 2.6645352591003757e-15
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature": 2400,
+        "tint_fixture": 0.01,
+        "values": 3,
+        "exact_values": 2,
+        "max_abs_difference": 2.6645352591003757e-15
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature": 3050,
+        "tint_fixture": -0.01,
+        "values": 3,
+        "exact_values": 1,
+        "max_abs_difference": 8.43769498715119e-15
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature": 3050,
+        "tint_fixture": 0.0,
+        "values": 3,
+        "exact_values": 1,
+        "max_abs_difference": 3.552713678800501e-15
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature": 3050,
+        "tint_fixture": 0.01,
+        "values": 3,
+        "exact_values": 2,
+        "max_abs_difference": 4.884981308350689e-15
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature": 4000,
+        "tint_fixture": -0.01,
+        "values": 3,
+        "exact_values": 2,
+        "max_abs_difference": 6.661338147750939e-16
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature": 4000,
+        "tint_fixture": 0.0,
+        "values": 3,
+        "exact_values": 2,
+        "max_abs_difference": 2.220446049250313e-16
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature": 4000,
+        "tint_fixture": 0.01,
+        "values": 3,
+        "exact_values": 2,
+        "max_abs_difference": 2.220446049250313e-16
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature": 5550,
+        "tint_fixture": -0.01,
+        "values": 3,
+        "exact_values": 2,
+        "max_abs_difference": 2.220446049250313e-16
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature": 5550,
+        "tint_fixture": 0.0,
+        "values": 3,
+        "exact_values": 2,
+        "max_abs_difference": 2.220446049250313e-16
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature": 5550,
+        "tint_fixture": 0.01,
+        "values": 3,
+        "exact_values": 3,
+        "max_abs_difference": 0.0
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature": 8000,
+        "tint_fixture": -0.01,
+        "values": 3,
+        "exact_values": 3,
+        "max_abs_difference": 0.0
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature": 8000,
+        "tint_fixture": 0.0,
+        "values": 3,
+        "exact_values": 3,
+        "max_abs_difference": 0.0
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature": 8000,
+        "tint_fixture": 0.01,
+        "values": 3,
+        "exact_values": 3,
+        "max_abs_difference": 0.0
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature": 9100,
+        "tint_fixture": -0.01,
+        "values": 3,
+        "exact_values": 3,
+        "max_abs_difference": 0.0
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature": 9100,
+        "tint_fixture": 0.0,
+        "values": 3,
+        "exact_values": 3,
+        "max_abs_difference": 0.0
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature": 9100,
+        "tint_fixture": 0.01,
+        "values": 3,
+        "exact_values": 3,
+        "max_abs_difference": 0.0
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature": 10000,
+        "tint_fixture": -0.01,
+        "values": 3,
+        "exact_values": 3,
+        "max_abs_difference": 0.0
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature": 10000,
+        "tint_fixture": 0.0,
+        "values": 3,
+        "exact_values": 2,
+        "max_abs_difference": 2.220446049250313e-16
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature": 10000,
+        "tint_fixture": 0.01,
+        "values": 3,
+        "exact_values": 1,
+        "max_abs_difference": 2.220446049250313e-16
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature": 20000,
+        "tint_fixture": -0.01,
+        "values": 3,
+        "exact_values": 1,
+        "max_abs_difference": 2.220446049250313e-16
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature": 20000,
+        "tint_fixture": 0.0,
+        "values": 3,
+        "exact_values": 3,
+        "max_abs_difference": 0.0
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature": 20000,
+        "tint_fixture": 0.01,
+        "values": 3,
+        "exact_values": 3,
+        "max_abs_difference": 0.0
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature": 50000,
+        "tint_fixture": -0.01,
+        "values": 3,
+        "exact_values": 3,
+        "max_abs_difference": 0.0
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature": 50000,
+        "tint_fixture": 0.0,
+        "values": 3,
+        "exact_values": 3,
+        "max_abs_difference": 0.0
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature": 50000,
+        "tint_fixture": 0.01,
+        "values": 3,
+        "exact_values": 1,
+        "max_abs_difference": 4.440892098500626e-16
+      }
+    ],
+    "gain_to_temperature_cases": [
+      {
+        "CCNC_fixture": false,
+        "temperature_exact": true,
+        "tint_abs_difference": 0.0,
+        "scaled_tint_abs_difference": 0.0,
+        "near_isotherm_boundary": false,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 0.0
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature_exact": true,
+        "tint_abs_difference": 1.3877787807814457e-17,
+        "scaled_tint_abs_difference": 1.3877787807814457e-17,
+        "near_isotherm_boundary": false,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 0.0
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature_exact": true,
+        "tint_abs_difference": 4.85722573273506e-17,
+        "scaled_tint_abs_difference": 4.85722573273506e-17,
+        "near_isotherm_boundary": false,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 0.0
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature_exact": true,
+        "tint_abs_difference": 2.42861286636753e-17,
+        "scaled_tint_abs_difference": 5.204170427930421e-17,
+        "near_isotherm_boundary": false,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 0.0
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature_exact": true,
+        "tint_abs_difference": 5.0306980803327406e-17,
+        "scaled_tint_abs_difference": 5.0306980803327406e-17,
+        "near_isotherm_boundary": true,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 0.0
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature_exact": true,
+        "tint_abs_difference": 0.0,
+        "scaled_tint_abs_difference": 6.414897447307822e-18,
+        "near_isotherm_boundary": true,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 0.0
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature_exact": true,
+        "tint_abs_difference": 5.377642775528102e-17,
+        "scaled_tint_abs_difference": 3.469446951953614e-18,
+        "near_isotherm_boundary": true,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 0.0
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature_exact": true,
+        "tint_abs_difference": 0.0,
+        "scaled_tint_abs_difference": 0.0,
+        "near_isotherm_boundary": false,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 0.0
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature_exact": true,
+        "tint_abs_difference": 1.0854845143999936e-16,
+        "scaled_tint_abs_difference": 1.0854845143999936e-16,
+        "near_isotherm_boundary": false,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 0.0
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature_exact": true,
+        "tint_abs_difference": 0.0,
+        "scaled_tint_abs_difference": 0.0,
+        "near_isotherm_boundary": false,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 0.0
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature_exact": true,
+        "tint_abs_difference": 0.0,
+        "scaled_tint_abs_difference": 0.0,
+        "near_isotherm_boundary": false,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 0.0
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature_exact": true,
+        "tint_abs_difference": 3.3087224502121107e-23,
+        "scaled_tint_abs_difference": 3.3087224502121107e-23,
+        "near_isotherm_boundary": false,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 0.0
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature_exact": true,
+        "tint_abs_difference": 6.071532165918825e-17,
+        "scaled_tint_abs_difference": 6.071532165918825e-17,
+        "near_isotherm_boundary": false,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 0.0
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature_exact": true,
+        "tint_abs_difference": 1.214306433183765e-17,
+        "scaled_tint_abs_difference": 1.214306433183765e-17,
+        "near_isotherm_boundary": true,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 0.0
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature_exact": true,
+        "tint_abs_difference": 0.0,
+        "scaled_tint_abs_difference": 4.288652615306366e-17,
+        "near_isotherm_boundary": true,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 4.288652615306366e-17
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature_exact": true,
+        "tint_abs_difference": 5.0306980803327406e-17,
+        "scaled_tint_abs_difference": 5.0306980803327406e-17,
+        "near_isotherm_boundary": true,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 0.0
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature_exact": true,
+        "tint_abs_difference": 0.0,
+        "scaled_tint_abs_difference": 0.0,
+        "near_isotherm_boundary": false,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 0.0
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature_exact": true,
+        "tint_abs_difference": 3.886875707144619e-17,
+        "scaled_tint_abs_difference": 3.886875707144619e-17,
+        "near_isotherm_boundary": false,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 0.0
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature_exact": true,
+        "tint_abs_difference": 1.734723475976807e-18,
+        "scaled_tint_abs_difference": 1.734723475976807e-18,
+        "near_isotherm_boundary": false,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 1.9081958235744878e-17
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature_exact": true,
+        "tint_abs_difference": 5.0306980803327406e-17,
+        "scaled_tint_abs_difference": 5.0306980803327406e-17,
+        "near_isotherm_boundary": true,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 0.0
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature_exact": true,
+        "tint_abs_difference": 2.737849997086193e-17,
+        "scaled_tint_abs_difference": 2.737849997086193e-17,
+        "near_isotherm_boundary": true,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 0.0
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature_exact": true,
+        "tint_abs_difference": 1.734723475976807e-18,
+        "scaled_tint_abs_difference": 7.28583859910259e-17,
+        "near_isotherm_boundary": true,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 9.71445146547012e-17
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature_exact": true,
+        "tint_abs_difference": 1.734723475976807e-18,
+        "scaled_tint_abs_difference": 0.0,
+        "near_isotherm_boundary": false,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 2.42861286636753e-17
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature_exact": true,
+        "tint_abs_difference": 5.37667398159468e-24,
+        "scaled_tint_abs_difference": 5.37667398159468e-24,
+        "near_isotherm_boundary": false,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 0.0
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature_exact": true,
+        "tint_abs_difference": 5.204170427930421e-17,
+        "scaled_tint_abs_difference": 1.734723475976807e-18,
+        "near_isotherm_boundary": false,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 0.0
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature_exact": true,
+        "tint_abs_difference": 2.42861286636753e-17,
+        "scaled_tint_abs_difference": 0.0,
+        "near_isotherm_boundary": true,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 2.7950813293918866e-05
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature_exact": true,
+        "tint_abs_difference": 0.0,
+        "scaled_tint_abs_difference": 0.0,
+        "near_isotherm_boundary": true,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 0.0
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature_exact": true,
+        "tint_abs_difference": 7.28583859910259e-17,
+        "scaled_tint_abs_difference": 4.85722573273506e-17,
+        "near_isotherm_boundary": true,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 2.42861286636753e-17
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature_exact": true,
+        "tint_abs_difference": 5.204170427930421e-17,
+        "scaled_tint_abs_difference": 5.204170427930421e-17,
+        "near_isotherm_boundary": true,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 0.0
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature_exact": true,
+        "tint_abs_difference": 7.928542682679877e-17,
+        "scaled_tint_abs_difference": 2.6184570158021157e-17,
+        "near_isotherm_boundary": true,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 2.691628651075646e-17
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature_exact": true,
+        "tint_abs_difference": 1.5612511283791264e-17,
+        "scaled_tint_abs_difference": 9.71445146547012e-17,
+        "near_isotherm_boundary": true,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 4.6510950313209676e-07
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature_exact": true,
+        "tint_abs_difference": 2.6020852139652106e-17,
+        "scaled_tint_abs_difference": 2.6020852139652106e-17,
+        "near_isotherm_boundary": true,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 0.0
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature_exact": true,
+        "tint_abs_difference": 2.0634111592857834e-19,
+        "scaled_tint_abs_difference": 5.3586212526543595e-17,
+        "near_isotherm_boundary": true,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 5.3792553642472173e-17
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature_exact": true,
+        "tint_abs_difference": 1.3877787807814457e-17,
+        "scaled_tint_abs_difference": 1.3877787807814457e-17,
+        "near_isotherm_boundary": true,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 0.0
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature_exact": true,
+        "tint_abs_difference": 8.673617379884035e-19,
+        "scaled_tint_abs_difference": 8.673617379884035e-19,
+        "near_isotherm_boundary": false,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 0.0
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature_exact": true,
+        "tint_abs_difference": 1.3877787807814457e-17,
+        "scaled_tint_abs_difference": 1.3877787807814457e-17,
+        "near_isotherm_boundary": false,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 0.0
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature_exact": true,
+        "tint_abs_difference": 0.0,
+        "scaled_tint_abs_difference": 0.0,
+        "near_isotherm_boundary": false,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 0.0
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature_exact": true,
+        "tint_abs_difference": 0.0,
+        "scaled_tint_abs_difference": 2.7755575615628914e-17,
+        "near_isotherm_boundary": false,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 2.7755575615628914e-17
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature_exact": true,
+        "tint_abs_difference": 0.0,
+        "scaled_tint_abs_difference": 0.0,
+        "near_isotherm_boundary": true,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 0.0
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature_exact": true,
+        "tint_abs_difference": 0.0,
+        "scaled_tint_abs_difference": 0.0,
+        "near_isotherm_boundary": true,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 0.0
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature_exact": true,
+        "tint_abs_difference": 1.734723475976807e-18,
+        "scaled_tint_abs_difference": 1.734723475976807e-18,
+        "near_isotherm_boundary": true,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 0.0
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature_exact": true,
+        "tint_abs_difference": 0.0,
+        "scaled_tint_abs_difference": 0.0,
+        "near_isotherm_boundary": false,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 0.0
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature_exact": true,
+        "tint_abs_difference": 1.1653139420490481e-17,
+        "scaled_tint_abs_difference": 1.1653139420490481e-17,
+        "near_isotherm_boundary": false,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 0.0
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature_exact": true,
+        "tint_abs_difference": 5.551115123125783e-17,
+        "scaled_tint_abs_difference": 5.551115123125783e-17,
+        "near_isotherm_boundary": false,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 0.0
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature_exact": true,
+        "tint_abs_difference": 4.336808689942018e-17,
+        "scaled_tint_abs_difference": 4.336808689942018e-17,
+        "near_isotherm_boundary": false,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 0.0
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature_exact": true,
+        "tint_abs_difference": 1.257314531080602e-22,
+        "scaled_tint_abs_difference": 1.257314531080602e-22,
+        "near_isotherm_boundary": false,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 0.0
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature_exact": true,
+        "tint_abs_difference": 0.0,
+        "scaled_tint_abs_difference": 0.0,
+        "near_isotherm_boundary": false,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 0.0
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature_exact": true,
+        "tint_abs_difference": 0.0,
+        "scaled_tint_abs_difference": 0.0,
+        "near_isotherm_boundary": true,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 0.0
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature_exact": true,
+        "tint_abs_difference": 0.0,
+        "scaled_tint_abs_difference": 0.0,
+        "near_isotherm_boundary": true,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 0.0
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature_exact": true,
+        "tint_abs_difference": 1.3877787807814457e-17,
+        "scaled_tint_abs_difference": 1.3877787807814457e-17,
+        "near_isotherm_boundary": true,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 0.0
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature_exact": true,
+        "tint_abs_difference": 3.9898639947466563e-17,
+        "scaled_tint_abs_difference": 3.9898639947466563e-17,
+        "near_isotherm_boundary": false,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 0.0
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature_exact": true,
+        "tint_abs_difference": 3.886888363007991e-17,
+        "scaled_tint_abs_difference": 3.886888363007991e-17,
+        "near_isotherm_boundary": false,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 0.0
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature_exact": true,
+        "tint_abs_difference": 2.0816681711721685e-17,
+        "scaled_tint_abs_difference": 1.734723475976807e-18,
+        "near_isotherm_boundary": false,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 3.8163916471489756e-17
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature_exact": true,
+        "tint_abs_difference": 0.0,
+        "scaled_tint_abs_difference": 0.0,
+        "near_isotherm_boundary": true,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 0.0
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature_exact": true,
+        "tint_abs_difference": 0.0,
+        "scaled_tint_abs_difference": 0.0,
+        "near_isotherm_boundary": true,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 0.0
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature_exact": true,
+        "tint_abs_difference": 0.0,
+        "scaled_tint_abs_difference": 0.0,
+        "near_isotherm_boundary": true,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 0.0
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature_exact": true,
+        "tint_abs_difference": 0.0,
+        "scaled_tint_abs_difference": 0.0,
+        "near_isotherm_boundary": false,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 0.0
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature_exact": true,
+        "tint_abs_difference": 2.6382501293724578e-17,
+        "scaled_tint_abs_difference": 2.6382501293724578e-17,
+        "near_isotherm_boundary": false,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 0.0
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature_exact": true,
+        "tint_abs_difference": 1.734723475976807e-18,
+        "scaled_tint_abs_difference": 1.734723475976807e-18,
+        "near_isotherm_boundary": false,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 0.0
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature_exact": true,
+        "tint_abs_difference": 2.6020852139652106e-17,
+        "scaled_tint_abs_difference": 0.0,
+        "near_isotherm_boundary": true,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 5.0306980803327406e-17
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature_exact": true,
+        "tint_abs_difference": 0.0,
+        "scaled_tint_abs_difference": 3.0814879110195774e-33,
+        "near_isotherm_boundary": true,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 3.0814879110195774e-33
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature_exact": true,
+        "tint_abs_difference": 3.469446951953614e-18,
+        "scaled_tint_abs_difference": 3.469446951953614e-18,
+        "near_isotherm_boundary": true,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 0.0
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature_exact": true,
+        "tint_abs_difference": 2.7755575615628914e-17,
+        "scaled_tint_abs_difference": 2.7755575615628914e-17,
+        "near_isotherm_boundary": true,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 0.0
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature_exact": true,
+        "tint_abs_difference": 0.0,
+        "scaled_tint_abs_difference": 0.0,
+        "near_isotherm_boundary": true,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 5.3100856668777624e-17
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature_exact": true,
+        "tint_abs_difference": 1.734723475976807e-18,
+        "scaled_tint_abs_difference": 0.0,
+        "near_isotherm_boundary": true,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 4.651095031581176e-07
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature_exact": true,
+        "tint_abs_difference": 0.0,
+        "scaled_tint_abs_difference": 0.0,
+        "near_isotherm_boundary": true,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 2.7755575615628914e-17
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature_exact": true,
+        "tint_abs_difference": 0.0,
+        "scaled_tint_abs_difference": 0.0,
+        "near_isotherm_boundary": true,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 0.0
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature_exact": true,
+        "tint_abs_difference": 5.377642775528102e-17,
+        "scaled_tint_abs_difference": 1.3877787807814457e-17,
+        "near_isotherm_boundary": true,
+        "common_scale_temperature_invariant": true,
+        "common_scale_tint_difference": 3.9898639947466563e-17
+      }
+    ],
+    "capture_metadata_cases": [
+      {
+        "CCNC_fixture": false,
+        "temperature_exact": true,
+        "tint_abs_difference": 4.336808689942018e-19,
+        "near_isotherm_boundary": false
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature_exact": true,
+        "tint_abs_difference": 6.158268339717665e-17,
+        "near_isotherm_boundary": false
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature_exact": true,
+        "tint_abs_difference": 3.859759734048396e-17,
+        "near_isotherm_boundary": false
+      },
+      {
+        "CCNC_fixture": false,
+        "temperature_exact": true,
+        "tint_abs_difference": 2.0166160408230382e-17,
+        "near_isotherm_boundary": false
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature_exact": true,
+        "tint_abs_difference": 2.7755575615628914e-17,
+        "near_isotherm_boundary": false
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature_exact": true,
+        "tint_abs_difference": 4.163336342344337e-17,
+        "near_isotherm_boundary": false
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature_exact": true,
+        "tint_abs_difference": 2.7755575615628914e-17,
+        "near_isotherm_boundary": false
+      },
+      {
+        "CCNC_fixture": true,
+        "temperature_exact": true,
+        "tint_abs_difference": 1.3877787807814457e-17,
+        "near_isotherm_boundary": false
+      }
+    ],
+    "linearization_cases": [
+      {
+        "gain_fixture": 0.5,
+        "values": 196608,
+        "exact_values": 196608,
+        "max_abs_difference": 0.0
+      },
+      {
+        "gain_fixture": 1.0,
+        "values": 196608,
+        "exact_values": 196608,
+        "max_abs_difference": 0.0
+      },
+      {
+        "gain_fixture": 1.7,
+        "values": 196608,
+        "exact_values": 196608,
+        "max_abs_difference": 0.0
+      },
+      {
+        "gain_fixture": 4.0,
+        "values": 196608,
+        "exact_values": 196608,
+        "max_abs_difference": 0.0
+      }
+    ],
+    "linearization_apply_cases": [
+      {
+        "gain_fixture": 0.5,
+        "closed_loop_pointer_fixture": false,
+        "values": 1536,
+        "exact_values": 1536,
+        "max_abs_difference": 0.0
+      },
+      {
+        "gain_fixture": 0.5,
+        "closed_loop_pointer_fixture": true,
+        "values": 1536,
+        "exact_values": 1536,
+        "max_abs_difference": 0.0
+      },
+      {
+        "gain_fixture": 1.0,
+        "closed_loop_pointer_fixture": false,
+        "values": 1536,
+        "exact_values": 1536,
+        "max_abs_difference": 0.0
+      },
+      {
+        "gain_fixture": 1.0,
+        "closed_loop_pointer_fixture": true,
+        "values": 1536,
+        "exact_values": 1536,
+        "max_abs_difference": 0.0
+      },
+      {
+        "gain_fixture": 1.7,
+        "closed_loop_pointer_fixture": false,
+        "values": 1536,
+        "exact_values": 1536,
+        "max_abs_difference": 0.0
+      },
+      {
+        "gain_fixture": 1.7,
+        "closed_loop_pointer_fixture": true,
+        "values": 1536,
+        "exact_values": 1536,
+        "max_abs_difference": 0.0
+      },
+      {
+        "gain_fixture": 4.0,
+        "closed_loop_pointer_fixture": false,
+        "values": 1536,
+        "exact_values": 1536,
+        "max_abs_difference": 0.0
+      },
+      {
+        "gain_fixture": 4.0,
+        "closed_loop_pointer_fixture": true,
+        "values": 1536,
+        "exact_values": 1536,
+        "max_abs_difference": 0.0
+      }
+    ],
+    "android_caller_contract": {
+      "source_gain_and_scalar_cases": [
+        {
+          "source_fixture": "current",
+          "scalar_gain_enabled": false,
+          "gain_result": {
+            "values": 3,
+            "exact_values": 1,
+            "max_abs_difference": 8.881784197001252e-16
+          },
+          "scalar_result": {
+            "values": 2,
+            "exact_values": 1,
+            "max_abs_difference": 1.3322676295501878e-15
+          }
+        },
+        {
+          "source_fixture": "current",
+          "scalar_gain_enabled": true,
+          "gain_result": {
+            "values": 3,
+            "exact_values": 1,
+            "max_abs_difference": 8.881784197001252e-16
+          },
+          "scalar_result": {
+            "values": 2,
+            "exact_values": 1,
+            "max_abs_difference": 2.6645352591003757e-15
+          }
+        },
+        {
+          "source_fixture": "alternate",
+          "scalar_gain_enabled": false,
+          "gain_result": {
+            "values": 3,
+            "exact_values": 2,
+            "max_abs_difference": 4.440892098500626e-16
+          },
+          "scalar_result": {
+            "values": 2,
+            "exact_values": 1,
+            "max_abs_difference": 4.440892098500626e-16
+          }
+        },
+        {
+          "source_fixture": "alternate",
+          "scalar_gain_enabled": true,
+          "gain_result": {
+            "values": 3,
+            "exact_values": 2,
+            "max_abs_difference": 4.440892098500626e-16
+          },
+          "scalar_result": {
+            "values": 2,
+            "exact_values": 1,
+            "max_abs_difference": 8.881784197001252e-16
+          }
+        },
+        {
+          "source_fixture": "capture_fallback",
+          "scalar_gain_enabled": false,
+          "gain_result": {
+            "values": 3,
+            "exact_values": 3,
+            "max_abs_difference": 0.0
+          },
+          "scalar_result": {
+            "values": 2,
+            "exact_values": 2,
+            "max_abs_difference": 0.0
+          }
+        },
+        {
+          "source_fixture": "capture_fallback",
+          "scalar_gain_enabled": true,
+          "gain_result": {
+            "values": 3,
+            "exact_values": 3,
+            "max_abs_difference": 0.0
+          },
+          "scalar_result": {
+            "values": 2,
+            "exact_values": 1,
+            "max_abs_difference": 4.440892098500626e-16
+          }
+        }
+      ],
+      "creation_argument_cases": [
+        {
+          "settings_enabled_fixture": false,
+          "requested_model_code": 1,
+          "requested_space_code": 4,
+          "linearization_gain_enabled": false,
+          "selected_film_code": 1,
+          "factory_arguments_exact": true,
+          "linearization_argument_exact": true,
+          "input_unchanged": true
+        },
+        {
+          "settings_enabled_fixture": false,
+          "requested_model_code": 1,
+          "requested_space_code": 4,
+          "linearization_gain_enabled": true,
+          "selected_film_code": 1,
+          "factory_arguments_exact": true,
+          "linearization_argument_exact": true,
+          "input_unchanged": true
+        },
+        {
+          "settings_enabled_fixture": true,
+          "requested_model_code": 0,
+          "requested_space_code": 0,
+          "linearization_gain_enabled": false,
+          "selected_film_code": 0,
+          "factory_arguments_exact": true,
+          "linearization_argument_exact": true,
+          "input_unchanged": true
+        },
+        {
+          "settings_enabled_fixture": true,
+          "requested_model_code": 0,
+          "requested_space_code": 0,
+          "linearization_gain_enabled": true,
+          "selected_film_code": 0,
+          "factory_arguments_exact": true,
+          "linearization_argument_exact": true,
+          "input_unchanged": true
+        },
+        {
+          "settings_enabled_fixture": true,
+          "requested_model_code": 0,
+          "requested_space_code": 4,
+          "linearization_gain_enabled": false,
+          "selected_film_code": 0,
+          "factory_arguments_exact": true,
+          "linearization_argument_exact": true,
+          "input_unchanged": true
+        },
+        {
+          "settings_enabled_fixture": true,
+          "requested_model_code": 0,
+          "requested_space_code": 4,
+          "linearization_gain_enabled": true,
+          "selected_film_code": 0,
+          "factory_arguments_exact": true,
+          "linearization_argument_exact": true,
+          "input_unchanged": true
+        },
+        {
+          "settings_enabled_fixture": true,
+          "requested_model_code": 1,
+          "requested_space_code": 4,
+          "linearization_gain_enabled": false,
+          "selected_film_code": 7,
+          "factory_arguments_exact": true,
+          "linearization_argument_exact": true,
+          "input_unchanged": true
+        },
+        {
+          "settings_enabled_fixture": true,
+          "requested_model_code": 1,
+          "requested_space_code": 4,
+          "linearization_gain_enabled": true,
+          "selected_film_code": 7,
+          "factory_arguments_exact": true,
+          "linearization_argument_exact": true,
+          "input_unchanged": true
+        }
+      ],
+      "factory_is_recording_fixture": true,
+      "HDR_flag_in_all_creation_cases": false
+    },
+    "android_static_call_edges": [
+      {
+        "call_site": "0x34bb618",
+        "callee": "_ZN22CColorCorrectAllFilter16UpdateParametersEv",
+        "direct_call_verified": true
+      },
+      {
+        "call_site": "0x34c0dbc",
+        "callee": "_ZN24ColorCorrectionAllFilter21CreateColorCorrectionEPK15sRawDescriptionPK16CImageCorrection",
+        "direct_call_verified": true
+      },
+      {
+        "call_site": "0x34c0e8c",
+        "callee": "_ZNK20CColorTempConversion17TempAndTintToGainEid",
+        "direct_call_verified": true
+      },
+      {
+        "call_site": "0x3279f94",
+        "callee": "_ZN19CRawColorCorrection21NewRawColorCorrectionE9eCCDTypes13eIRFilterTypedd14eFilmCurveType11eColorModelPK14CCLCalibration13eWorkingSpacebd",
+        "direct_call_verified": true
+      },
+      {
+        "call_site": "0x3279fb4",
+        "callee": "_ZN19CRawColorCorrection22CalculateLinearizationEd",
+        "direct_call_verified": true
+      }
+    ],
+    "empty_linearization_no_op_verified": true,
+    "source_tables_and_profile_unchanged": true,
+    "guards_pass": true,
+    "configuration_queries": [
+      "CCNC",
+      "CLNoLinearization",
+      "ClosedLoop"
+    ],
+    "profile_cache_fixture_calls": 231,
+    "host_math_calls": {},
+    "original_functions": [
+      {
+        "name": "_ZN15CRawColorParams30GetXYZ2RawRGBNeutralizedMatrixE13uColorProfile11eIlluminant",
+        "address": "0x34ca8a0",
+        "bytes": 600,
+        "sha256": "6f368a6629bde03ba17bbec6c3a0eb88454bc65312f83ba9aacc30e43156051d"
+      },
+      {
+        "name": "_ZN15CRawColorParams30GetXYZ2RawRGBNeutralizedMatrixE9eCCDTypes13eIRFilterType11eIlluminanti",
+        "address": "0x34cae10",
+        "bytes": 160,
+        "sha256": "11dece511e30b6a7fc12491d59f08710fb6eab9414dfb1a47729640e8cd97266"
+      },
+      {
+        "name": "_ZN15CRawColorParams7GetCPIDE9eCCDTypes13eIRFilterTypei",
+        "address": "0x34cac88",
+        "bytes": 392,
+        "sha256": "361792bb8e12a5c5f252b22a520f425645f8b550f2f5828f6d0ba63379157e37"
+      },
+      {
+        "name": "_ZN16CColorCorrection22CalculateLinearizationEd",
+        "address": "0x34c9604",
+        "bytes": 1324,
+        "sha256": "946d631dba807102120766b348accf7ea06ebc2ccf7bf712cc104516ae54ee37"
+      },
+      {
+        "name": "_ZN19CRawColorCorrection22CalculateLinearizationEd",
+        "address": "0x34c7bcc",
+        "bytes": 8,
+        "sha256": "4be829589ac5745e54111c484c06ee6f3dcb482a4fe2e5f3f4522f85d32f6f97"
+      },
+      {
+        "name": "_ZN20CColorTempConversion17GainToTempAndTintE9eCCDTypes13eIRFilterType6CArrayIdLi3E23Matrix3x1InitializationERiRdb",
+        "address": "0x3329d60",
+        "bytes": 204,
+        "sha256": "0368d5b000ae66f3c888c9b964a93f62e6ea3a313303b1dbf73428738349f60a"
+      },
+      {
+        "name": "_ZN20CColorTempConversion17TempAndTintToGainE9eCCDTypes13eIRFilterTypeid",
+        "address": "0x3329e2c",
+        "bytes": 188,
+        "sha256": "7c522db383c3fb91ddb3d158c2e279d8b1d0249cbffafa1627fa6ba38ed65444"
+      },
+      {
+        "name": "_ZN20CColorTempConversionC1E9eCCDTypes13eIRFilterType",
+        "address": "0x3329008",
+        "bytes": 232,
+        "sha256": "83ef6fb528bcf14133354aad090e3096c5444786c7b1f8c9ed50e0b00885038d"
+      },
+      {
+        "name": "_ZN20CColorTempConversionD1Ev",
+        "address": "0x332917c",
+        "bytes": 4,
+        "sha256": "110f46b5b35c069160560c6ad6786f647dd44e8760a52a46fc22dbbcd7630b91"
+      },
+      {
+        "name": "_ZN24ColorCorrectionAllFilter18gainFromSourceInfoEPK15sRawDescriptionPK16CImageCorrection",
+        "address": "0x3279db0",
+        "bytes": 268,
+        "sha256": "ef322799f6afd0d4b4c7d0d609b1c0154d7bd181f992c4f614f143b516c7d121"
+      },
+      {
+        "name": "_ZN24ColorCorrectionAllFilter21CreateColorCorrectionEPK15sRawDescriptionPK16CImageCorrection",
+        "address": "0x3279ebc",
+        "bytes": 392,
+        "sha256": "b144bd46a9f708a243b28a2b562f02bce555d79dc1f938677e9c92c54b1ebb46"
+      },
+      {
+        "name": "_ZN24ColorCorrectionAllFilter7GetHrEVEPK16CImageCorrectionPK15sRawDescription",
+        "address": "0x3279c74",
+        "bytes": 316,
+        "sha256": "65e18b40e3e50aa45dece94ddf4b88a741cadd625fea913ca6526a80ed1c2695"
+      },
+      {
+        "name": "_ZN7CXMLLut10DecodeFromEP9CKeyCoder",
+        "address": "0x3505e98",
+        "bytes": 4768,
+        "sha256": "d0d411a217d7d5844c0f01df8d4e55af433f47e0715a47a91356f8d48190fb00"
+      },
+      {
+        "name": "_ZN7CXMLLut14InitializeLUTsEbii",
+        "address": "0x35035f4",
+        "bytes": 660,
+        "sha256": "82088ed48179a187b07e84527452ad8d97f838b9b21a2501811b41af77ff1cd3"
+      },
+      {
+        "name": "_ZN9Matrix3x33SetEddddddddd",
+        "address": "0x369aff8",
+        "bytes": 28,
+        "sha256": "53e8268b82801353781dcfbfe34eb8d000a30bcd264cd30b66f514f2c8bc575b"
+      },
+      {
+        "name": "_ZN9Matrix3x36ColumnEi",
+        "address": "0x369b014",
+        "bytes": 20,
+        "sha256": "7591207ab4fa0547eab573528314330d32cefda2b5a729c4b25d5d086dc0ae71"
+      },
+      {
+        "name": "_ZN9Matrix3x3C1E6CArrayIdLi3E23Matrix3x1InitializationES2_S2_",
+        "address": "0x369aea4",
+        "bytes": 36,
+        "sha256": "c7e1ec6311aa5a6a77595893698ba9f2fc09667a3dc52bbbd15d1b3862b25576"
+      },
+      {
+        "name": "_ZN9Matrix3x3C1Ev",
+        "address": "0x369adc0",
+        "bytes": 28,
+        "sha256": "50f0eb901a0ad4fa755027175dada0d9ca64830e8c4aee311dc88b19e78d7acd"
+      },
+      {
+        "name": "_ZNK16CImageCorrection18EffectiveFilmCurveE14eFilmCurveType",
+        "address": "0x3560d6c",
+        "bytes": 60,
+        "sha256": "ab26af3294516e23458d7ef01ef983a1766aa2fa988e4dd96afec5d5ce78f094"
+      },
+      {
+        "name": "_ZNK19CRawColorCorrection18ApplyLinearizationEPtiPf",
+        "address": "0x34c7720",
+        "bytes": 584,
+        "sha256": "3fe58500d97637845fc4513b817660ca1f0ecc2ec8387fe2d8b9cb9f74226b98"
+      },
+      {
+        "name": "_ZNK20CColorTempConversion17GainToTempAndTintEdddRiRdb",
+        "address": "0x3329274",
+        "bytes": 1120,
+        "sha256": "32650e5a5227ba9fc80b09f732aa4ed4b7b8c298c0662903cb4732e05da23106"
+      },
+      {
+        "name": "_ZNK20CColorTempConversion17TempAndTintToGainEid",
+        "address": "0x3329918",
+        "bytes": 1096,
+        "sha256": "e5260f92b5cb854cd0740b6fba1c05f7d0eb61b1c2c682484797dd832c2c3537"
+      },
+      {
+        "name": "_ZNK7CXMLLut19GetColorMatrixFlashEv",
+        "address": "0x350390c",
+        "bytes": 28,
+        "sha256": "3b4c17b5376fdf92a58860721715e7123e81d8324d88aa98ee885e77c06837f1"
+      },
+      {
+        "name": "_ZNK7CXMLLut21GetNeutralVectorFlashEv",
+        "address": "0x35038dc",
+        "bytes": 12,
+        "sha256": "786f4995c8122d7666d712366bb1d0c5396def5ef714aa40d82cb278a286ab1e"
+      },
+      {
+        "name": "_ZNK9Matrix3x36InvertEv",
+        "address": "0x369b19c",
+        "bytes": 368,
+        "sha256": "0822988856d280d9bdaad910ff4c748bd8d2f01ae72480d2fafc88531cf08210"
+      },
+      {
+        "name": "_ZNK9Matrix3x3mlE6CArrayIdLi3E23Matrix3x1InitializationE",
+        "address": "0x369bbf4",
+        "bytes": 68,
+        "sha256": "e23d8ba85875f24f66cbcb2d823a8e3d53f265543680f6a0606d0fdcc024d840"
+      }
+    ]
+  },
+  "raw_metadata_files_read": 4,
+  "bounds": {
+    "CCNC_live_setting_observed": false,
+    "capture_AsShotNeutral_to_Phocus_filter_binding_verified": false,
+    "manufacturer_closed_loop_calibration_used": false,
+    "per_pixel_gain_map_branch_executed": false,
+    "raw_object_factory_executed": false,
+    "Android_UpdateParameters_or_GPU_executed": false,
+    "quantized_temperature_tint_branch_executed": false,
+    "full_raw_decode_or_render_executed": false,
+    "production_renderer_changed": false,
+    "vendor_arrays_code_crypto_or_capture_metadata_exported": false
+  },
+  "fixtures": {
+    "configuration": "CCNC tested both ways, other queried booleans false",
+    "cache": "already loaded CPID 0x0616 after original selector",
+    "raw_object_factory": "records arguments and returns harness object; no constructor execution",
+    "white_balance_boundary": "adjacent segment candidates allowed only within 2e-14 of an isotherm",
+    "linearization": "three distinct synthetic UINT16 tables with guarded reserved output capacity",
+    "capture_input": "reciprocal TIFF AsShotNeutral, not verified as the app filter argument",
+    "apply": "non-null calibration pointer only tests gate; calibration content not dereferenced"
+  },
+  "runtime": {
+    "numpy": "2.3.5",
+    "unicorn": "2.1.4",
+    "capstone": "5.0.9",
+    "pyelftools": "0.33",
+    "tifffile": "2026.10.15"
+  }
+}

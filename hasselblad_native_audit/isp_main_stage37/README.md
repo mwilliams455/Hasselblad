@@ -36,3 +36,27 @@ The Stage37A exact-source CI run 39908604001 passed. Among 77 named `librcam.so`
 `inspect_main_ccm_calls37b.py` now audits direct AArch64 calls from those precise three named functions, using the original hash-pinned `librcam.so`. It resolves named original ELF function targets and, *only if* the standard 32-byte AArch64 PLT header / 16-byte-per-entry layout matches the original binary, the imported PLT target names. It reports function sizes and the counts/names of direct calls, indirect calls, and calls touching CCM-named functions or known parameter/register APIs. It cannot independently prove an input image ABI, output pixel sample, numerical fixed-point format, or actual executed camera path.
 
 Run `python3 hasselblad_native_audit/isp_main_stage37/inspect_main_ccm_calls37b.py --self-test` and then (with private, transient extracted original firmware) `python3 hasselblad_native_audit/isp_main_stage37/inspect_main_ccm_calls37b.py --firmware-root hasselblad_native_audit/firmware/extracted --output /tmp/STAGE37B_MAIN_CCM_CALLS.json`. The Stage37 CI workflow executes both sub-stages before deleting original vendor bytes, and never changes the camera renderer.
+
+
+## Stage37C — hash-pinned embedded kernel headers and loose vendor header evidence
+
+Stage37A/B's original CI resolved MAIN-named `librcam` candidates to parameter
+validation, `rcam_adj_calc_common` and `DjiIsp_Reg_Set` control APIs. Rather
+than re-scan the same functions, `inspect_ccm_header37c.py` tests a distinct
+hypothesis: the original 1.3.16.2 update could carry usable typed hardware
+register declarations in its `kheaders.ko` embedded header archive or in loose
+text/source headers. The module must hash to
+`b7cbbd598da206e828b96d8103650f790ef7508bd0e1835ab3485c04aad9621b`.
+Only bounded, validated XZ/tar members and ordinary text/source headers are
+scanned. Matches are limited to exact previously identified vendor symbolic
+anchors (`lmtx_fw`, `main_ccm`, `yuv_pp_ccm`, `ccm_set_ig0_config` etc), *not* any
+matrix maths that shares an abbreviation. The report contains presence counts
+and sanitized relative paths, never header contents, constant values, vendor
+byte sequences, instructions, image samples, tuning arrays or matrix values.
+An embedded kernel header is not automatically a hardware RTL or ISP mathematical
+contract: positive names are merely potential manual-review leads; negative
+findings constrain only packaged files/specified anchors. Original pixel
+arithmetic, CCM Q scale, channel mapping and HNCS remain **unproven**.
+
+Synthetic self-test: `python3 hasselblad_native_audit/isp_main_stage37/inspect_ccm_header37c.py --self-test`
+Original static audit is run in the same hash-pinned, transient-firmware CI.

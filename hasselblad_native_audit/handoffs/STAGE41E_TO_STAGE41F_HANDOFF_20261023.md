@@ -17,7 +17,7 @@ The immediate research is **Stage 41F: ownership and use of the relocated `livev
 |---|---|
 | Repository | [`mwilliams455/Hasselblad`](https://github.com/mwilliams455/Hasselblad) |
 | **Active research branch** | `recovery/awb-rebuild-20261021` |
-| **Verified research HEAD at handoff** | `3f96b125361ad600b27590d93455b45fb69846c9` (Stage 41E source) |
+| **Verified Stage 41E audit-source commit** | `3f96b125361ad600b27590d93455b45fb69846c9` (prior to adding this handoff) |
 | **Verified production `main` HEAD** | `929f523aa02ae5b224be39b9c36cce5975691a10` — unchanged |
 | Last verified phone APK | Stage 36 debug signed `HasselbladPhoton-Stage36-27190-debug.apk`, versionCode `27190`, versionName `0.1-hb-dual36` |
 | APK SHA-256 | `4195998396bde52b3f6604c337797be8f49a38beee714d4e4129afd693e48d29` |
@@ -144,7 +144,7 @@ Original combined handoff: `hasselblad_native_audit/handoffs/STAGE38_ORIGINAL_IS
 
 ## 8. Actionable Stage 41F sequence and acceptance gates
 
-1. **Reconfirm identity and availability.** GitHub recovery head last verified `3f96b125361ad600b27590d93455b45fb69846c9`; production main `929f523aa02ae5b224be39b9c36cce5975691a10`. Read Stage41E script/results first. All original artifact links should be fetched from GitHub, not inferred from old sandbox references.
+1. **Reconfirm identity and availability.** Stage 41E source commit `3f96b125361ad600b27590d93455b45fb69846c9` (before handoff commits); production main `929f523aa02ae5b224be39b9c36cce5975691a10`. Read Stage41E script/results first. All original artifact links should be fetched from GitHub, not inferred from old sandbox references.
 2. **Narrow relocation-table/object audit.** Within exact-hash `camera-service`, safely resolve `.data.rel.ro` addresses `0x8cd170 + {32,40,48,56,64}` to named `.text` functions or explicitly classify as unnamed; record function size/class, symbol owner, outgoing calls and original reverse references. Preserve source hash and section offsets, no raw original bytes.
 3. **Check object semantics, not just adjacency.** Determine whether `.data.rel.ro` slot `0x8cd170` is part of a Qt metadata array, a `DCAMContainer` descriptor, a vtable-like structure, a printer/logging table or a live processing registry. Trace verified *consumer* of the exact slot and compare against the sole prior nearby candidate `_ZNK13DCAMContainer5printEb` whose address use was **+32**, not exact. Stop if evidence cannot resolve it.
 4. **Keep distinct paths apart.** `camera-service` named label, `libdcam_plugins_AIO.so:LiveViewSBPCManager` DSP handler, `_liveview_mee_on_buffer → _process_on_buffer`, Stage38 frame-file exporter and X Unleashed's borrowed NV12 publisher are **five separate pieces** until a verified original call/pointer/buffer graph links them.

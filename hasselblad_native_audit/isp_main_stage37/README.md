@@ -60,3 +60,11 @@ arithmetic, CCM Q scale, channel mapping and HNCS remain **unproven**.
 
 Synthetic self-test: `python3 hasselblad_native_audit/isp_main_stage37/inspect_ccm_header37c.py --self-test`
 Original static audit is run in the same hash-pinned, transient-firmware CI.
+
+Stage37C2 adds a bounded provenance follow-up: list only relative archive/header
+paths of files whose text contains `eagle2` or `main_ccm`, record whether a
+header containing Eagle2 also contains a standalone CCM/YUV-PP token, and
+identify oversized files skipped by the 2-MiB/file bound. This guards against
+incorrectly interpreting an absence of strict hits as a complete absence of
+CAM configuration (e.g., a large original IQ file). No header contents or
+numerical values are exported. Re-run of the exact original firmware is required.

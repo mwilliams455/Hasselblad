@@ -39,7 +39,7 @@ jobs:
           python3 - "$RUNNER_TEMP/STAGE37C_SYNTHETIC.json" <<'PY_C'
           import json,sys
           d=json.load(open(sys.argv[1]))
-          assert d['status']=='PASS_synthetic' and d['checks']==13
+          assert d['status']=='PASS_synthetic' and d['checks']==15
           assert d['vendor_assets_loaded'] is False and d['original_pixel_equation_proven'] is False
           PY_C
           python3 - "$RUNNER_TEMP/STAGE37_SYNTHETIC.json" <<'PY'

@@ -63,6 +63,9 @@ def classify(data: bytes):
 def empty_stats():
     return {'text_files_examined':0,'bytes_examined':0,
             'anchor_file_hits':{name:0 for name in ANCHORS},
+            'review_paths_by_anchor':{'eagle2':[],'main_ccm':[]},
+            'eagle2_files_with_same_file_ccm_or_yuvpp_terms':0,
+            'oversized_text_paths_skipped':[],
             'strict_anchor_member_paths':[],
             'strict_anchor_file_count':0,
             'any_exact_hardware_pixel_contract_proven':False}
@@ -78,6 +81,10 @@ def scan_content(name: str, data: bytes, stats: dict):
     found = classify(data)
     for key in found:
         stats['anchor_file_hits'][key] += 1
+        if key in stats['review_paths_by_anchor'] and len(stats['review_paths_by_anchor'][key]) < 32:
+            stats['review_paths_by_anchor'][key].append(name)
+    if 'eagle2' in found and re.search(rb'(?i)(?:\bccm\b|\byuv[_-]?pp\b|\blmtx\b)',data):
+        stats['eagle2_files_with_same_file_ccm_or_yuvpp_terms'] += 1
     if any(key in STRICT for key in found):
         stats['strict_anchor_file_count'] += 1
         # Restrict to validated relative header paths, not actual contents.
@@ -97,6 +104,8 @@ def parse_tar(data: bytes):
                 continue
             if m.size > TEXT_FILE_LIMIT:
                 stats['oversized_text_files_skipped'] = stats.get('oversized_text_files_skipped',0)+1
+                if len(stats['oversized_text_paths_skipped']) < 24:
+                    stats['oversized_text_paths_skipped'].append(m.name)
                 continue
             f = tf.extractfile(m)
             require(f is not None, 'unreadable_tar_text_member')
@@ -139,6 +148,8 @@ def probe_loose_headers(root: Path):
             require(is_safe_name(rel),'unsafe_loose_path')
             if path.stat().st_size > TEXT_FILE_LIMIT:
                 stats['oversized_text_files_skipped'] = stats.get('oversized_text_files_skipped',0)+1
+                if len(stats['oversized_text_paths_skipped']) < 24:
+                    stats['oversized_text_paths_skipped'].append(rel)
                 continue
             scan_content(rel,path.read_bytes(),stats)
     return stats
@@ -176,6 +187,7 @@ def synthetic():
             'include/uapi/generic.h':b'hello ioctl world',
             'include/linux/camera.h':b'camera main_ccm lmtx_fw names only',
             'include/soc/possible_ccm.h':b'level_ctrl_inv_lut and yuv_pp_ccm',
+            'include/linux/eagle2_isp.h':b'Eagle2 imaging platform',
         }
         out=io.BytesIO()
         with tarfile.open(fileobj=out,mode='w:') as tar:
@@ -185,13 +197,15 @@ def synthetic():
         roundtrip=lzma.decompress(lzma.compress(tar_data))
         require(roundtrip==tar_data,'xz_roundtrip')
         a=parse_tar(roundtrip)
-        require(a['tar_member_count']==3,'tar_count')
-        require(a['text_files_examined']==3,'scanned_count')
+        require(a['tar_member_count']==4,'tar_count')
+        require(a['text_files_examined']==4,'scanned_count')
         require(a['strict_anchor_file_count']==2,'strict_count')
         require(a['anchor_file_hits']['lmtx_fw']==1,'lmtx_match')
         require(a['anchor_file_hits']['main_ccm']==1,'ccm_match')
         require(a['anchor_file_hits']['yuv_pp_ccm']==1,'yuv_match')
-        require(a['anchor_file_hits']['eagle2']==0,'negative_case')
+        require(a['anchor_file_hits']['eagle2']==1,'eagle2_match')
+        require(a['review_paths_by_anchor']['eagle2']==['include/linux/eagle2_isp.h'],'paths')
+        require(a['eagle2_files_with_same_file_ccm_or_yuvpp_terms']==0,'cooccurrence_negative')
         require(not a['any_exact_hardware_pixel_contract_proven'],'no_claim')
         require(classify(b'synthetic colour matrix')==[],'no_vague_matrix')
         require(classify(b'decoy CCM-administration')==[],'no_ccm_false_positive')
@@ -199,7 +213,7 @@ def synthetic():
         require(not is_safe_name('/absolute.h'),'reject_absolute')
         require(is_safe_name('include/linux/hello.h'),'accept_path')
         require(not is_safe_name('hi\\bye'),'reject_backslash')
-        return {'status':'PASS_synthetic','checks':13,'vendor_assets_loaded':False,
+        return {'status':'PASS_synthetic','checks':15,'vendor_assets_loaded':False,
                 'original_pixel_equation_proven':False}
 
 

@@ -1,5 +1,7 @@
 # Stage 41J — Four real X2D II RAW/reference comparisons
 
+**Colour-reference correction, Stage 41K (2026-10-23):** The original sRGB interpretation of the embedded previews is superseded for colour/tone evaluation. A fixed Display P3-to-sRGB conversion brings all four previews within 0.73–0.90 RGB levels of their supplied sRGB JPEGs on guarded evaluation patches. The parent 3FR Exif ColorSpace tag is 1, so the preview's actual encoding remains an empirical inference with conflicting metadata. Use the corrected Stage41K reference path and holdout results. The original Stage41J receipt is preserved as historical evidence; its RAW access, crop, WB and alignment checks remain valid. See [Stage41K](STAGE41K_REFERENCE_ENCODING_AND_SHARED_TONE_20261023.md).
+
 2026-10-23. Research branch: `recovery/awb-rebuild-20261021`.
 
 Four supplied 3FR files now have a reproducible conventional RAW rendering baseline, aligned to their own embedded rendered previews. All four supplied JPEGs were matched to those previews in the intake investigation. This stage establishes a useful measurement basis and identifies tone/brightness and blue chroma as concrete investigation targets. It does not implement HNCS or recover the internal MAIN CCM equation.

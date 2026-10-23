@@ -1,0 +1,4 @@
+-r ../isp_dsp_stage41r/requirements41r.txt
+capstone==5.0.9
+pyelftools==0.33
+unicorn==2.1.4

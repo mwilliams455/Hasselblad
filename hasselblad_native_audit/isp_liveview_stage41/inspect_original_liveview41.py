@@ -55,17 +55,19 @@ def eligible(path:Path):
 
 
 def candidate_paths(root:Path):
-    paths=[]
+    paths=[];skipped_unsafe_names=0
     for sub in ROOTS:
         b=root/sub
         if not b.is_dir():continue
         for p in b.rglob('*'):
             if not p.is_file() or not eligible(p):continue
             rel=p.relative_to(root).as_posix()
-            ensure(safe_path(rel), 'unsafe_original_path')
+            if not safe_path(rel):
+                skipped_unsafe_names+=1
+                continue
             paths.append((rel,p))
     ensure(len(paths)<=MAX_FILES,'original_elf_inventory_exceeds_limit')
-    return sorted(paths)
+    return sorted(paths),skipped_unsafe_names
 
 
 def scan_raw_markers(path:Path):
@@ -127,8 +129,9 @@ def inspect(root:Path):
     for rel,expected in KNOWN.items():
         ensure((root/rel).is_file() and digest(root/rel)==expected,'known_original_binary_mismatch_'+rel)
     rows=[];size_total=0;elfs=0;skipped=[]
+    candidates,skipped_unsafe_names=candidate_paths(root)
     exact_label=[];string_related=[]
-    for rel,p in candidate_paths(root):
+    for rel,p in candidates:
         size=p.stat().st_size
         if size<=0 or size>MAX_EACH_BYTES:
             skipped.append(rel);continue
@@ -159,7 +162,8 @@ def inspect(root:Path):
         'original_full_archive_sha256':ARCHIVE_SHA,
         'firmware_version':VERSION,
         'x_unleashed_kheaders_module_sha256_matches':True,
-        'candidate_firmware_paths_examined':len(candidate_paths(root)),
+        'candidate_firmware_paths_examined':len(candidates),
+        'paths_skipped_nonreportable_names_count':skipped_unsafe_names,
         'aarch64_elf_files_examined':elfs,
         'files_skipped_oversize_or_empty_count':len(skipped),
         'files_skipped_oversize_or_empty_paths':skipped[:MAX_RETURN_FILES],

@@ -28,14 +28,23 @@ jobs:
           test -z "$(git diff --name-only dda5d250a29f2716acba8fdf878b0b990f267cba HEAD -- HasselbladPhoton)"
           test "$(git rev-parse refs/remotes/origin/main)" = 929f523aa02ae5b224be39b9c36cce5975691a10
           python3 -m py_compile hasselblad_native_audit/isp_main_stage37/inspect_main_ccm_cpu37.py
+          python3 -m py_compile hasselblad_native_audit/isp_main_stage37/inspect_main_ccm_calls37b.py
           python3 hasselblad_native_audit/isp_main_stage37/inspect_main_ccm_cpu37.py \
             --self-test --output "$RUNNER_TEMP/STAGE37_SYNTHETIC.json"
+          python3 hasselblad_native_audit/isp_main_stage37/inspect_main_ccm_calls37b.py \
+            --self-test --output "$RUNNER_TEMP/STAGE37B_SYNTHETIC.json"
           python3 - "$RUNNER_TEMP/STAGE37_SYNTHETIC.json" <<'PY'
           import json,sys
           d=json.load(open(sys.argv[1]))
           assert d['status']=='PASS_synthetic' and d['checks']==14
           assert d['vendor_assets_loaded'] is False and d['ccm_pixel_equation_proven'] is False
           PY
+          python3 - "$RUNNER_TEMP/STAGE37B_SYNTHETIC.json" <<'PY_B'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          assert d['status']=='PASS_synthetic' and d['checks']==10
+          assert d['firmware_loaded'] is False and d['original_pixel_equation_proven'] is False
+          PY_B
       - name: Install static inspection and extraction dependencies
         run: |
           set -euo pipefail
@@ -84,6 +93,25 @@ jobs:
                                 'unresolved_arithmetic_candidate_count':src['unresolved_named_arithmetic_count'],
                                 'unresolved_arithmetic_names_for_manual_review':src['unresolved_named_arithmetic_candidates_for_manual_review']}))
           PY
+      - name: Verify the original three named CCM calculation call targets
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 hasselblad_native_audit/isp_main_stage37/inspect_main_ccm_calls37b.py \
+            --firmware-root hasselblad_native_audit/firmware/extracted \
+            --output "$RUNNER_TEMP/STAGE37B_MAIN_CCM_CALLS.json"
+          python3 - "$RUNNER_TEMP/STAGE37B_MAIN_CCM_CALLS.json" <<'PY_B'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          assert d['status']=='PASS_exact_original_named_callsite_audit'
+          assert len(d['named_sources']) == 3
+          assert d['actual_original_isp_ccm_pixel_equation_recovered'] is False
+          assert d['vendor_ELF_or_disassembly_or_calibration_exported'] is False
+          for name,report in d['named_sources'].items():
+              assert name in ('main_ccm_calc_frame','main_ccm_calc_mode','main_ccm_calc_global')
+              assert report['pixel_memory_abi_proven'] is False
+              assert report['original_ccm_pixel_operation_proven'] is False
+          PY_B
       - name: Delete all original vendor bytes even if analysis failed
         if: always()
         shell: bash
@@ -99,5 +127,7 @@ jobs:
           path: |
             ${{ runner.temp }}/STAGE37_CPU_MAIN_CCM.json
             ${{ runner.temp }}/STAGE37_SYNTHETIC.json
+            ${{ runner.temp }}/STAGE37B_MAIN_CCM_CALLS.json
+            ${{ runner.temp }}/STAGE37B_SYNTHETIC.json
           if-no-files-found: error
           retention-days: 14

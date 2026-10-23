@@ -139,8 +139,8 @@ def instruction_shape(body:bytes,start:int)->dict:
                 if descriptor=='pc_relative_external_target_unresolved':pc_external+=1
             elif op.type==ARM64_OP_MEM:
                 mm=op.mem
-                descriptor=('memory_base:'+ins.reg_name(mm.base)+
-                    ':index:'+ins.reg_name(mm.index)+':displacement:'+str(int(mm.disp)))
+                descriptor=('memory_base:'+(ins.reg_name(mm.base) or 'none')+
+                    ':index:'+(ins.reg_name(mm.index) or 'none')+':displacement:'+str(int(mm.disp)))
             elif op.type==ARM64_OP_FP:
                 descriptor='floating_literal:'+float(op.fp).hex()
             else:

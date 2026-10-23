@@ -1,0 +1,718 @@
+{
+  "MAIN_CCM_pixel_oracle_proven": false,
+  "PLT_mapping_validated": true,
+  "Photon_photo_renderer_modified": false,
+  "active_frame_producer_proven": false,
+  "archive_sha256": "9789d6a9843d388034bc12341ad9a97585c25cb98cf11a0da8b768399b4842f6",
+  "contiguous_rodata_pointer_run": {
+    "end_exclusive_va": "0x8cd190",
+    "label_index": 30,
+    "pointer_count": 34,
+    "same_high_level_object_proven": false,
+    "start_va": "0x8cd080"
+  },
+  "executable_neighbors": [
+    {
+      "exact_function_entry": true,
+      "offset_from_label_slot": 32,
+      "owners": [
+        {
+          "kind": "STT_FUNC",
+          "name": "_ZL16metadataStringCbP14dcam_containeriPKcPv",
+          "offset": 0,
+          "size": 348,
+          "start_va": "0x304248",
+          "symbol_table": ".symtab"
+        }
+      ],
+      "relocation_kind": 1027,
+      "target_va": "0x304248"
+    },
+    {
+      "exact_function_entry": true,
+      "offset_from_label_slot": 40,
+      "owners": [
+        {
+          "kind": "STT_FUNC",
+          "name": "_ZL15metadataUInt8CbP14dcam_containeriPKhiPv",
+          "offset": 0,
+          "size": 616,
+          "start_va": "0x3043a8",
+          "symbol_table": ".symtab"
+        }
+      ],
+      "relocation_kind": 1027,
+      "target_va": "0x3043a8"
+    },
+    {
+      "exact_function_entry": true,
+      "offset_from_label_slot": 48,
+      "owners": [
+        {
+          "kind": "STT_FUNC",
+          "name": "_ZL16metadataUInt16CbP14dcam_containeriPKtiPv",
+          "offset": 0,
+          "size": 616,
+          "start_va": "0x304610",
+          "symbol_table": ".symtab"
+        }
+      ],
+      "relocation_kind": 1027,
+      "target_va": "0x304610"
+    },
+    {
+      "exact_function_entry": true,
+      "offset_from_label_slot": 56,
+      "owners": [
+        {
+          "kind": "STT_FUNC",
+          "name": "_ZL15metadataInt16CbP14dcam_containeriPKsiPv",
+          "offset": 0,
+          "size": 616,
+          "start_va": "0x304878",
+          "symbol_table": ".symtab"
+        }
+      ],
+      "relocation_kind": 1027,
+      "target_va": "0x304878"
+    },
+    {
+      "exact_function_entry": true,
+      "offset_from_label_slot": 64,
+      "owners": [
+        {
+          "kind": "STT_FUNC",
+          "name": "_ZL16metadataUInt32CbP14dcam_containeriPKjiPv",
+          "offset": 0,
+          "size": 616,
+          "start_va": "0x304ae0",
+          "symbol_table": ".symtab"
+        }
+      ],
+      "relocation_kind": 1027,
+      "target_va": "0x304ae0"
+    }
+  ],
+  "label_slot_object_owners": [],
+  "label_slot_va": "0x8cd170",
+  "neighboring_named_data_symbols": [
+    {
+      "kind": "STT_NOTYPE",
+      "name": "$d.26",
+      "offset_from_label_slot": -240,
+      "size": 0,
+      "start_va": "0x8cd080",
+      "symbol_table": ".symtab"
+    },
+    {
+      "kind": "STT_NOTYPE",
+      "name": "$d.27",
+      "offset_from_label_slot": -80,
+      "size": 0,
+      "start_va": "0x8cd120",
+      "symbol_table": ".symtab"
+    },
+    {
+      "kind": "STT_NOTYPE",
+      "name": "$d.34",
+      "offset_from_label_slot": 32,
+      "size": 0,
+      "start_va": "0x8cd190",
+      "symbol_table": ".symtab"
+    }
+  ],
+  "original_camera_or_DSP_executed": false,
+  "reverse_data_relocations": [],
+  "schema": "hasselblad-stage41f-original-table-ownership-v1",
+  "selected_functions": [
+    {
+      "code_sha256": "a0fe05169ddba4646b9b076d7f6cab58b480ad373b377c137cc093847ba5734e",
+      "direct_callees": [
+        {
+          "count": 1,
+          "name": "_Unwind_Resume"
+        },
+        {
+          "count": 1,
+          "name": "_ZN16QLoggingCategoryC1EPKc9QtMsgType"
+        },
+        {
+          "count": 1,
+          "name": "__cxa_atexit"
+        },
+        {
+          "count": 1,
+          "name": "__cxa_guard_abort"
+        },
+        {
+          "count": 1,
+          "name": "__cxa_guard_acquire"
+        },
+        {
+          "count": 1,
+          "name": "__cxa_guard_release"
+        },
+        {
+          "count": 1,
+          "name": "__stack_chk_fail"
+        },
+        {
+          "count": 1,
+          "name": "dcam_enum_container_inner"
+        }
+      ],
+      "direct_callees_truncated": false,
+      "indirect_transfers": [],
+      "name": "_ZNK13DCAMContainer5printEb",
+      "size": 276,
+      "start_va": "0x304130",
+      "table_refs": [
+        {
+          "base_or_effective_va": "0x8cd190",
+          "exact_label_slot_access": false,
+          "instruction_va": "0x304178",
+          "kind": "formed_address",
+          "offset_from_label_slot": 32,
+          "operation": "add"
+        },
+        {
+          "base_or_effective_va": "0x8cd1b0",
+          "exact_label_slot_access": false,
+          "index_register": null,
+          "index_shift": null,
+          "instruction_va": "0x304190",
+          "kind": "fixed_memory",
+          "offset_from_label_slot": 64,
+          "operation": "ldp"
+        },
+        {
+          "base_or_effective_va": "0x8cd190",
+          "exact_label_slot_access": false,
+          "index_register": null,
+          "index_shift": null,
+          "instruction_va": "0x30419c",
+          "kind": "fixed_memory",
+          "offset_from_label_slot": 32,
+          "operation": "ldp"
+        }
+      ]
+    },
+    {
+      "code_sha256": "726c509146d55b4d8c22d7d9edf55107f042b79f27be9aef350d5f30310a6735",
+      "direct_callees": [
+        {
+          "count": 1,
+          "name": "_Unwind_Resume"
+        },
+        {
+          "count": 1,
+          "name": "_ZL18logDcamMetadataTagR6QDebugi"
+        },
+        {
+          "count": 1,
+          "name": "_ZN11QTextStreamlsERK7QString"
+        },
+        {
+          "count": 1,
+          "name": "_ZN11QTextStreamlsEc"
+        },
+        {
+          "count": 2,
+          "name": "_ZN6QDebugD1Ev"
+        },
+        {
+          "count": 1,
+          "name": "_ZN7QString8fromUtf8E14QByteArrayView"
+        },
+        {
+          "count": 1,
+          "name": "_ZNK14QMessageLogger5debugEv"
+        },
+        {
+          "count": 1,
+          "name": "__stack_chk_fail"
+        },
+        {
+          "count": 2,
+          "name": "free"
+        }
+      ],
+      "direct_callees_truncated": false,
+      "indirect_transfers": [],
+      "name": "_ZL16metadataStringCbP14dcam_containeriPKcPv",
+      "size": 348,
+      "start_va": "0x304248",
+      "table_refs": []
+    },
+    {
+      "code_sha256": "1f9efec1c5314ba6c937c0b7595870034df31cd3b19a29f21a7c1094dee9a29e",
+      "direct_callees": [
+        {
+          "count": 1,
+          "name": "_Unwind_Resume"
+        },
+        {
+          "count": 1,
+          "name": "_ZL18logDcamMetadataTagR6QDebugi"
+        },
+        {
+          "count": 2,
+          "name": "_ZN11QTextStreamlsERK7QString"
+        },
+        {
+          "count": 3,
+          "name": "_ZN11QTextStreamlsEc"
+        },
+        {
+          "count": 1,
+          "name": "_ZN11QTextStreamlsEj"
+        },
+        {
+          "count": 2,
+          "name": "_ZN6QDebugD1Ev"
+        },
+        {
+          "count": 2,
+          "name": "_ZN7QString8fromUtf8E14QByteArrayView"
+        },
+        {
+          "count": 1,
+          "name": "_ZNK14QMessageLogger5debugEv"
+        },
+        {
+          "count": 1,
+          "name": "__stack_chk_fail"
+        },
+        {
+          "count": 3,
+          "name": "free"
+        }
+      ],
+      "direct_callees_truncated": false,
+      "indirect_transfers": [],
+      "name": "_ZL15metadataUInt8CbP14dcam_containeriPKhiPv",
+      "size": 616,
+      "start_va": "0x3043a8",
+      "table_refs": []
+    },
+    {
+      "code_sha256": "26ce5fa65c1566417335f00722a78a86419502971e91e1e7b04c12f7bf580e35",
+      "direct_callees": [
+        {
+          "count": 1,
+          "name": "_Unwind_Resume"
+        },
+        {
+          "count": 1,
+          "name": "_ZL18logDcamMetadataTagR6QDebugi"
+        },
+        {
+          "count": 2,
+          "name": "_ZN11QTextStreamlsERK7QString"
+        },
+        {
+          "count": 3,
+          "name": "_ZN11QTextStreamlsEc"
+        },
+        {
+          "count": 1,
+          "name": "_ZN11QTextStreamlsEt"
+        },
+        {
+          "count": 2,
+          "name": "_ZN6QDebugD1Ev"
+        },
+        {
+          "count": 2,
+          "name": "_ZN7QString8fromUtf8E14QByteArrayView"
+        },
+        {
+          "count": 1,
+          "name": "_ZNK14QMessageLogger5debugEv"
+        },
+        {
+          "count": 1,
+          "name": "__stack_chk_fail"
+        },
+        {
+          "count": 3,
+          "name": "free"
+        }
+      ],
+      "direct_callees_truncated": false,
+      "indirect_transfers": [],
+      "name": "_ZL16metadataUInt16CbP14dcam_containeriPKtiPv",
+      "size": 616,
+      "start_va": "0x304610",
+      "table_refs": []
+    },
+    {
+      "code_sha256": "df7b2726d69b1fa0b5693d0da024047fc41038b32286fcc3efd456c526cf49e8",
+      "direct_callees": [
+        {
+          "count": 1,
+          "name": "_Unwind_Resume"
+        },
+        {
+          "count": 1,
+          "name": "_ZL18logDcamMetadataTagR6QDebugi"
+        },
+        {
+          "count": 2,
+          "name": "_ZN11QTextStreamlsERK7QString"
+        },
+        {
+          "count": 3,
+          "name": "_ZN11QTextStreamlsEc"
+        },
+        {
+          "count": 1,
+          "name": "_ZN11QTextStreamlsEs"
+        },
+        {
+          "count": 2,
+          "name": "_ZN6QDebugD1Ev"
+        },
+        {
+          "count": 2,
+          "name": "_ZN7QString8fromUtf8E14QByteArrayView"
+        },
+        {
+          "count": 1,
+          "name": "_ZNK14QMessageLogger5debugEv"
+        },
+        {
+          "count": 1,
+          "name": "__stack_chk_fail"
+        },
+        {
+          "count": 3,
+          "name": "free"
+        }
+      ],
+      "direct_callees_truncated": false,
+      "indirect_transfers": [],
+      "name": "_ZL15metadataInt16CbP14dcam_containeriPKsiPv",
+      "size": 616,
+      "start_va": "0x304878",
+      "table_refs": []
+    },
+    {
+      "code_sha256": "6ea6671ab8955c7ab2328b48dab87c6b5075fafe7a229c196d9abbba188cb869",
+      "direct_callees": [
+        {
+          "count": 1,
+          "name": "_Unwind_Resume"
+        },
+        {
+          "count": 1,
+          "name": "_ZL18logDcamMetadataTagR6QDebugi"
+        },
+        {
+          "count": 2,
+          "name": "_ZN11QTextStreamlsERK7QString"
+        },
+        {
+          "count": 3,
+          "name": "_ZN11QTextStreamlsEc"
+        },
+        {
+          "count": 1,
+          "name": "_ZN11QTextStreamlsEj"
+        },
+        {
+          "count": 2,
+          "name": "_ZN6QDebugD1Ev"
+        },
+        {
+          "count": 2,
+          "name": "_ZN7QString8fromUtf8E14QByteArrayView"
+        },
+        {
+          "count": 1,
+          "name": "_ZNK14QMessageLogger5debugEv"
+        },
+        {
+          "count": 1,
+          "name": "__stack_chk_fail"
+        },
+        {
+          "count": 3,
+          "name": "free"
+        }
+      ],
+      "direct_callees_truncated": false,
+      "indirect_transfers": [],
+      "name": "_ZL16metadataUInt32CbP14dcam_containeriPKjiPv",
+      "size": 616,
+      "start_va": "0x304ae0",
+      "table_refs": []
+    }
+  ],
+  "source_sha256": "51b9e02f8bfebf388be8dfa163c8e512bee19aeb8ae37a6712727ccc6f26a52d",
+  "status": "PASS_exact_original_table_ownership_audit",
+  "targeted_code_references": {
+    "address_references": [
+      {
+        "base_or_effective_va": "0x8cd080",
+        "exact_label_slot_access": false,
+        "instruction_va": "0x303470",
+        "kind": "formed_address",
+        "offset_from_label_slot": -240,
+        "operation": "add",
+        "owners": [
+          {
+            "kind": "STT_FUNC",
+            "name": "_ZN8DCAMUtil21toStreamProfileStringEN9HblmTypes13E_StreamGroupE",
+            "offset": 24,
+            "size": 48,
+            "start_va": "0x303458",
+            "symbol_table": ".symtab"
+          }
+        ]
+      },
+      {
+        "base_or_effective_va": "0x8cd080",
+        "exact_label_slot_access": false,
+        "index_register": "x8",
+        "index_shift": 3,
+        "instruction_va": "0x303474",
+        "kind": "indexed_memory",
+        "offset_from_label_slot": -240,
+        "operation": "ldr",
+        "owners": [
+          {
+            "kind": "STT_FUNC",
+            "name": "_ZN8DCAMUtil21toStreamProfileStringEN9HblmTypes13E_StreamGroupE",
+            "offset": 28,
+            "size": 48,
+            "start_va": "0x303458",
+            "symbol_table": ".symtab"
+          }
+        ]
+      },
+      {
+        "base_or_effective_va": "0x8cd120",
+        "exact_label_slot_access": false,
+        "instruction_va": "0x3034a0",
+        "kind": "formed_address",
+        "offset_from_label_slot": -80,
+        "operation": "add",
+        "owners": [
+          {
+            "kind": "STT_FUNC",
+            "name": "_ZN8DCAMUtil21toStreamProfileStringEN9HblmTypes12E_DCAMStreamE",
+            "offset": 24,
+            "size": 48,
+            "start_va": "0x303488",
+            "symbol_table": ".symtab"
+          }
+        ]
+      },
+      {
+        "base_or_effective_va": "0x8cd120",
+        "exact_label_slot_access": false,
+        "index_register": "x8",
+        "index_shift": 3,
+        "instruction_va": "0x3034a4",
+        "kind": "indexed_memory",
+        "offset_from_label_slot": -80,
+        "operation": "ldr",
+        "owners": [
+          {
+            "kind": "STT_FUNC",
+            "name": "_ZN8DCAMUtil21toStreamProfileStringEN9HblmTypes12E_DCAMStreamE",
+            "offset": 28,
+            "size": 48,
+            "start_va": "0x303488",
+            "symbol_table": ".symtab"
+          }
+        ]
+      },
+      {
+        "base_or_effective_va": "0x8cd190",
+        "exact_label_slot_access": false,
+        "instruction_va": "0x304178",
+        "kind": "formed_address",
+        "offset_from_label_slot": 32,
+        "operation": "add",
+        "owners": [
+          {
+            "kind": "STT_FUNC",
+            "name": "_ZNK13DCAMContainer5printEb",
+            "offset": 72,
+            "size": 276,
+            "start_va": "0x304130",
+            "symbol_table": ".symtab"
+          }
+        ]
+      },
+      {
+        "base_or_effective_va": "0x8cd1b0",
+        "exact_label_slot_access": false,
+        "index_register": null,
+        "index_shift": null,
+        "instruction_va": "0x304190",
+        "kind": "fixed_memory",
+        "offset_from_label_slot": 64,
+        "operation": "ldp",
+        "owners": [
+          {
+            "kind": "STT_FUNC",
+            "name": "_ZNK13DCAMContainer5printEb",
+            "offset": 96,
+            "size": 276,
+            "start_va": "0x304130",
+            "symbol_table": ".symtab"
+          }
+        ]
+      },
+      {
+        "base_or_effective_va": "0x8cd190",
+        "exact_label_slot_access": false,
+        "index_register": null,
+        "index_shift": null,
+        "instruction_va": "0x30419c",
+        "kind": "fixed_memory",
+        "offset_from_label_slot": 32,
+        "operation": "ldp",
+        "owners": [
+          {
+            "kind": "STT_FUNC",
+            "name": "_ZNK13DCAMContainer5printEb",
+            "offset": 108,
+            "size": 276,
+            "start_va": "0x304130",
+            "symbol_table": ".symtab"
+          }
+        ]
+      }
+    ],
+    "direct_selected_function_references": [
+      {
+        "kind": "BL",
+        "owners": [
+          {
+            "kind": "STT_FUNC",
+            "name": "_ZN16ReprocessSession9reprocessERK14QSharedPointerI11ImageMemoryERK7QStringRKS0_I13DCAMContainerESB_",
+            "offset": 576,
+            "size": 700,
+            "start_va": "0x205550",
+            "symbol_table": ".symtab"
+          }
+        ],
+        "site_va": "0x205790",
+        "target_va": "0x304130"
+      },
+      {
+        "kind": "BL",
+        "owners": [
+          {
+            "kind": "STT_FUNC",
+            "name": "_ZN16ReprocessSession9reprocessERK14QSharedPointerI11ImageMemoryERK7QStringRKS0_I13DCAMContainerESB_",
+            "offset": 592,
+            "size": 700,
+            "start_va": "0x205550",
+            "symbol_table": ".symtab"
+          }
+        ],
+        "site_va": "0x2057a0",
+        "target_va": "0x304130"
+      },
+      {
+        "kind": "BL",
+        "owners": [
+          {
+            "kind": "STT_FUNC",
+            "name": "_ZN16ReprocessSession9reprocessERK14QSharedPointerI11ImageMemoryES4_RKS0_I13DCAMContainerES8_",
+            "offset": 784,
+            "size": 872,
+            "start_va": "0x205810",
+            "symbol_table": ".symtab"
+          }
+        ],
+        "site_va": "0x205b20",
+        "target_va": "0x304130"
+      },
+      {
+        "kind": "BL",
+        "owners": [
+          {
+            "kind": "STT_FUNC",
+            "name": "_ZN16ReprocessSession9reprocessERK14QSharedPointerI11ImageMemoryES4_RKS0_I13DCAMContainerES8_",
+            "offset": 804,
+            "size": 872,
+            "start_va": "0x205810",
+            "symbol_table": ".symtab"
+          }
+        ],
+        "site_va": "0x205b34",
+        "target_va": "0x304130"
+      },
+      {
+        "kind": "BL",
+        "owners": [
+          {
+            "kind": "STT_FUNC",
+            "name": "_ZN24DCAMCaptureEnginePrivate20_setMetadataPropertyERK13DCAMContainer",
+            "offset": 56,
+            "size": 196,
+            "start_va": "0x27cce8",
+            "symbol_table": ".symtab"
+          }
+        ],
+        "site_va": "0x27cd20",
+        "target_va": "0x304130"
+      },
+      {
+        "kind": "BL",
+        "owners": [
+          {
+            "kind": "STT_FUNC",
+            "name": "_ZN24DCAMCaptureEnginePrivate21doSetMetadataPropertyERK13DCAMContainer",
+            "offset": 448,
+            "size": 848,
+            "start_va": "0x2850e0",
+            "symbol_table": ".symtab"
+          }
+        ],
+        "site_va": "0x2852a0",
+        "target_va": "0x304130"
+      },
+      {
+        "kind": "BL",
+        "owners": [
+          {
+            "kind": "STT_FUNC",
+            "name": "_ZN24DCAMCaptureEnginePrivate15onCapturedImageEP21capeng_captured_image",
+            "offset": 1784,
+            "size": 9608,
+            "start_va": "0x2a5df0",
+            "symbol_table": ".symtab"
+          }
+        ],
+        "site_va": "0x2a64e8",
+        "target_va": "0x304130"
+      },
+      {
+        "kind": "BL",
+        "owners": [
+          {
+            "kind": "STT_FUNC",
+            "name": "_ZN24DCAMCaptureEnginePrivate15onCapturedImageEP21capeng_captured_image",
+            "offset": 2444,
+            "size": 9608,
+            "start_va": "0x2a5df0",
+            "symbol_table": ".symtab"
+          }
+        ],
+        "site_va": "0x2a677c",
+        "target_va": "0x304130"
+      }
+    ],
+    "indirect_or_cross_basic_block_references_complete": false,
+    "matching_PC_relative_seeds": 11,
+    "method": "targeted_A64_word_decode_then_128_byte_straight_line_windows"
+  },
+  "vendor_bytes_or_raw_strings_exported": false
+}

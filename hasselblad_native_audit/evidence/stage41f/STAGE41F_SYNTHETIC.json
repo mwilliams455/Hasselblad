@@ -1,0 +1,20 @@
+{
+  "checks": 12,
+  "original_firmware_loaded": false,
+  "results": {
+    "branch_boundary_rejected": true,
+    "call_boundary_rejected": true,
+    "copy_x_register_preserved": true,
+    "function_type_not_invented": true,
+    "object_end_exclusive": true,
+    "object_start_inclusive": true,
+    "overwrite_w0_rejected": true,
+    "overwrite_x0_rejected": true,
+    "replacement_adrp_rejected": true,
+    "signed_branch_offsets": true,
+    "stage41e_false_positive_reproduced": true,
+    "valid_adrp_add": true
+  },
+  "stage41e_stale_register_bug_reproduced": true,
+  "status": "PASS_synthetic"
+}

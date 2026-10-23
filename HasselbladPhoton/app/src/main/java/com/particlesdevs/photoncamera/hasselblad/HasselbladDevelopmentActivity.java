@@ -164,6 +164,8 @@ public final class HasselbladDevelopmentActivity extends BaseActivity {
                 Toast.makeText(this, "Stage34 report JSON copied", Toast.LENGTH_SHORT).show();
             }
         });
+        findViewById(R.id.hasselblad_stage43_open).setOnClickListener(view ->
+                startActivity(new android.content.Intent(this, HasselbladDngActivity43.class)));
         findViewById(R.id.hasselblad_stage42_open).setOnClickListener(view ->
                 startActivity(new android.content.Intent(this, HasselbladRenderActivity42.class)));
         refreshStage6();

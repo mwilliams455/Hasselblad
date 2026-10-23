@@ -1,0 +1,16 @@
+{
+  "schema": "hasselblad-stage42-device-render-v1",
+  "status": "PASS_EXACT_RGB16",
+  "pixels": 786432,
+  "core_milliseconds": 16,
+  "reference_rgb16_exact": true,
+  "wb_owner": 1,
+  "lut_temperature": 4000,
+  "model_code": 0,
+  "film_code": 1,
+  "working_space_code": 0,
+  "display_adapter": "explicit internal basis to sRGB",
+  "phone_sensor_adaptation_experimental": true,
+  "capture_renderer_changed": false,
+  "full_phocus_equivalence": false
+}

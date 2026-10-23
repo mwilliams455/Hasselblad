@@ -24,6 +24,11 @@
             android:orientation="vertical"
             android:padding="20dp">
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/hasselblad_stage43_open"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Open saved DNG · Stage43" />
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/hasselblad_stage42_open"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

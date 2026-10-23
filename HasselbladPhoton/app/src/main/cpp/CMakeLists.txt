@@ -122,8 +122,11 @@ endif()
 # Stage42 private saved-RAW renderer, available on both configured ABIs.
 get_filename_component(HB42_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/../../../../../hasselblad_native_audit/phocus_port_stage42" ABSOLUTE)
 add_library(hasselblad_renderer42_jni SHARED
-    hasselblad/hb_renderer42_jni.c "${HB42_ROOT}/src/hb42_colour.c")
-target_include_directories(hasselblad_renderer42_jni PRIVATE "${HB42_ROOT}/src")
+    hasselblad/hb_renderer42_jni.c "${HB42_ROOT}/src/hb42_colour.c"
+    "${HB42_ROOT}/../isp_dng_stage18/src/hb_dng_pcs_bridge.c"
+    "${HB42_ROOT}/../isp_colour_stage19/src/hb_colour_stage19.c")
+target_include_directories(hasselblad_renderer42_jni PRIVATE "${HB42_ROOT}/src"
+    "${HB42_ROOT}/../isp_dng_stage18/src" "${HB42_ROOT}/../isp_colour_stage19/src")
 target_compile_options(hasselblad_renderer42_jni PRIVATE -O2 -Wall -Wextra -Werror -ffp-contract=off)
 target_link_libraries(hasselblad_renderer42_jni m)
 set_target_properties(hasselblad_renderer42_jni PROPERTIES C_STANDARD 11 C_STANDARD_REQUIRED ON

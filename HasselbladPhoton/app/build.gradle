@@ -49,7 +49,7 @@ android {
             //noinspection ChromeOsAbiSupport
             abiFilters "arm64-v8a", "armeabi-v7a"
         }
-        versionName '0.1-hb-render42'
+        versionName '0.1-hb-dng43'
         versionProps['VERSION_NAME'] = versionName
         proguardFiles
     }

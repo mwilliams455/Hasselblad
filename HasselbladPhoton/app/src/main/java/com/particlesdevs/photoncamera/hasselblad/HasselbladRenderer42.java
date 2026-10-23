@@ -6,4 +6,7 @@ public final class HasselbladRenderer42 {
     private HasselbladRenderer42() {}
     public static native short[] render(short[] input, double[] parameters,
         double[] grid, float[] curve, int gridWidth, int gridHeight, int wbOwner);
+    public static native double[] cameraToD50(double[] fm1,double[] fm2,double[] cc1,
+        double[] cc2,double[] analog,double[] neutral);
+    public static native double[] xyzToSrgb();
 }

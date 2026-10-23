@@ -44,3 +44,42 @@ done:
     }
     return result;
 }
+
+#include "hb_dng_pcs_bridge.h"
+#include "hb_colour_stage19.h"
+static int read_matrix(JNIEnv *e,jdoubleArray a,double *out,jsize size,int optional) {
+    if(!a)return optional;
+    if((*e)->GetArrayLength(e,a)!=size)return 0;
+    (*e)->GetDoubleArrayRegion(e,a,0,size,out);
+    return !(*e)->ExceptionCheck(e);
+}
+static jdoubleArray matrix_result(JNIEnv *e,int ok,const double m[9]) {
+    if(!ok) {
+        if(!(*e)->ExceptionCheck(e)) {
+            jclass type=(*e)->FindClass(e,"java/lang/IllegalArgumentException");
+            if(type)(*e)->ThrowNew(e,type,"Unsupported or invalid DNG colour calibration");
+        }
+        return NULL;
+    }
+    jdoubleArray result=(*e)->NewDoubleArray(e,9);
+    if(result)(*e)->SetDoubleArrayRegion(e,result,0,9,m);
+    return result;
+}
+JNIEXPORT jdoubleArray JNICALL
+Java_com_particlesdevs_photoncamera_hasselblad_HasselbladRenderer42_cameraToD50(
+        JNIEnv *e,jclass cls,jdoubleArray fm1,jdoubleArray fm2,jdoubleArray cc1,
+        jdoubleArray cc2,jdoubleArray analog,jdoubleArray neutral) {
+    (void)cls;
+    double f1[9],f2[9],c1[9],c2[9],ab[3]={1,1,1},n[3],out[9];
+    int ok=read_matrix(e,fm1,f1,9,0)&&read_matrix(e,fm2,f2,9,1)&&
+        read_matrix(e,cc1,c1,9,1)&&read_matrix(e,cc2,c2,9,1)&&
+        read_matrix(e,analog,ab,3,1)&&read_matrix(e,neutral,n,3,0);
+    hb_dng_pcs_receipt receipt;
+    if(ok)ok=hb_dng_pcs_build(f1,fm2?f2:NULL,cc1?c1:NULL,cc2?c2:NULL,ab,n,out,&receipt)==HB_DNG_PCS_OK;
+    return matrix_result(e,ok,out);
+}
+JNIEXPORT jdoubleArray JNICALL
+Java_com_particlesdevs_photoncamera_hasselblad_HasselbladRenderer42_xyzToSrgb(JNIEnv *e,jclass cls) {
+    (void)cls;double out[9];hb19_output_receipt receipt;
+    return matrix_result(e,hb19_build_output_matrix(HB19_SRGB,out,&receipt)==HB19_OK,out);
+}

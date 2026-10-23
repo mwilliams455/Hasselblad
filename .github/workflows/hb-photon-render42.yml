@@ -46,7 +46,10 @@ jobs:
             "$audit/Stage42BridgeSmoke.java"
           gcc -std=c11 -O2 -Wall -Wextra -Werror -fPIC -ffp-contract=off -shared \
             -I"$JAVA_HOME/include" -I"$JAVA_HOME/include/linux" -I"$audit/src" \
+            -Ihasselblad_native_audit/isp_dng_stage18/src -Ihasselblad_native_audit/isp_colour_stage19/src \
             "$src/cpp/hasselblad/hb_renderer42_jni.c" "$audit/src/hb42_colour.c" \
+            hasselblad_native_audit/isp_dng_stage18/src/hb_dng_pcs_bridge.c \
+            hasselblad_native_audit/isp_colour_stage19/src/hb_colour_stage19.c \
             -Wl,--no-undefined -lm -o "$RUNNER_TEMP/hb42/lib/libhasselblad_renderer42_jni.so"
           java -Djava.library.path="$RUNNER_TEMP/hb42/lib" -cp "$RUNNER_TEMP/hb42/classes" \
             Stage42BridgeSmoke | tee "$RUNNER_TEMP/hb42/deliver/STAGE42_HOST_JNI.json"

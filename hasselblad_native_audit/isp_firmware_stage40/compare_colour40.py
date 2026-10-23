@@ -53,16 +53,23 @@ def config_summary(path:Path):
     parser=module.Parser(source.decode('utf-8'))
     conf=parser.value()
     require(parser.next is None and isinstance(conf,dict),'incomplete_or_invalid_vendor_IQ_config')
-    row=conf['iq_table']['data'][0]
-    require(isinstance(row,dict),'IQ_table_shape_unexpected')
+    records=conf['iq_table']['data']
+    require(isinstance(records,list) and records and all(isinstance(r,dict) for r in records),
+            'IQ_data_records_missing_or_unexpected')
     result={}
     for name in IQ_SUBTREES:
-        if name not in row:
+        # Some modules (notably gamma) occur in still0/still3 records, not
+        # data[0]. Hash *all* original mode-qualified occurrences so an
+        # unchanged global record cannot hide an altered still-mode table.
+        matching=[{'data_index':i,'mode':record.get('mod_iq_mode'),'value':record[name]}
+                  for i,record in enumerate(records) if name in record]
+        if not matching:
             result[name]=None
             continue
-        serial=json.dumps(row[name],sort_keys=True,separators=(',',':'),ensure_ascii=False).encode()
+        serial=json.dumps(matching,sort_keys=True,separators=(',',':'),ensure_ascii=False).encode()
         result[name]={'canonical_json_sha256':digest_bytes(serial),
-                      'top_level_type':type(row[name]).__name__}
+                      'record_count':len(matching),
+                      'top_level_type':'mode_qualified_record_series'}
     for name in OTHER_TOP:
         require(name in conf,'missing_config_'+name)
         serial=json.dumps(conf[name],sort_keys=True,separators=(',',':'),ensure_ascii=False).encode()
@@ -138,7 +145,12 @@ def compare(old,new):
     for key in sorted(set(old['IQ_subtree_metadata'])|set(new['IQ_subtree_metadata'])):
         a=old['IQ_subtree_metadata'].get(key); b=new['IQ_subtree_metadata'].get(key)
         subtree[key]={
-         'same_canonical_subtree':a is not None and b is not None and a['canonical_json_sha256']==b['canonical_json_sha256'],
+         'same_canonical_subtree':(None if a is None and b is None else
+              (a is not None and b is not None and a['canonical_json_sha256']==b['canonical_json_sha256'])),
+         'comparison_status':('absent_both' if a is None and b is None else
+                              'missing_old' if a is None else
+                              'missing_new' if b is None else
+                              'identical' if a['canonical_json_sha256']==b['canonical_json_sha256'] else 'changed'),
          'old_exists':a is not None,'new_exists':b is not None,
          'old_sha256':a['canonical_json_sha256'] if a is not None else None,
          'new_sha256':b['canonical_json_sha256'] if b is not None else None,
@@ -196,7 +208,7 @@ def synthetic():
     assert d['selected_source_files']['system/etc/iq/hb722_config.json']['status']=='identical'
     assert not d['pipeline_group_byte_identity']['CCM_driver_and_profile']['all_byte_identical']
     assert d['original_IQ_subtree_hash_equality']['main_ccm']['same_canonical_subtree']
-    assert not d['original_IQ_subtree_hash_equality']['main_3dlut']['same_canonical_subtree']
+    assert d['original_IQ_subtree_hash_equality']['main_3dlut']['comparison_status']=='absent_both'
     assert d['original_IQ_subtree_hash_equality']['main_3dlut']['old_exists'] is False
     assert d['hardware_CCM_pixel_equation_proven'] is False
     assert d['Android_app_modified'] is False

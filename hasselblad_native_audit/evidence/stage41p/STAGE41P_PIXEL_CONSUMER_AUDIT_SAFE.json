@@ -1,0 +1,727 @@
+{
+  "schema": "hasselblad-stage41p-pixel-consumer-audit-v1",
+  "static_audit_only": true,
+  "pixel_equation_recovered": false,
+  "original_pixel_execution_performed": false,
+  "physical_hardware_accessed": false,
+  "production_photo_output_changed": false,
+  "vendor_bytes_tuning_disassembly_exported": false,
+  "source_sha256": {
+    "librcam.so": "3dd5b37b3db18b3e6b54271e1501b4dd337e101c06cdd386a896b1547b662f66",
+    "libdcam_pp.so": "bacca08dcf56e4a599cbfdfa041baf60a43754ec5a1a9d23dab89bd129ea41e9",
+    "libdcam_pp_base.so": "72934142975fa88ee65e331767e8b9badd9ca40bc987e3c9a2a5cf0ff60b3f76"
+  },
+  "runtime": {
+    "python": "3.12.14",
+    "capstone": "5.0.9",
+    "pyelftools": "0.33"
+  },
+  "branch_decoder_synthetic_cases": 6,
+  "register_reader_trace": {
+    "target": "DjiIsp_Reg_Get",
+    "call_sites": 90,
+    "containing_functions": 10,
+    "owners": [
+      {
+        "function": "_segment_pre_calc_autoknee",
+        "sites": [
+          "0x2e19d0"
+        ]
+      },
+      {
+        "function": "_update_ccm_debug_func",
+        "sites": [
+          "0x31b13c",
+          "0x31b154",
+          "0x31b16c"
+        ]
+      },
+      {
+        "function": "_update_gamma_debug_func",
+        "sites": [
+          "0x31b468"
+        ]
+      },
+      {
+        "function": "_update_rltm_debug_func",
+        "sites": [
+          "0x31ae68",
+          "0x31ae84"
+        ]
+      },
+      {
+        "function": "adj_hiso_shift_pygen_level",
+        "sites": [
+          "0x2e4f10"
+        ]
+      },
+      {
+        "function": "adj_plat_calc_mctf_denoise_strength",
+        "sites": [
+          "0x36e15c",
+          "0x36e17c",
+          "0x36e19c",
+          "0x36e1bc",
+          "0x36e1dc",
+          "0x36e1fc",
+          "0x36e21c",
+          "0x36e23c",
+          "0x36e25c",
+          "0x36e2c0",
+          "0x36e2e0",
+          "0x36e300",
+          "0x36e320",
+          "0x36e4e8",
+          "0x36e50c",
+          "0x36e538",
+          "0x36e55c"
+        ]
+      },
+      {
+        "function": "calc_blc_hob_adpt",
+        "sites": [
+          "0x3c7438",
+          "0x3c7454",
+          "0x3c7470",
+          "0x3c7490",
+          "0x3c74b0",
+          "0x3c74c8",
+          "0x3c74e0",
+          "0x3c74f8",
+          "0x3c7510",
+          "0x3c7528",
+          "0x3c7540",
+          "0x3c7558",
+          "0x3c7570",
+          "0x3c7588",
+          "0x3c75a0",
+          "0x3c75b8",
+          "0x3c75d4",
+          "0x3c75ec",
+          "0x3c7608",
+          "0x3c7628",
+          "0x3c7ac0",
+          "0x3c7ad8",
+          "0x3c7af0",
+          "0x3c7b08",
+          "0x3c7b24",
+          "0x3c7b3c",
+          "0x3c7b54",
+          "0x3c7b6c",
+          "0x3c7b8c",
+          "0x3c7ba8",
+          "0x3c7bc4",
+          "0x3c7be0",
+          "0x3c7bf8",
+          "0x3c7c10",
+          "0x3c7c28",
+          "0x3c7c40",
+          "0x3c7c58",
+          "0x3c7c70",
+          "0x3c7c88",
+          "0x3c7ca0",
+          "0x3c7cb8",
+          "0x3c7cd0",
+          "0x3c7ce8",
+          "0x3c7d00",
+          "0x3c7d1c",
+          "0x3c7d34",
+          "0x3c7d4c",
+          "0x3c7d64",
+          "0x3c7d7c",
+          "0x3c7d98",
+          "0x3c7db0",
+          "0x3c7dc8",
+          "0x3c7de0",
+          "0x3c7dfc",
+          "0x3c7e14"
+        ]
+      },
+      {
+        "function": "dcam_isp_vreg_get_reg",
+        "sites": [
+          "0x54be0"
+        ]
+      },
+      {
+        "function": "main_blc_update_reg",
+        "sites": [
+          "0x305c08"
+        ]
+      },
+      {
+        "function": "tmc_v1_0_calc_tmc",
+        "sites": [
+          "0x384444",
+          "0x384474",
+          "0x38448c",
+          "0x3844a4",
+          "0x3844bc",
+          "0x3844d4",
+          "0x3844ec",
+          "0x384504"
+        ]
+      }
+    ],
+    "scope": "Immediate B/BL references in original librcam .text; indirect calls, direct buffer reads and other binaries are not excluded.",
+    "pixel_evaluator_demonstrated": false
+  },
+  "simulation_test_definitions": {
+    "e2_subp_sim": {
+      "recipe_sha256": "eb1ff40c307db80f4f938e53dc91bf2a279e0091d4688c9005e45c6e03e729c2",
+      "parameter_file_sha256": "fdae78f974828f1f1b0c10ea61ca7fa332e799d4461ce9761b03cca0d8b8f7f9",
+      "declared_platform": "PP_PLATFORM_DSP_FRWK",
+      "input_count": 2,
+      "input_formats": [
+        "raw",
+        "yuv420"
+      ],
+      "referenced_inputs_present_by_basename": [
+        false,
+        false
+      ],
+      "has_cmodel_tag": true,
+      "has_crc_field": true,
+      "parameter_fields": [
+        "bpc",
+        "ccm",
+        "debug",
+        "dem",
+        "enable",
+        "gam",
+        "wbc",
+        "ycc"
+      ],
+      "ccm_coefficient_count": 9,
+      "gamma_entry_count": 257,
+      "negative_gamma_entry_count": 9
+    },
+    "gamma": {
+      "recipe_sha256": "087866af80085629867b9cda0f3d4eaa8ca8bfc5205124ff8b4848da950399f2",
+      "parameter_file_sha256": "41291453742389d5ba743892a9de91997ff15b896682a29d4998e22b98ca84f5",
+      "declared_platform": "PP_PLATFORM_DSP_FRWK",
+      "input_count": 1,
+      "input_formats": [
+        "rgb"
+      ],
+      "referenced_inputs_present_by_basename": [
+        false
+      ],
+      "has_cmodel_tag": true,
+      "has_crc_field": true,
+      "parameter_fields": [
+        "debug",
+        "enable",
+        "gamma_lut",
+        "gamma_minus_lut",
+        "in_acc_bits",
+        "in_acc_int_bits",
+        "in_acc_sign",
+        "lut_acc_bits",
+        "lut_acc_int_bits",
+        "lut_acc_sign",
+        "lut_minus_scale",
+        "module_ctrl_dither_en",
+        "out_acc_bits",
+        "out_acc_int_bits",
+        "out_acc_sign"
+      ],
+      "gamma_entry_count": 257,
+      "negative_gamma_entry_count": 9
+    },
+    "gamma_reverse": {
+      "recipe_sha256": "b0e22b5ee7a77ac300bfa102e560c5a06b1a98861e5abb250981af4fc48e9662",
+      "parameter_file_sha256": "d15bbdedacdfc47da90d3ebb7a2edd687631fe20c6c1b28ff88d9de7e7617049",
+      "declared_platform": "PP_PLATFORM_DSP_FRWK",
+      "input_count": 1,
+      "input_formats": [
+        "rgb"
+      ],
+      "referenced_inputs_present_by_basename": [
+        false
+      ],
+      "has_cmodel_tag": true,
+      "has_crc_field": true,
+      "parameter_fields": [
+        "debug",
+        "gamma_lut",
+        "gamma_minus_lut",
+        "in_acc_bits",
+        "in_acc_int_bits",
+        "in_acc_sign",
+        "lut_acc_bits",
+        "lut_acc_int_bits",
+        "lut_acc_sign",
+        "lut_minus_scale",
+        "module_ctrl_dither_en",
+        "out_acc_bits",
+        "out_acc_int_bits",
+        "out_acc_sign"
+      ],
+      "gamma_entry_count": 257,
+      "negative_gamma_entry_count": 9
+    }
+  },
+  "simulation_callback_slots": {
+    "0x10": {
+      "target": "_pp_dsp_frwk_buf_trans",
+      "store_site": "0x57d80"
+    },
+    "0x28": {
+      "target": "_pp_dsp_frwk_process",
+      "store_site": "0x57d9c"
+    },
+    "0x30": {
+      "target": "_pp_dsp_frwk_wait",
+      "store_site": "0x57db8"
+    },
+    "0x40": {
+      "target": "_pp_dsp_frwk_pull_buf",
+      "store_site": "0x57dcc"
+    }
+  },
+  "simulation_indirect_calls": [
+    {
+      "site": "0xa86a8",
+      "device_callback_offset": "0x10",
+      "target": "_pp_dsp_frwk_buf_trans"
+    },
+    {
+      "site": "0xa8938",
+      "device_callback_offset": "0x28",
+      "target": "_pp_dsp_frwk_process"
+    },
+    {
+      "site": "0xa8bc0",
+      "device_callback_offset": "0x30",
+      "target": "_pp_dsp_frwk_wait"
+    },
+    {
+      "site": "0xa8cb0",
+      "device_callback_offset": "0x40",
+      "target": "_pp_dsp_frwk_pull_buf"
+    }
+  ],
+  "simulation_verified_direct_edges": [
+    {
+      "caller": "e2_subp_sim",
+      "callee": "proc_e2_subp_sim",
+      "sites": [
+        "0xaa19c"
+      ]
+    },
+    {
+      "caller": "e2_subp_sim_init",
+      "callee": "pp_create_platform_ctx",
+      "sites": [
+        "0xa9224"
+      ]
+    },
+    {
+      "caller": "pp_create_platform_ctx",
+      "callee": "_create_platform_ctx_base",
+      "sites": [
+        "0x54174"
+      ]
+    },
+    {
+      "caller": "_create_platform_ctx_base",
+      "callee": "pp_create_dsp_frwk_dev_ctx",
+      "sites": [
+        "0x54784"
+      ]
+    },
+    {
+      "caller": "_pp_dsp_frwk_process",
+      "callee": "_pp_dsp_frwk_sl_process",
+      "sites": [
+        "0x5cca0"
+      ]
+    },
+    {
+      "caller": "_pp_dsp_frwk_sl_process",
+      "callee": "pp_call_ss_function_client",
+      "sites": [
+        "0x5b9a4"
+      ]
+    },
+    {
+      "caller": "pp_call_ss_function_client",
+      "callee": "ss_dsp_function_client_call",
+      "sites": [
+        "0x6eec0"
+      ]
+    }
+  ],
+  "functions": {
+    "librcam.so": {
+      "_ColorMatrix_Func": {
+        "start": "0x395228",
+        "bytes": 912,
+        "code_sha256": "8112eaa412fd532722554cd965fc42f9630601c1bfb44bd25bb76dd185a49734",
+        "external_direct_calls_or_tail_branches": {
+          "DjiMetadata_ProresRaw_GetCcmByCct": 1,
+          "__stack_chk_fail": 1,
+          "assert_handler_noarg": 2,
+          "co_thread_get": 1,
+          "co_thread_get_current_co_name_co_id": 1,
+          "duss_log_gen_head": 2,
+          "duss_log_print": 1,
+          "log_get_task_name": 2,
+          "log_mgr_check": 1
+        },
+        "indirect_call_or_branch_sites": []
+      },
+      "DjiMetadata_ProresRaw_GetCcmByCct": {
+        "start": "0x3c4140",
+        "bytes": 844,
+        "code_sha256": "1b4db0a0d75e2d2a3a91f268ad19684161341ffe485d6b8228d2ba13b52155cb",
+        "external_direct_calls_or_tail_branches": {
+          "assert_handler_noarg": 6
+        },
+        "indirect_call_or_branch_sites": []
+      },
+      "tmc_v1_0_calc_tmc": {
+        "start": "0x381bc8",
+        "bytes": 22816,
+        "code_sha256": "e865f5a3f56be98e1f94a80bdbecd2df1d7309a73243cb07e408dae68510b21e",
+        "external_direct_calls_or_tail_branches": {
+          "DjiIsp_Reg_Get": 8,
+          "DjiIsp_Reg_GetGroupNum": 4,
+          "DjiIsp_Reg_GetLut": 6,
+          "DjiIsp_Reg_Set": 2,
+          "__memcpy_chk": 1,
+          "__stack_chk_fail": 1,
+          "_calc_gain_by_mesh": 2,
+          "_calc_mean_by_hist_range": 2,
+          "adj_calc_common_enh": 16,
+          "assert_handler": 25,
+          "assert_handler_noarg": 35,
+          "co_thread_get": 5,
+          "co_thread_get_current_co_name_co_id": 5,
+          "dcam_ae_get_global_hist_stat": 1,
+          "dcam_ae_get_local_stat_full": 1,
+          "duss_log_gen_head": 10,
+          "duss_log_print": 4,
+          "fp_log2_fixed_to_fixed": 4,
+          "fp_math_exp2": 4,
+          "iq_log_vector": 2,
+          "iq_tmc_gain_log": 1,
+          "log_get_task_name": 10,
+          "log_mgr_check": 5,
+          "memcpy": 17,
+          "memset": 21,
+          "rcam_dev_get_ae_handle": 2
+        },
+        "indirect_call_or_branch_sites": []
+      }
+    },
+    "libdcam_pp.so": {
+      "e2_subp_sim_init": {
+        "start": "0xa90a0",
+        "bytes": 2888,
+        "code_sha256": "1528b39a71d5896c6e3829d77d40bb0c27905360bd43b3448cabd9169ddb6cf1",
+        "external_direct_calls_or_tail_branches": {
+          "__stack_chk_fail": 1,
+          "abort": 1,
+          "cam_malloc_internal": 1,
+          "co_thread_get": 8,
+          "co_thread_get_current_co_name_co_id": 8,
+          "duss_log_dump_backtrace": 1,
+          "duss_log_gen_head": 23,
+          "duss_log_print": 22,
+          "exit": 1,
+          "fflush": 1,
+          "is_running_in_cam_sil": 1,
+          "log_mgr_check": 5,
+          "log_to_kmsg": 1,
+          "pp_create_platform_ctx": 1
+        },
+        "indirect_call_or_branch_sites": [
+          "0xa9684"
+        ]
+      },
+      "e2_subp_sim": {
+        "start": "0xa9da0",
+        "bytes": 1932,
+        "code_sha256": "4cf8b045a3f3b74f212e48879b453e6b1f38104f0af46ce3f9b9359e3d22e445",
+        "external_direct_calls_or_tail_branches": {
+          "__stack_chk_fail": 1,
+          "co_thread_get": 6,
+          "co_thread_get_current_co_name_co_id": 6,
+          "duss_log_gen_head": 16,
+          "duss_log_print": 15,
+          "duss_osal_get_boot_time": 2,
+          "log_mgr_check": 6,
+          "proc_e2_subp_sim": 1
+        },
+        "indirect_call_or_branch_sites": []
+      },
+      "proc_e2_subp_sim": {
+        "start": "0xa8518",
+        "bytes": 2948,
+        "code_sha256": "1d6623ac5db7490088ddeec5f7a0db319d6c5e82436aab445af8ce6d40d4360a",
+        "external_direct_calls_or_tail_branches": {
+          "__stack_chk_fail": 1,
+          "abort": 1,
+          "co_thread_get": 8,
+          "co_thread_get_current_co_name_co_id": 8,
+          "duss_log_dump_backtrace": 1,
+          "duss_log_gen_head": 25,
+          "duss_log_print": 19,
+          "duss_osal_get_boot_time": 4,
+          "exit": 1,
+          "fflush": 1,
+          "is_running_in_cam_sil": 1,
+          "log_mgr_check": 7,
+          "log_to_kmsg": 1,
+          "memset": 1
+        },
+        "indirect_call_or_branch_sites": [
+          "0xa86a8",
+          "0xa8938",
+          "0xa8bc0",
+          "0xa8cb0"
+        ]
+      },
+      "e2_subp_sim_ceva_buf_trans": {
+        "start": "0xa7e30",
+        "bytes": 1764,
+        "code_sha256": "ec6c5b82184bb9a599accb21852e156dc9dee98719cb8b1c344fb4ff61a18d7c",
+        "external_direct_calls_or_tail_branches": {
+          "__stack_chk_fail": 1,
+          "co_thread_get": 4,
+          "co_thread_get_current_co_name_co_id": 4,
+          "duss_log_gen_head": 11,
+          "duss_log_print": 10,
+          "log_mgr_check": 4,
+          "memcpy": 1,
+          "mid_buffer_init": 3,
+          "pp_get_duss_hal_mem_phys_addr": 2,
+          "pp_map_ss_virt_addr": 2
+        },
+        "indirect_call_or_branch_sites": []
+      }
+    },
+    "libdcam_pp_base.so": {
+      "pp_create_platform_ctx": {
+        "start": "0x54130",
+        "bytes": 808,
+        "code_sha256": "f64f9f8d02c07b30de11074281a5863ce8f37e508b92829ff63efa85bafac23d",
+        "external_direct_calls_or_tail_branches": {
+          "__stack_chk_fail": 1,
+          "_create_platform_ctx_base": 1,
+          "abort": 1,
+          "co_thread_get": 2,
+          "co_thread_get_current_co_name_co_id": 2,
+          "duss_log_dump_backtrace": 1,
+          "duss_log_gen_head": 6,
+          "duss_log_print": 6,
+          "exit": 1,
+          "fflush": 1,
+          "is_running_in_cam_sil": 1,
+          "log_to_kmsg": 2,
+          "pp_alloc_sync_buf": 1
+        },
+        "indirect_call_or_branch_sites": []
+      },
+      "_create_platform_ctx_base": {
+        "start": "0x54458",
+        "bytes": 3672,
+        "code_sha256": "168e9f431468948ea369f05cea7646f7cb015e3b612e7cc711f5273033d5c7bb",
+        "external_direct_calls_or_tail_branches": {
+          "__stack_chk_fail": 1,
+          "abort": 1,
+          "cam_malloc_internal": 1,
+          "co_thread_get": 10,
+          "co_thread_get_current_co_name_co_id": 10,
+          "duss_log_dump_backtrace": 1,
+          "duss_log_gen_head": 29,
+          "duss_log_print": 29,
+          "exit": 1,
+          "fflush": 1,
+          "get_active_core": 1,
+          "is_running_in_cam_sil": 1,
+          "log_mgr_check": 2,
+          "log_to_kmsg": 3,
+          "memset": 1,
+          "pp_create_dsp_frwk_dev_ctx": 1,
+          "pp_dsp_frwk_dev_ctx_hook_runtime": 1,
+          "pp_get_dsp_session_core_mask": 1,
+          "pp_perf_trace_init": 1
+        },
+        "indirect_call_or_branch_sites": []
+      },
+      "pp_create_dsp_frwk_dev_ctx": {
+        "start": "0x57ce8",
+        "bytes": 1796,
+        "code_sha256": "220e3173a1037f6f5fb17e0437e6848e09f8aedd6b0baa1d37e994e028a87008",
+        "external_direct_calls_or_tail_branches": {
+          "__stack_chk_fail": 1,
+          "abort": 1,
+          "cam_malloc_internal": 1,
+          "co_mutex_lock": 1,
+          "co_mutex_unlock": 1,
+          "co_thread_get": 3,
+          "co_thread_get_current_co_name_co_id": 3,
+          "duss_log_dump_backtrace": 1,
+          "duss_log_gen_head": 9,
+          "duss_log_print": 9,
+          "duss_object_ref_history_add": 2,
+          "duss_osal_mutex_create": 1,
+          "duss_osal_mutex_lock": 2,
+          "duss_osal_mutex_unlock": 1,
+          "exit": 1,
+          "fflush": 1,
+          "is_running_in_cam_sil": 1,
+          "log_mgr_check": 1,
+          "log_to_kmsg": 1,
+          "memset": 1,
+          "pp_dsp_frwk_param_ion_check": 1,
+          "pp_map_ss_virt_addr": 1
+        },
+        "indirect_call_or_branch_sites": []
+      },
+      "_pp_dsp_frwk_buf_trans": {
+        "start": "0x5b158",
+        "bytes": 1088,
+        "code_sha256": "5adc24a0c528d9b0eca274666bd731fed3a1fbef85604a7952ed54c03c54166b",
+        "external_direct_calls_or_tail_branches": {
+          "__stack_chk_fail": 1,
+          "_pp_dsp_frwk_sl_buf_trans": 1,
+          "abort": 1,
+          "co_thread_get": 3,
+          "co_thread_get_current_co_name_co_id": 3,
+          "duss_log_dump_backtrace": 1,
+          "duss_log_gen_head": 7,
+          "duss_log_print": 7,
+          "exit": 1,
+          "fflush": 1,
+          "is_running_in_cam_sil": 1,
+          "log_to_kmsg": 1,
+          "memset": 1
+        },
+        "indirect_call_or_branch_sites": []
+      },
+      "_pp_dsp_frwk_process": {
+        "start": "0x5cc48",
+        "bytes": 820,
+        "code_sha256": "eb1fdb0a02f68cd4811e8cfb4b547e00f632da76f74d9a951056dd612f5fa578",
+        "external_direct_calls_or_tail_branches": {
+          "__stack_chk_fail": 1,
+          "_pp_dsp_frwk_sl_process": 1,
+          "abort": 1,
+          "co_thread_get": 2,
+          "co_thread_get_current_co_name_co_id": 2,
+          "duss_log_dump_backtrace": 1,
+          "duss_log_gen_head": 6,
+          "duss_log_print": 6,
+          "exit": 1,
+          "fflush": 1,
+          "is_running_in_cam_sil": 1,
+          "log_to_kmsg": 2
+        },
+        "indirect_call_or_branch_sites": []
+      },
+      "_pp_dsp_frwk_sl_process": {
+        "start": "0x5b598",
+        "bytes": 3496,
+        "code_sha256": "aa787915666ad8b7ac503493914d30419fc0fed77a9023103275ab090419924f",
+        "external_direct_calls_or_tail_branches": {
+          "__stack_chk_fail": 1,
+          "_pp_ss_function_client_cb": 1,
+          "abort": 1,
+          "co_event_wait": 1,
+          "co_mutex_lock": 1,
+          "co_mutex_unlock": 1,
+          "co_thread_get": 9,
+          "co_thread_get_current_co_name_co_id": 9,
+          "duss_log_dump_backtrace": 1,
+          "duss_log_gen_head": 22,
+          "duss_log_print": 22,
+          "duss_osal_get_boot_time": 2,
+          "exit": 1,
+          "fflush": 1,
+          "is_running_in_cam_sil": 1,
+          "log_mgr_check": 1,
+          "log_to_kmsg": 4,
+          "pp_call_ss_function_client": 1,
+          "pp_destroy_ss_function_client": 1,
+          "pp_new_ss_function_client": 1
+        },
+        "indirect_call_or_branch_sites": []
+      },
+      "_pp_dsp_frwk_wait": {
+        "start": "0x5cf80",
+        "bytes": 2420,
+        "code_sha256": "a610a8ef5e52f13ede5d488218269dd64e07d40d53d043e331e2eada85865ffc",
+        "external_direct_calls_or_tail_branches": {
+          "__stack_chk_fail": 1,
+          "abort": 1,
+          "co_event_set": 1,
+          "co_event_wait": 1,
+          "co_thread_get": 7,
+          "co_thread_get_current_co_name_co_id": 7,
+          "duss_log_dump_backtrace": 1,
+          "duss_log_gen_head": 18,
+          "duss_log_print": 18,
+          "exit": 1,
+          "fflush": 1,
+          "is_running_in_cam_sil": 1,
+          "log_to_kmsg": 3
+        },
+        "indirect_call_or_branch_sites": []
+      },
+      "_pp_dsp_frwk_pull_buf": {
+        "start": "0x5e5c0",
+        "bytes": 840,
+        "code_sha256": "5537a5ae06677505431a480185b00a2ecd5bb255200f972f600c5b08fdaecbad",
+        "external_direct_calls_or_tail_branches": {
+          "__stack_chk_fail": 1,
+          "_pp_dsp_frwk_sl_pull_buf": 1,
+          "abort": 1,
+          "co_thread_get": 2,
+          "co_thread_get_current_co_name_co_id": 2,
+          "duss_log_dump_backtrace": 1,
+          "duss_log_gen_head": 6,
+          "duss_log_print": 6,
+          "exit": 1,
+          "fflush": 1,
+          "is_running_in_cam_sil": 1,
+          "log_to_kmsg": 2,
+          "memset": 1
+        },
+        "indirect_call_or_branch_sites": []
+      },
+      "pp_call_ss_function_client": {
+        "start": "0x6ee60",
+        "bytes": 1308,
+        "code_sha256": "c73e890412d650cb4e3b6d15962a21dc37d720c7bc14b0fefe2ee0fd8eaef6dd",
+        "external_direct_calls_or_tail_branches": {
+          "__stack_chk_fail": 1,
+          "abort": 1,
+          "co_thread_get": 3,
+          "co_thread_get_current_co_name_co_id": 3,
+          "duss_log_dump_backtrace": 1,
+          "duss_log_gen_head": 9,
+          "duss_log_print": 9,
+          "exit": 1,
+          "fflush": 1,
+          "is_running_in_cam_sil": 1,
+          "log_to_kmsg": 3,
+          "ss_dsp_function_client_call": 1
+        },
+        "indirect_call_or_branch_sites": [
+          "0x6eedc"
+        ]
+      }
+    }
+  },
+  "limits": [
+    "The direct getter trace does not exclude indirect or direct-buffer consumers.",
+    "The SUB simulation uses a nine-coefficient CCM; equivalence to the six-coefficient MAIN block is not established.",
+    "The traced simulation process dispatches through an SS DSP function client; its remote pixel body is not recovered.",
+    "TMC gamma resampling and ProRes metadata matrix preparation are not established MAIN hardware pixel evaluators.",
+    "Four end-to-end RAW/JPEG pairs do not isolate the MAIN stages or their active register state."
+  ]
+}

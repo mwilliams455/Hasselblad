@@ -1,0 +1,3275 @@
+{
+  "schema": "hasselblad-stage41y-native-matrix-gradation-v1",
+  "apk_sha256": "5ee52bbb2b7a3fa708628ba251b409a551ae099697668427cf54b523328ccf68",
+  "library_sha256": "d757237554529f8ab485f88f2c5e5399fbc8d56035c79b8e057b41a40fd055e4",
+  "profile_sha256": "c2b3d08e0d489eb852610c12a9b985e9d0340a4dd544f5b0b5b7a6a4f3427e95",
+  "selected_profile": "bohnjuhtuvuvtxyydb56.dat",
+  "audit": {
+    "initializer_evidence": [
+      {
+        "label": "local_raw_initializer",
+        "init_array_slot": "0x37c45b8"
+      },
+      {
+        "label": "local_gradation_manager_initializer",
+        "init_array_slot": "0x37c4650"
+      },
+      {
+        "label": "local_gradation_initializer",
+        "init_array_slot": "0x37c4658"
+      }
+    ],
+    "raw_matrix_cases": [
+      {
+        "temperature_argument": 0,
+        "dng_matrix_branch": true,
+        "values": 9,
+        "exact_values": 9,
+        "max_abs_difference": 0.0
+      },
+      {
+        "temperature_argument": 2000,
+        "dng_matrix_branch": false,
+        "values": 9,
+        "exact_values": 6,
+        "max_abs_difference": 5.551115123125783e-17
+      },
+      {
+        "temperature_argument": 4000,
+        "dng_matrix_branch": false,
+        "values": 9,
+        "exact_values": 5,
+        "max_abs_difference": 2.220446049250313e-16
+      },
+      {
+        "temperature_argument": 9100,
+        "dng_matrix_branch": false,
+        "values": 9,
+        "exact_values": 6,
+        "max_abs_difference": 1.1102230246251565e-16
+      },
+      {
+        "temperature_argument": 10001,
+        "dng_matrix_branch": false,
+        "values": 9,
+        "exact_values": 5,
+        "max_abs_difference": 1.1102230246251565e-16
+      }
+    ],
+    "curve_generation_cases": [
+      {
+        "film_code": 0,
+        "companding_code": 1,
+        "values": 65536,
+        "exact_values": 65536,
+        "max_abs_difference": 0.0,
+        "finite_monotonic_and_bounded": true
+      },
+      {
+        "film_code": 1,
+        "companding_code": 1,
+        "values": 65536,
+        "exact_values": 65536,
+        "max_abs_difference": 0.0,
+        "finite_monotonic_and_bounded": true
+      },
+      {
+        "film_code": 1,
+        "companding_code": 2,
+        "values": 65536,
+        "exact_values": 65536,
+        "max_abs_difference": 0.0,
+        "finite_monotonic_and_bounded": true
+      },
+      {
+        "film_code": 7,
+        "companding_code": 1,
+        "values": 65536,
+        "exact_values": 65536,
+        "max_abs_difference": 0.0,
+        "finite_monotonic_and_bounded": true
+      },
+      {
+        "film_code": 7,
+        "companding_code": 2,
+        "values": 65536,
+        "exact_values": 65536,
+        "max_abs_difference": 0.0,
+        "finite_monotonic_and_bounded": true
+      }
+    ],
+    "pipeline_cases": [
+      {
+        "temperature": 2400,
+        "per_channel_gain_fixture": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "scalar_gain_fixture": 1.0,
+        "color_model_code": 0,
+        "working_space_code": 0,
+        "requested_film_code": 0,
+        "selected_film_code": 0,
+        "selected_companding_code": 1,
+        "reproduction_lut": false,
+        "expanded_lut": false,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 5,
+          "max_abs_difference": 2.220446049250313e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 4,
+          "max_abs_difference": 2.220446049250313e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 2400,
+        "per_channel_gain_fixture": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "scalar_gain_fixture": 1.0,
+        "color_model_code": 0,
+        "working_space_code": 1,
+        "requested_film_code": 0,
+        "selected_film_code": 0,
+        "selected_companding_code": 2,
+        "reproduction_lut": false,
+        "expanded_lut": true,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 5,
+          "max_abs_difference": 2.220446049250313e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 2,
+          "max_abs_difference": 2.220446049250313e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 2400,
+        "per_channel_gain_fixture": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "scalar_gain_fixture": 1.0,
+        "color_model_code": 0,
+        "working_space_code": 2,
+        "requested_film_code": 0,
+        "selected_film_code": 0,
+        "selected_companding_code": 2,
+        "reproduction_lut": false,
+        "expanded_lut": true,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 5,
+          "max_abs_difference": 2.220446049250313e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 4,
+          "max_abs_difference": 2.220446049250313e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 2400,
+        "per_channel_gain_fixture": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "scalar_gain_fixture": 1.0,
+        "color_model_code": 0,
+        "working_space_code": 3,
+        "requested_film_code": 0,
+        "selected_film_code": 0,
+        "selected_companding_code": 2,
+        "reproduction_lut": false,
+        "expanded_lut": true,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 5,
+          "max_abs_difference": 2.220446049250313e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 3,
+          "max_abs_difference": 4.440892098500626e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 2400,
+        "per_channel_gain_fixture": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "scalar_gain_fixture": 1.0,
+        "color_model_code": 0,
+        "working_space_code": 4,
+        "requested_film_code": 0,
+        "selected_film_code": 0,
+        "selected_companding_code": 2,
+        "reproduction_lut": false,
+        "expanded_lut": true,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 5,
+          "max_abs_difference": 2.220446049250313e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 5,
+          "max_abs_difference": 3.3306690738754696e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 2400,
+        "per_channel_gain_fixture": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "scalar_gain_fixture": 1.0,
+        "color_model_code": 0,
+        "working_space_code": 5,
+        "requested_film_code": 0,
+        "selected_film_code": 0,
+        "selected_companding_code": 2,
+        "reproduction_lut": false,
+        "expanded_lut": true,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 5,
+          "max_abs_difference": 2.220446049250313e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 1,
+          "max_abs_difference": 5.551115123125783e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 2400,
+        "per_channel_gain_fixture": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "scalar_gain_fixture": 1.0,
+        "color_model_code": 1,
+        "working_space_code": 0,
+        "requested_film_code": 0,
+        "selected_film_code": 7,
+        "selected_companding_code": 1,
+        "reproduction_lut": true,
+        "expanded_lut": false,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 5,
+          "max_abs_difference": 4.440892098500626e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 4,
+          "max_abs_difference": 2.220446049250313e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 2400,
+        "per_channel_gain_fixture": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "scalar_gain_fixture": 1.0,
+        "color_model_code": 1,
+        "working_space_code": 1,
+        "requested_film_code": 0,
+        "selected_film_code": 7,
+        "selected_companding_code": 2,
+        "reproduction_lut": true,
+        "expanded_lut": true,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 5,
+          "max_abs_difference": 4.440892098500626e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 2,
+          "max_abs_difference": 2.220446049250313e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 2400,
+        "per_channel_gain_fixture": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "scalar_gain_fixture": 1.0,
+        "color_model_code": 1,
+        "working_space_code": 2,
+        "requested_film_code": 0,
+        "selected_film_code": 7,
+        "selected_companding_code": 2,
+        "reproduction_lut": true,
+        "expanded_lut": true,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 5,
+          "max_abs_difference": 4.440892098500626e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 4,
+          "max_abs_difference": 2.220446049250313e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 2400,
+        "per_channel_gain_fixture": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "scalar_gain_fixture": 1.0,
+        "color_model_code": 1,
+        "working_space_code": 3,
+        "requested_film_code": 0,
+        "selected_film_code": 7,
+        "selected_companding_code": 2,
+        "reproduction_lut": true,
+        "expanded_lut": true,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 5,
+          "max_abs_difference": 4.440892098500626e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 3,
+          "max_abs_difference": 4.440892098500626e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 2400,
+        "per_channel_gain_fixture": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "scalar_gain_fixture": 1.0,
+        "color_model_code": 1,
+        "working_space_code": 4,
+        "requested_film_code": 0,
+        "selected_film_code": 7,
+        "selected_companding_code": 2,
+        "reproduction_lut": true,
+        "expanded_lut": true,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 5,
+          "max_abs_difference": 4.440892098500626e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 5,
+          "max_abs_difference": 3.3306690738754696e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 2400,
+        "per_channel_gain_fixture": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "scalar_gain_fixture": 1.0,
+        "color_model_code": 1,
+        "working_space_code": 5,
+        "requested_film_code": 0,
+        "selected_film_code": 7,
+        "selected_companding_code": 2,
+        "reproduction_lut": true,
+        "expanded_lut": true,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 5,
+          "max_abs_difference": 4.440892098500626e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 1,
+          "max_abs_difference": 5.551115123125783e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 2400,
+        "per_channel_gain_fixture": [
+          1.8,
+          1.0,
+          0.7
+        ],
+        "scalar_gain_fixture": 2.0,
+        "color_model_code": 0,
+        "working_space_code": 0,
+        "requested_film_code": 0,
+        "selected_film_code": 0,
+        "selected_companding_code": 1,
+        "reproduction_lut": false,
+        "expanded_lut": false,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 4,
+          "max_abs_difference": 3.3306690738754696e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 4,
+          "max_abs_difference": 2.220446049250313e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 2400,
+        "per_channel_gain_fixture": [
+          1.8,
+          1.0,
+          0.7
+        ],
+        "scalar_gain_fixture": 2.0,
+        "color_model_code": 0,
+        "working_space_code": 1,
+        "requested_film_code": 0,
+        "selected_film_code": 0,
+        "selected_companding_code": 2,
+        "reproduction_lut": false,
+        "expanded_lut": true,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 4,
+          "max_abs_difference": 3.3306690738754696e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 2,
+          "max_abs_difference": 2.220446049250313e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 2400,
+        "per_channel_gain_fixture": [
+          1.8,
+          1.0,
+          0.7
+        ],
+        "scalar_gain_fixture": 2.0,
+        "color_model_code": 0,
+        "working_space_code": 2,
+        "requested_film_code": 0,
+        "selected_film_code": 0,
+        "selected_companding_code": 2,
+        "reproduction_lut": false,
+        "expanded_lut": true,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 4,
+          "max_abs_difference": 3.3306690738754696e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 4,
+          "max_abs_difference": 2.220446049250313e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 2400,
+        "per_channel_gain_fixture": [
+          1.8,
+          1.0,
+          0.7
+        ],
+        "scalar_gain_fixture": 2.0,
+        "color_model_code": 0,
+        "working_space_code": 3,
+        "requested_film_code": 0,
+        "selected_film_code": 0,
+        "selected_companding_code": 2,
+        "reproduction_lut": false,
+        "expanded_lut": true,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 4,
+          "max_abs_difference": 3.3306690738754696e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 3,
+          "max_abs_difference": 4.440892098500626e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 2400,
+        "per_channel_gain_fixture": [
+          1.8,
+          1.0,
+          0.7
+        ],
+        "scalar_gain_fixture": 2.0,
+        "color_model_code": 0,
+        "working_space_code": 4,
+        "requested_film_code": 0,
+        "selected_film_code": 0,
+        "selected_companding_code": 2,
+        "reproduction_lut": false,
+        "expanded_lut": true,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 4,
+          "max_abs_difference": 3.3306690738754696e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 5,
+          "max_abs_difference": 3.3306690738754696e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 2400,
+        "per_channel_gain_fixture": [
+          1.8,
+          1.0,
+          0.7
+        ],
+        "scalar_gain_fixture": 2.0,
+        "color_model_code": 0,
+        "working_space_code": 5,
+        "requested_film_code": 0,
+        "selected_film_code": 0,
+        "selected_companding_code": 2,
+        "reproduction_lut": false,
+        "expanded_lut": true,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 4,
+          "max_abs_difference": 3.3306690738754696e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 1,
+          "max_abs_difference": 5.551115123125783e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 2400,
+        "per_channel_gain_fixture": [
+          1.8,
+          1.0,
+          0.7
+        ],
+        "scalar_gain_fixture": 2.0,
+        "color_model_code": 1,
+        "working_space_code": 0,
+        "requested_film_code": 0,
+        "selected_film_code": 7,
+        "selected_companding_code": 1,
+        "reproduction_lut": true,
+        "expanded_lut": false,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 4,
+          "max_abs_difference": 6.661338147750939e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 4,
+          "max_abs_difference": 2.220446049250313e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 2400,
+        "per_channel_gain_fixture": [
+          1.8,
+          1.0,
+          0.7
+        ],
+        "scalar_gain_fixture": 2.0,
+        "color_model_code": 1,
+        "working_space_code": 1,
+        "requested_film_code": 0,
+        "selected_film_code": 7,
+        "selected_companding_code": 2,
+        "reproduction_lut": true,
+        "expanded_lut": true,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 4,
+          "max_abs_difference": 6.661338147750939e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 2,
+          "max_abs_difference": 2.220446049250313e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 2400,
+        "per_channel_gain_fixture": [
+          1.8,
+          1.0,
+          0.7
+        ],
+        "scalar_gain_fixture": 2.0,
+        "color_model_code": 1,
+        "working_space_code": 2,
+        "requested_film_code": 0,
+        "selected_film_code": 7,
+        "selected_companding_code": 2,
+        "reproduction_lut": true,
+        "expanded_lut": true,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 4,
+          "max_abs_difference": 6.661338147750939e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 4,
+          "max_abs_difference": 2.220446049250313e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 2400,
+        "per_channel_gain_fixture": [
+          1.8,
+          1.0,
+          0.7
+        ],
+        "scalar_gain_fixture": 2.0,
+        "color_model_code": 1,
+        "working_space_code": 3,
+        "requested_film_code": 0,
+        "selected_film_code": 7,
+        "selected_companding_code": 2,
+        "reproduction_lut": true,
+        "expanded_lut": true,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 4,
+          "max_abs_difference": 6.661338147750939e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 3,
+          "max_abs_difference": 4.440892098500626e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 2400,
+        "per_channel_gain_fixture": [
+          1.8,
+          1.0,
+          0.7
+        ],
+        "scalar_gain_fixture": 2.0,
+        "color_model_code": 1,
+        "working_space_code": 4,
+        "requested_film_code": 0,
+        "selected_film_code": 7,
+        "selected_companding_code": 2,
+        "reproduction_lut": true,
+        "expanded_lut": true,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 4,
+          "max_abs_difference": 6.661338147750939e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 5,
+          "max_abs_difference": 3.3306690738754696e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 2400,
+        "per_channel_gain_fixture": [
+          1.8,
+          1.0,
+          0.7
+        ],
+        "scalar_gain_fixture": 2.0,
+        "color_model_code": 1,
+        "working_space_code": 5,
+        "requested_film_code": 0,
+        "selected_film_code": 7,
+        "selected_companding_code": 2,
+        "reproduction_lut": true,
+        "expanded_lut": true,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 4,
+          "max_abs_difference": 6.661338147750939e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 1,
+          "max_abs_difference": 5.551115123125783e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 4000,
+        "per_channel_gain_fixture": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "scalar_gain_fixture": 1.0,
+        "color_model_code": 0,
+        "working_space_code": 0,
+        "requested_film_code": 1,
+        "selected_film_code": 1,
+        "selected_companding_code": 1,
+        "reproduction_lut": false,
+        "expanded_lut": false,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 2,
+          "max_abs_difference": 2.220446049250313e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 4,
+          "max_abs_difference": 2.220446049250313e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 4000,
+        "per_channel_gain_fixture": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "scalar_gain_fixture": 1.0,
+        "color_model_code": 0,
+        "working_space_code": 1,
+        "requested_film_code": 1,
+        "selected_film_code": 1,
+        "selected_companding_code": 2,
+        "reproduction_lut": false,
+        "expanded_lut": true,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 2,
+          "max_abs_difference": 2.220446049250313e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 2,
+          "max_abs_difference": 2.220446049250313e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 4000,
+        "per_channel_gain_fixture": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "scalar_gain_fixture": 1.0,
+        "color_model_code": 0,
+        "working_space_code": 2,
+        "requested_film_code": 1,
+        "selected_film_code": 1,
+        "selected_companding_code": 2,
+        "reproduction_lut": false,
+        "expanded_lut": true,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 2,
+          "max_abs_difference": 2.220446049250313e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 4,
+          "max_abs_difference": 2.220446049250313e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 4000,
+        "per_channel_gain_fixture": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "scalar_gain_fixture": 1.0,
+        "color_model_code": 0,
+        "working_space_code": 3,
+        "requested_film_code": 1,
+        "selected_film_code": 1,
+        "selected_companding_code": 2,
+        "reproduction_lut": false,
+        "expanded_lut": true,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 2,
+          "max_abs_difference": 2.220446049250313e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 3,
+          "max_abs_difference": 4.440892098500626e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 4000,
+        "per_channel_gain_fixture": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "scalar_gain_fixture": 1.0,
+        "color_model_code": 0,
+        "working_space_code": 4,
+        "requested_film_code": 1,
+        "selected_film_code": 1,
+        "selected_companding_code": 2,
+        "reproduction_lut": false,
+        "expanded_lut": true,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 2,
+          "max_abs_difference": 2.220446049250313e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 5,
+          "max_abs_difference": 3.3306690738754696e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 4000,
+        "per_channel_gain_fixture": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "scalar_gain_fixture": 1.0,
+        "color_model_code": 0,
+        "working_space_code": 5,
+        "requested_film_code": 1,
+        "selected_film_code": 1,
+        "selected_companding_code": 2,
+        "reproduction_lut": false,
+        "expanded_lut": true,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 2,
+          "max_abs_difference": 2.220446049250313e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 1,
+          "max_abs_difference": 5.551115123125783e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 4000,
+        "per_channel_gain_fixture": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "scalar_gain_fixture": 1.0,
+        "color_model_code": 1,
+        "working_space_code": 0,
+        "requested_film_code": 1,
+        "selected_film_code": 7,
+        "selected_companding_code": 1,
+        "reproduction_lut": true,
+        "expanded_lut": false,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 5,
+          "max_abs_difference": 4.440892098500626e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 4,
+          "max_abs_difference": 2.220446049250313e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 4000,
+        "per_channel_gain_fixture": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "scalar_gain_fixture": 1.0,
+        "color_model_code": 1,
+        "working_space_code": 1,
+        "requested_film_code": 1,
+        "selected_film_code": 7,
+        "selected_companding_code": 2,
+        "reproduction_lut": true,
+        "expanded_lut": true,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 5,
+          "max_abs_difference": 4.440892098500626e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 2,
+          "max_abs_difference": 2.220446049250313e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 4000,
+        "per_channel_gain_fixture": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "scalar_gain_fixture": 1.0,
+        "color_model_code": 1,
+        "working_space_code": 2,
+        "requested_film_code": 1,
+        "selected_film_code": 7,
+        "selected_companding_code": 2,
+        "reproduction_lut": true,
+        "expanded_lut": true,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 5,
+          "max_abs_difference": 4.440892098500626e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 4,
+          "max_abs_difference": 2.220446049250313e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 4000,
+        "per_channel_gain_fixture": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "scalar_gain_fixture": 1.0,
+        "color_model_code": 1,
+        "working_space_code": 3,
+        "requested_film_code": 1,
+        "selected_film_code": 7,
+        "selected_companding_code": 2,
+        "reproduction_lut": true,
+        "expanded_lut": true,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 5,
+          "max_abs_difference": 4.440892098500626e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 3,
+          "max_abs_difference": 4.440892098500626e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 4000,
+        "per_channel_gain_fixture": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "scalar_gain_fixture": 1.0,
+        "color_model_code": 1,
+        "working_space_code": 4,
+        "requested_film_code": 1,
+        "selected_film_code": 7,
+        "selected_companding_code": 2,
+        "reproduction_lut": true,
+        "expanded_lut": true,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 5,
+          "max_abs_difference": 4.440892098500626e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 5,
+          "max_abs_difference": 3.3306690738754696e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 4000,
+        "per_channel_gain_fixture": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "scalar_gain_fixture": 1.0,
+        "color_model_code": 1,
+        "working_space_code": 5,
+        "requested_film_code": 1,
+        "selected_film_code": 7,
+        "selected_companding_code": 2,
+        "reproduction_lut": true,
+        "expanded_lut": true,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 5,
+          "max_abs_difference": 4.440892098500626e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 1,
+          "max_abs_difference": 5.551115123125783e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 4000,
+        "per_channel_gain_fixture": [
+          1.8,
+          1.0,
+          0.7
+        ],
+        "scalar_gain_fixture": 2.0,
+        "color_model_code": 0,
+        "working_space_code": 0,
+        "requested_film_code": 1,
+        "selected_film_code": 1,
+        "selected_companding_code": 1,
+        "reproduction_lut": false,
+        "expanded_lut": false,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 1,
+          "max_abs_difference": 2.220446049250313e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 4,
+          "max_abs_difference": 2.220446049250313e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 4000,
+        "per_channel_gain_fixture": [
+          1.8,
+          1.0,
+          0.7
+        ],
+        "scalar_gain_fixture": 2.0,
+        "color_model_code": 0,
+        "working_space_code": 1,
+        "requested_film_code": 1,
+        "selected_film_code": 1,
+        "selected_companding_code": 2,
+        "reproduction_lut": false,
+        "expanded_lut": true,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 1,
+          "max_abs_difference": 2.220446049250313e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 2,
+          "max_abs_difference": 2.220446049250313e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 4000,
+        "per_channel_gain_fixture": [
+          1.8,
+          1.0,
+          0.7
+        ],
+        "scalar_gain_fixture": 2.0,
+        "color_model_code": 0,
+        "working_space_code": 2,
+        "requested_film_code": 1,
+        "selected_film_code": 1,
+        "selected_companding_code": 2,
+        "reproduction_lut": false,
+        "expanded_lut": true,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 1,
+          "max_abs_difference": 2.220446049250313e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 4,
+          "max_abs_difference": 2.220446049250313e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 4000,
+        "per_channel_gain_fixture": [
+          1.8,
+          1.0,
+          0.7
+        ],
+        "scalar_gain_fixture": 2.0,
+        "color_model_code": 0,
+        "working_space_code": 3,
+        "requested_film_code": 1,
+        "selected_film_code": 1,
+        "selected_companding_code": 2,
+        "reproduction_lut": false,
+        "expanded_lut": true,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 1,
+          "max_abs_difference": 2.220446049250313e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 3,
+          "max_abs_difference": 4.440892098500626e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 4000,
+        "per_channel_gain_fixture": [
+          1.8,
+          1.0,
+          0.7
+        ],
+        "scalar_gain_fixture": 2.0,
+        "color_model_code": 0,
+        "working_space_code": 4,
+        "requested_film_code": 1,
+        "selected_film_code": 1,
+        "selected_companding_code": 2,
+        "reproduction_lut": false,
+        "expanded_lut": true,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 1,
+          "max_abs_difference": 2.220446049250313e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 5,
+          "max_abs_difference": 3.3306690738754696e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 4000,
+        "per_channel_gain_fixture": [
+          1.8,
+          1.0,
+          0.7
+        ],
+        "scalar_gain_fixture": 2.0,
+        "color_model_code": 0,
+        "working_space_code": 5,
+        "requested_film_code": 1,
+        "selected_film_code": 1,
+        "selected_companding_code": 2,
+        "reproduction_lut": false,
+        "expanded_lut": true,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 1,
+          "max_abs_difference": 2.220446049250313e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 1,
+          "max_abs_difference": 5.551115123125783e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 4000,
+        "per_channel_gain_fixture": [
+          1.8,
+          1.0,
+          0.7
+        ],
+        "scalar_gain_fixture": 2.0,
+        "color_model_code": 1,
+        "working_space_code": 0,
+        "requested_film_code": 1,
+        "selected_film_code": 7,
+        "selected_companding_code": 1,
+        "reproduction_lut": true,
+        "expanded_lut": false,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 3,
+          "max_abs_difference": 4.440892098500626e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 4,
+          "max_abs_difference": 2.220446049250313e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 4000,
+        "per_channel_gain_fixture": [
+          1.8,
+          1.0,
+          0.7
+        ],
+        "scalar_gain_fixture": 2.0,
+        "color_model_code": 1,
+        "working_space_code": 1,
+        "requested_film_code": 1,
+        "selected_film_code": 7,
+        "selected_companding_code": 2,
+        "reproduction_lut": true,
+        "expanded_lut": true,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 3,
+          "max_abs_difference": 4.440892098500626e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 2,
+          "max_abs_difference": 2.220446049250313e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 4000,
+        "per_channel_gain_fixture": [
+          1.8,
+          1.0,
+          0.7
+        ],
+        "scalar_gain_fixture": 2.0,
+        "color_model_code": 1,
+        "working_space_code": 2,
+        "requested_film_code": 1,
+        "selected_film_code": 7,
+        "selected_companding_code": 2,
+        "reproduction_lut": true,
+        "expanded_lut": true,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 3,
+          "max_abs_difference": 4.440892098500626e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 4,
+          "max_abs_difference": 2.220446049250313e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 4000,
+        "per_channel_gain_fixture": [
+          1.8,
+          1.0,
+          0.7
+        ],
+        "scalar_gain_fixture": 2.0,
+        "color_model_code": 1,
+        "working_space_code": 3,
+        "requested_film_code": 1,
+        "selected_film_code": 7,
+        "selected_companding_code": 2,
+        "reproduction_lut": true,
+        "expanded_lut": true,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 3,
+          "max_abs_difference": 4.440892098500626e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 3,
+          "max_abs_difference": 4.440892098500626e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 4000,
+        "per_channel_gain_fixture": [
+          1.8,
+          1.0,
+          0.7
+        ],
+        "scalar_gain_fixture": 2.0,
+        "color_model_code": 1,
+        "working_space_code": 4,
+        "requested_film_code": 1,
+        "selected_film_code": 7,
+        "selected_companding_code": 2,
+        "reproduction_lut": true,
+        "expanded_lut": true,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 3,
+          "max_abs_difference": 4.440892098500626e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 5,
+          "max_abs_difference": 3.3306690738754696e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 4000,
+        "per_channel_gain_fixture": [
+          1.8,
+          1.0,
+          0.7
+        ],
+        "scalar_gain_fixture": 2.0,
+        "color_model_code": 1,
+        "working_space_code": 5,
+        "requested_film_code": 1,
+        "selected_film_code": 7,
+        "selected_companding_code": 2,
+        "reproduction_lut": true,
+        "expanded_lut": true,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 3,
+          "max_abs_difference": 4.440892098500626e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 1,
+          "max_abs_difference": 5.551115123125783e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 9100,
+        "per_channel_gain_fixture": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "scalar_gain_fixture": 1.0,
+        "color_model_code": 0,
+        "working_space_code": 0,
+        "requested_film_code": 7,
+        "selected_film_code": 7,
+        "selected_companding_code": 1,
+        "reproduction_lut": false,
+        "expanded_lut": false,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 3,
+          "max_abs_difference": 3.3306690738754696e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 4,
+          "max_abs_difference": 2.220446049250313e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 9100,
+        "per_channel_gain_fixture": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "scalar_gain_fixture": 1.0,
+        "color_model_code": 0,
+        "working_space_code": 1,
+        "requested_film_code": 7,
+        "selected_film_code": 7,
+        "selected_companding_code": 2,
+        "reproduction_lut": false,
+        "expanded_lut": true,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 3,
+          "max_abs_difference": 3.3306690738754696e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 2,
+          "max_abs_difference": 2.220446049250313e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 9100,
+        "per_channel_gain_fixture": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "scalar_gain_fixture": 1.0,
+        "color_model_code": 0,
+        "working_space_code": 2,
+        "requested_film_code": 7,
+        "selected_film_code": 7,
+        "selected_companding_code": 2,
+        "reproduction_lut": false,
+        "expanded_lut": true,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 3,
+          "max_abs_difference": 3.3306690738754696e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 4,
+          "max_abs_difference": 2.220446049250313e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 9100,
+        "per_channel_gain_fixture": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "scalar_gain_fixture": 1.0,
+        "color_model_code": 0,
+        "working_space_code": 3,
+        "requested_film_code": 7,
+        "selected_film_code": 7,
+        "selected_companding_code": 2,
+        "reproduction_lut": false,
+        "expanded_lut": true,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 3,
+          "max_abs_difference": 3.3306690738754696e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 3,
+          "max_abs_difference": 4.440892098500626e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 9100,
+        "per_channel_gain_fixture": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "scalar_gain_fixture": 1.0,
+        "color_model_code": 0,
+        "working_space_code": 4,
+        "requested_film_code": 7,
+        "selected_film_code": 7,
+        "selected_companding_code": 2,
+        "reproduction_lut": false,
+        "expanded_lut": true,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 3,
+          "max_abs_difference": 3.3306690738754696e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 5,
+          "max_abs_difference": 3.3306690738754696e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 9100,
+        "per_channel_gain_fixture": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "scalar_gain_fixture": 1.0,
+        "color_model_code": 0,
+        "working_space_code": 5,
+        "requested_film_code": 7,
+        "selected_film_code": 7,
+        "selected_companding_code": 2,
+        "reproduction_lut": false,
+        "expanded_lut": true,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 3,
+          "max_abs_difference": 3.3306690738754696e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 1,
+          "max_abs_difference": 5.551115123125783e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 9100,
+        "per_channel_gain_fixture": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "scalar_gain_fixture": 1.0,
+        "color_model_code": 1,
+        "working_space_code": 0,
+        "requested_film_code": 7,
+        "selected_film_code": 7,
+        "selected_companding_code": 1,
+        "reproduction_lut": true,
+        "expanded_lut": false,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 5,
+          "max_abs_difference": 4.440892098500626e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 4,
+          "max_abs_difference": 2.220446049250313e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 9100,
+        "per_channel_gain_fixture": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "scalar_gain_fixture": 1.0,
+        "color_model_code": 1,
+        "working_space_code": 1,
+        "requested_film_code": 7,
+        "selected_film_code": 7,
+        "selected_companding_code": 2,
+        "reproduction_lut": true,
+        "expanded_lut": true,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 5,
+          "max_abs_difference": 4.440892098500626e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 2,
+          "max_abs_difference": 2.220446049250313e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 9100,
+        "per_channel_gain_fixture": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "scalar_gain_fixture": 1.0,
+        "color_model_code": 1,
+        "working_space_code": 2,
+        "requested_film_code": 7,
+        "selected_film_code": 7,
+        "selected_companding_code": 2,
+        "reproduction_lut": true,
+        "expanded_lut": true,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 5,
+          "max_abs_difference": 4.440892098500626e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 4,
+          "max_abs_difference": 2.220446049250313e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 9100,
+        "per_channel_gain_fixture": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "scalar_gain_fixture": 1.0,
+        "color_model_code": 1,
+        "working_space_code": 3,
+        "requested_film_code": 7,
+        "selected_film_code": 7,
+        "selected_companding_code": 2,
+        "reproduction_lut": true,
+        "expanded_lut": true,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 5,
+          "max_abs_difference": 4.440892098500626e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 3,
+          "max_abs_difference": 4.440892098500626e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 9100,
+        "per_channel_gain_fixture": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "scalar_gain_fixture": 1.0,
+        "color_model_code": 1,
+        "working_space_code": 4,
+        "requested_film_code": 7,
+        "selected_film_code": 7,
+        "selected_companding_code": 2,
+        "reproduction_lut": true,
+        "expanded_lut": true,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 5,
+          "max_abs_difference": 4.440892098500626e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 5,
+          "max_abs_difference": 3.3306690738754696e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 9100,
+        "per_channel_gain_fixture": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "scalar_gain_fixture": 1.0,
+        "color_model_code": 1,
+        "working_space_code": 5,
+        "requested_film_code": 7,
+        "selected_film_code": 7,
+        "selected_companding_code": 2,
+        "reproduction_lut": true,
+        "expanded_lut": true,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 5,
+          "max_abs_difference": 4.440892098500626e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 1,
+          "max_abs_difference": 5.551115123125783e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 9100,
+        "per_channel_gain_fixture": [
+          1.8,
+          1.0,
+          0.7
+        ],
+        "scalar_gain_fixture": 2.0,
+        "color_model_code": 0,
+        "working_space_code": 0,
+        "requested_film_code": 7,
+        "selected_film_code": 7,
+        "selected_companding_code": 1,
+        "reproduction_lut": false,
+        "expanded_lut": false,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 4,
+          "max_abs_difference": 2.220446049250313e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 4,
+          "max_abs_difference": 2.220446049250313e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 9100,
+        "per_channel_gain_fixture": [
+          1.8,
+          1.0,
+          0.7
+        ],
+        "scalar_gain_fixture": 2.0,
+        "color_model_code": 0,
+        "working_space_code": 1,
+        "requested_film_code": 7,
+        "selected_film_code": 7,
+        "selected_companding_code": 2,
+        "reproduction_lut": false,
+        "expanded_lut": true,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 4,
+          "max_abs_difference": 2.220446049250313e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 2,
+          "max_abs_difference": 2.220446049250313e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 9100,
+        "per_channel_gain_fixture": [
+          1.8,
+          1.0,
+          0.7
+        ],
+        "scalar_gain_fixture": 2.0,
+        "color_model_code": 0,
+        "working_space_code": 2,
+        "requested_film_code": 7,
+        "selected_film_code": 7,
+        "selected_companding_code": 2,
+        "reproduction_lut": false,
+        "expanded_lut": true,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 4,
+          "max_abs_difference": 2.220446049250313e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 4,
+          "max_abs_difference": 2.220446049250313e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 9100,
+        "per_channel_gain_fixture": [
+          1.8,
+          1.0,
+          0.7
+        ],
+        "scalar_gain_fixture": 2.0,
+        "color_model_code": 0,
+        "working_space_code": 3,
+        "requested_film_code": 7,
+        "selected_film_code": 7,
+        "selected_companding_code": 2,
+        "reproduction_lut": false,
+        "expanded_lut": true,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 4,
+          "max_abs_difference": 2.220446049250313e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 3,
+          "max_abs_difference": 4.440892098500626e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 9100,
+        "per_channel_gain_fixture": [
+          1.8,
+          1.0,
+          0.7
+        ],
+        "scalar_gain_fixture": 2.0,
+        "color_model_code": 0,
+        "working_space_code": 4,
+        "requested_film_code": 7,
+        "selected_film_code": 7,
+        "selected_companding_code": 2,
+        "reproduction_lut": false,
+        "expanded_lut": true,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 4,
+          "max_abs_difference": 2.220446049250313e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 5,
+          "max_abs_difference": 3.3306690738754696e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 9100,
+        "per_channel_gain_fixture": [
+          1.8,
+          1.0,
+          0.7
+        ],
+        "scalar_gain_fixture": 2.0,
+        "color_model_code": 0,
+        "working_space_code": 5,
+        "requested_film_code": 7,
+        "selected_film_code": 7,
+        "selected_companding_code": 2,
+        "reproduction_lut": false,
+        "expanded_lut": true,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 4,
+          "max_abs_difference": 2.220446049250313e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 1,
+          "max_abs_difference": 5.551115123125783e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 9100,
+        "per_channel_gain_fixture": [
+          1.8,
+          1.0,
+          0.7
+        ],
+        "scalar_gain_fixture": 2.0,
+        "color_model_code": 1,
+        "working_space_code": 0,
+        "requested_film_code": 7,
+        "selected_film_code": 7,
+        "selected_companding_code": 1,
+        "reproduction_lut": true,
+        "expanded_lut": false,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 5,
+          "max_abs_difference": 4.440892098500626e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 4,
+          "max_abs_difference": 2.220446049250313e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 9100,
+        "per_channel_gain_fixture": [
+          1.8,
+          1.0,
+          0.7
+        ],
+        "scalar_gain_fixture": 2.0,
+        "color_model_code": 1,
+        "working_space_code": 1,
+        "requested_film_code": 7,
+        "selected_film_code": 7,
+        "selected_companding_code": 2,
+        "reproduction_lut": true,
+        "expanded_lut": true,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 5,
+          "max_abs_difference": 4.440892098500626e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 2,
+          "max_abs_difference": 2.220446049250313e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 9100,
+        "per_channel_gain_fixture": [
+          1.8,
+          1.0,
+          0.7
+        ],
+        "scalar_gain_fixture": 2.0,
+        "color_model_code": 1,
+        "working_space_code": 2,
+        "requested_film_code": 7,
+        "selected_film_code": 7,
+        "selected_companding_code": 2,
+        "reproduction_lut": true,
+        "expanded_lut": true,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 5,
+          "max_abs_difference": 4.440892098500626e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 4,
+          "max_abs_difference": 2.220446049250313e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 9100,
+        "per_channel_gain_fixture": [
+          1.8,
+          1.0,
+          0.7
+        ],
+        "scalar_gain_fixture": 2.0,
+        "color_model_code": 1,
+        "working_space_code": 3,
+        "requested_film_code": 7,
+        "selected_film_code": 7,
+        "selected_companding_code": 2,
+        "reproduction_lut": true,
+        "expanded_lut": true,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 5,
+          "max_abs_difference": 4.440892098500626e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 3,
+          "max_abs_difference": 4.440892098500626e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 9100,
+        "per_channel_gain_fixture": [
+          1.8,
+          1.0,
+          0.7
+        ],
+        "scalar_gain_fixture": 2.0,
+        "color_model_code": 1,
+        "working_space_code": 4,
+        "requested_film_code": 7,
+        "selected_film_code": 7,
+        "selected_companding_code": 2,
+        "reproduction_lut": true,
+        "expanded_lut": true,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 5,
+          "max_abs_difference": 4.440892098500626e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 5,
+          "max_abs_difference": 3.3306690738754696e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      },
+      {
+        "temperature": 9100,
+        "per_channel_gain_fixture": [
+          1.8,
+          1.0,
+          0.7
+        ],
+        "scalar_gain_fixture": 2.0,
+        "color_model_code": 1,
+        "working_space_code": 5,
+        "requested_film_code": 7,
+        "selected_film_code": 7,
+        "selected_companding_code": 2,
+        "reproduction_lut": true,
+        "expanded_lut": true,
+        "first_matrix": {
+          "values": 9,
+          "exact_values": 5,
+          "max_abs_difference": 4.440892098500626e-16
+        },
+        "second_matrix": {
+          "values": 9,
+          "exact_values": 1,
+          "max_abs_difference": 5.551115123125783e-16
+        },
+        "selected_curve": {
+          "values": 65536,
+          "exact_values": 65536,
+          "max_abs_difference": 0.0
+        },
+        "pixels": 284,
+        "pixel_channels": {
+          "values": 852,
+          "exact_values": 852,
+          "max_abs_difference": 0.0
+        },
+        "default_thresholds_verified": true,
+        "input_immutability_and_guards_pass": true
+      }
+    ],
+    "double_tolerance": 1e-12,
+    "curve_code_tolerance": 1,
+    "pixel_code_tolerance": 1,
+    "profile_cache_fixture_calls": 149,
+    "all_requested_cache_ids": [
+      "0x0616"
+    ],
+    "configuration_queries": [
+      "CPInterpolateLUT",
+      "CPNoInterpolateLUT",
+      "ClosedLoop",
+      "ExpandLUT"
+    ],
+    "external_host_calls": {
+      "_ZN15CRawColorParams3LUTE13uColorProfile": 149,
+      "_ZNSt6__ndk15mutex4lockEv": 73,
+      "_ZNSt6__ndk15mutex6unlockEv": 73,
+      "_ZdaPv": 84,
+      "_ZdlPv": 262215,
+      "_Znam": 131161,
+      "_Znwm": 131151,
+      "__cxa_atexit": 5,
+      "calloc": 12,
+      "free": 12,
+      "memcpy": 2384,
+      "memmove": 146,
+      "memset": 131112,
+      "pow": 653792,
+      "powf": 65536
+    },
+    "host_math_calls": {
+      "pow": 653792,
+      "powf": 65536
+    },
+    "allocations_reused": 262303,
+    "allocations_checked_at_free": 262311,
+    "profile_unchanged": true,
+    "object_allocation_and_output_guards_pass": true,
+    "original_functions": [
+      {
+        "name": "_ZN10CGradationC1EbPdS0_ibb",
+        "address": "0x3694a54",
+        "bytes": 2392,
+        "sha256": "05fdaf87feae1e53644fe238095ab153dc51bbcc5595ff3666a3d934843da217"
+      },
+      {
+        "name": "_ZN11CStreamableC2Ev",
+        "address": "0x366faac",
+        "bytes": 24,
+        "sha256": "dc1e06e78ea778b7a7ec34eb56c1142909356456fc01c7faaf4117ccdfd3d0dc"
+      },
+      {
+        "name": "_ZN11CStreamableD2Ev",
+        "address": "0x366fd28",
+        "bytes": 4,
+        "sha256": "110f46b5b35c069160560c6ad6786f647dd44e8760a52a46fc22dbbcd7630b91"
+      },
+      {
+        "name": "_ZN11Scaled2DLUT12FromCbCrDataEP5sCbCriiiii",
+        "address": "0x369a440",
+        "bytes": 568,
+        "sha256": "76ac961f7c0056a7ed4c573bed1cfda07429e279a3405a7d0abd383177a23be3"
+      },
+      {
+        "name": "_ZN12CCubicSpline4initEPdS0_i",
+        "address": "0x3673d04",
+        "bytes": 112,
+        "sha256": "c5d074214c6d456fc504290ce52c42517eb2b667d64b4857a9939a3dcf4745ba"
+      },
+      {
+        "name": "_ZN12CCubicSpline6splineEPdS0_iddS0_",
+        "address": "0x36739dc",
+        "bytes": 576,
+        "sha256": "67e32d7efc7857738c8d0927f3d05a24e093cf0f2ad5b37fd6a86ca24100b99c"
+      },
+      {
+        "name": "_ZN12CCubicSpline6splintEPdS0_S0_idS0_",
+        "address": "0x3673c1c",
+        "bytes": 232,
+        "sha256": "69b2025a894caa859791a58f79f62b2cab1aae3c659ac016848699551655714e"
+      },
+      {
+        "name": "_ZN12CCubicSplineC1Ev",
+        "address": "0x3673964",
+        "bytes": 24,
+        "sha256": "c0a6b712fd3274cbab63a16766360344642ac582b4fed8fd996007f87ad6d84b"
+      },
+      {
+        "name": "_ZN12CCubicSplineD1Ev",
+        "address": "0x367397c",
+        "bytes": 60,
+        "sha256": "98f99599db51138706109b53adf1bd03d8198f52bac000dc1647fc3a05dbae9a"
+      },
+      {
+        "name": "_ZN12CImageSensor17FullPhocusSupportE9eCCDTypes",
+        "address": "0x3695c9c",
+        "bytes": 28,
+        "sha256": "fd6abf995d0c74763fc4728f62bc7e126510b55807201f0705f196f99f060274"
+      },
+      {
+        "name": "_ZN12CUniqueImageIdLi2ENSt6__ndk110unique_ptrIA_d14AlignedDeleterIdEEEEC2Eiii",
+        "address": "0x34ca230",
+        "bytes": 252,
+        "sha256": "935864ce7fe8cba6fe811e80a97656b18c7e9fb750e45d5f971797e0bc947abb"
+      },
+      {
+        "name": "_ZN14CVectorMethods24ColorNormalCorrectPixelsEP16CColorCorrectionPtS2_ib",
+        "address": "0x350112c",
+        "bytes": 588,
+        "sha256": "ca370b369d08fc1092e01179b89e66df75407e72a8fd65a8f3c49d4a1e133aa7"
+      },
+      {
+        "name": "_ZN15CRawColorParams11GetPtrOfLUTE9eCCDTypes13eIRFilterTypei",
+        "address": "0x34cb06c",
+        "bytes": 136,
+        "sha256": "9266354c9db1f03f24e78ff55e189cbe53324247f1cba24841cb36c0a4152cf5"
+      },
+      {
+        "name": "_ZN15CRawColorParams19GetRawRGB2XYZMatrixEi9eCCDTypes13eIRFilterTypei",
+        "address": "0x34caaf8",
+        "bytes": 304,
+        "sha256": "00f3728a3238df29c71b51b10eaa4c8c48bc9d4e60e09ab1b32bfcca7b3ca1d2"
+      },
+      {
+        "name": "_ZN15CRawColorParams7GetCPIDE9eCCDTypes13eIRFilterTypei",
+        "address": "0x34cac88",
+        "bytes": 392,
+        "sha256": "361792bb8e12a5c5f252b22a520f425645f8b550f2f5828f6d0ba63379157e37"
+      },
+      {
+        "name": "_ZN16CColorCorrection7SetupCCE9Matrix3x3S0_P7CXMLLutibNSt6__ndk14spanIKfLm18446744073709551615EEEPttddbb",
+        "address": "0x34c8c50",
+        "bytes": 952,
+        "sha256": "a46af19c0acfc3fc37cccd0a14fe333ceb1c50009f82a4bde51e5a645b4a69ac"
+      },
+      {
+        "name": "_ZN17CGradationManager19InitGradationCurvesEv",
+        "address": "0x3694040",
+        "bytes": 1752,
+        "sha256": "67137e9444d9256a3fa1a68bd64ddd3e257ba77a5f9bcbe90cee620c32082ab3"
+      },
+      {
+        "name": "_ZN17CGradationManager20ReturnGradationCurveE14eFilmCurveType11eCompandingbdb",
+        "address": "0x3693dd8",
+        "bytes": 616,
+        "sha256": "1c91c2f01aebce3c8403442b2faf3cbf63ad9d71c42237e28cb56628882089e4"
+      },
+      {
+        "name": "_ZN17CGradationManagerC2E14eFilmCurveType11eCompanding",
+        "address": "0x3692f58",
+        "bytes": 212,
+        "sha256": "36d13b8e887ef49a3cb14502d1b06600972a356d37ed3f6aeed54d5854e2ade5"
+      },
+      {
+        "name": "_ZN19CRawColorCorrection23GetGradationCurveUpdateEv",
+        "address": "0x34c4fd8",
+        "bytes": 448,
+        "sha256": "5f6852454b7504f1efe13a168f5e3eb0b1c7d64b0fcf863f672a571bf76a73f0"
+      },
+      {
+        "name": "_ZN19CRawColorCorrection23InitCRawColorCorrectionEv",
+        "address": "0x34c539c",
+        "bytes": 2064,
+        "sha256": "ec567d68658636162b04af3c0580c0b61d6b0b6cfe7895bc6eb69d76e48f984c"
+      },
+      {
+        "name": "_ZN19CRawColorCorrection25GetColorSpaceChangeMatrixE13eWorkingSpace",
+        "address": "0x34c5e90",
+        "bytes": 620,
+        "sha256": "d052c384fc98b1c3754520fc0366cd046b89b9bb672b8dfa6f02ce498a152f23"
+      },
+      {
+        "name": "_ZN6CXRectC1Eiiii",
+        "address": "0x36d1c60",
+        "bytes": 88,
+        "sha256": "b845db8e09bfe5d55198c478832680589801600125756dda33dc77c394c9214f"
+      },
+      {
+        "name": "_ZN6CXRectD1Ev",
+        "address": "0x36d1c38",
+        "bytes": 4,
+        "sha256": "7262566a4b4810e717aa3a6cfc156e364332938faabf50581b413760ea38e04d"
+      },
+      {
+        "name": "_ZN7CXMLLut10DecodeFromEP9CKeyCoder",
+        "address": "0x3505e98",
+        "bytes": 4768,
+        "sha256": "d0d411a217d7d5844c0f01df8d4e55af433f47e0715a47a91356f8d48190fb00"
+      },
+      {
+        "name": "_ZN7CXMLLut14InitializeLUTsEbii",
+        "address": "0x35035f4",
+        "bytes": 660,
+        "sha256": "82088ed48179a187b07e84527452ad8d97f838b9b21a2501811b41af77ff1cd3"
+      },
+      {
+        "name": "_ZN7CXMLLut20CalculateExpandedLUTE6CArrayIiLi2EiES1_ib",
+        "address": "0x3507c5c",
+        "bytes": 1928,
+        "sha256": "19c84783aa57d0c676d1b7974027a5bb5f2f5b7cb613cef8d2a8f4a2b809d0f3"
+      },
+      {
+        "name": "_ZN9CGenImageC1Eiii12EelementType14EinitialActionPvi",
+        "address": "0x368ec24",
+        "bytes": 460,
+        "sha256": "00a274ce9286e8539ff74ef70aac15b8feb8e755156feef87a7b39d99c15960d"
+      },
+      {
+        "name": "_ZN9CGenImageD1Ev",
+        "address": "0x368fb68",
+        "bytes": 68,
+        "sha256": "1d5d11df42e9c9888d1b1ca54f8188f7604b4daa95eec0ad62c3e56a1cb98750"
+      },
+      {
+        "name": "_ZN9Matrix3x33SetEPKd",
+        "address": "0x369af7c",
+        "bytes": 76,
+        "sha256": "3e441b21cfe6c9d01e3c88755dbf04a9194e9ba8be98dc61c691f62f00c30e35"
+      },
+      {
+        "name": "_ZN9Matrix3x34CopyES_",
+        "address": "0x369ce58",
+        "bytes": 76,
+        "sha256": "3e441b21cfe6c9d01e3c88755dbf04a9194e9ba8be98dc61c691f62f00c30e35"
+      },
+      {
+        "name": "_ZN9Matrix3x3C1EPKd",
+        "address": "0x369ae28",
+        "bytes": 76,
+        "sha256": "3e441b21cfe6c9d01e3c88755dbf04a9194e9ba8be98dc61c691f62f00c30e35"
+      },
+      {
+        "name": "_ZN9Matrix3x3C1Ev",
+        "address": "0x369adc0",
+        "bytes": 28,
+        "sha256": "50f0eb901a0ad4fa755027175dada0d9ca64830e8c4aee311dc88b19e78d7acd"
+      },
+      {
+        "name": "_ZNK11Scaled2DLUT11LookupIndexE6CArrayIdLi2EdEb",
+        "address": "0x3699658",
+        "bytes": 392,
+        "sha256": "5939c1c66b25e0f0b7c789e2ec4b24f140f23a563d5d93952df43f58381dd9d0"
+      },
+      {
+        "name": "_ZNK11Scaled2DLUT6LookupE6CArrayIdLi2EdEb",
+        "address": "0x3699640",
+        "bytes": 24,
+        "sha256": "29f79c2c48c3656068139d0c3b280a6716c78b954a136c740d2e748c09d24306"
+      },
+      {
+        "name": "_ZNK16CColorCorrection19CalculateGrayWeightEddb",
+        "address": "0x34ca0d4",
+        "bytes": 120,
+        "sha256": "7d8d479a64aaa1e761b7369c1a17029867393d7db7b212713577930260ef2059"
+      },
+      {
+        "name": "_ZNK19CRawColorCorrection9GetXMLLutEv",
+        "address": "0x34c610c",
+        "bytes": 192,
+        "sha256": "f27e5766bffef47c90895bfe61e8d4481bb75dd23b9839cca90090ed5f36ffbf"
+      },
+      {
+        "name": "_ZNK7CXMLLut12CalculateLUTEib",
+        "address": "0x3504b00",
+        "bytes": 2532,
+        "sha256": "7dac1175f4a0148dac7cdf2b26310b19237b398ef3914fef2a2521064256f1fc"
+      },
+      {
+        "name": "_ZNK7CXMLLut15CalculateMatrixEPdi",
+        "address": "0x350444c",
+        "bytes": 1716,
+        "sha256": "e531e74435596fdaab305b67b08692cdb2fc1a5f14e7e3d320693bb05cde6d5d"
+      },
+      {
+        "name": "_ZNK7CXMLLut17GetColorMatrixDNGEv",
+        "address": "0x350394c",
+        "bytes": 32,
+        "sha256": "24c51072ba4ecf4891d3c4139c8c7b83d6a8b4312c18afce793a7875ee02b925"
+      },
+      {
+        "name": "_ZNK9Matrix3x33GetEPd",
+        "address": "0x369af04",
+        "bytes": 76,
+        "sha256": "837960a71cd158658e2b2aa362bdf0925990d640b5fa732b9bd8a80c259856bd"
+      },
+      {
+        "name": "_ZNK9Matrix3x36InvertEv",
+        "address": "0x369b19c",
+        "bytes": 368,
+        "sha256": "0822988856d280d9bdaad910ff4c748bd8d2f01ae72480d2fafc88531cf08210"
+      },
+      {
+        "name": "_ZNK9Matrix3x3ixEi",
+        "address": "0x369ce50",
+        "bytes": 8,
+        "sha256": "3173cfd36ef0e9bc87c81d2101de554655c2db22b176cfc00f36750532af1fad"
+      },
+      {
+        "name": "_ZNK9Matrix3x3mlE6CArrayIdLi3E23Matrix3x1InitializationE",
+        "address": "0x369bbf4",
+        "bytes": 68,
+        "sha256": "e23d8ba85875f24f66cbcb2d823a8e3d53f265543680f6a0606d0fdcc024d840"
+      },
+      {
+        "name": "_ZNK9Matrix3x3mlES_",
+        "address": "0x369b660",
+        "bytes": 220,
+        "sha256": "5145afd0c61044b241fdb06c29c6deadb3635907fbf873831c5a99c96dfd81ba"
+      },
+      {
+        "name": "_ZNK9Matrix3x3mlEd",
+        "address": "0x369ba28",
+        "bytes": 100,
+        "sha256": "a5ec88d49b451c1b91625b484f6f9e16b47ff8daebb96e07b8fa0994d22a8e37"
+      },
+      {
+        "name": "local_gradation_initializer",
+        "address": "0x36957f8",
+        "bytes": 104,
+        "sha256": "5095c8eb695738b9c0bfd1b1e1ab08c3098e23fd33bb4f715621309134bf692e"
+      },
+      {
+        "name": "local_gradation_manager_initializer",
+        "address": "0x3694960",
+        "bytes": 232,
+        "sha256": "c30bf59b40a74787cbbba63049d05b91d7a66b38b443ff62ccce874252aa86e0"
+      },
+      {
+        "name": "local_raw_initializer",
+        "address": "0x34c83f8",
+        "bytes": 148,
+        "sha256": "126b41dac519bf046350404358faa7edb37b910984cef49397f632bab5acfe41"
+      }
+    ]
+  },
+  "fixtures": {
+    "profile_cache": "already loaded CPID 0x0616 returned after original selector",
+    "configuration_service": "all queried booleans false; live app settings unobserved",
+    "object_lifecycle": "parent RAW/correction objects initialized by harness; original RAW Init and SetupCC executed",
+    "gradation_lifecycle": "original constructor and three ELF init-array functions executed",
+    "standard_math": "host math.pow for pow; powf uses float inputs and float-rounded host math.pow",
+    "allocation": "guarded single-thread arena; guards checked before reuse",
+    "mutex_and_destructor_registration": "single-thread host no-op fixtures",
+    "per_capture_state": "explicit temperatures, numeric mode codes, channel gains and scalar gains",
+    "input_pixels": "synthetic RGB16; RAW decoding, linearization and demosaic not run"
+  },
+  "bounds": {
+    "phocus_matrix_spline_lut_and_pixel_functions_replaced_by_oracle": false,
+    "android_libm_binary_executed": false,
+    "identity_curve_or_synthetic_rgb_basis_used": false,
+    "full_app_or_complete_raw_pipeline_executed": false,
+    "photo_pixels_processed": false,
+    "camera_main_isp_equivalence_proven": false,
+    "phone_sensor_adaptation_verified": false,
+    "production_renderer_changed": false,
+    "vendor_arrays_code_or_crypto_material_exported": false
+  },
+  "runtime": {
+    "numpy": "2.3.5",
+    "unicorn": "2.1.4",
+    "capstone": "5.0.9",
+    "pyelftools": "0.33",
+    "tifffile": "2026.10.15"
+  }
+}

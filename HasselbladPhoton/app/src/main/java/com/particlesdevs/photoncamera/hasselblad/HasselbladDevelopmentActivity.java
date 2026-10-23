@@ -19,7 +19,7 @@ import org.json.JSONObject;
 import com.particlesdevs.photoncamera.R;
 import com.particlesdevs.photoncamera.app.base.BaseActivity;
 
-/** An explicit native-development check; it never accesses or modifies a photo. */
+/** Explicit native checks and separately selected read-only saved-RAW experiments. */
 public final class HasselbladDevelopmentActivity extends BaseActivity {
     private HasselbladNativeCheck.Report latestReport;
     private volatile JSONObject latestDomainReport;
@@ -164,6 +164,8 @@ public final class HasselbladDevelopmentActivity extends BaseActivity {
                 Toast.makeText(this, "Stage34 report JSON copied", Toast.LENGTH_SHORT).show();
             }
         });
+        findViewById(R.id.hasselblad_stage42_open).setOnClickListener(view ->
+                startActivity(new android.content.Intent(this, HasselbladRenderActivity42.class)));
         refreshStage6();
         runCheck();
     }

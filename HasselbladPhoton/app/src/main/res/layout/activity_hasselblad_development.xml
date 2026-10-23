@@ -23,6 +23,11 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="20dp">
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/hasselblad_stage42_open"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Experimental saved-RAW colour · Stage42" />
             <TextView
                 android:id="@+id/hasselblad_check_result"
                 android:layout_width="match_parent"

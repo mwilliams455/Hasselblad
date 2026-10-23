@@ -119,6 +119,16 @@ if(ANDROID_ABI STREQUAL "arm64-v8a")
 endif()
 
 
+# Stage42 private saved-RAW renderer, available on both configured ABIs.
+get_filename_component(HB42_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/../../../../../hasselblad_native_audit/phocus_port_stage42" ABSOLUTE)
+add_library(hasselblad_renderer42_jni SHARED
+    hasselblad/hb_renderer42_jni.c "${HB42_ROOT}/src/hb42_colour.c")
+target_include_directories(hasselblad_renderer42_jni PRIVATE "${HB42_ROOT}/src")
+target_compile_options(hasselblad_renderer42_jni PRIVATE -O2 -Wall -Wextra -Werror -ffp-contract=off)
+target_link_libraries(hasselblad_renderer42_jni m)
+set_target_properties(hasselblad_renderer42_jni PROPERTIES C_STANDARD 11 C_STANDARD_REQUIRED ON
+    LINK_FLAGS "-Wl,-z,defs,-z,max-page-size=16384")
+
 find_program(PYTHON3_EXECUTABLE python3)
 
 # ---------------------------------------------------------------------------

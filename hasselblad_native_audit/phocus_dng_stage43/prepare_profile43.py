@@ -11,7 +11,8 @@ from prepare_preview42 import load_private,y
 
 def main():
     p=argparse.ArgumentParser();p.add_argument('--apk',type=Path,required=True)
-    p.add_argument('--out',type=Path,required=True);p.add_argument('--temperature',type=int,default=4000);a=p.parse_args()
+    p.add_argument('--out',type=Path,required=True);p.add_argument('--temperature',type=int,default=4000)
+    p.add_argument('--film',type=int,choices=(0,1),default=1);a=p.parse_args()
     if not 2000<=a.temperature<=10000:raise ValueError('LUT temperature out of range')
     a.out.parent.mkdir(parents=True,exist_ok=True)
     elf,profile=load_private(a.apk)
@@ -29,11 +30,11 @@ def main():
     display=np.asarray(matrix).reshape(3,3)@np.linalg.inv(internal)
     exponent=1/struct.unpack('<d',elf.read(0x306f9a0,8))[0]
     values=np.r_[domain.ravel(),second.ravel(),y.shadow_oracle(elf,0,1),[1.,1.,1.],1.,20.,32.,display.ravel(),exponent]
-    grid=y.lut_oracle(profile,a.temperature,False);curve=y.curve_oracle(elf,1,1)
-    data=b'HB43LUT1'+struct.pack('<6i',105,89,a.temperature,0,1,0)+values.astype('<f8').tobytes()
+    grid=y.lut_oracle(profile,a.temperature,False);curve=y.curve_oracle(elf,a.film,1)
+    data=b'HB43LUT1'+struct.pack('<6i',105,89,a.temperature,0,a.film,0)+values.astype('<f8').tobytes()
     data+=grid.astype('<f8').tobytes()+curve.astype('<f4').tobytes()
     a.out.write_bytes(data+hashlib.sha256(data).digest())
     print(json.dumps({'bytes':a.out.stat().st_size,'photo_pixels_included':False,
-        'phone_camera_matrix_included':False,'manual_lut_temperature':a.temperature,
+        'phone_camera_matrix_included':False,'manual_lut_temperature':a.temperature,'film_code':a.film,
         'sha256':hashlib.sha256(a.out.read_bytes()).hexdigest()}))
 if __name__=='__main__':main()

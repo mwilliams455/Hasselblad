@@ -1,0 +1,42 @@
+{
+  "schema": "hasselblad-stage44-curve0-trial-v1",
+  "status": "PASS_HOST_AND_NATIVE_SAMPLE",
+  "only_profile_changes": [
+    "film code 1 to 0",
+    "recovered 65536-entry curve",
+    "file checksum"
+  ],
+  "unchanged": [
+    "LUT and temperature 4000 K",
+    "D50 input conversion",
+    "display adapter",
+    "shadow settings",
+    "separate WB unity",
+    "exposure unity"
+  ],
+  "original_arm64_pixel_routine_channels_exact": 1536,
+  "all_preview_trace_channels_exact": 2359296,
+  "phone_input": "Earlier Stage42 DNG, not latest Stage43 screenshot scene",
+  "trial_vs_current": {
+    "mean_abs_rgb8": 30.28825675116645,
+    "p95_abs_rgb8": 37.0,
+    "max_abs_rgb8": 62.0,
+    "pixels_with_any_change_gt_2_pct": 99.97990926106772
+  },
+  "trial_clipping": {
+    "pixels": 786432,
+    "nonpositive_luminance_pixels": 0,
+    "lut_coordinate_clamped_pixels": 544,
+    "pre_curve_below_zero_channels": 3,
+    "pre_curve_above_65535_channels": 1655,
+    "post_curve_code_65535_channels": 1679,
+    "display_linear_below_zero_channels": 3031,
+    "display_linear_above_one_channels": 2030,
+    "display_linear_above_one_pct": 0.08604261610243055,
+    "display_rgb8_zero_channels": 3300,
+    "display_rgb8_255_channels": 3061
+  },
+  "full_phocus_equivalence": false,
+  "default_profile_changed": false,
+  "device_trial_pending": true
+}

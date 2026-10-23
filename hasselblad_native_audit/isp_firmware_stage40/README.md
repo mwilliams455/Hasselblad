@@ -52,3 +52,11 @@ python3 hasselblad_native_audit/isp_firmware_stage40/fingerprint_colour_function
 ```
 
 The updated Stage40 CI computes private function summaries for both exactly pinned releases, compares them only after both are extracted, deletes firmware and private indexes, and uploads **only a sanitized function digest report** alongside the existing dual-file summary. No APK is rebuilt by this investigation.
+
+## Stage40D — differentiate function relocation from operand changes
+
+The validated Stage40C original run [39920704466](https://github.com/mwilliams455/Hasselblad/actions/runs/39920704466) found **12** raw-function-body byte matches, **13** changed and **2** unresolved among the 27 selected original functions. All 10 inspected Eagle2 CCM/gamma/LUT/format driver functions and the original `scene_awb_result_recalib_unit` AWB leaf were byte-identical; the 13 changed original `librcam.so` functions kept their exact original sizes while many had different virtual addresses. The vendor's `mm_get_coeff` CCT leaf was byte-identical even though relocated. The unchanged output profile configuration cannot by itself establish which revised functions retain exactly identical arithmetic.
+
+Stage40D extends the **same bounded original function-body** audit with Capstone AArch64 instruction-shape hashes. Each function is completely decoded; the report retains the total instruction count, arithmetic/loads/stores count, mnemonic-sequence digest, and a second syntax digest that **preserves all registers, memory displacements, immediate numerical constants and shift/extension descriptions**, but normalizes the *target address only* of designated PC-relative branches, ADR/ADRP and literal LDR. Internal branches retain their **relative function offset**. No instruction bytes or disassembly are exported.
+
+A matching normalized syntax digest is **not** an execution/semantic parity proof: especially, an external branch may point to a different callee after the update, the external address is deliberately excluded, and the surrounding helper code/runtime may differ. A changed digest also need not mean changed mathematical output. This audit is a new **triage** for deciding which revised native colour arithmetic needs a full original-code rerun against owned synthetic fixtures, before a new version can claim genuine firmware equivalence.

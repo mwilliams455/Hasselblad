@@ -94,6 +94,78 @@ def function_bytes(elf,src:bytes,addr:int,size:int)->bytes:
     raise ValueError('function_not_in_executable_load_segment')
 
 
+# Stage40D: a *syntactic*, strictly non-equivalence diagnostic. PC-relative
+# targets can change when the executable is relaid out; non-PC-relative numeric
+# operands, register identities and memory strides are deliberately preserved.
+PC_RELATIVE_TARGET_OPS={'b','bl','cbz','cbnz','tbz','tbnz','adr','adrp'}
+ARITHMETIC_MNEMONICS={
+ 'mul','madd','msub','smull','umull','smaddl','umaddl','smulh','umulh',
+ 'fmul','fmadd','fmsub','fdiv','sdiv','udiv','sqdmulh','sqrdmulh',
+}
+
+def normalized_imm(mnemonic:str,op_index:int,total_ops:int,value:int,
+                   start:int,end:int)->str:
+    m=mnemonic.lower()
+    pc_relative=(m in PC_RELATIVE_TARGET_OPS or m.startswith('b.') or m=='ldr')
+    if pc_relative and op_index==total_ops-1:
+        if start<=value<end:
+            return 'pc_relative_inside_function_offset:'+str(value-start)
+        return 'pc_relative_external_target_unresolved'
+    return 'exact_immediate:'+str(value)
+
+def instruction_shape(body:bytes,start:int)->dict:
+    from capstone import Cs,CS_ARCH_ARM64,CS_MODE_LITTLE_ENDIAN
+    from capstone.arm64 import ARM64_OP_REG,ARM64_OP_MEM,ARM64_OP_IMM,ARM64_OP_FP
+    cs=Cs(CS_ARCH_ARM64,CS_MODE_LITTLE_ENDIAN)
+    cs.detail=True
+    instructions=list(cs.disasm(body,start))
+    require(bool(instructions) and sum(i.size for i in instructions)==len(body),
+            'incomplete_aarch64_function_disassembly')
+    mnemonics=[];normal=[]
+    pc_external=arithmetic=memr=memw=0
+    end=start+len(body)
+    for ins in instructions:
+        m=ins.mnemonic.lower()
+        mnemonics.append(m)
+        if m in ARITHMETIC_MNEMONICS:arithmetic+=1
+        if m.startswith(('ld','prfm')):memr+=1
+        if m.startswith('st'):memw+=1
+        items=[]
+        for ix,op in enumerate(ins.operands):
+            if op.type==ARM64_OP_REG:
+                descriptor='register:'+ins.reg_name(op.reg)
+            elif op.type==ARM64_OP_IMM:
+                descriptor=normalized_imm(m,ix,len(ins.operands),int(op.imm),start,end)
+                if descriptor=='pc_relative_external_target_unresolved':pc_external+=1
+            elif op.type==ARM64_OP_MEM:
+                mm=op.mem
+                descriptor=('memory_base:'+ins.reg_name(mm.base)+
+                    ':index:'+ins.reg_name(mm.index)+':displacement:'+str(int(mm.disp)))
+            elif op.type==ARM64_OP_FP:
+                descriptor='floating_literal:'+float(op.fp).hex()
+            else:
+                descriptor='operand_type:'+str(int(op.type))
+            # Register shifts, extensions, and lane-vector forms can affect
+            # arithmetic. Retain when provided by Capstone.
+            shift=getattr(op,'shift',None)
+            if shift is not None and getattr(shift,'value',0):
+                descriptor+=':shift:'+str(int(shift.type))+':'+str(int(shift.value))
+            ext=getattr(op,'ext',0)
+            if ext:descriptor+=':extend:'+str(int(ext))
+            items.append(descriptor)
+        normal.append(m+'('+','.join(items)+')')
+    return {
+        'decoded_aarch64_instruction_count':len(instructions),
+        'mnemonic_sequence_sha256':sha(('\n'.join(mnemonics)).encode()),
+        'register_and_non_PCREL_operand_signature_sha256':sha(('\n'.join(normal)).encode()),
+        'multiply_or_divide_instruction_count':arithmetic,
+        'load_instruction_count':memr,
+        'store_instruction_count':memw,
+        'external_PCREL_target_occurrences_normalized':pc_external,
+        'raw_instruction_bytes_or_full_disassembly_exported':False,
+        'syntactic_signature_implies_identical_semantics':False,
+    }
+
 def record(elf,src:bytes,name:str,index:dict)->dict:
     entries=index.get(name,set())
     if not entries:return {'status':'symbol_not_located'}
@@ -107,6 +179,7 @@ def record(elf,src:bytes,name:str,index:dict)->dict:
         return {'status':'unresolved_function_slice','reason':str(e)}
     return {'status':'fingerprinted','virtual_address_hex':hex(va),
             'function_size_bytes':size,'raw_body_sha256':sha(body),
+            'instruction_shape':instruction_shape(body,va),
             'relocations_or_runtime_parameters_proven_identical':False,
             'original_runtime_or_pixel_equivalence_proven':False}
 
@@ -143,6 +216,9 @@ def fingerprint(root:Path,snapshot:dict)->dict:
 def compare(old:dict,new:dict)->dict:
     require(old['firmware_version']=='1.3.16.2' and new['firmware_version']=='1.3.18.1','invalid_firmware_order')
     out={};counts={'identical_raw_body':0,'changed_raw_body':0,'missing_or_ambiguous':0}
+    shapes={'identical_mnemonic_sequence':0,'changed_mnemonic_sequence':0,
+            'identical_normalized_operand_shape':0,'changed_normalized_operand_shape':0,
+            'shape_unavailable':0}
     for rel,names in TARGETS.items():
         oldfiles=old['sources'][rel]['functions'];newfiles=new['sources'][rel]['functions']
         chosen={}
@@ -152,7 +228,29 @@ def compare(old:dict,new:dict)->dict:
                     else 'identical_raw_body' if a['raw_body_sha256']==b['raw_body_sha256']
                     else 'changed_raw_body')
             counts['missing_or_ambiguous' if status=='unresolved' else status]+=1
+            sa=a.get('instruction_shape');sb=b.get('instruction_shape')
+            if sa is None or sb is None:
+                shape_status='unresolved'
+                shapes['shape_unavailable']+=1
+            else:
+                if sa['mnemonic_sequence_sha256']==sb['mnemonic_sequence_sha256']:
+                    shapes['identical_mnemonic_sequence']+=1
+                else:
+                    shapes['changed_mnemonic_sequence']+=1
+                if sa['register_and_non_PCREL_operand_signature_sha256']==sb['register_and_non_PCREL_operand_signature_sha256']:
+                    shapes['identical_normalized_operand_shape']+=1
+                    shape_status='identical_syntax_modulo_unresolved_PC_relative_targets'
+                else:
+                    shapes['changed_normalized_operand_shape']+=1
+                    shape_status='different_normalized_operand_syntax'
             chosen[name]={
+               'stage40d_instruction_shape_status':shape_status,
+               'old_decoded_instructions':sa.get('decoded_aarch64_instruction_count') if sa else None,
+               'new_decoded_instructions':sb.get('decoded_aarch64_instruction_count') if sb else None,
+               'old_multiply_or_divide_instructions':sa.get('multiply_or_divide_instruction_count') if sa else None,
+               'new_multiply_or_divide_instructions':sb.get('multiply_or_divide_instruction_count') if sb else None,
+               'old_external_PCREL_normalizations':sa.get('external_PCREL_target_occurrences_normalized') if sa else None,
+               'new_external_PCREL_normalizations':sb.get('external_PCREL_target_occurrences_normalized') if sb else None,
                'status':status,
                'old_symbol_status':a.get('status'),
                'new_symbol_status':b.get('status'),
@@ -173,6 +271,8 @@ def compare(old:dict,new:dict)->dict:
             'original_firmware_old_sha256':old['official_archive_sha256'],
             'original_firmware_new_sha256':new['official_archive_sha256'],
             'selected_function_counts':counts,
+            'stage40d_syntax_comparison_counts':shapes,
+            'stage40d_PCREL_target_normalization_does_not_prove_callee_identity':True,
             'sources':out,
             'matching_function_bytes_do_not_prove_original_runtime_or_hardware_pixel_equivalence':True,
             'ccm_pixel_equation_proven':False,
@@ -200,6 +300,12 @@ def synthetic():
     result=compare(old,new)
     c=result['selected_function_counts']
     assert result['status'].startswith('PASS')
+    assert normalized_imm('bl',0,1,0x1000,0x1000,0x1100)=='pc_relative_inside_function_offset:0'
+    assert normalized_imm('bl',0,1,0x2000,0x1000,0x1100)=='pc_relative_external_target_unresolved'
+    assert normalized_imm('madd',2,3,7,0x1000,0x1100)=='exact_immediate:7'
+    assert normalized_imm('tbz',1,3,5,0x1000,0x1100)=='exact_immediate:5'
+    assert normalized_imm('tbz',2,3,0x1020,0x1000,0x1100)=='pc_relative_inside_function_offset:32'
+    assert normalized_imm('ldr',1,2,0x3000,0x1000,0x1100)=='pc_relative_external_target_unresolved'
     assert sum(c.values())==sum(len(v) for v in TARGETS.values())
     assert c['identical_raw_body']>0 and c['changed_raw_body']>0 and c['missing_or_ambiguous']>0
     assert result['ccm_pixel_equation_proven'] is False
@@ -216,7 +322,7 @@ def synthetic():
     assert all(len(names)<=15 for names in TARGETS.values())
     assert all(isinstance(x,str) for names in TARGETS.values() for x in names)
     assert c['missing_or_ambiguous']>0
-    return {'status':'PASS_synthetic','checks':17,'vendor_assets_loaded':False,
+    return {'status':'PASS_synthetic','checks':23,'vendor_assets_loaded':False,
             'original_photographic_pixel_parity_proven':False}
 
 
@@ -244,6 +350,7 @@ def main():
     if 'firmware_version' in result:summary['version']=result['firmware_version']
     if 'selected_function_counts' in result:
         summary['selected_function_counts']=result['selected_function_counts']
+        summary['stage40d_syntax_comparison_counts']=result['stage40d_syntax_comparison_counts']
         summary['unchanged_by_group']={k:{n:v['status'] for n,v in x['selected_function_comparison'].items()}
              for k,x in result['sources'].items()}
     print(json.dumps(summary,sort_keys=True))

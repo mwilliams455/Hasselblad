@@ -1,0 +1,635 @@
+{
+  "actual_camera_pixels_obtained": false,
+  "camera_hardware_accessed": false,
+  "diagnostic_dump_helpers_are_pristine_pixel_references": false,
+  "diagnostic_dump_helpers_can_draw_on_copied_pixels": true,
+  "generic_exporter_available_without_diagnostic_draw": true,
+  "isolated_MAIN_CCM_before_after_proven": false,
+  "link_to_camera_service_stream_name_table_proven": false,
+  "sbpc_frame_path": {
+    "after_dump_site": "0x36194",
+    "before_dump_site": "0x35b88",
+    "call_returns_assumed_for_static_reachability": true,
+    "carrier_write_sites": [
+      "0x35a18",
+      "0x3641c",
+      "0x36b24",
+      "0x36b28",
+      "0x36bc8",
+      "0x36bcc",
+      "0x36c6c",
+      "0x36c70",
+      "0x36d10",
+      "0x36d14",
+      "0x36db4",
+      "0x36db8",
+      "0x36e58",
+      "0x36e5c",
+      "0x36efc",
+      "0x36f00",
+      "0x37004",
+      "0x37008",
+      "0x370a8",
+      "0x370ac",
+      "0x3718c",
+      "0x37190",
+      "0x37230",
+      "0x37234",
+      "0x372d4",
+      "0x372d8",
+      "0x373dc",
+      "0x373e0",
+      "0x374dc",
+      "0x374e0",
+      "0x375a4",
+      "0x375a8"
+    ],
+    "frame_bundle_pointer_offset": 8,
+    "processor_parameter_raw_pointer_offset": 120,
+    "processor_parameter_yuv_pointer_offset": 128,
+    "processor_site": "0x360ec",
+    "runtime_branch_execution_proven": false,
+    "shared_frame_carrier": "x19",
+    "static_control_flow_reachable": true,
+    "static_path_preserving_frame_carrier_exists": true
+  },
+  "schema": "hasselblad-stage41g-original-sbpc-pixel-route-v1",
+  "sources": {
+    "camera/plugins/libdcam_plugins_AIO.so": {
+      "functions": {
+        "_calculate_out_result_frame_buffer_info": {
+          "bytes": 472,
+          "direct_call_count": 16,
+          "focal_call_sites": [
+            {
+              "callee": "duss_hal_mem_map",
+              "linkage": "PLT",
+              "site": "0x31134"
+            }
+          ],
+          "focal_counts": {
+            "duss_hal_mem_map": 1
+          },
+          "indirect_transfers": [],
+          "sha256": "fab81b6c90635a2f0affda29a5370c6c92d4c8c382ab3a3db67d19ddc4aed6cd",
+          "start": "0x310f8"
+        },
+        "_draw_bad_pixel_in_liveview": {
+          "bytes": 1364,
+          "direct_call_count": 37,
+          "focal_call_sites": [
+            {
+              "callee": "duss_hal_mem_map",
+              "linkage": "PLT",
+              "site": "0x31cdc"
+            },
+            {
+              "callee": "_draw_normal",
+              "linkage": "local",
+              "site": "0x31d28"
+            },
+            {
+              "callee": "duss_hal_mem_sync",
+              "linkage": "PLT",
+              "site": "0x31d34"
+            },
+            {
+              "callee": "duss_hal_mem_unmap",
+              "linkage": "PLT",
+              "site": "0x31d40"
+            }
+          ],
+          "focal_counts": {
+            "_draw_normal": 1,
+            "duss_hal_mem_map": 1,
+            "duss_hal_mem_sync": 1,
+            "duss_hal_mem_unmap": 1
+          },
+          "indirect_transfers": [],
+          "sha256": "049b5aa980d96f8599b47744d43e2d05a49cdb87cec5bd1566c058cc80e484da",
+          "start": "0x31c98"
+        },
+        "_draw_normal": {
+          "bytes": 452,
+          "direct_call_count": 8,
+          "focal_call_sites": [],
+          "focal_counts": {},
+          "indirect_transfers": [
+            {
+              "kind": "blr",
+              "site": "0x39a68"
+            }
+          ],
+          "sha256": "79e9ace0bb9725232321ae4ced4d57227acb2430a3eef79ded4823b59d52f44f",
+          "start": "0x398f0"
+        },
+        "_dump_raw_with_bad_pixel": {
+          "bytes": 3148,
+          "direct_call_count": 82,
+          "focal_call_sites": [
+            {
+              "callee": "cam_frame_buffer_alloc",
+              "linkage": "PLT",
+              "site": "0x332e0"
+            },
+            {
+              "callee": "frame_buffer_cp",
+              "linkage": "PLT",
+              "site": "0x33300"
+            },
+            {
+              "callee": "duss_hal_mem_map",
+              "linkage": "PLT",
+              "site": "0x3330c"
+            },
+            {
+              "callee": "_draw_normal",
+              "linkage": "local",
+              "site": "0x33370"
+            },
+            {
+              "callee": "duss_hal_mem_sync",
+              "linkage": "PLT",
+              "site": "0x3337c"
+            },
+            {
+              "callee": "duss_hal_mem_unmap",
+              "linkage": "PLT",
+              "site": "0x33388"
+            },
+            {
+              "callee": "cam_dump_frame",
+              "linkage": "PLT",
+              "site": "0x333e8"
+            },
+            {
+              "callee": "cam_frame_buffer_free",
+              "linkage": "PLT",
+              "site": "0x333f8"
+            }
+          ],
+          "focal_counts": {
+            "_draw_normal": 1,
+            "cam_dump_frame": 1,
+            "cam_frame_buffer_alloc": 1,
+            "cam_frame_buffer_free": 1,
+            "duss_hal_mem_map": 1,
+            "duss_hal_mem_sync": 1,
+            "duss_hal_mem_unmap": 1,
+            "frame_buffer_cp": 1
+          },
+          "indirect_transfers": [],
+          "sha256": "8e402064f4baa611d820ad7738aa505ce3853293e359a3c9ad87ee192a51b1f4",
+          "start": "0x33240"
+        },
+        "_dump_yuv_with_bad_pixel": {
+          "bytes": 4176,
+          "direct_call_count": 109,
+          "focal_call_sites": [
+            {
+              "callee": "cam_frame_buffer_alloc",
+              "linkage": "PLT",
+              "site": "0x32290"
+            },
+            {
+              "callee": "frame_buffer_cp",
+              "linkage": "PLT",
+              "site": "0x322a8"
+            },
+            {
+              "callee": "duss_hal_mem_map",
+              "linkage": "PLT",
+              "site": "0x322b4"
+            },
+            {
+              "callee": "_draw_normal",
+              "linkage": "local",
+              "site": "0x3231c"
+            },
+            {
+              "callee": "fwrite",
+              "linkage": "PLT",
+              "site": "0x323d0"
+            },
+            {
+              "callee": "duss_hal_mem_sync",
+              "linkage": "PLT",
+              "site": "0x325d8"
+            },
+            {
+              "callee": "duss_hal_mem_unmap",
+              "linkage": "PLT",
+              "site": "0x325e4"
+            },
+            {
+              "callee": "cam_dump_frame",
+              "linkage": "PLT",
+              "site": "0x32644"
+            },
+            {
+              "callee": "cam_frame_buffer_free",
+              "linkage": "PLT",
+              "site": "0x32654"
+            }
+          ],
+          "focal_counts": {
+            "_draw_normal": 1,
+            "cam_dump_frame": 1,
+            "cam_frame_buffer_alloc": 1,
+            "cam_frame_buffer_free": 1,
+            "duss_hal_mem_map": 1,
+            "duss_hal_mem_sync": 1,
+            "duss_hal_mem_unmap": 1,
+            "frame_buffer_cp": 1,
+            "fwrite": 1
+          },
+          "indirect_transfers": [],
+          "sha256": "b08bb64eb8acc1cfad15223b8df80208de505b88f28807aa9df6f26ccd7050b6",
+          "start": "0x321f0"
+        },
+        "_liveview_sbpc_dequeue_processed_result": {
+          "bytes": 880,
+          "direct_call_count": 28,
+          "focal_call_sites": [
+            {
+              "callee": "buffer_queue_dequeue_timeout",
+              "linkage": "PLT",
+              "site": "0x376d0"
+            }
+          ],
+          "focal_counts": {
+            "buffer_queue_dequeue_timeout": 1
+          },
+          "indirect_transfers": [],
+          "sha256": "af767337e5ea0827980d5400481ac226e2b5b504fb64717294756fa6cfbe4a18",
+          "start": "0x37670"
+        },
+        "_liveview_sbpc_enqueue_input_frame": {
+          "bytes": 7356,
+          "direct_call_count": 193,
+          "focal_call_sites": [
+            {
+              "callee": "_dump_yuv_with_bad_pixel",
+              "linkage": "PLT",
+              "site": "0x35b88"
+            },
+            {
+              "callee": "_dump_raw_with_bad_pixel",
+              "linkage": "PLT",
+              "site": "0x35b9c"
+            },
+            {
+              "callee": "normal_liveview_sbpc_proc",
+              "linkage": "PLT",
+              "site": "0x360ec"
+            },
+            {
+              "callee": "_draw_bad_pixel_in_liveview",
+              "linkage": "PLT",
+              "site": "0x36164"
+            },
+            {
+              "callee": "_dump_yuv_with_bad_pixel",
+              "linkage": "PLT",
+              "site": "0x36194"
+            },
+            {
+              "callee": "buffer_queue_enqueue",
+              "linkage": "PLT",
+              "site": "0x36240"
+            }
+          ],
+          "focal_counts": {
+            "_draw_bad_pixel_in_liveview": 1,
+            "_dump_raw_with_bad_pixel": 1,
+            "_dump_yuv_with_bad_pixel": 2,
+            "buffer_queue_enqueue": 1,
+            "normal_liveview_sbpc_proc": 1
+          },
+          "indirect_transfers": [],
+          "sha256": "89ad6e9fbbd18059f8bf71645ef2021ab3824abe31dd54ec94494d9c39c64a88",
+          "start": "0x359b0"
+        },
+        "_process_on_buffer": {
+          "bytes": 9516,
+          "direct_call_count": 251,
+          "focal_call_sites": [
+            {
+              "callee": "buffer_queue_enqueue",
+              "linkage": "PLT",
+              "site": "0x2f0f8"
+            }
+          ],
+          "focal_counts": {
+            "buffer_queue_enqueue": 1
+          },
+          "indirect_transfers": [],
+          "sha256": "6959c315d28e87e738adb409a2bf924130927fad6e1e90295a4593ff369e5eb2",
+          "start": "0x2e248"
+        }
+      },
+      "sha256": "1924f9aca6d5f4f92ff482f6a864579d303a890fcef3427053f35d9b00bd4135"
+    },
+    "libdcam_base.so": {
+      "functions": {
+        "_fwrite_data": {
+          "bytes": 424,
+          "direct_call_count": 11,
+          "focal_call_sites": [
+            {
+              "callee": "fwrite",
+              "linkage": "PLT",
+              "site": "0x52c54"
+            }
+          ],
+          "focal_counts": {
+            "fwrite": 1
+          },
+          "indirect_transfers": [],
+          "sha256": "68a15bbf7c00f973d6b600065590d6fcfb7f4f877d0adaef1af896926786c755",
+          "start": "0x52c08"
+        },
+        "dump_frame_to_file": {
+          "bytes": 11640,
+          "direct_call_count": 316,
+          "focal_call_sites": [
+            {
+              "callee": "duss_hal_mem_map",
+              "linkage": "PLT",
+              "site": "0x4d594"
+            },
+            {
+              "callee": "frame_buffer_plane_info_generate",
+              "linkage": "PLT",
+              "site": "0x4d5c0"
+            },
+            {
+              "callee": "duss_hal_mem_sync_ext",
+              "linkage": "PLT",
+              "site": "0x4d5e4"
+            },
+            {
+              "callee": "duss_hal_mem_map",
+              "linkage": "PLT",
+              "site": "0x4d6e8"
+            },
+            {
+              "callee": "duss_hal_mem_map",
+              "linkage": "PLT",
+              "site": "0x4d800"
+            },
+            {
+              "callee": "duss_hal_mem_map",
+              "linkage": "PLT",
+              "site": "0x4d9ac"
+            },
+            {
+              "callee": "frame_buffer_plane_info_generate",
+              "linkage": "PLT",
+              "site": "0x4d9d8"
+            },
+            {
+              "callee": "_fwrite_data",
+              "linkage": "local",
+              "site": "0x4db50"
+            },
+            {
+              "callee": "duss_hal_mem_map",
+              "linkage": "PLT",
+              "site": "0x4dd34"
+            },
+            {
+              "callee": "duss_hal_mem_sync_ext",
+              "linkage": "PLT",
+              "site": "0x4ddb8"
+            },
+            {
+              "callee": "_fwrite_data",
+              "linkage": "local",
+              "site": "0x4dde8"
+            },
+            {
+              "callee": "duss_hal_mem_sync_ext",
+              "linkage": "PLT",
+              "site": "0x4df00"
+            },
+            {
+              "callee": "_fwrite_data",
+              "linkage": "local",
+              "site": "0x4df1c"
+            },
+            {
+              "callee": "duss_hal_mem_unmap",
+              "linkage": "PLT",
+              "site": "0x4df5c"
+            },
+            {
+              "callee": "duss_hal_mem_sync_ext",
+              "linkage": "PLT",
+              "site": "0x4e068"
+            },
+            {
+              "callee": "frame_buffer_plane_info_generate",
+              "linkage": "PLT",
+              "site": "0x4e34c"
+            },
+            {
+              "callee": "duss_hal_mem_unmap",
+              "linkage": "PLT",
+              "site": "0x4e478"
+            },
+            {
+              "callee": "duss_hal_mem_sync_ext",
+              "linkage": "PLT",
+              "site": "0x4e620"
+            },
+            {
+              "callee": "frame_buffer_plane_info_generate",
+              "linkage": "PLT",
+              "site": "0x4f0a8"
+            },
+            {
+              "callee": "duss_hal_mem_unmap",
+              "linkage": "PLT",
+              "site": "0x4f1d8"
+            }
+          ],
+          "focal_counts": {
+            "_fwrite_data": 3,
+            "duss_hal_mem_map": 5,
+            "duss_hal_mem_sync_ext": 5,
+            "duss_hal_mem_unmap": 3,
+            "frame_buffer_plane_info_generate": 4
+          },
+          "indirect_transfers": [],
+          "sha256": "5394e07edef489d6ebf8c40337ae141deae3f457fd0d72d67d71708cb34f5a59",
+          "start": "0x4d500"
+        },
+        "frame_buffer_plane_info_generate": {
+          "bytes": 9284,
+          "direct_call_count": 145,
+          "focal_call_sites": [],
+          "focal_counts": {},
+          "indirect_transfers": [
+            {
+              "kind": "br",
+              "site": "0x45d1c"
+            },
+            {
+              "kind": "br",
+              "site": "0x45d4c"
+            },
+            {
+              "kind": "br",
+              "site": "0x45d88"
+            },
+            {
+              "kind": "br",
+              "site": "0x45df0"
+            },
+            {
+              "kind": "br",
+              "site": "0x45e28"
+            },
+            {
+              "kind": "br",
+              "site": "0x45eb8"
+            },
+            {
+              "kind": "br",
+              "site": "0x45f60"
+            }
+          ],
+          "sha256": "e4a44858cdb015c7e228c15eb3ae7718c607757efacfc732264f523e9e34cdf2",
+          "start": "0x45bc8"
+        }
+      },
+      "sha256": "8486fa7ce0b400992358ad92c445ad026a3784703accf2bae8a490ed10b2ff52"
+    },
+    "libdcam_pp.so": {
+      "functions": {
+        "normal_liveview_sbpc_proc": {
+          "bytes": 1236,
+          "direct_call_count": 32,
+          "focal_call_sites": [
+            {
+              "callee": "proc_liveview_sbpc",
+              "linkage": "PLT",
+              "site": "0xb6ed0"
+            }
+          ],
+          "focal_counts": {
+            "proc_liveview_sbpc": 1
+          },
+          "indirect_transfers": [],
+          "sha256": "98be963a3660ec349c100f14eeed1ae701cfde9c290d0e4536e1e1c06838f708",
+          "start": "0xb6e80"
+        },
+        "proc_liveview_sbpc": {
+          "bytes": 8656,
+          "direct_call_count": 150,
+          "focal_call_sites": [
+            {
+              "callee": "pp_get_duss_hal_mem_phys_addr",
+              "linkage": "PLT",
+              "site": "0xb269c"
+            },
+            {
+              "callee": "pp_get_duss_hal_mem_virt_addr",
+              "linkage": "PLT",
+              "site": "0xb27b8"
+            },
+            {
+              "callee": "duss_hal_mem_sync",
+              "linkage": "PLT",
+              "site": "0xb28fc"
+            },
+            {
+              "callee": "pp_get_duss_hal_mem_phys_addr",
+              "linkage": "PLT",
+              "site": "0xb2f60"
+            },
+            {
+              "callee": "duss_hal_mem_sync",
+              "linkage": "PLT",
+              "site": "0xb32a4"
+            },
+            {
+              "callee": "duss_hal_mem_sync",
+              "linkage": "PLT",
+              "site": "0xb32b4"
+            },
+            {
+              "callee": "duss_hal_mem_sync",
+              "linkage": "PLT",
+              "site": "0xb32c8"
+            },
+            {
+              "callee": "pp_map_ss_virt_addr",
+              "linkage": "PLT",
+              "site": "0xb32e8"
+            }
+          ],
+          "focal_counts": {
+            "duss_hal_mem_sync": 4,
+            "pp_get_duss_hal_mem_phys_addr": 2,
+            "pp_get_duss_hal_mem_virt_addr": 1,
+            "pp_map_ss_virt_addr": 1
+          },
+          "indirect_transfers": [
+            {
+              "kind": "blr",
+              "site": "0xb291c"
+            }
+          ],
+          "sha256": "45750999eadd4213cf93442dac7ab1be9375224b3770515fec3cbb84a979be50",
+          "start": "0xb2638"
+        }
+      },
+      "sha256": "bacca08dcf56e4a599cbfdfa041baf60a43754ec5a1a9d23dab89bd129ea41e9"
+    },
+    "libdcam_resource_package_util.so": {
+      "functions": {
+        "cam_dump_frame": {
+          "bytes": 1784,
+          "direct_call_count": 52,
+          "focal_call_sites": [
+            {
+              "callee": "dump_frame_to_file",
+              "linkage": "PLT",
+              "site": "0x57cc"
+            }
+          ],
+          "focal_counts": {
+            "dump_frame_to_file": 1
+          },
+          "indirect_transfers": [],
+          "sha256": "e9ff42cbe2f7ecbf5d0cf9482bb5b5888986df3d854ad4e8fbf7b33791935679",
+          "start": "0x56e0"
+        }
+      },
+      "sha256": "dd6ac4a2811a38c1e94431a47dd69a7607639035999abeb1277ac01b2f0a6c39"
+    },
+    "libduml_hal.so": {
+      "functions": {
+        "duss_hal_mem_map": {
+          "bytes": 64,
+          "direct_call_count": 0,
+          "focal_call_sites": [],
+          "focal_counts": {},
+          "indirect_transfers": [
+            {
+              "kind": "br",
+              "site": "0x22404"
+            }
+          ],
+          "sha256": "b761c98224f6b54330c123924011e96b1d0239252776a707e814c9af701aba52",
+          "start": "0x223d8"
+        }
+      },
+      "sha256": "adfb1cf834584d5c2d3e7b8a49c8ff78a919f007b4fe4ee5442a658dafc71d20"
+    }
+  },
+  "status": "PASS_original_SBPC_pixel_export_source_graph",
+  "vendor_instruction_bytes_or_disassembly_exported": false
+}

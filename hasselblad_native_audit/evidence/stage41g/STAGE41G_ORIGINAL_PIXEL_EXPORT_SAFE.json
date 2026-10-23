@@ -1,0 +1,337 @@
+{
+  "MAIN_CCM_pixel_oracle_proven": false,
+  "actual_camera_pixels_obtained": false,
+  "boundary": "This verifies an original pixel reader with synthetic backing memory, not camera capture or firmware colour rendering.",
+  "cache_operations_simulated": true,
+  "cases": [
+    {
+      "alignment": 1,
+      "allocation_bytes": 192,
+      "byte_exact_including_padding": true,
+      "cache_sync_requests": [
+        {
+          "direction": 1,
+          "offset": 0,
+          "size": 128
+        },
+        {
+          "direction": 1,
+          "offset": 128,
+          "size": 64
+        }
+      ],
+      "case": "tight_small",
+      "expected_failure": false,
+      "exported_bytes": 192,
+      "fwrite_calls": 2,
+      "height": 8,
+      "input_unchanged": true,
+      "original_export_instructions": 323,
+      "original_export_return": 0,
+      "original_format_enum": 2,
+      "output_sha256": "d5ab23e5e1510fd52293eea793446e0bded683982835b7c3a961dfed61ed17d6",
+      "planes": [
+        {
+          "height": 8,
+          "offset": 0,
+          "stride": 16
+        },
+        {
+          "height": 4,
+          "offset": 128,
+          "stride": 16
+        }
+      ],
+      "platform_calls": {
+        "duss_hal_mem_get_flags": 1,
+        "duss_hal_mem_map": 1,
+        "duss_hal_mem_sync_ext": 2,
+        "duss_hal_mem_unmap": 1,
+        "fclose": 1,
+        "fflush": 1,
+        "fileno": 1,
+        "fopen": 1,
+        "frame_buffer_plane_info_generate": 1,
+        "fsync": 1,
+        "fwrite": 2,
+        "memset": 2,
+        "strcmp": 3,
+        "synthetic_memory_backend_map": 1
+      },
+      "width": 16
+    },
+    {
+      "alignment": 1,
+      "allocation_bytes": 460800,
+      "byte_exact_including_padding": true,
+      "cache_sync_requests": [
+        {
+          "direction": 1,
+          "offset": 0,
+          "size": 307200
+        },
+        {
+          "direction": 1,
+          "offset": 307200,
+          "size": 153600
+        }
+      ],
+      "case": "tight_640x480",
+      "expected_failure": false,
+      "exported_bytes": 460800,
+      "fwrite_calls": 2,
+      "height": 480,
+      "input_unchanged": true,
+      "original_export_instructions": 323,
+      "original_export_return": 0,
+      "original_format_enum": 2,
+      "output_sha256": "827b31b6a81995a193b494a759b9d75d9d3e03721ebeed965032a950c82e5924",
+      "planes": [
+        {
+          "height": 480,
+          "offset": 0,
+          "stride": 640
+        },
+        {
+          "height": 240,
+          "offset": 307200,
+          "stride": 640
+        }
+      ],
+      "platform_calls": {
+        "duss_hal_mem_get_flags": 1,
+        "duss_hal_mem_map": 1,
+        "duss_hal_mem_sync_ext": 2,
+        "duss_hal_mem_unmap": 1,
+        "fclose": 1,
+        "fflush": 1,
+        "fileno": 1,
+        "fopen": 1,
+        "frame_buffer_plane_info_generate": 1,
+        "fsync": 1,
+        "fwrite": 2,
+        "memset": 2,
+        "strcmp": 3,
+        "synthetic_memory_backend_map": 1
+      },
+      "width": 640
+    },
+    {
+      "alignment": 64,
+      "allocation_bytes": 960,
+      "byte_exact_including_padding": true,
+      "cache_sync_requests": [
+        {
+          "direction": 1,
+          "offset": 0,
+          "size": 640
+        },
+        {
+          "direction": 1,
+          "offset": 640,
+          "size": 320
+        }
+      ],
+      "case": "padded_rows",
+      "expected_failure": false,
+      "exported_bytes": 960,
+      "fwrite_calls": 2,
+      "height": 10,
+      "input_unchanged": true,
+      "original_export_instructions": 323,
+      "original_export_return": 0,
+      "original_format_enum": 2,
+      "output_sha256": "7666afaf4402663ebfa2d275bbc18d325096b2428529e0b89466fa2cb17850ee",
+      "planes": [
+        {
+          "height": 10,
+          "offset": 0,
+          "stride": 64
+        },
+        {
+          "height": 5,
+          "offset": 640,
+          "stride": 64
+        }
+      ],
+      "platform_calls": {
+        "duss_hal_mem_get_flags": 1,
+        "duss_hal_mem_map": 1,
+        "duss_hal_mem_sync_ext": 2,
+        "duss_hal_mem_unmap": 1,
+        "fclose": 1,
+        "fflush": 1,
+        "fileno": 1,
+        "fopen": 1,
+        "frame_buffer_plane_info_generate": 1,
+        "fsync": 1,
+        "fwrite": 2,
+        "memset": 2,
+        "strcmp": 3,
+        "synthetic_memory_backend_map": 1
+      },
+      "width": 18
+    },
+    {
+      "alignment": 1,
+      "allocation_bytes": 192,
+      "byte_exact_including_padding": true,
+      "cache_sync_requests": [
+        {
+          "direction": 1,
+          "offset": 0,
+          "size": 128
+        },
+        {
+          "direction": 1,
+          "offset": 128,
+          "size": 64
+        }
+      ],
+      "case": "partial_fwrite",
+      "expected_failure": false,
+      "exported_bytes": 192,
+      "fwrite_calls": 29,
+      "height": 8,
+      "input_unchanged": true,
+      "original_export_instructions": 674,
+      "original_export_return": 0,
+      "original_format_enum": 2,
+      "output_sha256": "d5ab23e5e1510fd52293eea793446e0bded683982835b7c3a961dfed61ed17d6",
+      "planes": [
+        {
+          "height": 8,
+          "offset": 0,
+          "stride": 16
+        },
+        {
+          "height": 4,
+          "offset": 128,
+          "stride": 16
+        }
+      ],
+      "platform_calls": {
+        "duss_hal_mem_get_flags": 1,
+        "duss_hal_mem_map": 1,
+        "duss_hal_mem_sync_ext": 2,
+        "duss_hal_mem_unmap": 1,
+        "fclose": 1,
+        "fflush": 1,
+        "fileno": 1,
+        "fopen": 1,
+        "frame_buffer_plane_info_generate": 1,
+        "fsync": 1,
+        "fwrite": 29,
+        "memset": 2,
+        "strcmp": 3,
+        "synthetic_memory_backend_map": 1
+      },
+      "width": 16
+    },
+    {
+      "alignment": 1,
+      "allocation_bytes": 192,
+      "byte_exact_including_padding": false,
+      "cache_sync_requests": [],
+      "case": "map_failure",
+      "expected_failure": true,
+      "exported_bytes": 0,
+      "fwrite_calls": 0,
+      "height": 8,
+      "input_unchanged": true,
+      "original_export_instructions": 143,
+      "original_export_return": -1,
+      "original_format_enum": 2,
+      "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "planes": [
+        {
+          "height": 8,
+          "offset": 0,
+          "stride": 16
+        },
+        {
+          "height": 4,
+          "offset": 128,
+          "stride": 16
+        }
+      ],
+      "platform_calls": {
+        "co_thread_get": 1,
+        "duss_hal_mem_get_flags": 1,
+        "duss_hal_mem_map": 1,
+        "duss_log_gen_head": 2,
+        "fclose": 1,
+        "fopen": 1,
+        "log_mgr_check": 1,
+        "memset": 1,
+        "pthread_getspecific": 1,
+        "strcmp": 3,
+        "synthetic_memory_backend_map": 1
+      },
+      "width": 16
+    },
+    {
+      "alignment": 1,
+      "allocation_bytes": 192,
+      "byte_exact_including_padding": false,
+      "cache_sync_requests": [],
+      "case": "open_failure",
+      "expected_failure": true,
+      "exported_bytes": 0,
+      "fwrite_calls": 0,
+      "height": 8,
+      "input_unchanged": true,
+      "original_export_instructions": 109,
+      "original_export_return": -1001,
+      "original_format_enum": 2,
+      "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "planes": [
+        {
+          "height": 8,
+          "offset": 0,
+          "stride": 16
+        },
+        {
+          "height": 4,
+          "offset": 128,
+          "stride": 16
+        }
+      ],
+      "platform_calls": {
+        "co_thread_get": 1,
+        "duss_hal_mem_get_flags": 1,
+        "duss_log_gen_head": 1,
+        "fopen": 1,
+        "log_mgr_check": 1,
+        "memset": 1,
+        "pthread_getspecific": 1,
+        "strcmp": 3
+      },
+      "width": 16
+    }
+  ],
+  "original_code_emulated": true,
+  "original_functions": [
+    "duss_pixel_format_from_str",
+    "frame_buffer_plane_info_generate",
+    "dump_frame_to_file",
+    "_fwrite_data",
+    "duss_hal_mem_map"
+  ],
+  "physical_camera_accessed": false,
+  "platform_memory_backend_and_stdio_simulated": true,
+  "private_photographs_accessed": false,
+  "runtime_versions": {
+    "capstone": "5.0.7",
+    "pyelftools": "0.33",
+    "unicorn": "2.1.4"
+  },
+  "schema": "hasselblad-stage41g-original-pixel-export-v1",
+  "source_plane_padding_is_preserved": true,
+  "source_sha256": {
+    "libdcam_base.so": "8486fa7ce0b400992358ad92c445ad026a3784703accf2bae8a490ed10b2ff52",
+    "libduml_hal.so": "adfb1cf834584d5c2d3e7b8a49c8ff78a919f007b4fe4ee5442a658dafc71d20"
+  },
+  "status": "PASS_original_ARM64_exporter_synthetic_NV12",
+  "vendor_bytes_exported": false
+}

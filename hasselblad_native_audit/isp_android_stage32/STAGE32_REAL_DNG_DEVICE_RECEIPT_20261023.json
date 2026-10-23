@@ -1,0 +1,41 @@
+{
+  "schema": "hasselblad-stage32-device-evidence-sanitized-v1",
+  "reported_on": "2026-10-23",
+  "reported_by": "on_device_user_pasted_diagnostic",
+  "stage32_apk_version_code": 27188,
+  "dng_input_synthetic": false,
+  "real_dng_file_hash_seen_but_redacted": true,
+  "real_dng_file_bytes_redacted": true,
+  "image_data_or_linear_statistics_published": false,
+  "verified_dng_dimensions": [
+    4096,
+    3072
+  ],
+  "decoded_cfa": "RGGB",
+  "uncompressed_single_strip": true,
+  "bits_per_sample": 16,
+  "supported_opcodes": "OpcodeList2 GainMap only",
+  "gainmaps_applied": 4,
+  "roi_bayer_site_applications": 1156,
+  "decoded_tile_size": [
+    32,
+    32
+  ],
+  "native_stage24_status": 0,
+  "native_pcs_only": true,
+  "native_full_frame_processed": false,
+  "diagnostic_elapsed_ms": 102,
+  "native_process_only_elapsed_ms_measured": false,
+  "negative_components_in_test_tile": 0,
+  "over_unity_components_in_test_tile": 0,
+  "read_only_dng": true,
+  "temp_file_deleted": true,
+  "actual_sensor_timestamp_proven": false,
+  "physical_sensor_binding_proven": false,
+  "SDK_gainmap_exact_parity_proven": false,
+  "hasselblad_X2D_original_MAIN_ccm_gamma_LUT_equivalence_proven": false,
+  "photographic_colour_still_photon": true,
+  "status": "PASS_REAL_DNG_NEUTRAL_CENTRE_TILE_ONLY",
+  "next_gate": "Bind original DNG hash to matching CaptureEvidence sidecar and verify physical sensor, frame number, sensor timestamp and calibration provenance; then consider bounded larger real-image diagnostic",
+  "original_photo_or_identifying_device_values_committed": false
+}

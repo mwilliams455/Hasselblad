@@ -1,0 +1,960 @@
+{
+  "schema": "hasselblad-stage41n-main-gamma-register-replay-v1",
+  "source_sha256": "3dd5b37b3db18b3e6b54271e1501b4dd337e101c06cdd386a896b1547b662f66",
+  "synthetic_inputs_only": true,
+  "physical_hardware_accessed": false,
+  "rgb_pixel_equation_recovered": false,
+  "production_photo_output_changed": false,
+  "vendor_bytes_tuning_disassembly_exported": false,
+  "bindings": {
+    "normal": {
+      "gamma_lut": {
+        "binding_record": "0x59ab28",
+        "accessor": "DIQ_iq_main_gamma_normal_gamma_lut",
+        "registers": [
+          {
+            "register_id": "0x10aa",
+            "kind": 1,
+            "virtual_offset": "0x22080",
+            "hardware_address": "0xf322e800",
+            "entries": 257
+          }
+        ]
+      },
+      "gamma_minus_lut": {
+        "binding_record": "0x59ab58",
+        "accessor": "DIQ_iq_main_gamma_normal_gamma_minus_lut",
+        "registers": [
+          {
+            "register_id": "0x10ab",
+            "kind": 1,
+            "virtual_offset": "0x22500",
+            "hardware_address": "0xf322f000",
+            "entries": 9
+          }
+        ]
+      },
+      "knee_blend_max_det_rate": {
+        "binding_record": "0x59aae0",
+        "accessor": "DIQ_iq_main_gamma_normal_knee_blend_max_det_rate",
+        "registers": [
+          {
+            "register_id": "0x107b",
+            "kind": 3,
+            "virtual_offset": "0x22018",
+            "parent_id": "0x107a",
+            "shift": 0,
+            "mask": "0xff",
+            "field_bits": 8
+          }
+        ]
+      },
+      "knee_clip": {
+        "binding_record": "0x59aa80",
+        "accessor": "DIQ_iq_main_gamma_normal_knee_clip",
+        "registers": [
+          {
+            "register_id": "0x1073",
+            "kind": 3,
+            "virtual_offset": "0x22008",
+            "parent_id": "0x1072",
+            "shift": 0,
+            "mask": "0xfff",
+            "field_bits": 12
+          }
+        ]
+      },
+      "knee_gain": {
+        "binding_record": "0x59abb8",
+        "accessor": "DIQ_iq_main_gamma_normal_knee_gain",
+        "registers": [
+          {
+            "register_id": "0x10ad",
+            "kind": 1,
+            "virtual_offset": "0x22600",
+            "hardware_address": "0xf322f100",
+            "entries": 32
+          },
+          {
+            "register_id": "0x10ae",
+            "kind": 1,
+            "virtual_offset": "0x22680",
+            "hardware_address": "0xf322f180",
+            "entries": 32
+          }
+        ]
+      },
+      "knee_kpx": {
+        "binding_record": "0x59ab88",
+        "accessor": "DIQ_iq_main_gamma_normal_knee_kpx",
+        "registers": [
+          {
+            "register_id": "0x10ac",
+            "kind": 1,
+            "virtual_offset": "0x22580",
+            "hardware_address": "0xf322f080",
+            "entries": 32
+          }
+        ]
+      },
+      "knee_saturation": {
+        "binding_record": "0x59abe8",
+        "accessor": "DIQ_iq_main_gamma_normal_knee_saturation",
+        "registers": [
+          {
+            "register_id": "0x10af",
+            "kind": 1,
+            "virtual_offset": "0x22700",
+            "hardware_address": "0xf322f200",
+            "entries": 32
+          },
+          {
+            "register_id": "0x10b0",
+            "kind": 1,
+            "virtual_offset": "0x22780",
+            "hardware_address": "0xf322f280",
+            "entries": 32
+          }
+        ]
+      },
+      "knee_y_coef": {
+        "binding_record": "0x59aab0",
+        "accessor": "DIQ_iq_main_gamma_normal_knee_y_coef",
+        "registers": [
+          {
+            "register_id": "0x1075",
+            "kind": 3,
+            "virtual_offset": "0x2200c",
+            "parent_id": "0x1074",
+            "shift": 0,
+            "mask": "0x3ff",
+            "field_bits": 10
+          },
+          {
+            "register_id": "0x1077",
+            "kind": 3,
+            "virtual_offset": "0x22010",
+            "parent_id": "0x1076",
+            "shift": 0,
+            "mask": "0x3ff",
+            "field_bits": 10
+          },
+          {
+            "register_id": "0x1079",
+            "kind": 3,
+            "virtual_offset": "0x22014",
+            "parent_id": "0x1078",
+            "shift": 0,
+            "mask": "0x3ff",
+            "field_bits": 10
+          }
+        ]
+      },
+      "lut_div": {
+        "binding_record": "0x59aa20",
+        "accessor": "DIQ_iq_main_gamma_normal_lut_div",
+        "registers": [
+          {
+            "register_id": "0x107d",
+            "kind": 3,
+            "virtual_offset": "0x2201c",
+            "parent_id": "0x107c",
+            "shift": 0,
+            "mask": "0xf",
+            "field_bits": 4
+          },
+          {
+            "register_id": "0x107e",
+            "kind": 3,
+            "virtual_offset": "0x2201c",
+            "parent_id": "0x107c",
+            "shift": 4,
+            "mask": "0xf0",
+            "field_bits": 4
+          },
+          {
+            "register_id": "0x107f",
+            "kind": 3,
+            "virtual_offset": "0x2201c",
+            "parent_id": "0x107c",
+            "shift": 8,
+            "mask": "0xf00",
+            "field_bits": 4
+          },
+          {
+            "register_id": "0x1080",
+            "kind": 3,
+            "virtual_offset": "0x2201c",
+            "parent_id": "0x107c",
+            "shift": 12,
+            "mask": "0xf000",
+            "field_bits": 4
+          },
+          {
+            "register_id": "0x1081",
+            "kind": 3,
+            "virtual_offset": "0x2201c",
+            "parent_id": "0x107c",
+            "shift": 16,
+            "mask": "0xf0000",
+            "field_bits": 4
+          },
+          {
+            "register_id": "0x1082",
+            "kind": 3,
+            "virtual_offset": "0x2201c",
+            "parent_id": "0x107c",
+            "shift": 20,
+            "mask": "0xf00000",
+            "field_bits": 4
+          },
+          {
+            "register_id": "0x1083",
+            "kind": 3,
+            "virtual_offset": "0x2201c",
+            "parent_id": "0x107c",
+            "shift": 24,
+            "mask": "0xf000000",
+            "field_bits": 4
+          }
+        ]
+      },
+      "lut_div_minus_scale": {
+        "binding_record": "0x59aa50",
+        "accessor": "DIQ_iq_main_gamma_normal_lut_div_minus_scale",
+        "registers": [
+          {
+            "register_id": "0x1084",
+            "kind": 3,
+            "virtual_offset": "0x2201c",
+            "parent_id": "0x107c",
+            "shift": 28,
+            "mask": "0xf0000000",
+            "field_bits": 4
+          }
+        ]
+      }
+    },
+    "lowlight": {
+      "gamma_lut": {
+        "binding_record": "0x59beb8",
+        "accessor": "DIQ_iq_main_gamma_lowlight_gamma_lut",
+        "registers": [
+          {
+            "register_id": "0x10aa",
+            "kind": 1,
+            "virtual_offset": "0x22080",
+            "hardware_address": "0xf322e800",
+            "entries": 257
+          }
+        ]
+      },
+      "gamma_minus_lut": {
+        "binding_record": "0x59bee8",
+        "accessor": "DIQ_iq_main_gamma_lowlight_gamma_minus_lut",
+        "registers": [
+          {
+            "register_id": "0x10ab",
+            "kind": 1,
+            "virtual_offset": "0x22500",
+            "hardware_address": "0xf322f000",
+            "entries": 9
+          }
+        ]
+      },
+      "knee_blend_max_det_rate": {
+        "binding_record": "0x59be70",
+        "accessor": "DIQ_iq_main_gamma_lowlight_knee_blend_max_det_rate",
+        "registers": [
+          {
+            "register_id": "0x107b",
+            "kind": 3,
+            "virtual_offset": "0x22018",
+            "parent_id": "0x107a",
+            "shift": 0,
+            "mask": "0xff",
+            "field_bits": 8
+          }
+        ]
+      },
+      "knee_clip": {
+        "binding_record": "0x59be10",
+        "accessor": "DIQ_iq_main_gamma_lowlight_knee_clip",
+        "registers": [
+          {
+            "register_id": "0x1073",
+            "kind": 3,
+            "virtual_offset": "0x22008",
+            "parent_id": "0x1072",
+            "shift": 0,
+            "mask": "0xfff",
+            "field_bits": 12
+          }
+        ]
+      },
+      "knee_gain": {
+        "binding_record": "0x59bf48",
+        "accessor": "DIQ_iq_main_gamma_lowlight_knee_gain",
+        "registers": [
+          {
+            "register_id": "0x10ad",
+            "kind": 1,
+            "virtual_offset": "0x22600",
+            "hardware_address": "0xf322f100",
+            "entries": 32
+          },
+          {
+            "register_id": "0x10ae",
+            "kind": 1,
+            "virtual_offset": "0x22680",
+            "hardware_address": "0xf322f180",
+            "entries": 32
+          }
+        ]
+      },
+      "knee_kpx": {
+        "binding_record": "0x59bf18",
+        "accessor": "DIQ_iq_main_gamma_lowlight_knee_kpx",
+        "registers": [
+          {
+            "register_id": "0x10ac",
+            "kind": 1,
+            "virtual_offset": "0x22580",
+            "hardware_address": "0xf322f080",
+            "entries": 32
+          }
+        ]
+      },
+      "knee_saturation": {
+        "binding_record": "0x59bf78",
+        "accessor": "DIQ_iq_main_gamma_lowlight_knee_saturation",
+        "registers": [
+          {
+            "register_id": "0x10af",
+            "kind": 1,
+            "virtual_offset": "0x22700",
+            "hardware_address": "0xf322f200",
+            "entries": 32
+          },
+          {
+            "register_id": "0x10b0",
+            "kind": 1,
+            "virtual_offset": "0x22780",
+            "hardware_address": "0xf322f280",
+            "entries": 32
+          }
+        ]
+      },
+      "knee_y_coef": {
+        "binding_record": "0x59be40",
+        "accessor": "DIQ_iq_main_gamma_lowlight_knee_y_coef",
+        "registers": [
+          {
+            "register_id": "0x1075",
+            "kind": 3,
+            "virtual_offset": "0x2200c",
+            "parent_id": "0x1074",
+            "shift": 0,
+            "mask": "0x3ff",
+            "field_bits": 10
+          },
+          {
+            "register_id": "0x1077",
+            "kind": 3,
+            "virtual_offset": "0x22010",
+            "parent_id": "0x1076",
+            "shift": 0,
+            "mask": "0x3ff",
+            "field_bits": 10
+          },
+          {
+            "register_id": "0x1079",
+            "kind": 3,
+            "virtual_offset": "0x22014",
+            "parent_id": "0x1078",
+            "shift": 0,
+            "mask": "0x3ff",
+            "field_bits": 10
+          }
+        ]
+      },
+      "lut_div": {
+        "binding_record": "0x59bdb0",
+        "accessor": "DIQ_iq_main_gamma_lowlight_lut_div",
+        "registers": [
+          {
+            "register_id": "0x107d",
+            "kind": 3,
+            "virtual_offset": "0x2201c",
+            "parent_id": "0x107c",
+            "shift": 0,
+            "mask": "0xf",
+            "field_bits": 4
+          },
+          {
+            "register_id": "0x107e",
+            "kind": 3,
+            "virtual_offset": "0x2201c",
+            "parent_id": "0x107c",
+            "shift": 4,
+            "mask": "0xf0",
+            "field_bits": 4
+          },
+          {
+            "register_id": "0x107f",
+            "kind": 3,
+            "virtual_offset": "0x2201c",
+            "parent_id": "0x107c",
+            "shift": 8,
+            "mask": "0xf00",
+            "field_bits": 4
+          },
+          {
+            "register_id": "0x1080",
+            "kind": 3,
+            "virtual_offset": "0x2201c",
+            "parent_id": "0x107c",
+            "shift": 12,
+            "mask": "0xf000",
+            "field_bits": 4
+          },
+          {
+            "register_id": "0x1081",
+            "kind": 3,
+            "virtual_offset": "0x2201c",
+            "parent_id": "0x107c",
+            "shift": 16,
+            "mask": "0xf0000",
+            "field_bits": 4
+          },
+          {
+            "register_id": "0x1082",
+            "kind": 3,
+            "virtual_offset": "0x2201c",
+            "parent_id": "0x107c",
+            "shift": 20,
+            "mask": "0xf00000",
+            "field_bits": 4
+          },
+          {
+            "register_id": "0x1083",
+            "kind": 3,
+            "virtual_offset": "0x2201c",
+            "parent_id": "0x107c",
+            "shift": 24,
+            "mask": "0xf000000",
+            "field_bits": 4
+          }
+        ]
+      },
+      "lut_div_minus_scale": {
+        "binding_record": "0x59bde0",
+        "accessor": "DIQ_iq_main_gamma_lowlight_lut_div_minus_scale",
+        "registers": [
+          {
+            "register_id": "0x1084",
+            "kind": 3,
+            "virtual_offset": "0x2201c",
+            "parent_id": "0x107c",
+            "shift": 28,
+            "mask": "0xf0000000",
+            "field_bits": 4
+          }
+        ]
+      }
+    },
+    "ei": {
+      "gamma_lut": {
+        "binding_record": "0x59c100",
+        "accessor": "DIQ_iq_main_gamma_ei_gamma_lut",
+        "registers": [
+          {
+            "register_id": "0x10aa",
+            "kind": 1,
+            "virtual_offset": "0x22080",
+            "hardware_address": "0xf322e800",
+            "entries": 257
+          }
+        ]
+      },
+      "gamma_minus_lut": {
+        "binding_record": "0x59c130",
+        "accessor": "DIQ_iq_main_gamma_ei_gamma_minus_lut",
+        "registers": [
+          {
+            "register_id": "0x10ab",
+            "kind": 1,
+            "virtual_offset": "0x22500",
+            "hardware_address": "0xf322f000",
+            "entries": 9
+          }
+        ]
+      },
+      "knee_blend_max_det_rate": {
+        "binding_record": "0x59c0b8",
+        "accessor": "DIQ_iq_main_gamma_ei_knee_blend_max_det_rate",
+        "registers": [
+          {
+            "register_id": "0x107b",
+            "kind": 3,
+            "virtual_offset": "0x22018",
+            "parent_id": "0x107a",
+            "shift": 0,
+            "mask": "0xff",
+            "field_bits": 8
+          }
+        ]
+      },
+      "knee_clip": {
+        "binding_record": "0x59c058",
+        "accessor": "DIQ_iq_main_gamma_ei_knee_clip",
+        "registers": [
+          {
+            "register_id": "0x1073",
+            "kind": 3,
+            "virtual_offset": "0x22008",
+            "parent_id": "0x1072",
+            "shift": 0,
+            "mask": "0xfff",
+            "field_bits": 12
+          }
+        ]
+      },
+      "knee_gain": {
+        "binding_record": "0x59c190",
+        "accessor": "DIQ_iq_main_gamma_ei_knee_gain",
+        "registers": [
+          {
+            "register_id": "0x10ad",
+            "kind": 1,
+            "virtual_offset": "0x22600",
+            "hardware_address": "0xf322f100",
+            "entries": 32
+          },
+          {
+            "register_id": "0x10ae",
+            "kind": 1,
+            "virtual_offset": "0x22680",
+            "hardware_address": "0xf322f180",
+            "entries": 32
+          }
+        ]
+      },
+      "knee_kpx": {
+        "binding_record": "0x59c160",
+        "accessor": "DIQ_iq_main_gamma_ei_knee_kpx",
+        "registers": [
+          {
+            "register_id": "0x10ac",
+            "kind": 1,
+            "virtual_offset": "0x22580",
+            "hardware_address": "0xf322f080",
+            "entries": 32
+          }
+        ]
+      },
+      "knee_saturation": {
+        "binding_record": "0x59c1c0",
+        "accessor": "DIQ_iq_main_gamma_ei_knee_saturation",
+        "registers": [
+          {
+            "register_id": "0x10af",
+            "kind": 1,
+            "virtual_offset": "0x22700",
+            "hardware_address": "0xf322f200",
+            "entries": 32
+          },
+          {
+            "register_id": "0x10b0",
+            "kind": 1,
+            "virtual_offset": "0x22780",
+            "hardware_address": "0xf322f280",
+            "entries": 32
+          }
+        ]
+      },
+      "knee_y_coef": {
+        "binding_record": "0x59c088",
+        "accessor": "DIQ_iq_main_gamma_ei_knee_y_coef",
+        "registers": [
+          {
+            "register_id": "0x1075",
+            "kind": 3,
+            "virtual_offset": "0x2200c",
+            "parent_id": "0x1074",
+            "shift": 0,
+            "mask": "0x3ff",
+            "field_bits": 10
+          },
+          {
+            "register_id": "0x1077",
+            "kind": 3,
+            "virtual_offset": "0x22010",
+            "parent_id": "0x1076",
+            "shift": 0,
+            "mask": "0x3ff",
+            "field_bits": 10
+          },
+          {
+            "register_id": "0x1079",
+            "kind": 3,
+            "virtual_offset": "0x22014",
+            "parent_id": "0x1078",
+            "shift": 0,
+            "mask": "0x3ff",
+            "field_bits": 10
+          }
+        ]
+      },
+      "lut_div": {
+        "binding_record": "0x59bff8",
+        "accessor": "DIQ_iq_main_gamma_ei_lut_div",
+        "registers": [
+          {
+            "register_id": "0x107d",
+            "kind": 3,
+            "virtual_offset": "0x2201c",
+            "parent_id": "0x107c",
+            "shift": 0,
+            "mask": "0xf",
+            "field_bits": 4
+          },
+          {
+            "register_id": "0x107e",
+            "kind": 3,
+            "virtual_offset": "0x2201c",
+            "parent_id": "0x107c",
+            "shift": 4,
+            "mask": "0xf0",
+            "field_bits": 4
+          },
+          {
+            "register_id": "0x107f",
+            "kind": 3,
+            "virtual_offset": "0x2201c",
+            "parent_id": "0x107c",
+            "shift": 8,
+            "mask": "0xf00",
+            "field_bits": 4
+          },
+          {
+            "register_id": "0x1080",
+            "kind": 3,
+            "virtual_offset": "0x2201c",
+            "parent_id": "0x107c",
+            "shift": 12,
+            "mask": "0xf000",
+            "field_bits": 4
+          },
+          {
+            "register_id": "0x1081",
+            "kind": 3,
+            "virtual_offset": "0x2201c",
+            "parent_id": "0x107c",
+            "shift": 16,
+            "mask": "0xf0000",
+            "field_bits": 4
+          },
+          {
+            "register_id": "0x1082",
+            "kind": 3,
+            "virtual_offset": "0x2201c",
+            "parent_id": "0x107c",
+            "shift": 20,
+            "mask": "0xf00000",
+            "field_bits": 4
+          },
+          {
+            "register_id": "0x1083",
+            "kind": 3,
+            "virtual_offset": "0x2201c",
+            "parent_id": "0x107c",
+            "shift": 24,
+            "mask": "0xf000000",
+            "field_bits": 4
+          }
+        ]
+      },
+      "lut_div_minus_scale": {
+        "binding_record": "0x59c028",
+        "accessor": "DIQ_iq_main_gamma_ei_lut_div_minus_scale",
+        "registers": [
+          {
+            "register_id": "0x1084",
+            "kind": 3,
+            "virtual_offset": "0x2201c",
+            "parent_id": "0x107c",
+            "shift": 28,
+            "mask": "0xf0000000",
+            "field_bits": 4
+          }
+        ]
+      }
+    },
+    "common": {
+      "dither_enable": {
+        "binding_record": "0x59ad70",
+        "accessor": "DIQ_iq_main_gamma_common_dither_enable",
+        "registers": [
+          {
+            "register_id": "0x1071",
+            "kind": 3,
+            "virtual_offset": "0x22004",
+            "parent_id": "0x106e",
+            "shift": 2,
+            "mask": "0x4",
+            "field_bits": 1
+          }
+        ]
+      },
+      "dither_key_b": {
+        "binding_record": "0x59ae30",
+        "accessor": "DIQ_iq_main_gamma_common_dither_key_b",
+        "registers": [
+          {
+            "register_id": "0x1095",
+            "kind": 3,
+            "virtual_offset": "0x22034",
+            "parent_id": "0x1093",
+            "shift": 16,
+            "mask": "0xffff0000",
+            "field_bits": 16
+          },
+          {
+            "register_id": "0x1094",
+            "kind": 3,
+            "virtual_offset": "0x22034",
+            "parent_id": "0x1093",
+            "shift": 0,
+            "mask": "0xffff",
+            "field_bits": 16
+          }
+        ]
+      },
+      "dither_key_g": {
+        "binding_record": "0x59ae00",
+        "accessor": "DIQ_iq_main_gamma_common_dither_key_g",
+        "registers": [
+          {
+            "register_id": "0x1092",
+            "kind": 3,
+            "virtual_offset": "0x22030",
+            "parent_id": "0x1090",
+            "shift": 16,
+            "mask": "0xffff0000",
+            "field_bits": 16
+          },
+          {
+            "register_id": "0x1091",
+            "kind": 3,
+            "virtual_offset": "0x22030",
+            "parent_id": "0x1090",
+            "shift": 0,
+            "mask": "0xffff",
+            "field_bits": 16
+          }
+        ]
+      },
+      "dither_key_r": {
+        "binding_record": "0x59add0",
+        "accessor": "DIQ_iq_main_gamma_common_dither_key_r",
+        "registers": [
+          {
+            "register_id": "0x108f",
+            "kind": 3,
+            "virtual_offset": "0x2202c",
+            "parent_id": "0x108d",
+            "shift": 16,
+            "mask": "0xffff0000",
+            "field_bits": 16
+          },
+          {
+            "register_id": "0x108e",
+            "kind": 3,
+            "virtual_offset": "0x2202c",
+            "parent_id": "0x108d",
+            "shift": 0,
+            "mask": "0xffff",
+            "field_bits": 16
+          }
+        ]
+      },
+      "dither_seed": {
+        "binding_record": "0x59ada0",
+        "accessor": "DIQ_iq_main_gamma_common_dither_seed",
+        "registers": [
+          {
+            "register_id": "0x108c",
+            "kind": 3,
+            "virtual_offset": "0x22028",
+            "parent_id": "0x108b",
+            "shift": 0,
+            "mask": "0xffffffff",
+            "field_bits": 32
+          }
+        ]
+      },
+      "enable": {
+        "binding_record": "0x59ad10",
+        "accessor": "DIQ_iq_main_gamma_common_enable",
+        "registers": [
+          {
+            "register_id": "0x106f",
+            "kind": 3,
+            "virtual_offset": "0x22004",
+            "parent_id": "0x106e",
+            "shift": 0,
+            "mask": "0x1",
+            "field_bits": 1
+          }
+        ]
+      },
+      "knee_en": {
+        "binding_record": "0x59ad40",
+        "accessor": "DIQ_iq_main_gamma_common_knee_en",
+        "registers": [
+          {
+            "register_id": "0x1070",
+            "kind": 3,
+            "virtual_offset": "0x22004",
+            "parent_id": "0x106e",
+            "shift": 1,
+            "mask": "0x2",
+            "field_bits": 1
+          }
+        ]
+      }
+    }
+  },
+  "normal_lowlight_ei_share_register_destinations": true,
+  "functions": {
+    "_Calc_GetLerpInfo": {
+      "start": "0x3b2cd0",
+      "size": 440,
+      "code_sha256": "da277e6576218dc8db60892a24ea498a852e0fbcb3d20de249dd2ce7ad0f9ecc"
+    },
+    "_Calc_SimpleLutMem": {
+      "start": "0x3b59e8",
+      "size": 372,
+      "code_sha256": "a7412782759938992d3657e3b3277ea3a2c374cc0632a71bae02cbf211c7761e"
+    },
+    "_calc_knee_data": {
+      "start": "0x3bf218",
+      "size": 1328,
+      "code_sha256": "bc90e57a3abc15fefb50ee499c5ddd1589d7b1268a48932a92f0aa26a0cbd0b3"
+    },
+    "DjiIsp_Reg_Get": {
+      "start": "0x251ab8",
+      "size": 76,
+      "code_sha256": "8d877905c74df6996f2929ce129313d5a9c924e1b61a84baf0c64f2143a2bb44"
+    },
+    "DjiIsp_Reg_GetGroupNum": {
+      "start": "0x251a10",
+      "size": 4,
+      "code_sha256": "fe0c81171110c6c2e1cfce4cb2b4b958979cb04eb6951f1c2544a011fd28611c"
+    },
+    "DjiIsp_Reg_GetLut": {
+      "start": "0x251a18",
+      "size": 76,
+      "code_sha256": "80caaddb3fc6453406ae91b2a2e8fe56f4cd092b3d665f42b1802bd99d732238"
+    },
+    "DjiIsp_Reg_GetType": {
+      "start": "0x251a08",
+      "size": 4,
+      "code_sha256": "8bcf0c80e8a5c44e0adb2fd7229df34c741840e3aabf5154cc72da363ae0703e"
+    },
+    "DjiIsp_Reg_Set": {
+      "start": "0x251a68",
+      "size": 76,
+      "code_sha256": "39787587bccff4741ab9fcfe53706381dc15eec0158fd5a9f58c2e456a5ac0de"
+    },
+    "isp_drv_reg_get_group_num": {
+      "start": "0x2771d0",
+      "size": 64,
+      "code_sha256": "95e2c0175fc60547835c7926612067c8579e63897395a966af42f3d0d7e637a5"
+    },
+    "isp_drv_reg_get_lut": {
+      "start": "0x277140",
+      "size": 116,
+      "code_sha256": "d57559bfeae1255800aa535142e03752e1721c9d5937edaa1099b73359edb731"
+    },
+    "isp_drv_reg_get_type": {
+      "start": "0x2771b8",
+      "size": 24,
+      "code_sha256": "757bf332b925a3c3a961c2b2ee1f73ba701ddeadd2640ff5e58b41927b3ece53"
+    },
+    "isp_drv_reg_get_value": {
+      "start": "0x276fa8",
+      "size": 408,
+      "code_sha256": "d69aa2a866e04beb51376d3af04a20d7cc541769e6071e1425387613bc70d69b"
+    },
+    "isp_drv_reg_set_value": {
+      "start": "0x276de0",
+      "size": 452,
+      "code_sha256": "4a70ae01dd4a92b020db5aa4a82e46b02e43774250fa4221cb8dcb55236475b6"
+    },
+    "dcam_vreg_get_vreg_pointer": {
+      "start": "0x27c7b0",
+      "size": 64,
+      "code_sha256": "7711c5664ff3b0e34323568a2a7325f70a8cc69b4631399e5954a3dfc7a97dfc"
+    },
+    "adj_calc_knee_kpx_data": {
+      "start": "0x366ca8",
+      "size": 2200,
+      "code_sha256": "7ec5eeef4f1519cd048e5c62c3674f3a9e5aa3a95162288ee3ad714c959de4e7"
+    },
+    "adj_plat_calc_knee_gain_over_isp_max": {
+      "start": "0x371588",
+      "size": 8,
+      "code_sha256": "2b59db05426e0f313d72b30f3398c65721de2562a59dc46ceeba224f98d0b876"
+    },
+    "rcam_sys_mem_addr": {
+      "start": "0x3b11b8",
+      "size": 32,
+      "code_sha256": "7bcaa366444605f4bddb09df2423bbba0648f87d8ef79f40c494f759beafbb08"
+    },
+    "DjiAdj_Calc_LutMemCopy": {
+      "start": "0x3b30b0",
+      "size": 416,
+      "code_sha256": "a0ca86eb4d6d5b1b24e5353906a6b3d50d041d99924fab2b0673ba1fb4c36d7c"
+    },
+    "rcam_adj_calc_common": {
+      "start": "0x3b3e98",
+      "size": 660,
+      "code_sha256": "077e9390c706cc2e31c74d32b192a418090de31659512a900dace445e5e8359e"
+    }
+  },
+  "lut_copy": {
+    "cases": 80,
+    "words_compared": 3368,
+    "bit_exact": true,
+    "commit_disabled_cases": 14,
+    "valid_io_widths_tested": [
+      32,
+      64,
+      128
+    ],
+    "negative_slope_bits_preserved": true,
+    "source_and_output_sentinels_checked": true,
+    "scope": "Complete original copy/get-LUT/address-resolution chain; all destinations are synthetic emulator memory."
+  },
+  "scalar_registers": {
+    "cases": 598,
+    "bit_exact": true,
+    "preserves_unrelated_bits": true,
+    "oversized_values_masked_not_saturated": true,
+    "hardware_mirror_write_enabled_and_disabled_tested": true,
+    "scope": "Complete original set/get chain; register width does not establish numeric fixed-point units."
+  },
+  "full_knee_preparation": {
+    "cases": 64,
+    "words_compared_per_memory_view": 6144,
+    "bit_exact": true,
+    "virtual_and_synthetic_hardware_views_agree": true,
+    "source_unchanged_output_guards_and_unrelated_tables_preserved": true,
+    "sole_intercepted_dependency": "libc memset",
+    "scope": "Entire _calc_knee_data and original keypoint selection, simple LUT calculation, slope calculation and copy chain; synthetic normal-selector/mode-frame keypoint bank with no interpolation axis. Other runtime branches remain untested."
+  },
+  "source_library_unchanged": true,
+  "status": "PASS_original_MAIN_gamma_register_contract"
+}

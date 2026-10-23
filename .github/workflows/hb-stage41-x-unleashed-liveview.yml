@@ -30,6 +30,16 @@ jobs:
           python3 -m py_compile hasselblad_native_audit/isp_liveview_stage41/inspect_original_liveview41.py
           python3 -m py_compile hasselblad_native_audit/isp_liveview_stage41/inspect_original_liveview_xrefs41b.py
           python3 -m py_compile hasselblad_native_audit/isp_liveview_stage41/inspect_original_sbpc_processing41c.py
+          python3 -m py_compile hasselblad_native_audit/isp_liveview_stage41/inspect_original_sbpc_labels41d.py
+          python3 hasselblad_native_audit/isp_liveview_stage41/inspect_original_sbpc_labels41d.py \
+            --self-test --output "$RUNNER_TEMP/STAGE41D_SYNTHETIC.json"
+          python3 - "$RUNNER_TEMP/STAGE41D_SYNTHETIC.json" <<'PY_D'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          assert d['status']=='PASS_synthetic' and d['checks']==10
+          assert d['vendor_firmware_loaded'] is False
+          assert d['original_CCM_stage_proven'] is False
+          PY_D
           python3 hasselblad_native_audit/isp_liveview_stage41/inspect_original_sbpc_processing41c.py \
             --self-test --output "$RUNNER_TEMP/STAGE41C_SYNTHETIC.json"
           python3 - "$RUNNER_TEMP/STAGE41C_SYNTHETIC.json" <<'PY_C'
@@ -186,6 +196,30 @@ jobs:
               'PLT_import_name_mapping_validated':d['PLT_import_name_mapping_validated'],
               'CCM_isolated_pixel_oracle':False},sort_keys=True))
           PY_C
+      - name: Inspect nearby original post-SBPC structured stage labels and references
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 hasselblad_native_audit/isp_liveview_stage41/inspect_original_sbpc_labels41d.py \
+            --firmware-root hasselblad_native_audit/firmware/extracted \
+            --output "$RUNNER_TEMP/STAGE41D_ORIGINAL_STAGE_LABELS_SAFE.json"
+          python3 - "$RUNNER_TEMP/STAGE41D_ORIGINAL_STAGE_LABELS_SAFE.json" <<'PY_D'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          assert d['status']=='PASS_pinned_original_camera_service_structured_stage_name_audit'
+          assert any(x['section']=='.rodata' for x in d['exact_label_locations'])
+          assert d['actual_runtime_hook_registration_proven'] is False
+          assert d['original_MAIN_CCM_input_output_placement_proven'] is False
+          assert d['CCM_pixel_equation_proven'] is False
+          assert d['vendor_proprietary_string_context_or_numeric_values_exported'] is False
+          assert d['private_camera_frames_or_images_exported'] is False
+          assert d['main_or_Photon_camera_saved_photo_renderer_modified'] is False
+          print(json.dumps({'status':d['status'],
+              'structured_stage_labels':len(d['stage_tokens_in_checked_string_sections']),
+              'neighbor_labels':d['structured_neighbors_of_exact_label'],
+              'relocation_references':len(d['data_relocation_references_to_literal']),
+              'CCM_equation_proven':False},sort_keys=True))
+          PY_D
       - name: Remove vendor firmware and upstream source even on error
         if: always()
         shell: bash
@@ -204,9 +238,11 @@ jobs:
             ${{ runner.temp }}/STAGE41_SYNTHETIC.json
             ${{ runner.temp }}/STAGE41B_SYNTHETIC.json
             ${{ runner.temp }}/STAGE41C_SYNTHETIC.json
+            ${{ runner.temp }}/STAGE41D_SYNTHETIC.json
             ${{ runner.temp }}/STAGE41_UPSTREAM_SYNTHETIC.json
             ${{ runner.temp }}/STAGE41_ORIGINAL_LIVEVIEW_INTERFACE_SAFE.json
             ${{ runner.temp }}/STAGE41B_ORIGINAL_SBPC_XREFS_SAFE.json
             ${{ runner.temp }}/STAGE41C_ORIGINAL_SBPC_PROCESSING_SAFE.json
+            ${{ runner.temp }}/STAGE41D_ORIGINAL_STAGE_LABELS_SAFE.json
           if-no-files-found: error
           retention-days: 14

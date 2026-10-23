@@ -164,6 +164,30 @@
                 android:textIsSelectable="true"
                 android:text="Stage32 not run. Choose a local DNG; no image modification or Hasselblad pixel render." />
 
+            <!-- Stage34: explicitly select the matching sidecar AFTER a successful
+                 Stage32 DNG pick. Hash and Camera2 metadata matched privately. -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/hasselblad_stage34_pick_sidecar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:enabled="false"
+                android:text="Stage34: Pick matching capture JSON to verify DNG white balance" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/hasselblad_stage34_copy"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:text="Copy Stage34 WB provenance report" />
+            <TextView
+                android:id="@+id/hasselblad_stage34_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textIsSelectable="true"
+                android:text="Stage34 not run. Pick the original DNG with Stage32 first." />
+
             <TextView
                 android:id="@+id/hasselblad_check_policy"
                 android:layout_width="match_parent"

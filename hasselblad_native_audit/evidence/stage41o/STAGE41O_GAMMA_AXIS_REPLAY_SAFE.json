@@ -1,0 +1,129 @@
+{
+  "schema": "hasselblad-stage41o-gamma-axis-replay-v1",
+  "source_sha256": "3dd5b37b3db18b3e6b54271e1501b4dd337e101c06cdd386a896b1547b662f66",
+  "runtime": {
+    "python": "3.12.14",
+    "numpy": "2.3.5",
+    "pyelftools": "0.33",
+    "unicorn": "2.1.4"
+  },
+  "synthetic_inputs_only": true,
+  "physical_hardware_accessed": false,
+  "rgb_pixel_equation_recovered": false,
+  "production_photo_output_changed": false,
+  "vendor_bytes_tuning_disassembly_exported": false,
+  "gamma_ev_contract": {
+    "axis_enum": 50,
+    "axis_vtable_slot": "0x5a",
+    "runtime_state_pointer_offset": "0xe8",
+    "state_value_offset": "0xcc",
+    "weight_denominator": 256,
+    "state_units_established": false,
+    "single_axis_only": true
+  },
+  "coefficient": {
+    "cases": 4343,
+    "bit_exact": true,
+    "signed32_overflow_tested": true
+  },
+  "scalar_lerp": {
+    "cases": 515,
+    "bit_exact": true
+  },
+  "vector_lerp": {
+    "cases": 126,
+    "words_compared": 4242,
+    "bit_exact": true
+  },
+  "complete_preparation": {
+    "cases": 357,
+    "table_words_compared_per_memory_view": 34272,
+    "bit_exact": true,
+    "memory_views": [
+      "virtual",
+      "emulated_hardware"
+    ],
+    "original_function_calls": {
+      "mm_get_coeff": 357,
+      "mm_mx_lerp_vec": 357,
+      "_calc_knee_data": 357,
+      "DjiIsp_Reg_GetType": 714,
+      "isp_drv_reg_get_type": 714,
+      "DjiIsp_Reg_GetLut": 2499,
+      "dcam_vreg_get_vreg_pointer": 2499,
+      "isp_drv_reg_get_lut": 2499,
+      "_Calc_GetLerpInfo": 357,
+      "_Calc_GetCoeff": 357,
+      "adj_plat_calc_knee_gain_over_isp_max": 357,
+      "DjiAdj_Calc_LutMemCopy": 1071,
+      "rcam_sys_mem_addr": 1071,
+      "adj_calc_knee_kpx_data": 357,
+      "rcam_adj_calc_common": 357,
+      "_Calc_SimpleLutMem": 357
+    },
+    "only_interception": "libc memset",
+    "memset_calls": 357,
+    "input_and_axis_unchanged": true,
+    "guards_and_unrelated_tables_unchanged": true
+  },
+  "synthetic_rounding_witnesses": [
+    {
+      "lower": 10,
+      "upper": 9,
+      "weight": 1,
+      "actual": 9
+    },
+    {
+      "lower": 0,
+      "upper": 10000000,
+      "weight": 256,
+      "actual": -6777216
+    },
+    {
+      "lower": 100,
+      "upper": 200,
+      "weight": 85,
+      "actual": 133
+    }
+  ],
+  "functions": {
+    "_Calc_GetCoeff": {
+      "start": "0x3b42a8",
+      "size": 5840,
+      "code_sha256": "6244d7ab4ffeb88a0e23183e52fced4214eed7ef556e1a576d68227c8eecdb4e"
+    },
+    "mm_get_coeff": {
+      "start": "0x2bac00",
+      "size": 160,
+      "code_sha256": "68754a8d484850dc37a03dedd36b17fa309f3f76fcdc7c2f21472400e6a192bf"
+    },
+    "mm_lerp": {
+      "start": "0x2baca0",
+      "size": 44,
+      "code_sha256": "9a4737f87587fbe4c587a24d4cd3e85d110d30d58f0367c2fde2036ee17b6c93"
+    },
+    "mm_mx_lerp_vec": {
+      "start": "0x2bb608",
+      "size": 1536,
+      "code_sha256": "e4e57b4ed815d6a4897131e5d08facc675d93b6757b9936a33dfda765b208bc0"
+    },
+    "_Calc_GetLerpInfo": {
+      "start": "0x3b2cd0",
+      "size": 440,
+      "code_sha256": "da277e6576218dc8db60892a24ea498a852e0fbcb3d20de249dd2ce7ad0f9ecc"
+    },
+    "_calc_knee_data": {
+      "start": "0x3bf218",
+      "size": 1328,
+      "code_sha256": "bc90e57a3abc15fefb50ee499c5ddd1589d7b1268a48932a92f0aa26a0cbd0b3"
+    }
+  },
+  "limits": [
+    "Synthetic normal-selector path only; real capture axis state and tuning banks not established.",
+    "Multi-axis and dependency override branches are not exercised.",
+    "Firmware 1.3.16.2 differs from the source captures firmware 1.1.6.3.",
+    "This prepares tables; RGB mixing, gain/saturation units, clipping and hardware gamma interpolation remain unresolved.",
+    "Earlier MAIN-linked positive gamma coordinate construction remains verified; this stage does not replace it.",
+    "Earlier static ordinary/enhanced still mappings have knee disabled; this replay does not prove knee active in a capture."
+  ]
+}

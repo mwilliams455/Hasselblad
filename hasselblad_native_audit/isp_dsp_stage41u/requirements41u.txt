@@ -1,0 +1,3 @@
+-r ../isp_dsp_stage41r/requirements41r.txt
+pyelftools==0.33
+dissect.extfs==3.15

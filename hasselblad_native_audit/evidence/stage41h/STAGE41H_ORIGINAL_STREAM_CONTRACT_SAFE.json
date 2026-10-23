@@ -1,0 +1,470 @@
+{
+  "actual_camera_pixels_obtained": false,
+  "configuration": {
+    "RAW_parent_and_shadow_have_different_declared_formats": true,
+    "active_configuration_or_runtime_hardware_order_proven": false,
+    "actual_runtime_frame_layout_must_be_read": true,
+    "camera_service_enum_to_running_stream_binding_proven": false,
+    "configured_label_to_SBPC_filter_link_proven": true,
+    "declared_graph": [
+      {
+        "sinks": [
+          {
+            "filter_id": "shadow_liveview_3",
+            "port_index": 0
+          },
+          {
+            "filter_id": "shadow_liveview_4",
+            "port_index": 0
+          }
+        ],
+        "source": null,
+        "stream": "liveview_rout0"
+      },
+      {
+        "sinks": [
+          {
+            "filter_id": "liveview_sbpc",
+            "port_index": 0
+          }
+        ],
+        "source": {
+          "filter_id": "shadow_liveview_4",
+          "port_index": 0
+        },
+        "stream": "liveview_raw_shadow"
+      },
+      {
+        "sinks": [
+          {
+            "filter_id": "liveview_sbpc",
+            "port_index": 1
+          }
+        ],
+        "source": null,
+        "stream": "liveview_sout1"
+      },
+      {
+        "sinks": [
+          {
+            "filter_id": "gdc_calc_liveview",
+            "port_index": 0
+          }
+        ],
+        "source": {
+          "filter_id": "liveview_sbpc",
+          "port_index": 0
+        },
+        "stream": "liveview_after_sbpc"
+      },
+      {
+        "sinks": [
+          {
+            "filter_id": "dewarp_liveview",
+            "port_index": 0
+          }
+        ],
+        "source": {
+          "filter_id": "gdc_calc_liveview",
+          "port_index": 0
+        },
+        "stream": "liveview_after_gdc_calc"
+      },
+      {
+        "sinks": [
+          {
+            "filter_id": "mctf",
+            "port_index": 0
+          }
+        ],
+        "source": {
+          "filter_id": "dewarp_liveview",
+          "port_index": 0
+        },
+        "stream": "liveview_after_gdc"
+      },
+      {
+        "sinks": [
+          {
+            "filter_id": "shadow_liveview_1",
+            "port_index": 0
+          },
+          {
+            "filter_id": "shadow_liveview_2",
+            "port_index": 0
+          }
+        ],
+        "source": {
+          "filter_id": "mctf",
+          "port_index": 0
+        },
+        "stream": "liveview_after_mctf"
+      },
+      {
+        "sinks": [
+          {
+            "filter_id": "disp_eng",
+            "port_index": 0
+          }
+        ],
+        "source": {
+          "filter_id": "shadow_liveview_1",
+          "port_index": 0
+        },
+        "stream": "liveview"
+      },
+      {
+        "sinks": [
+          {
+            "filter_id": "shadow_ml",
+            "port_index": 0
+          },
+          {
+            "filter_id": "shadow_histogram",
+            "port_index": 0
+          },
+          {
+            "filter_id": "shadow_parsing",
+            "port_index": 0
+          },
+          {
+            "filter_id": "shadow_nnpd",
+            "port_index": 0
+          },
+          {
+            "filter_id": "shadow_mee",
+            "port_index": 0
+          },
+          {
+            "filter_id": "shadow_af_dump",
+            "port_index": 0
+          }
+        ],
+        "source": null,
+        "stream": "liveview_sout2"
+      },
+      {
+        "sinks": [
+          {
+            "filter_id": "liveview_mee",
+            "port_index": 0
+          }
+        ],
+        "source": {
+          "filter_id": "shadow_mee",
+          "port_index": 0
+        },
+        "stream": "liveview_mee"
+      }
+    ],
+    "modes": [
+      {
+        "mode": "still_4x3_16bit",
+        "repeating_topology": "TPLG_IMX861BQR_LIVEVIEW_12K_11BIT_60FPS",
+        "streams": {
+          "liveview_after_sbpc": {
+            "alignment": [
+              256,
+              1
+            ],
+            "declared_format": "DUSS_PIXFMT_YUV8_SP420_YUV",
+            "default_dimensions": [
+              1600,
+              1200
+            ],
+            "variable_resolution": true
+          },
+          "liveview_raw_shadow": {
+            "alignment": [
+              256,
+              1
+            ],
+            "declared_format": "DUSS_PIXFMT_YUV8_SP420_YUV",
+            "default_dimensions": [
+              7408,
+              1482
+            ],
+            "variable_resolution": true
+          },
+          "liveview_rout0": {
+            "alignment": [
+              256,
+              1
+            ],
+            "declared_format": "DUSS_PIXFMT_RAW16_OPAQUE",
+            "default_dimensions": [
+              7408,
+              1482
+            ],
+            "physical_port": "EAGLE2_PORT_ROUT0",
+            "variable_resolution": true
+          },
+          "liveview_sout1": {
+            "alignment": [
+              256,
+              1
+            ],
+            "declared_format": "DUSS_PIXFMT_YUV8_SP420_YUV",
+            "default_dimensions": [
+              1600,
+              1200
+            ],
+            "physical_port": "EAGLE2_PORT_SOUT1",
+            "variable_resolution": true
+          },
+          "liveview_sout2": {
+            "alignment": [
+              256,
+              1
+            ],
+            "declared_format": "DUSS_PIXFMT_YUV8_SP420_YUV",
+            "default_dimensions": [
+              1280,
+              960
+            ],
+            "physical_port": "EAGLE2_PORT_SOUT2",
+            "variable_resolution": false
+          }
+        },
+        "template": "comm_still-template-01"
+      },
+      {
+        "mode": "still_4x3_14bit",
+        "repeating_topology": "TPLG_IMX861BQR_LIVEVIEW_12K_11BIT_60FPS",
+        "streams": {
+          "liveview_after_sbpc": {
+            "alignment": [
+              256,
+              1
+            ],
+            "declared_format": "DUSS_PIXFMT_YUV8_SP420_YUV",
+            "default_dimensions": [
+              1600,
+              1200
+            ],
+            "variable_resolution": true
+          },
+          "liveview_raw_shadow": {
+            "alignment": [
+              256,
+              1
+            ],
+            "declared_format": "DUSS_PIXFMT_YUV8_SP420_YUV",
+            "default_dimensions": [
+              7408,
+              1482
+            ],
+            "variable_resolution": true
+          },
+          "liveview_rout0": {
+            "alignment": [
+              256,
+              1
+            ],
+            "declared_format": "DUSS_PIXFMT_RAW16_OPAQUE",
+            "default_dimensions": [
+              7408,
+              1482
+            ],
+            "physical_port": "EAGLE2_PORT_ROUT0",
+            "variable_resolution": true
+          },
+          "liveview_sout1": {
+            "alignment": [
+              256,
+              1
+            ],
+            "declared_format": "DUSS_PIXFMT_YUV8_SP420_YUV",
+            "default_dimensions": [
+              1600,
+              1200
+            ],
+            "physical_port": "EAGLE2_PORT_SOUT1",
+            "variable_resolution": true
+          },
+          "liveview_sout2": {
+            "alignment": [
+              256,
+              1
+            ],
+            "declared_format": "DUSS_PIXFMT_YUV8_SP420_YUV",
+            "default_dimensions": [
+              1280,
+              960
+            ],
+            "physical_port": "EAGLE2_PORT_SOUT2",
+            "variable_resolution": false
+          }
+        },
+        "template": "comm_still-template-01"
+      },
+      {
+        "mode": "still_4x3_14bit_hs",
+        "repeating_topology": "TPLG_IMX861BQR_LIVEVIEW_12K_11BIT_60FPS",
+        "streams": {
+          "liveview_after_sbpc": {
+            "alignment": [
+              256,
+              1
+            ],
+            "declared_format": "DUSS_PIXFMT_YUV8_SP420_YUV",
+            "default_dimensions": [
+              1600,
+              1200
+            ],
+            "variable_resolution": true
+          },
+          "liveview_raw_shadow": {
+            "alignment": [
+              256,
+              1
+            ],
+            "declared_format": "DUSS_PIXFMT_YUV8_SP420_YUV",
+            "default_dimensions": [
+              7408,
+              1482
+            ],
+            "variable_resolution": true
+          },
+          "liveview_rout0": {
+            "alignment": [
+              256,
+              1
+            ],
+            "declared_format": "DUSS_PIXFMT_RAW16_OPAQUE",
+            "default_dimensions": [
+              7408,
+              1482
+            ],
+            "physical_port": "EAGLE2_PORT_ROUT0",
+            "variable_resolution": true
+          },
+          "liveview_sout1": {
+            "alignment": [
+              256,
+              1
+            ],
+            "declared_format": "DUSS_PIXFMT_YUV8_SP420_YUV",
+            "default_dimensions": [
+              1600,
+              1200
+            ],
+            "physical_port": "EAGLE2_PORT_SOUT1",
+            "variable_resolution": true
+          },
+          "liveview_sout2": {
+            "alignment": [
+              256,
+              1
+            ],
+            "declared_format": "DUSS_PIXFMT_YUV8_SP420_YUV",
+            "default_dimensions": [
+              1280,
+              960
+            ],
+            "physical_port": "EAGLE2_PORT_SOUT2",
+            "variable_resolution": false
+          }
+        },
+        "template": "comm_still-template-01"
+      }
+    ],
+    "module_list_is_not_execution_order": true,
+    "preview_segment": "common_recording_still_10-sub_back-data_mux0-raw_bin-still",
+    "selected_module_membership": {
+      "MAIN_3DLUT": false,
+      "MAIN_CCM": false,
+      "MAIN_HNCS": false,
+      "SUB_CC": true,
+      "SUB_DEMOSAIC": true,
+      "SUB_GAMMA": true,
+      "SUB_YCC": true
+    }
+  },
+  "isolated_MAIN_CCM_pixel_pair_proven": false,
+  "original_source": {
+    "complete_SBPC_callback_executed": false,
+    "forwarded_input_bundle_slot": 1,
+    "functions": {
+      "_liveview_sbpc_dequeue_processed_result": {
+        "library": "system/lib64/camera/plugins/libdcam_plugins_AIO.so",
+        "selected_calls": [
+          {
+            "callee": "buffer_queue_dequeue_timeout",
+            "site": "0x376d0"
+          },
+          {
+            "callee": "memcpy",
+            "site": "0x376f0"
+          }
+        ],
+        "sha256": "af767337e5ea0827980d5400481ac226e2b5b504fb64717294756fa6cfbe4a18",
+        "size": 880,
+        "start": "0x37670"
+      },
+      "_liveview_sbpc_enqueue_input_frame": {
+        "library": "system/lib64/camera/plugins/libdcam_plugins_AIO.so",
+        "selected_calls": [
+          {
+            "callee": "cam_stream_filter_eng_process_bypass_v2",
+            "site": "0x35e58"
+          },
+          {
+            "callee": "normal_liveview_sbpc_proc",
+            "site": "0x360ec"
+          },
+          {
+            "callee": "cam_stream_filter_eng_process_bypass_v2",
+            "site": "0x36130"
+          },
+          {
+            "callee": "__memcpy_chk",
+            "site": "0x361e4"
+          },
+          {
+            "callee": "__memcpy_chk",
+            "site": "0x361f8"
+          },
+          {
+            "callee": "__memcpy_chk",
+            "site": "0x36220"
+          },
+          {
+            "callee": "__memcpy_chk",
+            "site": "0x36234"
+          },
+          {
+            "callee": "buffer_queue_enqueue",
+            "site": "0x36240"
+          }
+        ],
+        "sha256": "89ad6e9fbbd18059f8bf71645ef2021ab3824abe31dd54ec94494d9c39c64a88",
+        "size": 7356,
+        "start": "0x359b0"
+      },
+      "cam_stream_filter_eng_process_bypass_v2": {
+        "library": "system/lib64/libdcam_frwk.so",
+        "selected_calls": [],
+        "sha256": "252ebfbf1eaee1d56b03b4cfd912bbfc793e481aab9d927308d22bfacc5eb48b",
+        "size": 2544,
+        "start": "0x208d90"
+      }
+    },
+    "output_bundle_pointer_offset": 216,
+    "output_descriptor_parent_pointer_offset": 912,
+    "output_dimensions_overwritten_from_input": true,
+    "output_format_overwritten_from_input": true,
+    "shared_memory_handle_offset": 32
+  },
+  "phone_app_or_main_changed": false,
+  "schema": "hasselblad-stage41h-stream-contract-v1",
+  "source_sha256": {
+    "system/etc/imx861bqr_hb722.conf": "4d1db41c60d3eac1f989110de15335c91798bcca972e475558365d1989e49f6e",
+    "system/etc/imx861bqr_hb722.sp": "590da76edce8bc81ba78c6d6ffa4effca0908926f44a31b2bf419a1e3d61810a",
+    "system/etc/iq/hb722_config.json": "2a4fd76e5299937a6607da8454add17e9746347c54adcf5da1360799de634286",
+    "system/lib64/camera/plugins/libdcam_plugins_AIO.so": "1924f9aca6d5f4f92ff482f6a864579d303a890fcef3427053f35d9b00bd4135",
+    "system/lib64/libdcam_frwk.so": "5329c95d3c36775fbf1a93bbf1100a766b08bcf4504a2e3a6292bd3fcdb7bf88"
+  },
+  "status": "PASS_original_stream_contract",
+  "vendor_bytes_disassembly_or_tuning_values_exported": false
+}

@@ -34,3 +34,13 @@ python3 hasselblad_native_audit/isp_main_stage39/inspect_ccm_component_routes39.
 - **Not proven**: CCM-input and CCM-output samples, pixel-bit arithmetic and rounding, six-coefficient Q format, channel order or pixel group selection, MAIN gamma/LUT pixel domain, colorimetric faithfulness/HNCS.
 
 The signed phone-tested Stage36 `27190` is unchanged. The recovery branch is independent of production `main`, which must remain `929f523aa02ae5b224be39b9c36cce5975691a10` unless the user approves a merge.
+
+## 39B — classify the exact non-call references (separate original CI required)
+
+Stage39A found **five** non-call relocations to named CCM functions and no CCM-named
+frame/pixel/DMA helpers among 20 audited original functions. Stage39B adds the
+actual source-section names and section offsets of those exact relocation sites,
+plus whether the site lies in a named ELF `STT_OBJECT`. This differentiates a
+relative register-configuration function pointer from a proven pixel-readback
+interface. It does **not** copy table values, disassembly, or vendor bytes. A
+function pointer alone never establishes a callable image-pixel sample hook.

@@ -20,6 +20,7 @@ LIMIT_BYTES=16384
 LIMIT_FUNCTIONS=160
 LIMIT_REFS=36
 REGEX_NAME=re.compile(r'^[A-Za-z_][A-Za-z_0-9.$]{0,119}$')
+REGEX_SECTION=re.compile(r'^[.A-Za-z_][.A-Za-z_0-9.$]{0,119}$')
 R_AARCH64_CALL26=283
 R_AARCH64_JUMP26=282
 R_AARCH64_ABS64=257
@@ -53,6 +54,10 @@ def api_signal(name:str):
 
 def safe_name(s:str):
     return s if isinstance(s,str) and REGEX_NAME.fullmatch(s) else 'redacted_invalid_symbol'
+
+
+def safe_section(s:str):
+    return s if isinstance(s,str) and REGEX_SECTION.fullmatch(s) else 'redacted_invalid_section'
 
 
 def collect(elf):
@@ -93,6 +98,7 @@ def analyze(elf, tab, syms, spans, by_target):
     must(len(targets)<=LIMIT_FUNCTIONS,'unexpected_ccm_function_population')
     mod=Counter(); bindings=defaultdict(list); direct=defaultdict(Counter); other_section_refs=Counter();
     target_keys={(a['section'],a['offset']):a['name'] for a in targets.values()}
+    all_noncall=[]
     reloc_sites=set()
     tex=elf.get_section_index('.text')
     must(tex is not None,'original_text_missing')
@@ -111,11 +117,19 @@ def analyze(elf, tab, syms, spans, by_target):
             else:
                 # Distinguish table pointer from code literal relocation.
                 containing=owner(spans,secidx,at,'STT_OBJECT') or 'unresolved_object'
+                src_section=safe_section(elf.get_section(secidx).name)
                 kind='non_text_pointer' if secidx!=tex else 'text_other_relocation'
                 mod[kind]+=1
-                bindings[name].append({'from_section':safe_name(elf.get_section(secidx).name),
-                    'owner':safe_name(containing),'relocation_kind':typ,
-                    'role':'candidate_function_pointer_not_verified_executable_callback'})
+                desc={'from_section':src_section,
+                    'from_offset':hex(at),
+                    'target_function':safe_name(name),
+                    'owner':safe_name(containing),
+                    'owner_is_original_object_extent':containing!='unresolved_object',
+                    'relocation_kind':typ,
+                    'is_known_direct_executable_call':False,
+                    'role':'source-side relocation, NOT proven camera pixel callback'}
+                bindings[name].append(desc)
+                all_noncall.append(desc)
     # Scan only original CCM functions for direct local callsites and memory ops.
     cs=Cs(CS_ARCH_ARM64,CS_MODE_LITTLE_ENDIAN);cs.detail=True
     section=elf.get_section(tex);buf=section.data()
@@ -159,6 +173,7 @@ def analyze(elf, tab, syms, spans, by_target):
         'status':'PASS_exact_original_component_relocation_inventory',
         'firmware':'X2D II 100C 1.3.16.2', 'original_driver_sha256':DRIVER_SHA,
         'component_function_count':len(targets),
+        'all_noncall_references':sorted(all_noncall,key=lambda x:(x['from_section'],x['from_offset'],x['target_function'])),
         'component_functions':routines,
         'selected_function_references':details,
         'all_ccm_noncall_data_pointer_references':sum(len(v) for v in bindings.values()),
@@ -189,9 +204,12 @@ def synthetic():
     assert not api_signal('ccm_set_fmt')
     assert safe_name('../secret')=='redacted_invalid_symbol'
     assert R_AARCH64_CALL26==283 and R_AARCH64_ABS64==257
+    assert safe_section('.rodata')=='.rodata'
+    assert safe_section('.rela.text')=='.rela.text'
+    assert safe_section('../secret')=='redacted_invalid_section'
     assert LIMIT_REFS<=36
     return {'schema':'hasselblad-stage39-synthetic-v1','status':'PASS_synthetic',
-            'checks':14,'original_firmware_used':False,
+            'checks':17,'original_firmware_used':False,
             'pixel_oracle_proven':False,'photo_renderer_modified':False}
 
 

@@ -34,7 +34,7 @@ jobs:
           python3 - "$RUNNER_TEMP/STAGE39_SYNTHETIC.json" <<'PY'
           import json,sys
           d=json.load(open(sys.argv[1]))
-          assert d['status']=='PASS_synthetic' and d['checks']==14
+          assert d['status']=='PASS_synthetic' and d['checks']==17
           assert d['original_firmware_used'] is False
           assert d['pixel_oracle_proven'] is False
           assert d['photo_renderer_modified'] is False
@@ -83,6 +83,9 @@ jobs:
           assert d['original_vendor_function_bytes_or_calibration_exported'] is False
           assert d['photon_saved_photographs_or_main_modified'] is False
           assert d['selected_function_references']['ccm_probe']['defined'] is True
+          assert isinstance(d['all_noncall_references'],list)
+          assert all(x['is_known_direct_executable_call'] is False for x in d['all_noncall_references'])
+          assert all(x['from_section']!='redacted_invalid_section' for x in d['all_noncall_references'])
           for k,v in d['component_functions'].items():
             assert v.get('buffer_or_pixel_math_proven') is False or v.get('analyzed') is False
           print(json.dumps({'status':d['status'],
@@ -90,6 +93,7 @@ jobs:
                 'callback_references':d['all_ccm_noncall_data_pointer_references'],
                 'named_buffer_candidates':d['possible_buffer_related_ccm_names'],
                 'candidate_callbacks':{k:v['noncall_relocation_count'] for k,v in d['selected_function_references'].items()},
+                'noncall_relocation_sources':d['all_noncall_references'],
                 'pixel_oracle_proven':False},sort_keys=True))
           PY
       - name: Delete original vendor firmware even on failure

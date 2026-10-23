@@ -1,0 +1,235 @@
+name: Hasselblad Stage34 DNG and capture sidecar WB provenance signed APK
+
+"on":
+  push:
+    branches:
+      - recovery/awb-rebuild-20261021
+    paths:
+      - 'hasselblad_native_audit/isp_android_stage34/**'
+      - 'HasselbladPhoton/app/src/main/java/com/particlesdevs/photoncamera/hasselblad/HasselbladNeutralCompare34.java'
+      - 'HasselbladPhoton/app/src/main/java/com/particlesdevs/photoncamera/hasselblad/HasselbladDngWbProvenance34.java'
+      - 'HasselbladPhoton/app/src/main/java/com/particlesdevs/photoncamera/hasselblad/HasselbladDevelopmentActivity.java'
+      - 'HasselbladPhoton/app/src/main/res/layout/activity_hasselblad_development.xml'
+      - 'HasselbladPhoton/app/build.gradle'
+      - 'HasselbladPhoton/app/version.properties'
+      - '.github/workflows/hb-photon-stage34-dng-wb-provenance.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  host-and-android:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 55
+    steps:
+      - name: Read-only checkout of Stage34 recovery branch
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Protect source capture, ISP and JPEG renderer
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -z "$(git diff --name-only 6c8c687609cf92f2ca3b0256728b5b2000d3ec1b HEAD -- \
+            HasselbladPhoton/app/src/main/java/com/particlesdevs/photoncamera/capture \
+            HasselbladPhoton/app/src/main/java/com/particlesdevs/photoncamera/processing \
+            HasselbladPhoton/app/src/main/assets/shaders \
+            HasselbladPhoton/app/src/main/cpp/hasselblad/hb_colour_reference_jni.c)"
+          ! grep -Eq 'HB24_MAIN_HYPOTHESIS|hb21_sample_candidate' \
+            HasselbladPhoton/app/src/main/cpp/hasselblad/hb_colour_reference_jni.c
+          test "$(grep -c 'versionName .*0.1-hb-wb34' HasselbladPhoton/app/build.gradle)" -eq 1
+          grep -Fx 'VERSION_BUILD=27189' HasselbladPhoton/app/version.properties
+          grep -Fx 'VERSION_NAME=0.1-hb-wb34' HasselbladPhoton/app/version.properties
+      - name: Synthetic original DNG structure and site-correction regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          a=HasselbladPhoton/app
+          r=hasselblad_native_audit
+          mkdir -p "$RUNNER_TEMP/stage34/classes" "$RUNNER_TEMP/stage34/fixtures"
+          python3 "$r/isp_android_stage32/tests/make_stage32_dng_fixtures.py" \
+            --out "$RUNNER_TEMP/stage34/fixtures"
+          javac --release 17 -d "$RUNNER_TEMP/stage34/classes" \
+            "$a/src/main/java/com/particlesdevs/photoncamera/hasselblad/HasselbladDngTileReader.java" \
+            "$r/isp_android_stage32/tests/Stage32DngTileSmoke.java"
+          java -cp "$RUNNER_TEMP/stage34/classes" \
+            Stage32DngTileSmoke "$RUNNER_TEMP/stage34/fixtures" \
+            | tee "$RUNNER_TEMP/stage34/STAGE32_HOST_DNG_TILE.json"
+          python3 - "$RUNNER_TEMP/stage34/STAGE32_HOST_DNG_TILE.json" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          assert d['status']=='PASS' and d['checks']>=25
+          assert d['original_images_used'] is False
+          assert d['hncs_pixel_equivalence_proven'] is False
+          PY
+      - name: Stage34 exact neutral-source classifier and matrix regression (synthetic)
+        shell: bash
+        run: |
+          set -euo pipefail
+          a=HasselbladPhoton/app
+          r=hasselblad_native_audit
+          javac --release 17 -d "$RUNNER_TEMP/stage34/classes" \
+            "$a/src/main/java/com/particlesdevs/photoncamera/hasselblad/HasselbladNeutralCompare34.java" \
+            "$r/isp_android_stage34/tests/Stage34NeutralSmoke.java"
+          java -cp "$RUNNER_TEMP/stage34/classes" \
+            com.particlesdevs.photoncamera.hasselblad.Stage34NeutralSmoke \
+            | tee "$RUNNER_TEMP/stage34/STAGE34_NEUTRAL_CLASSIFIER_SYNTHETIC.json"
+          python3 - "$RUNNER_TEMP/stage34/STAGE34_NEUTRAL_CLASSIFIER_SYNTHETIC.json" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          assert d['status']=='PASS' and d['checks']==32 and d['input_is_synthetic'] is True
+          assert d['real_DNG_metadata_verified'] is False
+          assert d['saved_photo_renderer_unchanged'] is True
+          assert d['HNCS_equivalence_proven'] is False
+          PY
+      - name: Confirm Stage33 physical sensor and DNG file binding regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover \
+            -s hasselblad_native_audit/isp_android_stage33/tests \
+            -p test_capture_binding33.py -v
+
+      - name: Compile genuine Stage26 JNI bridge and exercise synthetic DNG tiles end-to-end
+        shell: bash
+        run: |
+          set -euo pipefail
+          a=HasselbladPhoton/app
+          r=hasselblad_native_audit
+          javac --release 17 -cp "$RUNNER_TEMP/stage34/classes" \
+            -d "$RUNNER_TEMP/stage34/classes" \
+            "$a/src/main/java/com/particlesdevs/photoncamera/hasselblad/HasselbladColourReferenceCheck.java" \
+            "$r/isp_android_stage26/tests/Stage26BridgeSmoke.java" \
+            "$r/isp_android_stage32/tests/Stage32NativeDngSmoke.java"
+          mkdir -p "$RUNNER_TEMP/stage34/lib"
+          cc -std=c11 -O2 -Wall -Wextra -Werror -fPIC -ffp-contract=off -shared \
+            -I"$JAVA_HOME/include" -I"$JAVA_HOME/include/linux" \
+            -I"$r/isp_dng_stage18/src" -I"$r/isp_colour_stage19/src" \
+            -I"$r/isp_main_stage21/src" -I"$r/isp_colour_stage24/src" \
+            "$a/src/main/cpp/hasselblad/hb_colour_reference_jni.c" \
+            "$r/isp_colour_stage24/src/hb24_renderer.c" \
+            "$r/isp_dng_stage18/src/hb_dng_pcs_bridge.c" \
+            "$r/isp_colour_stage19/src/hb_colour_stage19.c" \
+            "$r/isp_main_stage21/src/hb_main_candidate21.c" \
+            -Wl,--no-undefined -lm \
+            -o "$RUNNER_TEMP/stage34/lib/libhasselblad_colour_reference_jni.so"
+          java -Djava.library.path="$RUNNER_TEMP/stage34/lib" \
+            -cp "$RUNNER_TEMP/stage34/classes" Stage26BridgeSmoke \
+            | tee "$RUNNER_TEMP/stage34/STAGE26_NATIVE_BRIDGE_REGRESSION.json"
+          java -Djava.library.path="$RUNNER_TEMP/stage34/lib" \
+            -cp "$RUNNER_TEMP/stage34/classes" \
+            com.particlesdevs.photoncamera.hasselblad.Stage32NativeDngSmoke \
+            "$RUNNER_TEMP/stage34/fixtures" \
+            | tee "$RUNNER_TEMP/stage34/STAGE32_SYNTHETIC_DNG_NATIVE_PCS.json"
+          python3 - "$RUNNER_TEMP/stage34/STAGE32_SYNTHETIC_DNG_NATIVE_PCS.json" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          assert d['status']=='PASS' and d['tile_pixels']==1024
+          assert d['HNCS_pixel_equivalence_proven'] is False
+          assert d['phone_photo_output_modified'] is False
+          PY
+      - name: Verify unchanged Stage24 mathematical reference
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m pip install --disable-pip-version-check numpy pillow tifffile opencv-python-headless
+          python3 hasselblad_native_audit/isp_colour_stage24/tests/test_renderer24.py \
+            --compiler gcc --output "$RUNNER_TEMP/stage34/STAGE24_NATIVE_GCC.json"
+      - name: Install pinned Android SDK, CMake and NDK
+        shell: bash
+        run: |
+          set -euo pipefail
+          sdk="${ANDROID_HOME:-/usr/local/lib/android/sdk}"
+          echo "ANDROID_HOME=$sdk" >> "$GITHUB_ENV"
+          echo "$sdk/cmdline-tools/latest/bin" >> "$GITHUB_PATH"
+          yes | "$sdk/cmdline-tools/latest/bin/sdkmanager" --licenses >/dev/null || true
+          "$sdk/cmdline-tools/latest/bin/sdkmanager" --install \
+            'platforms;android-36' 'build-tools;35.0.0' \
+            'cmake;3.22.1' 'ndk;27.0.12077973' >/dev/null
+      - name: Build same-signed Stage32 version 27189 APK
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd HasselbladPhoton
+          chmod +x gradlew
+          ./gradlew --no-daemon --console=plain :app:assembleDebug
+      - name: Verify signer, app ID, version, native library and rollback boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          dest="$RUNNER_TEMP/stage34/apk"
+          mkdir -p "$dest"
+          apk="$(find HasselbladPhoton/app/build/outputs/apk -type f -name '*debug.apk' -print -quit)"
+          test -s "$apk"
+          "$ANDROID_HOME/build-tools/35.0.0/apksigner" verify --verbose --print-certs "$apk" > "$dest/signature.txt"
+          grep -Fi '255cb09eaddd26a9cc680786e4985372cf24d0e54bb120fc44d48f3273ff3956' "$dest/signature.txt"
+          "$ANDROID_HOME/build-tools/35.0.0/aapt" dump badging "$apk" > "$dest/badging.txt"
+          grep -F "name='com.mwilliams.hasselbladphoton'" "$dest/badging.txt"
+          grep -F "versionCode='27189'" "$dest/badging.txt"
+          grep -F "versionName='0.1-hb-wb34'" "$dest/badging.txt"
+          python3 - "$apk" "$dest" <<'PY'
+          import hashlib,json,pathlib,subprocess,sys,zipfile,re
+          apk,out=pathlib.Path(sys.argv[1]),pathlib.Path(sys.argv[2])
+          libname='lib/arm64-v8a/libhasselblad_colour_reference_jni.so'
+          with zipfile.ZipFile(apk) as z:
+              names=set(z.namelist())
+              assert libname in names,'Missing preserved Stage26 native reference'
+              assert any(x.startswith('classes') and x.endswith('.dex') for x in names)
+              lib=out/'native-stage34.so';lib.write_bytes(z.read(libname))
+          elf=subprocess.check_output(['readelf','-lW',str(lib)],text=True)
+          aligns=[int(line.split()[-1],16) for line in elf.splitlines()
+                  if re.match(r'\s*LOAD\s+',line)]
+          assert aligns and all(x>=16384 for x in aligns),aligns
+          lib.unlink()
+          report={
+              'schema':'hasselblad-stage34-signed-DNG-WB-provenance-apk-v1',
+              'status':'PASS_BUILD_ONLY',
+              'source_commit':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),
+              'application_id':'com.mwilliams.hasselbladphoton',
+              'version_code':27189,'version_name':'0.1-hb-wb34',
+              'same_signing_identity_as_stage26':True,
+              'arm64_native_bridge_present':True,
+              'native_load_segment_alignment_bytes':aligns,
+              'user_selected_dng_readonly':True,
+              'capture_sidecar_explicit_selection_readonly':True,
+              'DNG_AsShotNeutral_independent_comparison_available':True,
+              'original_camera2_and_photon_effective_profile_checked_only_if_hash_bound':True,
+              'host_scalar_neutral_checks':32,
+              'raw_tile_pixels':1024,
+              'real_phone_dng_tested':False,
+              'saved_photo_renderer_still_photon':True,
+              'hncs_pixel_equivalence_proven':False,
+              'genuine_eagle2_ccm_gamma_lut_proven':False,
+              'original_photo_or_firmware_upload':False,
+              'apk_sha256':hashlib.sha256(apk.read_bytes()).hexdigest(),
+              'apk_bytes':apk.stat().st_size}
+          (out/'STAGE34_APK_VERIFICATION.json').write_text(json.dumps(report,indent=2)+'\n')
+          print(json.dumps(report,sort_keys=True))
+          PY
+          cp "$apk" "$dest/HasselbladPhoton-Stage34-27189-debug.apk"
+      - name: Publish signed WB provenance upgrade with synthetic metadata only
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HasselbladPhoton-Stage34-27189
+          path: |
+            ${{ runner.temp }}/stage34/apk/HasselbladPhoton-Stage34-27189-debug.apk
+            ${{ runner.temp }}/stage34/apk/STAGE34_APK_VERIFICATION.json
+            ${{ runner.temp }}/stage34/apk/signature.txt
+            ${{ runner.temp }}/stage34/apk/badging.txt
+            ${{ runner.temp }}/stage34/STAGE32_HOST_DNG_TILE.json
+            ${{ runner.temp }}/stage34/STAGE34_NEUTRAL_CLASSIFIER_SYNTHETIC.json
+            ${{ runner.temp }}/stage34/STAGE26_NATIVE_BRIDGE_REGRESSION.json
+            ${{ runner.temp }}/stage34/STAGE32_SYNTHETIC_DNG_NATIVE_PCS.json
+            ${{ runner.temp }}/stage34/STAGE24_NATIVE_GCC.json
+          if-no-files-found: error
+          retention-days: 14

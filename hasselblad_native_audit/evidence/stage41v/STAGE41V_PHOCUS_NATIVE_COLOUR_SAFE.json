@@ -1,0 +1,897 @@
+{
+  "schema": "hasselblad-stage41v-phocus-native-colour-discovery-v1",
+  "apk_sha256": "5ee52bbb2b7a3fa708628ba251b409a551ae099697668427cf54b523328ccf68",
+  "apk_bytes": 183221046,
+  "zip_entries": 1580,
+  "all_zip_crcs_pass": true,
+  "apk_metadata": {
+    "package": "com.hasselblad.phocus2",
+    "version_name": "1.1.0",
+    "version_code": "53",
+    "manifest_min_sdk": "29",
+    "manifest_target_sdk": "36",
+    "application_class": "com.AppGuard.AppGuard.XGYKK",
+    "signature_schemes_present": {
+      "v1": true,
+      "v2": true,
+      "v3": true
+    },
+    "certificate_sha256": [
+      "4bd427ba30527254192f81031c5d14c11df1fbc9be272286fab52dd2d59df738"
+    ],
+    "signature_cryptographically_verified": false,
+    "signer_independently_matched_to_vendor": false,
+    "visible_dex_classes": 9,
+    "raw_util_class_visible_in_dex": false
+  },
+  "native_libraries": [
+    {
+      "path": "lib/arm64-v8a/libBugly_Native.so",
+      "bytes": 195200,
+      "sha256": "7670af0602f587344706bc62b79acce45c88455d5637e0b67715d1786d5b3ca0"
+    },
+    {
+      "path": "lib/arm64-v8a/libQnnHtp.so",
+      "bytes": 2433176,
+      "sha256": "9a28fce305d802c3e84451e76642b769421d18f804b40d8e5607b5c653946b42"
+    },
+    {
+      "path": "lib/arm64-v8a/libQnnHtpPrepare.so",
+      "bytes": 69808576,
+      "sha256": "4a9bbf6631991e9bc14f0a0bb35fc20592be1f00fab3eb5d04cfadcd83070188"
+    },
+    {
+      "path": "lib/arm64-v8a/libQnnHtpV75Stub.so",
+      "bytes": 536976,
+      "sha256": "d10b3d9f27ea9483d14ee54bbdc1be658fd24b5efa831d84f05507a9b8ef1977"
+    },
+    {
+      "path": "lib/arm64-v8a/libQnnHtpV79Stub.so",
+      "bytes": 536976,
+      "sha256": "0ab89edde918bb20765b2889273020c6dcb16d8ce1bbad5b87c67f880a1ece94"
+    },
+    {
+      "path": "lib/arm64-v8a/libQnnHtpV81Stub.so",
+      "bytes": 594080,
+      "sha256": "c42426ba0a0cb4157dc17b6121dea5155091e09aaa11c09ff505d5035328aa3c"
+    },
+    {
+      "path": "lib/arm64-v8a/libQnnSystem.so",
+      "bytes": 2445944,
+      "sha256": "ff6929e1b3c1e3a7017b75d08bc357f0a28c79dc4f2748d367a12f79ff6c83b8"
+    },
+    {
+      "path": "lib/arm64-v8a/libandroidx.graphics.path.so",
+      "bytes": 10096,
+      "sha256": "41e9a793c43a0f4fddb19e33f346bace464f30f888ba7b9eaf96294ea115bfb6"
+    },
+    {
+      "path": "lib/arm64-v8a/libc++_shared.so",
+      "bytes": 1292896,
+      "sha256": "92ee8da641b969254cc8723f64aa115d36c8ffa87115e38bc9cb89e3eefee839"
+    },
+    {
+      "path": "lib/arm64-v8a/libclang_rt.asan-aarch64-android.so",
+      "bytes": 1041832,
+      "sha256": "03e69c94d80a2dd4c9b797fdfa3a7330f360b3911dd6a24630fee9ca8331fd36"
+    },
+    {
+      "path": "lib/arm64-v8a/libcrosssdk.so",
+      "bytes": 82045176,
+      "sha256": "d757237554529f8ab485f88f2c5e5399fbc8d56035c79b8e057b41a40fd055e4"
+    },
+    {
+      "path": "lib/arm64-v8a/libdInfer.so",
+      "bytes": 8395080,
+      "sha256": "f54e482039abd8b27195326c56d6f86535cfa5d2c8e47a080e9c0b35e159dcff"
+    },
+    {
+      "path": "lib/arm64-v8a/libdMNN.so",
+      "bytes": 3174016,
+      "sha256": "97fe9f02496a5b2b707aafc98171d298ff53ddee01d56dc8a118f0fc4360a402"
+    },
+    {
+      "path": "lib/arm64-v8a/libdatastore_shared_counter.so",
+      "bytes": 7112,
+      "sha256": "d3e48717c9aa147e0ab21063ba0e8e0211cabf8bf40b222640829519edbf58e1"
+    },
+    {
+      "path": "lib/arm64-v8a/libde265.so",
+      "bytes": 1230432,
+      "sha256": "9d28b40364da6cc2147e94806304149d1a61490ed28c4e506004a3829021c75d"
+    },
+    {
+      "path": "lib/arm64-v8a/libgraphics-core.so",
+      "bytes": 212112,
+      "sha256": "d16e179a7f6217591e8253627ef87ed4e459beabd075e0f00c1dce7b61f50f13"
+    },
+    {
+      "path": "lib/arm64-v8a/libhash.so",
+      "bytes": 374552,
+      "sha256": "a9388287d1bb7b471a171e7b83e1c5b69d3bbd8ecdcb808462789e3f62abf25d"
+    },
+    {
+      "path": "lib/arm64-v8a/libheif.so",
+      "bytes": 1385560,
+      "sha256": "fec03e21e232e6322c47d0402d829287d30dfb100dfe33801adcecbc66f0959f"
+    },
+    {
+      "path": "lib/arm64-v8a/libheif_jni.so",
+      "bytes": 400952,
+      "sha256": "4ea122a808ea45d7d1dab9ec7c065f0162e1e216d129e8f9a6999d81914a53a8"
+    },
+    {
+      "path": "lib/arm64-v8a/libjpeg.so",
+      "bytes": 608680,
+      "sha256": "5d991173154a24af14c0092cb3635cf3837f1615c0026139e5f0827fd0acb4d6"
+    },
+    {
+      "path": "lib/arm64-v8a/libmarsxlog.so",
+      "bytes": 304448,
+      "sha256": "696014831a445b385ba1bc02625cbf470d1eb564f8c3b797f4c98dfce699d34d"
+    },
+    {
+      "path": "lib/arm64-v8a/libmmkv.so",
+      "bytes": 716448,
+      "sha256": "41febac870214b3ae32b5ce7f3ca82d1cb43ff3960112c3e239eb32376c0353d"
+    },
+    {
+      "path": "lib/arm64-v8a/libnative_hdr_jni.so",
+      "bytes": 4768,
+      "sha256": "736b47121dcb788d18a41b7f8a07371a2f689fb06a2f10d7e8e46aebb41b4a2a"
+    },
+    {
+      "path": "lib/arm64-v8a/libntp_client.so",
+      "bytes": 5128,
+      "sha256": "56d850bd62ea1fdc2394a6485b003a64c8e3c2edb3e876a002bfda237238241e"
+    },
+    {
+      "path": "lib/arm64-v8a/libuhdr.so",
+      "bytes": 1820168,
+      "sha256": "58b2e2b176cbd3e5df5ababc99b6cc41089f30707410bb5a14952f7c275b1996"
+    },
+    {
+      "path": "lib/arm64-v8a/libwaes.so",
+      "bytes": 259760,
+      "sha256": "3c927bddd80317b15cd568e9a8d4a225d490eb9fdfb70f5c86aab1e967a7b85d"
+    },
+    {
+      "path": "lib/arm64-v8a/libAppGuard.so",
+      "bytes": 1136202,
+      "sha256": "34ef61fa5199a4ea9cb0d117b893fd07b23263ebba61fa36f18fd09c8497ad57"
+    },
+    {
+      "path": "lib/arm64-v8a/libappsec.so",
+      "bytes": 1248317,
+      "sha256": "7f0ed773bf84b1e5daf31fb8daed669da347629579a56a0fcc15bed011944053"
+    }
+  ],
+  "asset_groups": {
+    "assets/Colormaps/": {
+      "count": 26,
+      "bytes": 48363808
+    },
+    "assets/GMaps/": {
+      "count": 59,
+      "bytes": 19677232
+    }
+  },
+  "crosssdk_sha256": "d757237554529f8ab485f88f2c5e5399fbc8d56035c79b8e057b41a40fd055e4",
+  "crosssdk_bytes": 82045176,
+  "arm64_native_colour_code_readable": true,
+  "selected_functions": [
+    {
+      "name": "Java_com_hasselblad_crosssdk_utils_RawUtil_getRawBitmapByRect",
+      "address": "0x3285394",
+      "bytes": 1652,
+      "sha256": "e45f8ee89cc29fcfd631ef661f6483ba98a3ecf03254da32d4cbc4d993434add",
+      "direct_plt_edges": [
+        {
+          "callsite": "0x32853e8",
+          "instruction": "bl",
+          "plt_address": "0x3797180",
+          "callee": "_ZN14ScopedTraceLogC2EPKcS1_z"
+        },
+        {
+          "callsite": "0x32855b4",
+          "instruction": "bl",
+          "plt_address": "0x37951b0",
+          "callee": "access"
+        },
+        {
+          "callsite": "0x32855bc",
+          "instruction": "bl",
+          "plt_address": "0x3796d90",
+          "callee": "__errno"
+        },
+        {
+          "callsite": "0x3285658",
+          "instruction": "bl",
+          "plt_address": "0x3797190",
+          "callee": "_ZN14ScopedTraceLogD2Ev"
+        },
+        {
+          "callsite": "0x32856bc",
+          "instruction": "bl",
+          "plt_address": "0x3794bf0",
+          "callee": "_ZN6CXRectC1Eiiii"
+        },
+        {
+          "callsite": "0x3285708",
+          "instruction": "bl",
+          "plt_address": "0x3795190",
+          "callee": "_Z30getSRGBDataFromFullSizeProcessPKc6CXRectfRiS2_NSt6__ndk110shared_ptrI9CProgressEEb"
+        },
+        {
+          "callsite": "0x3285714",
+          "instruction": "bl",
+          "plt_address": "0x3794c20",
+          "callee": "_ZN6CXRectD1Ev"
+        },
+        {
+          "callsite": "0x3285834",
+          "instruction": "bl",
+          "plt_address": "0x3794e80",
+          "callee": "_ZN7_JNIEnv22CallStaticObjectMethodEP7_jclassP10_jmethodIDz"
+        },
+        {
+          "callsite": "0x3285848",
+          "instruction": "bl",
+          "plt_address": "0x3794e90",
+          "callee": "AndroidBitmap_lockPixels"
+        },
+        {
+          "callsite": "0x3285860",
+          "instruction": "bl",
+          "plt_address": "0x3795200",
+          "callee": "memcpy"
+        },
+        {
+          "callsite": "0x328586c",
+          "instruction": "bl",
+          "plt_address": "0x3794ea0",
+          "callee": "AndroidBitmap_unlockPixels"
+        },
+        {
+          "callsite": "0x3285874",
+          "instruction": "bl",
+          "plt_address": "0x3795140",
+          "callee": "free"
+        },
+        {
+          "callsite": "0x3285878",
+          "instruction": "bl",
+          "plt_address": "0x37971d0",
+          "callee": "_ZTH14g_outputBuffer"
+        },
+        {
+          "callsite": "0x32858a8",
+          "instruction": "bl",
+          "plt_address": "0x37971e0",
+          "callee": "_ZTH13g_imageBuffer"
+        },
+        {
+          "callsite": "0x3285944",
+          "instruction": "bl",
+          "plt_address": "0x3794c20",
+          "callee": "_ZN6CXRectD1Ev"
+        },
+        {
+          "callsite": "0x328594c",
+          "instruction": "bl",
+          "plt_address": "0x3797190",
+          "callee": "_ZN14ScopedTraceLogD2Ev"
+        },
+        {
+          "callsite": "0x3285994",
+          "instruction": "bl",
+          "plt_address": "0x3794c20",
+          "callee": "_ZN6CXRectD1Ev"
+        },
+        {
+          "callsite": "0x32859cc",
+          "instruction": "bl",
+          "plt_address": "0x3794c20",
+          "callee": "_ZN6CXRectD1Ev"
+        },
+        {
+          "callsite": "0x32859e4",
+          "instruction": "bl",
+          "plt_address": "0x3797190",
+          "callee": "_ZN14ScopedTraceLogD2Ev"
+        },
+        {
+          "callsite": "0x3285a04",
+          "instruction": "bl",
+          "plt_address": "0x3794aa0",
+          "callee": "__stack_chk_fail"
+        }
+      ]
+    },
+    {
+      "name": "_ZN19CColorCorrectFilter15FilterResultGpuER19CGpuPipelineManager6CXRectS2_",
+      "address": "0x3325e6c",
+      "bytes": 1668,
+      "sha256": "e68190d327461fc6b5024551de4999375ab9b39522384dda039ae6f21917332e",
+      "direct_plt_edges": [
+        {
+          "callsite": "0x3325edc",
+          "instruction": "bl",
+          "plt_address": "0x3794b00",
+          "callee": "_ZNSt6__ndk112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE25__init_copy_ctor_externalEPKcm"
+        },
+        {
+          "callsite": "0x3325f28",
+          "instruction": "bl",
+          "plt_address": "0x3796040",
+          "callee": "_ZN19CGpuPipelineManager10GetHandlerERKNSt6__ndk112basic_stringIcNS0_11char_traitsIcEENS0_9allocatorIcEEEE6CXRectS9_b"
+        },
+        {
+          "callsite": "0x3325f34",
+          "instruction": "bl",
+          "plt_address": "0x3794c20",
+          "callee": "_ZN6CXRectD1Ev"
+        },
+        {
+          "callsite": "0x3325f3c",
+          "instruction": "bl",
+          "plt_address": "0x3794c20",
+          "callee": "_ZN6CXRectD1Ev"
+        },
+        {
+          "callsite": "0x3325f4c",
+          "instruction": "bl",
+          "plt_address": "0x3794bd0",
+          "callee": "_ZdlPv"
+        },
+        {
+          "callsite": "0x3325f78",
+          "instruction": "bl",
+          "plt_address": "0x379b250",
+          "callee": "_ZNK19CRawColorCorrection12GetICMMethodEv"
+        },
+        {
+          "callsite": "0x3325fc8",
+          "instruction": "bl",
+          "plt_address": "0x379b280",
+          "callee": "_ZNK9Matrix3x3ixEi"
+        },
+        {
+          "callsite": "0x3325fdc",
+          "instruction": "bl",
+          "plt_address": "0x379b280",
+          "callee": "_ZNK9Matrix3x3ixEi"
+        },
+        {
+          "callsite": "0x3325ff0",
+          "instruction": "bl",
+          "plt_address": "0x379b280",
+          "callee": "_ZNK9Matrix3x3ixEi"
+        },
+        {
+          "callsite": "0x332600c",
+          "instruction": "bl",
+          "plt_address": "0x379b280",
+          "callee": "_ZNK9Matrix3x3ixEi"
+        },
+        {
+          "callsite": "0x3326020",
+          "instruction": "bl",
+          "plt_address": "0x379b280",
+          "callee": "_ZNK9Matrix3x3ixEi"
+        },
+        {
+          "callsite": "0x3326034",
+          "instruction": "bl",
+          "plt_address": "0x379b280",
+          "callee": "_ZNK9Matrix3x3ixEi"
+        },
+        {
+          "callsite": "0x3326050",
+          "instruction": "bl",
+          "plt_address": "0x379b280",
+          "callee": "_ZNK9Matrix3x3ixEi"
+        },
+        {
+          "callsite": "0x3326064",
+          "instruction": "bl",
+          "plt_address": "0x379b280",
+          "callee": "_ZNK9Matrix3x3ixEi"
+        },
+        {
+          "callsite": "0x3326078",
+          "instruction": "bl",
+          "plt_address": "0x379b280",
+          "callee": "_ZNK9Matrix3x3ixEi"
+        },
+        {
+          "callsite": "0x33260b8",
+          "instruction": "bl",
+          "plt_address": "0x379b280",
+          "callee": "_ZNK9Matrix3x3ixEi"
+        },
+        {
+          "callsite": "0x33260d0",
+          "instruction": "bl",
+          "plt_address": "0x379b280",
+          "callee": "_ZNK9Matrix3x3ixEi"
+        },
+        {
+          "callsite": "0x33260e8",
+          "instruction": "bl",
+          "plt_address": "0x379b280",
+          "callee": "_ZNK9Matrix3x3ixEi"
+        },
+        {
+          "callsite": "0x3326108",
+          "instruction": "bl",
+          "plt_address": "0x379b280",
+          "callee": "_ZNK9Matrix3x3ixEi"
+        },
+        {
+          "callsite": "0x3326120",
+          "instruction": "bl",
+          "plt_address": "0x379b280",
+          "callee": "_ZNK9Matrix3x3ixEi"
+        },
+        {
+          "callsite": "0x3326138",
+          "instruction": "bl",
+          "plt_address": "0x379b280",
+          "callee": "_ZNK9Matrix3x3ixEi"
+        },
+        {
+          "callsite": "0x33261d8",
+          "instruction": "bl",
+          "plt_address": "0x3794c20",
+          "callee": "_ZN6CXRectD1Ev"
+        },
+        {
+          "callsite": "0x33261e0",
+          "instruction": "bl",
+          "plt_address": "0x3794c20",
+          "callee": "_ZN6CXRectD1Ev"
+        },
+        {
+          "callsite": "0x33261f0",
+          "instruction": "bl",
+          "plt_address": "0x379b200",
+          "callee": "_Z17CreateCCGradationR10GpuHandlerPK16CColorCorrection"
+        },
+        {
+          "callsite": "0x3326200",
+          "instruction": "bl",
+          "plt_address": "0x379b210",
+          "callee": "_Z18CreateCCGradationFR10GpuHandlerPK16CColorCorrection"
+        },
+        {
+          "callsite": "0x3326210",
+          "instruction": "bl",
+          "plt_address": "0x379b220",
+          "callee": "_Z13CreateCbCrLutR10GpuHandlerPK16CColorCorrection"
+        },
+        {
+          "callsite": "0x3326234",
+          "instruction": "bl",
+          "plt_address": "0x3796050",
+          "callee": "_ZN10GpuHandler18GetTextureInFormatENSt6__ndk14spanI17OpenGLTextureTypeLm18446744073709551615EEE"
+        },
+        {
+          "callsite": "0x3326254",
+          "instruction": "bl",
+          "plt_address": "0x3796060",
+          "callee": "_ZN10GpuHandler17MakeOutputTextureE17OpenGLTextureTypeii"
+        },
+        {
+          "callsite": "0x33262a8",
+          "instruction": "bl",
+          "plt_address": "0x379b290",
+          "callee": "_ZN11ComputeTaskC1ER10GpuHandlerPKcb"
+        },
+        {
+          "callsite": "0x33262b0",
+          "instruction": "bl",
+          "plt_address": "0x379b2a0",
+          "callee": "_ZN11ComputeTask10UseProgramEv"
+        },
+        {
+          "callsite": "0x33262c8",
+          "instruction": "bl",
+          "plt_address": "0x379b2b0",
+          "callee": "_ZN11ComputeTask22BindImageTextureDirectERK13OpenGLTexturejjb"
+        },
+        {
+          "callsite": "0x33262e0",
+          "instruction": "bl",
+          "plt_address": "0x379b2b0",
+          "callee": "_ZN11ComputeTask22BindImageTextureDirectERK13OpenGLTexturejjb"
+        },
+        {
+          "callsite": "0x33262f8",
+          "instruction": "bl",
+          "plt_address": "0x379b2b0",
+          "callee": "_ZN11ComputeTask22BindImageTextureDirectERK13OpenGLTexturejjb"
+        },
+        {
+          "callsite": "0x3326310",
+          "instruction": "bl",
+          "plt_address": "0x379b2b0",
+          "callee": "_ZN11ComputeTask22BindImageTextureDirectERK13OpenGLTexturejjb"
+        },
+        {
+          "callsite": "0x3326328",
+          "instruction": "bl",
+          "plt_address": "0x379b2b0",
+          "callee": "_ZN11ComputeTask22BindImageTextureDirectERK13OpenGLTexturejjb"
+        },
+        {
+          "callsite": "0x3326364",
+          "instruction": "bl",
+          "plt_address": "0x379b230",
+          "callee": "_ZN11ComputeTask16SetUBODataOnNameI11sCCParamUBOEERS_RKNSt6__ndk112basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEERKT_ib"
+        },
+        {
+          "callsite": "0x3326374",
+          "instruction": "bl",
+          "plt_address": "0x3794bd0",
+          "callee": "_ZdlPv"
+        },
+        {
+          "callsite": "0x3326390",
+          "instruction": "bl",
+          "plt_address": "0x37960a0",
+          "callee": "_ZN11ComputeTask8DispatchEjj"
+        },
+        {
+          "callsite": "0x33263a0",
+          "instruction": "bl",
+          "plt_address": "0x37960b0",
+          "callee": "_ZN10GpuHandler16SetOutputTextureERK13OpenGLTextureb"
+        },
+        {
+          "callsite": "0x33263a8",
+          "instruction": "bl",
+          "plt_address": "0x37960c0",
+          "callee": "_ZN11ComputeTaskD1Ev"
+        },
+        {
+          "callsite": "0x33263b0",
+          "instruction": "bl",
+          "plt_address": "0x37960d0",
+          "callee": "_ZN13OpenGLTextureD1Ev"
+        },
+        {
+          "callsite": "0x33263b8",
+          "instruction": "bl",
+          "plt_address": "0x37960d0",
+          "callee": "_ZN13OpenGLTextureD1Ev"
+        },
+        {
+          "callsite": "0x33263c0",
+          "instruction": "bl",
+          "plt_address": "0x37960d0",
+          "callee": "_ZN13OpenGLTextureD1Ev"
+        },
+        {
+          "callsite": "0x33263c8",
+          "instruction": "bl",
+          "plt_address": "0x37960d0",
+          "callee": "_ZN13OpenGLTextureD1Ev"
+        },
+        {
+          "callsite": "0x33263d0",
+          "instruction": "bl",
+          "plt_address": "0x37960d0",
+          "callee": "_ZN13OpenGLTextureD1Ev"
+        },
+        {
+          "callsite": "0x3326430",
+          "instruction": "bl",
+          "plt_address": "0x3794bd0",
+          "callee": "_ZdlPv"
+        },
+        {
+          "callsite": "0x3326468",
+          "instruction": "bl",
+          "plt_address": "0x3794c20",
+          "callee": "_ZN6CXRectD1Ev"
+        },
+        {
+          "callsite": "0x3326470",
+          "instruction": "bl",
+          "plt_address": "0x3794c20",
+          "callee": "_ZN6CXRectD1Ev"
+        },
+        {
+          "callsite": "0x3326480",
+          "instruction": "bl",
+          "plt_address": "0x3794bd0",
+          "callee": "_ZdlPv"
+        },
+        {
+          "callsite": "0x3326490",
+          "instruction": "bl",
+          "plt_address": "0x37960c0",
+          "callee": "_ZN11ComputeTaskD1Ev"
+        },
+        {
+          "callsite": "0x3326498",
+          "instruction": "bl",
+          "plt_address": "0x37960d0",
+          "callee": "_ZN13OpenGLTextureD1Ev"
+        },
+        {
+          "callsite": "0x33264a0",
+          "instruction": "bl",
+          "plt_address": "0x37960d0",
+          "callee": "_ZN13OpenGLTextureD1Ev"
+        },
+        {
+          "callsite": "0x33264a8",
+          "instruction": "bl",
+          "plt_address": "0x37960d0",
+          "callee": "_ZN13OpenGLTextureD1Ev"
+        },
+        {
+          "callsite": "0x33264b0",
+          "instruction": "bl",
+          "plt_address": "0x37960d0",
+          "callee": "_ZN13OpenGLTextureD1Ev"
+        },
+        {
+          "callsite": "0x33264b8",
+          "instruction": "bl",
+          "plt_address": "0x37960d0",
+          "callee": "_ZN13OpenGLTextureD1Ev"
+        },
+        {
+          "callsite": "0x33264c8",
+          "instruction": "bl",
+          "plt_address": "0x3794c20",
+          "callee": "_ZN6CXRectD1Ev"
+        },
+        {
+          "callsite": "0x33264d0",
+          "instruction": "bl",
+          "plt_address": "0x3794c20",
+          "callee": "_ZN6CXRectD1Ev"
+        },
+        {
+          "callsite": "0x33264ec",
+          "instruction": "bl",
+          "plt_address": "0x3794aa0",
+          "callee": "__stack_chk_fail"
+        }
+      ]
+    },
+    {
+      "name": "_ZN14CVectorMethods24ColorNormalCorrectPixelsEP16CColorCorrectionPtS2_ib",
+      "address": "0x350112c",
+      "bytes": 588,
+      "sha256": "ca370b369d08fc1092e01179b89e66df75407e72a8fd65a8f3c49d4a1e133aa7",
+      "direct_plt_edges": [
+        {
+          "callsite": "0x3501170",
+          "instruction": "bl",
+          "plt_address": "0x379b280",
+          "callee": "_ZNK9Matrix3x3ixEi"
+        },
+        {
+          "callsite": "0x3501180",
+          "instruction": "bl",
+          "plt_address": "0x379b280",
+          "callee": "_ZNK9Matrix3x3ixEi"
+        },
+        {
+          "callsite": "0x3501190",
+          "instruction": "bl",
+          "plt_address": "0x379b280",
+          "callee": "_ZNK9Matrix3x3ixEi"
+        },
+        {
+          "callsite": "0x35011a0",
+          "instruction": "bl",
+          "plt_address": "0x379b280",
+          "callee": "_ZNK9Matrix3x3ixEi"
+        },
+        {
+          "callsite": "0x35011b0",
+          "instruction": "bl",
+          "plt_address": "0x379b280",
+          "callee": "_ZNK9Matrix3x3ixEi"
+        },
+        {
+          "callsite": "0x35011c0",
+          "instruction": "bl",
+          "plt_address": "0x379b280",
+          "callee": "_ZNK9Matrix3x3ixEi"
+        },
+        {
+          "callsite": "0x3501248",
+          "instruction": "bl",
+          "plt_address": "0x379e5b0",
+          "callee": "_ZNK11Scaled2DLUT6LookupE6CArrayIdLi2EdEb"
+        },
+        {
+          "callsite": "0x3501268",
+          "instruction": "bl",
+          "plt_address": "0x37a03c0",
+          "callee": "_ZNK16CColorCorrection19CalculateGrayWeightEddb"
+        },
+        {
+          "callsite": "0x3501334",
+          "instruction": "bl",
+          "plt_address": "0x3796230",
+          "callee": "_ZNK9Matrix3x3mlE6CArrayIdLi3E23Matrix3x1InitializationE"
+        }
+      ]
+    },
+    {
+      "name": "_ZNK9Matrix3x3ixEi",
+      "address": "0x369ce50",
+      "bytes": 8,
+      "sha256": "3173cfd36ef0e9bc87c81d2101de554655c2db22b176cfc00f36750532af1fad",
+      "direct_plt_edges": []
+    },
+    {
+      "name": "_ZNK9Matrix3x3mlE6CArrayIdLi3E23Matrix3x1InitializationE",
+      "address": "0x369bbf4",
+      "bytes": 68,
+      "sha256": "e23d8ba85875f24f66cbcb2d823a8e3d53f265543680f6a0606d0fdcc024d840",
+      "direct_plt_edges": []
+    },
+    {
+      "name": "_ZNK11Scaled2DLUT6LookupE6CArrayIdLi2EdEb",
+      "address": "0x3699640",
+      "bytes": 24,
+      "sha256": "29f79c2c48c3656068139d0c3b280a6716c78b954a136c740d2e748c09d24306",
+      "direct_plt_edges": [
+        {
+          "callsite": "0x3699654",
+          "instruction": "b",
+          "plt_address": "0x37a68a0",
+          "callee": "_ZNK11Scaled2DLUT11LookupIndexE6CArrayIdLi2EdEb"
+        }
+      ]
+    },
+    {
+      "name": "_ZNK11Scaled2DLUT11LookupIndexE6CArrayIdLi2EdEb",
+      "address": "0x3699658",
+      "bytes": 392,
+      "sha256": "5939c1c66b25e0f0b7c789e2ec4b24f140f23a563d5d93952df43f58381dd9d0",
+      "direct_plt_edges": []
+    },
+    {
+      "name": "_ZNK16CColorCorrection19CalculateGrayWeightEddb",
+      "address": "0x34ca0d4",
+      "bytes": 120,
+      "sha256": "7d8d479a64aaa1e761b7369c1a17029867393d7db7b212713577930260ef2059",
+      "direct_plt_edges": []
+    }
+  ],
+  "shader_records": [
+    {
+      "symbol": "color_correct_computeShaderSource",
+      "source_address": "0x3138c10",
+      "bytes": 5885,
+      "sha256": "d361014f38f49b035c9a1a891698b9c9c938f7341ad9188fd838fec7b263bbd3",
+      "readable_complete_main_function": true
+    },
+    {
+      "symbol": "colorCorrectAll_fragmentShaderSource",
+      "source_address": "0x3136dff",
+      "bytes": 7696,
+      "sha256": "ae0eede7e9f151fc537751180c8f8acf7a04baecb310ef8dcba23580772fed22",
+      "readable_complete_main_function": true
+    },
+    {
+      "symbol": "gamma_hasselblad_fragmentShaderSource",
+      "source_address": "0x30ffce0",
+      "bytes": 645,
+      "sha256": "4d747597cc6b321643d1efabfc1698b71aebc3854135ca3c58691fede249ad90",
+      "readable_complete_main_function": true
+    },
+    {
+      "symbol": "filmcurve_fragmentShaderSource",
+      "source_address": "0x30cec42",
+      "bytes": 1145,
+      "sha256": "1109de3a2574488e304f019132c8d86c84fc0f75bddacda0d3feab9931e22f91",
+      "readable_complete_main_function": true
+    }
+  ],
+  "synthetic_native_pixel_replay": {
+    "cases": [
+      {
+        "map": "identity",
+        "protection": "off",
+        "pixels": 274,
+        "channels": 822,
+        "exact_channels": 821,
+        "max_abs_u16_difference": 1,
+        "black_outputs_zero": true,
+        "output_guards_and_all_inputs_unchanged": true
+      },
+      {
+        "map": "identity",
+        "protection": "gray_and_shadow",
+        "pixels": 274,
+        "channels": 822,
+        "exact_channels": 822,
+        "max_abs_u16_difference": 0,
+        "black_outputs_zero": true,
+        "output_guards_and_all_inputs_unchanged": true
+      },
+      {
+        "map": "chroma_mix",
+        "protection": "off",
+        "pixels": 274,
+        "channels": 822,
+        "exact_channels": 820,
+        "max_abs_u16_difference": 1,
+        "black_outputs_zero": true,
+        "output_guards_and_all_inputs_unchanged": true
+      },
+      {
+        "map": "chroma_mix",
+        "protection": "gray_and_shadow",
+        "pixels": 274,
+        "channels": 822,
+        "exact_channels": 820,
+        "max_abs_u16_difference": 1,
+        "black_outputs_zero": true,
+        "output_guards_and_all_inputs_unchanged": true
+      },
+      {
+        "map": "curved",
+        "protection": "off",
+        "pixels": 274,
+        "channels": 822,
+        "exact_channels": 822,
+        "max_abs_u16_difference": 0,
+        "black_outputs_zero": true,
+        "output_guards_and_all_inputs_unchanged": true
+      },
+      {
+        "map": "curved",
+        "protection": "gray_and_shadow",
+        "pixels": 274,
+        "channels": 822,
+        "exact_channels": 822,
+        "max_abs_u16_difference": 0,
+        "black_outputs_zero": true,
+        "output_guards_and_all_inputs_unchanged": true
+      }
+    ],
+    "total_pixels": 1644,
+    "max_allowed_u16_difference": 1,
+    "original_functions_executed": 6,
+    "original_helper_dispatch_counts": {
+      "_ZNK9Matrix3x3ixEi": 36,
+      "_ZNK9Matrix3x3mlE6CArrayIdLi3E23Matrix3x1InitializationE": 1644,
+      "_ZNK11Scaled2DLUT6LookupE6CArrayIdLi2EdEb": 1638,
+      "_ZNK11Scaled2DLUT11LookupIndexE6CArrayIdLi2EdEb": 1638,
+      "_ZNK16CColorCorrection19CalculateGrayWeightEddb": 1638
+    },
+    "arithmetic_or_lookup_functions_stubbed": false,
+    "plt_calls_redirected_to_original_function_bodies": true,
+    "real_camera_calibration_or_photo_pixels_used": false,
+    "whole_app_or_complete_raw_pipeline_executed": false
+  },
+  "bounds": {
+    "camera_main_isp_equivalence_proven": false,
+    "phocus_x2dii_profile_selected": false,
+    "complete_raw_photo_rendered": false,
+    "local_raw_import_without_camera_verified": false,
+    "apk_protection_removed": false,
+    "camera_dsp_decrypted": false,
+    "production_renderer_changed": false,
+    "private_vendor_bytes_or_profiles_exported": false
+  },
+  "runtime": {
+    "numpy": "2.3.5",
+    "unicorn": "2.1.4",
+    "capstone": "5.0.9",
+    "pyelftools": "0.33",
+    "androguard": "4.1.3"
+  }
+}

@@ -1,0 +1,443 @@
+{
+  "schema": "hasselblad-stage41m-original-knee-synthetic-replay-v1",
+  "source_sha256": "3dd5b37b3db18b3e6b54271e1501b4dd337e101c06cdd386a896b1547b662f66",
+  "synthetic_inputs_only": true,
+  "real_camera_pipeline_executed": false,
+  "production_photo_output_changed": false,
+  "firmware_bytes_tables_disassembly_exported": false,
+  "functions": {
+    "main_gamma_calc_frame": {
+      "start": "0x35c710",
+      "size": 144,
+      "code_sha256": "0f07ea6f9300f8a63b56561d5021027cada8b4618218d0c6fed05e94de00c56c"
+    },
+    "_calc_knee_data": {
+      "start": "0x3bf218",
+      "size": 1328,
+      "code_sha256": "bc90e57a3abc15fefb50ee499c5ddd1589d7b1268a48932a92f0aa26a0cbd0b3"
+    },
+    "adj_calc_knee_kpx_data": {
+      "start": "0x366ca8",
+      "size": 2200,
+      "code_sha256": "7ec5eeef4f1519cd048e5c62c3674f3a9e5aa3a95162288ee3ad714c959de4e7"
+    },
+    "adj_plat_calc_knee_fusion": {
+      "start": "0x371678",
+      "size": 1044,
+      "code_sha256": "6770b712d726c797c47d394ac2fbc120a135cc278f0ed5b6b33e426afefab895"
+    },
+    "adj_plat_calc_gamma_lut_compensate_ev": {
+      "start": "0x371590",
+      "size": 8,
+      "code_sha256": "2b59db05426e0f313d72b30f3398c65721de2562a59dc46ceeba224f98d0b876"
+    },
+    "adj_plat_calc_knee_gain_over_isp_max": {
+      "start": "0x371588",
+      "size": 8,
+      "code_sha256": "2b59db05426e0f313d72b30f3398c65721de2562a59dc46ceeba224f98d0b876"
+    },
+    "rcam_adj_calc_common": {
+      "start": "0x3b3e98",
+      "size": 660,
+      "code_sha256": "077e9390c706cc2e31c74d32b192a418090de31659512a900dace445e5e8359e"
+    }
+  },
+  "configuration": {
+    "source_sha256": {
+      "config": "2a4fd76e5299937a6607da8454add17e9746347c54adcf5da1360799de634286",
+      "schema": "59ec3b0d019b9e8873f3d005c041b4e3ca1a2b930c503c110c51531f8bd30e40"
+    },
+    "registered_module_fields": {
+      "main_gamma_normal": {
+        "gamma_lut": {
+          "type": "simple_lut_mem",
+          "group": "mode_frame"
+        },
+        "gamma_minus_lut": {
+          "type": "simple_lut_mem",
+          "group": "mode_frame"
+        },
+        "lut_div": {
+          "type": "simple_val_idx_v5",
+          "group": "mode_frame"
+        },
+        "lut_div_minus_scale": {
+          "type": "simple_val",
+          "group": "mode_frame"
+        },
+        "knee_clip": {
+          "type": "simple_val",
+          "group": "mode_frame"
+        },
+        "knee_y_coef": {
+          "type": "simple_val_idx_v5",
+          "group": "mode_frame"
+        },
+        "knee_blend_max_det_rate": {
+          "type": "simple_val",
+          "group": "mode_frame"
+        },
+        "knee_kpx": {
+          "type": "simple_lut_mem",
+          "group": "mode_frame"
+        },
+        "knee_gain": {
+          "type": "calc_knee_data",
+          "group": "mode_frame",
+          "axis": [
+            "gamma_ev"
+          ]
+        },
+        "knee_saturation": {
+          "type": "calc_knee_data",
+          "group": "mode_frame"
+        }
+      },
+      "main_gamma_lowlight": {
+        "gamma_lut": {
+          "type": "simple_lut_mem",
+          "group": "global_frame"
+        },
+        "gamma_minus_lut": {
+          "type": "simple_lut_mem",
+          "group": "global_frame"
+        },
+        "lut_div": {
+          "type": "simple_val_idx_v5",
+          "group": "global_frame"
+        },
+        "lut_div_minus_scale": {
+          "type": "simple_val",
+          "group": "global_frame"
+        },
+        "knee_clip": {
+          "type": "simple_val",
+          "group": "global_frame"
+        },
+        "knee_y_coef": {
+          "type": "simple_val_idx_v5",
+          "group": "global_frame"
+        },
+        "knee_blend_max_det_rate": {
+          "type": "simple_val",
+          "group": "global_frame"
+        },
+        "knee_kpx": {
+          "type": "simple_lut_mem",
+          "group": "global_frame"
+        },
+        "knee_gain": {
+          "type": "calc_knee_data",
+          "group": "mode_frame",
+          "axis": [
+            "knee_axis_many"
+          ]
+        },
+        "knee_saturation": {
+          "type": "calc_knee_data",
+          "group": "global_frame",
+          "axis": [
+            "knee_axis_few"
+          ]
+        }
+      },
+      "main_gamma_ei": {
+        "gamma_lut": {
+          "type": "index_1d_lut_mem",
+          "group": "global_frame",
+          "axis": [
+            "user_ei"
+          ]
+        },
+        "gamma_minus_lut": {
+          "type": "index_1d_lut_mem",
+          "group": "global_frame",
+          "axis": [
+            "user_ei"
+          ]
+        },
+        "lut_div": {
+          "type": "index_1d_val_idx_v5",
+          "group": "global_frame",
+          "axis": [
+            "user_ei"
+          ]
+        },
+        "lut_div_minus_scale": {
+          "type": "index_1d_val",
+          "group": "global_frame",
+          "axis": [
+            "user_ei"
+          ]
+        },
+        "knee_clip": {
+          "type": "index_1d_val",
+          "group": "global_frame",
+          "axis": [
+            "user_ei"
+          ]
+        },
+        "knee_y_coef": {
+          "type": "index_1d_val_idx_v5",
+          "group": "global_frame",
+          "axis": [
+            "user_ei"
+          ]
+        },
+        "knee_blend_max_det_rate": {
+          "type": "index_1d_val",
+          "group": "global_frame",
+          "axis": [
+            "user_ei"
+          ]
+        },
+        "knee_kpx": {
+          "type": "index_1d_lut_mem",
+          "group": "global_frame",
+          "axis": [
+            "user_ei"
+          ]
+        },
+        "knee_gain": {
+          "type": "calc_knee_data",
+          "group": "global_frame",
+          "axis": [
+            "user_ei"
+          ]
+        },
+        "knee_saturation": {
+          "type": "calc_knee_data",
+          "group": "global_frame",
+          "axis": [
+            "user_ei"
+          ]
+        }
+      },
+      "sub_gamma_normal": {
+        "lut_id": {
+          "type": "index_1d_val",
+          "group": "global_frame",
+          "axis": [
+            "gamma_simulation_ev"
+          ]
+        },
+        "r_lut": {
+          "type": "knee_fusion",
+          "group": "global_frame",
+          "axis": [
+            "gamma_simulation_ev"
+          ],
+          "dep_axis": [
+            "gamma_dgain"
+          ]
+        },
+        "g_lut": {
+          "type": "knee_fusion",
+          "group": "global_frame",
+          "axis": [
+            "gamma_simulation_ev"
+          ],
+          "dep_axis": [
+            "gamma_dgain"
+          ]
+        },
+        "b_lut": {
+          "type": "knee_fusion",
+          "group": "global_frame",
+          "axis": [
+            "gamma_simulation_ev"
+          ],
+          "dep_axis": [
+            "gamma_dgain"
+          ]
+        },
+        "r_minus_lut": {
+          "type": "simple_lut_mem",
+          "group": "global_frame"
+        },
+        "g_minus_lut": {
+          "type": "simple_lut_mem",
+          "group": "global_frame"
+        },
+        "b_minus_lut": {
+          "type": "simple_lut_mem",
+          "group": "global_frame"
+        },
+        "lut_id_and_knee_ev": {
+          "type": "knee_fusion_index",
+          "group": "global_frame",
+          "axis": [
+            "gamma_simulation_ev"
+          ],
+          "dep_axis": [
+            "gamma_ev"
+          ]
+        },
+        "knee_lut": {
+          "type": "lerp_1d_lut_reg",
+          "group": "global_frame",
+          "axis": [
+            "gamma_ev"
+          ]
+        }
+      },
+      "sub_gamma_ei": {
+        "lut_id": {
+          "type": "index_1d_val",
+          "group": "global_frame",
+          "axis": [
+            "user_ei"
+          ]
+        },
+        "r_lut": {
+          "type": "index_1d_lut_mem",
+          "group": "global_frame",
+          "axis": [
+            "user_ei"
+          ]
+        },
+        "g_lut": {
+          "type": "index_1d_lut_mem",
+          "group": "global_frame",
+          "axis": [
+            "user_ei"
+          ]
+        },
+        "b_lut": {
+          "type": "index_1d_lut_mem",
+          "group": "global_frame",
+          "axis": [
+            "user_ei"
+          ]
+        },
+        "r_minus_lut": {
+          "type": "index_1d_lut_mem",
+          "group": "global_frame",
+          "axis": [
+            "user_ei"
+          ]
+        },
+        "g_minus_lut": {
+          "type": "index_1d_lut_mem",
+          "group": "global_frame",
+          "axis": [
+            "user_ei"
+          ]
+        },
+        "b_minus_lut": {
+          "type": "index_1d_lut_mem",
+          "group": "global_frame",
+          "axis": [
+            "user_ei"
+          ]
+        },
+        "lut_id_and_knee_ev": {
+          "type": "simple_val",
+          "group": "global"
+        }
+      }
+    },
+    "calculator_dispatch": {
+      "calc_knee_data": {
+        "schema_enum": 84,
+        "original_dispatch_target": "0x3bf218"
+      },
+      "simple_lut_mem_gamma_compensate_ev": {
+        "schema_enum": 101,
+        "original_dispatch_target": "0x3bfc38"
+      },
+      "index_1d_lut_mem_gamma_compensate_ev": {
+        "schema_enum": 102,
+        "original_dispatch_target": "0x3bfc68"
+      },
+      "lerp_1d_lut_mem_gamma_compensate_ev": {
+        "schema_enum": 103,
+        "original_dispatch_target": "0x3bfc98"
+      },
+      "knee_fusion": {
+        "schema_enum": 186,
+        "original_dispatch_target": "0x3bfe10"
+      },
+      "knee_fusion_index": {
+        "schema_enum": 187,
+        "original_dispatch_target": "0x3bff88"
+      }
+    },
+    "named_gamma_compensation_type_occurrences_in_config": 0,
+    "scope": "Original registration declarations and calculator pointer table; tuning values and runtime bank contents are excluded."
+  },
+  "dispatch": {
+    "cases": [
+      {
+        "synthetic_ei_flag": 0,
+        "synthetic_lowlight_flag": 0,
+        "callback_sequence": [
+          "common",
+          "normal"
+        ]
+      },
+      {
+        "synthetic_ei_flag": 0,
+        "synthetic_lowlight_flag": 1,
+        "callback_sequence": [
+          "common",
+          "lowlight"
+        ]
+      },
+      {
+        "synthetic_ei_flag": 1,
+        "synthetic_lowlight_flag": 0,
+        "callback_sequence": [
+          "common",
+          "ei"
+        ]
+      },
+      {
+        "synthetic_ei_flag": 1,
+        "synthetic_lowlight_flag": 1,
+        "callback_sequence": [
+          "common",
+          "ei"
+        ]
+      },
+      {
+        "synthetic_ei_flag": 2,
+        "synthetic_lowlight_flag": 255,
+        "callback_sequence": [
+          "common",
+          "ei"
+        ]
+      }
+    ],
+    "whole_dispatcher_executed": true,
+    "selected_callbacks_intercepted": true,
+    "flags_in_real_captures_known": false
+  },
+  "slopes": {
+    "cases": 261,
+    "entries_compared": 8458,
+    "exact_matches": true,
+    "original_block_start": "0x3bf500",
+    "original_block_end_exclusive": "0x3bf55c",
+    "scale": 4096,
+    "arithmetic": "signed 32-bit difference, wrapping left shift 12, signed divide truncating toward zero; final entry zero",
+    "scope": "Contiguous original arithmetic block with synthetic pointers; not the whole _calc_knee_data function or an RGB pixel equation."
+  },
+  "fusion": {
+    "cases": 71,
+    "entries_compared": 18247,
+    "exact_matches": true,
+    "whole_helper_executed": true,
+    "tuning_lookup_intercepted": true,
+    "table_entries": 257,
+    "index_scale_denominator": 1024,
+    "float32_sensitive_synthetic_result": 6234,
+    "float64_alternative_result": 6233,
+    "scope": "Original full helper with synthetic knee-map lookup; no claim that this path is active in supplied captures."
+  },
+  "platform_noop_hooks": [
+    "adj_plat_calc_gamma_lut_compensate_ev",
+    "adj_plat_calc_knee_gain_over_isp_max"
+  ],
+  "status": "PASS_bounded_original_knee_preparation"
+}

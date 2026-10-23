@@ -1,0 +1,3 @@
+numpy==2.3.5
+pyelftools==0.33
+unicorn==2.1.4

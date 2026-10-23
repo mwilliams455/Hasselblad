@@ -1,19 +1,6 @@
 name: Hasselblad Stage32 read-only real DNG centre tile signed APK
 
 "on":
-  push:
-    branches:
-      - recovery/awb-rebuild-20261021
-    paths:
-      - 'hasselblad_native_audit/isp_android_stage32/**'
-      - 'HasselbladPhoton/app/src/main/java/com/particlesdevs/photoncamera/hasselblad/HasselbladDngTileReader.java'
-      - 'HasselbladPhoton/app/src/main/java/com/particlesdevs/photoncamera/hasselblad/HasselbladRealDngDiagnostic.java'
-      - 'HasselbladPhoton/app/src/main/java/com/particlesdevs/photoncamera/hasselblad/HasselbladColourReferenceCheck.java'
-      - 'HasselbladPhoton/app/src/main/java/com/particlesdevs/photoncamera/hasselblad/HasselbladDevelopmentActivity.java'
-      - 'HasselbladPhoton/app/src/main/res/layout/activity_hasselblad_development.xml'
-      - 'HasselbladPhoton/app/build.gradle'
-      - 'HasselbladPhoton/app/version.properties'
-      - '.github/workflows/hb-photon-stage32-real-dng-diagnostic.yml'
   workflow_dispatch:
 
 permissions:
@@ -24,9 +11,10 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 55
     steps:
-      - name: Read-only checkout of Stage32 research branch
+      - name: Checkout frozen successful Stage32 APK source
         uses: actions/checkout@v4
         with:
+          ref: c9f6a524362a938db149bed6830cf2422946fe78
           persist-credentials: false
           fetch-depth: 0
       - uses: actions/setup-java@v4

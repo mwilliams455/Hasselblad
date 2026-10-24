@@ -11,7 +11,7 @@ Never execute manufacturer software, extract plaintext, export proprietary
 code/strings/key bytes, modify a camera, or claim secret recovery.
 """
 from __future__ import annotations
-import argparse,hashlib,json
+import argparse,hashlib,json,re
 from pathlib import Path
 
 FIRMWARE="1.3.16.2"
@@ -29,7 +29,7 @@ MARKERS={
   "key_derivation_api":(b"hkdf_",b"kbkdf_",b"cmac_kdf",b"derive_key"),
 }
 PRIMARY={"cryptocell","arm_cc_family","efuse","otp","key_ladder",
-         "root_key","key_derivation_api","secure_crypto_device"}
+         "secure_crypto_device"}
 API_PREFIX=(
  "TEEC_","sec_cipher_","crypto_","cc_","cryptocell_","efuse_",
  "otp_","keymaster_","keymint_","hkdf_","hbk_","kdf_",
@@ -49,7 +49,15 @@ def classify(data:bytes)->str:
 
 def classify_markers(data:bytes)->list[str]:
     lower=data.lower()
-    return sorted(k for k, needles in MARKERS.items() if any(n in lower for n in needles))
+    found=[]
+    for k,needles in MARKERS.items():
+        if k=="efuse":
+            # 'refuse' contains 'efuse' and caused dozens of false positives.
+            if re.search(rb"(?<![a-z])efuse",lower) or b"e-fuse" in lower or b"e_fuse" in lower:
+                found.append(k)
+        elif any(n in lower for n in needles):
+            found.append(k)
+    return sorted(found)
 
 def elf_metadata(path):
     from elftools.elf.elffile import ELFFile
@@ -152,10 +160,11 @@ def audit(root:Path):
 def synthetic():
     assert "cryptocell" in classify_markers(b"note CRYPTOCELL input")
     assert "efuse" in classify_markers(b"EFuse control")
+    assert "efuse" not in classify_markers(b"please refuse request")
     assert "key_ladder" in classify_markers(b"key_ladder")
     assert classify(b"IM*H\x00\x00")=="IMAH_envelope"
     assert "cryptocell" not in classify_markers(b"not related")
-    return {"status":"PASS_synthetic","checks":5,"original_firmware_used":False}
+    return {"status":"PASS_synthetic","checks":6,"original_firmware_used":False}
 
 def main():
     ap=argparse.ArgumentParser()

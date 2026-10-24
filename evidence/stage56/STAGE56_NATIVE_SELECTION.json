@@ -1,0 +1,32 @@
+{
+  "schema": "hasselblad-stage56-native-selection-v1",
+  "status": "PASS_BOUNDED_METADATA_TO_LUT_BRIDGE",
+  "public_temperature_table_matches_original_entries": 124,
+  "native_temperature_cases": 144,
+  "native_integer_kelvin_max_difference": 0,
+  "native_selection_grid_unchanged": true,
+  "native_lut_temperatures": [
+    2000,
+    2400,
+    2850,
+    3050,
+    3550,
+    4000,
+    5550,
+    6500,
+    8000,
+    9100,
+    10000
+  ],
+  "native_lut_max_abs_difference": 1.4210854715202004e-14,
+  "profile_colour_film_and_manual_output_unchanged": true,
+  "private_output_contains_only_data": true,
+  "virtual_reference_gains_only_in_audit": true,
+  "reference_sensor_matrix_applied_to_phone_pixels": false,
+  "DNG_white_balance_changed": false,
+  "scene_fitted_parameters": 0,
+  "source_APK_unchanged": true,
+  "capture_renderer_changed": false,
+  "physical_phone_colour_match_validated": false,
+  "full_phocus_equivalence": false
+}

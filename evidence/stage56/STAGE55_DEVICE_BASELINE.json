@@ -1,0 +1,17 @@
+{
+  "schema": "hasselblad-stage56-prior-device-baseline-v1",
+  "source": "user supplied Stage55 render report",
+  "reported_status": "RENDERED_EXPERIMENTAL_COMPARISON",
+  "preview_pixels": 786432,
+  "displayed_preview": "native_finishing",
+  "manual_lut_temperature": 3050,
+  "native_finishing_available": true,
+  "finishing_milliseconds": 47,
+  "total_milliseconds": 3630,
+  "scene_fitted_parameters": 0,
+  "phone_smoke_report_received": true,
+  "host_reference_compared": false,
+  "device_pixels_compared": false,
+  "capture_renderer_changed": false,
+  "full_phocus_equivalence": false
+}

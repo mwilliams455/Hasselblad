@@ -44,19 +44,28 @@ public final class HasselbladDngTileReader {
     private static void must(boolean ok, String reason) throws Unsupported {
         if (!ok) throw new Unsupported(reason);
     }
+    public static final class IlluminantMetadata {
+        public final double[] colorMatrix1,colorMatrix2;
+        public final int light1,light2;
+        public final String error;
+        IlluminantMetadata(double[] a,double[] b,int l1,int l2,String e) {
+            colorMatrix1=a;colorMatrix2=b;light1=l1;light2=l2;error=e;
+        }
+    }
     public static final class ReadResult {
         public final int width,height,originalBits,stripCount;
         public final String gainState;
+        public final IlluminantMetadata illuminant;
         public final int gainMapCount, gainAppliedSamples;
         public final double[] forwardMatrix1, forwardMatrix2, calibration1, calibration2,
                 analogBalance, asShotNeutral, cameraLinearTile;
         ReadResult(int w,int h,int b,int strips,String gs,int maps,int applied,
                 double[] fm1,double[] fm2,double[] cc1,double[] cc2,double[] analog,
-                double[] neutral,double[] rgb) {
+                double[] neutral,double[] rgb,IlluminantMetadata im) {
             width=w;height=h;originalBits=b;stripCount=strips;gainState=gs;
             gainMapCount=maps;gainAppliedSamples=applied;
             forwardMatrix1=fm1;forwardMatrix2=fm2;calibration1=cc1;calibration2=cc2;
-            analogBalance=analog;asShotNeutral=neutral;cameraLinearTile=rgb;
+            analogBalance=analog;asShotNeutral=neutral;cameraLinearTile=rgb;illuminant=im;
         }
         public boolean hasPcsInput() { return forwardMatrix1!=null && asShotNeutral!=null; }
     }
@@ -67,6 +76,21 @@ public final class HasselbladDngTileReader {
     private static final class Page {
         final Map<Integer,Tag> tags=new HashMap<>();
         long next;
+    }
+    /** Optional selector metadata must not break a previously supported manual preview. */
+    private static IlluminantMetadata illuminant(Tiff tif,Page p,Page root) {
+        try {
+            for(int code:new int[]{52529,52530,52531})
+                must(!p.tags.containsKey(code)&&!root.tags.containsKey(code),"three_illuminant_selection_unsupported");
+            double[] a=optional(tif,p,root,50721,9),b=optional(tif,p,root,50722,9);
+            must(a!=null,"colour_matrix_missing");
+            int[] lights=new int[2];
+            for(int i=0;i<2;i++) {
+                Tag t=p.tags.get(50778+i);if(t==null)t=root.tags.get(50778+i);
+                if(t!=null){must(t.count==1&&t.type==3,"calibration_illuminant_type_or_count");lights[i]=(int)tif.ints(t,1)[0];}
+            }
+            return new IlluminantMetadata(a,b,lights[0],lights[1],null);
+        }catch(IOException e){return new IlluminantMetadata(null,null,0,0,e.getMessage());}
     }
     private static final class Gain {
         int top,left,bottom,right,rowPitch,colPitch,pointsV,pointsH;
@@ -393,7 +417,7 @@ public final class HasselbladDngTileReader {
                 }
             }
             return new ReadResult(w,h,16,off.length,gainState,maps.size(),corrected,
-                    fm1,fm2,cc1,cc2,analog,neutral,camera);
+                    fm1,fm2,cc1,cc2,analog,neutral,camera,illuminant(tif,p,root));
         }
     }
 
@@ -528,7 +552,7 @@ public final class HasselbladDngTileReader {
             }
             ReadResult metadata=new ReadResult(w,h,16,offsets.length,
                 opcode==null?"absent":"opcode2_gainmap_only",maps.size(),applied,
-                fm1,fm2,cc1,cc2,analog,neutral,new double[0]);
+                fm1,fm2,cc1,cc2,analog,neutral,new double[0],illuminant(tif,p,root));
             return new PreviewResult(metadata,pw,ph,step,orientation,rgb,negative,over);
         }
     }

@@ -16,7 +16,9 @@ public final class HasselbladProfile43 {
     public final double[] grid;
     public final float[] curve=new float[65536];
     private final byte[] encoded;
-    public final boolean hasNativeFinishing;
+    public final boolean hasNativeFinishing,hasAutomaticIlluminant;
+    private final int[] anchorTemperatures=new int[3];
+    private final double[][] anchorGrids=new double[3][];
     private final double[] outputMatrix=new double[9];
     private double outputExponent;
     private HasselbladProfile43(byte[] data)throws Exception {
@@ -26,7 +28,8 @@ public final class HasselbladProfile43 {
             throw new IOException("Colour profile checksum failed");
         ByteBuffer b=ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN);
         byte[] magic=new byte[8];b.get(magic);
-        hasNativeFinishing=Arrays.equals(magic,new byte[]{'H','B','5','5','L','U','T','1'});
+        hasAutomaticIlluminant=Arrays.equals(magic,new byte[]{'H','B','5','6','L','U','T','1'});
+        hasNativeFinishing=hasAutomaticIlluminant||Arrays.equals(magic,new byte[]{'H','B','5','5','L','U','T','1'});
         if(!hasNativeFinishing&&!Arrays.equals(magic,new byte[]{'H','B','4','3','L','U','T','1'}))
             throw new IOException("Choose a supported .hbc colour profile");
         gridWidth=b.getInt();gridHeight=b.getInt();temperature=b.getInt();
@@ -35,8 +38,9 @@ public final class HasselbladProfile43 {
             temperature<2000||temperature>10000||model<0||model>1||
             (film!=0&&film!=1&&film!=7)||space!=0)
             throw new IOException("Unsupported colour profile configuration");
+        if(hasAutomaticIlluminant&&model!=0)throw new IOException("Automatic illuminant requires the normal model");
         long count=(long)gridWidth*gridHeight*2;
-        if(data.length!=32+38*8+count*8+65536*4+32+(hasNativeFinishing?96:0))throw new IOException("Colour profile length mismatch");
+        if(data.length!=32+38*8+count*8+65536*4+32+(hasNativeFinishing?96:0)+(hasAutomaticIlluminant?8+3*(4+count*8):0))throw new IOException("Colour profile length mismatch");
         for(int i=0;i<values.length;i++) {
             values[i]=b.getDouble();
             if(!Double.isFinite(values[i])||Math.abs(values[i])>1e6)throw new IOException("Invalid colour parameter");
@@ -63,6 +67,20 @@ public final class HasselbladProfile43 {
             outputExponent=b.getDouble();
             if(!Double.isFinite(outputExponent)||outputExponent<=0||outputExponent>8)
                 throw new IOException("Invalid output transfer");
+        }
+        if(hasAutomaticIlluminant) {
+            if(b.getInt()!=1||b.getInt()!=3)throw new IOException("Unsupported illuminant profile version");
+            for(int j=0;j<3;j++) {
+                anchorTemperatures[j]=b.getInt();
+                if(anchorTemperatures[j]<2000||anchorTemperatures[j]>10000||
+                    (j>0&&anchorTemperatures[j]<=anchorTemperatures[j-1]))throw new IOException("Invalid LUT anchors");
+                anchorGrids[j]=new double[(int)count];
+                for(int i=0;i<count;i++) {
+                    double v=b.getDouble();
+                    if(!Double.isFinite(v)||Math.abs(v)>1e6)throw new IOException("Invalid illuminant LUT");
+                    anchorGrids[j][i]=v;
+                }
+            }
         }
         encoded=data;
     }
@@ -102,6 +120,16 @@ public final class HasselbladProfile43 {
         return pixels;
     }
     public int[] display(short[] rendered) {return encode(rendered,Arrays.copyOfRange(values,28,37),values[37],65536);}
+    /** Native normal-model LUT interpolation in Kelvin, including endpoint extrapolation.
+     * DNG matrix interpolation uses inverse Kelvin independently. */
+    public double[] gridAtTemperature(int kelvin) {
+        if(!hasAutomaticIlluminant)throw new IllegalStateException("Import an automatic-illuminant profile");
+        int t=Math.max(2000,Math.min(10000,kelvin)),j=t<anchorTemperatures[1]?0:1;
+        double weight=(double)(t-anchorTemperatures[j])/(anchorTemperatures[j+1]-anchorTemperatures[j]);
+        double[] result=new double[grid.length];
+        for(int i=0;i<result.length;i++)result[i]=Math.fma(weight,anchorGrids[j+1][i]-anchorGrids[j][i],anchorGrids[j][i]);
+        return result;
+    }
     public short[] finishRgb16(short[] rendered) {
         if(!hasNativeFinishing)throw new IllegalStateException("Import a finishing-enabled colour profile");
         return HasselbladRenderer42.outputSrgb16(HasselbladRenderer42.defaultGradation(rendered),outputMatrix,outputExponent);

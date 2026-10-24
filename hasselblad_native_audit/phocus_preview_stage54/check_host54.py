@@ -26,7 +26,7 @@ def main():
     jdk=Path(javac or java_binary).resolve().parents[1]
     jni=a.jni_include.resolve() if a.jni_include else jdk/'include'
     if not (jni/'jni.h').is_file():raise RuntimeError('JNI headers required; pass --jni-include')
-    units=['HasselbladRenderer42','HasselbladRenderBundle42','HasselbladDngTileReader','HasselbladProfile43','HasselbladPreparedHighlight54']
+    units=['HasselbladRenderer42','HasselbladRenderBundle42','HasselbladDngTileReader','HasselbladProfile43','HasselbladPreparedHighlight54','HasselbladIlluminant56']
     tests=[audit/'phocus_port_stage42/Stage42BridgeSmoke.java',audit/'phocus_dng_stage43/Stage43Smoke.java',
            audit/'phocus_boundaries_stage48/Metadata48Check.java',Path(__file__).with_name('Stage54Smoke.java'),
            Path(__file__).with_name('Stage54PrivateCheck.java')]

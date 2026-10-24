@@ -30,7 +30,7 @@ public final class HasselbladDngActivity43 extends BaseActivity {
     private ImageView image;
     private MaterialButton importProfile,open,toggle,copy;
     private HasselbladProfile43 profile;
-    private Bitmap experiment,highlight,finished,baseline;
+    private Bitmap experiment,highlight,finished,automatic,baseline;
     private boolean busy;
     private int previewMode;
     private String previewSummary;
@@ -58,11 +58,11 @@ public final class HasselbladDngActivity43 extends BaseActivity {
         open=new MaterialButton(this);open.setText("Open saved DNG");
         open.setOnClickListener(v->{if(!busy)dngPicker.launch(new String[]{"*/*"});});root.addView(open);
         toggle=new MaterialButton(this);toggle.setText("Show highlight reconstruction");
-        toggle.setOnClickListener(v->{previewMode=(previewMode+1)%4;if(previewMode==2&&finished==null)previewMode=3;show();});root.addView(toggle);
+        toggle.setOnClickListener(v->{previewMode=nextMode();show();});root.addView(toggle);
         copy=new MaterialButton(this);copy.setText("Copy render report");
         copy.setOnClickListener(v->{
             ClipboardManager clipboard=getSystemService(ClipboardManager.class);
-            if(clipboard!=null&&report!=null)clipboard.setPrimaryClip(ClipData.newPlainText("Stage55",report));
+            if(clipboard!=null&&report!=null)clipboard.setPrimaryClip(ClipData.newPlainText("Stage56",report));
         });root.addView(copy);
         image=new ImageView(this);image.setAdjustViewBounds(true);image.setScaleType(ImageView.ScaleType.FIT_CENTER);
         root.addView(image,new LinearLayout.LayoutParams(-1,0,1));
@@ -83,8 +83,8 @@ public final class HasselbladDngActivity43 extends BaseActivity {
     }
     private void clearPreview() {
         image.setImageDrawable(null);
-        if(experiment!=null)experiment.recycle();if(highlight!=null)highlight.recycle();if(finished!=null)finished.recycle();if(baseline!=null)baseline.recycle();
-        experiment=highlight=finished=baseline=null;report=null;previewMode=0;previewSummary=null;
+        if(experiment!=null)experiment.recycle();if(highlight!=null)highlight.recycle();if(finished!=null)finished.recycle();if(automatic!=null)automatic.recycle();if(baseline!=null)baseline.recycle();
+        experiment=highlight=finished=automatic=baseline=null;report=null;previewMode=0;previewSummary=null;
     }
     private void fail(Throwable error) {
         runOnUiThread(()->{if(isFinishing()||isDestroyed())return;
@@ -103,8 +103,8 @@ public final class HasselbladDngActivity43 extends BaseActivity {
                 try {out=file.startWrite();out.write(loaded.encoded());file.finishWrite(out);}
                 catch(Exception e){if(out!=null)file.failWrite(out);throw e;}
                 runOnUiThread(()->{if(isFinishing()||isDestroyed())return;
-                    profile=loaded;setBusy(false);status.setText("Profile ready · look temperature "+loaded.temperature+
-                        " K. Open a saved DNG. Its own white balance will be used.");});
+                    profile=loaded;setBusy(false);status.setText(loaded.hasAutomaticIlluminant?"Automatic-colour profile ready. Open a saved DNG. Its own white balance will be used.":
+                        "Profile ready · look temperature "+loaded.temperature+" K. Open a saved DNG. Its own white balance will be used.");});
             }catch(Exception|LinkageError e){fail(e);}
         },"HB43-profile-import");worker.start();
     }
@@ -115,16 +115,25 @@ public final class HasselbladDngActivity43 extends BaseActivity {
         Bitmap rotated=Bitmap.createBitmap(base,0,0,p.width,p.height,m,false);
         if(rotated!=base)base.recycle();return rotated;
     }
+    private int nextMode() {
+        int next=(previewMode+1)%5;
+        if(next==2&&finished==null)next=3;
+        if(next==3&&automatic==null)next=4;
+        return next;
+    }
     private void show() {
-        image.setImageBitmap(previewMode==0?experiment:previewMode==1?highlight:previewMode==2?finished:baseline);
+        image.setImageBitmap(previewMode==0?experiment:previewMode==1?highlight:previewMode==2?finished:previewMode==3?automatic:baseline);
         String label=previewMode==0?"Original colour preview":previewMode==1?
-            "Highlight reconstruction · experimental":previewMode==2?"Native finishing · experimental":"Same-RAW neutral baseline";
+            "Highlight reconstruction · experimental":previewMode==2?"Native finishing · experimental":
+            previewMode==3?"Automatic colour · experimental":"Same-RAW neutral baseline";
         image.setContentDescription(label);
-        toggle.setText(previewMode==0?"Show highlight reconstruction":previewMode==1&&finished!=null?
-            "Show native finishing":previewMode<3?"Show neutral baseline":"Show original colour preview");
+        int next=nextMode();toggle.setText(next==1?"Show highlight reconstruction":next==2?
+            "Show native finishing":next==3?"Show automatic colour":next==4?"Show neutral baseline":"Show original colour preview");
         if(report!=null)try {
             JSONObject j=new JSONObject(report);j.put("displayed_preview",previewMode==0?"original":
-                previewMode==1?"highlight":previewMode==2?"native_finishing":"neutral");report=j.toString();
+                previewMode==1?"highlight":previewMode==2?"native_finishing":previewMode==3?"automatic_colour":"neutral");
+            j.put("displayed_lut_temperature",previewMode==4?JSONObject.NULL:
+                j.get(previewMode==3?"lut_temperature_selected":"lut_temperature_manual"));report=j.toString();
         }catch(org.json.JSONException ignored){}
         if(previewSummary!=null)status.setText(label+"\n"+previewSummary);
     }
@@ -133,7 +142,7 @@ public final class HasselbladDngActivity43 extends BaseActivity {
         clearPreview();setBusy(true);status.setText("Preparing and rendering the saved DNG…");
         final HasselbladProfile43 look=profile;
         worker=new Thread(()->{
-            File temporary=null;Bitmap rendered=null,reconstructed=null,completed=null,reference=null;
+            File temporary=null;Bitmap rendered=null,reconstructed=null,completed=null,autoCompleted=null,reference=null;
             try {
                 long start=SystemClock.elapsedRealtime();
                 temporary=File.createTempFile("hb43-",".dng",getCacheDir());
@@ -166,6 +175,24 @@ public final class HasselbladDngActivity43 extends BaseActivity {
                 if(Thread.currentThread().isInterrupted())throw new IOException("DNG preview cancelled");
                 short[] finishedRgb=look.hasNativeFinishing?look.finishRgb16(highlightRgb):null;
                 long finishedAt=SystemClock.elapsedRealtime();
+                HasselbladIlluminant56.Result selection=null;
+                short[] automaticRgb=null;String automaticFallback="Import an automatic-colour profile";
+                if(look.hasAutomaticIlluminant) {
+                    automaticFallback=meta.illuminant.error;
+                    if(automaticFallback==null)try {
+                        selection=HasselbladIlluminant56.estimate(meta.illuminant.colorMatrix1,meta.illuminant.colorMatrix2,
+                            meta.illuminant.light1,meta.illuminant.light2,meta.calibration1,meta.calibration2,
+                            meta.analogBalance,meta.asShotNeutral);
+                    }catch(IllegalArgumentException e){automaticFallback=e.getMessage();}
+                    if(selection!=null) {
+                        short[] colour=HasselbladRenderer42.render(highlightInput,look.parameters(highlightPlan.afterMatrix),
+                            look.gridAtTemperature(selection.lutKelvin),look.curve,look.gridWidth,look.gridHeight,1);
+                        automaticRgb=look.finishRgb16(colour);
+                    }
+                }
+                long automaticAt=SystemClock.elapsedRealtime();
+                if(Thread.currentThread().isInterrupted())throw new IOException("DNG preview cancelled");
+                if(automaticRgb!=null)autoCompleted=bitmap(HasselbladProfile43.srgb16ToArgb(automaticRgb),p);
                 if(finishedRgb!=null)completed=bitmap(HasselbladProfile43.srgb16ToArgb(finishedRgb),p);
                 rendered=bitmap(look.display(rgb),p);reconstructed=bitmap(look.display(highlightRgb),p);
                 reference=bitmap(HasselbladProfile43.baseline(p.cameraRgb16,camera,display),p);
@@ -175,7 +202,7 @@ public final class HasselbladDngActivity43 extends BaseActivity {
                     if((p.cameraRgb16[i]&65535)==65535)ceiling++;
                     if(rgb[i]!=highlightRgb[i])changed++;
                 }
-                JSONObject j=new JSONObject();j.put("schema","hasselblad-stage55-device-dng-v1");j.put("status","RENDERED_EXPERIMENTAL_COMPARISON");
+                JSONObject j=new JSONObject();j.put("schema","hasselblad-stage56-device-dng-v1");j.put("status","RENDERED_EXPERIMENTAL_COMPARISON");
                 j.put("raw_width",meta.width);j.put("raw_height",meta.height);j.put("preview_width",p.width);j.put("preview_height",p.height);
                 j.put("sample_step",p.step);j.put("orientation",p.orientation);
                 j.put("copy_milliseconds",copied-start);j.put("raw_preparation_milliseconds",prepared-copied);
@@ -183,7 +210,8 @@ public final class HasselbladDngActivity43 extends BaseActivity {
                 j.put("highlight_preparation_milliseconds",recovered-core);
                 j.put("highlight_colour_core_milliseconds",highlightCore-recovered);
                 j.put("finishing_milliseconds",finishedAt-highlightCore);
-                j.put("display_milliseconds",done-finishedAt);j.put("total_milliseconds",done-start);
+                j.put("automatic_colour_milliseconds",automaticAt-finishedAt);
+                j.put("display_milliseconds",done-automaticAt);j.put("total_milliseconds",done-start);
                 j.put("gainmap_count",meta.gainMapCount);j.put("input_negative_channels_clipped",p.negativeChannels);
                 j.put("input_over_unity_channels_clipped",p.overUnityChannels);
                 j.put("wb_owner",1);j.put("camera_matrix_source","selected DNG ForwardMatrix and AsShotNeutral");
@@ -196,6 +224,16 @@ public final class HasselbladDngActivity43 extends BaseActivity {
                 j.put("highlight_cpu_arithmetic",true);j.put("original_preview_available",true);
                 j.put("original_raw_graph_reproduced",false);j.put("lost_raw_headroom_recovered",false);
                 j.put("lut_temperature_manual",look.temperature);j.put("model_code",look.model);j.put("film_code",look.film);j.put("working_space_code",look.space);
+                j.put("automatic_colour_available",automaticRgb!=null);
+                j.put("illuminant_selection_status",selection!=null?"SELECTED_FROM_DNG_WHITE_POINT":"MANUAL_FALLBACK");
+                j.put("illuminant_fallback_reason",automaticFallback==null?JSONObject.NULL:automaticFallback);
+                j.put("illuminant_source","selected DNG ColorMatrix, calibration illuminants, calibration, AnalogBalance and AsShotNeutral");
+                j.put("metadata_white_point_kelvin",selection==null?JSONObject.NULL:selection.kelvin);
+                j.put("native_quantized_kelvin",selection==null?JSONObject.NULL:selection.nativeKelvin);
+                j.put("lut_temperature_selected",selection==null?look.temperature:selection.lutKelvin);
+                j.put("illuminant_iterations",selection==null?0:selection.iterations);
+                j.put("illuminant_neutral_ratio_residual",selection==null?JSONObject.NULL:selection.residual);
+                j.put("illuminant_is_physical_lamp_measurement",false);j.put("DNG_white_balance_changed",false);
                 j.put("native_finishing_available",look.hasNativeFinishing);
                 j.put("native_finishing_input","highlight-reconstructed colour and film RGB16");
                 j.put("native_gradation_version",1);j.put("native_gradation_defaults_only",true);
@@ -204,19 +242,21 @@ public final class HasselbladDngActivity43 extends BaseActivity {
                 j.put("display_adapter","legacy comparison plus optional bounded native CPU sRGB output");j.put("host_reference_compared",false);
                 j.put("source_dng_modified",false);j.put("phone_sensor_adaptation_experimental",true);
                 j.put("capture_renderer_changed",false);j.put("full_phocus_equivalence",false);
-                final Bitmap result=rendered,enhanced=reconstructed,finish=completed,base=reference;final String receipt=j.toString();
+                final Bitmap result=rendered,enhanced=reconstructed,finish=completed,auto=autoCompleted,base=reference;final String receipt=j.toString();
+                final String automaticSummary=selection!=null?"Automatic comparison available at "+selection.lutKelvin+" K. ":
+                    "Automatic look unavailable; manual profile retained. ";
                 runOnUiThread(()->{
-                    if(isFinishing()||isDestroyed()){result.recycle();enhanced.recycle();if(finish!=null)finish.recycle();base.recycle();return;}
-                    experiment=result;highlight=enhanced;finished=finish;baseline=base;report=receipt;previewMode=0;
+                    if(isFinishing()||isDestroyed()){result.recycle();enhanced.recycle();if(finish!=null)finish.recycle();if(auto!=null)auto.recycle();base.recycle();return;}
+                    experiment=result;highlight=enhanced;finished=finish;automatic=auto;baseline=base;report=receipt;previewMode=0;
                     previewSummary=p.width+" × "+p.height+" · "+(done-start)+" ms total\n"+
-                        "Uses this DNG’s white balance. Camera photos still use Photon.";
+                        automaticSummary+"Uses this DNG’s white balance. Camera photos still use Photon.";
                     setBusy(false);show();
-                });rendered=reconstructed=completed=reference=null;
+                });rendered=reconstructed=completed=autoCompleted=reference=null;
             }catch(Exception|LinkageError e){fail(e);}
             finally {
                 if(temporary!=null)temporary.delete();
                 if(rendered!=null)rendered.recycle();if(reference!=null)reference.recycle();
-                if(reconstructed!=null)reconstructed.recycle();if(completed!=null)completed.recycle();
+                if(reconstructed!=null)reconstructed.recycle();if(completed!=null)completed.recycle();if(autoCompleted!=null)autoCompleted.recycle();
             }
         },"HB43-saved-dng-render");worker.start();
     }

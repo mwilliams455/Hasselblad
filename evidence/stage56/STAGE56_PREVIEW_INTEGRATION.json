@@ -1,0 +1,79 @@
+{
+  "schema": "hasselblad-stage56-preview-integration-v1",
+  "status": "PASS_EXPERIMENTAL_METADATA_SELECTION",
+  "private_host": {
+    "schema": "hasselblad-stage56-private-host-v1",
+    "status": "RENDERED_FOR_INDEPENDENT_CHECK",
+    "pixels": 786432,
+    "metadata_kelvin": 3566.3714249944596,
+    "metadata_tint_diagnostic": 55.01593145399458,
+    "native_quantized_kelvin": 3550,
+    "lut_kelvin": 3550,
+    "iterations": 10,
+    "neutral_ratio_residual": 8.540279594626554e-12,
+    "grid_values_checked": 205590,
+    "grid_max_absolute_difference": 1.4210854715202004e-14,
+    "manual_colour_and_finishing_unchanged_exact": true,
+    "auto_render_milliseconds": 176,
+    "device_tested": false,
+    "scene_fitted_parameters": 0,
+    "full_phocus_equivalence": false
+  },
+  "metadata_vs_independent_bisection_kelvin_error": 7.63930074754171e-09,
+  "colour_core_vs_independent_trace_exact_channels": 2359296,
+  "colour_core_vs_original_cpu_sample": {
+    "channels": 3075,
+    "max_abs_difference": 0.0,
+    "mean_abs_difference": 0.0,
+    "exact_channels": 3075
+  },
+  "gradation_and_output_vs_host_c_exact_channels_each": 2359296,
+  "gradation_original_cpu_sample": {
+    "channels": 3075,
+    "max_abs_difference": 0.0,
+    "mean_abs_difference": 0.0,
+    "exact_channels": 3075
+  },
+  "output_original_cpu_sample": {
+    "channels": 3075,
+    "max_abs_difference": 0.0,
+    "mean_abs_difference": 0.0,
+    "exact_channels": 3075
+  },
+  "output_independent_all": {
+    "channels": 2359296,
+    "max_abs_difference": 0.0,
+    "mean_abs_difference": 0.0,
+    "exact_channels": 2359296
+  },
+  "automatic_vs_manual_8bit_change_not_accuracy_score": {
+    "mean_abs_rgb8": 0.08799574110243055,
+    "p95_abs_rgb8": 1.0,
+    "max_abs_rgb8": 45.0,
+    "pixels_with_any_change_gt_2_pct": 0.24464925130208334
+  },
+  "automatic_colour_clipping": {
+    "pixels": 786432,
+    "nonpositive_luminance_pixels": 0,
+    "lut_coordinate_clamped_pixels": 6331,
+    "pre_curve_below_zero_channels": 1788,
+    "pre_curve_above_65535_channels": 34625,
+    "post_curve_code_65535_channels": 34644,
+    "display_linear_below_zero_channels": 27153,
+    "display_linear_above_one_channels": 18917,
+    "display_linear_above_one_pct": 0.8018069797092013,
+    "display_rgb8_zero_channels": 28710,
+    "display_rgb8_255_channels": 37338
+  },
+  "manual_temperature": 3050,
+  "metadata_temperature_is_physical_lamp_measurement": false,
+  "white_balance_changed": false,
+  "scene_fitted_parameters": 0,
+  "source_files_unchanged": true,
+  "private_arrays_or_input_hashes_exported": false,
+  "capture_renderer_changed": false,
+  "device_tested": false,
+  "physical_phone_colour_match_validated": false,
+  "original_raw_graph_reproduced": false,
+  "full_phocus_equivalence": false
+}

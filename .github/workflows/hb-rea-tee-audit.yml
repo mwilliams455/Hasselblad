@@ -188,6 +188,25 @@ jobs:
           assert r["version_slots_both_from_same_callee_saved_register"] is True
           assert r["original_instruction_bytes_or_disassembly_exported"] is False
           PY
+      - name: Identify command-3 vs command-6 branch and TEE parameter contracts in original X2D II
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile hasselblad_native_audit/tee_rea_20261024/inspect_branch_operation9.py
+          python3 hasselblad_native_audit/tee_rea_20261024/inspect_branch_operation9.py \
+            --self-test --output "$RUNNER_TEMP/HB_REA_STAGE9_SYNTHETIC.json"
+          python3 hasselblad_native_audit/tee_rea_20261024/inspect_branch_operation9.py \
+            --firmware-root hasselblad_native_audit/firmware/extracted \
+            --output "$RUNNER_TEMP/HB_REA_STAGE9_ORIGINAL_SAFE.json"
+          python3 - "$RUNNER_TEMP/HB_REA_STAGE9_ORIGINAL_SAFE.json" <<'PY'
+          import json,sys
+          r=json.load(open(sys.argv[1]))
+          assert r["schema"]=="hasselblad-rea-tee-stage9-original-init-branch-operation-v1"
+          assert len(r["operations"])==4
+          assert set(r["branch"]["entry_reaches"])=={"fw_util_verify_init","fw_util_verify_init_ext"}
+          assert not r["trusted_application_decompiled"] and not r["decryption_key_or_plaintext_recovered"]
+          assert not r["raw_vendor_instruction_or_pseudocode_exported"]
+          PY
       - name: Provision approved Java 21 runtime for REA Ghidra
         uses: actions/setup-java@v4
         with:
@@ -268,5 +287,7 @@ jobs:
             ${{ runner.temp }}/HB_REA_VERIFIER6_ORIGINAL_SAFE.json
             ${{ runner.temp }}/HB_REA_ALIAS8_SYNTHETIC.json
             ${{ runner.temp }}/HB_REA_ALIAS8_ORIGINAL_SAFE.json
+            ${{ runner.temp }}/HB_REA_STAGE9_SYNTHETIC.json
+            ${{ runner.temp }}/HB_REA_STAGE9_ORIGINAL_SAFE.json
           if-no-files-found: error
           retention-days: 14

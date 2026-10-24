@@ -137,6 +137,24 @@ jobs:
           assert x["host_tee_trace"]["text_instructions_examined"]>100
           assert not x["cryptographic_key_recovered"] and not x["vendor_binaries_exported"]
           PY
+      - name: Original X2D II key-selector caller and ABI provenance audit
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile hasselblad_native_audit/tee_rea_20261024/inspect_key_selectors5.py
+          python3 hasselblad_native_audit/tee_rea_20261024/inspect_key_selectors5.py \
+            --self-test --output "$RUNNER_TEMP/HB_REA_SELECTOR5_SYNTHETIC.json"
+          python3 hasselblad_native_audit/tee_rea_20261024/inspect_key_selectors5.py \
+            --firmware-root hasselblad_native_audit/firmware/extracted \
+            --output "$RUNNER_TEMP/HB_REA_SELECTOR5_ORIGINAL_SAFE.json"
+          python3 - "$RUNNER_TEMP/HB_REA_SELECTOR5_ORIGINAL_SAFE.json" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          assert d["schema"]=="hasselblad-rea-key-selector-normal-world-stage5-v1"
+          assert len(d["files"])==3
+          assert d["no_original_instruction_bytes_or_text_exported"]
+          assert not d["TEE_key_value_or_plaintext_recovered"]
+          PY
       - name: Provision approved Java 21 runtime for REA Ghidra
         uses: actions/setup-java@v4
         with:
@@ -176,6 +194,20 @@ jobs:
           assert d["secure_world_decompiled"] is False
           assert d["keys_recovered"] is False
           PY
+      - name: REA Ghidra key-selector caller path across original binaries
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile hasselblad_native_audit/tee_rea_20261024/rea_selectors5.py
+          python3 hasselblad_native_audit/tee_rea_20261024/rea_selectors5.py \
+            --firmware-root hasselblad_native_audit/firmware/extracted \
+            --output "$RUNNER_TEMP/HB_REA_SELECTOR5_GHIDRA_SAFE.json"
+          python3 - "$RUNNER_TEMP/HB_REA_SELECTOR5_GHIDRA_SAFE.json" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          assert d["no_pseudocode_exported"] and d["TEE_decrypted"] is False
+          assert d["secret_material_exported"] is False
+          PY
       - name: Remove original firmware and REA logs even if analysis failed
         if: always()
         shell: bash
@@ -196,5 +228,8 @@ jobs:
             ${{ runner.temp }}/HB_TEE_KEYPATH_SYNTHETIC.json
             ${{ runner.temp }}/HB_TEE_KEYPATH_ORIGINAL_SAFE.json
             ${{ runner.temp }}/HB_TEE_GHIDRA_SAFE.json
+            ${{ runner.temp }}/HB_REA_SELECTOR5_SYNTHETIC.json
+            ${{ runner.temp }}/HB_REA_SELECTOR5_ORIGINAL_SAFE.json
+            ${{ runner.temp }}/HB_REA_SELECTOR5_GHIDRA_SAFE.json
           if-no-files-found: error
           retention-days: 14

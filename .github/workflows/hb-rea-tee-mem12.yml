@@ -23,6 +23,9 @@ jobs:
           set -euo pipefail
           p=hasselblad_native_audit/tee_mem_stage12/inspect_memrefs12.py
           python3 -m py_compile "$p"
+          python3 -m py_compile hasselblad_native_audit/tee_mem_stage12/inspect_input_chain13.py
+          python3 hasselblad_native_audit/tee_mem_stage12/inspect_input_chain13.py \
+            --self-test --output "$RUNNER_TEMP/HB_REA13_SYNTHETIC.json"
           python3 "$p" --self-test --output "$RUNNER_TEMP/HB_REA12_SYNTHETIC.json"
           python3 - "$RUNNER_TEMP/HB_REA12_SYNTHETIC.json" <<'PY'
           import json,sys
@@ -75,6 +78,21 @@ jobs:
           assert d["TEE_or_DSP_decryption_performed"] is False
           assert d["data_includes_secret_key_or_plaintext"] is False
           PY
+      - name: Trace original command6 input and version ABI to buffers
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 hasselblad_native_audit/tee_mem_stage12/inspect_input_chain13.py \
+            --firmware-root hasselblad_native_audit/firmware/extracted \
+            --output "$RUNNER_TEMP/HB_REA13_ORIGINAL_SAFE.json"
+          python3 - "$RUNNER_TEMP/HB_REA13_ORIGINAL_SAFE.json" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          assert d["schema"]=="hasselblad-stage13-original-command6-input-provenance-v1"
+          assert len(d["command6_copies"])==3 and len(d["command6_version_values"])==2
+          assert not d["actual_key_selector_material_recovered"]
+          assert not d["original_instruction_bytes_or_text_exported"]
+          PY
       - name: REA inspect original host library with objdump provider
         shell: bash
         run: |
@@ -109,5 +127,7 @@ jobs:
             ${{ runner.temp }}/HB_REA12_SYNTHETIC.json
             ${{ runner.temp }}/HB_REA12_ORIGINAL_SAFE.json
             ${{ runner.temp }}/HB_REA12_EXECUTION_SAFE.json
+            ${{ runner.temp }}/HB_REA13_SYNTHETIC.json
+            ${{ runner.temp }}/HB_REA13_ORIGINAL_SAFE.json
           if-no-files-found: error
           retention-days: 14

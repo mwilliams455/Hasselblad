@@ -4,6 +4,7 @@ name: Hasselblad REA e91c TEE operation ABI — Stage27
     branches: [research/rea-tee-20261024]
     paths:
       - 'hasselblad_native_audit/tee_provision_stage22/inspect_efuse_contract27.py'
+      - 'hasselblad_native_audit/tee_provision_stage22/inspect_wide_zero28.py'
       - '.github/workflows/hb-rea-efuse-contract27.yml'
   workflow_dispatch:
 permissions:
@@ -23,6 +24,9 @@ jobs:
           set -euo pipefail
           p=hasselblad_native_audit/tee_provision_stage22/inspect_efuse_contract27.py
           python3 -m py_compile "$p"
+          python3 -m py_compile hasselblad_native_audit/tee_provision_stage22/inspect_wide_zero28.py
+          python3 hasselblad_native_audit/tee_provision_stage22/inspect_wide_zero28.py \
+            --self-test --output "$RUNNER_TEMP/HB_STAGE28_SYNTHETIC.json"
           python3 "$p" --self-test --output "$RUNNER_TEMP/HB_STAGE27_SYNTHETIC.json"
           python3 - "$RUNNER_TEMP/HB_STAGE27_SYNTHETIC.json" <<'PY'
           import json,sys
@@ -63,6 +67,21 @@ jobs:
           assert [x["verified_command_id"] for x in r["functions"]]==[0,3,32]
           assert not r["original_eFuse_or_device_operation_executed"]
           assert not r["private_literal_bytes_or_vendor_pseudocode_exported"]
+          PY
+      - name: Inspect wide and SIMD zero-initialisation of original eFuse command 0
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 hasselblad_native_audit/tee_provision_stage22/inspect_wide_zero28.py \
+            --firmware-root hasselblad_native_audit/firmware/extracted \
+            --output "$RUNNER_TEMP/HB_STAGE28_ORIGINAL_SAFE.json"
+          python3 - "$RUNNER_TEMP/HB_STAGE28_ORIGINAL_SAFE.json" <<'PY'
+          import json,sys
+          r=json.load(open(sys.argv[1]))
+          assert r["schema"]=="hasselblad-stage28-original-eFuse-command0-zero-contract-v1"
+          assert r["command_id"]==0 and r["operation_base_sp"]==72
+          assert not r["eFuse_pro_operation_executed"]
+          assert not r["raw_manufacturer_code_or_unknown_data_exported"]
           PY
       - name: Set up supported REA Node runtime
         uses: actions/setup-node@v4
@@ -105,5 +124,7 @@ jobs:
             ${{ runner.temp }}/HB_STAGE27_SYNTHETIC.json
             ${{ runner.temp }}/HB_STAGE27_ORIGINAL_SAFE.json
             ${{ runner.temp }}/HB_STAGE27_REA_SAFE.json
+            ${{ runner.temp }}/HB_STAGE28_SYNTHETIC.json
+            ${{ runner.temp }}/HB_STAGE28_ORIGINAL_SAFE.json
           if-no-files-found: error
           retention-days: 14

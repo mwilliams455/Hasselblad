@@ -13,6 +13,11 @@ parameters were fitted. No app files changed and no APK was built. The current
 phone build remains **Stage58, `0.1-hb-rawprep58` / 27197**, with the Stage56
 private profile.
 
+[Stage62](../phocus_interpolation_stage62/README.md) adds independent C
+implementations of the two missing red/blue interpolation helpers, extending
+the substitution check to nine components. The results below remain the
+historical seven-component Stage61 checkpoint.
+
 ## Portable implementation
 
 `gradient_maps61.c` and its header depend only on the C standard library. The

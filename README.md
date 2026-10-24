@@ -4,10 +4,12 @@ A standalone PhotonCamera development project investigating a firmware-derived
 Hasselblad X2D II colour-processing path on Android phones.
 
 **Latest experimental device build: Stage58, `0.1-hb-rawprep58` / 27197.**
-[Stage61 research](hasselblad_native_audit/phocus_gradient_stage61/README.md)
-implements seven gradient-demosaic kernels in independent C and verifies exact
-RGB16 output when substituting them inside the bounded original CPU reference.
-Stages59–61 do not change the app or produce a new APK. The saved-DNG comparison
+[Stage62 research](hasselblad_native_audit/phocus_interpolation_stage62/README.md)
+adds two missing-colour interpolation helpers to the seven Stage61 components.
+Substituting all nine independent C components preserves 187,224 final RGB16
+channels exactly; green estimation and remaining pixel/colour work still use
+original code in the bounded audit. Stages59–62 do not change the app or produce
+a new APK. The saved-DNG comparison
 remains experimental; normal capture still uses Photon.
 
 **Historical Native1A checkpoint: `0.1-hb-native1a` (reviewed APK version code

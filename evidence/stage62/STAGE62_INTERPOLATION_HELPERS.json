@@ -1,0 +1,47 @@
+{
+  "schema": "hasselblad-stage62-interpolation-helpers-v1",
+  "status": "PASS_EXACT_HELPERS",
+  "blue_cases": 21822,
+  "red_blue_cases": 22062,
+  "alias_cases": 300,
+  "exact_blue_register_results": 21822,
+  "exact_output_codes": 65946,
+  "low_direction_masks_covered": 256,
+  "strides_tested": [
+    3,
+    8,
+    19
+  ],
+  "negative_native_register_results_observed": 1626,
+  "single_ratio_wrap_witness": {
+    "center_green": 65535,
+    "neighbour_green": 1,
+    "neighbour_colour": 65535,
+    "mask": 1,
+    "signed_native_and_portable": -131071,
+    "stored_low16": 1,
+    "incorrect_saturating_result": 65534
+  },
+  "sum_wrap_witness": {
+    "center_green": 32768,
+    "neighbour_green": 1,
+    "neighbour_colour": 65535,
+    "mask": 3,
+    "signed_native_and_portable": -32768,
+    "stored_low16": 32768,
+    "incorrect_saturating_result": 65534
+  },
+  "all_storage_and_unchanged_inputs_compared": true,
+  "native_and_portable_guards_pass": true,
+  "zero_denominator_and_no_direction_fallback_tested": true,
+  "native_caller_alias_and_shared_output_write_order_tested": true,
+  "compiler": "gcc",
+  "undefined_behavior_sanitizer": true,
+  "max_absolute_output_difference": 0,
+  "complete_gradient_port": false,
+  "source_apk_modified": false,
+  "scene_fitted_parameters": 0,
+  "device_execution_compared": false,
+  "capture_renderer_changed": false,
+  "full_phocus_equivalence": false
+}

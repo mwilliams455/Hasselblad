@@ -30,6 +30,9 @@ jobs:
           python3 -m py_compile hasselblad_native_audit/tee_mem_stage12/inspect_host_return17.py
           python3 -m py_compile hasselblad_native_audit/tee_mem_stage12/inspect_post_return18.py
           python3 -m py_compile hasselblad_native_audit/tee_mem_stage12/inspect_return_status19.py
+          python3 -m py_compile hasselblad_native_audit/tee_mem_stage12/inspect_status_provenance20.py
+          python3 hasselblad_native_audit/tee_mem_stage12/inspect_status_provenance20.py \
+            --self-test --output "$RUNNER_TEMP/HB_REA20_SYNTHETIC.json"
           python3 hasselblad_native_audit/tee_mem_stage12/inspect_return_status19.py \
             --self-test --output "$RUNNER_TEMP/HB_REA19_SYNTHETIC.json"
           python3 hasselblad_native_audit/tee_mem_stage12/inspect_post_return18.py \
@@ -201,6 +204,21 @@ jobs:
           assert d["actual_decrypted_payload_output_observed"] is False
           assert not d["raw_vendor_code_or_disassembly_exported"]
           PY
+      - name: Verify original command2 secure-service return status through saved w19
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 hasselblad_native_audit/tee_mem_stage12/inspect_status_provenance20.py \
+            --firmware-root hasselblad_native_audit/firmware/extracted \
+            --output "$RUNNER_TEMP/HB_REA20_ORIGINAL_SAFE.json"
+          python3 - "$RUNNER_TEMP/HB_REA20_ORIGINAL_SAFE.json" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          assert d["schema"]=="hasselblad-stage20-original-TEE-command2-return-status-v1"
+          assert len(d["cases"])==2
+          assert d["secret_material_or_plaintext_extracted"] is False
+          assert not d["vendor_pseudocode_or_original_code_bytes_exported"]
+          PY
       - name: REA inspect original host library with objdump provider
         shell: bash
         run: |
@@ -249,5 +267,7 @@ jobs:
             ${{ runner.temp }}/HB_REA18_ORIGINAL_SAFE.json
             ${{ runner.temp }}/HB_REA19_SYNTHETIC.json
             ${{ runner.temp }}/HB_REA19_ORIGINAL_SAFE.json
+            ${{ runner.temp }}/HB_REA20_SYNTHETIC.json
+            ${{ runner.temp }}/HB_REA20_ORIGINAL_SAFE.json
           if-no-files-found: error
           retention-days: 14

@@ -25,6 +25,9 @@ jobs:
           set -euo pipefail
           p=hasselblad_native_audit/tee_provision_stage22/audit_key_provisioning22.py
           python3 -m py_compile "$p"
+          python3 -m py_compile hasselblad_native_audit/tee_provision_stage22/trace_efuse_session24.py
+          python3 hasselblad_native_audit/tee_provision_stage22/trace_efuse_session24.py \
+            --self-test --output "$RUNNER_TEMP/HB24_SYNTHETIC.json"
           python3 "$p" --self-test --output "$RUNNER_TEMP/HB22_SYNTHETIC.json"
           python3 - "$RUNNER_TEMP/HB22_SYNTHETIC.json" <<'PY'
           import json,sys
@@ -65,6 +68,22 @@ jobs:
           assert not x["cryptographic_keys_found_or_exported"]
           assert not x["original_vendor_code_executed"]
           assert not x["vendor_instruction_bytes_or_private_strings_exported"]
+          PY
+      - name: Trace original eFuse secure-session UUID and command argument
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 hasselblad_native_audit/tee_provision_stage22/trace_efuse_session24.py \
+            --firmware-root hasselblad_native_audit/firmware/extracted \
+            --output "$RUNNER_TEMP/HB24_ORIGINAL_SAFE.json"
+          python3 - "$RUNNER_TEMP/HB24_ORIGINAL_SAFE.json" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          assert d["schema"]=="hasselblad-stage24-original-efuse-TEE-session-UUID-v1"
+          assert len(d["resolved_relevant_tee_calls"])>=2
+          assert not d["known_key_material_extracted"]
+          assert not d["eFuse_function_executed"]
+          assert not d["vendor_machine_code_or_decompilation_exported"]
           PY
       - name: Setup REA supported runtime
         uses: actions/setup-node@v4
@@ -133,5 +152,7 @@ jobs:
             ${{ runner.temp }}/HB22_SYNTHETIC.json
             ${{ runner.temp }}/HB22_ORIGINAL_SAFE.json
             ${{ runner.temp }}/HB22_REA_SAFE.json
+            ${{ runner.temp }}/HB24_SYNTHETIC.json
+            ${{ runner.temp }}/HB24_ORIGINAL_SAFE.json
           if-no-files-found: error
           retention-days: 14

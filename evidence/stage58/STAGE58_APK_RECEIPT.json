@@ -1,0 +1,33 @@
+{
+  "status": "PASS_BUILD_ONLY",
+  "version_name": "0.1-hb-rawprep58",
+  "version_code": 27197,
+  "source_commit": "c5f76e1f3cd9d407ffffd3a46ed992b2d7137f43",
+  "apk_sha256": "485f8af62e2dbd06ddda8ab14f7c79a8f077ad6810bb9deb63d8ca8ef68be8b0",
+  "renderer_abis": [
+    "arm64-v8a",
+    "armeabi-v7a"
+  ],
+  "private_profile_or_photo_bundled": false,
+  "device_tested": false,
+  "capture_renderer_changed": false,
+  "schema": "hasselblad-stage58-apk-v1",
+  "build_run_id": 40087608498,
+  "artifact_id": 12557274860,
+  "downloaded_archive_digest_verified": true,
+  "apk_bytes": 71018662,
+  "post_download_abi_checks": {
+    "arm64-v8a": {
+      "load_alignment": 16384,
+      "existing_JNI_exports": true
+    },
+    "armeabi-v7a": {
+      "load_alignment": 16384,
+      "existing_JNI_exports": true
+    }
+  },
+  "signature_identity_matches_previous": true,
+  "existing_stage56_profile_compatible": true,
+  "physical_phone_colour_match_validated": false,
+  "full_phocus_equivalence": false
+}

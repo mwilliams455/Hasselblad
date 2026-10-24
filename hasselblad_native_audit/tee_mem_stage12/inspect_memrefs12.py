@@ -148,8 +148,11 @@ def function_dossier(name,insns,pltmap):
     assert len([r for r in calls if r["target"]=="TEEC_InvokeCommand" and r["va"]==invoke_hex])==1,"wrong original invocation"
     copy_count=sum(x["target"]=="strncpy" for x in calls)
     alloc_count=sum(x["target"]=="TEEC_AllocateSharedMemory" for x in calls)
-    if copy_count!=expected["expected_copies"] or alloc_count!=expected["expected_allocations"]:
-        raise ValueError("expected_original_shared_memory_call_count_changed_"+name)
+    expected_count_match=(copy_count==expected["expected_copies"] and
+                          alloc_count==expected["expected_allocations"])
+    # A discrepancy is evidence to inspect, never a reason to discard the
+    # original ELF's measured calls. Previous Stage9 recorded allocations but
+    # did not establish every function's copy count.
     writes=[field for i,ins in enumerate(insns) for field in direct_sp_store(insns,i,ins)
             if ins.address < expected["invoke"]]
     # TEE Operation declared struct: started(uint32),paramTypes(uint32),
@@ -171,6 +174,10 @@ def function_dossier(name,insns,pltmap):
         "TEEC_AllocateSharedMemory","TEEC_RegisterSharedMemoryFileDescriptor")]
     copy=[c for c in calls if c["target"] in ("strncpy","memcpy")]
     return {"function":name,"command_id":expected["command"],
+            "observed_allocations":alloc_count,"observed_strncpy_calls":copy_count,
+            "earlier_expected_allocations":expected["expected_allocations"],
+            "earlier_expected_strncpy_calls":expected["expected_copies"],
+            "matches_earlier_assumptions":expected_count_match,
             "original_invoke_va":invoke_hex,
             "paramtypes_verified_previous_stage":hex(expected["paramTypes"]),
             "operation_stack_base_observed_previous_stage":base,

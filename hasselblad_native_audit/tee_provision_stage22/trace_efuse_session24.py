@@ -142,7 +142,7 @@ def resolve_source(insns,idx,reg,steps=0,seen=None):
         base=writer["register_source"]
         result["offset"]=writer["immediate_value"]
         if base=="sp":
-            result["stack_based_argument":True
+            result["stack_based_argument"]=True
         else:
             previous=resolve_source(insns,k,base,steps+1,seen)
             result["base_provenance"]=previous

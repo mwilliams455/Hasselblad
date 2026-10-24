@@ -25,6 +25,7 @@ PATHS=(
         "fw_util_verify_update","fw_util_verify_final",
     )),
     ("system/lib64/libfw_util.so",(
+        "plt_fw_verify_file","plt_fw_verify_load2mem_with_heap_mask",
         "dji_fw_verify_file","dji_fw_verify_load2mem",
     )),
     ("system/bin/dji_fw_verify",("main",)),

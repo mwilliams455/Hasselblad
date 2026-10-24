@@ -5,6 +5,7 @@ name: Hasselblad REA e91c TEE operation ABI — Stage27
     paths:
       - 'hasselblad_native_audit/tee_provision_stage22/inspect_efuse_contract27.py'
       - 'hasselblad_native_audit/tee_provision_stage22/inspect_wide_zero28.py'
+      - 'hasselblad_native_audit/tee_provision_stage22/inspect_op_alias29.py'
       - '.github/workflows/hb-rea-efuse-contract27.yml'
   workflow_dispatch:
 permissions:
@@ -25,6 +26,9 @@ jobs:
           p=hasselblad_native_audit/tee_provision_stage22/inspect_efuse_contract27.py
           python3 -m py_compile "$p"
           python3 -m py_compile hasselblad_native_audit/tee_provision_stage22/inspect_wide_zero28.py
+          python3 -m py_compile hasselblad_native_audit/tee_provision_stage22/inspect_op_alias29.py
+          python3 hasselblad_native_audit/tee_provision_stage22/inspect_op_alias29.py \
+            --self-test --output "$RUNNER_TEMP/HB_STAGE29_SYNTHETIC.json"
           python3 hasselblad_native_audit/tee_provision_stage22/inspect_wide_zero28.py \
             --self-test --output "$RUNNER_TEMP/HB_STAGE28_SYNTHETIC.json"
           python3 "$p" --self-test --output "$RUNNER_TEMP/HB_STAGE27_SYNTHETIC.json"
@@ -83,6 +87,21 @@ jobs:
           assert not r["eFuse_pro_operation_executed"]
           assert not r["raw_manufacturer_code_or_unknown_data_exported"]
           PY
+      - name: Trace eFuse command0 indirect SP stores and libc zeroing candidates
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 hasselblad_native_audit/tee_provision_stage22/inspect_op_alias29.py \
+            --firmware-root hasselblad_native_audit/firmware/extracted \
+            --output "$RUNNER_TEMP/HB_STAGE29_ORIGINAL_SAFE.json"
+          python3 - "$RUNNER_TEMP/HB_STAGE29_ORIGINAL_SAFE.json" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          assert d["schema"]=="hasselblad-stage29-original-command0-indirect-TEE-operation-init-v1"
+          assert d["TEE_command_id"]==0 and d["TEE_operation_sp"]==72
+          assert not d["secret_material_or_proprietary_code_exported"]
+          assert not d["original_TEE_or_eFuse_executed"]
+          PY
       - name: Set up supported REA Node runtime
         uses: actions/setup-node@v4
         with:
@@ -126,5 +145,7 @@ jobs:
             ${{ runner.temp }}/HB_STAGE27_REA_SAFE.json
             ${{ runner.temp }}/HB_STAGE28_SYNTHETIC.json
             ${{ runner.temp }}/HB_STAGE28_ORIGINAL_SAFE.json
+            ${{ runner.temp }}/HB_STAGE29_SYNTHETIC.json
+            ${{ runner.temp }}/HB_STAGE29_ORIGINAL_SAFE.json
           if-no-files-found: error
           retention-days: 14

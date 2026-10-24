@@ -1,0 +1,33 @@
+{
+  "status": "PASS_BUILD_ONLY",
+  "version_name": "0.1-hb-compare57",
+  "version_code": 27196,
+  "source_commit": "7acd9ed29d7e433c18c0d5c61ee47b06e15fc793",
+  "apk_sha256": "fa3c6daecc82754cfa61c3c1c38b0430961b95d10667bd46654057cfcbcbaad8",
+  "renderer_abis": [
+    "arm64-v8a",
+    "armeabi-v7a"
+  ],
+  "private_profile_or_photo_bundled": false,
+  "device_tested": false,
+  "capture_renderer_changed": false,
+  "schema": "hasselblad-stage57-apk-v1",
+  "build_run_id": 40086208035,
+  "artifact_id": 12557426376,
+  "downloaded_archive_digest_verified": true,
+  "apk_bytes": 71018662,
+  "post_download_abi_checks": {
+    "arm64-v8a": {
+      "load_alignment": 16384,
+      "existing_JNI_exports": true
+    },
+    "armeabi-v7a": {
+      "load_alignment": 16384,
+      "existing_JNI_exports": true
+    }
+  },
+  "signature_identity_matches_previous": true,
+  "existing_stage56_profile_compatible": true,
+  "physical_phone_colour_match_validated": false,
+  "full_phocus_equivalence": false
+}

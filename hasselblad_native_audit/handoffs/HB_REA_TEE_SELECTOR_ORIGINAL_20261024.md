@@ -34,3 +34,31 @@ Trace the provenance of W23 and the other callee-saved selector registers to the
 - .github/workflows/hb-rea-tee-audit.yml
 
 No app code, production main, real capture images or phone settings were modified.
+
+## Stage8 closure — original X2D II selector-input provenance is now proved
+
+Source: [Stage8 successful pinned-original CI run 40105340603](https://github.com/mwilliams455/Hasselblad/actions/runs/40105340603), safe artifact `Hasselblad-TEE-REA-Safe-20261024`, receipt `HB_REA_ALIAS8_ORIGINAL_SAFE.json`.
+
+The original AArch64 wrapper `plt_fw_verify_file` at VA 0x1ce8 copies actual incoming argument registers once before the extended call at VA 0x1de4:
+
+| Original wrapper instruction | Register source |
+| --- | --- |
+| VA 0x1d30 | r24 ← ABI x7 |
+| VA 0x1d38 | r23 ← ABI w6 |
+| VA 0x1d40 | r25 ← ABI x5 |
+
+The direct consecutive argument setup at 0x1dd4, 0x1dd8, 0x1ddc and 0x1de0 is:
+
+- callee x2 ← wrapper's incoming x5
+- callee w3 ← wrapper's incoming w6
+- callee x4 ← wrapper's incoming x7
+- callee w5 ← **same** wrapper's incoming w6
+
+The original-input register r23 has exactly one explicit definition before the call (from w6) and is not changed between the two callee slot assignments in the inspected function. This establishes **the same caller-provided version value is passed into both extended key-version argument slots**. No distinct ninth stack argument supplies the fifth parameter of this particular original command-6 initialization call. It does **not** prove the ninth argument is unused everywhere, that separate key versions cannot exist inside the TEE, or that the TEE accepts this request at runtime.
+
+This is a narrow, original-binary static proof. It independently reproduces the *shape* of the older X2D research, without assuming older code offsets. The original client then packages this request and invokes TEE command 6. The actual protected trusted application is still encrypted, and the corresponding TBIE key value remains unknown.
+
+The first Stage8 CI attempt was rejected by an **incorrectly transcribed source-file SHA-256** in the new auditor (not a firmware or cipher validation failure). The hash was corrected against the already successful Stage6 original inventory. The successful rerun used the full pinned source hash `3e56db44845b23905355b6ef8550ff618d6b786be9de1057588d6de53db9e24d` and published no original code bytes.
+
+### Correct next research
+Resolve the original control-flow condition selecting `fw_util_verify_init_ext` versus `fw_util_verify_init`, then the `TEEC_Operation` paramTypes and memory-buffer ownership for command 6 versus command 2. Do not re-test six failed TBIE candidates or repeat RSA/IMaH header work. A firmware-only static trace still cannot retrieve a secret held solely by secure hardware.

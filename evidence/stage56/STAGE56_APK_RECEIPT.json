@@ -1,0 +1,31 @@
+{
+  "status": "PASS_BUILD_ONLY",
+  "version_name": "0.1-hb-illuminant56",
+  "version_code": 27195,
+  "source_commit": "3ae256d59bac84473d1aed9b93ea7e20edd2bd1b",
+  "apk_sha256": "2b725939bd29215e6a3939f5b269cf766557e193feffe22f3531be9327207b67",
+  "renderer_abis": [
+    "arm64-v8a",
+    "armeabi-v7a"
+  ],
+  "private_profile_or_photo_bundled": false,
+  "device_tested": false,
+  "capture_renderer_changed": false,
+  "schema": "hasselblad-stage56-apk-v1",
+  "build_run_id": 40084064836,
+  "artifact_id": 12555983026,
+  "downloaded_archive_digest_verified": true,
+  "apk_bytes": 71018662,
+  "post_download_abi_checks": {
+    "arm64-v8a": {
+      "load_alignment": 16384,
+      "finishing_and_existing_JNI_exports": true
+    },
+    "armeabi-v7a": {
+      "load_alignment": 16384,
+      "finishing_and_existing_JNI_exports": true
+    }
+  },
+  "signature_identity_matches_previous": true,
+  "full_phocus_equivalence": false
+}

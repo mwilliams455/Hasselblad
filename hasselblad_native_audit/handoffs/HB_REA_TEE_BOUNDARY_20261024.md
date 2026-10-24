@@ -30,3 +30,19 @@ The TA executable instructions are unavailable until valid plaintext or sanction
 - Normal Photon photographs, production main and experimental Stage61–62 renderer code are unchanged.
 
 **Result: TEE container identified, REA executed, secure-world plaintext not recovered.**
+
+## Final original IMaH header audit (run 40101683377)
+Third successful REA/static runner: https://github.com/mwilliams455/Hasselblad/actions/runs/40101683377
+
+The independently parsed, bounded, cleartext 192-byte IMaH-v2 headers in **both** TA files and **all four** DSP assets are internally size-consistent:
+- encryption FourCC: TBIE (six of six)
+- signature/authentication key FourCC: PRAK (six of six)
+- signature length: 384 bytes (six of six)
+- IMaH header version field: 2 (six of six)
+- TA files: one chunk each, header 224 bytes, payload lengths 206,752 and 271,520 bytes.
+- DSP assets: four chunks each, header 320 bytes.
+- Exactly matching file/declared-header-plus-signature-plus-payload lengths on all six.
+
+These fields verify the *declared key family* and coherent container framing. They are not decrypted TA or DSP code and do not establish a known available TBIE instance. Do not repeat public TBIE key guesses that failed prior validation, and do not mistake the PRAK public signing key for a decryption key.
+
+Safe third run artifact: Hasselblad-TEE-REA-Safe-20261024, containing only metadata and REA invocation receipts.

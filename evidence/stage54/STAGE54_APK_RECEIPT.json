@@ -1,0 +1,29 @@
+{
+  "schema": "hasselblad-stage54-apk-receipt-v1",
+  "status": "PASS_BUILD_ONLY",
+  "version_name": "0.1-hb-dng54",
+  "version_code": 27193,
+  "source_commit": "b1624948855dc67dde4b9b2e46fa949531443e3a",
+  "apk_sha256": "49614d2018a2537fec273c4a303ff46d2fb4791151017f0f02e817a14e9de0d2",
+  "renderer_abis": [
+    "arm64-v8a",
+    "armeabi-v7a"
+  ],
+  "private_profile_or_photo_bundled": false,
+  "device_tested": false,
+  "capture_renderer_changed": false,
+  "workflow_run": 40079929822,
+  "workflow_url": "https://github.com/mwilliams455/Hasselblad/actions/runs/40079929822",
+  "download_digest_verified": true,
+  "signing_identity_matches_previous_build": true,
+  "native_abi_checks": {
+    "arm64-v8a": {
+      "highlight_symbols_present": true,
+      "minimum_load_alignment": 16384
+    },
+    "armeabi-v7a": {
+      "highlight_symbols_present": true,
+      "minimum_load_alignment": 16384
+    }
+  }
+}

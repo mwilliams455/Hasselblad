@@ -1,0 +1,198 @@
+{
+  "schema": "hasselblad-stage51-default-gradation-v1",
+  "status": "PASS_BOUNDED_DEFAULT_GRADATION",
+  "native_default_tool_code": 2,
+  "native_default_working_space": 0,
+  "native_default_film_request": 4,
+  "film_request_4_meaning": "inherit source film, established in Stage45",
+  "default_contrast_and_luma_identity_values": 131072,
+  "default_luma_points": 2,
+  "independent_rgb_curve": {
+    "channels": 196608,
+    "max_abs_difference": 0.0,
+    "mean_abs_difference": 0.0,
+    "exact_channels": 196608
+  },
+  "rgb_default_difference_from_identity": {
+    "channels": 196608,
+    "max_abs_difference": 253.0,
+    "mean_abs_difference": 126.50582885742188,
+    "exact_channels": 3
+  },
+  "rgb_curve_maximum": 65282,
+  "rgb_curve_monotonic": true,
+  "colour_selection_invariance": {
+    "cases": 2,
+    "changed_working_space": 1,
+    "changed_temperature": 6500,
+    "changed_tint": 0.003,
+    "changed_film": 1,
+    "exact_values": 327680
+  },
+  "synthetic_pixels_per_consumer": 5426,
+  "native_cpu_consumers": [
+    {
+      "version": 0,
+      "channels": 16278,
+      "max_abs_difference": 0.0,
+      "mean_abs_difference": 0.0,
+      "exact_channels": 16278
+    },
+    {
+      "version": 1,
+      "channels": 16278,
+      "max_abs_difference": 1.0,
+      "mean_abs_difference": 0.25562108367121267,
+      "exact_channels": 12117
+    }
+  ],
+  "native_gpu_texture_preparation_float_values_exact": 786432,
+  "native_gpu_uniforms": {
+    "uHasContrast": 1,
+    "uLumaPoints": 2,
+    "uVersion": 0
+  },
+  "original_shader_runs": [
+    {
+      "version": 0,
+      "sampler_fixture": "nearest",
+      "channels": 16278,
+      "max_abs_difference": 1.0,
+      "mean_abs_difference": 0.17139697751566532,
+      "exact_channels": 13488
+    },
+    {
+      "version": 1,
+      "sampler_fixture": "nearest",
+      "channels": 16278,
+      "max_abs_difference": 1.0,
+      "mean_abs_difference": 0.17139697751566532,
+      "exact_channels": 13488
+    },
+    {
+      "version": 0,
+      "sampler_fixture": "linear",
+      "channels": 16278,
+      "max_abs_difference": 1.0,
+      "mean_abs_difference": 0.17139697751566532,
+      "exact_channels": 13488
+    },
+    {
+      "version": 1,
+      "sampler_fixture": "linear",
+      "channels": 16278,
+      "max_abs_difference": 1.0,
+      "mean_abs_difference": 0.17139697751566532,
+      "exact_channels": 13488
+    }
+  ],
+  "GLES": {
+    "EGL": "1.5",
+    "GL": "OpenGL ES 3.2 Mesa 25.2.8-0ubuntu0.24.04.2",
+    "renderer": "llvmpipe (LLVM 20.1.2, 256 bits)"
+  },
+  "synthetic_srgb_difference_with_default_gradation": {
+    "channels": 16278,
+    "max_abs_difference": 1.0,
+    "mean_abs_difference": 0.3959331613220297,
+    "exact_channels": 9833
+  },
+  "synthetic_srgb_method": "Stage49-validated CMM reconstruction, original native matrix and transfer parameters",
+  "scope": {
+    "original_default_and_curve_generation_bodies_executed": true,
+    "original_cpu_pixel_body_executed": true,
+    "original_gpu_parameter_body_executed": true,
+    "original_fragment_shader_executed": true,
+    "native_allocations_guarded": true,
+    "fixture_calls": {
+      "file_name_constructor": 1,
+      "reference_count": 19,
+      "point_curve_shared_array_destruction": 1,
+      "inplace_ownership": 2
+    },
+    "app_configuration_fixtures": {
+      "DumpCW": false,
+      "LogCW": 0
+    },
+    "gpu_handler_task_texture_ownership_are_recording_fixtures": true,
+    "live_texture_sampler_observed": false,
+    "live_import_overrides_observed": false,
+    "phone_gpu_executed": false,
+    "raw_pipeline_executed": false,
+    "photograph_used_for_fitting": false,
+    "source_apk_unchanged": true,
+    "app_renderer_changed": false,
+    "full_phocus_equivalence": false
+  },
+  "original_functions_executed": [
+    "_Z11CreateCurveR10GpuHandlerNSt6__ndk14spanIKtLm18446744073709551615EEES4_S4_",
+    "_Z14CalculateCurveP6CCurveb",
+    "_Z19PrimariesForProfile15SpecialProfiles",
+    "_Z19TransferFromSpecial15SpecialProfiles",
+    "_Z21ConvertColorPrimaries6CArrayIS_IdLi2EdELi3ES0_ES_IdLi3EdES1_S2_",
+    "_Z23GetOpenGLInternalFormat17OpenGLTextureType",
+    "_ZN10CCustomCMM18GetMatrixTransformE15SpecialProfilesS0_",
+    "_ZN10CCustomCMM9CreateCCME15SpecialProfilesS0_",
+    "_ZN10CCustomCMMC1E18TransferDefinition9Matrix3x3S0_",
+    "_ZN11CGammaCurveC1E10eColorTypeRK16CImageCorrection",
+    "_ZN11CPointCurve10SetDefaultEv",
+    "_ZN11CPointCurve11InsertPointEiid",
+    "_ZN11CPointCurve14CalculateCurveEdm",
+    "_ZN11CPointCurve9SetActiveEb",
+    "_ZN11CPointCurveC1Ev",
+    "_ZN11CPointCurveC2ERKS_",
+    "_ZN11CStreamableC2Ev",
+    "_ZN11CStreamableD2Ev",
+    "_ZN12CCustomWhiteC1Ev",
+    "_ZN12CImageFilterC2ENSt6__ndk112basic_stringIcNS0_11char_traitsIcEENS0_9allocatorIcEEEEd",
+    "_ZN14CBufferedImage11GetPixelPtrEjj",
+    "_ZN14CContrastCurve14CalculateCurveEdm",
+    "_ZN14CContrastCurveC1ERK16CImageCorrection",
+    "_ZN15CAggregateCurve14CalculateCurveEdm",
+    "_ZN16CGradationFilter10RecoverHueEfffRfS0_S0_",
+    "_ZN16CGradationFilter15FilterResultGpuER19CGpuPipelineManager6CXRectS2_",
+    "_ZN16CGradationFilterC1ENSt6__ndk110shared_ptrIK17CCalculatedCurvesEEb",
+    "_ZN16CGradationFilterC2ENSt6__ndk110shared_ptrIK17CCalculatedCurvesEEb",
+    "_ZN16CHighShadowCurve14CalculateCurveEdm",
+    "_ZN16CHighShadowCurveC1E10eColorTypeRK16CImageCorrectionNSt6__ndk110shared_ptrI6CCurveEE",
+    "_ZN16CHighShadowCurveC2E10eColorTypeRK16CImageCorrectionNSt6__ndk110shared_ptrI6CCurveEE",
+    "_ZN16CImageCorrection15ResetGradationsEv",
+    "_ZN16CImageCorrection16SetDefaultValuesEv",
+    "_ZN16CImageCorrection18SetDefaultKeystoneEv",
+    "_ZN16CImageCorrection25SetDefaultColorManagementEv",
+    "_ZN16CImageCorrection4InitEv",
+    "_ZN16CImageCorrectionC1Ev",
+    "_ZN17CCalculatedCurvesC1ERK16CImageCorrection",
+    "_ZN6CCurve10CurveToU16ENSt6__ndk14spanIKfLm18446744073709551615EEEd",
+    "_ZN6CCurve14CalculateCurveEdm",
+    "_ZN6CCurve9SetActiveEb",
+    "_ZN6CXRectD1Ev",
+    "_ZN9CFileSpecC1Ev",
+    "_ZN9CFileSpecD1Ev",
+    "_ZN9Matrix3x3C1Ev",
+    "_ZNK11CGammaCurve19RequiresCalculationEv",
+    "_ZNK11CPointCurve11NumOfPointsEv",
+    "_ZNK11CPointCurve19RequiresCalculationEv",
+    "_ZNK11CPointCurve5CloneEv",
+    "_ZNK16CGradationFilter12FilterResultE6CXRectS0_NSt6__ndk110unique_ptrI14CBufferedImageNS1_14default_deleteIS3_EEEES6_",
+    "_ZNK16CImageCorrection11GetContrastEv",
+    "_ZNK16CImageCorrection11GetDotColorE7eHSType10eColorType",
+    "_ZNK16CImageCorrection11GetEndPointE7eHSType",
+    "_ZNK16CImageCorrection11GetShadow14E10eColorType",
+    "_ZNK16CImageCorrection12GetGradationE10eColorType",
+    "_ZNK16CImageCorrection13GetBrightnessEv",
+    "_ZNK16CImageCorrection14EffectiveGammaE10eColorType",
+    "_ZNK16CImageCorrection14GetHighlight14E10eColorType",
+    "_ZNK17CCalculatedCurves17GetFinalGradationE10eColorType",
+    "_ZNK17CCalculatedCurves22LumaUserCurveNumPointsEv",
+    "_ZNK17CCalculatedCurves25GetFinalContrastGradationE10eColorType",
+    "_ZNK17CCalculatedCurves26GetFinalLumaCurveGradationE10eColorType",
+    "_ZNK9Matrix3x36InvertEv",
+    "_ZNK9Matrix3x3mlE6CArrayIdLi3E23Matrix3x1InitializationE",
+    "_ZNK9Matrix3x3mlES_",
+    "stage51_highshadow_factory",
+    "stage51_u16_append"
+  ],
+  "interpretation": "Default post-film RGB gradation is a small equal-channel endpoint adjustment; contrast and luma curves are identity. The missing default stage is bounded and is not evidence for a large aesthetic tone correction.",
+  "next": "Verify RAW/import overrides and phone sensor adaptation before deploying general rendering changes."
+}

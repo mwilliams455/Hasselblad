@@ -12,7 +12,7 @@ from __future__ import annotations
 import argparse,hashlib,json
 from pathlib import Path
 
-SHA="3e56db44845b23905355b6ef8550ff618d6de53db9e24d"
+SHA="3e56db44845b23905355b6ef8550ff618d6b786be9de1057588d6de53db9e24d"
 LIB="system/lib64/libfw_util.so"
 WRAPPER="plt_fw_verify_file"
 TARGET="fw_util_verify_init_ext"

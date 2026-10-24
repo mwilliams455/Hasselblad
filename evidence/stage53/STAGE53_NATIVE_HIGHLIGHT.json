@@ -1,0 +1,310 @@
+{
+  "schema": "hasselblad-stage53-native-highlight-v1",
+  "status": "PASS_BOUNDED_HIGHLIGHT_RECONSTRUCTION_WITH_SINGULARITY_CHARACTERIZATION",
+  "regular_cases": 38,
+  "native_parameter_max_relative_error": 4.3912200545621375e-16,
+  "gpu_uniform_max_relative_error": 0.0,
+  "native_double_max_absolute_error": 3.3306690738754696e-16,
+  "native_cpu16_vs_independent": {
+    "cases": 38,
+    "channels": 233928,
+    "maximum_absolute_difference": 1.0,
+    "mean_absolute_difference": 4.27481960261277e-06,
+    "exact_channels": 233927
+  },
+  "portable_c_vs_native_cpu16": {
+    "cases": 38,
+    "channels": 233928,
+    "maximum_absolute_difference": 0.0,
+    "mean_absolute_difference": 0.0,
+    "exact_channels": 233928
+  },
+  "portable_c_vs_python_uint16": {
+    "cases": 38,
+    "channels": 233928,
+    "maximum_absolute_difference": 1.0,
+    "mean_absolute_difference": 4.27481960261277e-06,
+    "exact_channels": 233927
+  },
+  "portable_c_float_vs_python": {
+    "cases": 38,
+    "channels": 233928,
+    "maximum_absolute_difference": 0.0,
+    "mean_absolute_difference": 0.0,
+    "exact_channels": 233928
+  },
+  "original_shader_rgba16f_vs_independent_linear": {
+    "cases": 38,
+    "channels": 233928,
+    "maximum_absolute_difference": 0.0004883408546447754,
+    "mean_absolute_difference": 6.032271494527853e-05,
+    "exact_channels": 102878
+  },
+  "original_shader_rgba16f_vs_independent_code8": {
+    "cases": 38,
+    "channels": 233928,
+    "maximum_absolute_difference": 1.0,
+    "mean_absolute_difference": 0.01226873225949865,
+    "exact_channels": 231058
+  },
+  "original_shader_rgba32f_diagnostic_vs_independent_linear": {
+    "cases": 38,
+    "channels": 233928,
+    "maximum_absolute_difference": 2.980232238769531e-07,
+    "mean_absolute_difference": 2.042266884801315e-09,
+    "exact_channels": 222760
+  },
+  "native_cpu16_vs_original_gpu16_characterization": {
+    "cases": 38,
+    "channels": 233928,
+    "maximum_absolute_difference": 0.05362118177995298,
+    "mean_absolute_difference": 0.0002764150821044232,
+    "exact_channels": 23399
+  },
+  "native_cpu16_vs_original_gpu32_characterization": {
+    "cases": 38,
+    "channels": 233928,
+    "maximum_absolute_difference": 0.05361379080400083,
+    "mean_absolute_difference": 3.864314734978583e-05,
+    "exact_channels": 23399
+  },
+  "cpu_gpu_equality_asserted": false,
+  "cpu_gpu_precision_note": "Different arithmetic precision, input storage, dark threshold and clipping-branch decisions; reference paths validated separately",
+  "portable_api_rejected_input_checks": 17,
+  "rejected_inputs_preserve_parameters_and_output": true,
+  "native_singularities": [
+    {
+      "synthetic_gains": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "native_scalar_nonfinite_channels": 125,
+      "native_cpu16_vs_gpu16_max_linear_difference": 1.0,
+      "regular_c_path_rejects": true,
+      "opt_in_limit_is_finite": true
+    },
+    {
+      "synthetic_gains": [
+        2.0,
+        1.0,
+        1.0
+      ],
+      "native_scalar_nonfinite_channels": 125,
+      "native_cpu16_vs_gpu16_max_linear_difference": 1.0,
+      "regular_c_path_rejects": true,
+      "opt_in_limit_is_finite": true
+    },
+    {
+      "synthetic_gains": [
+        1.0,
+        2.0,
+        1.0
+      ],
+      "native_scalar_nonfinite_channels": 125,
+      "native_cpu16_vs_gpu16_max_linear_difference": 1.0,
+      "regular_c_path_rejects": true,
+      "opt_in_limit_is_finite": true
+    },
+    {
+      "synthetic_gains": [
+        1.0,
+        1.0,
+        2.0
+      ],
+      "native_scalar_nonfinite_channels": 125,
+      "native_cpu16_vs_gpu16_max_linear_difference": 1.0,
+      "regular_c_path_rejects": true,
+      "opt_in_limit_is_finite": true
+    }
+  ],
+  "analytic_limit_convergence": [
+    {
+      "synthetic_gains": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "approach_channel": 0,
+      "epsilon": [
+        0.0001,
+        1e-06,
+        1e-08
+      ],
+      "maximum_errors_to_analytic_limit": [
+        0.00019996000799837876,
+        1.999996000034976e-06,
+        1.9999999656405976e-08
+      ]
+    },
+    {
+      "synthetic_gains": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "approach_channel": 1,
+      "epsilon": [
+        0.0001,
+        1e-06,
+        1e-08
+      ],
+      "maximum_errors_to_analytic_limit": [
+        0.00019996000799837876,
+        1.999996000034976e-06,
+        1.9999999656405976e-08
+      ]
+    },
+    {
+      "synthetic_gains": [
+        2.0,
+        1.0,
+        1.0
+      ],
+      "approach_channel": 1,
+      "epsilon": [
+        0.0001,
+        1e-06,
+        1e-08
+      ],
+      "maximum_errors_to_analytic_limit": [
+        0.0001999806269374904,
+        1.9999980624962888e-06,
+        1.9999999767428278e-08
+      ]
+    },
+    {
+      "synthetic_gains": [
+        2.0,
+        1.0,
+        1.0
+      ],
+      "approach_channel": 2,
+      "epsilon": [
+        0.0001,
+        1e-06,
+        1e-08
+      ],
+      "maximum_errors_to_analytic_limit": [
+        0.0001999806269374904,
+        1.9999980624962888e-06,
+        1.9999999767428278e-08
+      ]
+    },
+    {
+      "synthetic_gains": [
+        1.0,
+        2.0,
+        1.0
+      ],
+      "approach_channel": 0,
+      "epsilon": [
+        0.0001,
+        1e-06,
+        1e-08
+      ],
+      "maximum_errors_to_analytic_limit": [
+        0.0001999806269374904,
+        1.9999980624962888e-06,
+        1.9999999767428278e-08
+      ]
+    },
+    {
+      "synthetic_gains": [
+        1.0,
+        2.0,
+        1.0
+      ],
+      "approach_channel": 2,
+      "epsilon": [
+        0.0001,
+        1e-06,
+        1e-08
+      ],
+      "maximum_errors_to_analytic_limit": [
+        0.0001999806269374904,
+        1.9999980624962888e-06,
+        1.9999999767428278e-08
+      ]
+    },
+    {
+      "synthetic_gains": [
+        1.0,
+        1.0,
+        2.0
+      ],
+      "approach_channel": 0,
+      "epsilon": [
+        0.0001,
+        1e-06,
+        1e-08
+      ],
+      "maximum_errors_to_analytic_limit": [
+        0.0001999806269374904,
+        1.9999980624962888e-06,
+        1.9999999767428278e-08
+      ]
+    },
+    {
+      "synthetic_gains": [
+        1.0,
+        1.0,
+        2.0
+      ],
+      "approach_channel": 1,
+      "epsilon": [
+        0.0001,
+        1e-06,
+        1e-08
+      ],
+      "maximum_errors_to_analytic_limit": [
+        0.0001999806269374904,
+        1.9999980624962888e-06,
+        1.9999999767428278e-08
+      ]
+    }
+  ],
+  "analytic_limit_portable_float_vs_python": {
+    "cases": 12,
+    "channels": 73872,
+    "maximum_absolute_difference": 0.0,
+    "mean_absolute_difference": 0.0,
+    "exact_channels": 73872
+  },
+  "analytic_limit_portable_uint16_vs_python": {
+    "cases": 12,
+    "channels": 73872,
+    "maximum_absolute_difference": 1.0,
+    "mean_absolute_difference": 1.3536928741607104e-05,
+    "exact_channels": 73871
+  },
+  "analytic_limit_is_deliberate_extension_not_native_nan_emulation": true,
+  "native_tool4_exposure_cases": 72,
+  "native_exposure_max_absolute_error": 1.7763568394002505e-15,
+  "exposure_rule": "max(WB gains) * source18 * source40 * source50 * enabled exposure scalar",
+  "synthetic_dng_wb_factorizations": 100,
+  "wb_factorization_max_absolute_error": 4.440892098500626e-16,
+  "bridge_rule": "post_matrix = existing_camera_to_D50 * diag(max(gains)/gains); gains = reciprocal AsShotNeutral",
+  "compiler": "gcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0",
+  "compiler_warnings_are_errors": true,
+  "gles": {
+    "EGL": "1.5",
+    "GL": "OpenGL ES 3.2 Mesa 25.2.8-0ubuntu0.24.04.2",
+    "renderer": "llvmpipe (LLVM 20.1.2, 256 bits)"
+  },
+  "fixtures": [
+    "host allocation/libm/configuration/private profile cache inherited from Stage52",
+    "CPU image ownership fixture; original constructor and complete uint16 pixel filter execute",
+    "GPU handler/texture/task recording fixtures; original GPU parameter body and unmodified private fragment shader execute",
+    "software GLES with actual stored input readback; RGBA16F selected native format, RGBA32F diagnostic only"
+  ],
+  "private_shader_calibration_or_source_hash_exported": false,
+  "source_apk_and_profile_unchanged": true,
+  "scene_pixels_used": false,
+  "scene_specific_tuning": false,
+  "capture_renderer_changed": false,
+  "new_apk_built": false,
+  "physical_phone_adaptation_validated": false,
+  "full_phocus_equivalence": false,
+  "next_boundary": "sensor clipping and DNG WB factorization integration in an isolated saved-DNG preview"
+}

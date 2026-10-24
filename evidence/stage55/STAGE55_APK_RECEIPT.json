@@ -1,0 +1,31 @@
+{
+  "status": "PASS_BUILD_ONLY",
+  "version_name": "0.1-hb-post55",
+  "version_code": 27194,
+  "source_commit": "cd2ff8a4b217d8118e2332214e64db85d25aa339",
+  "apk_sha256": "a52938469aff62bf16c545d6657313866b9094115e20dd19ef6348091698f959",
+  "renderer_abis": [
+    "arm64-v8a",
+    "armeabi-v7a"
+  ],
+  "private_profile_or_photo_bundled": false,
+  "device_tested": false,
+  "capture_renderer_changed": false,
+  "schema": "hasselblad-stage55-apk-v1",
+  "build_run_id": 40081788489,
+  "artifact_id": 12555228501,
+  "downloaded_archive_digest_verified": true,
+  "apk_bytes": 71002278,
+  "post_download_abi_checks": {
+    "arm64-v8a": {
+      "load_alignment": 16384,
+      "finishing_and_existing_JNI_exports": true
+    },
+    "armeabi-v7a": {
+      "load_alignment": 16384,
+      "finishing_and_existing_JNI_exports": true
+    }
+  },
+  "signature_identity_matches_previous": true,
+  "full_phocus_equivalence": false
+}

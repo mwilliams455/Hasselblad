@@ -28,6 +28,31 @@ BYTES_LIMIT = 96 * 1024 * 1024
 SCAN_BUDGET = 3 * 1024 * 1024 * 1024
 
 
+def inspect_imah_envelope(data):
+    """Bounded read of public IM*H v2 envelope fields. Never attempt decrypt."""
+    import struct
+    begin=data.find(b"IM*H",0,256)
+    if begin < 0 or len(data)-begin < 192:
+        return {"imah_envelope": "not_available"}
+    h=data[begin:begin+192]
+    version,full_size,header_bytes,signature_bytes,payload_bytes,target_bytes=(
+        struct.unpack_from("<I",h,n)[0] for n in (4,8,16,20,24,28))
+    chunk_count=struct.unpack_from("<I",h,156)[0]
+    def fourcc(off):
+        raw=h[off:off+4]
+        return raw.decode("ascii") if all(32<=x<127 for x in raw) else "nonprintable"
+    logical = header_bytes+signature_bytes+payload_bytes
+    return {"imah_version_field": version, "imah_bytes_before_magic":begin,
+            "declared_image_size":full_size, "declared_target_size":target_bytes,
+            "header_bytes":header_bytes, "signature_bytes":signature_bytes,
+            "payload_bytes":payload_bytes, "chunk_count":chunk_count,
+            "encryption_key_fourcc":fourcc(44),"authentication_key_fourcc":fourcc(40),
+            "header_can_hold_chunk_descriptors":
+                chunk_count<=4096 and header_bytes>=192+32*chunk_count,
+            "declared_layout_fits_file":logical<=len(data)-begin,
+            "exact_total_size_matches_file":logical==len(data)-begin}
+
+
 def inspect_elf(path):
     from elftools.elf.elffile import ELFFile
     with path.open("rb") as f:
@@ -99,6 +124,8 @@ def audit(root):
                      "TBIE" if b"TBIE" in data[:256] else
                      "MCLF" if data[:4] == b"MCLF" else "unclassified")
             row = {"path": rel, "bytes": sz, "content_scanned": True, "magic": magic}
+            if magic == "IMAH":
+                row.update(inspect_imah_envelope(data))
             if magic == "ELF":
                 try:
                     row.update(inspect_elf(path))

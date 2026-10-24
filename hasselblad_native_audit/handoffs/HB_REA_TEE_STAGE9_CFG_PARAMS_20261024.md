@@ -42,3 +42,24 @@ The actual original `TEEC_InvokeCommand` sites are `0x162c`, `0x18d8`, `0x1b5c` 
 - Stage8 `prove_version_alias8.py` and earlier provenance handoff `HB_REA_TEE_SELECTOR_ORIGINAL_20261024.md` remain valid.
 
 Next is the `x8` predicate provenance (Stage10), then mapping command6's three input buffer identities and actual command2/1 output-buffer ownership without exporting vendor bytes or inferring any hardware key.
+
+## Stage10–11 original dispatch provenance — completed, not hypothetical
+
+Read-only original validation on the same hash-pinned `system/lib64/libfw_util.so`:
+- [Stage10 CI run 40106793445](https://github.com/mwilliams455/Hasselblad/actions/runs/40106793445) receipt `HB_REA_STAGE10_ORIGINAL_SAFE.json`: the original branch's tested register `x8` is defined by `orr` at `0x1dcc`. An earlier `cbz x21` at `0x1d94` tests the immediate return value of a `strncpy` call (the test's full higher-level semantics remain unproven).
+- [Stage11 CI run 40107138460](https://github.com/mwilliams455/Hasselblad/actions/runs/40107138460) receipt `HB_REA_STAGE11_ORIGINAL_SAFE.json`: the **three-register** original instruction at `0x1dcc` is `ORR x8, x25, x24`, with no shift. Last unique definitions before the ORR are `x25 ← x5` at `0x1d40` and `x24 ← x7` at `0x1d30`. Those correspond to incoming AArch64 wrapper arguments `x5` and `x7`.
+- The **immediately following** `CBZ x8` at `0x1dd0` therefore takes ordinary command-3 initialization only when **both** incoming material-pointer positions `x5` and `x7` are zero; if **either** is non-null the original wrapper takes the extended command-6 call path. This is a proven local conditional dispatch, not a run on actual secure hardware.
+- Stage8 independently established that the *version* argument positions `w3` and `w5` to the extended initializer are both forwarded from incoming `w6`. Consequently, **pointer presence selects which init method the host requests, while the forwarded version is a separate value**. The normal-world wrapper's use of one version in both slots does not establish the secure service's internal key selection or different operational defaults.
+- These facts should not be relabelled “key recovered”, “DSP decrypted”, “trusted application reconstructed”, “device hardware key needed with certainty”, or “MAIN CCM pixel arithmetic resolved”.
+
+New source:
+- `hasselblad_native_audit/tee_rea_20261024/inspect_dispatch_input10.py` — original X8 provenance and early guard.
+- `hasselblad_native_audit/tee_rea_20261024/prove_dispatch_or11.py` — exact original three-register ORR/CBZ and ABI source proof.
+
+The safe Actions artefact for Stage11 includes all earlier sanitized receipts, Stage9–11 included; no private vendor ELF bytes or pseudocode are included. The original firmware remains only a transient, hash-checked CI input and is removed after the run.
+
+## Next investigation focus
+
+Trace the original command-6 `TEEC_Operation` **three PARTIAL_INPUT memref allocations** and one VALUE_INPUT to the key-material-name copies and the two value slots. Confirm the original source identities, contents' type/size (not private contents), parameter order, flags and which return/status fields are ever read by the host. Separately map command-2 `PARTIAL_INOUT` and command-1 `PARTIAL_INPUT` into their actual original FD/shared-memory ownership. This could tell whether any host-visible result buffer contains decrypted data, but `PARTIAL_INOUT` alone does not prove that it does.
+
+The protected trusted application remains an encrypted IMaH v2 container. No public signing key or key-family name supplies the TBIE secret. If the normal-world interface is fully mapped with no recoverable key material, mark the secure-world boundary as reached instead of another generic signature/header cycle.

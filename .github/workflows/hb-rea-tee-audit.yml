@@ -21,6 +21,9 @@ jobs:
           set -euo pipefail
           python3 -m py_compile hasselblad_native_audit/tee_rea_20261024/inspect_tee_boundary.py
           python3 -m py_compile hasselblad_native_audit/tee_rea_20261024/inspect_branch_operation9.py
+          python3 -m py_compile hasselblad_native_audit/tee_rea_20261024/inspect_dispatch_input10.py
+          python3 hasselblad_native_audit/tee_rea_20261024/inspect_dispatch_input10.py \
+            --self-test --output "$RUNNER_TEMP/HB_REA_STAGE10_SYNTHETIC.json"
           python3 hasselblad_native_audit/tee_rea_20261024/inspect_branch_operation9.py \
             --self-test --output "$RUNNER_TEMP/HB_REA_STAGE9_SYNTHETIC.json"
           python3 hasselblad_native_audit/tee_rea_20261024/inspect_tee_boundary.py --self-test --output "$RUNNER_TEMP/HB_TEE_SYNTHETIC_SAFE.json"
@@ -210,6 +213,21 @@ jobs:
           assert not r["trusted_application_decompiled"] and not r["decryption_key_or_plaintext_recovered"]
           assert not r["raw_vendor_instruction_or_pseudocode_exported"]
           PY
+      - name: Trace original command-6 predicate x8 to ABI and stack source
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 hasselblad_native_audit/tee_rea_20261024/inspect_dispatch_input10.py \
+            --firmware-root hasselblad_native_audit/firmware/extracted \
+            --output "$RUNNER_TEMP/HB_REA_STAGE10_ORIGINAL_SAFE.json"
+          python3 - "$RUNNER_TEMP/HB_REA_STAGE10_ORIGINAL_SAFE.json" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          assert d["schema"]=="hasselblad-stage10-original-command6-branch-input-v1"
+          assert d["branch_test"]=="cbz x8" and d["command6_when_branch_not_taken"]
+          assert not d["secure_world_key_or_plaintext_recovered"]
+          assert not d["vendor_bytes_or_instruction_text_exported"]
+          PY
       - name: Provision approved Java 21 runtime for REA Ghidra
         uses: actions/setup-java@v4
         with:
@@ -292,5 +310,7 @@ jobs:
             ${{ runner.temp }}/HB_REA_ALIAS8_ORIGINAL_SAFE.json
             ${{ runner.temp }}/HB_REA_STAGE9_SYNTHETIC.json
             ${{ runner.temp }}/HB_REA_STAGE9_ORIGINAL_SAFE.json
+            ${{ runner.temp }}/HB_REA_STAGE10_SYNTHETIC.json
+            ${{ runner.temp }}/HB_REA_STAGE10_ORIGINAL_SAFE.json
           if-no-files-found: error
           retention-days: 14

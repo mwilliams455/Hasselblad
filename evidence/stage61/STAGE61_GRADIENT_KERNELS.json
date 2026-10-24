@@ -1,0 +1,30 @@
+{
+  "schema": "hasselblad-stage61-gradient-kernels-v1",
+  "status": "PASS_EXACT_KERNELS",
+  "row_filter_cases": 135,
+  "exact_row_output_codes": 5535,
+  "direction_cases": 204,
+  "exact_direction_codes": 1632,
+  "exact_mask_cases": 1683,
+  "max_absolute_code_difference": 0,
+  "median_row_medians_witness": {
+    "native_and_portable": 2,
+    "full_nine_value_median": 3
+  },
+  "signed_extremes_and_narrowing_tested": true,
+  "scalar_and_vector_widths_tested": true,
+  "native_row_path_execution_blocks": {
+    "smooth_scalar_loop": 195,
+    "edge_scalar_loop": 195,
+    "median_scalar_loop": 116,
+    "median_vector_loop": 205,
+    "smooth_vector_loop": 195,
+    "edge_vector_loop": 195
+  },
+  "source_and_memory_guards_pass": true,
+  "undefined_behavior_sanitizer": true,
+  "complete_gradient_port": false,
+  "scene_fitted_parameters": 0,
+  "capture_renderer_changed": false,
+  "full_phocus_equivalence": false
+}

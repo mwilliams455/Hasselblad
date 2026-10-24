@@ -10,6 +10,11 @@ validated portable implementation**. No rendering parameters were fitted to a
 photograph. No app source changed and no APK was built. The current phone build
 remains **Stage58, `0.1-hb-rawprep58` / 27197**, with the Stage56 private profile.
 
+[Stage61](../phocus_gradient_stage61/README.md) independently implements seven
+preparation and directional kernels in C and tests their substitution inside
+this native reference. The remaining gradient interpolation still uses
+original code in that bounded harness.
+
 ## Exact bounded interpolation result
 
 The step-one, green-blending-disabled fast branch uses ordinary integer

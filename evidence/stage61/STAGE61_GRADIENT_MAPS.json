@@ -1,0 +1,43 @@
+{
+  "schema": "hasselblad-stage61-gradient-maps-v1",
+  "status": "PASS_EXACT_PREPASSES",
+  "compiler": "gcc",
+  "undefined_behavior_sanitizer": true,
+  "cases": 108,
+  "cfa_cells": 54378,
+  "scale_ratio_and_contrast_slot_comparisons": 435024,
+  "green_scale_and_green_code_comparisons_each": 108756,
+  "complete_output_storage_elements_compared_including_untouched": 1190592,
+  "max_absolute_float_difference": 0,
+  "max_absolute_green_code_difference": 0,
+  "float_comparison": "bit exact including untouched slots",
+  "thresholds_synthetic": [
+    1,
+    25,
+    100
+  ],
+  "native_path_execution_blocks": {
+    "green_scalar_loop": 51138,
+    "green_vector_loop": 405
+  },
+  "double_comparison_boundary_witness": {
+    "five_samples": [
+      10,
+      10000,
+      10,
+      10000,
+      9
+    ],
+    "contrast_float32": 0.05000000074505806,
+    "native_and_portable_scale": 0.0010499998461455107,
+    "incorrect_float_threshold_scale": 0.0010327869094908237
+  },
+  "row_padding_and_unwritten_slots_preserved": true,
+  "source_and_memory_guards_pass": true,
+  "complete_gradient_port": false,
+  "device_execution_compared": false,
+  "scene_fitted_parameters": 0,
+  "source_apk_modified": false,
+  "capture_renderer_changed": false,
+  "full_phocus_equivalence": false
+}

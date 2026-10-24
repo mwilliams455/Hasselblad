@@ -1,0 +1,163 @@
+{
+  "schema": "hasselblad-stage61-gradient-substitution-v1",
+  "status": "PASS_EXACT_SUBSTITUTED_RGB16",
+  "synthetic_comparisons": [
+    {
+      "fixture": "neutral/highlight_bypass",
+      "pixels": 4096,
+      "exact_rgb16_channels": 12288,
+      "max_absolute_difference": 0
+    },
+    {
+      "fixture": "neutral/highlight_bayer_chain",
+      "pixels": 4096,
+      "exact_rgb16_channels": 12288,
+      "max_absolute_difference": 0
+    },
+    {
+      "fixture": "flat_colour/highlight_bypass",
+      "pixels": 4096,
+      "exact_rgb16_channels": 12288,
+      "max_absolute_difference": 0
+    },
+    {
+      "fixture": "flat_colour/highlight_bayer_chain",
+      "pixels": 4096,
+      "exact_rgb16_channels": 12288,
+      "max_absolute_difference": 0
+    },
+    {
+      "fixture": "ramp/highlight_bypass",
+      "pixels": 4096,
+      "exact_rgb16_channels": 12288,
+      "max_absolute_difference": 0
+    },
+    {
+      "fixture": "ramp/highlight_bayer_chain",
+      "pixels": 4096,
+      "exact_rgb16_channels": 12288,
+      "max_absolute_difference": 0
+    },
+    {
+      "fixture": "colour_edge/highlight_bypass",
+      "pixels": 4096,
+      "exact_rgb16_channels": 12288,
+      "max_absolute_difference": 0
+    },
+    {
+      "fixture": "colour_edge/highlight_bayer_chain",
+      "pixels": 4096,
+      "exact_rgb16_channels": 12288,
+      "max_absolute_difference": 0
+    },
+    {
+      "fixture": "red_impulse/highlight_bypass",
+      "pixels": 4096,
+      "exact_rgb16_channels": 12288,
+      "max_absolute_difference": 0
+    },
+    {
+      "fixture": "red_impulse/highlight_bayer_chain",
+      "pixels": 4096,
+      "exact_rgb16_channels": 12288,
+      "max_absolute_difference": 0
+    },
+    {
+      "fixture": "random_codes/highlight_bypass",
+      "pixels": 4096,
+      "exact_rgb16_channels": 12288,
+      "max_absolute_difference": 0
+    },
+    {
+      "fixture": "random_codes/highlight_bayer_chain",
+      "pixels": 4096,
+      "exact_rgb16_channels": 12288,
+      "max_absolute_difference": 0
+    }
+  ],
+  "private_dng_comparisons": [
+    {
+      "fixture": "fixed_grid_1/highlight_bypass",
+      "pixels": 1024,
+      "exact_rgb16_channels": 3072,
+      "max_absolute_difference": 0
+    },
+    {
+      "fixture": "fixed_grid_1/highlight_bayer_chain",
+      "pixels": 1024,
+      "exact_rgb16_channels": 3072,
+      "max_absolute_difference": 0
+    },
+    {
+      "fixture": "fixed_grid_2/highlight_bypass",
+      "pixels": 1024,
+      "exact_rgb16_channels": 3072,
+      "max_absolute_difference": 0
+    },
+    {
+      "fixture": "fixed_grid_2/highlight_bayer_chain",
+      "pixels": 1024,
+      "exact_rgb16_channels": 3072,
+      "max_absolute_difference": 0
+    },
+    {
+      "fixture": "fixed_grid_3/highlight_bypass",
+      "pixels": 1024,
+      "exact_rgb16_channels": 3072,
+      "max_absolute_difference": 0
+    },
+    {
+      "fixture": "fixed_grid_3/highlight_bayer_chain",
+      "pixels": 1024,
+      "exact_rgb16_channels": 3072,
+      "max_absolute_difference": 0
+    },
+    {
+      "fixture": "fixed_grid_4/highlight_bypass",
+      "pixels": 1024,
+      "exact_rgb16_channels": 3072,
+      "max_absolute_difference": 0
+    },
+    {
+      "fixture": "fixed_grid_4/highlight_bayer_chain",
+      "pixels": 1024,
+      "exact_rgb16_channels": 3072,
+      "max_absolute_difference": 0
+    }
+  ],
+  "synthetic_exact_channels": 147456,
+  "private_dng_exact_channels": 24576,
+  "portable_kernel_count": 7,
+  "portable_kernel_calls": {
+    "smooth_row": 4528,
+    "edge_row": 2224,
+    "scale_map": 20,
+    "initial_green": 20,
+    "directions": 218240,
+    "direction_mask": 100864,
+    "median_row": 4528
+  },
+  "native_functions_replaced_in_harness": [
+    "direction_mask",
+    "directions",
+    "edge_row",
+    "initial_green",
+    "median_row",
+    "scale_map",
+    "smooth_row"
+  ],
+  "remaining_native_gradient_and_colour_operations_still_execute": true,
+  "complete_gradient_port": false,
+  "undefined_behavior_sanitizer": true,
+  "configuration_scope": "Stage60 graph-captured fixed camera context; noise/lens-disabled fixture; unity demosaic gains",
+  "boundary_scope": "Stage60 reflect-101 synthetic halo; interior private-DNG tiles; original full-frame policy not reproduced",
+  "dng_input_domain": "Stage58 common range and gain-map clamps, quantized to Bayer before interpolation; not device RGB16 buffer",
+  "source_and_memory_guards_pass": true,
+  "source_apk_modified": false,
+  "source_dng_modified": false,
+  "scene_fitted_parameters": 0,
+  "device_execution_compared": false,
+  "physical_camera_colour_match_validated": false,
+  "capture_renderer_changed": false,
+  "full_phocus_equivalence": false
+}

@@ -1,0 +1,22 @@
+{
+  "schema": "hasselblad-stage68-private-instruction-model-check-v1",
+  "status": "PASS_EXACT_TWO_COLOUR_SITE_SIMD_MODELS",
+  "unique_synthetic_patches": 5740,
+  "opcode_listing_model_comparisons": 12440,
+  "exact_signed_direction_codes": 99520,
+  "native_instruction_stream_blocks_examined": 2,
+  "different_colour_v_green_diagonal_codes": 19919,
+  "max_absolute_difference": 0,
+  "simd_register_poison_independence_checked": true,
+  "case_types": {
+    "constant": 24,
+    "step": 16,
+    "impulse": 100,
+    "random": 5600
+  },
+  "original_arm64_executable_emulated": false,
+  "device_pixel_parity": false,
+  "private_original_instruction_words_or_addresses_exported": false,
+  "original_native_CPU_parity": false,
+  "input_is_synthetic": true
+}

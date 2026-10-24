@@ -1,0 +1,19 @@
+{
+  "schema": "hasselblad-stage68-colour-gradient-host-v1",
+  "status": "PASS_INDEPENDENT_PYTHON_C11",
+  "cases": 8132,
+  "exact_direction_codes": 65056,
+  "strides_tested": [
+    9,
+    17,
+    23,
+    41
+  ],
+  "max_absolute_difference": 0,
+  "source_immutability_and_canaries": true,
+  "colour_diagonal_differences_per_direction": 6,
+  "native_unicorn_executed": false,
+  "device_execution_compared": false,
+  "complete_demosaic_port": false,
+  "scene_fitted_parameters": 0
+}

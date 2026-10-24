@@ -48,3 +48,26 @@ Stage17: independently trace `x20` (output-copy destination) to the original out
 - `.github/workflows/hb-rea-tee-mem12.yml`
 
 Phone camera, original X2D II hardware, Phocus Stage62+ renderer and production `main` are unchanged.
+
+## Stage17 — confirmed actual caller output-copy destination
+
+Successful original-firmware CI: [run 40109612443](https://github.com/mwilliams455/Hasselblad/actions/runs/40109612443). Saved safe artifact `Hasselblad-REA-TEE-Memrefs-Stage12-Safe`, report `HB_REA17_ORIGINAL_SAFE.json`. Source `hasselblad_native_audit/tee_mem_stage12/inspect_host_return17.py`.
+
+The original `plt_fw_verify_load2mem_with_heap_mask` wrapper at `0x21d8` contains **146 AArch64 instructions**. New branch-sensitive reaching-definition analysis, invalidating incoming ABI caller-saved registers across external calls, proves:
+
+- The pre-service `memcpy` source `x23` has a single true reaching definition `mov x23,x0` at 0x2204, sourcing the original wrapper's incoming **x0** argument (the input pointer).
+- The post-service `memcpy` destination `x20` has a single true reaching definition `mov x20,x2` at 0x222c, sourcing the original wrapper's incoming **x2** argument (the caller-supplied output pointer).
+- The two `memcpy` calls share the same mapped-memory field at `[x22+16]`, and the secure call receives the corresponding file descriptor field at `[x22+8]`. `x22` is assigned from a return-register `x0` at 0x2298; the precise producing allocation symbol has **not** been independently tied by this report.
+- The secure call `fw_util_verify_load2ion` at 0x2344 receives a pointer to `SP+20` as its second argument. The subsequent output `memcpy` at 0x23dc reads its copy length from that same `SP+20` stack cell. The static path does not establish whether that value was modified by the service, nor identify the bytes' actual contents.
+- A `CBZ w8` at 0x234c follows a `mov w8,w0` from the secure call's returned register, but **both branches** have some CFG path to the output copy. Consequently we do NOT claim that this one test gates copying exclusively on success. Another `B.LO` at 0x23b4 appears before the copy; full path outcome and error semantics remain open.
+- The source length `w24` at the initial input copy was unresolved by bounded path analysis; do not claim a particular public ABI length slot from Stage17 alone.
+
+**Conclusion:** A normal-world software wrapper can structurally copy potentially TEE-modified FD-backed shared-memory content into an explicit caller-provided output pointer. This is a meaningful architectural result for command2 **memory model verification/loading** and corrects any general claim that every TEE request returns status only. It is NOT evidence that encrypted `ss_dsp0.fw`, other DSP images, or the separate encrypted TA have been decrypted; it does NOT show command1 original firmware load returns plaintext or disclose the TBIE secret.
+
+This is a static proof of a potential transfer mechanism, not physical-camera validation. No decrypted output bytes were observed, no camera contacted, and no binary or key material released to GitHub.
+
+### Decision and next dependency
+
+Original normal-world command6 selectors, versions and p0–p2 input allocations are sufficiently mapped. Command2's host-visible copy path is likewise located. Without the target original secure application or an authorised working X2D II that accepts an exact firmware/model file, **REA static analysis cannot prove the protected key material or decrypt the TA/DSP**. Any future live test would require explicit user/device-owner permission, a non-destructive plan and controls prohibiting unintended firmware installation; no such test was performed. The Phocus renderer continues independently from these secure-firmware findings.
+
+Do not repeat outer CIM key discovery, existing RSA verification, IMaH key-family inventory or older failed TBIE key trials.

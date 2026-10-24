@@ -15,7 +15,8 @@ from pathlib import Path
 
 CASES=(
  ("system/lib64/libfw_util_ca.so","fw_util_verify_init_ext"),
- ("system/lib64/libfw_util.so","dji_fw_verify_file"),
+ ("system/lib64/libfw_util.so","plt_fw_verify_file"),
+ ("system/lib64/libfw_verify_util.so","plt_fw_verify_file_soft"),
  ("system/lib64/libfw_util.so","dji_fw_verify_load2mem"),
  ("system/bin/dji_fw_verify","main"),
 )

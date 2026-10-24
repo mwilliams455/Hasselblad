@@ -1,3 +1,9 @@
+# Updated: this provisional Stage22–25 handoff is superseded
+
+The conclusive Stage26 original-ELF CFG validation is in [HB_REA_TEE_SECOND_TA_STAGES22_26_FINAL_20261024.md](HB_REA_TEE_SECOND_TA_STAGES22_26_FINAL_20261024.md). **Use that final checkpoint for future work**; the Stage25 task described below is now completed, and the e91c TA is statically proved to be the session target of efuse_pro, pro_state and sec_debug_state. No TBIE key or secure-world plaintext was recovered.
+
+---
+
 # Hasselblad X2D II — REA secure-key provisioning Stage 22–24 handoff
 **Research date:** 24 October 2026. **Branch:** `research/rea-tee-20261024`. Original camera, Photon production branch and Phocus Stage62 experimental colour renderer unchanged.
 

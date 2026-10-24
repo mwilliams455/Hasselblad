@@ -25,6 +25,9 @@ jobs:
           python3 -m py_compile "$p"
           python3 -m py_compile hasselblad_native_audit/tee_mem_stage12/inspect_input_chain13.py
           python3 -m py_compile hasselblad_native_audit/tee_mem_stage12/inspect_cfg_sources14.py
+          python3 -m py_compile hasselblad_native_audit/tee_mem_stage12/inspect_stack_aliases15.py
+          python3 hasselblad_native_audit/tee_mem_stage12/inspect_stack_aliases15.py \
+            --self-test --output "$RUNNER_TEMP/HB_REA15_SYNTHETIC.json"
           python3 hasselblad_native_audit/tee_mem_stage12/inspect_cfg_sources14.py \
             --self-test --output "$RUNNER_TEMP/HB_REA14_SYNTHETIC.json"
           python3 hasselblad_native_audit/tee_mem_stage12/inspect_input_chain13.py \
@@ -110,6 +113,21 @@ jobs:
           assert len(r["sites"])==5 and r["analyzed_instructions"]>50
           assert not r["key_values_or_decrypted_TA_or_DSP_recovered"]
           PY
+      - name: Reconstruct original TEE memory-reference parent aliases
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 hasselblad_native_audit/tee_mem_stage12/inspect_stack_aliases15.py \
+            --firmware-root hasselblad_native_audit/firmware/extracted \
+            --output "$RUNNER_TEMP/HB_REA15_ORIGINAL_SAFE.json"
+          python3 - "$RUNNER_TEMP/HB_REA15_ORIGINAL_SAFE.json" <<'PY'
+          import json,sys
+          r=json.load(open(sys.argv[1]))
+          assert r["schema"]=="hasselblad-stage15-original-tee-stack-alias-candidates-v1"
+          assert len(r["functions"])==3
+          assert not r["source_firmware_or_machine_instructions_exported"]
+          assert not r["TEE_secrets_or_DSP_decrypted"]
+          PY
       - name: REA inspect original host library with objdump provider
         shell: bash
         run: |
@@ -148,5 +166,7 @@ jobs:
             ${{ runner.temp }}/HB_REA13_ORIGINAL_SAFE.json
             ${{ runner.temp }}/HB_REA14_SYNTHETIC.json
             ${{ runner.temp }}/HB_REA14_ORIGINAL_SAFE.json
+            ${{ runner.temp }}/HB_REA15_SYNTHETIC.json
+            ${{ runner.temp }}/HB_REA15_ORIGINAL_SAFE.json
           if-no-files-found: error
           retention-days: 14

@@ -157,7 +157,7 @@ def main():
     if not a.self_test and not a.firmware_root:
         p.error("--firmware-root required except for --self-test")
     result = selftest() if a.self_test else audit(a.firmware_root)
-    a.output.write_text(json.dumps(result, indent=2, sort_keys=True) + "\\n")
+    a.output.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n")
     print(json.dumps({"status": result.get("status", "completed"),
                       "uuid_hits": result.get("uuid_match_file_count", 0),
                       "named_targets": len(result.get("named_targets", [])),

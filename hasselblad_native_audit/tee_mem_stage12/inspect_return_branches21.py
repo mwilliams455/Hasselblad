@@ -21,12 +21,13 @@ MAX_REACH=16
 MAX_ITERATIONS=30000
 
 def explicit_def(ins, reg):
-    from capstone.arm64 import ARM64_OP_REG
+    # Preflight can run without Capstone installed.
     # Data-processing alias CMP / TST writes flags, not operand 0.
     if ins.mnemonic in ("cmp","cmn","tst","ccmp","ccmn","str","stur","stp","stnp","b","bl","blr"):
         return False
     ops=ins.operands
     if not ops:return False
+    from capstone.arm64 import ARM64_OP_REG
     potential=ops[:2] if ins.mnemonic in ("ldp","ldnp") else ops[:1]
     return any(o.type==ARM64_OP_REG and canon(ins.reg_name(o.reg))==reg for o in potential)
 

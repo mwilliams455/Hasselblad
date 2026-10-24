@@ -12,9 +12,9 @@
     "iterations": 10,
     "neutral_ratio_residual": 8.540279594626554e-12,
     "grid_values_checked": 205590,
-    "grid_max_absolute_difference": 1.4210854715202004e-14,
+    "grid_max_absolute_difference": 0.0,
     "manual_colour_and_finishing_unchanged_exact": true,
-    "auto_render_milliseconds": 176,
+    "auto_render_milliseconds": 178,
     "device_tested": false,
     "scene_fitted_parameters": 0,
     "full_phocus_equivalence": false
@@ -75,5 +75,6 @@
   "device_tested": false,
   "physical_phone_colour_match_validated": false,
   "original_raw_graph_reproduced": false,
-  "full_phocus_equivalence": false
+  "full_phocus_equivalence": false,
+  "api26_compatible_interpolation_pixels_unchanged_exact": true
 }

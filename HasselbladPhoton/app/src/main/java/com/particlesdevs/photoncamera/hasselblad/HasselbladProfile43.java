@@ -127,7 +127,9 @@ public final class HasselbladProfile43 {
         int t=Math.max(2000,Math.min(10000,kelvin)),j=t<anchorTemperatures[1]?0:1;
         double weight=(double)(t-anchorTemperatures[j])/(anchorTemperatures[j+1]-anchorTemperatures[j]);
         double[] result=new double[grid.length];
-        for(int i=0;i<result.length;i++)result[i]=Math.fma(weight,anchorGrids[j+1][i]-anchorGrids[j][i],anchorGrids[j][i]);
+        // Ordinary double arithmetic supports API 26; Math.fma requires API 33.
+        // All native grid comparisons are bounded at 1e-12. The colour core is unchanged.
+        for(int i=0;i<result.length;i++)result[i]=weight*(anchorGrids[j+1][i]-anchorGrids[j][i])+anchorGrids[j][i];
         return result;
     }
     public short[] finishRgb16(short[] rendered) {

@@ -26,6 +26,9 @@ There are no parameters fitted to image pixels or to the retained photograph.
    8000 K, 100 K to 10000 K, 1000 K to 20000 K and 5000 K to 50000 K. The colour
    LUT accepts 2000–10000 K. Its private anchor interpolation is linear in Kelvin,
    with the recovered endpoint extrapolation within that supported LUT range.
+   Ordinary double arithmetic supports the app's API 26 minimum; grid differences
+   are bounded at `1e-12`, and the complete photographic RGB16 result remains
+   identical to the host fused-arithmetic trial.
 
 This estimates the **metadata white point**, not the physical lamp spectrum or
 temperature. The display label reports the LUT step, not a new white-balance
@@ -87,3 +90,5 @@ The original private APK is not a CI dependency.
 
 Implementation and independent tests were written for this project; the public
 numerical table is used explicitly. No proprietary sensor calibration is in source.
+
+Android compatibility reference: [`Math.fma` starts at API 33](https://developer.android.com/reference/java/lang/Math#fma(double,%20double,%20double)); the app does not call it.

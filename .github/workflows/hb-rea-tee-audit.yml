@@ -30,7 +30,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python3 -m pip install --disable-pip-version-check 'cryptography>=42,<47' 'brotli>=1.1,<2' 'dissect.extfs>=3,<4' 'pyelftools>=0.31,<1'
+          python3 -m pip install --disable-pip-version-check 'cryptography>=42,<47' 'brotli>=1.1,<2' 'dissect.extfs>=3,<4' 'pyelftools>=0.31,<1' 'capstone>=5,<6'
       - name: Download exact official original firmware only inside runner
         shell: bash
         run: |
@@ -102,11 +102,40 @@ jobs:
                           except (ValueError,UnicodeDecodeError):pass
                   except (OSError,subprocess.TimeoutExpired) as exc:
                       d["error_class"]=type(exc).__name__
+                  if rea and obj and rel=="system/lib64/libfw_util_ca.so":
+                      try:
+                          p2=subprocess.run([rea,"inspect-with-objdump",str(target),
+                                            "disassemble","--format","json"],
+                                           capture_output=True,env=env,timeout=120)
+                          d["rea_disassembly_exit_code"]=p2.returncode
+                          if p2.returncode==0:
+                              try:d["rea_disassembly_evidence_json"]=isinstance(json.loads(p2.stdout),dict)
+                              except (ValueError,UnicodeDecodeError):d["rea_disassembly_evidence_json"]=False
+                      except (OSError,subprocess.TimeoutExpired) as exc:
+                          d["rea_disassembly_failure_class"]=type(exc).__name__
                   result["actual_original_elf_results"].append(d)
           Path(sys.argv[2]).write_text(json.dumps(result,sort_keys=True,indent=2)+"\n")
           print(json.dumps({"REA_executable_available":result["rea_cli_available"],
               "REA_native_checks":len(result["actual_original_elf_results"]),
               "json_pass":sum(r["json_parsed"] for r in result["actual_original_elf_results"])},sort_keys=True))
+          PY
+      - name: Trace original TEEC command sites and boot-area boundaries
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile hasselblad_native_audit/tee_rea_20261024/trace_tee_keypath.py
+          python3 hasselblad_native_audit/tee_rea_20261024/trace_tee_keypath.py \
+            --self-test --output "$RUNNER_TEMP/HB_TEE_KEYPATH_SYNTHETIC.json"
+          python3 hasselblad_native_audit/tee_rea_20261024/trace_tee_keypath.py \
+            --firmware-root hasselblad_native_audit/firmware/extracted \
+            --cim hasselblad_native_audit/firmware/X2DII_100C_v1_3_16_2.cim \
+            --output "$RUNNER_TEMP/HB_TEE_KEYPATH_ORIGINAL_SAFE.json"
+          python3 - "$RUNNER_TEMP/HB_TEE_KEYPATH_ORIGINAL_SAFE.json" <<'PY'
+          import json,sys
+          x=json.load(open(sys.argv[1]))
+          assert x["schema"]=="hasselblad-rea-tee-keypath-stage4-v1"
+          assert x["host_tee_trace"]["text_instructions_examined"]>100
+          assert not x["cryptographic_key_recovered"] and not x["vendor_binaries_exported"]
           PY
       - name: Remove original firmware and REA logs even if analysis failed
         if: always()
@@ -124,5 +153,7 @@ jobs:
             ${{ runner.temp }}/HB_TEE_SYNTHETIC_SAFE.json
             ${{ runner.temp }}/HB_TEE_ORIGINAL_SAFE.json
             ${{ runner.temp }}/HB_TEE_REA_EXECUTION_SAFE.json
+            ${{ runner.temp }}/HB_TEE_KEYPATH_SYNTHETIC.json
+            ${{ runner.temp }}/HB_TEE_KEYPATH_ORIGINAL_SAFE.json
           if-no-files-found: error
           retention-days: 14

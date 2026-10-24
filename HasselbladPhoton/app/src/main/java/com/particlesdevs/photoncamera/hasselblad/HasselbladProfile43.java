@@ -16,6 +16,9 @@ public final class HasselbladProfile43 {
     public final double[] grid;
     public final float[] curve=new float[65536];
     private final byte[] encoded;
+    public final boolean hasNativeFinishing;
+    private final double[] outputMatrix=new double[9];
+    private double outputExponent;
     private HasselbladProfile43(byte[] data)throws Exception {
         if(data.length<400)throw new IOException("Incomplete colour profile");
         MessageDigest sha=MessageDigest.getInstance("SHA-256");sha.update(data,0,data.length-32);
@@ -23,8 +26,9 @@ public final class HasselbladProfile43 {
             throw new IOException("Colour profile checksum failed");
         ByteBuffer b=ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN);
         byte[] magic=new byte[8];b.get(magic);
-        if(!Arrays.equals(magic,new byte[]{'H','B','4','3','L','U','T','1'}))
-            throw new IOException("Choose a Stage43 .hbc colour profile");
+        hasNativeFinishing=Arrays.equals(magic,new byte[]{'H','B','5','5','L','U','T','1'});
+        if(!hasNativeFinishing&&!Arrays.equals(magic,new byte[]{'H','B','4','3','L','U','T','1'}))
+            throw new IOException("Choose a supported .hbc colour profile");
         gridWidth=b.getInt();gridHeight=b.getInt();temperature=b.getInt();
         model=b.getInt();film=b.getInt();space=b.getInt();
         if(gridWidth<2||gridWidth>256||gridHeight<2||gridHeight>256||
@@ -32,7 +36,7 @@ public final class HasselbladProfile43 {
             (film!=0&&film!=1&&film!=7)||space!=0)
             throw new IOException("Unsupported colour profile configuration");
         long count=(long)gridWidth*gridHeight*2;
-        if(data.length!=32+38*8+count*8+65536*4+32)throw new IOException("Colour profile length mismatch");
+        if(data.length!=32+38*8+count*8+65536*4+32+(hasNativeFinishing?96:0))throw new IOException("Colour profile length mismatch");
         for(int i=0;i<values.length;i++) {
             values[i]=b.getDouble();
             if(!Double.isFinite(values[i])||Math.abs(values[i])>1e6)throw new IOException("Invalid colour parameter");
@@ -47,6 +51,18 @@ public final class HasselbladProfile43 {
         for(int i=0;i<curve.length;i++) {
             curve[i]=b.getFloat();
             if(!Float.isFinite(curve[i])||curve[i]<0||curve[i]>65535)throw new IOException("Invalid colour curve");
+        }
+        if(hasNativeFinishing) {
+            if(b.getInt()!=1||b.getInt()!=0||b.getInt()!=2||b.getInt()!=1)
+                throw new IOException("Unsupported finishing route");
+            for(int i=0;i<9;i++) {
+                outputMatrix[i]=b.getDouble();
+                if(!Double.isFinite(outputMatrix[i])||Math.abs(outputMatrix[i])>1e6)
+                    throw new IOException("Invalid output matrix");
+            }
+            outputExponent=b.getDouble();
+            if(!Double.isFinite(outputExponent)||outputExponent<=0||outputExponent>8)
+                throw new IOException("Invalid output transfer");
         }
         encoded=data;
     }
@@ -86,6 +102,20 @@ public final class HasselbladProfile43 {
         return pixels;
     }
     public int[] display(short[] rendered) {return encode(rendered,Arrays.copyOfRange(values,28,37),values[37],65536);}
+    public short[] finishRgb16(short[] rendered) {
+        if(!hasNativeFinishing)throw new IllegalStateException("Import a finishing-enabled colour profile");
+        return HasselbladRenderer42.outputSrgb16(HasselbladRenderer42.defaultGradation(rendered),outputMatrix,outputExponent);
+    }
+    public static int[] srgb16ToArgb(short[] rgb) {
+        if(rgb==null||rgb.length%3!=0)throw new IllegalArgumentException("Invalid sRGB16 input");
+        int[] pixels=new int[rgb.length/3];
+        for(int i=0;i<pixels.length;i++) {
+            int v=0xff000000;
+            for(int c=0;c<3;c++)v|=(((rgb[3*i+c]&65535)+128)/257)<<(16-8*c);
+            pixels[i]=v;
+        }
+        return pixels;
+    }
     public static int[] baseline(short[] camera,double[] cameraToD50,double[] xyzToSrgb) {
         return encode(camera,multiply(xyzToSrgb,cameraToD50),1,65535);
     }

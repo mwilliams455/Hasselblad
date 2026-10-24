@@ -1,0 +1,86 @@
+{
+  "schema": "hasselblad-stage55-native-post-v1",
+  "status": "PASS_BOUNDED_CPU_FINISHING",
+  "graph_binding": {
+    "sdr_import_tool_version": 4,
+    "gradation_version": 1,
+    "sequence": [
+      "ColorCorrectAll",
+      "FilmCurve",
+      "16CGradationFilter",
+      "Sharpness",
+      "ColorSpaceConvert"
+    ],
+    "live_graph_output_parameters": [
+      [
+        1,
+        0,
+        3
+      ]
+    ],
+    "graph_ownership_fixture": true,
+    "sharpness_constructor_fixture": true,
+    "sharpness_ported": false
+  },
+  "default_curve_entries_exact": 65536,
+  "synthetic_pixels": 11064,
+  "gradation_native": {
+    "channels": 33192,
+    "max_abs_difference": 0.0,
+    "mean_abs_difference": 0.0,
+    "exact_channels": 33192
+  },
+  "output_native": {
+    "channels": 33192,
+    "max_abs_difference": 0.0,
+    "mean_abs_difference": 0.0,
+    "exact_channels": 33192
+  },
+  "output_independent": {
+    "channels": 33192,
+    "max_abs_difference": 0.0,
+    "mean_abs_difference": 0.0,
+    "exact_channels": 33192
+  },
+  "photographic_measurement": {
+    "pixels": 786432,
+    "gradation_native_sample": {
+      "channels": 3081,
+      "max_abs_difference": 0.0,
+      "mean_abs_difference": 0.0,
+      "exact_channels": 3081
+    },
+    "output_native_sample": {
+      "channels": 3081,
+      "max_abs_difference": 0.0,
+      "mean_abs_difference": 0.0,
+      "exact_channels": 3081
+    },
+    "independent_output_all": {
+      "channels": 2359296,
+      "max_abs_difference": 0.0,
+      "mean_abs_difference": 0.0,
+      "exact_channels": 2359296
+    },
+    "display_effect_8bit": {
+      "channels": 2359296,
+      "max_abs_difference": 2.0,
+      "mean_abs_difference": 0.46717071533203125,
+      "exact_channels": 1257114
+    },
+    "fraction_pixels_over_two_codes": 0.0
+  },
+  "scene_fitted_parameters": 0,
+  "profile_colour_payload_unchanged": true,
+  "output_route": {
+    "source_special_profile": 0,
+    "destination_special_profile": 2,
+    "normalizer": 65535
+  },
+  "host_libm_fixture": true,
+  "input_APK_unchanged": true,
+  "original_live_display_reproduced": false,
+  "phone_sensor_adaptation_experimental": true,
+  "capture_renderer_changed": false,
+  "full_phocus_equivalence": false
+}

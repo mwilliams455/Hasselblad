@@ -1,0 +1,52 @@
+{
+  "schema": "hasselblad-stage55-host-suite-v1",
+  "status": "PASS",
+  "previous": {
+    "schema": "hasselblad-stage54-host-suite-v1",
+    "status": "PASS",
+    "results": {
+      "Stage42BridgeSmoke": {
+        "status": "PASS",
+        "checks": 12,
+        "synthetic_only": true
+      },
+      "Stage43Smoke": {
+        "status": "PASS",
+        "checks": 65,
+        "synthetic_only": true,
+        "raw_reference": "Stage30 full-frame float32 bilinear"
+      },
+      "Metadata48Check": {
+        "schema": "hasselblad-stage48-java-metadata-v1",
+        "status": "PASS",
+        "checks": 28,
+        "failures": [],
+        "synthetic_only": true
+      },
+      "Stage54Smoke": {
+        "schema": "hasselblad-stage54-host-jni-v1",
+        "status": "PASS",
+        "synthetic_cases": 64,
+        "compared_channels": 159168,
+        "maximum_rgb16_difference": 0,
+        "wb_factorization_max_error": 4.440892098500626e-16,
+        "checks": 159890,
+        "synthetic_only": true,
+        "device_tested": false,
+        "full_phocus_equivalence": false
+      }
+    },
+    "synthetic_only": true,
+    "capture_renderer_changed": false,
+    "device_tested": false
+  },
+  "finishing": {
+    "status": "PASS",
+    "checks": 634081,
+    "pixels": 70449,
+    "synthetic_only": true
+  },
+  "synthetic_only": true,
+  "device_tested": false,
+  "capture_renderer_changed": false
+}

@@ -33,10 +33,10 @@ def main():
     compiler=[javac] if javac else [java_binary,'com.sun.tools.javac.Main']
     run(*compiler,'--release','17','-d',classes,*[java/(name+'.java') for name in units],*tests)
     includes=[jni,jni/'linux',audit/'phocus_port_stage42/src',audit/'isp_dng_stage18/src',
-              audit/'isp_colour_stage19/src',audit/'phocus_highlight_stage53']
+              audit/'isp_colour_stage19/src',audit/'phocus_highlight_stage53',audit/'phocus_post_stage55']
     sources=[src/'cpp/hasselblad/hb_renderer42_jni.c',audit/'phocus_port_stage42/src/hb42_colour.c',
              audit/'isp_dng_stage18/src/hb_dng_pcs_bridge.c',audit/'isp_colour_stage19/src/hb_colour_stage19.c',
-             audit/'phocus_highlight_stage53/highlight53.c']
+             audit/'phocus_highlight_stage53/highlight53.c',audit/'phocus_post_stage55/post55.c']
     run('gcc','-std=c11','-O2','-Wall','-Wextra','-Werror','-ffp-contract=off','-fPIC','-shared',
         *['-I'+str(x) for x in includes],*sources,'-Wl,--no-undefined','-lm','-o',work/'libhasselblad_renderer42_jni.so')
     for script,dest in ((audit/'phocus_dng_stage43/make_fixtures43.py',work/'fixtures43'),

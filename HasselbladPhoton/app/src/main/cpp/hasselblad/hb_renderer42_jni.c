@@ -120,3 +120,47 @@ done:
     }
     return result;
 }
+
+#include "post55.h"
+static jshortArray post55(JNIEnv *e,jshortArray input,jdoubleArray matrix,
+                         double exponent,int gradation) {
+    uint16_t *src=NULL,*dst=NULL,*curve=NULL;
+    jshortArray result=NULL;
+    const char *error="Invalid finishing input or output calibration";
+    if(!input)goto done;
+    jsize n=(*e)->GetArrayLength(e,input);
+    if(n<=0||n%3||n>1048576*3)goto done;
+    double m[9];
+    if(!gradation&&!read_matrix(e,matrix,m,9,0))goto done;
+    src=malloc((size_t)n*sizeof(uint16_t));dst=malloc((size_t)n*sizeof(uint16_t));
+    if(!src||!dst){error="Finishing preview allocation failed";goto done;}
+    (*e)->GetShortArrayRegion(e,input,0,n,(jshort*)src);
+    if((*e)->ExceptionCheck(e))goto done;
+    int status;
+    if(gradation) {
+        curve=malloc(65536*sizeof(uint16_t));
+        if(!curve){error="Gradation allocation failed";goto done;}
+        status=hb55_default_curve(curve);
+        if(status==0)status=hb55_gradate(curve,src,(size_t)n/3,dst);
+    } else status=hb55_output_rgb16(src,(size_t)n/3,m,exponent,dst);
+    if(status!=0)goto done;
+    result=(*e)->NewShortArray(e,n);
+    if(result)(*e)->SetShortArrayRegion(e,result,0,n,(jshort*)dst);
+done:
+    free(src);free(dst);free(curve);
+    if(!result&&!(*e)->ExceptionCheck(e)) {
+        jclass type=(*e)->FindClass(e,"java/lang/IllegalArgumentException");
+        if(type)(*e)->ThrowNew(e,type,error);
+    }
+    return result;
+}
+JNIEXPORT jshortArray JNICALL
+Java_com_particlesdevs_photoncamera_hasselblad_HasselbladRenderer42_defaultGradation(
+        JNIEnv *e,jclass cls,jshortArray input) {
+    (void)cls;return post55(e,input,NULL,1,1);
+}
+JNIEXPORT jshortArray JNICALL
+Java_com_particlesdevs_photoncamera_hasselblad_HasselbladRenderer42_outputSrgb16(
+        JNIEnv *e,jclass cls,jshortArray input,jdoubleArray matrix,jdouble exponent) {
+    (void)cls;return post55(e,input,matrix,exponent,0);
+}

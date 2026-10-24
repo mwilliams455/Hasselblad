@@ -1,0 +1,13 @@
+{
+  "schema": "hasselblad-stage55-whole-frame-v1",
+  "status": "PASS_EXACT_JNI_RGB16",
+  "pixels": 786432,
+  "gradation_channels_exact": 2359296,
+  "output_channels_exact": 2359296,
+  "legacy_intermediates_and_displays_unchanged": true,
+  "new_profile_colour_payload_unchanged": true,
+  "scene_fitted_parameters": 0,
+  "device_tested": false,
+  "capture_renderer_changed": false,
+  "full_phocus_equivalence": false
+}

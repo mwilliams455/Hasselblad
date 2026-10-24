@@ -1,0 +1,113 @@
+{
+  "schema": "hasselblad-stage60-bayer-native-v1",
+  "status": "PASS_BOUNDED_BAYER_CHAIN",
+  "fast_interpolation": {
+    "cases": 27,
+    "exact_rgb16_channels": 23733,
+    "step": 1,
+    "green_blending": false,
+    "cfa": "RGGB with aligned destination origin",
+    "max_absolute_difference": 0
+  },
+  "unmodified_rgb_bayer_roundtrip": {
+    "exact_sites": 7911,
+    "max_absolute_difference": 0
+  },
+  "remosaic_phase_probe": {
+    "cases": 20,
+    "sites_inspected": 1980,
+    "ordinary_shifted_cfa_matching_cases": 10,
+    "ordinary_shifted_cfa_mismatching_cases": 10,
+    "constant_rgb_channel_patterns": [
+      {
+        "requested_phase": [
+          0,
+          0
+        ],
+        "selected_rgb_channels": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ]
+        ]
+      },
+      {
+        "requested_phase": [
+          0,
+          1
+        ],
+        "selected_rgb_channels": [
+          [
+            1,
+            2
+          ],
+          [
+            0,
+            1
+          ]
+        ]
+      },
+      {
+        "requested_phase": [
+          1,
+          0
+        ],
+        "selected_rgb_channels": [
+          [
+            1,
+            1
+          ],
+          [
+            2,
+            0
+          ]
+        ]
+      },
+      {
+        "requested_phase": [
+          1,
+          1
+        ],
+        "selected_rgb_channels": [
+          [
+            2,
+            0
+          ],
+          [
+            1,
+            1
+          ]
+        ]
+      }
+    ],
+    "native_alignment_scheduler_executed": false,
+    "supported_port_domain": "aligned RGGB only; odd horizontal phase is not generalized"
+  },
+  "black_fast_highlight_bayer_chain": {
+    "cases": 12,
+    "exact_highlight_channels": 27648,
+    "exact_output_bayer_sites": 9216,
+    "max_absolute_difference": 0
+  },
+  "native_cpu_pixel_bodies_executed": [
+    "black subtraction",
+    "fast Bayer interpolation",
+    "highlight reconstruction",
+    "Multi2Bayer wrapper",
+    "ExtractBayerImage RGB branch"
+  ],
+  "buffer_allocation_and_ownership_mocked": true,
+  "outer_edge_extension": "explicit reflect-101 fixture, not native outer-frame policy",
+  "final_native_demosaic_executed": false,
+  "native_gainmap_path_executed": false,
+  "source_description_import_executed": false,
+  "source_apk_modified": false,
+  "private_tables_exported": false,
+  "scene_fitted_parameters": 0,
+  "capture_renderer_changed": false,
+  "full_phocus_equivalence": false
+}

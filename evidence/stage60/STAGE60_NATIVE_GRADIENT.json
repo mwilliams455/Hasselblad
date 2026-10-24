@@ -1,0 +1,208 @@
+{
+  "schema": "hasselblad-stage60-gradient-execution-v1",
+  "status": "EXECUTED_BOUNDED_CPU",
+  "synthetic_cases": [
+    {
+      "fixture": "neutral",
+      "native_vs_bilinear": {
+        "channels": 12288,
+        "max_absolute_rgb16_difference": 0,
+        "mean_absolute_rgb16_difference": 0.0,
+        "changed_pixels": 0
+      },
+      "different_initial_memory_poison_exact": true
+    },
+    {
+      "fixture": "flat_colour",
+      "native_vs_bilinear": {
+        "channels": 12288,
+        "max_absolute_rgb16_difference": 1,
+        "mean_absolute_rgb16_difference": 0.3333333333333333,
+        "changed_pixels": 4096
+      },
+      "different_initial_memory_poison_exact": true
+    },
+    {
+      "fixture": "ramp",
+      "native_vs_bilinear": {
+        "channels": 12288,
+        "max_absolute_rgb16_difference": 263,
+        "mean_absolute_rgb16_difference": 5.681315104166667,
+        "changed_pixels": 964
+      },
+      "different_initial_memory_poison_exact": true
+    },
+    {
+      "fixture": "colour_edge",
+      "native_vs_bilinear": {
+        "channels": 12288,
+        "max_absolute_rgb16_difference": 21994,
+        "mean_absolute_rgb16_difference": 167.625,
+        "changed_pixels": 4096
+      },
+      "different_initial_memory_poison_exact": true
+    },
+    {
+      "fixture": "red_impulse",
+      "native_vs_bilinear": {
+        "channels": 12288,
+        "max_absolute_rgb16_difference": 49996,
+        "mean_absolute_rgb16_difference": 16.277669270833332,
+        "changed_pixels": 9
+      },
+      "different_initial_memory_poison_exact": true
+    },
+    {
+      "fixture": "random_codes",
+      "native_vs_bilinear": {
+        "channels": 12288,
+        "max_absolute_rgb16_difference": 61503,
+        "mean_absolute_rgb16_difference": 9951.677164713541,
+        "changed_pixels": 4096
+      },
+      "different_initial_memory_poison_exact": true
+    }
+  ],
+  "connected_pixel_chain_cases": [
+    {
+      "fixture": "neutral",
+      "native_chain_vs_direct_highlight_rgb": {
+        "channels": 12288,
+        "max_absolute_rgb16_difference": 2,
+        "mean_absolute_rgb16_difference": 1.3333333333333333,
+        "changed_pixels": 4096
+      },
+      "native_chain_vs_native_gradient_highlight_bypass": {
+        "channels": 12288,
+        "max_absolute_rgb16_difference": 4745,
+        "mean_absolute_rgb16_difference": 2530.6666666666665,
+        "changed_pixels": 4096
+      }
+    },
+    {
+      "fixture": "flat_colour",
+      "native_chain_vs_direct_highlight_rgb": {
+        "channels": 12288,
+        "max_absolute_rgb16_difference": 3,
+        "mean_absolute_rgb16_difference": 2.0,
+        "changed_pixels": 4096
+      },
+      "native_chain_vs_native_gradient_highlight_bypass": {
+        "channels": 12288,
+        "max_absolute_rgb16_difference": 3746,
+        "mean_absolute_rgb16_difference": 2397.0,
+        "changed_pixels": 4096
+      }
+    },
+    {
+      "fixture": "ramp",
+      "native_chain_vs_direct_highlight_rgb": {
+        "channels": 12288,
+        "max_absolute_rgb16_difference": 232,
+        "mean_absolute_rgb16_difference": 5.4072265625,
+        "changed_pixels": 4096
+      },
+      "native_chain_vs_native_gradient_highlight_bypass": {
+        "channels": 12288,
+        "max_absolute_rgb16_difference": 13778,
+        "mean_absolute_rgb16_difference": 4182.903483072917,
+        "changed_pixels": 4096
+      }
+    },
+    {
+      "fixture": "colour_edge",
+      "native_chain_vs_direct_highlight_rgb": {
+        "channels": 12288,
+        "max_absolute_rgb16_difference": 10995,
+        "mean_absolute_rgb16_difference": 103.92708333333333,
+        "changed_pixels": 4096
+      },
+      "native_chain_vs_native_gradient_highlight_bypass": {
+        "channels": 12288,
+        "max_absolute_rgb16_difference": 24745,
+        "mean_absolute_rgb16_difference": 6630.333333333333,
+        "changed_pixels": 4096
+      }
+    },
+    {
+      "fixture": "red_impulse",
+      "native_chain_vs_direct_highlight_rgb": {
+        "channels": 12288,
+        "max_absolute_rgb16_difference": 25000,
+        "mean_absolute_rgb16_difference": 9.46875,
+        "changed_pixels": 4096
+      },
+      "native_chain_vs_native_gradient_highlight_bypass": {
+        "channels": 12288,
+        "max_absolute_rgb16_difference": 4748,
+        "mean_absolute_rgb16_difference": 2530.66845703125,
+        "changed_pixels": 4096
+      }
+    },
+    {
+      "fixture": "random_codes",
+      "native_chain_vs_direct_highlight_rgb": {
+        "channels": 12288,
+        "max_absolute_rgb16_difference": 54519,
+        "mean_absolute_rgb16_difference": 7431.496256510417,
+        "changed_pixels": 4096
+      },
+      "native_chain_vs_native_gradient_highlight_bypass": {
+        "channels": 12288,
+        "max_absolute_rgb16_difference": 40411,
+        "mean_absolute_rgb16_difference": 9024.533772786459,
+        "changed_pixels": 4096
+      }
+    }
+  ],
+  "unique_pixels_per_comparison": 24576,
+  "native_gradient_invocations": 24,
+  "neutral_constant_10000_exact": true,
+  "allocation_poison_repeat_cases": 6,
+  "source_and_memory_guards_pass": true,
+  "graph_captured_demosaic_parameters": true,
+  "configuration_scope": "fixed camera context; noise/lens-disabled graph fixture; unity demosaic gains",
+  "cpu_dispatch": "HasSupportForSIMD false fixture; original scalar class, compiler vector instructions still execute",
+  "host_allocations_and_clock_and_disabled_log_label_mocked": true,
+  "task_queue": "null, synchronous original execution",
+  "edge_extension": "reflect-101 fixture with 32-pixel gradient halo",
+  "gradient_executed_functions": [
+    "_Z17GGDirInterpolator10CImageViewItLi1EE7CXPoint6CXRectS_ItLi3EEdPKddsP11CTaskQueuesdd",
+    "_Z21GetGradientSingleStepIsEvPKT_Psi",
+    "_Z29DirectionalColorCorrectionYCCiPKtPKsS2_S0_S2_S2_RtRsS4_S4_i",
+    "_ZN13FilterGeneric20Smooth3x3_Special121EPKtPtii",
+    "_ZN13FilterGeneric23Edge3x3_SpecialSobel121EPKtPsii",
+    "_ZN13FilterGeneric9Median3x3EPKsPsii",
+    "_ZN16CBaseInterpolateC2Ev",
+    "_ZN20CGradientInterpolate10ColorNoiseEii",
+    "_ZN20CGradientInterpolate11InterpolateEPKtii",
+    "_ZN20CGradientInterpolate12GetBlueAtRedEPKtS1_ii",
+    "_ZN20CGradientInterpolate14GetStripMarginEv",
+    "_ZN20CGradientInterpolate14InterpolateRGBEPKtii",
+    "_ZN20CGradientInterpolate15GetGradientMaskEPKsS1_",
+    "_ZN20CGradientInterpolate17CalculateScaleMapEPKtPfS2_iiiii",
+    "_ZN20CGradientInterpolate17GetRedBlueAtGreenEPKtS1_S1_RtS2_ii",
+    "_ZN20CGradientInterpolate18GetGreenAtRedFirstEPKtPKfS3_S3_S1_iRiS4_PsS5_Rs",
+    "_ZN20CGradientInterpolate20CalculateMidGreenMapEPKtPKfS3_PfPtiiiii",
+    "_ZN20CGradientInterpolate5GetCbEv",
+    "_ZN20CGradientInterpolate5GetCrEv",
+    "_ZN20CGradientInterpolate6GetYccEv",
+    "_ZN20CGradientInterpolateC2Eiidd",
+    "_ZN20CGradientInterpolateD0Ev",
+    "_ZN20CGradientInterpolateD1Ev",
+    "_ZN6CXRect5InsetEii",
+    "_ZN6CXRect6OffsetEii",
+    "_ZNK15CDemosaicFilter12FilterResultE6CXRectS0_NSt6__ndk110unique_ptrI14CBufferedImageNS1_14default_deleteIS3_EEEES6_",
+    "_ZNK20CGradientInterpolate18WasMemoryAllocatedEv"
+  ],
+  "comparison_is_accuracy_score": false,
+  "independent_gradient_port_compared": false,
+  "native_gpu_compared": false,
+  "source_description_import_executed": false,
+  "native_gainmap_path_executed": false,
+  "physical_camera_colour_match_validated": false,
+  "scene_fitted_parameters": 0,
+  "source_apk_modified": false,
+  "capture_renderer_changed": false,
+  "full_phocus_equivalence": false
+}

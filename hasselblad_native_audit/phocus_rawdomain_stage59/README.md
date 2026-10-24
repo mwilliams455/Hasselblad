@@ -5,6 +5,11 @@ It does not change the renderer or produce an APK. The current device build
 remains **Stage58, `0.1-hb-rawprep58` / 27197**, with the Stage56 private profile.
 No scene-specific parameters were fitted.
 
+[Stage60](../phocus_bayer_stage60/README.md) continues this audit through the
+fast Bayer/highlight/Bayer pixel stages and executes the downstream original
+CPU gradient demosaic in a bounded harness. The full native DNG import and
+gain-map path remain unresolved.
+
 The supplied Stage58 report selects `automatic_dng_preparation`, automatic LUT
 3550 K, native finishing on and highlight reconstruction off. All eleven RAW
 audit counters agree exactly with the retained host report. The device has not

@@ -1,0 +1,105 @@
+{
+  "schema": "hasselblad-stage60-saved-dng-spatial-v1",
+  "status": "EXECUTED_EXPERIMENTAL_NATIVE_CPU_TILES",
+  "tiles": 4,
+  "pixels_per_comparison": 4096,
+  "selection": "fixed 2x2 spatial grid; even-aligned 32x32 interior tiles with 36-site halo",
+  "gainmap_count": 4,
+  "input_domain": "Stage58 common-range, 0..1 clipping and per-GainMap upper clamp; quantized to Bayer uint16 before interpolation",
+  "input_is_stage58_device_rgb16_buffer": false,
+  "highlight_clipping_source": "prepared encoding ceiling, not measured sensor saturation",
+  "highlight_wb_source": "DNG AsShotNeutral; maximum-normalized reciprocal ratios",
+  "unit": "linear RGB16 before colour, film and display; not sRGB",
+  "comparisons": [
+    {
+      "native_gradient_vs_integer_bilinear_highlights_off": {
+        "channels": 3072,
+        "max_absolute_rgb16_difference": 1822,
+        "mean_absolute_rgb16_difference": 217.50716145833334,
+        "changed_pixels": 1024
+      },
+      "connected_highlight_bayer_gradient_vs_direct_highlight_rgb": {
+        "channels": 3072,
+        "max_absolute_rgb16_difference": 939,
+        "mean_absolute_rgb16_difference": 123.021484375,
+        "changed_pixels": 1024
+      },
+      "highlight_effect_with_native_gradient": {
+        "channels": 3072,
+        "max_absolute_rgb16_difference": 17651,
+        "mean_absolute_rgb16_difference": 7155.394205729167,
+        "changed_pixels": 1024
+      }
+    },
+    {
+      "native_gradient_vs_integer_bilinear_highlights_off": {
+        "channels": 3072,
+        "max_absolute_rgb16_difference": 613,
+        "mean_absolute_rgb16_difference": 55.683268229166664,
+        "changed_pixels": 1024
+      },
+      "connected_highlight_bayer_gradient_vs_direct_highlight_rgb": {
+        "channels": 3072,
+        "max_absolute_rgb16_difference": 323,
+        "mean_absolute_rgb16_difference": 32.005208333333336,
+        "changed_pixels": 1024
+      },
+      "highlight_effect_with_native_gradient": {
+        "channels": 3072,
+        "max_absolute_rgb16_difference": 1644,
+        "mean_absolute_rgb16_difference": 362.9791666666667,
+        "changed_pixels": 1024
+      }
+    },
+    {
+      "native_gradient_vs_integer_bilinear_highlights_off": {
+        "channels": 3072,
+        "max_absolute_rgb16_difference": 1535,
+        "mean_absolute_rgb16_difference": 156.33235677083334,
+        "changed_pixels": 1024
+      },
+      "connected_highlight_bayer_gradient_vs_direct_highlight_rgb": {
+        "channels": 3072,
+        "max_absolute_rgb16_difference": 814,
+        "mean_absolute_rgb16_difference": 83.65657552083333,
+        "changed_pixels": 1024
+      },
+      "highlight_effect_with_native_gradient": {
+        "channels": 3072,
+        "max_absolute_rgb16_difference": 6876,
+        "mean_absolute_rgb16_difference": 3020.5729166666665,
+        "changed_pixels": 1024
+      }
+    },
+    {
+      "native_gradient_vs_integer_bilinear_highlights_off": {
+        "channels": 3072,
+        "max_absolute_rgb16_difference": 1263,
+        "mean_absolute_rgb16_difference": 155.9287109375,
+        "changed_pixels": 1024
+      },
+      "connected_highlight_bayer_gradient_vs_direct_highlight_rgb": {
+        "channels": 3072,
+        "max_absolute_rgb16_difference": 605,
+        "mean_absolute_rgb16_difference": 84.35221354166667,
+        "changed_pixels": 1024
+      },
+      "highlight_effect_with_native_gradient": {
+        "channels": 3072,
+        "max_absolute_rgb16_difference": 7498,
+        "mean_absolute_rgb16_difference": 3270.583984375,
+        "changed_pixels": 1024
+      }
+    }
+  ],
+  "difference_is_accuracy_score": false,
+  "scene_fitted_parameters": 0,
+  "original_native_dng_decoder_executed": false,
+  "native_gainmap_path_executed": false,
+  "source_dng_modified": false,
+  "source_apk_modified": false,
+  "physical_camera_colour_match_validated": false,
+  "phone_sensor_adaptation_experimental": true,
+  "capture_renderer_changed": false,
+  "full_phocus_equivalence": false
+}

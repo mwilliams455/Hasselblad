@@ -303,7 +303,7 @@ def synthetic():
     term={12:"cmd6",16:"cmd3"}
     assert reach_targets(4,g,term)==["cmd6"]
     assert reach_targets(8,g,term)==["cmd3"]
-    assert [PARAM_KIN[(0x11df>>(4*k))&15] for k in range(4)]==[
+    assert [PARAM_KINDS[(0x11df>>(4*k))&15] for k in range(4)]==[
         "PARTIAL_INOUT","PARTIAL_INPUT","VALUE_INPUT","VALUE_INPUT"]
     assert is_branch_cond("cbnz") and is_branch_cond("b.eq") and not is_branch_cond("bl")
     return {"status":"PASS_synthetic","tests":4,"original_firmware_loaded":False}

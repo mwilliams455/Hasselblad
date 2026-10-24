@@ -6,6 +6,8 @@ name: Hasselblad Stage43 experimental saved-RAW colour APK
       - 'HasselbladPhoton/**'
       - 'hasselblad_native_audit/phocus_port_stage42/**'
       - 'hasselblad_native_audit/phocus_dng_stage43/**'
+      - 'hasselblad_native_audit/phocus_boundaries_stage48/**'
+      - 'hasselblad_native_audit/isp_colour_stage24/**'
       - 'hasselblad_native_audit/isp_dng_stage18/**'
       - 'hasselblad_native_audit/isp_colour_stage19/**'
       - '.github/workflows/hb-photon-dng43.yml'
@@ -38,7 +40,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python3 -m pip install --disable-pip-version-check numpy==2.3.5 opencv-python-headless==5.0.0.93
+          python3 -m pip install --disable-pip-version-check numpy==2.3.5 opencv-python-headless==5.0.0.93 Pillow==12.3.0 tifffile==2026.10.15
           python3 hasselblad_native_audit/phocus_port_stage42/test_core42.py -v
           mkdir -p "$RUNNER_TEMP/hb43/classes" "$RUNNER_TEMP/hb43/lib" "$RUNNER_TEMP/hb43/deliver"
           src=HasselbladPhoton/app/src/main
@@ -49,7 +51,8 @@ jobs:
             "$audit/Stage42BridgeSmoke.java" \
             "$src/java/com/particlesdevs/photoncamera/hasselblad/HasselbladDngTileReader.java" \
             "$src/java/com/particlesdevs/photoncamera/hasselblad/HasselbladProfile43.java" \
-            hasselblad_native_audit/phocus_dng_stage43/Stage43Smoke.java
+            hasselblad_native_audit/phocus_dng_stage43/Stage43Smoke.java \
+            hasselblad_native_audit/phocus_boundaries_stage48/Metadata48Check.java
           gcc -std=c11 -O2 -Wall -Wextra -Werror -fPIC -ffp-contract=off -shared \
             -I"$JAVA_HOME/include" -I"$JAVA_HOME/include/linux" -I"$audit/src" \
             -Ihasselblad_native_audit/isp_dng_stage18/src -Ihasselblad_native_audit/isp_colour_stage19/src \
@@ -62,6 +65,10 @@ jobs:
           python3 hasselblad_native_audit/phocus_dng_stage43/make_fixtures43.py --out "$RUNNER_TEMP/hb43/fixtures"
           java -Djava.library.path="$RUNNER_TEMP/hb43/lib" -cp "$RUNNER_TEMP/hb43/classes" \
             Stage43Smoke "$RUNNER_TEMP/hb43/fixtures" | tee "$RUNNER_TEMP/hb43/deliver/STAGE43_HOST_JNI.json"
+          python3 hasselblad_native_audit/phocus_boundaries_stage48/make_metadata_fixtures48.py --out "$RUNNER_TEMP/hb43/metadata48"
+          java -Djava.library.path="$RUNNER_TEMP/hb43/lib" -cp "$RUNNER_TEMP/hb43/classes" \
+            Metadata48Check "$RUNNER_TEMP/hb43/metadata48" | tee "$RUNNER_TEMP/hb43/deliver/STAGE48_METADATA.json"
+          cp "$RUNNER_TEMP/hb43/metadata48/PYTHON_METADATA48.json" "$RUNNER_TEMP/hb43/deliver/STAGE48_PYTHON_METADATA.json"
       - name: Install pinned Android build toolchain
         shell: bash
         run: |

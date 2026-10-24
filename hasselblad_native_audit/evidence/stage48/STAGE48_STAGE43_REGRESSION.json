@@ -1,0 +1,6 @@
+{
+  "status": "PASS",
+  "checks": 65,
+  "synthetic_only": true,
+  "raw_reference": "Stage30 full-frame float32 bilinear"
+}

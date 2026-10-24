@@ -1,0 +1,11 @@
+{
+  "schema": "hasselblad-stage48-room-regression-v1",
+  "status": "PASS_EXACT",
+  "compared_files": 13,
+  "prepared_RGB16_channels": 2359296,
+  "profiles": 3,
+  "metadata_matrices_exact": true,
+  "baseline_and_three_profile_displays_exact": true,
+  "source_DNG_unchanged": true,
+  "device_tested": false
+}

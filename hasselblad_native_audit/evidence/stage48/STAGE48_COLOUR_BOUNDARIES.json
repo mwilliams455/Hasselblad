@@ -1,0 +1,144 @@
+{
+  "schema": "hasselblad-stage48-colour-boundaries-v1",
+  "status": "PASS_AUDIT_WITH_OPEN_GAMUT_FINDING",
+  "independent_DNG_matrix_tests": {
+    "synthetic_calibrations": 256,
+    "maximum_matrix_error": 4.440892098500626e-16,
+    "maximum_normalized_neutral_to_D50_error": 3.3306690738754696e-16,
+    "non_diagonal_calibration_and_analog_balance_tested": true
+  },
+  "matrix_checks": {
+    "standard_sRGB_matrix_max_error": 1.3322676295501878e-15,
+    "room_DNG_matrix_max_error": 2.220446049250313e-16,
+    "stored_matrix_closure_max_error": 1.3322676295501878e-15,
+    "effective_unit_Y_reconstruction_closure_max_error": 0.00022569782625114776,
+    "effective_unit_Y_white_max_error": 0.0002596209086940249
+  },
+  "identity_control": {
+    "samples": 4913,
+    "base_coordinate_clipped_samples": 27,
+    "base_all": {
+      "mean_abs_rgb8": 0.10489178370310062,
+      "p95_abs_rgb8": 0.0,
+      "max_abs_rgb8": 42.0,
+      "pixels_with_any_change_gt_2_pct": 0.5088540606554041
+    },
+    "base_inside": {
+      "mean_abs_rgb8": 0.03636239596124983,
+      "p95_abs_rgb8": 0.0,
+      "max_abs_rgb8": 1.0,
+      "pixels_with_any_change_gt_2_pct": 0.0
+    },
+    "base_outside": {
+      "mean_abs_rgb8": 12.506172839506172,
+      "p95_abs_rgb8": 34.0,
+      "max_abs_rgb8": 42.0,
+      "pixels_with_any_change_gt_2_pct": 92.5925925925926
+    },
+    "enlarged_all": {
+      "mean_abs_rgb8": 0.03758735328041251,
+      "p95_abs_rgb8": 0.0,
+      "max_abs_rgb8": 1.0,
+      "pixels_with_any_change_gt_2_pct": 0.0
+    },
+    "enlarged_coordinate_clipped_samples": 0,
+    "in_range_outputs_unchanged_exact": true
+  },
+  "intentional_error_detection": {
+    "missing_internal_transfer_decode": {
+      "mean_abs_rgb8": 43.77670896438805,
+      "p95_abs_rgb8": 97.0,
+      "max_abs_rgb8": 154.0,
+      "pixels_with_any_change_gt_2_pct": 100.0
+    },
+    "transposed_output_matrix": {
+      "mean_abs_rgb8": 32.03438395415473,
+      "p95_abs_rgb8": 96.0,
+      "max_abs_rgb8": 158.0,
+      "pixels_with_any_change_gt_2_pct": 100.0
+    },
+    "duplicate_white_balance": {
+      "mean_abs_rgb8": 57.23270568972575,
+      "p95_abs_rgb8": 140.0,
+      "max_abs_rgb8": 240.0,
+      "pixels_with_any_change_gt_2_pct": 100.0
+    }
+  },
+  "equivalent_colour_across_camera_encodings": {
+    "0": {
+      "cameras": 8,
+      "common_XYZ_samples": 4913,
+      "maximum_mean_abs_RGB8_difference": 0.004206526901418007,
+      "maximum_channel_difference": 1.0
+    },
+    "1": {
+      "cameras": 8,
+      "common_XYZ_samples": 4913,
+      "maximum_mean_abs_RGB8_difference": 0.005427776646990976,
+      "maximum_channel_difference": 1.0
+    }
+  },
+  "neutral_ramps": {
+    "0": {
+      "samples": 512,
+      "max_display_channel_spread": 1,
+      "mean_display_channel_spread": 0.017578125
+    },
+    "1": {
+      "samples": 512,
+      "max_display_channel_spread": 1,
+      "mean_display_channel_spread": 0.025390625
+    }
+  },
+  "pre_colour_exposure_placement_exact_channels": 12288,
+  "room_relevant_metadata_present": {
+    "BaselineExposure": false,
+    "ProfileBaselineExposureOffset": false,
+    "CameraCalibrationSignature": false,
+    "ProfileCalibrationSignature": false,
+    "ColorimetricReference": false,
+    "ProfileHueSatMapData1": false,
+    "ProfileLookTableData": false,
+    "AsShotICCProfile": false
+  },
+  "retained_photo_coordinate_coverage": {
+    "room": {
+      "pixels": 786432,
+      "base_coordinate_clamps": 6330,
+      "enlarged_coordinate_clamps": 2182,
+      "diagnostic_difference": {
+        "mean_abs_rgb8": 0.0020391676161024305,
+        "p95_abs_rgb8": 0.0,
+        "max_abs_rgb8": 13.0,
+        "pixels_with_any_change_gt_2_pct": 0.006230672200520833
+      }
+    },
+    "previous_indoor": {
+      "pixels": 786432,
+      "base_coordinate_clamps": 544,
+      "enlarged_coordinate_clamps": 151,
+      "diagnostic_difference": {
+        "mean_abs_rgb8": 0.00017335679796006944,
+        "p95_abs_rgb8": 0.0,
+        "max_abs_rgb8": 3.0,
+        "pixels_with_any_change_gt_2_pct": 0.00012715657552083332
+      }
+    }
+  },
+  "parameters_fitted_to_photos": false,
+  "look_or_exposure_changes_deployed": false,
+  "expanded_coordinate_control_is_verified_Phocus_mode": false,
+  "original_APK_replayed_this_stage": false,
+  "input_files_unchanged": true,
+  "phone_spectral_colour_accuracy_validated": false,
+  "full_Phocus_equivalence": false,
+  "limitations": [
+    "Equivalent XYZ through synthetic camera matrices tests composition and quantization, not real sensor spectral accuracy under different lights.",
+    "The enlarged grid uses the previously verified expansion operation but retains the current space0 output path; that combination is a diagnostic, not a recovered native mode.",
+    "The bounded normal table is itself recovered behaviour. Its clipping is a limitation of the present adaptation, not evidence that the recovered C routine is incorrect.",
+    "The small effective neutral/basis error comes from the verified implicit unit-Y reconstruction and finite curve encoding; no proprietary coefficient is altered.",
+    "Current reader still requires an equal/single ForwardMatrix branch and rejects differing dual-illuminant forward/calibration matrices.",
+    "BaselineExposure/profile offsets and upstream Phocus gain state are not calibrated across cameras; the room omits these exposure-offset tags.",
+    "Two retained indoor phone scenes and earlier camera JPEG pairs are not known-settings Phocus validation across illuminants."
+  ]
+}

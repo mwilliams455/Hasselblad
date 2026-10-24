@@ -1,0 +1,8 @@
+{
+  "schema": "hasselblad-stage48-python-metadata-v1",
+  "status": "PASS",
+  "cases": 14,
+  "synthetic_only": true,
+  "independent_DNG_matrix_reference": true,
+  "scaled_and_SHORT_neutral_supported": true
+}

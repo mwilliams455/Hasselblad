@@ -79,6 +79,8 @@ def decode_rationals(value,n,tag):
     return np.ascontiguousarray(out,dtype=np.float64)
 
 def extract_metadata(t,strict=True):
+    if 'ColorimetricReference' in t and int(t['ColorimetricReference'].value)!=0:
+        raise ValueError('Output-referred DNG is not supported by the scene-linear path')
     if t['CFAPattern'].value!=b'\x00\x01\x01\x02':raise ValueError('Only RGGB is supported')
     if t['CFARepeatPatternDim'].value!=(2,2):raise ValueError('Wrong CFA repeat')
     black=np.asarray(t['BlackLevel'].value,dtype=np.float64).ravel()
@@ -88,16 +90,28 @@ def extract_metadata(t,strict=True):
     if white<=float(black[0]):raise ValueError('Invalid white level')
     fm1=decode_rationals(t['ForwardMatrix1'].value,9,'ForwardMatrix1')
     fm2=decode_rationals(t['ForwardMatrix2'].value,9,'ForwardMatrix2') if 'ForwardMatrix2' in t else None
-    cc1=decode_rationals(t['CameraCalibration1'].value,9,'CameraCalibration1') if 'CameraCalibration1' in t else None
-    cc2=decode_rationals(t['CameraCalibration2'].value,9,'CameraCalibration2') if 'CameraCalibration2' in t else None
+    def signature(name):
+        if name not in t:return b''
+        tag=t[name]
+        if tag.dtype not in (1,2):raise ValueError('Calibration signature has wrong TIFF type')
+        value=tag.value
+        if isinstance(value,str):return value.split('\0',1)[0].encode('utf-8')
+        value=bytes(value)
+        if b'\0' not in value:raise ValueError('Calibration signature is not null-terminated')
+        return value.split(b'\0',1)[0]
+    use_calibration=signature('CameraCalibrationSignature')==signature('ProfileCalibrationSignature')
+    cc1=decode_rationals(t['CameraCalibration1'].value,9,'CameraCalibration1') if use_calibration and 'CameraCalibration1' in t else None
+    cc2=decode_rationals(t['CameraCalibration2'].value,9,'CameraCalibration2') if use_calibration and 'CameraCalibration2' in t else None
     ab=decode_rationals(t['AnalogBalance'].value,3,'AnalogBalance') if 'AnalogBalance' in t else None
-    neutral=decode_rationals(t['AsShotNeutral'].value,3,'AsShotNeutral')
+    nt=t['AsShotNeutral']
+    neutral=np.asarray(nt.value,dtype=np.float64) if nt.dtype==3 else decode_rationals(nt.value,3,'AsShotNeutral')
+    if neutral.shape!=(3,):raise ValueError('AsShotNeutral bad channel count')
     orientation=int(t['Orientation'].value) if 'Orientation' in t else 1
     if orientation not in (1,6):raise ValueError('Only orientation 1 or 6 is supported')
     opcodes=[n for n in ('OpcodeList1','OpcodeList2','OpcodeList3') if n in t]
     return {'fm1':fm1,'fm2':fm2,'cc1':cc1,'cc2':cc2,'ab':ab,'neutral':neutral,
             'black':float(black[0]),'white':white,'orientation':orientation,
-            'unhandled_dng_opcodes':opcodes}
+            'unhandled_dng_opcodes':opcodes,'camera_calibration_signature_matches':use_calibration}
 
 def context(lib,m,gamut):
     ctx=Context();rc=Receipt()
@@ -106,7 +120,7 @@ def context(lib,m,gamut):
       p(m['ab']) if m['ab'] is not None else None,p(m['neutral']),gamut,C.byref(ctx),C.byref(rc))
     if status:raise ValueError(f'Unsupported DNG colour profile, hb24_build status {status}')
     expected=np.asarray((.9642,1.0,.8249))
-    mapped=np.asarray(list(ctx.camera_to_xyz_d50),dtype=np.float64).reshape(3,3)@m['neutral']
+    mapped=np.asarray(list(ctx.camera_to_xyz_d50),dtype=np.float64).reshape(3,3)@(m['neutral']/np.max(m['neutral']))
     if not np.allclose(mapped,expected,rtol=0,atol=1e-10):raise ValueError('Neutral does not map to ICC D50')
     assert rc.photographic_render_authorized==0
     return ctx

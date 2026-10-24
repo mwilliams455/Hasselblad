@@ -1,0 +1,7 @@
+{
+  "schema": "hasselblad-stage48-java-metadata-v1",
+  "status": "PASS",
+  "checks": 28,
+  "failures": [],
+  "synthetic_only": true
+}

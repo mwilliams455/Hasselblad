@@ -34,6 +34,7 @@ public final class HasselbladDngTileReader {
         CFA_DIMS=33421, CFA_PATTERN=33422, DNG_VERSION=50706,
         BLACK=50714, WHITE=50717, CC1=50723, CC2=50724,
         ANALOG=50727, NEUTRAL=50728, FM1=50964, FM2=50965,
+        COLORIMETRIC_REFERENCE=50879, CAMERA_SIGNATURE=50931, PROFILE_SIGNATURE=50932,
         OPCODE1=51008, OPCODE2=51009, OPCODE3=51022;
 
     public static final class Unsupported extends IOException {
@@ -195,6 +196,23 @@ public final class HasselbladDngTileReader {
     private static double[] optional(Tiff tif,Page p,Page root,int tag,int count)throws IOException {
         Tag x=inherited(p,root,tag);return x==null?null:tif.numbers(x,count);
     }
+    private static byte[] signature(Tiff tif,Tag tag)throws IOException {
+        if(tag==null)return new byte[0];
+        must(tag.type==1||tag.type==2,"calibration_signature_wrong_type");
+        byte[] value=tif.bytes(tag);
+        int end=0;while(end<value.length&&value[end]!=0)end++;
+        must(end<value.length,"calibration_signature_not_terminated");
+        return Arrays.copyOf(value,end);
+    }
+    private static boolean calibrationMatches(Tiff tif,Page p,Page root)throws IOException {
+        // DNG 1.7.1, pp.47-48 and p.100: missing signatures default to empty.
+        return Arrays.equals(signature(tif,inherited(p,root,CAMERA_SIGNATURE)),
+                             signature(tif,inherited(p,root,PROFILE_SIGNATURE)));
+    }
+    private static void requireSceneReference(Tiff tif,Page p,Page root)throws IOException {
+        Tag tag=inherited(p,root,COLORIMETRIC_REFERENCE);
+        if(tag!=null)must(tif.ints(tag,1)[0]==0,"output_referred_DNG_not_supported");
+    }
     private static Page[] locate(Tiff tif)throws IOException {
         long ifd0=tif.u32(4);
         Page root=tif.page(ifd0);
@@ -305,6 +323,7 @@ public final class HasselbladDngTileReader {
             must(Arrays.equals(tif.ints(inherited(p,root,CFA_DIMS),2),new long[]{2,2}),"non_RB_CFA_repeat");
             must(Arrays.equals(tif.ints(inherited(p,root,CFA_PATTERN),4),new long[]{0,1,1,2}),"unsupported_CFA_not_RGGB");
             must(inherited(p,root,DNG_VERSION)!=null,"not_dng_missing_version");
+            requireSceneReference(tif,p,root);
             Tag t1=inherited(p,root,OPCODE1),t2=inherited(p,root,OPCODE2),t3=inherited(p,root,OPCODE3);
             must(t1==null&&t3==null,"unsupported_dng_opcode1_or_3");
             List<Gain> maps=t2==null?new ArrayList<>():gainMaps(tif.bytes(t2),w,h);
@@ -333,8 +352,10 @@ public final class HasselbladDngTileReader {
             for(double x:whites)must(x==white,"nonuniform_white_level_not_supported");
             must(white>0&&white<=65535,"white_level_invalid");
             for(double x:black)must(x>=0&&x<white,"black_level_invalid");
+            boolean useCalibration=calibrationMatches(tif,p,root);
             double[] fm1=optional(tif,p,root,FM1,9),fm2=optional(tif,p,root,FM2,9),
-                    cc1=optional(tif,p,root,CC1,9),cc2=optional(tif,p,root,CC2,9),
+                    cc1=useCalibration?optional(tif,p,root,CC1,9):null,
+                    cc2=useCalibration?optional(tif,p,root,CC2,9):null,
                     analog=optional(tif,p,root,ANALOG,3),neutral=optional(tif,p,root,NEUTRAL,3);
             int startX=((w-32)/2)&~1,startY=((h-32)/2)&~1;
             final int roi=34,baseX=startX-1,baseY=startY-1;
@@ -414,6 +435,7 @@ public final class HasselbladDngTileReader {
             must(tif.ints(p.tags.get(COMPRESSION),1)[0]==1,"compressed_dng_not_supported");
             must(tif.ints(p.tags.get(SAMPLES),1)[0]==1,"multisample_dng_not_supported");
             must(inherited(p,root,DNG_VERSION)!=null,"not_dng_missing_version");
+            requireSceneReference(tif,p,root);
             for(int tag:new int[]{PLANAR_CONFIG,266,339,50711}) {
                 Tag t=inherited(p,root,tag);
                 if(t!=null)must(tif.ints(t,1)[0]==1,"unsupported_raw_layout_"+tag);
@@ -440,8 +462,10 @@ public final class HasselbladDngTileReader {
             must(white>0&&white<=65535,"white_level_invalid");
             for(double value:whites)must(value==white,"nonuniform_white_level_not_supported");
             for(double value:black)must(value>=0&&value<white,"black_level_invalid");
+            boolean useCalibration=calibrationMatches(tif,p,root);
             double[] fm1=optional(tif,p,root,FM1,9),fm2=optional(tif,p,root,FM2,9),
-                cc1=optional(tif,p,root,CC1,9),cc2=optional(tif,p,root,CC2,9),
+                cc1=useCalibration?optional(tif,p,root,CC1,9):null,
+                cc2=useCalibration?optional(tif,p,root,CC2,9):null,
                 analog=optional(tif,p,root,ANALOG,3),neutral=optional(tif,p,root,NEUTRAL,3);
             must(fm1!=null&&neutral!=null,"DNG_forward_matrix_and_neutral_required");
             must((fm2==null||Arrays.equals(fm1,fm2))&&(cc2==null||(cc1!=null&&Arrays.equals(cc1,cc2))),

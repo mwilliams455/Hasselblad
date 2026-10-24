@@ -430,9 +430,29 @@ public final class HasselbladDngTileReader {
         public final int width,height,step,orientation;
         public final short[] cameraRgb16;
         public final long negativeChannels,overUnityChannels;
+        public RawPreparation58 preparation58;
         PreviewResult(ReadResult m,int w,int h,int s,int o,short[] rgb,long neg,long over) {
             metadata=m;width=w;height=h;step=s;orientation=o;cameraRgb16=rgb;
             negativeChannels=neg;overUnityChannels=over;
+        }
+    }
+    /** Optional Stage58 comparison and diagnostics. Counts cover unique decoded
+     * Bayer rows, not every site in the RAW. Unclamped values are diagnostic:
+     * they include noise and saturated samples, not recovered sensor detail. */
+    public static final class RawPreparation58 {
+        public final short[] rgb16;
+        public final float[] unclampedRgb;
+        public long decodedSites,rawBelowBlack,rawAtOrAboveWhite;
+        public long rangeLowerClipped,rangeUpperClipped,gainClipEvents,gainClippedSites,gainClippedBelowWhite;
+        public long unclampedNegativeChannels,unclampedOverUnityChannels,changedPreparedChannels;
+        public final boolean unequalBlackLevels;
+        RawPreparation58(int channels,boolean unequal) {
+            rgb16=new short[channels];unclampedRgb=new float[channels];unequalBlackLevels=unequal;
+        }
+        public long[] counters() {
+            return new long[]{decodedSites,rawBelowBlack,rawAtOrAboveWhite,rangeLowerClipped,rangeUpperClipped,
+                gainClipEvents,gainClippedSites,gainClippedBelowWhite,unclampedNegativeChannels,
+                unclampedOverUnityChannels,changedPreparedChannels};
         }
     }
     private static int reflected(int coordinate,int length) {
@@ -448,6 +468,12 @@ public final class HasselbladDngTileReader {
             +g.grid[y0*g.pointsH+x1]*(1-dy)*dx+g.grid[y1*g.pointsH+x1]*dy*dx;
     }
     public static PreviewResult readPreview(File path,int maxPixels)throws IOException {
+        return readPreviewInternal(path,maxPixels,false);
+    }
+    public static PreviewResult readPreviewWithPreparation58(File path,int maxPixels)throws IOException {
+        return readPreviewInternal(path,maxPixels,true);
+    }
+    private static PreviewResult readPreviewInternal(File path,int maxPixels,boolean audit58)throws IOException {
         must(maxPixels>0&&maxPixels<=1048576,"preview_pixel_limit");
         try(RandomAccessFile raf=new RandomAccessFile(path,"r")) {
             Tiff tif=new Tiff(raf);Page[] pages=locate(tif);Page root=pages[0],p=choose(tif,pages);
@@ -508,6 +534,12 @@ public final class HasselbladDngTileReader {
             while((long)((w+step-1)/step)*((h+step-1)/step)>maxPixels)step++;
             int pw=(w+step-1)/step,ph=(h+step-1)/step;
             short[] rgb=new short[pw*ph*3];
+            double maxBlack=black[0];boolean unequal=false;
+            for(double level:black){maxBlack=Math.max(maxBlack,level);unequal|=level!=black[0];}
+            double commonRange=white-maxBlack;
+            RawPreparation58 prep=audit58?new RawPreparation58(rgb.length,unequal):null;
+            float[][] corrected=audit58?new float[3][w]:null,unclamped=audit58?new float[3][w]:null;
+            boolean[] counted=audit58?new boolean[h]:null;
             float[][] rowCache=new float[3][w];int[] cachedRow={-1,-1,-1};
             byte[] bytes=new byte[w*2];long negative=0,over=0;int applied=0;
             for(int py=0;py<ph;py++) {
@@ -520,40 +552,80 @@ public final class HasselbladDngTileReader {
                     long position=offsets[strip]+(gy%rowsPerStrip)*w*2L;
                     tif.range(position,bytes.length);raf.seek(position);raf.readFully(bytes);
                     ByteBuffer b=ByteBuffer.wrap(bytes).order(tif.endian);
+                    boolean countRow=audit58&&!counted[gy];
                     for(int x=0;x<w;x++) {
+                        int raw=b.getShort()&65535;
                         float siteBlack=(float)(black.length==1?black[0]:black[((gy&1)<<1)|(x&1)]);
-                        float norm=((b.getShort()&65535)-siteBlack)/((float)white-siteBlack);
+                        float norm=(raw-siteBlack)/((float)white-siteBlack);
+                        double exactBlack=black.length==1?black[0]:black[((gy&1)<<1)|(x&1)];
+                        float signed=audit58?(float)((raw-exactBlack)/commonRange):0;
+                        float bounded=Math.max(0f,Math.min(1f,signed)),unlimited=signed;
+                        boolean gainClipped=false;long events=0;
                         for(Gain g:maps)if(g.affects(gy,x)) {
-                            norm=(float)Math.min(norm*gainReference(g,gy,x,w,h),1.);applied++;
+                            double gain=gainReference(g,gy,x,w,h);
+                            norm=(float)Math.min(norm*gain,1.);applied++;
+                            if(audit58) {
+                                double product=bounded*gain;
+                                if(product>1){gainClipped=true;events++;}
+                                bounded=(float)Math.min(product,1.);
+                                unlimited=(float)(unlimited*gain);
+                            }
                         }
                         must(Float.isFinite(norm),"gainmap_nonfinite_result");rowCache[slot][x]=norm;
+                        if(audit58) {
+                            must(Float.isFinite(unlimited),"stage58_unclamped_diagnostic_overflow");
+                            corrected[slot][x]=bounded;unclamped[slot][x]=unlimited;
+                            if(countRow) {
+                                prep.decodedSites++;
+                                if(raw<exactBlack)prep.rawBelowBlack++;
+                                if(raw>=white)prep.rawAtOrAboveWhite++;
+                                if(signed<0)prep.rangeLowerClipped++;
+                                if(signed>1)prep.rangeUpperClipped++;
+                                prep.gainClipEvents+=events;
+                                if(gainClipped){prep.gainClippedSites++;if(raw<white)prep.gainClippedBelowWhite++;}
+                            }
+                        }
                     }
-                    cachedRow[slot]=gy;
+                    cachedRow[slot]=gy;if(audit58)counted[gy]=true;
                 }
                 for(int px=0;px<pw;px++) {
                     int x=px*step;
                     for(int ch=0;ch<3;ch++) {
-                        float value;
-                        if(site(y,x,ch))value=rowCache[y%3][x];
-                        else {
-                            float sum=0,support=0;
+                        float value,correctedValue=0,unclampedValue=0;
+                        if(site(y,x,ch)) {
+                            value=rowCache[y%3][x];
+                            if(audit58){correctedValue=corrected[y%3][x];unclampedValue=unclamped[y%3][x];}
+                        } else {
+                            float sum=0,support=0,correctedSum=0,unclampedSum=0;
                             for(int dy=-1;dy<=1;dy++)for(int dx=-1;dx<=1;dx++) {
                                 int gy=reflected(y+dy,h),gx=reflected(x+dx,w);
                                 if(!site(gy,gx,ch))continue;
                                 int weight=(dy==0?2:1)*(dx==0?2:1);
                                 sum+=rowCache[gy%3][gx]*weight;support+=weight;
+                                if(audit58){correctedSum+=corrected[gy%3][gx]*weight;unclampedSum+=unclamped[gy%3][gx]*weight;}
                             }
                             must(support>0,"demosaic_support_missing");value=sum/support;
+                            if(audit58){correctedValue=correctedSum/support;unclampedValue=unclampedSum/support;}
                         }
                         if(value<0)negative++;if(value>1)over++;
-                        rgb[(py*pw+px)*3+ch]=(short)(int)(Math.max(0f,Math.min(1f,value))*65535f);
+                        int index=(py*pw+px)*3+ch;
+                        rgb[index]=(short)(int)(Math.max(0f,Math.min(1f,value))*65535f);
+                        if(audit58) {
+                            must(Float.isFinite(unclampedValue),"stage58_unclamped_demosaic_overflow");
+                            prep.rgb16[index]=(short)(int)(Math.max(0f,Math.min(1f,correctedValue))*65535f);
+                            prep.unclampedRgb[index]=unclampedValue;
+                            if(unclampedValue<0)prep.unclampedNegativeChannels++;
+                            if(unclampedValue>1)prep.unclampedOverUnityChannels++;
+                            if(rgb[index]!=prep.rgb16[index])prep.changedPreparedChannels++;
+                        }
                     }
                 }
             }
             ReadResult metadata=new ReadResult(w,h,16,offsets.length,
                 opcode==null?"absent":"opcode2_gainmap_only",maps.size(),applied,
                 fm1,fm2,cc1,cc2,analog,neutral,new double[0],illuminant(tif,p,root));
-            return new PreviewResult(metadata,pw,ph,step,orientation,rgb,negative,over);
+            PreviewResult result=new PreviewResult(metadata,pw,ph,step,orientation,rgb,negative,over);
+            result.preparation58=prep;return result;
         }
     }
 }

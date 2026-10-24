@@ -1,0 +1,118 @@
+{
+  "schema": "hasselblad-stage58-host-suite-v1",
+  "status": "PASS",
+  "raw_preparation": {
+    "status": "PASS",
+    "checks": 310,
+    "cases": 48,
+    "rgb_channels": 174132,
+    "raw_preparation_exact_numpy": true,
+    "diagnostic_float_exact_numpy": true,
+    "legacy_preview_unchanged_exact": true,
+    "sdk_bit_exact_claimed": false
+  },
+  "previous": {
+    "schema": "hasselblad-stage57-host-suite-v1",
+    "status": "PASS",
+    "combined_synthetic_execution": {
+      "schema": "hasselblad-stage57-host-execution-v1",
+      "status": "PASS_EXECUTION_ONLY",
+      "cases": 64,
+      "pixels_per_case": 2316,
+      "metadata_kelvin_max_error": 4.9112713895738125e-11,
+      "camera_matrix_max_error": 8.881784197001252e-16,
+      "inputs_unchanged": true,
+      "renderer_code_changed": false,
+      "device_tested": false
+    },
+    "previous": {
+      "schema": "hasselblad-stage56-host-suite-v1",
+      "status": "PASS",
+      "selector": {
+        "status": "PASS",
+        "checks": 7333,
+        "numeric_cases": 1440,
+        "maximum_kelvin_error": 5.356041583581828e-07,
+        "maximum_ratio_residual": 8.760658865014648e-11,
+        "synthetic_only": true
+      },
+      "fixtures": {
+        "numeric_cases": 1440,
+        "synthetic_camera_encodings": 8,
+        "metadata_cases": [
+          "valid",
+          "swapped",
+          "single",
+          "mismatch",
+          "missing",
+          "bad_count",
+          "bad_illuminant",
+          "third",
+          "short_neutral"
+        ],
+        "independent_bisection_max_kelvin_error": 5.4569682106375694e-11,
+        "synthetic_only": true
+      },
+      "previous": {
+        "schema": "hasselblad-stage55-host-suite-v1",
+        "status": "PASS",
+        "previous": {
+          "schema": "hasselblad-stage54-host-suite-v1",
+          "status": "PASS",
+          "results": {
+            "Stage42BridgeSmoke": {
+              "status": "PASS",
+              "checks": 12,
+              "synthetic_only": true
+            },
+            "Stage43Smoke": {
+              "status": "PASS",
+              "checks": 65,
+              "synthetic_only": true,
+              "raw_reference": "Stage30 full-frame float32 bilinear"
+            },
+            "Metadata48Check": {
+              "schema": "hasselblad-stage48-java-metadata-v1",
+              "status": "PASS",
+              "checks": 28,
+              "failures": [],
+              "synthetic_only": true
+            },
+            "Stage54Smoke": {
+              "schema": "hasselblad-stage54-host-jni-v1",
+              "status": "PASS",
+              "synthetic_cases": 64,
+              "compared_channels": 159168,
+              "maximum_rgb16_difference": 0,
+              "wb_factorization_max_error": 4.440892098500626e-16,
+              "checks": 159890,
+              "synthetic_only": true,
+              "device_tested": false,
+              "full_phocus_equivalence": false
+            }
+          },
+          "synthetic_only": true,
+          "capture_renderer_changed": false,
+          "device_tested": false
+        },
+        "finishing": {
+          "status": "PASS",
+          "checks": 634081,
+          "pixels": 70449,
+          "synthetic_only": true
+        },
+        "synthetic_only": true,
+        "device_tested": false,
+        "capture_renderer_changed": false
+      },
+      "capture_renderer_changed": false,
+      "device_tested": false
+    },
+    "synthetic_only": true,
+    "capture_renderer_changed": false,
+    "device_tested": false
+  },
+  "synthetic_only": true,
+  "capture_renderer_changed": false,
+  "device_tested": false
+}

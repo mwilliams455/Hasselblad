@@ -115,7 +115,7 @@ def inspect_boot(root,firmware_path):
 def native_trace(path):
     from elftools.elf.elffile import ELFFile
     from capstone import Cs,CS_ARCH_ARM64,CS_MODE_LITTLE_ENDIAN
-    from capstone.arm64 import ARM64_OP_IMM,ARM64_OP_REG,ARM64_REG_W1,ARM64_REG_X1
+    from capstone.arm64 import ARM64_OP_IMM,ARM64_OP_REG,ARM64_REG_W1,ARM64_REG_X1,ARM64_REG_WZR,ARM64_REG_XZR
     with path.open("rb") as f:
         elf=ELFFile(f)
         if elf["e_machine"]!="EM_AARCH64":
@@ -174,9 +174,16 @@ def native_trace(path):
                         break
                     if prev.operands and prev.operands[0].type==ARM64_OP_REG and prev.operands[0].reg in (ARM64_REG_W1,ARM64_REG_X1):
                         row["w1_local_predecessor"]=prev.mnemonic
-                        if prev.mnemonic in ("mov","movz") and len(prev.operands)>=2 and prev.operands[1].type==ARM64_OP_IMM:
-                            row["command_id_static_immediate"]=int(prev.operands[1].imm)
-                            row["command_id_proof_scope"]="straight_line_local_only"
+                        if len(prev.operands)>=2 and prev.operands[1].type==ARM64_OP_REG:
+                            row["w1_source_register"]=prev.reg_name(prev.operands[1].reg)
+                        if prev.mnemonic in ("mov","movz") and len(prev.operands)>=2:
+                            if prev.operands[1].type==ARM64_OP_IMM:
+                                row["command_id_static_immediate"]=int(prev.operands[1].imm)
+                                row["command_id_proof_scope"]="straight_line_local_only"
+                            elif (prev.mnemonic=="mov" and prev.operands[1].type==ARM64_OP_REG
+                                  and prev.operands[1].reg in (ARM64_REG_WZR, ARM64_REG_XZR)):
+                                row["command_id_static_immediate"]=0
+                                row["command_id_proof_scope"]="straight_line_zero_register"
                         break
             callsites.append(row)
         crypto_regex=re.compile(r"(^|_)(?:AES|EVP|decrypt|mbedtls|crypto|sha|hkdf|hmac)(?:_|$)",re.I)

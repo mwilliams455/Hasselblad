@@ -26,6 +26,9 @@ jobs:
           p=hasselblad_native_audit/tee_provision_stage22/audit_key_provisioning22.py
           python3 -m py_compile "$p"
           python3 -m py_compile hasselblad_native_audit/tee_provision_stage22/trace_efuse_session24.py
+          python3 -m py_compile hasselblad_native_audit/tee_provision_stage22/trace_stack_uuid25.py
+          python3 hasselblad_native_audit/tee_provision_stage22/trace_stack_uuid25.py \
+            --self-test --output "$RUNNER_TEMP/HB25_SYNTHETIC.json"
           python3 hasselblad_native_audit/tee_provision_stage22/trace_efuse_session24.py \
             --self-test --output "$RUNNER_TEMP/HB24_SYNTHETIC.json"
           python3 "$p" --self-test --output "$RUNNER_TEMP/HB22_SYNTHETIC.json"
@@ -84,6 +87,21 @@ jobs:
           assert not d["known_key_material_extracted"]
           assert not d["eFuse_function_executed"]
           assert not d["vendor_machine_code_or_decompilation_exported"]
+          PY
+      - name: Compare original eFuse session stack-UUID construction with protected TA identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 hasselblad_native_audit/tee_provision_stage22/trace_stack_uuid25.py \
+            --firmware-root hasselblad_native_audit/firmware/extracted \
+            --output "$RUNNER_TEMP/HB25_ORIGINAL_SAFE.json"
+          python3 - "$RUNNER_TEMP/HB25_ORIGINAL_SAFE.json" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          assert d["schema"]=="hasselblad-stage25-original-efuse-stack-uuid-derivation-v1"
+          assert len(d["static_results"])>=2
+          assert d["encrypted_DSP_or_TA_decrypted"] is False
+          assert d["unknown_literal_bytes_or_secret_key_material_exported"] is False
           PY
       - name: Setup REA supported runtime
         uses: actions/setup-node@v4
@@ -154,5 +172,7 @@ jobs:
             ${{ runner.temp }}/HB22_REA_SAFE.json
             ${{ runner.temp }}/HB24_SYNTHETIC.json
             ${{ runner.temp }}/HB24_ORIGINAL_SAFE.json
+            ${{ runner.temp }}/HB25_SYNTHETIC.json
+            ${{ runner.temp }}/HB25_ORIGINAL_SAFE.json
           if-no-files-found: error
           retention-days: 14

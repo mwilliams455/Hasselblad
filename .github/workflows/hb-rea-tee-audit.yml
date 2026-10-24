@@ -137,6 +137,45 @@ jobs:
           assert x["host_tee_trace"]["text_instructions_examined"]>100
           assert not x["cryptographic_key_recovered"] and not x["vendor_binaries_exported"]
           PY
+      - name: Provision approved Java 21 runtime for REA Ghidra
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Acquire pinned official Ghidra 12.1.4 with SHA-256 check
+        shell: bash
+        run: |
+          set -uo pipefail
+          mkdir -p "$RUNNER_TEMP/hbghidra"
+          archive="$RUNNER_TEMP/hbghidra/ghidra_12.1.4_PUBLIC_20260921.zip"
+          if curl --fail --location --silent --show-error --retry 2 --retry-delay 5 \
+            --connect-timeout 25 --max-time 650 \
+            'https://github.com/NationalSecurityAgency/ghidra/releases/download/Ghidra_12.1.4_build/ghidra_12.1.4_PUBLIC_20260921.zip' --output "$archive" \
+            && test "$(stat -c %s "$archive")" -eq 569649598 \
+            && echo "ddac49f903da9d5bac833e5cc79395098b9c33cfd3279be5f31bd00387d2d4db  $archive" | sha256sum -c - \
+            && unzip -q "$archive" -d "$RUNNER_TEMP/hbghidra"; then
+            echo "GHIDRA_INSTALL_DIR=$RUNNER_TEMP/hbghidra/ghidra_12.1.4_PUBLIC" >> "$GITHUB_ENV"
+            echo "REA_GHIDRA_STARTUP_TIMEOUT_MS=240000" >> "$GITHUB_ENV"
+            echo "Pinned Ghidra verified, ready for REA provider test"
+          else
+            echo "Pinned Ghidra not installed; safe report will show limitation"
+          fi
+          rm -f "$archive"
+      - name: REA Ghidra decompilation of actual host-side TEE calls
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile hasselblad_native_audit/tee_rea_20261024/rea_decompile_tee.py
+          python3 hasselblad_native_audit/tee_rea_20261024/rea_decompile_tee.py \
+            --binary hasselblad_native_audit/firmware/extracted/system/lib64/libfw_util_ca.so \
+            --output "$RUNNER_TEMP/HB_TEE_GHIDRA_SAFE.json"
+          python3 - "$RUNNER_TEMP/HB_TEE_GHIDRA_SAFE.json" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          assert d["vendor_code_in_report"] is False
+          assert d["secure_world_decompiled"] is False
+          assert d["keys_recovered"] is False
+          PY
       - name: Remove original firmware and REA logs even if analysis failed
         if: always()
         shell: bash
@@ -144,6 +183,7 @@ jobs:
           rm -f hasselblad_native_audit/firmware/X2DII_100C_v1_3_16_2.cim
           rm -rf hasselblad_native_audit/firmware/extracted
           rm -f "$RUNNER_TEMP/TEE_PRIVATE_EXTRACT.log" "$RUNNER_TEMP/REA_NPM_PRIVATE.log"
+          rm -rf "$RUNNER_TEMP/hbghidra"
       - name: Publish only bounded, non-proprietary metadata reports
         if: success()
         uses: actions/upload-artifact@v4
@@ -155,5 +195,6 @@ jobs:
             ${{ runner.temp }}/HB_TEE_REA_EXECUTION_SAFE.json
             ${{ runner.temp }}/HB_TEE_KEYPATH_SYNTHETIC.json
             ${{ runner.temp }}/HB_TEE_KEYPATH_ORIGINAL_SAFE.json
+            ${{ runner.temp }}/HB_TEE_GHIDRA_SAFE.json
           if-no-files-found: error
           retention-days: 14

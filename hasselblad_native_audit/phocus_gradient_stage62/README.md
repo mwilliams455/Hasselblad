@@ -1,99 +1,118 @@
-# Stage62: native red/blue helper boundary instrumentation
+# Stage62: independent red/blue interpolation helpers (host checkpoint)
 
-**Status: probe infrastructure, not a completed Stage62 interpolation port.**
-Stage61's independent seven-kernel substitution remains the control. The
-current device APK is still Stage58 (`0.1-hb-rawprep58` / `27197`). No normal
-camera capture path, experimental device renderer, or private profile changed.
+**Status: TWO HELPER IMPLEMENTATIONS, INSTRUCTION-LEVEL PARITY ON SYNTHETIC INPUTS.**
+The remaining original green interpolation, pixel-loop orchestration and
+colour/noise operations have **not** been ported. Stage58
+(`0.1-hb-rawprep58` / `27197`) is still the current phone build; no APK or
+normal capture path was changed.
 
-## Why this checkpoint exists
+## Progress relative to Stage61
 
-The next missing original CPU helpers are:
+Stage61 supplied seven independently checked C11 gradient components and a
+connected original-CPU substitution harness. Stage62 adds:
 
-- `CGradientInterpolate::GetBlueAtRed`
-- `CGradientInterpolate::GetRedBlueAtGreen`
-- followed by `GetGreenAtRedFirst`, pixel-loop orchestration and colour/noise.
+- `interpolate62.h` and `interpolate62.c`: independent C11 implementations of
+  `GetBlueAtRed` and `GetRedBlueAtGreen` for the bounded original CPU helper
+  entry-point contracts. The first returns its original 32-bit W0 result;
+  callers may narrow to 16 bits. The second produces two `uint16_t` outputs.
+- `test_interpolate62.c`: host-only synthetic constant-colour, fallback,
+  clipping, all-256-mask and output-alias tests with UB sanitization.
+- `audit_substitution62.py`: **prepared but unexecuted** nine-kernel connected
+  comparison. It extends the Stage61 substitution runner with just the two
+  new C helper bodies. It snapshots source stencils before writing guest
+  output references and respects the native write order.
+- The previous Stage62 read-only helper boundary instrumentation and fixed-
+  width arithmetic probes remain available on this branch.
 
-The first two helper entries were inspected statically in Stage61, but their
-pixel formulas, exact argument meanings, narrowing and aliasing are **not yet
-verified by original-code execution**. Do not substitute standard bilinear or
-gradient equations and claim native parity. The Stage61 handoff explicitly
-identifies diagonal/green weighting and 32/64-bit operations as *hypotheses*.
+## Reconstructed helper behaviour
 
-`helper_trace62.py` adds a **read-only runtime boundary probe** with a separate
-public summary and optional local-only private samples. The in-situ
-`audit_helpers62.py` executes the same twelve synthetic and optional eight
-DNG-tile comparisons as Stage61 with all seven established C kernels
-substituted, while observing original calls to the two still-native helpers.
-It measures call/return counts and, if enabled, samples original argument
-registers, possible pointer neighbourhoods, low-sixteen-bit return and
-writable-reference output values. The sampled register interpretation is
-*provisional*; testing whether it is correct is part of the investigation.
+Both routines weight candidate colour neighbours according to a green-plane
+absolute-difference estimate `1 + (abs(center_green - neighbour_green) >> 2)`.
+Each eligible direction contributes a *ratio of integer weighted sums*
+multiplied by centre green. The packed direction mask determines which
+candidates are active. A zero green denominator disables that candidate;
+when none remains, the original function falls back to an unweighted average
+of four diagonal samples (blue-at-red) or four cardinal samples (red/blue at
+green).
 
-`fixed_width62.c` provides C11 primitive models for low-bit narrowing,
-32-bit wrapped multiplication/addition and AArch64 signed division. The
-AArch64 instruction model's divide-by-zero and signed-overflow results follow
-the architecture specification; this does **not** establish that those exact
-operations occur on the original interpolation path or specify the helper's
-zero-denominator fallback. The 65534 comparison is a predicate, deliberately
-not an invented saturation formula.
+The port preserves the actual paired neighbour selection, repeated direction
+paths, widening for integer products and unsigned division, 32-bit narrowing
+and summation, signed division for averaging, final signed comparison against
+65,534 and the two-reference write order. It does not apply any phone-specific
+colour correction, white balance, sharpening or scene fitting.
 
-## Locally checked, without vendor code
+The two helper contracts require valid one-site halos and sensible positive
+strides. In the connected harness, the 3×3 host stencils are copies of the
+native helper's actual neighbourhood, not a changed interpolation scheme.
+The routines do not themselves solve source Bayer phase, full-frame boundaries,
+noise reduction, or the later colour pipeline.
+
+## Validation performed on 24 October 2026
+
+The locally supplied original Phocus APK was used **privately** to extract and
+decode the two AArch64 helper bodies. A purpose-built interpreter executed the
+extracted *instruction listings* with synthetic guest registers and memory.
+This is **not** original CPU execution under Unicorn, QEMU or device hardware;
+interpretation defects could cause correlated errors. The original executable
+instructions and the private interpreter remain outside GitHub.
+
+Results (no private photographs, profile values or file hashes exported):
+
+| Comparison scope | Helper evaluations | Differences |
+| --- | ---: | ---: |
+| Eight base synthetic patterns × all 256 masks, both helpers | 4,096 | 0 |
+| 500 additional seeded random masks, both helpers | 1,000 | 0 |
+| Four strides × eight extreme-pattern fixtures, including aliasing | 2,624 | 0 |
+| **Combined** | **7,720** | **0** |
+
+Input patterns include zeros, 65,535, constant RGB, checkerboards, gradients,
+impulses, random 16-bit codes, near-zero green denominators, packed masks with
+upper count bits and overlapping output/source addresses. For the first
+helper, all 32 returned bits were compared. For the second helper, both final
+16-bit output references were compared. These were *helper* comparisons, not
+7,720 complete rendered pixels. GCC C11 strict-warning and undefined-behaviour
+sanitization self-tests passed; the preceding Stage62 probe tests also passed.
+
+**Claims not yet established:** Direct execution of these two original helpers
+in the Stage61 Unicorn runner, nine-kernel connected final RGB16 parity, real
+DNG tile parity for the two substitutions, Android JNI parity, full independent
+Phocus demosaic, or physical Hasselblad-vs-phone colour matching.
+
+## How to run the next native completion gate
+
+Run from the repository root with the locally supplied **private** original
+APK. Its bytes must not be committed, sent to CI or packed into an APK. A
+private DNG is optional but required for the retained DNG tile comparisons.
 
 ```sh
-python3 -m unittest -v test_helper_trace62.py
+python3 hasselblad_native_audit/phocus_gradient_stage62/audit_substitution62.py \
+  --apk /private/locally_supplied_phocus.apk \
+  --dng /private/retained_image.dng \
+  --work /private/stage62-native-work \
+  --safe-receipt /private/stage62-native-aggregate.json --sanitize
+```
+
+The work path must be outside the Git repository. The script first executes
+original demosaic operations and then replaces *nine* helpers (seven from
+Stage61 and the two Stage62 C routines) in the same bounded CPU graph. It
+compares final linear RGB16 on Stage61 synthetic fixtures, both highlight
+modes, and four fixed DNG tiles when supplied. This run is **pending**, not a
+result of the earlier instruction-level comparisons.
+
+The independently runnable synthetic C self-test is:
+
+```sh
 gcc -std=c11 -O2 -Wall -Wextra -Werror -fno-fast-math \
   -ffp-contract=off -fsanitize=undefined -fno-sanitize-recover=all \
-  fixed_width62.c test_fixed_width62.c -o /tmp/test_fixed_width62
-/tmp/test_fixed_width62
-python3 -m py_compile helper_trace62.py audit_helpers62.py
+  interpolate62.c test_interpolate62.c -o /tmp/test_interpolate62
+/tmp/test_interpolate62
 ```
 
-Five lifecycle tests check return-value capture, two output references,
-invalid pointer guesses, nesting, sample limits and the non-sensitive public
-summary. The fixed-width test checks wrap, signed narrowing, zero divisors,
-signed-overflow and the 65534 threshold. These are **host self-tests** only.
+## Next implementation
 
-## Required private native run (not done in this environment)
-
-Requires the locally supplied original Phocus APK, optional retained DNG,
-Unicorn/ELF dependencies and the parent Stage61/Stage60 repo files. Do not
-retrieve the original APK from Library contrary to the retained user
-instruction. If the original local APK is unavailable, obtain another local
-attachment first.
-
-```sh
-python3 hasselblad_native_audit/phocus_gradient_stage62/audit_helpers62.py \
-  --apk /private/locally_supplied_phocus.apk \
-  --dng /private/retained_input.dng \
-  --work /private/stage62-probe-work \
-  --safe-receipt /private/stage62-safe-report.json \
-  --private-traces --sanitize
-```
-
-The `--work` path must be **outside the repository**. Raw pointer/register
-values and potential photographic pixel values are written only to
-`STAGE62_LOCAL_HELPER_TRACES.private.json` there, with owner-only file mode,
-when `--private-traces` is explicitly selected. Never commit it, upload it to
-CI or include it in an APK. The public receipt intentionally contains only
-counts, flags and previous Stage61 RGB16 parity statistics (not the original
-helper return values).
-
-## Next steps after the private run
-
-1. Verify each helper's actual register/stack contract and all call-site
-   output aliases. Check which arguments are pointers, strides, masks and
-   thresholds before trusting a candidate formula.
-2. Build controlled original-helper fixtures for each direction bit and mask
-   combination, no selected directions, zero denominators, constant Bayer,
-   edges, impulses, seeded random codes, and low/high integer boundaries.
-3. Derive and implement both complete independent interpolation helpers in C;
-   include the native integer evaluation order, 64-bit products, 32-bit
-   narrowing and signed division details established by the probes.
-4. Execute direct original-vs-independent comparisons. Extend Stage61's
-   **connected substitution harness** to both helpers and retain highlight
-   bypass/on plus fixed private-DNG tiles. Prove zero final RGB16 differences.
-5. Proceed to `GetGreenAtRedFirst`, full pixel-loop orchestration, colour/noise
-   operations, outer-frame/phase validation, JNI parity, and only then a new APK.
-
-There is **no new native helper equivalence claim, physical colour match, or
-complete demosaic** at this checkpoint. No device pixel comparison occurred.
+After executing the direct native helper and nine-kernel connected checks,
+reconstruct and execute-check `GetGreenAtRedFirst`, then port the pixel-loop
+and remaining colour/noise operations. Keep the Stage58 saved-DNG baseline
+and normal Photon captures unchanged until host, JNI and device pixel-parity
+checks justify an actual Android integration. Native graph scope is still the
+fixed-camera, aligned-RGGB, noise/lens-disabled fixture, not all camera modes.

@@ -1,0 +1,25 @@
+{
+  "schema": "hasselblad-stage67-checkpoint-v1",
+  "stage": 67,
+  "status": "HOST_RAW_GRADIENT_PORT_READY_NATIVE_PARITY_PENDING",
+  "independent_component": "green-site inline RAW16 directional gradients",
+  "prior_native_verified_components": 10,
+  "new_stage67_host_verified_components": 1,
+  "new_native_verified_components": 0,
+  "private_original_instruction_listing_model_compared_outputs": 84672,
+  "separate_python_host_reference_compared_outputs": 38400,
+  "stage61_and_stage67_mask_compositions": 2000,
+  "known_remaining": [
+    "execute Stage64 native YCC runner",
+    "execute Stage65 native ColorNoise/flags runner",
+    "execute Stage66 native schedule observer",
+    "execute Stage67 original native green-site RAW-gradient comparison/substitution",
+    "port separate red/blue colour-site inline gradient arithmetic",
+    "port complete InterpolateRGB loop and validate original CPU output",
+    "host JNI/Android pixel comparison",
+    "full input DNG and phone sensor adaptation"
+  ],
+  "complete_demosaic": false,
+  "phone_stage58_baseline_unchanged": true,
+  "cross_sensor_physical_color_equivalence": false
+}

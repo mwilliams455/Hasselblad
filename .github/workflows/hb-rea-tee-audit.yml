@@ -20,6 +20,9 @@ jobs:
         run: |
           set -euo pipefail
           python3 -m py_compile hasselblad_native_audit/tee_rea_20261024/inspect_tee_boundary.py
+          python3 -m py_compile hasselblad_native_audit/tee_rea_20261024/inspect_branch_operation9.py
+          python3 hasselblad_native_audit/tee_rea_20261024/inspect_branch_operation9.py \
+            --self-test --output "$RUNNER_TEMP/HB_REA_STAGE9_SYNTHETIC.json"
           python3 hasselblad_native_audit/tee_rea_20261024/inspect_tee_boundary.py --self-test --output "$RUNNER_TEMP/HB_TEE_SYNTHETIC_SAFE.json"
           python3 - "$RUNNER_TEMP/HB_TEE_SYNTHETIC_SAFE.json" <<'PY'
           import json,sys

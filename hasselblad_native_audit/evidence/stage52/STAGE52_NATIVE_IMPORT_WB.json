@@ -1,0 +1,137 @@
+{
+  "schema": "hasselblad-stage52-native-import-wb-v1",
+  "status": "PASS_BOUNDED_IMPORT_AND_WB_ROUTING",
+  "import": {
+    "synthetic_wb_cases": 171,
+    "scale_invariant_groups": 57,
+    "temperature_candidates_exact": true,
+    "maximum_tint_error": 0.0,
+    "metadata_presence_cases": 24,
+    "tool_version_after_import": 4,
+    "tint_clamp_cases": 4,
+    "sdr_requested": true,
+    "gradation_endpoints_unchanged_all_cases": true,
+    "process_gain_channels": 513,
+    "maximum_process_gain_error": 1.1368683772161603e-13,
+    "temperature_grid_kelvin": [
+      [
+        2000,
+        8000,
+        50
+      ],
+      [
+        8000,
+        10000,
+        100
+      ],
+      [
+        10000,
+        20000,
+        1000
+      ],
+      [
+        20000,
+        50000,
+        5000
+      ]
+    ],
+    "tint_quantum": 0.0003333333333333333,
+    "tint_limits": [
+      -0.05,
+      0.05
+    ]
+  },
+  "gradation_after_import": {
+    "channels": 327680,
+    "max_abs_difference": 0.0,
+    "mean_abs_difference": 0.0,
+    "exact_channels": 327680
+  },
+  "raw_builder": {
+    "cases": 24,
+    "sequence": [
+      "18COrientationFilter",
+      "23CBayerFastInterpolation",
+      "36CHighlightReconstructionScalarFilter",
+      "18CMulti2BayerFilter",
+      "CDemosaicFilter"
+    ],
+    "highlight_reconstruction_receives_max_normalized_process_gains": true,
+    "maximum_gain_argument_error": 0.0,
+    "demosaic_receives_unity_gains": true,
+    "pixel_filters_executed_in_builder": false,
+    "original_demosaic_constructor_executed": true
+  },
+  "highlight_diagnostic": {
+    "original_scalar_constructor_and_convert_executed": true,
+    "independent_math_or_gpu_equivalence_validated": false,
+    "cases": [
+      {
+        "synthetic_gain_ratio": [
+          1.8,
+          1.0,
+          1.4
+        ],
+        "pixels": 986,
+        "simple_max_normalized_gain_difference_linear01": {
+          "channels": 2958,
+          "max_abs_difference": 0.4444444444444444,
+          "mean_abs_difference": 0.01153959223190139,
+          "exact_channels": 2483
+        },
+        "gain_scale_invariance_max_abs": 0.0,
+        "sensor_white_maps_to_neutral_white": true
+      },
+      {
+        "synthetic_gain_ratio": [
+          1.0,
+          2.2,
+          1.5
+        ],
+        "pixels": 986,
+        "simple_max_normalized_gain_difference_linear01": {
+          "channels": 2958,
+          "max_abs_difference": 0.5454545454545454,
+          "mean_abs_difference": 0.01946197744054236,
+          "exact_channels": 2266
+        },
+        "gain_scale_invariance_max_abs": 4.440892098500626e-16,
+        "sensor_white_maps_to_neutral_white": true
+      },
+      {
+        "synthetic_gain_ratio": [
+          1.4,
+          1.8,
+          1.0
+        ],
+        "pixels": 986,
+        "simple_max_normalized_gain_difference_linear01": {
+          "channels": 2958,
+          "max_abs_difference": 0.4444444444444444,
+          "mean_abs_difference": 0.011539592231901393,
+          "exact_channels": 2483
+        },
+        "gain_scale_invariance_max_abs": 0.0,
+        "sensor_white_maps_to_neutral_white": true
+      }
+    ],
+    "difference_is_accuracy_error": false,
+    "output_domain": "linear sensor RGB before colour and film"
+  },
+  "fixtures": {
+    "profile_cache": "one already decoded private CCD22/IR6 profile",
+    "process_preparation": "null RAW file/image description, empty clarify map; NoBluecornerCorrection enabled",
+    "raw_builder": "nonr enabled; lens, moire, green-green disabled; black standard deviation 1; source scalar fields 1; 32x32 crop; truncation 65535",
+    "graph_storage": "EmplaceFilter records arguments and returns empty shared pointers; AddFilter ownership recorded",
+    "other_services": "host allocation/libm/configuration/file-name and shared ownership fixtures inherited from Stage51"
+  },
+  "source_apk_and_profile_unchanged": true,
+  "scene_pixels_used": false,
+  "scene_specific_tuning": false,
+  "phone_sensor_adaptation_validated": false,
+  "android_live_graph_or_gpu_tested": false,
+  "capture_renderer_changed": false,
+  "new_apk_built": false,
+  "full_phocus_equivalence": false,
+  "next_boundary": "independent CPU/GPU reconstruction of native highlight processing and its exposure/phone-sensor domain mapping"
+}

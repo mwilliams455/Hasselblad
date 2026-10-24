@@ -1,0 +1,21 @@
+{
+  "schema": "hasselblad-stage66-progress-checkpoint-v1",
+  "status": "HOST_VALIDATED_SCALAR_SCHEDULE_AND_MOCK_WIRING",
+  "parent_github_stage65_commit": "e978b96b8195201043ef2b182253166b30e11b88",
+  "static_arm64_control_probes_checked": 21,
+  "static_arm64_control_probe_failures": 0,
+  "synthetic_schedule_domain_cases": 56,
+  "exact_ordered_events": 464648,
+  "synthetic_wiring_fixture_count": 46,
+  "exact_plane_storage_elements": 846208,
+  "native_stage64_ycc_parity_executed_this_turn": false,
+  "native_stage65_colour_noise_parity_executed_this_turn": false,
+  "native_stage66_RGB_loop_parity_executed": false,
+  "main_InterpolateRGB_pixel_equations_complete": false,
+  "complete_independent_demosaic": false,
+  "android_JNI_pixel_comparison": false,
+  "new_apk_built": false,
+  "original_apk_or_private_disassembly_embedded": false,
+  "photographic_scene_fitting": false,
+  "normal_capture_unchanged": true
+}

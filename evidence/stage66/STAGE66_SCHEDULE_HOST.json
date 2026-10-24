@@ -1,0 +1,19 @@
+{
+  "schema": "hasselblad-stage66-bounded-scheduler-host-v1",
+  "status": "PASS_HOST_SCHEDULE_EXACT",
+  "supported_configuration": "aligned_RGGB_scalar_cpu_0xffff_padded_working_domain",
+  "synthetic_domain_cases": 56,
+  "event_sequence_exact_comparisons": 464648,
+  "max_events_per_fixture": 24581,
+  "different_stride_cases": 51,
+  "negative_contract_cases": 16,
+  "all_event_positions_and_order_exact": true,
+  "count_only_parity_exact": true,
+  "full_size_4096x3072_event_count_only": 31248773,
+  "full_size_pixel_values_computed": false,
+  "original_ARM64_executed": false,
+  "original_CPU_pixel_equivalence_established": false,
+  "full_independent_pixel_loop_completed": false,
+  "source_uses_private_values": false,
+  "new_APK_built": false
+}

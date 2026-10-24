@@ -1,0 +1,41 @@
+{
+  "schema": "hasselblad-stage66-static-scalar-call-boundaries-v1",
+  "status": "PASS_BOUNDED_STATIC_CONTRACT",
+  "control_probes": {
+    "interpolate_sets_all_low_flags": true,
+    "constructor_initializes_zero_strength": true,
+    "constructor_selects_scalar_default": true,
+    "interpolate_uses_virtual_dispatch": true,
+    "prepass_flag_bit0": true,
+    "green_phase_flag_bit1": true,
+    "blue_phase_flag_bit3": true,
+    "green_site_phase_flag_bit4": true,
+    "green_margin_4": true,
+    "blue_margin_plus_2": true,
+    "green_site_margin_plus_4": true,
+    "copy_original_green_plane": true,
+    "smooth_row_helper": true,
+    "edge_row_helper": true,
+    "scale_map_helper": true,
+    "initial_green_helper": true,
+    "green_estimator_helper": true,
+    "blue_at_red_helper": true,
+    "green_site_red_blue_helper": true,
+    "colour_noise_bit5": true,
+    "colour_noise_bit6": true
+  },
+  "original_binary_executed": false,
+  "native_parity_claim": false,
+  "binary_disassembly_or_input_hash_exported": false,
+  "scene_fitted_parameters": 0,
+  "original_interpolate_entry_sets_flags": "0xffff",
+  "constructor_default_strength": 0,
+  "constructor_default_optimized_view": false,
+  "graph_call_site_flags_confirmed_by_execution": false,
+  "scalar_interpolation_margins": [
+    4,
+    6,
+    8
+  ],
+  "native_outer_alignment_and_edge_policy_validated": false
+}

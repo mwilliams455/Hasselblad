@@ -1,0 +1,14 @@
+{
+  "schema": "hasselblad-stage66-synthetic-pixel-plane-wiring-v1",
+  "status": "PASS_EXACT_SYNTHETIC_PLANE_OWNERSHIP",
+  "fixture_count": 46,
+  "whole_plane_storage_elements_compared": 846208,
+  "total_event_callbacks_executed": 314662,
+  "tested_zero_mask_fallback_sites": 37942,
+  "tested_nonzero_mask_helper_sites": 75946,
+  "source_images_private": false,
+  "native_demosaic_executed": false,
+  "pixel_values_from_mock_helpers_only": true,
+  "original_CPU_RGB16_equivalence_established": false,
+  "current_device_APK_changed": false
+}

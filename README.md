@@ -3,8 +3,14 @@
 A standalone PhotonCamera development project investigating a firmware-derived
 Hasselblad X2D II colour-processing path on Android phones.
 
-**Current checkpoint: Native1A, `0.1-hb-native1a` (reviewed APK version code
-27176).** The app contains a verified portable reconstruction of one X2D II
+**Latest experimental device build: Stage58, `0.1-hb-rawprep58` / 27197.**
+[Stage59 research](hasselblad_native_audit/phocus_rawdomain_stage59/README.md)
+records the Stage58 device-counter check and bounded native RAW clipping audit.
+Stage59 does not change the app or produce a new APK. The saved-DNG comparison
+remains experimental; normal capture still uses Photon.
+
+**Historical Native1A checkpoint: `0.1-hb-native1a` (reviewed APK version code
+27176).** That checkpoint contains a verified portable reconstruction of one X2D II
 white-balance recalibration primitive, called through JNI by an explicit
 development check. **Photographs currently use Photon's renderer. Complete
 Hasselblad photographic colour rendering is still under investigation.**
@@ -21,9 +27,9 @@ Hasselblad photographic colour rendering is still under investigation.**
   preferring the advertised standard RAW size closest to 12.5 MP. Actual sizes
   and lens access remain device-dependent; this is not a Xiaomi-only build.
 
-Native1A's new DNG writer still needs one fresh phone export to confirm its tags
-on the device. The prior phone result applies to Native1 and the unchanged WB
-core, not a new physical-device run of Native1A.
+At the Native1A checkpoint, the new DNG writer still needed a fresh phone export
+to confirm its tags. That historical phone result applies to Native1 and the
+unchanged WB core, not a physical-device run of Native1A.
 
 ## Repository layout
 

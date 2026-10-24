@@ -1,0 +1,118 @@
+{
+  "schema": "hasselblad-stage59-raw-domain-v1",
+  "status": "PASS_BOUNDED_NATIVE_AUDIT",
+  "native_graph": {
+    "cases": 864,
+    "fallback_cases": 192,
+    "zero_clipping_cases_not_sent_to_pixel_reconstruction": 216,
+    "base_builder_bit_depth_cases": 6,
+    "source_clipping_minus_black_exact": true,
+    "clipping_independent_of_tested_source_scalars_and_reference": true,
+    "reference_decremented_by_black_exact": true,
+    "normalized_process_gains_exact": true,
+    "demosaic_gains_unity": true,
+    "original_base_builder_shift_16_minus_bits": true,
+    "graph_sequences": [
+      [
+        "18COrientationFilter",
+        "23CBayerFastInterpolation",
+        "36CHighlightReconstructionScalarFilter",
+        "18CMulti2BayerFilter",
+        "CDemosaicFilter"
+      ],
+      [
+        "18COrientationFilter",
+        "26CBlackLevelSubstractFilter",
+        "23CBayerFastInterpolation",
+        "36CHighlightReconstructionScalarFilter",
+        "18CMulti2BayerFilter",
+        "CDemosaicFilter"
+      ]
+    ],
+    "graph_storage_mocked": true,
+    "optional_hdr_metadata_empty_fixture": true,
+    "noise_and_lens_services_fixed_for_bounded_branch": true,
+    "pixel_graph_executed": false,
+    "full_source_description_constructor_executed": false
+  },
+  "uniform_code_domain": {
+    "cases": 24,
+    "channels": 8640,
+    "original_scalar_cpu_executed": true,
+    "away_from_exact_clipping_max_absolute_error": 4.440892098500626e-16,
+    "exact_clipping_boundary_max_absolute_difference": 0.0010793925303012597,
+    "exact_clipping_boundary_witness": {
+      "gains": [
+        0.5,
+        0.7,
+        1.0
+      ],
+      "clipping_code": 60000,
+      "input_as_fraction_of_clipping": [
+        1.0,
+        0.5,
+        0.5
+      ],
+      "scale_times_reciprocal": 0.9999999999999999,
+      "source_domain_output": [
+        0.4588500494311939,
+        0.32046480704307784,
+        0.45777065690089264
+      ],
+      "normalized_domain_output_rescaled": [
+        0.45777065690089264,
+        0.32043945983062483,
+        0.45777065690089264
+      ]
+    },
+    "independent_equations_max_absolute_error": 4.440892098500626e-16,
+    "mismatched_units_negative_control_max_absolute_difference": 0.2415701476259719,
+    "precision": "double scalar; RGB16 rounding and full graph not included",
+    "camera_basis_equivalence_claimed": false,
+    "spatial_gainmap_equivalence_claimed": false
+  },
+  "black_subtraction": {
+    "cases": 12,
+    "channels": 6288,
+    "max_absolute_difference": 0,
+    "original_cpu_filter_executed": true,
+    "inplace_buffer_ownership_fixture": true,
+    "operation": "max(sample_code - black_code, 0); no range normalization"
+  },
+  "opcode_accessor": {
+    "cases": [
+      {
+        "header_present": false,
+        "queries": []
+      },
+      {
+        "header_present": true,
+        "queries": [
+          {
+            "ifd_index": 1,
+            "tag": 51022
+          }
+        ]
+      }
+    ],
+    "method": "CRawImageFile::OpcodeLists",
+    "tag_data_absent_fixture": true,
+    "opcode_payload_parsed": false,
+    "all_raw_decoder_paths_audited": false,
+    "inference": "This named accessor queries OpcodeList3; it does not establish the handling of phone OpcodeList2."
+  },
+  "boundary_cpu_regression": {
+    "cases": 18,
+    "channels": 486,
+    "max_absolute_difference": 0,
+    "original_cpu_rgb16_vs_existing_port_exact": true,
+    "port_changed": false,
+    "boundary_sensitive_scalar_behavior_not_patched": true
+  },
+  "source_apk_modified": false,
+  "private_tables_exported": false,
+  "scene_fitted_parameters": 0,
+  "capture_renderer_changed": false,
+  "new_device_apk_built": false,
+  "full_phocus_equivalence": false
+}

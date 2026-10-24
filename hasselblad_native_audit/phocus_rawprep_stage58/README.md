@@ -87,11 +87,16 @@ only** to **Show DNG preparation**, then copy the report. Expected:
 `displayed_preview: automatic_dng_preparation`, native finishing true,
 highlight reconstruction false, and the same selected automatic LUT.
 
-Stage58 is host-tested until the new device report arrives. General photographic
-validation still needs held-out scenes and controlled reference renders. The
-next highlight task is to establish original source normalization, clipping
-units and gain-map placement before passing a new domain into the nonlinear
-primitive. Keeping a float diagnostic does not itself solve that boundary.
+The supplied Stage58 device report selects the intended new comparison and
+all eleven audit counters match the retained host result. Device pixels have
+not been compared with the host. General photographic validation still needs
+held-out scenes and controlled reference renders.
+
+[Stage59](../phocus_rawdomain_stage59/README.md) now verifies the bounded native
+black/clipping contract and tests consistent code-unit rescaling. It also
+distinguishes the native OpcodeList3 accessor from this phone's OpcodeList2
+maps. Full native source preparation and gain-map handling remain unresolved;
+keeping a float diagnostic does not itself solve that boundary.
 
 ## Reproduce
 

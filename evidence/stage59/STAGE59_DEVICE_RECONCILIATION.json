@@ -1,0 +1,36 @@
+{
+  "schema": "hasselblad-stage59-device-reconciliation-v1",
+  "status": "PASS_STAGE58_COUNTERS_AND_SELECTION",
+  "matching_counter_fields": 11,
+  "counter_domain": "unique decoded Bayer rows used for preview; not whole RAW",
+  "displayed_preview": "automatic_dng_preparation",
+  "displayed_lut_temperature": 3550,
+  "device_pixel_reference_compared": false,
+  "dng_opcode_lists": {
+    "51008": {
+      "present": false
+    },
+    "51009": {
+      "present": true,
+      "opcode_count": 4,
+      "opcode_ids": [
+        9,
+        9,
+        9,
+        9
+      ]
+    },
+    "51022": {
+      "present": false
+    }
+  },
+  "dng_inspection_scope": "Bayer IFD opcode IDs only; no native DNG decode",
+  "source_dng_modified": false,
+  "device_timing_single_run_ms": {
+    "raw_preparation": 4371,
+    "total": 5503
+  },
+  "timing_is_benchmark": false,
+  "physical_camera_colour_match_validated": false,
+  "scene_fitted_parameters": 0
+}

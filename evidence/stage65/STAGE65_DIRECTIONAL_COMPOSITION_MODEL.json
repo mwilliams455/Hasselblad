@@ -1,0 +1,17 @@
+{
+  "schema": "hasselblad-stage65-directional-composition-model-v1",
+  "status": "PASS_PRIVATE_INSTRUCTION_LISTING_MODEL_COMPOSITION",
+  "private_model_input_is_synthetic": true,
+  "private_instruction_disassembly_published": false,
+  "cases": 320,
+  "compared_output_codes": 1280,
+  "unique_low_direction_masks_covered": 256,
+  "candidate_median_selected_cases": 122,
+  "max_absolute_difference": 0,
+  "model_is_not_original_cpu_execution": true,
+  "stage64_native_parity_test_executed": false,
+  "stage65_original_cpu_comparison_executed": false,
+  "full_gradient_demosaic_port": false,
+  "capture_renderer_changed": false,
+  "scene_fitted_parameters": 0
+}

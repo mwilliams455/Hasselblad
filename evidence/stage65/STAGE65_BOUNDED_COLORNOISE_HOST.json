@@ -1,0 +1,24 @@
+{
+  "schema": "hasselblad-stage65-noise-bounded-host-v1",
+  "status": "PASS_INDEPENDENT_SYNTHETIC_HOST_CHECKS",
+  "synthetic_input_cases": 384,
+  "compared_storage_elements_including_unwritten": 4315584,
+  "unsupported_positive_strength_cases": 64,
+  "counted_supported_operations": {
+    "converted_sites": 28520,
+    "clamped_sites": 28520,
+    "smoothing_rows": 1352,
+    "median_rows": 2704,
+    "correction_sites": 4104,
+    "nonzero_mask_sites": 0,
+    "median_selected_sites": 628
+  },
+  "max_difference": 0,
+  "original_cpu_comparison_performed": false,
+  "stage64_ycc_native_parity_established": false,
+  "full_colornoise_original_equivalence": false,
+  "full_gradient_demosaic_port": false,
+  "device_renderer_changed": false,
+  "source_apk_or_photo_used": false,
+  "scene_fitted_parameters": 0
+}

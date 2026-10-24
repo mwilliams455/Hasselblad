@@ -1,0 +1,552 @@
+{
+  "schema": "hasselblad-stage47-highlight-trial-v1",
+  "status": "PASS_CONTROLLED_EXPERIMENT_NOT_DEPLOYED",
+  "room_baseline_matches_stage46_Java_RGB16_and_display_exact": true,
+  "previous_scene_baseline_matches_saved_RGB16_reference_exact": true,
+  "synthetic_checks": {
+    "0.75": {
+      "independent_scalar_samples": 2051,
+      "identity_below_knee_exact": true,
+      "component_ratios_preserved": true,
+      "monotonic_ramp_samples": 200002,
+      "continuous_unit_slope_at_knee": true
+    },
+    "0.85": {
+      "independent_scalar_samples": 2051,
+      "identity_below_knee_exact": true,
+      "component_ratios_preserved": true,
+      "monotonic_ramp_samples": 200002,
+      "continuous_unit_slope_at_knee": true
+    },
+    "neutral_through_actual_curve": {
+      "samples": 100001,
+      "luminance_monotonic": true,
+      "nonfinite_inputs_rejected": 3
+    }
+  },
+  "engineering_parameters_not_scene_fitted": {
+    "internal_max_channel_knee": 0.75,
+    "linear_sRGB_max_channel_knee": 0.85,
+    "shoulder": "Identity below k; above k, k+(m-k)/(1+(m-k)/(1-k)); common RGB scale"
+  },
+  "room": {
+    "current": {
+      "whole_image": {
+        "pixels": 786432,
+        "display_linear_any_above_one_pct": 2.26898193359375,
+        "display_linear_any_below_zero_pct": 3.306706746419271,
+        "display_rgb8_any_255_pct": 2.282460530598958,
+        "display_rgb8_all_at_least_250_pct": 0.9806315104166666,
+        "pre_curve_any_above_65535_pct": 2.110799153645833,
+        "difference_from_current": {
+          "mean_abs_rgb8": 0.0,
+          "p95_abs_rgb8": 0.0,
+          "max_abs_rgb8": 0.0,
+          "pixels_with_any_change_gt_2_pct": 0.0
+        },
+        "pixels_exactly_unchanged_pct": 100.0
+      },
+      "television": {
+        "pixels": 16111,
+        "display_linear_any_above_one_pct": 86.78542610638694,
+        "display_linear_any_below_zero_pct": 0.5213829060890075,
+        "display_rgb8_any_255_pct": 87.04611755943145,
+        "display_rgb8_all_at_least_250_pct": 38.30922971882565,
+        "pre_curve_any_above_65535_pct": 81.76401216560114,
+        "difference_from_current": {
+          "mean_abs_rgb8": 0.0,
+          "p95_abs_rgb8": 0.0,
+          "max_abs_rgb8": 0.0,
+          "pixels_with_any_change_gt_2_pct": 0.0
+        },
+        "pixels_exactly_unchanged_pct": 100.0
+      },
+      "blinds": {
+        "pixels": 60996,
+        "display_linear_any_above_one_pct": 0.0,
+        "display_linear_any_below_zero_pct": 0.0,
+        "display_rgb8_any_255_pct": 0.0,
+        "display_rgb8_all_at_least_250_pct": 0.0,
+        "pre_curve_any_above_65535_pct": 0.0,
+        "difference_from_current": {
+          "mean_abs_rgb8": 0.0,
+          "p95_abs_rgb8": 0.0,
+          "max_abs_rgb8": 0.0,
+          "pixels_with_any_change_gt_2_pct": 0.0
+        },
+        "pixels_exactly_unchanged_pct": 100.0
+      },
+      "white_frame": {
+        "pixels": 4416,
+        "display_linear_any_above_one_pct": 0.0,
+        "display_linear_any_below_zero_pct": 0.0,
+        "display_rgb8_any_255_pct": 0.0,
+        "display_rgb8_all_at_least_250_pct": 0.0,
+        "pre_curve_any_above_65535_pct": 0.0,
+        "difference_from_current": {
+          "mean_abs_rgb8": 0.0,
+          "p95_abs_rgb8": 0.0,
+          "max_abs_rgb8": 0.0,
+          "pixels_with_any_change_gt_2_pct": 0.0
+        },
+        "pixels_exactly_unchanged_pct": 100.0
+      },
+      "blue_wall": {
+        "pixels": 3496,
+        "display_linear_any_above_one_pct": 0.0,
+        "display_linear_any_below_zero_pct": 1.0011441647597255,
+        "display_rgb8_any_255_pct": 0.0,
+        "display_rgb8_all_at_least_250_pct": 0.0,
+        "pre_curve_any_above_65535_pct": 0.0,
+        "difference_from_current": {
+          "mean_abs_rgb8": 0.0,
+          "p95_abs_rgb8": 0.0,
+          "max_abs_rgb8": 0.0,
+          "pixels_with_any_change_gt_2_pct": 0.0
+        },
+        "pixels_exactly_unchanged_pct": 100.0
+      },
+      "wood": {
+        "pixels": 10206,
+        "display_linear_any_above_one_pct": 0.0,
+        "display_linear_any_below_zero_pct": 3.7918871252204585,
+        "display_rgb8_any_255_pct": 0.0,
+        "display_rgb8_all_at_least_250_pct": 0.0,
+        "pre_curve_any_above_65535_pct": 0.0,
+        "difference_from_current": {
+          "mean_abs_rgb8": 0.0,
+          "p95_abs_rgb8": 0.0,
+          "max_abs_rgb8": 0.0,
+          "pixels_with_any_change_gt_2_pct": 0.0
+        },
+        "pixels_exactly_unchanged_pct": 100.0
+      },
+      "skin_patch": {
+        "pixels": 1132,
+        "display_linear_any_above_one_pct": 0.0,
+        "display_linear_any_below_zero_pct": 0.08833922261484099,
+        "display_rgb8_any_255_pct": 0.0,
+        "display_rgb8_all_at_least_250_pct": 0.0,
+        "pre_curve_any_above_65535_pct": 0.0,
+        "difference_from_current": {
+          "mean_abs_rgb8": 0.0,
+          "p95_abs_rgb8": 0.0,
+          "max_abs_rgb8": 0.0,
+          "pixels_with_any_change_gt_2_pct": 0.0
+        },
+        "pixels_exactly_unchanged_pct": 100.0
+      },
+      "sofa": {
+        "pixels": 2856,
+        "display_linear_any_above_one_pct": 0.0,
+        "display_linear_any_below_zero_pct": 0.0700280112044818,
+        "display_rgb8_any_255_pct": 0.0,
+        "display_rgb8_all_at_least_250_pct": 0.0,
+        "pre_curve_any_above_65535_pct": 0.0,
+        "difference_from_current": {
+          "mean_abs_rgb8": 0.0,
+          "p95_abs_rgb8": 0.0,
+          "max_abs_rgb8": 0.0,
+          "pixels_with_any_change_gt_2_pct": 0.0
+        },
+        "pixels_exactly_unchanged_pct": 100.0
+      },
+      "carpet": {
+        "pixels": 1456,
+        "display_linear_any_above_one_pct": 0.0,
+        "display_linear_any_below_zero_pct": 0.0,
+        "display_rgb8_any_255_pct": 0.0,
+        "display_rgb8_all_at_least_250_pct": 0.0,
+        "pre_curve_any_above_65535_pct": 0.0,
+        "difference_from_current": {
+          "mean_abs_rgb8": 0.0,
+          "p95_abs_rgb8": 0.0,
+          "max_abs_rgb8": 0.0,
+          "pixels_with_any_change_gt_2_pct": 0.0
+        },
+        "pixels_exactly_unchanged_pct": 100.0
+      },
+      "midtone_luminance": {
+        "pixels": 509471,
+        "median_absolute_change_stops": 0.0,
+        "p99_absolute_change_stops": 0.0
+      }
+    },
+    "output_only": {
+      "whole_image": {
+        "pixels": 786432,
+        "display_linear_any_above_one_pct": 0.0,
+        "display_linear_any_below_zero_pct": 3.306706746419271,
+        "display_rgb8_any_255_pct": 0.0,
+        "display_rgb8_all_at_least_250_pct": 0.0,
+        "pre_curve_any_above_65535_pct": 2.110799153645833,
+        "difference_from_current": {
+          "mean_abs_rgb8": 0.21436691284179688,
+          "p95_abs_rgb8": 0.0,
+          "max_abs_rgb8": 29.0,
+          "pixels_with_any_change_gt_2_pct": 2.492268880208333
+        },
+        "pixels_exactly_unchanged_pct": 97.2222646077474
+      },
+      "television": {
+        "pixels": 16111,
+        "display_linear_any_above_one_pct": 0.0,
+        "display_linear_any_below_zero_pct": 0.5213829060890075,
+        "display_rgb8_any_255_pct": 0.0,
+        "display_rgb8_all_at_least_250_pct": 0.0,
+        "pre_curve_any_above_65535_pct": 81.76401216560114,
+        "difference_from_current": {
+          "mean_abs_rgb8": 8.037738191297871,
+          "p95_abs_rgb8": 11.0,
+          "max_abs_rgb8": 29.0,
+          "pixels_with_any_change_gt_2_pct": 89.80199863447335
+        },
+        "pixels_exactly_unchanged_pct": 9.12420085655763
+      },
+      "blinds": {
+        "pixels": 60996,
+        "display_linear_any_above_one_pct": 0.0,
+        "display_linear_any_below_zero_pct": 0.0,
+        "display_rgb8_any_255_pct": 0.0,
+        "display_rgb8_all_at_least_250_pct": 0.0,
+        "pre_curve_any_above_65535_pct": 0.0,
+        "difference_from_current": {
+          "mean_abs_rgb8": 0.0009344875073775329,
+          "p95_abs_rgb8": 0.0,
+          "max_abs_rgb8": 1.0,
+          "pixels_with_any_change_gt_2_pct": 0.0
+        },
+        "pixels_exactly_unchanged_pct": 99.78195291494524
+      },
+      "white_frame": {
+        "pixels": 4416,
+        "display_linear_any_above_one_pct": 0.0,
+        "display_linear_any_below_zero_pct": 0.0,
+        "display_rgb8_any_255_pct": 0.0,
+        "display_rgb8_all_at_least_250_pct": 0.0,
+        "pre_curve_any_above_65535_pct": 0.0,
+        "difference_from_current": {
+          "mean_abs_rgb8": 0.009359903381642512,
+          "p95_abs_rgb8": 0.0,
+          "max_abs_rgb8": 7.0,
+          "pixels_with_any_change_gt_2_pct": 0.022644927536231884
+        },
+        "pixels_exactly_unchanged_pct": 98.61865942028986
+      },
+      "blue_wall": {
+        "pixels": 3496,
+        "display_linear_any_above_one_pct": 0.0,
+        "display_linear_any_below_zero_pct": 1.0011441647597255,
+        "display_rgb8_any_255_pct": 0.0,
+        "display_rgb8_all_at_least_250_pct": 0.0,
+        "pre_curve_any_above_65535_pct": 0.0,
+        "difference_from_current": {
+          "mean_abs_rgb8": 0.0,
+          "p95_abs_rgb8": 0.0,
+          "max_abs_rgb8": 0.0,
+          "pixels_with_any_change_gt_2_pct": 0.0
+        },
+        "pixels_exactly_unchanged_pct": 100.0
+      },
+      "wood": {
+        "pixels": 10206,
+        "display_linear_any_above_one_pct": 0.0,
+        "display_linear_any_below_zero_pct": 3.7918871252204585,
+        "display_rgb8_any_255_pct": 0.0,
+        "display_rgb8_all_at_least_250_pct": 0.0,
+        "pre_curve_any_above_65535_pct": 0.0,
+        "difference_from_current": {
+          "mean_abs_rgb8": 0.0,
+          "p95_abs_rgb8": 0.0,
+          "max_abs_rgb8": 0.0,
+          "pixels_with_any_change_gt_2_pct": 0.0
+        },
+        "pixels_exactly_unchanged_pct": 100.0
+      },
+      "skin_patch": {
+        "pixels": 1132,
+        "display_linear_any_above_one_pct": 0.0,
+        "display_linear_any_below_zero_pct": 0.08833922261484099,
+        "display_rgb8_any_255_pct": 0.0,
+        "display_rgb8_all_at_least_250_pct": 0.0,
+        "pre_curve_any_above_65535_pct": 0.0,
+        "difference_from_current": {
+          "mean_abs_rgb8": 0.0,
+          "p95_abs_rgb8": 0.0,
+          "max_abs_rgb8": 0.0,
+          "pixels_with_any_change_gt_2_pct": 0.0
+        },
+        "pixels_exactly_unchanged_pct": 100.0
+      },
+      "sofa": {
+        "pixels": 2856,
+        "display_linear_any_above_one_pct": 0.0,
+        "display_linear_any_below_zero_pct": 0.0700280112044818,
+        "display_rgb8_any_255_pct": 0.0,
+        "display_rgb8_all_at_least_250_pct": 0.0,
+        "pre_curve_any_above_65535_pct": 0.0,
+        "difference_from_current": {
+          "mean_abs_rgb8": 0.0,
+          "p95_abs_rgb8": 0.0,
+          "max_abs_rgb8": 0.0,
+          "pixels_with_any_change_gt_2_pct": 0.0
+        },
+        "pixels_exactly_unchanged_pct": 100.0
+      },
+      "carpet": {
+        "pixels": 1456,
+        "display_linear_any_above_one_pct": 0.0,
+        "display_linear_any_below_zero_pct": 0.0,
+        "display_rgb8_any_255_pct": 0.0,
+        "display_rgb8_all_at_least_250_pct": 0.0,
+        "pre_curve_any_above_65535_pct": 0.0,
+        "difference_from_current": {
+          "mean_abs_rgb8": 0.0,
+          "p95_abs_rgb8": 0.0,
+          "max_abs_rgb8": 0.0,
+          "pixels_with_any_change_gt_2_pct": 0.0
+        },
+        "pixels_exactly_unchanged_pct": 100.0
+      },
+      "midtone_luminance": {
+        "pixels": 509471,
+        "median_absolute_change_stops": 0.0,
+        "p99_absolute_change_stops": 0.0
+      }
+    },
+    "early_and_output": {
+      "whole_image": {
+        "pixels": 786432,
+        "display_linear_any_above_one_pct": 0.0,
+        "display_linear_any_below_zero_pct": 3.3109029134114585,
+        "display_rgb8_any_255_pct": 0.0,
+        "display_rgb8_all_at_least_250_pct": 0.0,
+        "pre_curve_any_above_65535_pct": 0.0,
+        "difference_from_current": {
+          "mean_abs_rgb8": 0.8371192084418403,
+          "p95_abs_rgb8": 0.0,
+          "max_abs_rgb8": 139.0,
+          "pixels_with_any_change_gt_2_pct": 2.492268880208333
+        },
+        "pixels_exactly_unchanged_pct": 97.2222646077474
+      },
+      "television": {
+        "pixels": 16111,
+        "display_linear_any_above_one_pct": 0.0,
+        "display_linear_any_below_zero_pct": 0.6951772081186767,
+        "display_rgb8_any_255_pct": 0.0,
+        "display_rgb8_all_at_least_250_pct": 0.0,
+        "pre_curve_any_above_65535_pct": 0.0,
+        "difference_from_current": {
+          "mean_abs_rgb8": 32.6884323340161,
+          "p95_abs_rgb8": 86.0,
+          "max_abs_rgb8": 137.0,
+          "pixels_with_any_change_gt_2_pct": 89.80199863447335
+        },
+        "pixels_exactly_unchanged_pct": 9.12420085655763
+      },
+      "blinds": {
+        "pixels": 60996,
+        "display_linear_any_above_one_pct": 0.0,
+        "display_linear_any_below_zero_pct": 0.0,
+        "display_rgb8_any_255_pct": 0.0,
+        "display_rgb8_all_at_least_250_pct": 0.0,
+        "pre_curve_any_above_65535_pct": 0.0,
+        "difference_from_current": {
+          "mean_abs_rgb8": 0.0009344875073775329,
+          "p95_abs_rgb8": 0.0,
+          "max_abs_rgb8": 1.0,
+          "pixels_with_any_change_gt_2_pct": 0.0
+        },
+        "pixels_exactly_unchanged_pct": 99.78195291494524
+      },
+      "white_frame": {
+        "pixels": 4416,
+        "display_linear_any_above_one_pct": 0.0,
+        "display_linear_any_below_zero_pct": 0.0,
+        "display_rgb8_any_255_pct": 0.0,
+        "display_rgb8_all_at_least_250_pct": 0.0,
+        "pre_curve_any_above_65535_pct": 0.0,
+        "difference_from_current": {
+          "mean_abs_rgb8": 0.009359903381642512,
+          "p95_abs_rgb8": 0.0,
+          "max_abs_rgb8": 7.0,
+          "pixels_with_any_change_gt_2_pct": 0.022644927536231884
+        },
+        "pixels_exactly_unchanged_pct": 98.61865942028986
+      },
+      "blue_wall": {
+        "pixels": 3496,
+        "display_linear_any_above_one_pct": 0.0,
+        "display_linear_any_below_zero_pct": 1.0011441647597255,
+        "display_rgb8_any_255_pct": 0.0,
+        "display_rgb8_all_at_least_250_pct": 0.0,
+        "pre_curve_any_above_65535_pct": 0.0,
+        "difference_from_current": {
+          "mean_abs_rgb8": 0.0,
+          "p95_abs_rgb8": 0.0,
+          "max_abs_rgb8": 0.0,
+          "pixels_with_any_change_gt_2_pct": 0.0
+        },
+        "pixels_exactly_unchanged_pct": 100.0
+      },
+      "wood": {
+        "pixels": 10206,
+        "display_linear_any_above_one_pct": 0.0,
+        "display_linear_any_below_zero_pct": 3.7918871252204585,
+        "display_rgb8_any_255_pct": 0.0,
+        "display_rgb8_all_at_least_250_pct": 0.0,
+        "pre_curve_any_above_65535_pct": 0.0,
+        "difference_from_current": {
+          "mean_abs_rgb8": 0.0,
+          "p95_abs_rgb8": 0.0,
+          "max_abs_rgb8": 0.0,
+          "pixels_with_any_change_gt_2_pct": 0.0
+        },
+        "pixels_exactly_unchanged_pct": 100.0
+      },
+      "skin_patch": {
+        "pixels": 1132,
+        "display_linear_any_above_one_pct": 0.0,
+        "display_linear_any_below_zero_pct": 0.08833922261484099,
+        "display_rgb8_any_255_pct": 0.0,
+        "display_rgb8_all_at_least_250_pct": 0.0,
+        "pre_curve_any_above_65535_pct": 0.0,
+        "difference_from_current": {
+          "mean_abs_rgb8": 0.0,
+          "p95_abs_rgb8": 0.0,
+          "max_abs_rgb8": 0.0,
+          "pixels_with_any_change_gt_2_pct": 0.0
+        },
+        "pixels_exactly_unchanged_pct": 100.0
+      },
+      "sofa": {
+        "pixels": 2856,
+        "display_linear_any_above_one_pct": 0.0,
+        "display_linear_any_below_zero_pct": 0.0700280112044818,
+        "display_rgb8_any_255_pct": 0.0,
+        "display_rgb8_all_at_least_250_pct": 0.0,
+        "pre_curve_any_above_65535_pct": 0.0,
+        "difference_from_current": {
+          "mean_abs_rgb8": 0.0,
+          "p95_abs_rgb8": 0.0,
+          "max_abs_rgb8": 0.0,
+          "pixels_with_any_change_gt_2_pct": 0.0
+        },
+        "pixels_exactly_unchanged_pct": 100.0
+      },
+      "carpet": {
+        "pixels": 1456,
+        "display_linear_any_above_one_pct": 0.0,
+        "display_linear_any_below_zero_pct": 0.0,
+        "display_rgb8_any_255_pct": 0.0,
+        "display_rgb8_all_at_least_250_pct": 0.0,
+        "pre_curve_any_above_65535_pct": 0.0,
+        "difference_from_current": {
+          "mean_abs_rgb8": 0.0,
+          "p95_abs_rgb8": 0.0,
+          "max_abs_rgb8": 0.0,
+          "pixels_with_any_change_gt_2_pct": 0.0
+        },
+        "pixels_exactly_unchanged_pct": 100.0
+      },
+      "midtone_luminance": {
+        "pixels": 509471,
+        "median_absolute_change_stops": 0.0,
+        "p99_absolute_change_stops": 0.0
+      }
+    }
+  },
+  "previous_indoor_scene": {
+    "current": {
+      "whole_image": {
+        "pixels": 786432,
+        "display_linear_any_above_one_pct": 0.14368693033854169,
+        "display_linear_any_below_zero_pct": 0.3787994384765625,
+        "display_rgb8_any_255_pct": 0.20459493001302084,
+        "display_rgb8_all_at_least_250_pct": 0.19925435384114584,
+        "pre_curve_any_above_65535_pct": 0.12499491373697917,
+        "difference_from_current": {
+          "mean_abs_rgb8": 0.0,
+          "p95_abs_rgb8": 0.0,
+          "max_abs_rgb8": 0.0,
+          "pixels_with_any_change_gt_2_pct": 0.0
+        },
+        "pixels_exactly_unchanged_pct": 100.0
+      },
+      "midtone_luminance": {
+        "pixels": 687190,
+        "median_absolute_change_stops": 0.0,
+        "p99_absolute_change_stops": 0.0
+      }
+    },
+    "output_only": {
+      "whole_image": {
+        "pixels": 786432,
+        "display_linear_any_above_one_pct": 0.0,
+        "display_linear_any_below_zero_pct": 0.3787994384765625,
+        "display_rgb8_any_255_pct": 0.0,
+        "display_rgb8_all_at_least_250_pct": 0.0,
+        "pre_curve_any_above_65535_pct": 0.12499491373697917,
+        "difference_from_current": {
+          "mean_abs_rgb8": 0.04989454481336805,
+          "p95_abs_rgb8": 0.0,
+          "max_abs_rgb8": 9.0,
+          "pixels_with_any_change_gt_2_pct": 0.7502237955729167
+        },
+        "pixels_exactly_unchanged_pct": 98.98910522460938
+      },
+      "midtone_luminance": {
+        "pixels": 687190,
+        "median_absolute_change_stops": 0.0,
+        "p99_absolute_change_stops": 0.0
+      }
+    },
+    "early_and_output": {
+      "whole_image": {
+        "pixels": 786432,
+        "display_linear_any_above_one_pct": 0.0,
+        "display_linear_any_below_zero_pct": 0.3787994384765625,
+        "display_rgb8_any_255_pct": 0.0,
+        "display_rgb8_all_at_least_250_pct": 0.0,
+        "pre_curve_any_above_65535_pct": 0.0,
+        "difference_from_current": {
+          "mean_abs_rgb8": 0.05344602796766493,
+          "p95_abs_rgb8": 0.0,
+          "max_abs_rgb8": 19.0,
+          "pixels_with_any_change_gt_2_pct": 0.7502237955729167
+        },
+        "pixels_exactly_unchanged_pct": 98.98910522460938
+      },
+      "midtone_luminance": {
+        "pixels": 687190,
+        "median_absolute_change_stops": 0.0,
+        "p99_absolute_change_stops": 0.0
+      }
+    }
+  },
+  "visual_assessment": {
+    "output_only": "Gentler brightest output, visually close to image 3; cannot recover variation already lost before this stage.",
+    "early_and_output": "Stronger TV colour variation, including pronounced pink and cyan; no reference establishes whether these colours are correct.",
+    "decision": "Retain output-only as the conservative visual candidate. Neither trial is promoted to an app default."
+  },
+  "input_files_unchanged": true,
+  "exposure_changed": false,
+  "WB_changed": false,
+  "LUT_changed": false,
+  "film_curve_table_changed": false,
+  "portable_C_core_changed": false,
+  "production_renderer_changed": false,
+  "experimental_adapter_is_recovered_Hasselblad_processing": false,
+  "source_RAW_saturation_recovered": false,
+  "phone_sensor_calibration_validated": false,
+  "full_Phocus_equivalence": false,
+  "limitations": [
+    "A shoulder produces fewer upper-limit values by construction; that does not establish colour accuracy or recovered detail.",
+    "RGB ratios are retained within each shoulder domain; the nonlinear film curve and colour-space conversion can still change perceptual hue.",
+    "Negative out-of-gamut channels still use the existing final lower clamp; this is not full gamut mapping.",
+    "The earlier trial inserts a new operation before the finite film lookup, so its output is not claimed to match original ARM64 rendering.",
+    "These are sampled development previews, not full-resolution production JPEGs.",
+    "The two indoor scenes are not a broad validation set or matched Hasselblad references."
+  ]
+}

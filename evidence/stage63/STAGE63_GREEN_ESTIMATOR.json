@@ -1,0 +1,138 @@
+{
+  "schema": "hasselblad-stage63-green-estimator-v1",
+  "status": "PASS_EXACT_GREEN_ESTIMATOR",
+  "cases": 10783,
+  "exact_output_scalars": 32349,
+  "low_masks_covered_on_each_gradient_input": 256,
+  "strides_tested": [
+    5,
+    9,
+    23
+  ],
+  "distinct_output_masks": 255,
+  "native_branch_execution_blocks": {
+    "no_direction_bilinear": 684,
+    "selected_direction_average": 9985,
+    "nearest_direction_selection": 146,
+    "replace_with_single_direction": 145
+  },
+  "synthetic_branch_witnesses": [
+    {
+      "fixture": "nearest_nonzero",
+      "cardinal_candidate_targets": [
+        5000,
+        20000,
+        5000,
+        20000
+      ],
+      "centre_raw": 10000,
+      "extra_diagonal_selected": false,
+      "native_and_portable_green_mask_maximum": [
+        5000,
+        257,
+        30000
+      ]
+    },
+    {
+      "fixture": "nearest_zero_retains_mask",
+      "cardinal_candidate_targets": [
+        5000,
+        20000,
+        5000,
+        20000
+      ],
+      "centre_raw": 5000,
+      "extra_diagonal_selected": false,
+      "native_and_portable_green_mask_maximum": [
+        5000,
+        1039,
+        30000
+      ]
+    },
+    {
+      "fixture": "sentinel_original_count",
+      "cardinal_candidate_targets": [
+        200000,
+        1000000,
+        200000,
+        1000000
+      ],
+      "centre_raw": 10000,
+      "extra_diagonal_selected": false,
+      "native_and_portable_green_mask_maximum": [
+        50000,
+        257,
+        30000
+      ]
+    },
+    {
+      "fixture": "sentinel_five_directions",
+      "cardinal_candidate_targets": [
+        200000,
+        1000000,
+        200000,
+        1000000
+      ],
+      "centre_raw": 10000,
+      "extra_diagonal_selected": true,
+      "native_and_portable_green_mask_maximum": [
+        40000,
+        257,
+        30000
+      ]
+    },
+    {
+      "fixture": "signed_product_boundary",
+      "cardinal_candidate_targets": [
+        0,
+        120000,
+        0,
+        120000
+      ],
+      "centre_raw": 10000,
+      "extra_diagonal_selected": false,
+      "native_and_portable_green_mask_maximum": [
+        60000,
+        1039,
+        30000
+      ]
+    }
+  ],
+  "nearest_cardinal_direction_bits_observed": [
+    1,
+    2,
+    4,
+    8
+  ],
+  "fused_arithmetic_negative_control": {
+    "centre_raw": 57694,
+    "north_east_raw": 44879,
+    "centre_scale_float32_bits": 1051648217,
+    "north_east_scale_float32_bits": 1072336230,
+    "native_and_portable": [
+      50972,
+      272,
+      32767
+    ],
+    "incorrect_unfused": [
+      50971,
+      272,
+      32767
+    ],
+    "search_iteration": 970
+  },
+  "float_fused_multiply_add_explicit": true,
+  "float_to_signed_integer_saturation_tested": true,
+  "subnormal_and_finite_scale_overflow_cases": 18,
+  "signed_gradient_extremes_tested": true,
+  "finite_nonnegative_scale_input_contract": true,
+  "input_output_and_object_guards_pass": true,
+  "source_and_profile_unchanged": true,
+  "undefined_behavior_sanitizer": true,
+  "max_absolute_difference": 0,
+  "complete_gradient_port": false,
+  "device_execution_compared": false,
+  "scene_fitted_parameters": 0,
+  "capture_renderer_changed": false,
+  "full_phocus_equivalence": false
+}

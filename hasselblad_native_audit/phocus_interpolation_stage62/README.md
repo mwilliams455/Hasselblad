@@ -12,6 +12,10 @@ original code in the substitution harness. The phone build remains **Stage58,
 `0.1-hb-rawprep58` / 27197**, with the Stage56 private profile. No APK is built
 and normal capture continues using Photon.
 
+[Stage63](../phocus_green_stage63/README.md) independently ports
+`GetGreenAtRedFirst` and extends the connected check to ten components. The
+results below remain the historical Stage62 checkpoint.
+
 ## Independent implementation
 
 `interpolation62.c` and `interpolation62.h` use only standard C types and

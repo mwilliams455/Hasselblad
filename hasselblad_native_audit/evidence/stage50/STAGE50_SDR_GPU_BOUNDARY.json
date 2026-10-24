@@ -1,0 +1,284 @@
+{
+  "schema": "hasselblad-stage50-sdr-gpu-boundary-v1",
+  "status": "PASS_BOUNDED_AUDIT_WITH_NATIVE_GPU_MISMATCHES",
+  "SDR_graph_cases": [
+    {
+      "working_space": 0,
+      "output_flag_fixture": 0,
+      "skip_output_fixture": 0,
+      "sequence": [
+        "ColorCorrectAll",
+        "FilmCurve",
+        "16CGradationFilter",
+        "ColorSpaceConvert"
+      ],
+      "output_parameters": [
+        [
+          1,
+          0,
+          3
+        ]
+      ]
+    },
+    {
+      "working_space": 0,
+      "output_flag_fixture": 1,
+      "skip_output_fixture": 0,
+      "sequence": [
+        "ColorCorrectAll",
+        "FilmCurve",
+        "16CGradationFilter",
+        "ColorSpaceConvert"
+      ],
+      "output_parameters": [
+        [
+          2,
+          0,
+          4
+        ]
+      ]
+    },
+    {
+      "working_space": 0,
+      "output_flag_fixture": 0,
+      "skip_output_fixture": 1,
+      "sequence": [
+        "ColorCorrectAll",
+        "FilmCurve",
+        "16CGradationFilter"
+      ],
+      "output_parameters": []
+    },
+    {
+      "working_space": 1,
+      "output_flag_fixture": 0,
+      "skip_output_fixture": 0,
+      "sequence": [
+        "ColorCorrectAll",
+        "FilmCurve",
+        "16CGradationFilter",
+        "ColorSpaceConvert"
+      ],
+      "output_parameters": [
+        [
+          1,
+          0,
+          3
+        ]
+      ]
+    },
+    {
+      "working_space": 1,
+      "output_flag_fixture": 1,
+      "skip_output_fixture": 0,
+      "sequence": [
+        "ColorCorrectAll",
+        "FilmCurve",
+        "16CGradationFilter",
+        "ColorSpaceConvert"
+      ],
+      "output_parameters": [
+        [
+          2,
+          0,
+          4
+        ]
+      ]
+    },
+    {
+      "working_space": 1,
+      "output_flag_fixture": 0,
+      "skip_output_fixture": 1,
+      "sequence": [
+        "ColorCorrectAll",
+        "FilmCurve",
+        "16CGradationFilter"
+      ],
+      "output_parameters": []
+    }
+  ],
+  "OpenGL_internal_formats": {
+    "7": 34842,
+    "8": 34842
+  },
+  "native_graph_body_executed": true,
+  "filter_construction_update_and_reference_ownership_are_recording_fixtures": true,
+  "native_output_initializer_and_matrix_preparation_executed": true,
+  "original_fragment_shaders_executed_unchanged": true,
+  "CMM_GPU_task_and_texture_lifecycle_are_recording_fixtures": true,
+  "CMM_shader_cases": [
+    {
+      "source_special_profile": 0,
+      "destination_special_profile": 2,
+      "native_SupportsGpu": true,
+      "native_transfer_in_code": 1,
+      "native_GPU_parameter_body_executed": true,
+      "compute_key": "CustomCMM",
+      "pixels": 5426,
+      "float_difference_from_CPU_math": {
+        "channels": 16278,
+        "max_abs_difference": 0.003886076211929712,
+        "mean_abs_difference": 0.0002621963675885891,
+        "exact_channels": 6
+      },
+      "display_code_difference": {
+        "channels": 16278,
+        "max_abs_difference": 1.0,
+        "mean_abs_difference": 0.03612237375598968,
+        "exact_channels": 15690
+      },
+      "matches_CPU_transfer_semantics": true
+    },
+    {
+      "source_special_profile": 1,
+      "destination_special_profile": 2,
+      "native_SupportsGpu": true,
+      "native_transfer_in_code": 5,
+      "native_GPU_parameter_body_executed": true,
+      "compute_key": "CustomCMM",
+      "pixels": 5426,
+      "float_difference_from_CPU_math": {
+        "channels": 16278,
+        "max_abs_difference": 9.448788001537324,
+        "mean_abs_difference": 0.6110936109057604,
+        "exact_channels": 6
+      },
+      "display_code_difference": {
+        "channels": 16278,
+        "max_abs_difference": 214.0,
+        "mean_abs_difference": 47.32798869640005,
+        "exact_channels": 4237
+      },
+      "matches_CPU_transfer_semantics": false
+    }
+  ],
+  "HNCS_output_shader_cases": [
+    {
+      "target_space_code": 1,
+      "transfer_code": 3,
+      "selected_in_tested_SDR_builder": true,
+      "shader_math_check": {
+        "channels": 16278,
+        "max_abs_difference": 0.0009751138565383677,
+        "mean_abs_difference": 0.00011846052469876832,
+        "exact_channels": 6
+      },
+      "native_CPU_sample_check": {
+        "values": 768,
+        "exact_values": 348,
+        "max_abs_difference": 4.440892098500626e-16
+      },
+      "CPU_GPU_quantized_difference": {
+        "channels": 768,
+        "max_abs_difference": 1.0,
+        "mean_abs_difference": 0.048177083333333336,
+        "exact_channels": 731
+      }
+    },
+    {
+      "target_space_code": 2,
+      "transfer_code": 4,
+      "selected_in_tested_SDR_builder": true,
+      "shader_math_check": {
+        "channels": 16278,
+        "max_abs_difference": 0.0009737601311765598,
+        "mean_abs_difference": 0.00017344081801343918,
+        "exact_channels": 2628
+      },
+      "native_CPU_sample_check": {
+        "values": 768,
+        "exact_values": 562,
+        "max_abs_difference": 8.326672684688674e-16
+      },
+      "CPU_GPU_quantized_difference": {
+        "channels": 768,
+        "max_abs_difference": 1.0,
+        "mean_abs_difference": 0.0546875,
+        "exact_channels": 726
+      }
+    },
+    {
+      "target_space_code": 0,
+      "transfer_code": 1,
+      "selected_in_tested_SDR_builder": false,
+      "shader_math_check": {
+        "channels": 16278,
+        "max_abs_difference": 0.0009759794947121758,
+        "mean_abs_difference": 0.00012966686483435464,
+        "exact_channels": 6
+      },
+      "native_CPU_sample_check": {
+        "values": 768,
+        "exact_values": 3,
+        "max_abs_difference": 3.527278362724928e-07
+      },
+      "CPU_GPU_quantized_difference": {
+        "channels": 768,
+        "max_abs_difference": 74.0,
+        "mean_abs_difference": 35.861979166666664,
+        "exact_channels": 232
+      }
+    }
+  ],
+  "linear_P3_then_explicit_sRGB_diagnostic_vs_current": {
+    "curve0_3050": {
+      "channels": 2359296,
+      "max_abs_difference": 1.0,
+      "mean_abs_difference": 0.08550771077473958,
+      "exact_channels": 2157558
+    },
+    "curve0_4000": {
+      "channels": 2359296,
+      "max_abs_difference": 1.0,
+      "mean_abs_difference": 0.08521397908528645,
+      "exact_channels": 2158251
+    },
+    "curve1_4000": {
+      "channels": 2359296,
+      "max_abs_difference": 2.0,
+      "mean_abs_difference": 0.07639100816514757,
+      "exact_channels": 2179071
+    }
+  },
+  "GLES_environment": {
+    "EGL": "1.5",
+    "GL": "OpenGL ES 3.2 Mesa 25.2.8-0ubuntu0.24.04.2",
+    "renderer": "llvmpipe (LLVM 20.1.2, 256 bits)"
+  },
+  "phone_GPU_tested": false,
+  "live_app_flag_values_observed": false,
+  "final_Android_surface_and_compositor_verified": false,
+  "phone_sensor_adaptation_validated": false,
+  "capture_renderer_changed": false,
+  "full_phocus_equivalence": false,
+  "source_APK_unchanged": true,
+  "native_functions_executed": [
+    "_Z19PrimariesForProfile15SpecialProfiles",
+    "_Z19TransferFromSpecial15SpecialProfiles",
+    "_Z21ConvertColorPrimaries6CArrayIS_IdLi2EdELi3ES0_ES_IdLi3EdES1_S2_",
+    "_Z23GetOpenGLInternalFormat17OpenGLTextureType",
+    "_ZN10CCustomCMM18GetMatrixTransformE15SpecialProfilesS0_",
+    "_ZN10CCustomCMM9CreateCCME15SpecialProfilesS0_",
+    "_ZN10CCustomCMMC1E18TransferDefinition9Matrix3x3S0_",
+    "_ZN11CStreamableD2Ev",
+    "_ZN18CameraImageAndroid14AddHNCSFiltersEP15CImageProcessorNSt6__ndk110shared_ptrIK15sRawDescriptionEEP14sProcessParamsP16CImageCorrectionNS3_IK17CCalculatedCurvesEEbbfbbb",
+    "_ZN24CColorSpaceConvertFilter14UpdateMatricesEv",
+    "_ZN24CColorSpaceConvertFilter29InitBasicColorSpaceParametersE11eColorSpace16eWhitePointValue17eTransferFunction",
+    "_ZN24CColorSpaceConvertFilter32ComputeChromaticAdaptationMatrixEv",
+    "_ZN6CXRectD1Ev",
+    "_ZN9Matrix3x3C1EPKd",
+    "_ZN9Matrix3x3C1Ev",
+    "_ZNK10CCustomCMM10ChannelsInEv",
+    "_ZNK10CCustomCMM11ChannelsOutEv",
+    "_ZNK10CCustomCMM11SupportsGpuEv",
+    "_ZNK10CCustomCMM15FilterResultGpuER19CGpuPipelineManagerRK6CXRectS4_",
+    "_ZNK16CImageCorrection24EffectiveSharpnessAmountEdi",
+    "_ZNK24CColorSpaceConvertFilter21ApplyTransferFunctionERdS0_S0_",
+    "_ZNK24CColorSpaceConvertFilter25ApplyColorSpaceConversionERdS0_S0_",
+    "_ZNK9Matrix3x36InvertEv",
+    "_ZNK9Matrix3x3mlE6CArrayIdLi3E23Matrix3x1InitializationE",
+    "_ZNK9Matrix3x3mlES_",
+    "stage50_output_initializer"
+  ],
+  "bounds": "SDR tool2 with optional edits disabled and explicit output flags; two shader kernels on software GLES using RGBA16F textures; host math/allocation and logging fixtures. No complete RAW pipeline or live Android presentation."
+}

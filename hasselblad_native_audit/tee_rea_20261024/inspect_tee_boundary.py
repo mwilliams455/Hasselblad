@@ -21,8 +21,8 @@ MATCH = {
 }
 TARGETS = ("ss_dsp_manager", "libfw_util_ca.so", "libfw_util.so",
            "libdsp_frwk.so", "libteec.so", "ss_dsp0.fw", "ss_dsp1.fw",
-           "ss_dsp2.fw", "ask_dsp.img")
-PATTERN = re.compile(r"(?:/|^)(?:[^/]*(?:trust|secure|tee|tz|ta_|qsee|keymaster)[^/]*|[0-9a-fA-F-]{32,36}\.ta)$", re.I)
+           "ss_dsp2.fw", "ask_dsp.img", "tos.img", "bootarea.img")
+PATTERN = re.compile(r"(^|/)(?:tee|optee|trustzone|trustlet|qsee|secure_app|keymaster)(?:/|[-_.])", re.I)
 SAFE = re.compile(r"^[A-Za-z0-9_+./-]{1,230}$")
 BYTES_LIMIT = 96 * 1024 * 1024
 SCAN_BUDGET = 3 * 1024 * 1024 * 1024
@@ -70,8 +70,8 @@ def audit(root):
             continue
         name = path.name
         sz = path.stat().st_size
-        important = name in TARGETS
-        trust_name = bool(PATTERN.search(rel)) or name.lower().endswith((".ta", ".tlbin"))
+        important = name in TARGETS or name.lower().endswith((".ta", ".tlbin"))
+        trust_name = bool(PATTERN.search(rel)) or name.lower().endswith((".ta", ".tlbin")) or name in ("tos.img", "bootarea.img")
         if trust_name:
             trusted_candidates.append(rel)
         if sz > BYTES_LIMIT or scanned + sz > SCAN_BUDGET:
@@ -120,6 +120,9 @@ def audit(root):
         "unscanned_oversize_or_budget": skipped_big,
         "unreadable": unreadable,
         "named_targets": target_rows,
+        "exact_ta_file_paths": sorted(x["path"] for x in target_rows if x["path"].lower().endswith((".ta", ".tlbin"))),
+        "exact_ta_file_count": sum(1 for x in target_rows if x["path"].lower().endswith((".ta", ".tlbin"))),
+        "named_imah_containers": [x["path"] for x in target_rows if x.get("magic") == "IMAH"],
         "uuid_match_files": uuid_rows[:60],
         "uuid_match_file_count": len(uuid_rows),
         "trusted_candidate_paths": trusted_candidates[:80],
@@ -143,6 +146,7 @@ def selftest():
         result = audit(root)
         assert result["uuid_match_file_count"] == 2
         assert result["trusted_candidate_count"] == 1
+        assert result["exact_ta_file_count"] == 1
         assert not result["original_firmware_decrypted_inner_dsp"]
         return {"status": "PASS_synthetic", "checks": 4,
                 "source_is_original": False}

@@ -1,0 +1,20 @@
+{
+  "schema": "hasselblad-stage57-saved-dng-host-v1",
+  "status": "PASS_HOST_INTEGRATION",
+  "pixels": 786432,
+  "selected_lut_temperature": 3550,
+  "stage56_existing_automatic_view_unchanged_exact": true,
+  "comparison_max_rgb8_difference": 83,
+  "comparison_mean_abs_rgb8_difference": 0.07263565063476562,
+  "comparison_changed_pixels": 46177,
+  "comparison_pixels_over_two_codes": 9797,
+  "difference_is_accuracy_score": false,
+  "scene_fitted_parameters": 0,
+  "device_tested": false,
+  "colour_vs_independent_trace_exact_channels": 2359296,
+  "finishing_vs_host_c_exact_channels": 2359296,
+  "output_vs_independent_exact_channels": 2359296,
+  "physical_camera_colour_match_validated": false,
+  "source_dng_modified": false,
+  "capture_renderer_changed": false
+}

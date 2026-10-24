@@ -1,0 +1,485 @@
+{
+  "schema": "hasselblad-stage57-generalisation-audit-v1",
+  "status": "PASS_EXECUTION_WITH_OPEN_HIGHLIGHT_ADAPTATION_FINDING",
+  "cases": 64,
+  "synthetic_camera_encodings": 8,
+  "metadata_white_points": [
+    2400,
+    2850,
+    3550,
+    4000,
+    5550,
+    6500,
+    9100,
+    15000
+  ],
+  "pixels_per_case": 2316,
+  "all_prepared_inputs_below_clipping": true,
+  "maximum_prepared_input_code": 62258,
+  "host_execution": {
+    "schema": "hasselblad-stage57-host-execution-v1",
+    "status": "PASS_EXECUTION_ONLY",
+    "cases": 64,
+    "pixels_per_case": 2316,
+    "metadata_kelvin_max_error": 4.9112713895738125e-11,
+    "camera_matrix_max_error": 8.881784197001252e-16,
+    "inputs_unchanged": true,
+    "device_tested": false,
+    "renderer_code_changed": false
+  },
+  "highlight_vs_numpy_max_rgb16_difference": 0,
+  "colour_vs_independent_trace_channels": 889344,
+  "colour_vs_independent_trace_max_difference": 0,
+  "finishing_vs_host_c_max_difference": 0,
+  "output_vs_independent_all_max_difference": 0,
+  "cross_encoding_results": [
+    {
+      "nominal_white_point_kelvin": 2400,
+      "groups": {
+        "low_range_up_to_0.12": {
+          "samples_per_encoding": 729,
+          "without_highlight_max_cross_encoding_rgb8_range": 1,
+          "with_highlight_max_cross_encoding_rgb8_range": 16,
+          "without_highlight_mean_cross_encoding_rgb8_range": 0.037951531778692274,
+          "with_highlight_mean_cross_encoding_rgb8_range": 0.3891175125743027
+        },
+        "mid_range_up_to_0.6": {
+          "samples_per_encoding": 729,
+          "without_highlight_max_cross_encoding_rgb8_range": 1,
+          "with_highlight_max_cross_encoding_rgb8_range": 50,
+          "without_highlight_mean_cross_encoding_rgb8_range": 0.010516689529035207,
+          "with_highlight_mean_cross_encoding_rgb8_range": 0.85413808870599
+        },
+        "high_range_up_to_0.95": {
+          "samples_per_encoding": 729,
+          "without_highlight_max_cross_encoding_rgb8_range": 1,
+          "with_highlight_max_cross_encoding_rgb8_range": 93,
+          "without_highlight_mean_cross_encoding_rgb8_range": 0.006858710562414266,
+          "with_highlight_mean_cross_encoding_rgb8_range": 1.042066758116141
+        },
+        "neutral_ramp": {
+          "samples_per_encoding": 129,
+          "without_highlight_max_cross_encoding_rgb8_range": 1,
+          "with_highlight_max_cross_encoding_rgb8_range": 1,
+          "without_highlight_mean_cross_encoding_rgb8_range": 0.00516795865633075,
+          "with_highlight_mean_cross_encoding_rgb8_range": 0.031007751937984496
+        }
+      }
+    },
+    {
+      "nominal_white_point_kelvin": 2850,
+      "groups": {
+        "low_range_up_to_0.12": {
+          "samples_per_encoding": 729,
+          "without_highlight_max_cross_encoding_rgb8_range": 1,
+          "with_highlight_max_cross_encoding_rgb8_range": 15,
+          "without_highlight_mean_cross_encoding_rgb8_range": 0.02377686328303612,
+          "with_highlight_mean_cross_encoding_rgb8_range": 0.38317329675354367
+        },
+        "mid_range_up_to_0.6": {
+          "samples_per_encoding": 729,
+          "without_highlight_max_cross_encoding_rgb8_range": 1,
+          "with_highlight_max_cross_encoding_rgb8_range": 51,
+          "without_highlight_mean_cross_encoding_rgb8_range": 0.015546410608139003,
+          "with_highlight_mean_cross_encoding_rgb8_range": 0.8751714677640604
+        },
+        "high_range_up_to_0.95": {
+          "samples_per_encoding": 729,
+          "without_highlight_max_cross_encoding_rgb8_range": 1,
+          "with_highlight_max_cross_encoding_rgb8_range": 95,
+          "without_highlight_mean_cross_encoding_rgb8_range": 0.010516689529035207,
+          "with_highlight_mean_cross_encoding_rgb8_range": 1.0768175582990398
+        },
+        "neutral_ramp": {
+          "samples_per_encoding": 129,
+          "without_highlight_max_cross_encoding_rgb8_range": 1,
+          "with_highlight_max_cross_encoding_rgb8_range": 1,
+          "without_highlight_mean_cross_encoding_rgb8_range": 0.00516795865633075,
+          "with_highlight_mean_cross_encoding_rgb8_range": 0.031007751937984496
+        }
+      }
+    },
+    {
+      "nominal_white_point_kelvin": 3550,
+      "groups": {
+        "low_range_up_to_0.12": {
+          "samples_per_encoding": 729,
+          "without_highlight_max_cross_encoding_rgb8_range": 1,
+          "with_highlight_max_cross_encoding_rgb8_range": 17,
+          "without_highlight_mean_cross_encoding_rgb8_range": 0.027434842249657063,
+          "with_highlight_mean_cross_encoding_rgb8_range": 0.38774577046181985
+        },
+        "mid_range_up_to_0.6": {
+          "samples_per_encoding": 729,
+          "without_highlight_max_cross_encoding_rgb8_range": 1,
+          "with_highlight_max_cross_encoding_rgb8_range": 53,
+          "without_highlight_mean_cross_encoding_rgb8_range": 0.01417466849565615,
+          "with_highlight_mean_cross_encoding_rgb8_range": 0.909007773205304
+        },
+        "high_range_up_to_0.95": {
+          "samples_per_encoding": 729,
+          "without_highlight_max_cross_encoding_rgb8_range": 1,
+          "with_highlight_max_cross_encoding_rgb8_range": 96,
+          "without_highlight_mean_cross_encoding_rgb8_range": 0.00411522633744856,
+          "with_highlight_mean_cross_encoding_rgb8_range": 1.123456790123457
+        },
+        "neutral_ramp": {
+          "samples_per_encoding": 129,
+          "without_highlight_max_cross_encoding_rgb8_range": 1,
+          "with_highlight_max_cross_encoding_rgb8_range": 1,
+          "without_highlight_mean_cross_encoding_rgb8_range": 0.00516795865633075,
+          "with_highlight_mean_cross_encoding_rgb8_range": 0.031007751937984496
+        }
+      }
+    },
+    {
+      "nominal_white_point_kelvin": 4000,
+      "groups": {
+        "low_range_up_to_0.12": {
+          "samples_per_encoding": 729,
+          "without_highlight_max_cross_encoding_rgb8_range": 1,
+          "with_highlight_max_cross_encoding_rgb8_range": 16,
+          "without_highlight_mean_cross_encoding_rgb8_range": 0.02880658436213992,
+          "with_highlight_mean_cross_encoding_rgb8_range": 0.40009144947416553
+        },
+        "mid_range_up_to_0.6": {
+          "samples_per_encoding": 729,
+          "without_highlight_max_cross_encoding_rgb8_range": 1,
+          "with_highlight_max_cross_encoding_rgb8_range": 55,
+          "without_highlight_mean_cross_encoding_rgb8_range": 0.012345679012345678,
+          "with_highlight_mean_cross_encoding_rgb8_range": 0.9309556470050298
+        },
+        "high_range_up_to_0.95": {
+          "samples_per_encoding": 729,
+          "without_highlight_max_cross_encoding_rgb8_range": 1,
+          "with_highlight_max_cross_encoding_rgb8_range": 98,
+          "without_highlight_mean_cross_encoding_rgb8_range": 0.006401463191586648,
+          "with_highlight_mean_cross_encoding_rgb8_range": 1.1486053955189757
+        },
+        "neutral_ramp": {
+          "samples_per_encoding": 129,
+          "without_highlight_max_cross_encoding_rgb8_range": 1,
+          "with_highlight_max_cross_encoding_rgb8_range": 1,
+          "without_highlight_mean_cross_encoding_rgb8_range": 0.00516795865633075,
+          "with_highlight_mean_cross_encoding_rgb8_range": 0.031007751937984496
+        }
+      }
+    },
+    {
+      "nominal_white_point_kelvin": 5550,
+      "groups": {
+        "low_range_up_to_0.12": {
+          "samples_per_encoding": 729,
+          "without_highlight_max_cross_encoding_rgb8_range": 1,
+          "with_highlight_max_cross_encoding_rgb8_range": 18,
+          "without_highlight_mean_cross_encoding_rgb8_range": 0.026520347508001828,
+          "with_highlight_mean_cross_encoding_rgb8_range": 0.39231824417009603
+        },
+        "mid_range_up_to_0.6": {
+          "samples_per_encoding": 729,
+          "without_highlight_max_cross_encoding_rgb8_range": 1,
+          "with_highlight_max_cross_encoding_rgb8_range": 58,
+          "without_highlight_mean_cross_encoding_rgb8_range": 0.014631915866483767,
+          "with_highlight_mean_cross_encoding_rgb8_range": 0.9670781893004116
+        },
+        "high_range_up_to_0.95": {
+          "samples_per_encoding": 729,
+          "without_highlight_max_cross_encoding_rgb8_range": 1,
+          "with_highlight_max_cross_encoding_rgb8_range": 79,
+          "without_highlight_mean_cross_encoding_rgb8_range": 0.006858710562414266,
+          "with_highlight_mean_cross_encoding_rgb8_range": 1.14586191129401
+        },
+        "neutral_ramp": {
+          "samples_per_encoding": 129,
+          "without_highlight_max_cross_encoding_rgb8_range": 1,
+          "with_highlight_max_cross_encoding_rgb8_range": 1,
+          "without_highlight_mean_cross_encoding_rgb8_range": 0.00516795865633075,
+          "with_highlight_mean_cross_encoding_rgb8_range": 0.031007751937984496
+        }
+      }
+    },
+    {
+      "nominal_white_point_kelvin": 6500,
+      "groups": {
+        "low_range_up_to_0.12": {
+          "samples_per_encoding": 729,
+          "without_highlight_max_cross_encoding_rgb8_range": 1,
+          "with_highlight_max_cross_encoding_rgb8_range": 19,
+          "without_highlight_mean_cross_encoding_rgb8_range": 0.03292181069958848,
+          "with_highlight_mean_cross_encoding_rgb8_range": 0.36808413351623226
+        },
+        "mid_range_up_to_0.6": {
+          "samples_per_encoding": 729,
+          "without_highlight_max_cross_encoding_rgb8_range": 1,
+          "with_highlight_max_cross_encoding_rgb8_range": 51,
+          "without_highlight_mean_cross_encoding_rgb8_range": 0.015089163237311385,
+          "with_highlight_mean_cross_encoding_rgb8_range": 1.0045724737082762
+        },
+        "high_range_up_to_0.95": {
+          "samples_per_encoding": 729,
+          "without_highlight_max_cross_encoding_rgb8_range": 1,
+          "with_highlight_max_cross_encoding_rgb8_range": 68,
+          "without_highlight_mean_cross_encoding_rgb8_range": 0.009602194787379973,
+          "with_highlight_mean_cross_encoding_rgb8_range": 1.1595793324188386
+        },
+        "neutral_ramp": {
+          "samples_per_encoding": 129,
+          "without_highlight_max_cross_encoding_rgb8_range": 1,
+          "with_highlight_max_cross_encoding_rgb8_range": 1,
+          "without_highlight_mean_cross_encoding_rgb8_range": 0.00516795865633075,
+          "with_highlight_mean_cross_encoding_rgb8_range": 0.031007751937984496
+        }
+      }
+    },
+    {
+      "nominal_white_point_kelvin": 9100,
+      "groups": {
+        "low_range_up_to_0.12": {
+          "samples_per_encoding": 729,
+          "without_highlight_max_cross_encoding_rgb8_range": 1,
+          "with_highlight_max_cross_encoding_rgb8_range": 21,
+          "without_highlight_mean_cross_encoding_rgb8_range": 0.03292181069958848,
+          "with_highlight_mean_cross_encoding_rgb8_range": 0.3475080018289895
+        },
+        "mid_range_up_to_0.6": {
+          "samples_per_encoding": 729,
+          "without_highlight_max_cross_encoding_rgb8_range": 1,
+          "with_highlight_max_cross_encoding_rgb8_range": 48,
+          "without_highlight_mean_cross_encoding_rgb8_range": 0.012345679012345678,
+          "with_highlight_mean_cross_encoding_rgb8_range": 0.9048925468678555
+        },
+        "high_range_up_to_0.95": {
+          "samples_per_encoding": 729,
+          "without_highlight_max_cross_encoding_rgb8_range": 1,
+          "with_highlight_max_cross_encoding_rgb8_range": 85,
+          "without_highlight_mean_cross_encoding_rgb8_range": 0.0054869684499314125,
+          "with_highlight_mean_cross_encoding_rgb8_range": 1.2135345221764975
+        },
+        "neutral_ramp": {
+          "samples_per_encoding": 129,
+          "without_highlight_max_cross_encoding_rgb8_range": 1,
+          "with_highlight_max_cross_encoding_rgb8_range": 1,
+          "without_highlight_mean_cross_encoding_rgb8_range": 0.00516795865633075,
+          "with_highlight_mean_cross_encoding_rgb8_range": 0.031007751937984496
+        }
+      }
+    },
+    {
+      "nominal_white_point_kelvin": 15000,
+      "groups": {
+        "low_range_up_to_0.12": {
+          "samples_per_encoding": 729,
+          "without_highlight_max_cross_encoding_rgb8_range": 1,
+          "with_highlight_max_cross_encoding_rgb8_range": 22,
+          "without_highlight_mean_cross_encoding_rgb8_range": 0.03200731595793324,
+          "with_highlight_mean_cross_encoding_rgb8_range": 0.35162322816643804
+        },
+        "mid_range_up_to_0.6": {
+          "samples_per_encoding": 729,
+          "without_highlight_max_cross_encoding_rgb8_range": 1,
+          "with_highlight_max_cross_encoding_rgb8_range": 47,
+          "without_highlight_mean_cross_encoding_rgb8_range": 0.01600365797896662,
+          "with_highlight_mean_cross_encoding_rgb8_range": 0.8596250571559213
+        },
+        "high_range_up_to_0.95": {
+          "samples_per_encoding": 729,
+          "without_highlight_max_cross_encoding_rgb8_range": 1,
+          "with_highlight_max_cross_encoding_rgb8_range": 75,
+          "without_highlight_mean_cross_encoding_rgb8_range": 0.009602194787379973,
+          "with_highlight_mean_cross_encoding_rgb8_range": 1.1563786008230452
+        },
+        "neutral_ramp": {
+          "samples_per_encoding": 129,
+          "without_highlight_max_cross_encoding_rgb8_range": 1,
+          "with_highlight_max_cross_encoding_rgb8_range": 1,
+          "without_highlight_mean_cross_encoding_rgb8_range": 0.00516795865633075,
+          "with_highlight_mean_cross_encoding_rgb8_range": 0.031007751937984496
+        }
+      }
+    }
+  ],
+  "counterexample_summaries": {
+    "all_domains": {
+      "case_id": 30,
+      "pixel_index": 2115,
+      "encoding": 6,
+      "lut_kelvin": 4000,
+      "max_abs_rgb8_difference": 98,
+      "max_prepared_input_fraction": 0.23208972304875258
+    },
+    "strictly_interior": {
+      "case_id": 38,
+      "pixel_index": 1224,
+      "encoding": 6,
+      "lut_kelvin": 5550,
+      "max_abs_rgb8_difference": 40,
+      "max_prepared_input_fraction": 0.11093308918898298
+    }
+  },
+  "original_cpu_samples": [
+    {
+      "encoding": 1,
+      "lut_kelvin": 3550,
+      "highlight": {
+        "channels": 195,
+        "max_abs_difference": 0.0,
+        "mean_abs_difference": 0.0,
+        "exact_channels": 195
+      },
+      "colour": {
+        "channels": 195,
+        "max_abs_difference": 0.0,
+        "mean_abs_difference": 0.0,
+        "exact_channels": 195
+      }
+    },
+    {
+      "encoding": 2,
+      "lut_kelvin": 3550,
+      "highlight": {
+        "channels": 195,
+        "max_abs_difference": 0.0,
+        "mean_abs_difference": 0.0,
+        "exact_channels": 195
+      },
+      "colour": {
+        "channels": 195,
+        "max_abs_difference": 0.0,
+        "mean_abs_difference": 0.0,
+        "exact_channels": 195
+      }
+    },
+    {
+      "encoding": 3,
+      "lut_kelvin": 3550,
+      "highlight": {
+        "channels": 195,
+        "max_abs_difference": 0.0,
+        "mean_abs_difference": 0.0,
+        "exact_channels": 195
+      },
+      "colour": {
+        "channels": 195,
+        "max_abs_difference": 0.0,
+        "mean_abs_difference": 0.0,
+        "exact_channels": 195
+      }
+    },
+    {
+      "encoding": 4,
+      "lut_kelvin": 3550,
+      "highlight": {
+        "channels": 195,
+        "max_abs_difference": 0.0,
+        "mean_abs_difference": 0.0,
+        "exact_channels": 195
+      },
+      "colour": {
+        "channels": 195,
+        "max_abs_difference": 0.0,
+        "mean_abs_difference": 0.0,
+        "exact_channels": 195
+      }
+    },
+    {
+      "encoding": 5,
+      "lut_kelvin": 3550,
+      "highlight": {
+        "channels": 192,
+        "max_abs_difference": 0.0,
+        "mean_abs_difference": 0.0,
+        "exact_channels": 192
+      },
+      "colour": {
+        "channels": 192,
+        "max_abs_difference": 0.0,
+        "mean_abs_difference": 0.0,
+        "exact_channels": 192
+      }
+    },
+    {
+      "encoding": 6,
+      "lut_kelvin": 3550,
+      "highlight": {
+        "channels": 195,
+        "max_abs_difference": 0.0,
+        "mean_abs_difference": 0.0,
+        "exact_channels": 195
+      },
+      "colour": {
+        "channels": 195,
+        "max_abs_difference": 0.0,
+        "mean_abs_difference": 0.0,
+        "exact_channels": 195
+      }
+    },
+    {
+      "encoding": 7,
+      "lut_kelvin": 3550,
+      "highlight": {
+        "channels": 195,
+        "max_abs_difference": 0.0,
+        "mean_abs_difference": 0.0,
+        "exact_channels": 195
+      },
+      "colour": {
+        "channels": 195,
+        "max_abs_difference": 0.0,
+        "mean_abs_difference": 0.0,
+        "exact_channels": 195
+      }
+    },
+    {
+      "encoding": 6,
+      "lut_kelvin": 4000,
+      "highlight": {
+        "channels": 195,
+        "max_abs_difference": 0.0,
+        "mean_abs_difference": 0.0,
+        "exact_channels": 195
+      },
+      "colour": {
+        "channels": 195,
+        "max_abs_difference": 0.0,
+        "mean_abs_difference": 0.0,
+        "exact_channels": 195
+      }
+    },
+    {
+      "encoding": 6,
+      "lut_kelvin": 5550,
+      "highlight": {
+        "channels": 198,
+        "max_abs_difference": 0.0,
+        "mean_abs_difference": 0.0,
+        "exact_channels": 198
+      },
+      "colour": {
+        "channels": 198,
+        "max_abs_difference": 0.0,
+        "mean_abs_difference": 0.0,
+        "exact_channels": 198
+      }
+    }
+  ],
+  "reference_illumination_spectrum_simulated": false,
+  "physical_camera_calibration_validated": false,
+  "scene_fitted_parameters": 0,
+  "source_profile_unchanged": true,
+  "original_source_unchanged": true,
+  "capture_renderer_changed": false,
+  "device_pixel_equivalence_compared": false,
+  "full_phocus_equivalence": false,
+  "rendering_primitives_changed": false,
+  "highlight_effect_summary": {
+    "all_cases_mean_abs_rgb8": 0.1382682066781808,
+    "all_cases_pixels_over_two_codes_pct": 1.5766677461139897,
+    "largest_strictly_interior_rgb8_difference": 40.0,
+    "strict_interior_definition": "both outputs 8..247, both LUT coordinates strictly in bounds, both pre-film RGB strictly 0..65535"
+  },
+  "neutral_ramp_summary": {
+    "cases": 64,
+    "without_highlight_max_channel_spread": 1,
+    "with_highlight_max_channel_spread": 1
+  }
+}

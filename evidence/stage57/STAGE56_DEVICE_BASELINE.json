@@ -1,0 +1,19 @@
+{
+  "schema": "hasselblad-stage57-prior-device-baseline-v1",
+  "evidence_type": "user supplied Stage56 device report",
+  "reported_status": "RENDERED_EXPERIMENTAL_COMPARISON",
+  "displayed_preview": "automatic_colour",
+  "displayed_lut_temperature": 3550,
+  "metadata_white_point_kelvin": 3566.3714249944596,
+  "illuminant_iterations": 10,
+  "illuminant_neutral_ratio_residual": 8.540279594626554e-12,
+  "automatic_colour_milliseconds": 60,
+  "raw_preparation_milliseconds": 3030,
+  "total_milliseconds": 4038,
+  "DNG_white_balance_changed": false,
+  "scene_fitted_parameters": 0,
+  "host_reference_compared": false,
+  "device_pixels_compared": false,
+  "capture_renderer_changed": false,
+  "full_phocus_equivalence": false
+}

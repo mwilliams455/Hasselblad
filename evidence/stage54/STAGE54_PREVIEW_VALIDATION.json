@@ -1,0 +1,114 @@
+{
+  "schema": "hasselblad-stage54-preview-integration-v1",
+  "status": "PASS_EXPERIMENTAL_PREPARED_RGB_BRIDGE",
+  "host_suite": {
+    "schema": "hasselblad-stage54-host-suite-v1",
+    "status": "PASS",
+    "results": {
+      "Stage42BridgeSmoke": {
+        "status": "PASS",
+        "checks": 12,
+        "synthetic_only": true
+      },
+      "Stage43Smoke": {
+        "status": "PASS",
+        "checks": 65,
+        "synthetic_only": true,
+        "raw_reference": "Stage30 full-frame float32 bilinear"
+      },
+      "Metadata48Check": {
+        "schema": "hasselblad-stage48-java-metadata-v1",
+        "status": "PASS",
+        "checks": 28,
+        "failures": [],
+        "synthetic_only": true
+      },
+      "Stage54Smoke": {
+        "schema": "hasselblad-stage54-host-jni-v1",
+        "status": "PASS",
+        "synthetic_cases": 64,
+        "compared_channels": 159168,
+        "maximum_rgb16_difference": 0,
+        "wb_factorization_max_error": 4.440892098500626e-16,
+        "checks": 159890,
+        "synthetic_only": true,
+        "device_tested": false,
+        "full_phocus_equivalence": false
+      }
+    },
+    "synthetic_only": true,
+    "capture_renderer_changed": false,
+    "device_tested": false
+  },
+  "private_preview": {
+    "schema": "hasselblad-stage54-private-host-v1",
+    "status": "RENDERED_FOR_INDEPENDENT_CHECK",
+    "pixels": 786432,
+    "width": 1024,
+    "height": 768,
+    "orientation": 6,
+    "gainmap_count": 4,
+    "prepared_ceiling_channels": 18175,
+    "changed_colour_channels": 1342005,
+    "analytic_equal_gain_limit": false,
+    "highlight_milliseconds": 96,
+    "elapsed_milliseconds": 787,
+    "input_unchanged": true,
+    "device_tested": false,
+    "full_phocus_equivalence": false
+  },
+  "original_prepared_rgb16_unchanged_exact": true,
+  "original_colour_rgb16_unchanged_exact": true,
+  "camera_matrix_unchanged_exact": true,
+  "post_matrix_maximum_error": 2.220446049250313e-16,
+  "highlight_java_jni_vs_numpy": {
+    "channels": 2359296,
+    "exact_channels": 2359296,
+    "maximum_absolute_difference": 0.0,
+    "mean_absolute_difference": 0.0
+  },
+  "highlight_java_jni_vs_original_cpu_sample": {
+    "channels": 2367,
+    "exact_channels": 2367,
+    "maximum_absolute_difference": 0.0,
+    "mean_absolute_difference": 0.0
+  },
+  "colour_core_vs_independent_trace_exact_channels": 2359296,
+  "display_vs_independent_trace_exact_channels": 2359296,
+  "complete_numpy_vs_java_jni": {
+    "channels": 2359296,
+    "exact_channels": 2359296,
+    "maximum_absolute_difference": 0.0,
+    "mean_absolute_difference": 0.0
+  },
+  "highlight_vs_original_display_change_not_accuracy_score": {
+    "mean_abs_rgb8": 0.11481560601128472,
+    "p95_abs_rgb8": 0.0,
+    "max_abs_rgb8": 181.0,
+    "pixels_with_any_change_gt_2_pct": 1.5782674153645833
+  },
+  "highlight_stage_clipping": {
+    "pixels": 786432,
+    "nonpositive_luminance_pixels": 0,
+    "lut_coordinate_clamped_pixels": 6331,
+    "pre_curve_below_zero_channels": 1763,
+    "pre_curve_above_65535_channels": 34636,
+    "post_curve_code_65535_channels": 34640,
+    "display_linear_below_zero_channels": 27969,
+    "display_linear_above_one_channels": 18204,
+    "display_linear_above_one_pct": 0.7715861002604166,
+    "display_rgb8_zero_channels": 32206,
+    "display_rgb8_255_channels": 36159
+  },
+  "input_domain": "existing post-gainmap bilinear prepared RGB16, already clamped",
+  "clipping_levels": "65535 per prepared channel; not measured physical sensor saturation",
+  "wb_source": "only selected DNG AsShotNeutral; max-normalized reciprocal ratios",
+  "source_files_unchanged": true,
+  "parameters_fitted_to_scene": false,
+  "private_arrays_or_input_hashes_exported": false,
+  "capture_renderer_changed": false,
+  "device_tested": false,
+  "original_raw_graph_reproduced": false,
+  "lost_raw_headroom_recovered": false,
+  "full_phocus_equivalence": false
+}

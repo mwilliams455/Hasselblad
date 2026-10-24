@@ -9,4 +9,8 @@ public final class HasselbladRenderer42 {
     public static native double[] cameraToD50(double[] fm1,double[] fm2,double[] cc1,
         double[] cc2,double[] analog,double[] neutral);
     public static native double[] xyzToSrgb();
+    /** CPU reconstruction on the reader's already clipped prepared RGB16.
+     * Equal lower gains require explicit permission for the Stage53 limit. */
+    public static native short[] reconstructHighlights(short[] input,double[] gainRatios,
+        boolean allowEqualGainLimit);
 }

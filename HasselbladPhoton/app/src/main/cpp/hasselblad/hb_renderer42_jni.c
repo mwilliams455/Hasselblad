@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "hb42_colour.h"
+#include "highlight53.h"
 
 JNIEXPORT jshortArray JNICALL
 Java_com_particlesdevs_photoncamera_hasselblad_HasselbladRenderer42_render(
@@ -82,4 +83,40 @@ JNIEXPORT jdoubleArray JNICALL
 Java_com_particlesdevs_photoncamera_hasselblad_HasselbladRenderer42_xyzToSrgb(JNIEnv *e,jclass cls) {
     (void)cls;double out[9];hb19_output_receipt receipt;
     return matrix_result(e,hb19_build_output_matrix(HB19_SRGB,out,&receipt)==HB19_OK,out);
+}
+
+JNIEXPORT jshortArray JNICALL
+Java_com_particlesdevs_photoncamera_hasselblad_HasselbladRenderer42_reconstructHighlights(
+        JNIEnv *e,jclass cls,jshortArray input,jdoubleArray ratios,jboolean allow_limit) {
+    (void)cls;
+    const char *error="Invalid prepared-RGB highlight input";
+    uint16_t *src=NULL,*dst=NULL;
+    jshortArray result=NULL;
+    if(!input||!ratios||(*e)->GetArrayLength(e,ratios)!=3)goto done;
+    jsize n=(*e)->GetArrayLength(e,input);
+    if(n<=0||n%3||n>1048576*3)goto done;
+    double gains[3];const uint16_t limits[3]={65535,65535,65535};
+    (*e)->GetDoubleArrayRegion(e,ratios,0,3,gains);
+    if((*e)->ExceptionCheck(e))goto done;
+    hb_highlight53 p;
+    int status=hb_highlight53_prepare(&p,gains,limits,allow_limit==JNI_TRUE);
+    if(status<0) {
+        error=status==-2?"Equal lower gains require the explicit analytic limit":
+            "Invalid or numerically degenerate highlight gains";
+        goto done;
+    }
+    src=malloc((size_t)n*sizeof(uint16_t));dst=malloc((size_t)n*sizeof(uint16_t));
+    if(!src||!dst){error="Highlight preview allocation failed";goto done;}
+    (*e)->GetShortArrayRegion(e,input,0,n,(jshort*)src);
+    if((*e)->ExceptionCheck(e))goto done;
+    if(hb_highlight53_rgb16(&p,src,dst,(size_t)n/3)!=0)goto done;
+    result=(*e)->NewShortArray(e,n);
+    if(result)(*e)->SetShortArrayRegion(e,result,0,n,(jshort*)dst);
+done:
+    free(src);free(dst);
+    if(!result&&!(*e)->ExceptionCheck(e)) {
+        jclass type=(*e)->FindClass(e,"java/lang/IllegalArgumentException");
+        if(type)(*e)->ThrowNew(e,type,error);
+    }
+    return result;
 }

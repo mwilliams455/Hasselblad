@@ -24,7 +24,7 @@ MAX_GRAPH_NODES = 650
 MAX_PATH = 350
 INTERESTING_STACK = 20
 
-def path(graph, start, end, forbidden=frozenset()):
+def shortest_path(graph, start, end, forbidden=frozenset()):
     if start in forbidden:return None
     q=deque([(start, [start])])
     visited={start}
@@ -61,7 +61,7 @@ def branch_case(ins, graph, by, outcopy):
         result["test_register"]=ins.reg_name(ins.operands[0].reg)
         result["taken_when"]=("value_equals_zero" if ins.mnemonic=="cbz" else "value_nonzero")
     for label,address in (("taken",target),("fallthrough",fall)):
-        route=path(graph,address,outcopy)
+        route=shortest_path(graph,address,outcopy)
         result[label+"_can_reach_output_copy"]=route is not None
         if route is not None:
             result[label+"_shortest_path_instruction_count"]=len(route)
@@ -69,7 +69,7 @@ def branch_case(ins, graph, by, outcopy):
         # An early return can be reached without copying (this is an
         # over-approximation of runtime paths, not a decryption status).
         returnpoints=[x.address for x in by.values() if x.mnemonic=="ret"]
-        exiting=[path(graph,address,e,forbidden={outcopy}) for e in returnpoints]
+        exiting=[shortest_path(graph,address,e,forbidden={outcopy}) for e in returnpoints]
         good=[v for v in exiting if v]
         result[label+"_may_return_without_output_copy"]=bool(good)
         if good:result[label+"_shortest_return_without_copy"]=len(min(good,key=len))
@@ -137,7 +137,7 @@ def audit(path):
       "source":SOURCE,"source_sha256":SHA,"function":FN,
       "original_instructions_examined":len(insns),
       "secure_call_at":hex(SERVICE),"host_copy_at":hex(OUTCOPY),
-      "service_resume_can_reach_copy":path(graph,SERVICE+4,OUTCOPY) is not None,
+      "service_resume_can_reach_copy":shortest_path(graph,SERVICE+4,OUTCOPY) is not None,
       "status_branch":branch_case(by[STATUS],graph,by,OUTCOPY),
       "bounds_branch":branch_case(by[BOUNDS],graph,by,OUTCOPY),
       "bounds_condition_source":local_compare(insns,BOUNDS),
@@ -152,9 +152,9 @@ def audit(path):
 
 def selftest():
     toy={0:[4,8],4:[12],8:[16],12:[],16:[]}
-    assert path(toy,0,16)==[0,8,16]
-    assert path(toy,0,16,forbidden={8}) is None
-    assert path(toy,0,12)==[0,4,12]
+    assert shortest_path(toy,0,16)==[0,8,16]
+    assert shortest_path(toy,0,16,forbidden={8}) is None
+    assert shortest_path(toy,0,12)==[0,4,12]
     return {"status":"PASS_synthetic","checks":3,"original_input_loaded":False}
 
 def main():

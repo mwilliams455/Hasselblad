@@ -7,7 +7,6 @@ import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.util.AtomicFile;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -91,7 +90,7 @@ public final class HasselbladTone83Activity extends BaseActivity {
         Matrix m=new Matrix();m.postRotate(orientation==3?180:orientation==6?90:270);Bitmap result=Bitmap.createBitmap(base,0,0,w,h,m,false);if(result!=base)base.recycle();return result;
     }
     private HasselbladProfile43 profile()throws Exception {
-        try(InputStream in=new AtomicFile(new File(getFilesDir(),"stage43-colour.hbc")).openRead()){return HasselbladProfile43.read(in);}
+        return HasselbladLookStore84.read(this);
     }
     private void importPack(Uri uri) {
         clear();setBusy(true);status.setText("Checking tone pack…");
@@ -99,9 +98,7 @@ public final class HasselbladTone83Activity extends BaseActivity {
             HasselbladTone83 pack;
             try(InputStream in=getContentResolver().openInputStream(uri)){pack=HasselbladTone83.read(in);}
             pack.validateProfile(profile());interrupted();
-            AtomicFile target=new AtomicFile(new File(getFilesDir(),"stage83-tones.hbt"));FileOutputStream out=null;
-            try{out=target.startWrite();out.write(pack.encoded());target.finishWrite(out);}
-            catch(Exception e){target.failWrite(out);throw e;}
+            HasselbladLookStore84.importPack(this,pack);
             runOnUiThread(()->{if(!destroyed){setBusy(false);status.setText("Tone pack ready. Open a saved DNG to compare all four views.");}});
         }catch(Exception e){failed("Import stopped: "+e.getMessage());}},"HB83-import");worker.start();
     }
@@ -120,7 +117,7 @@ public final class HasselbladTone83Activity extends BaseActivity {
         clear();setBusy(true);progress("Loading colour profile and tone pack…");
         worker=new Thread(()->{File directory=null;Bitmap full=null;boolean delivered=false;try {
             long start=SystemClock.elapsedRealtime();HasselbladProfile43 profile=profile();HasselbladTone83 pack;
-            try(InputStream in=new AtomicFile(new File(getFilesDir(),"stage83-tones.hbt")).openRead()){pack=HasselbladTone83.read(in);}
+            pack=HasselbladLookStore84.readPack(this);
             pack.validateProfile(profile());int[] films={profile.film,0,1,7};
             float[][] curves={profile.curve,pack.curve(0),pack.curve(1),pack.curve(7)};
             int workers=Math.max(1,Math.min(4,Runtime.getRuntime().availableProcessors()));

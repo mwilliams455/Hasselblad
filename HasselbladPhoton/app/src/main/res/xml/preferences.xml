@@ -6,6 +6,12 @@
         android:title="@string/settings"
         android:key="prefscreen">
     <Preference
+            android:key="pref_hasselblad_rendering"
+            android:layout="@layout/preference_with_margin"
+            android:title="Hasselblad rendering"
+            android:summary="Tone curve, colour profile and last photo"
+            android:icon="@drawable/ic_tune_black_24dp" />
+    <Preference
             android:key="pref_hasselblad_development_check"
             android:layout="@layout/preference_with_margin"
             android:title="@string/hasselblad_check_title"

@@ -7,7 +7,6 @@ import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.util.AtomicFile;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -40,7 +39,6 @@ public final class HasselbladDngActivity43 extends BaseActivity {
         new ActivityResultContracts.OpenDocument(),uri->{if(uri!=null)loadProfile(uri);});
     private final ActivityResultLauncher<String[]> dngPicker=registerForActivityResult(
         new ActivityResultContracts.OpenDocument(),uri->{if(uri!=null)loadDng(uri);});
-    private AtomicFile profileFile(){return new AtomicFile(new File(getFilesDir(),"stage43-colour.hbc"));}
     @Override protected void onCreate(Bundle state) {
         super.onCreate(state);
         LinearLayout root=new LinearLayout(this);root.setOrientation(LinearLayout.VERTICAL);
@@ -65,7 +63,7 @@ public final class HasselbladDngActivity43 extends BaseActivity {
         scene76.setOnClickListener(v->{if(!busy)startActivity(new android.content.Intent(this,HasselbladScene76Activity.class));});root.addView(scene76);
         MaterialButton scene77=new MaterialButton(this);scene77.setText("Stage77 · faster full-scene colour and LUTs");
         scene77.setOnClickListener(v->{if(!busy)startActivity(new android.content.Intent(this,HasselbladScene77Activity.class));});root.addView(scene77);
-        MaterialButton capture79=new MaterialButton(this);capture79.setText("Stage82 · shutter colour and save report");
+        MaterialButton capture79=new MaterialButton(this);capture79.setText("Last camera photo · colour and save report");
         capture79.setOnClickListener(v->{if(!busy)startActivity(new android.content.Intent(this,HasselbladCapture79Activity.class));});root.addView(capture79);
         MaterialButton scene78=new MaterialButton(this);scene78.setText("Stage78 · faster RAW preparation and colour");
         scene78.setOnClickListener(v->{if(!busy)startActivity(new android.content.Intent(this,HasselbladScene78Activity.class));});root.addView(scene78);
@@ -83,11 +81,10 @@ public final class HasselbladDngActivity43 extends BaseActivity {
         setContentView(root);setBusy(true);
         worker=new Thread(()->{
             HasselbladProfile43 stored=null;
-            try(InputStream in=profileFile().openRead()){stored=HasselbladProfile43.read(in);}catch(Exception ignored){}
+            try{stored=HasselbladLookStore84.read(this);}catch(Exception ignored){}
             final HasselbladProfile43 loaded=stored;
             runOnUiThread(()->{if(isFinishing()||isDestroyed())return;profile=loaded;setBusy(false);
-                if(profile!=null)status.setText("Colour profile ready. Open a saved standard-resolution DNG.\n"+
-                    "Experimental preview; camera photos still use Photon.");});
+                if(profile!=null)status.setText("Profile ready: "+HasselbladLook84.label(profile.film)+". Open a saved standard-resolution DNG.");});
         },"HB43-profile-restore");worker.start();
     }
     private void setBusy(boolean value) {
@@ -112,11 +109,9 @@ public final class HasselbladDngActivity43 extends BaseActivity {
                 HasselbladRenderer42.render(new short[]{0,0,0},loaded.parameters(new double[]{1,0,0,0,1,0,0,0,1}),
                     loaded.grid,loaded.curve,loaded.gridWidth,loaded.gridHeight,1);
                 if(loaded.hasNativeFinishing)loaded.finishRgb16(new short[]{0,0,0});
-                AtomicFile file=profileFile();FileOutputStream out=null;
-                try {out=file.startWrite();out.write(loaded.encoded());file.finishWrite(out);}
-                catch(Exception e){if(out!=null)file.failWrite(out);throw e;}
+                HasselbladLookStore84.importProfile(this,loaded);
                 runOnUiThread(()->{if(isFinishing()||isDestroyed())return;
-                    profile=loaded;setBusy(false);status.setText(loaded.hasAutomaticIlluminant?"Automatic-colour profile ready. Open a saved DNG. Its own white balance will be used.":
+                    profile=loaded;setBusy(false);status.setText(loaded.hasAutomaticIlluminant?"Automatic-colour profile ready: "+HasselbladLook84.label(loaded.film)+". Open a saved DNG. Its own white balance will be used.":
                         "Profile ready · look temperature "+loaded.temperature+" K. Open a saved DNG. Its own white balance will be used.");});
             }catch(Exception|LinkageError e){fail(e);}
         },"HB43-profile-import");worker.start();

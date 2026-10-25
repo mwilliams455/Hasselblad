@@ -39,6 +39,7 @@ import com.google.android.material.transition.MaterialSharedAxis;
 import com.particlesdevs.photoncamera.R;
 import com.particlesdevs.photoncamera.api.CameraMode;
 import com.particlesdevs.photoncamera.hasselblad.HasselbladDevelopmentActivity;
+import com.particlesdevs.photoncamera.hasselblad.HasselbladLook84Activity;
 import com.particlesdevs.photoncamera.hasselblad.HasselbladDevelopmentPolicy;
 import com.particlesdevs.photoncamera.app.PhotonCamera;
 import com.particlesdevs.photoncamera.app.base.BaseActivity;
@@ -278,6 +279,11 @@ public class SettingsActivity extends BaseActivity implements PreferenceFragment
         }
 
         private void applyHasselbladDevelopmentUi() {
+            Preference look = findPreference("pref_hasselblad_rendering");
+            if (look != null) look.setOnPreferenceClickListener(preference -> {
+                startActivity(new Intent(requireContext(), HasselbladLook84Activity.class));
+                return true;
+            });
             Preference check = findPreference("pref_hasselblad_development_check");
             if (check != null) {
                 check.setOnPreferenceClickListener(preference -> {

@@ -1,0 +1,91 @@
+name: Hasselblad Stage82 shutter destination lookup APK
+"on":
+  push:
+    branches: [experimental/phocus-save82]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Preserve validated preparation, demosaic and colour sources
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -z "$(git diff --name-only 7e7f8aa1807d21a1d7982b9ee1a90e66e12aefce HEAD -- hasselblad_native_audit/phocus_output_stage74 hasselblad_native_audit/phocus_scene_stage76 hasselblad_native_audit/phocus_speed_stage77 hasselblad_native_audit/phocus_prep_stage78 HasselbladPhoton/app/src/main/cpp HasselbladPhoton/app/src/main/assets)"
+          test -z "$(git diff --name-only 7e7f8aa1807d21a1d7982b9ee1a90e66e12aefce HEAD -- HasselbladPhoton/app/src/main/java/com/particlesdevs/photoncamera/hasselblad/HasselbladDngTileReader.java HasselbladPhoton/app/src/main/java/com/particlesdevs/photoncamera/hasselblad/HasselbladFrame77.java HasselbladPhoton/app/src/main/java/com/particlesdevs/photoncamera/hasselblad/HasselbladRenderer42.java HasselbladPhoton/app/src/main/java/com/particlesdevs/photoncamera/hasselblad/HasselbladProfile43.java)"
+          cmp HasselbladPhoton/app/src/main/java/com/particlesdevs/photoncamera/hasselblad/HasselbladFinalRaw74.java hasselblad_native_audit/phocus_output_stage74/java/com/particlesdevs/photoncamera/hasselblad/HasselbladFinalRaw74.java
+      - name: Publication, exact destination queries and provider failure checks
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 hasselblad_native_audit/phocus_save_stage82/check82.py --work "$RUNNER_TEMP/hb82-tests"
+          test -z "$(git diff --name-only 5398d1f655098b5d11447ec58749a5090e0510e6 HEAD -- hasselblad_native_audit/phocus_capture_stage79 HasselbladPhoton/app/src/main/java/com/particlesdevs/photoncamera/hasselblad/HasselbladSceneRenderer79.java HasselbladPhoton/app/src/main/java/com/particlesdevs/photoncamera/hasselblad/HasselbladDngBridge79.java HasselbladPhoton/app/src/main/java/com/particlesdevs/photoncamera/processing)"
+      - name: Install pinned Android toolchain
+        shell: bash
+        run: |
+          set -euo pipefail
+          sdk="${ANDROID_HOME:-/usr/local/lib/android/sdk}"
+          echo "ANDROID_HOME=$sdk" >> "$GITHUB_ENV"
+          yes | "$sdk/cmdline-tools/latest/bin/sdkmanager" --licenses >/dev/null || true
+          "$sdk/cmdline-tools/latest/bin/sdkmanager" --install 'platforms;android-36' 'build-tools;35.0.0' 'cmake;3.22.1' 'ndk;27.0.12077973' >/dev/null
+      - name: Build diagnostic APK with existing signing identity
+        working-directory: HasselbladPhoton
+        run: |
+          chmod +x gradlew
+          ./gradlew --no-daemon --console=plain :app:assembleDebug
+      - name: Verify APK and package build receipt
+        shell: bash
+        run: |
+          set -euo pipefail
+          apk="$(find HasselbladPhoton/app/build/outputs/apk -type f -name '*debug.apk' -print -quit)"
+          dest="$RUNNER_TEMP/hb82-deliver"
+          mkdir -p "$dest"
+          "$ANDROID_HOME/build-tools/35.0.0/apksigner" verify --verbose --print-certs "$apk" > "$dest/signature.txt"
+          grep -Fi '255cb09eaddd26a9cc680786e4985372cf24d0e54bb120fc44d48f3273ff3956' "$dest/signature.txt"
+          "$ANDROID_HOME/build-tools/35.0.0/aapt" dump badging "$apk" > "$dest/badging.txt"
+          grep -F "name='com.mwilliams.hasselbladphoton'" "$dest/badging.txt"
+          grep -F "versionCode='27222'" "$dest/badging.txt"
+          grep -F "versionName='0.1-hb-save82'" "$dest/badging.txt"
+          python3 - "$apk" "$dest" <<'PY'
+          import hashlib,json,pathlib,subprocess,sys,zipfile,re
+          apk,dest=map(pathlib.Path,sys.argv[1:])
+          with zipfile.ZipFile(apk) as z:
+              for abi in ('arm64-v8a','armeabi-v7a'):
+                  for lib in ('libhbfinal74.so','libhbframe76.so','libhbframe77.so','libhasselblad_renderer42_jni.so','libdngCreator.so'):
+                      payload=z.read('lib/'+abi+'/'+lib)
+                      native=dest/'check.so';native.write_bytes(payload)
+                      elf=subprocess.check_output(['readelf','-lW',str(native)],text=True)
+                      align=[int(line.split()[-1],16) for line in elf.splitlines() if re.match(r'\s*LOAD\s+',line)]
+                      assert align and min(align)>=16384
+                      native.unlink()
+              for name in ('neutral64','colour64','random23'):
+                  for suffix in ('input.u16le','rgb.u16le'):
+                      p='stage75/'+name+'.'+suffix
+                      assert z.read('assets/'+p)==(pathlib.Path('HasselbladPhoton/app/src/main/assets')/p).read_bytes()
+              assert not any(n.endswith(('.hb42','.hbc','.dng')) or 'libcrosssdk' in n for n in z.namelist())
+          receipt={'status':'PASS_BUILD_ONLY','version_name':'0.1-hb-save82','version_code':27222,
+              'source_commit':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),
+              'apk_sha256':hashlib.sha256(apk.read_bytes()).hexdigest(),
+              'renderer_abis':['arm64-v8a','armeabi-v7a'],'private_profile_or_photo_bundled':False,
+              'device_tested':False,'capture_renderer_changed_since_stage81':False,'capture_storage_changed':True,'validated_renderer_sources_unchanged':True,'stage80_storage_path_device_validated':True,'prior_stage81_capture_device_validated':True,'device_save_speed_tested':False}
+          (dest/'STAGE82_APK_RECEIPT.json').write_text(json.dumps(receipt,indent=2)+'\n')
+          PY
+          cp "$apk" "$dest/HasselbladPhoton-0.1-hb-save82-27222.apk"
+          cp "$RUNNER_TEMP/hb82-tests/STAGE82_HOST_VALIDATION.json" "$dest/"
+          cp hasselblad_native_audit/phocus_save_stage82/README.md "$dest/Stage82_Test_Instructions.md"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: HasselbladPhoton-save82-APK-and-receipts
+          path: ${{ runner.temp }}/hb82-deliver/
+          retention-days: 14

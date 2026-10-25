@@ -22,7 +22,7 @@ public final class HasselbladCaptureFiles80 {
     public static final class Metrics {
         private final Map<String,Long> nanos=new LinkedHashMap<>();
         private final Map<String,Integer> calls=new LinkedHashMap<>();
-        private long rows;
+        private long rows,targetQueries,parentProbes,bulkQueries,missingTargetExceptions,queryFallbacks;
         private void add(String phase,long start) {
             nanos.merge(phase,System.nanoTime()-start,Long::sum);
             calls.merge(phase,1,Integer::sum);
@@ -34,6 +34,11 @@ public final class HasselbladCaptureFiles80 {
                 result.put(phase+"_calls",calls.get(phase));
             }
             result.put("name_check_rows",rows);
+            result.put("name_lookup_target_queries",targetQueries);
+            result.put("name_lookup_parent_probes",parentProbes);
+            result.put("name_lookup_bulk_queries",bulkQueries);
+            result.put("name_lookup_missing_target_exceptions",missingTargetExceptions);
+            result.put("name_lookup_query_fallbacks",queryFallbacks);
             return result;
         }
     }
@@ -44,14 +49,76 @@ public final class HasselbladCaptureFiles80 {
     private static <T> T timed(Metrics m,String phase,Supplier<T> action) {
         long start=System.nanoTime();try{return action.get();}finally{m.add(phase,start);}
     }
-    private static boolean exists(Context context,DocumentFile folder,String name,Metrics m)throws IOException {
-        // DocumentFile.findFile lists IDs, then queries every child's name separately.
-        // Fetch all names in one cursor; keep the two independent collision checks.
+    private static void complete(Cursor cursor)throws IOException {
+        if(Thread.currentThread().isInterrupted())throw new IOException("Capture cancelled");
+        if(cursor.getExtras().getBoolean(DocumentsContract.EXTRA_LOADING,false)
+                || cursor.getExtras().getString(DocumentsContract.EXTRA_ERROR)!=null)
+            throw new IOException("Capture filename query is incomplete or failed");
+    }
+    private static boolean exists(Context context,Folder parent,String name,Metrics m)throws IOException {
+        DocumentFile folder=parent.document;
+        String parentId=DocumentsContract.getDocumentId(folder.getUri());
+        // This path format belongs only to Android's primary external-storage provider.
+        // Verify the actual granted folder ID against the canonical destination before
+        // constructing a child ID. Unknown mappings retain the Stage81 bulk lookup.
+        if(!parent.expectedId.equals(parentId))return bulkExists(context,folder,name,m);
+        if(Thread.currentThread().isInterrupted())throw new IOException("Capture cancelled");
+        String targetId=parentId+"/"+name;
+        Uri target=DocumentsContract.buildDocumentUriUsingTree(folder.getUri(),targetId);
+        m.targetQueries++;
+        Cursor targetResult;
+        try {
+            targetResult=context.getContentResolver().query(target,
+                    new String[]{DocumentsContract.Document.COLUMN_DOCUMENT_ID},null,null,null);
+        }catch(IllegalArgumentException error) {
+            // AOSP checks tree ancestry before querying metadata. A missing child is
+            // wrapped in this precise message, without preserving the checked cause.
+            // Unknown errors retain the complete bulk check; never guess absence.
+            String missing="Failed to determine if "+targetId+" is child of "
+                    +DocumentsContract.getTreeDocumentId(folder.getUri())
+                    +": java.io.FileNotFoundException: Missing file for "+targetId+" at ";
+            if(error.getMessage()==null || !error.getMessage().startsWith(missing)) {
+                m.queryFallbacks++;return bulkExists(context,folder,name,m);
+            }
+            m.missingTargetExceptions++;targetResult=null;
+        }
+        try(Cursor cursor=targetResult) {
+            if(cursor!=null) {
+                complete(cursor);
+                int column=cursor.getColumnIndexOrThrow(DocumentsContract.Document.COLUMN_DOCUMENT_ID);
+                if(cursor.moveToNext()) {
+                    m.rows++;
+                    if(!targetId.equals(cursor.getString(column)) || cursor.moveToNext())
+                        throw new IOException("Capture document lookup returned an unexpected result");
+                    complete(cursor);return true;
+                }
+                complete(cursor);
+            }
+        }
+        // DocumentsProvider returns null for a missing document. Require a healthy,
+        // accessible parent so an unavailable volume/grant is not treated as absence.
+        if(Thread.currentThread().isInterrupted())throw new IOException("Capture cancelled");
+        m.parentProbes++;
+        try(Cursor cursor=context.getContentResolver().query(folder.getUri(),new String[]{
+                DocumentsContract.Document.COLUMN_DOCUMENT_ID,DocumentsContract.Document.COLUMN_MIME_TYPE},null,null,null)) {
+            if(cursor==null)throw new IOException("Cannot verify capture folder after a missing document lookup");
+            complete(cursor);
+            int id=cursor.getColumnIndexOrThrow(DocumentsContract.Document.COLUMN_DOCUMENT_ID);
+            int mime=cursor.getColumnIndexOrThrow(DocumentsContract.Document.COLUMN_MIME_TYPE);
+            if(!cursor.moveToNext() || !parentId.equals(cursor.getString(id))
+                    || !DocumentsContract.Document.MIME_TYPE_DIR.equals(cursor.getString(mime))
+                    || cursor.moveToNext())throw new IOException("Capture folder probe returned an unexpected result");
+            complete(cursor);return false;
+        }
+    }
+    private static boolean bulkExists(Context context,DocumentFile folder,String name,Metrics m)throws IOException {
+        m.bulkQueries++;
         Uri children=DocumentsContract.buildChildDocumentsUriUsingTree(folder.getUri(),
                 DocumentsContract.getDocumentId(folder.getUri()));
         try(Cursor cursor=context.getContentResolver().query(children,
                 new String[]{DocumentsContract.Document.COLUMN_DISPLAY_NAME},null,null,null)) {
             if(cursor==null)throw new IOException("Capture filename query returned no result");
+            complete(cursor);
             int column=cursor.getColumnIndexOrThrow(DocumentsContract.Document.COLUMN_DISPLAY_NAME);
             while(cursor.moveToNext()) {
                 if(Thread.currentThread().isInterrupted())throw new IOException("Capture cancelled");
@@ -60,12 +127,15 @@ public final class HasselbladCaptureFiles80 {
                 if(found==null)throw new IOException("Capture filename query returned an unnamed document");
                 if(name.equals(found))return true;
             }
-            if(cursor.getExtras().getBoolean(DocumentsContract.EXTRA_LOADING,false))
-                throw new IOException("Capture filename query is incomplete");
+            complete(cursor);
             return false;
         }
     }
-    private static DocumentFile parent(Context context,Path destination) throws IOException {
+    private static final class Folder {
+        final DocumentFile document;final String expectedId;
+        Folder(DocumentFile document,String expectedId){this.document=document;this.expectedId=expectedId;}
+    }
+    private static Folder parent(Context context,Path destination) throws IOException {
         File target=destination.toFile().getCanonicalFile();
         String root=Environment.getExternalStorageDirectory().getCanonicalPath();
         String absolute=target.getParent();
@@ -98,16 +168,17 @@ public final class HasselbladCaptureFiles80 {
             if(child==null || !child.isDirectory())throw new IOException("Cannot open capture subfolder: "+part);
             folder=child;
         }
-        return folder;
+        return new Folder(folder,"primary:"+relative);
     }
     public static synchronized void publish(Context context,Path source,Path destination) throws IOException {
         publish(context,source,destination,new Metrics());
     }
     public static synchronized void publish(Context context,Path source,Path destination,Metrics metrics) throws IOException {
-        DocumentFile folder=timedIO(metrics,"folder_lookup",()->parent(context,destination));
+        Folder parent=timedIO(metrics,"folder_lookup",()->parent(context,destination));
+        DocumentFile folder=parent.document;
         HasselbladPublication80.publish(source,destination.getFileName().toString(),new HasselbladPublication80.Store() {
             public boolean exists(String name)throws IOException {
-                return timedIO(metrics,"name_check",()->HasselbladCaptureFiles80.exists(context,folder,name,metrics));
+                return timedIO(metrics,"name_check",()->HasselbladCaptureFiles80.exists(context,parent,name,metrics));
             }
             public HasselbladPublication80.Document create(String mime,String name)throws IOException {
                 DocumentFile file=timed(metrics,"create",()->folder.createFile(mime,name));

@@ -66,7 +66,7 @@ public final class HasselbladScene78Activity extends BaseActivity {
         next=button(root,"Next colour / LUT view",()->{mode=(mode+1)%3;show();});
         image=new ImageView(this);image.setAdjustViewBounds(true);image.setScaleType(ImageView.ScaleType.FIT_CENTER);root.addView(image,new LinearLayout.LayoutParams(-1,-2));
         saveJpeg=button(root,"Save full-resolution automatic-colour JPEG",()->jpegSaver.launch("Hasselblad_Stage78_Automatic_Colour.jpg"));
-        TextView note=new TextView(this);note.setText("The private comparison ZIP includes the full-resolution JPEG, three scene previews, report and small Bayer/RGB16 samples. See Stage81 for the renderer used by your last camera photo.");root.addView(note);
+        TextView note=new TextView(this);note.setText("The private comparison ZIP includes the full-resolution JPEG, three scene previews, report and small Bayer/RGB16 samples. See Stage82 for the renderer used by your last camera photo.");root.addView(note);
         saveZip=button(root,"Export private scene comparison ZIP",()->zipSaver.launch("Hasselblad_Stage78_Scene_Comparison.zip"));
         copy=button(root,"Copy scene report",()->{ClipboardManager c=getSystemService(ClipboardManager.class);if(c!=null)c.setPrimaryClip(ClipData.newPlainText("Stage78",report));});
         button(root,"Back",this::finish);setContentView(scroll);setBusy(false);

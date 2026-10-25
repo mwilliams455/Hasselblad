@@ -21,25 +21,25 @@ import java.util.UUID;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-/** Shutter integration; Stage81 publishes through the existing DCIM document-tree grant. */
+/** Shutter integration; Stage82 publishes through the existing DCIM document-tree grant. */
 public final class HasselbladCapture79 {
     private static final String TAG="HasselbladCapture79";
     private static final Object REPORT_LOCK=new Object();
     private static boolean cleaned;
     private HasselbladCapture79() {}
     private static void remove(File f){if(f==null)return;if(f.isDirectory()){File[] files=f.listFiles();if(files!=null)for(File x:files)remove(x);}f.delete();}
-    private static File latest(Context c){return new File(c.getCacheDir(),"hb81-latest");}
+    private static File latest(Context c){return new File(c.getCacheDir(),"hb82-latest");}
     private static void cleanupOnce(Context context) {
         synchronized(REPORT_LOCK) {
             if(cleaned)return;cleaned=true;
             File[] files=context.getCacheDir().listFiles();
-            if(files!=null)for(File file:files)if(file.getName().startsWith("hb81-shot-") || file.getName().startsWith("hb80-shot-") || file.getName().startsWith("hb79-shot-"))remove(file);
+            if(files!=null)for(File file:files)if(file.getName().startsWith("hb82-shot-") || file.getName().startsWith("hb81-shot-") || file.getName().startsWith("hb80-shot-") || file.getName().startsWith("hb79-shot-"))remove(file);
         }
     }
     private static JSONObject report(String status) throws Exception {
-        return new JSONObject().put("schema","hasselblad-stage81-capture-v1").put("status",status)
+        return new JSONObject().put("schema","hasselblad-stage82-capture-v1").put("status",status)
                 .put("version_name",BuildConfig.VERSION_NAME).put("version_code",BuildConfig.VERSION_CODE)
-                .put("source_commit",BuildConfig.HB81_SOURCE).put("physical_sensor_colour_match_proved",false)
+                .put("source_commit",BuildConfig.HB82_SOURCE).put("physical_sensor_colour_match_proved",false)
                 .put("private_profile_or_full_dng_exported",false);
     }
     private static void remember(Context context,JSONObject report,File results) {
@@ -60,7 +60,7 @@ public final class HasselbladCapture79 {
     }
     public static String lastReport(Context context) throws IOException {
         synchronized(REPORT_LOCK){File f=new File(latest(context),"report.json");
-            return f.isFile()?new String(Files.readAllBytes(f.toPath()),StandardCharsets.UTF_8):"Take a photo first. No Stage81 capture report is available.";}
+            return f.isFile()?new String(Files.readAllBytes(f.toPath()),StandardCharsets.UTF_8):"Take a photo first. No Stage82 capture report is available.";}
     }
     public static void export(Context context,OutputStream output) throws IOException {
         synchronized(REPORT_LOCK) {
@@ -84,7 +84,7 @@ public final class HasselbladCapture79 {
         boolean rawSaved=false,jpegSaved=false;long start=System.nanoTime();JSONObject receipt=null;
         try {
             boolean rawOnly=ImageFormatConfig.isRawOnly(saveMode);
-            if(ImageFormatConfig.usesHeic(saveMode))throw new IOException("Stage81 outputs sRGB JPEG; HEIC uses Photon");
+            if(ImageFormatConfig.usesHeic(saveMode))throw new IOException("Stage82 outputs sRGB JPEG; HEIC uses Photon");
             HasselbladProfile43 profile=null;
             if(!rawOnly)try(InputStream in=new AtomicFile(new File(context.getFilesDir(),"stage43-colour.hbc")).openRead()) {
                 profile=HasselbladProfile43.read(in);
@@ -92,12 +92,12 @@ public final class HasselbladCapture79 {
             }
             receipt=report("PREPARING").put("save_mode",saveMode).put("metadata_source","original_matched_still_before_Photon_fix")
                     .put("dng_writer","existing_writer_original_metadata").put("raw_saved",false).put("jpeg_saved",false);
-            directory=new File(context.getCacheDir(),"hb81-shot-"+UUID.randomUUID());
+            directory=new File(context.getCacheDir(),"hb82-shot-"+UUID.randomUUID());
             if(!directory.mkdir())throw new IOException("Cannot create capture staging folder");
             File dng=new File(directory,"source.dng"),jpeg=new File(directory,"automatic-colour.jpg");
             HasselbladSceneRenderer79.Result rendered=null;
             try(HasselbladDngBridge79 bridge=evidence.bridge79(frames.get(0),rotation)) {
-                event(callback::onStarted);event(()->events.onProcessingStarted("Hasselblad Stage81"));
+                event(callback::onStarted);event(()->events.onProcessingStarted("Hasselblad Stage82"));
                 stage="dng_staging";long t=System.nanoTime();bridge.write(dng);
                 receipt.put("dng_stage_milliseconds",(System.nanoTime()-t)/1e6).put("raw_width",bridge.width)
                         .put("raw_height",bridge.height).put("orientation",bridge.orientation);
@@ -118,7 +118,7 @@ public final class HasselbladCapture79 {
                     if(bridge.focalLength!=null)exif.FOCAL_LENGTH=((int)(bridge.focalLength*100))+"/100";
                     exif.COMPRESSION="6"; // TIFF/EXIF code for JPEG; encoder quality is separately 95.
                     exif.COLOR_SPACE="1";exif.IMAGE_WIDTH=Integer.toString(rendered.width);exif.IMAGE_LENGTH=Integer.toString(rendered.height);
-                    exif.IMAGE_DESCRIPTION="Hasselblad Stage81; automatic LUT "+rendered.kelvin+" K; sensor interior crop32; sRGB";
+                    exif.IMAGE_DESCRIPTION="Hasselblad Stage82; automatic LUT "+rendered.kelvin+" K; sensor interior crop32; sRGB";
                     ExifInterface tags=ParseExif.setAllAttributes(jpeg,exif);
                     if(tags==null)throw new IOException("Cannot write JPEG metadata");
                     tags.setAttribute(ExifInterface.TAG_ORIENTATION,Integer.toString(bridge.orientation));
@@ -158,7 +158,7 @@ public final class HasselbladCapture79 {
                         .put("raw_save_operations",new JSONObject(saveMetrics.snapshot()));}
                 event(()->events.notifyImageSavedStatus(true,rawPath));
                 evidence.recordCapture79();evidence.finishRawSave(rawPath,true);
-            } else HasselbladCaptureSaveStatus.skipped("Stage81 JPEG-only: private DNG removed after rendering.");
+            } else HasselbladCaptureSaveStatus.skipped("Stage82 JPEG-only: private DNG removed after rendering.");
             if(!rawOnly) {
                 Path jpg=Paths.get(imageBase.toAbsolutePath()+".jpg");
                 stage="saving_jpeg";long saveStart=System.nanoTime();
@@ -173,7 +173,7 @@ public final class HasselbladCapture79 {
                     .put("capture_renderer_changed",!rawOnly).put("raw_saved",rawSaved).put("jpeg_saved",jpegSaved)
                     .put("total_milliseconds",(System.nanoTime()-start)/1e6);
             remember(context,receipt,directory);
-            event(()->events.onProcessingFinished("Hasselblad Stage81 capture saved"));event(callback::onFinished);
+            event(()->events.onProcessingFinished("Hasselblad Stage82 capture saved"));event(callback::onFinished);
             return true;
         } catch(Exception|LinkageError|OutOfMemoryError e) {
             boolean cancelled=Thread.currentThread().isInterrupted();
@@ -188,7 +188,7 @@ public final class HasselbladCapture79 {
                 receipt.put("cleanup_errors",cleanupErrors);
                 remember(context,receipt,renderCompleted?directory:null);}
             catch(Exception ignored) {Log.e(TAG,"Could not record capture failure",e);}
-            event(callback::onFailed);event(()->events.onProcessingError("Stage81 capture stopped: "+reason));
+            event(callback::onFailed);event(()->events.onProcessingError("Stage82 capture stopped: "+reason));
             return true;
         } finally {
             if(bitmap[0]!=null)bitmap[0].recycle();remove(directory);

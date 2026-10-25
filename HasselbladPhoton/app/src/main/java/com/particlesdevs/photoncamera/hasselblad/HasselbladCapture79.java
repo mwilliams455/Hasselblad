@@ -113,6 +113,7 @@ public final class HasselbladCapture79 {
                     exif.EXPOSURE_TIME=Double.toString(bridge.exposureNs/1e9);
                     if(bridge.aperture!=null)exif.F_NUMBER=bridge.aperture.toString();
                     if(bridge.focalLength!=null)exif.FOCAL_LENGTH=((int)(bridge.focalLength*100))+"/100";
+                    exif.COMPRESSION="6"; // TIFF/EXIF code for JPEG; encoder quality is separately 95.
                     exif.COLOR_SPACE="1";exif.IMAGE_WIDTH=Integer.toString(rendered.width);exif.IMAGE_LENGTH=Integer.toString(rendered.height);
                     exif.IMAGE_DESCRIPTION="Hasselblad Stage79; automatic LUT "+rendered.kelvin+" K; sensor interior crop32; sRGB";
                     ExifInterface tags=ParseExif.setAllAttributes(jpeg,exif);

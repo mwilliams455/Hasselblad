@@ -1,0 +1,78 @@
+{
+  "schema": "hasselblad-stage71-native-gradient-noise-parity-v1",
+  "status": "PASS_EXACT_BOUNDED_ORIGINAL_CPU_TWELVE_COMPONENT_SUBSTITUTION",
+  "date_utc": "2026-10-25",
+  "base_native_stage70_commit": "35abafe6bf53b0c138559d52e29bf4c4e7c5fdad",
+  "stage71_public_runner_commit": "2ad0ddf26f15e0e638b3bf76c7339b02d35a1186",
+  "stage66_original_cpu_scheduler": {
+    "status": "PASS_EXACT_SUPPORTED_NATIVE_CALL_BOUNDARIES",
+    "exact_supported_boundary_cases": 6,
+    "original_interpolate_invocations": 3,
+    "substituted_interpolate_invocations": 3
+  },
+  "stage67_original_cpu_green_site_gradients": {
+    "status": "PASS_BOUNDED_NATIVE_OPERAND_SUBSTITUTION",
+    "native_raw_gradient_samples_exact": 426,
+    "native_signed_edge_samples_exact": 426,
+    "raw_operand_substitutions": 213,
+    "final_rgb16_channels_exact": 73728,
+    "maximum_difference": 0
+  },
+  "stage68_original_cpu_colour_site_gradients": {
+    "status": "PASS_ORIGINAL_CPU_COLOUR_SITE_OPERAND",
+    "raw_gradient_samples_exact": 1062,
+    "signed_edge_samples_exact": 1062,
+    "raw_operand_substitutions": 531,
+    "final_rgb16_channels_exact": 172032,
+    "private_dng_tile_comparisons": 8
+  },
+  "stage71_original_cpu_twelve_component_substitution": {
+    "status": "PASS_EXACT_TWELVE_COMPONENT_SUBSTITUTION",
+    "independent_component_count": 12,
+    "original_vs_substituted_comparisons": 20,
+    "synthetic_comparisons": 12,
+    "private_dng_tile_comparisons": 8,
+    "highlight_modes": [
+      "bypass",
+      "bounded_highlight_Bayer_chain"
+    ],
+    "independent_colornoise_calls": 20,
+    "native_colornoise_body_executed_in_substitution": false,
+    "independent_ycc_calls_inside_colornoise": 171264,
+    "complete_output_linear_rgb16_channels_exact": 172032,
+    "maximum_absolute_rgb16_difference": 0,
+    "actual_native_colornoise_contexts": [
+      {
+        "flags": 65535,
+        "optimized_view": false,
+        "strength": 0,
+        "width": 96,
+        "height": 96,
+        "stride": 1024,
+        "calls": 16
+      },
+      {
+        "flags": 65535,
+        "optimized_view": false,
+        "strength": 0,
+        "width": 128,
+        "height": 128,
+        "stride": 1024,
+        "calls": 24
+      }
+    ],
+    "all_native_buffers_disjoint": true,
+    "native_original_interpolate_rgb_still_executed": true,
+    "source_and_profile_integrity_checked": true
+  },
+  "original_executable_in_git_or_CI": false,
+  "private_dng_pixels_or_hashes_published": false,
+  "private_calibration_lut_profiles_published": false,
+  "scene_specific_fitted_parameters": 0,
+  "complete_independent_demosaic": false,
+  "native_outer_frame_alignment_and_non_RGGB_CFA_parity": false,
+  "stage58_phone_build_changed": false,
+  "android_device_pixel_parity": false,
+  "physical_hasselblad_color_equivalence_established": false,
+  "next_checkpoint": "Independent InterpolateRGB complete pixel loop without remaining vendor arithmetic; Android/JNI pixel comparisons only after exact CPU parity."
+}

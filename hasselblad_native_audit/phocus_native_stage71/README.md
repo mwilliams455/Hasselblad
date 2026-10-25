@@ -13,8 +13,8 @@ Neither is in this repository or any GitHub Actions artifact. The original
 ARM64 CPU is executed via Unicorn only on the local private host.
 
 The graph's observed `ColorNoise` context is `flags=0xFFFF`, optimized-view
-false, extra noise strength zero, working width and height 128 and stride
-1024. The 14 required native colour/noise planes are present and mutually
+false, extra noise strength zero, working regions of 128×128 for synthetic
+cases and 96×96 for the saved-DNG tiles, both with stride 1024. The 14 required native colour/noise planes are present and mutually
 disjoint at this call site. The Stage71 runner rejects any other graph state,
 invalid dimensions, null pointers or overlapping spans, rather than silently
 processing unsupported modes. It snapshots every plane before independent C
@@ -69,6 +69,35 @@ under AddressSanitizer in CI. Existing Stage67/68 operand audit runners do
 **not** skip the inline SIMD itself: they compare/replace operands at the next
 native function boundary, which is a narrower parity claim than a fully
 independent pixel loop.
+
+## Executed original-CPU evidence — 25 October 2026
+
+These results were obtained from the locally supplied **original** Phocus
+executable and independent C implementations. Each fixture runs both the
+original graph and the graph with the declared C substitutions.
+
+| Test | Original-CPU result |
+| --- | ---: |
+| Stage66 supported scalar scheduling | 6 exact call-boundary cases |
+| Stage67 green-site RAW-gradient operands | 426 exact samples; 73,728 final RGB16 channels |
+| Stage67 Stage61 signed-edge operands | 426 exact samples |
+| Stage68 colour-site RAW-gradient operands | 1,062 exact samples |
+| Stage68 signed-edge operands | 1,062 exact samples |
+| Stage68 native colour-site DNG/synthetic RGB16 | 172,032 exact channels |
+| Stage71 connected native twelve-component comparisons | 20 exact |
+| Stage71 final linear RGB16 values | **172,032 exact; maximum difference 0** |
+| Stage71 independent `ColorNoise` body calls | 20; original body bypassed |
+| Stage71 C directional YCC operations inside ColorNoise | 171,264 |
+
+Stage71 compared six synthetic scenes and four interior DNG tiles with both
+highlight modes. The synthetic calls used 128×128 native working frames; DNG
+tiles used 96×96; both used 1024-element stride, 0xFFFF flags, optimized view
+off and zero extra noise strength. The private APK, photograph and decoded
+profiles were not changed and their pixels, hashes and executable material
+were not exported. This is a bounded original-CPU check, not a camera-scene
+fidelity measurement or a full independent `InterpolateRGB` replacement.
+
+Public aggregate report: `evidence/stage71/STAGE71_NATIVE_PARITY.json`.
 
 ## Further work after native parity
 

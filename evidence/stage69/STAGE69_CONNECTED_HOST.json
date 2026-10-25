@@ -1,0 +1,68 @@
+{
+  "schema": "hasselblad-stage69-connected-scalar-host-v1",
+  "status": "PASS_EXACT_INDEPENDENT_HOST_ORCHESTRATION",
+  "commit": "b8fbaca3dff2a6d2c88e58b60a57fc063c0bb71f",
+  "parent_stage68_commit": "40a7308d21fe280f7dd464a3027d36968a9fac69",
+  "branch": "experimental/phocus-integrated69",
+  "github_actions_run_url": "https://github.com/mwilliams455/Hasselblad/actions/runs/40170873089",
+  "github_actions_run_id": 40170873089,
+  "github_actions_status": "completed",
+  "github_actions_conclusion": "success",
+  "github_actions_job": "supported-scalar-host",
+  "run_log_marker": "STAGE69_HOST_COMPOSITION_16_CASES_PASS",
+  "synthetic_fixture_count": 16,
+  "fixture_shapes": [
+    {
+      "width": 24,
+      "height": 24,
+      "stride": 24
+    },
+    {
+      "width": 32,
+      "height": 40,
+      "stride": 43
+    },
+    {
+      "width": 64,
+      "height": 64,
+      "stride": 69
+    },
+    {
+      "width": 80,
+      "height": 88,
+      "stride": 96
+    }
+  ],
+  "synthetic_patterns": [
+    "neutral_10000",
+    "structured_ramp",
+    "seeded_random_RAW16",
+    "four_quadrant_high_range"
+  ],
+  "compared_image_site_positions_including_padding": 60640,
+  "compared_storage_elements_including_input_and_scratch": 667040,
+  "compared_storage_bytes": 1697920,
+  "compared_planes": 11,
+  "host_oracle_uses_same_mathematical_kernels": true,
+  "host_oracle_independently_orders_pixel_loops": true,
+  "native_vendor_code_in_host_comparison": false,
+  "stage61_62_63_67_68_independent_source_linked": true,
+  "stage66_wiring_and_schedule_linked": true,
+  "mock_pixel_interpolators_in_stage69_production_adapter": false,
+  "github_files_verified_exact": 5,
+  "maximum_absolute_host_difference": 0,
+  "address_sanitizer": true,
+  "undefined_behavior_sanitizer": true,
+  "invalid_geometry_alias_and_threshold_checks": true,
+  "source_raw_immutable": true,
+  "original_cpu_pixel_parity_tested": false,
+  "previous_stages64_65_native_parity_tested_here": false,
+  "android_jni_pixel_parity_tested": false,
+  "original_edge_scheduler_ported": false,
+  "complete_independent_original_CPU_demosaic_proven": false,
+  "phocus_equivalent_colour_match_proven": false,
+  "stage58_capture_renderer_unchanged": true,
+  "original_apk_included": false,
+  "private_dng_pixels_included": false,
+  "user_calibration_fitted": false
+}

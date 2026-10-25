@@ -1,0 +1,46 @@
+name: Stage70 Corrected ColorNoise Host Regression
+on:
+  push:
+    branches: [experimental/phocus-native70]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  corrected-host-colour:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Compile and run independent C regression under sanitizers
+        shell: bash
+        run: |
+          set -euo pipefail
+          D=hasselblad_native_audit
+          gcc -std=c11 -O1 -g -Wall -Wextra -Werror -fno-fast-math \
+            -ffp-contract=off -fsanitize=address,undefined \
+            -fno-sanitize-recover=all \
+            "$D/phocus_noise_stage65/noise65.c" \
+            "$D/phocus_noise_stage65/test_noise65.c" \
+            "$D/phocus_colour_stage64/ycc64.c" \
+            -o /tmp/stage70_corrected_colornoise_test
+          ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 \
+            /tmp/stage70_corrected_colornoise_test
+      - name: Recheck separate Python/C host oracle
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install --disable-pip-version-check numpy==2.3.5
+          python hasselblad_native_audit/phocus_noise_stage65/test_host65.py \
+            --work /tmp/stage70_python_host \
+            --safe-receipt /tmp/stage70_python_host.json
+          python - <<'PY'
+          import json
+          r=json.load(open('/tmp/stage70_python_host.json'))
+          assert r['status']=='PASS_INDEPENDENT_SYNTHETIC_HOST_CHECKS'
+          assert r['synthetic_input_cases']==384
+          assert r['max_difference']==0
+          print('STAGE70_COLOUR_NOISE_HOST_384_CASES_PASS')
+          PY

@@ -59,12 +59,16 @@ def reference65(a, width, height, flags, optimized_view=0, strength=0):
                 a['c1'][p] = int(np.int16(np.uint16(((abs(r-g)*32768)//(total+1)) * (1 if r>=g else -1) & 65535)))
                 a['c2'][p] = int(np.int16(np.uint16(((abs(b-g)*32768)//(total+1)) * (1 if b>=g else -1) & 65535)))
                 ctr['converted_sites'] += 1
+        # The original clamp starts at horizontal column zero, not eight;
+        # flat indexing preserves its negative-neighbour cross-row accesses.
+        flat_y=a['y'].ravel()
         for yy in range(8,height-8):
-            for xx in range(8,width-8):
-                neighbours = [int(a['y'][yy+dy,xx+dx]) for dy in (-1,0,1)
-                              for dx in (-1,0,1) if (dx,dy)!=(0,0)]
-                value=int(a['y'][yy,xx])
-                a['y'][yy,xx]=min(max(value,min(neighbours)),max(neighbours))
+            for xx in range(0,width-16):
+                center=yy*stride+xx
+                neighbours=[int(flat_y[center+dy*stride+dx]) for dy in (-1,0,1)
+                            for dx in (-1,0,1) if (dx,dy)!=(0,0)]
+                value=int(flat_y[center])
+                flat_y[center]=min(max(value,min(neighbours)),max(neighbours))
                 ctr['clamped_sites'] += 1
     if (flags & 0x40) and not optimized_view and height >= 3:
         for yy in range(1,height-1):

@@ -51,11 +51,13 @@ int hb_color_noise_prepare65(const HBNoiseContext65 *c, HBNoiseCounters65 *count
             if (counts) ++counts->converted_sites;
         }
     }
-    /* Original mutates its Y plane in scan order; do NOT precompute a parallel
-     * min/max image or use a non-overlapping temporary, as that changes the
-     * already-updated neighbour reads at subsequent sites. */
+    /* Original uses an *asymmetric horizontal coordinate* for this second
+     * (clamp) pass. Conversion writes columns [8,width-8), while the native
+     * clamp stores to [0,width-16). Its neighbour reads may wrap across row
+     * starts for x==0; preserve flat storage indexing exactly. The mask and
+     * row bounds remain those of the native bounded CPU branch. */
     for (int yy=8; yy<c->height-8; ++yy) {
-        for (int xx=8; xx<c->width-8; ++xx) {
+        for (int xx=0; xx<c->width-16; ++xx) {
             const size_t p=(size_t)yy*s+(size_t)xx;
             unsigned minval=65535u,maxval=0u;
             for (int dy=-1; dy<=1; ++dy) for (int dx=-1; dx<=1; ++dx) {
@@ -113,11 +115,12 @@ int hb_color_noise_correct65(const HBNoiseContext65 *c, HBNoiseCounters65 *count
         const size_t p=(size_t)yy*s+(size_t)xx;
         int16_t new_c1=c->c1[p], new_c2=c->c2[p];
         if(c->direction_mask[p]!=0) {
-            /* OutC2 is the additional plane at native object offset 0x80.
-             * The final local result is the helper's fourth scalar output. */
+            /* Native YCC output references: (outY, localC1, localC2, auxiliary).
+             * Stack order is localC1 at +0, localC2 at +8, auxiliary at +16.
+             * Do not exchange the localC2 and auxiliary references. */
             if(hb_directional_ycc64(c->direction_mask[p],c->y+p,c->c1+p,c->c2+p,
                         c->smooth_y+p,c->median_c1+p,c->median_c2+p,
-                        c->out_y+p,&new_c1,c->out_aux+p,&new_c2,c->stride)!=0)
+                        c->out_y+p,&new_c1,&new_c2,c->out_aux+p,c->stride)!=0)
                 return -1;
             if(counts)++counts->nonzero_mask_sites;
         } else {

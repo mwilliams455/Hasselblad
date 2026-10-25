@@ -1,0 +1,65 @@
+{
+  "schema": "hasselblad-stage70-native-colour-reconciliation-v1",
+  "status": "PASS_BOUNDED_ORIGINAL_CPU_YCC_AND_COLORNOISE",
+  "private_original_cpu_executed": true,
+  "original_cpu_ycc": {
+    "cases": 3840,
+    "exact_output_codes": 15360,
+    "max_absolute_difference": 0,
+    "strides": [
+      3,
+      8,
+      19
+    ],
+    "mask_coverage": 256
+  },
+  "original_cpu_colornoise": {
+    "cases": 48,
+    "compared_storage_elements": 525840,
+    "native_ycc_calls": 482,
+    "unique_low_direction_masks": 209,
+    "manual_flags": [
+      32,
+      64,
+      96
+    ],
+    "extended_strength": 0,
+    "exact": true
+  },
+  "observed_graph": {
+    "flags": 65535,
+    "optimized_view": false,
+    "positive_strength": false,
+    "native_call_count_total": 6,
+    "distinct_original_substituted_modes": [
+      "original",
+      "substituted"
+    ],
+    "directional_ycc_calls": {
+      "original": 32448,
+      "substituted": 32448
+    },
+    "work_dimensions": [
+      128,
+      128
+    ]
+  },
+  "regressions_fixed": [
+    "Y clamp scans native flat-column interval [0,width-16), not converted RGB interval [8,width-8)",
+    "ColorNoise passes YCC scalar outputs (outY, localC1, localC2, auxiliary), with localC2 and auxiliary not swapped"
+  ],
+  "rechecked_independent_host": {
+    "cases": 384,
+    "full_storage_comparisons": 4315584,
+    "unsupported_positive_strength_cases": 64,
+    "max_difference": 0
+  },
+  "native_graph_scope": "Existing bounded Stage63 graph fixture, not all camera modes",
+  "full_composed_gradient_original_cpu_rgb16_parity": false,
+  "host_jni_device_rgb16_parity": false,
+  "photographic_colour_equivalence": false,
+  "original_apk_or_vendor_binary_in_public_payload": false,
+  "private_dng_or_calibration_in_public_payload": false,
+  "normal_capture_renderer_changed": false,
+  "device_baseline": "Stage58 0.1-hb-rawprep58 / version code 27197"
+}

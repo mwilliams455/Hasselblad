@@ -18,6 +18,8 @@ import com.particlesdevs.photoncamera.processing.ImageFrame;
 import com.particlesdevs.photoncamera.processing.ImageFrameDeblur;
 import com.particlesdevs.photoncamera.processing.ImageSaver;
 import com.particlesdevs.photoncamera.hasselblad.HasselbladCaptureEvidence;
+import com.particlesdevs.photoncamera.hasselblad.HasselbladCapture79;
+import com.particlesdevs.photoncamera.hasselblad.HasselbladDevelopmentPolicy;
 import com.particlesdevs.photoncamera.hasselblad.HasselbladGpuStageProbe;
 
 import com.particlesdevs.photoncamera.hasselblad.HasselbladCaptureSaveStatus;
@@ -95,6 +97,17 @@ public class HdrxProcessor extends ProcessorBase {
 
     public void Run() {
         try {
+            // Stage79 reads original sensor counts and matched metadata before Photon changes.
+            // false guarantees untouched buffer ownership for the existing fallback.
+            if (HasselbladDevelopmentPolicy.isEnabled() && cameraMode == CameraMode.PHOTO
+                    && imageFormat == CaptureController.RAW_FORMAT && alignAlgorithm != 2) {
+                if (HasselbladCapture79.handle(PhotonCamera.getAppContext(),mImageFramesToProcess,
+                        captureEvidence,cameraRotation,
+                        ImageFormatConfig.resolve(saveRAW,PhotonCamera.getSettings().isHeicSave()),
+                        dngFile,imageFile,exifData,callback,processingEventsListener)) return;
+            } else {
+                HasselbladCapture79.fallback(PhotonCamera.getAppContext(),"Capture mode outside the Stage79 single-RAW PHOTO contract");
+            }
             Camera2ApiAutoFix.ApplyRes(captureResult);
             if (imageFormat == CaptureController.RAW_FORMAT) {
                 ApplyHdrX();

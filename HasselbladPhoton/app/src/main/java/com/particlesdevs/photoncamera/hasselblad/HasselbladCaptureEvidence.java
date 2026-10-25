@@ -55,6 +55,8 @@ public final class HasselbladCaptureEvidence {
     private final boolean sensorProvenanceMatched;
     private final boolean requiredMetadataPresent;
     private final String pairingStatus;
+    private final CameraCharacteristics originalCharacteristics79;
+    private final CaptureResult originalResult79;
 
     private HasselbladCaptureEvidence(int imageCount, ImageFrame frame,
                                        CameraCharacteristics suppliedCharacteristics,
@@ -198,6 +200,8 @@ public final class HasselbladCaptureEvidence {
                 ? JSONObject.NULL : Long.toString(resultTimestamp));
         originalStill.put("logical_frame_number", stillResult == null ? JSONObject.NULL : Long.toString(stillResult.getFrameNumber()));
         requiredMetadataPresent = missing.length() == 0;
+        originalCharacteristics79 = selectedCharacteristics;
+        originalResult79 = selectedResult;
         rawGeometryUsable = imageCount == 1 && frame.sourceRawFormat == ImageFormat.RAW_SENSOR
                 && !frame.sourceBinned && frame.width > 0 && frame.height > 0
                 && frame.sourceRawWidth >= frame.width && frame.sourceRawHeight >= frame.height
@@ -257,6 +261,22 @@ public final class HasselbladCaptureEvidence {
      * The Stage6 result is copied from the dev screen AFTER rendering because
      * the original .capture.json sidecar has already been saved at this point.
      */
+    public HasselbladDngBridge79 bridge79(ImageFrame frame, int rotation) throws Exception {
+        if (!sensorProvenanceMatched || !requiredMetadataPresent
+                || !"image_timestamp_equals_selected_still_result_timestamp".equals(pairingStatus))
+            throw new java.io.IOException("Original RAW/still sensor metadata is not verified (API 31+ provenance required)");
+        return new HasselbladDngBridge79(frame, originalCharacteristics79, originalResult79, rotation);
+    }
+
+    public void recordCapture79() throws Exception {
+        document.put("stage79_export", new JSONObject()
+                .put("metadata_source", "matched_original_still_before_Photon_fix")
+                .put("raw_values", "original_sensor_counts_row_padding_removed_only")
+                .put("writer", "existing_DngCreator_with_original_metadata")
+                .put("photon_colour_applied", false));
+        document.put("pixel_rendering_changed_by_sidecar", false);
+    }
+
     public JSONObject stage6OriginalIdentity() {
         try {
             if (!document.getBoolean("calibration_evidence_usable")

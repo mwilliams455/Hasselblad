@@ -48,12 +48,13 @@ android {
         buildConfigField 'String', 'HB76_SOURCE', '"' + (System.getenv('GITHUB_SHA') ?: 'local-uncommitted') + '"'
         buildConfigField 'String', 'HB77_SOURCE', '"' + (System.getenv('GITHUB_SHA') ?: 'local-uncommitted') + '"'
         buildConfigField 'String', 'HB78_SOURCE', '"' + (System.getenv('GITHUB_SHA') ?: 'local-uncommitted') + '"'
+        buildConfigField 'String', 'HB79_SOURCE', '"' + (System.getenv('GITHUB_SHA') ?: 'local-uncommitted') + '"'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         ndk {
             //noinspection ChromeOsAbiSupport
             abiFilters "arm64-v8a", "armeabi-v7a"
         }
-        versionName '0.1-hb-prep78'
+        versionName '0.1-hb-shutter79'
         versionProps['VERSION_NAME'] = versionName
         proguardFiles
     }

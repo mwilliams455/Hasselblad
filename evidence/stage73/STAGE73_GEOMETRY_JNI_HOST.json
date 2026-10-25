@@ -1,0 +1,202 @@
+{
+  "schema": "hasselblad-stage73-bounded-native-geometry-and-jni-v1",
+  "status": "PASS_BOUNDED_NATIVE_RECTANGLE_AND_HOST_JNI",
+  "stage72_reference_commit": "ccac834d0588c095dc12a1936b1bd9e076cee23f",
+  "native_original_cpu_outer_geometry": {
+    "completed_fixture_count": 5,
+    "cases": [
+      {
+        "output_wh": [
+          9,
+          11
+        ],
+        "native_work_wh": [
+          80,
+          80
+        ],
+        "native_stride": 1024,
+        "flags": "0xffff",
+        "source_overlap_exact": true,
+        "returned_original_output_shape": [
+          11,
+          9,
+          3
+        ]
+      },
+      {
+        "output_wh": [
+          12,
+          15
+        ],
+        "native_work_wh": [
+          80,
+          80
+        ],
+        "native_stride": 1024,
+        "flags": "0xffff",
+        "source_overlap_exact": true,
+        "returned_original_output_shape": [
+          15,
+          12,
+          3
+        ]
+      },
+      {
+        "output_wh": [
+          18,
+          34
+        ],
+        "native_work_wh": [
+          88,
+          104
+        ],
+        "native_stride": 1024,
+        "flags": "0xffff",
+        "source_overlap_exact": true,
+        "returned_original_output_shape": [
+          34,
+          18,
+          3
+        ]
+      },
+      {
+        "output_wh": [
+          23,
+          31
+        ],
+        "native_work_wh": [
+          88,
+          96
+        ],
+        "native_stride": 1024,
+        "flags": "0xffff",
+        "source_overlap_exact": true,
+        "returned_original_output_shape": [
+          31,
+          23,
+          3
+        ]
+      },
+      {
+        "output_wh": [
+          33,
+          35
+        ],
+        "native_work_wh": [
+          104,
+          104
+        ],
+        "native_stride": 1024,
+        "flags": "0xffff",
+        "source_overlap_exact": true,
+        "returned_original_output_shape": [
+          35,
+          33,
+          3
+        ]
+      }
+    ],
+    "work_alignment_empirical_rule": "round_up(output_size + 64, 8) for the listed fixtures only",
+    "native_extra_alignment_tail_is_normal_reflection_or_edge_repeat_or_zero": false,
+    "native_outer_frame_general_alignment_proven": false
+  },
+  "native_original_cpu_new_full_pixel_replacement": {
+    "paired_comparisons": 4,
+    "comparisons": [
+      {
+        "output_wh": [
+          12,
+          15
+        ],
+        "rgb16_values_exact": 540,
+        "maximum_difference": 0,
+        "original_RGB_and_noise_bodies_skipped": true
+      },
+      {
+        "output_wh": [
+          9,
+          11
+        ],
+        "rgb16_values_exact": 297,
+        "maximum_difference": 0,
+        "original_RGB_and_noise_bodies_skipped": true
+      },
+      {
+        "output_wh": [
+          23,
+          31
+        ],
+        "rgb16_values_exact": 2139,
+        "maximum_difference": 0,
+        "original_RGB_and_noise_bodies_skipped": true
+      },
+      {
+        "output_wh": [
+          33,
+          35
+        ],
+        "rgb16_values_exact": 3465,
+        "maximum_difference": 0,
+        "original_RGB_and_noise_bodies_skipped": true
+      }
+    ],
+    "exact_final_linear_rgb16_values": 6441,
+    "max_absolute_difference": 0,
+    "original_InterpolateRGB_and_ColorNoise_bodies_skipped": true,
+    "original_crop_and_output_wrapper_still_executes": true
+  },
+  "native_original_cpu_pre_noise_cropped_buffer": {
+    "comparisons": 2,
+    "exact_pre_noise_intermediate_codes": 3572,
+    "max_absolute_difference": 0,
+    "code_order": [
+      "red",
+      "green",
+      "blue",
+      "packed_direction_mask"
+    ],
+    "fixture_shapes_wh": [
+      [
+        12,
+        15
+      ],
+      [
+        23,
+        31
+      ]
+    ],
+    "compared_against_independent_frame73_C_API_not_a_second_host_calculation": true
+  },
+  "independent_host_c_api": {
+    "synthetic_fixtures": 36,
+    "renders_with_two_tail_fills": 72,
+    "all_two_tail_crop_outputs_equal": true,
+    "alignment_tail_is_a_host_test_policy_not_native_equivalence": true,
+    "input_stride_padding_guards": true,
+    "invalid_CFA_flags_thresholds_and_capacities_rejected": true,
+    "error_output_unmodified": true,
+    "GCC_ASan_UBSan_passed": true,
+    "Clang_ASan_UBSan_passed": true
+  },
+  "JVM_JNI_test": {
+    "real_java_to_shared_C_JNI_execution": true,
+    "neutral_pixels_exact_10000_R_G_B": true,
+    "input_immutable": true,
+    "output_guards_valid": true,
+    "invalid_CFA_and_size_rejected": true,
+    "Java_source_output_array_alias_rejected": true,
+    "device_Android_JNI_parity_executed": false
+  },
+  "interface_contract": {
+    "input": "already prepared RGGB uint16 with 32px halo, explicit stride",
+    "output": "cropped RGB16+direction-mask, before ColorNoise/YCC or main colour look",
+    "full_DNG_import_available": false,
+    "final_post_noise_sRGB_image_rendered": false,
+    "phone_full_12MP_path_available": false
+  },
+  "source_APK_DNG_and_private_profile_unchanged": true,
+  "private_vendor_executable_pixels_hashes_matrices_published": false,
+  "original_CFA_phase_and_arbitrary_full_frame_handling_proven": false,
+  "capture_renderer_changed": false,
+  "phone_build_remains": "0.1-hb-rawprep58 / 27197"
+}

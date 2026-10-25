@@ -1,0 +1,23 @@
+name: Stage73 Bounded Frame and Host JNI
+on:
+  push:
+    branches:
+      - experimental/phocus-frame73
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  public-frame73:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Compile independent Stage61–73 pipeline and run C/JNI tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash hasselblad_native_audit/phocus_frame_stage73/run_host73.sh "$RUNNER_TEMP/hb-frame73"

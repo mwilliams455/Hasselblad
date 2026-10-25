@@ -45,12 +45,13 @@ android {
         targetSdkVersion 35
         versionCode versionBuild
         buildConfigField 'String', 'HB75_SOURCE', '"' + (System.getenv('GITHUB_SHA') ?: 'local-uncommitted') + '"'
+        buildConfigField 'String', 'HB76_SOURCE', '"' + (System.getenv('GITHUB_SHA') ?: 'local-uncommitted') + '"'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         ndk {
             //noinspection ChromeOsAbiSupport
             abiFilters "arm64-v8a", "armeabi-v7a"
         }
-        versionName '0.1-hb-device75'
+        versionName '0.1-hb-scene76'
         versionProps['VERSION_NAME'] = versionName
         proguardFiles
     }

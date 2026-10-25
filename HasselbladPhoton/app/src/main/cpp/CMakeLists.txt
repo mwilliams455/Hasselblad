@@ -388,3 +388,10 @@ endif()
 get_filename_component(HB74_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/../../../../../hasselblad_native_audit/phocus_output_stage74" ABSOLUTE)
 add_subdirectory("${HB74_ROOT}" "${CMAKE_CURRENT_BINARY_DIR}/hbfinal74")
 set_target_properties(hbfinal74 PROPERTIES LINK_FLAGS "-Wl,-z,defs,-z,max-page-size=16384")
+
+# Stage76: band assembly of unchanged Stage74 64x64 calls; no synthetic outer borders.
+get_filename_component(HB76_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/../../../../../hasselblad_native_audit/phocus_scene_stage76" ABSOLUTE)
+add_library(hbframe76 SHARED "${HB76_ROOT}/frame76.c" "${HB76_ROOT}/jni76.c")
+target_link_libraries(hbframe76 PRIVATE hbfinal74)
+target_compile_options(hbframe76 PRIVATE -O2 -Wall -Wextra -Werror -fno-fast-math -ffp-contract=off)
+set_target_properties(hbframe76 PROPERTIES C_STANDARD 11 C_STANDARD_REQUIRED ON LINK_FLAGS "-Wl,-z,defs,-z,max-page-size=16384")

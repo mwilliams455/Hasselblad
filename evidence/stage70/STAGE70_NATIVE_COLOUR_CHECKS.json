@@ -1,6 +1,6 @@
 {
   "schema": "hasselblad-stage70-native-colour-reconciliation-v1",
-  "status": "PASS_BOUNDED_ORIGINAL_CPU_YCC_AND_COLORNOISE",
+  "status": "PASS_EXACT_BOUNDED_NATIVE_YCC_COLORNOISE_AND_ELEVEN_COMPONENT_SUBSTITUTION",
   "private_original_cpu_executed": true,
   "original_cpu_ycc": {
     "cases": 3840,
@@ -61,5 +61,36 @@
   "original_apk_or_vendor_binary_in_public_payload": false,
   "private_dng_or_calibration_in_public_payload": false,
   "normal_capture_renderer_changed": false,
-  "device_baseline": "Stage58 0.1-hb-rawprep58 / version code 27197"
+  "device_baseline": "Stage58 0.1-hb-rawprep58 / version code 27197",
+  "original_cpu_colornoise_graph_flags_fixture": {
+    "flags": 65535,
+    "cases": 4,
+    "exact_storage_elements": 56140,
+    "native_ycc_calls": 162,
+    "max_difference": 0,
+    "note": "Manual synthetic 0xffff original-C comparison in bounded zero-strength CPU route; separate from the 48-case fixture suite"
+  },
+  "original_cpu_connected_eleven_component_substitution": {
+    "status": "PASS_EXACT_ELEVEN_COMPONENT_SUBSTITUTION",
+    "independently_substituted_kernel_count": 11,
+    "synthetic_comparisons": 16,
+    "fixed_dng_comparisons": 8,
+    "additional_dng_comparisons": 8,
+    "synthetic_exact_rgb16_channels": 153432,
+    "fixed_dng_exact_rgb16_channels": 24576,
+    "additional_dng_exact_rgb16_channels": 9216,
+    "total_exact_rgb16_channels": 187224,
+    "original_cpu_invocations": 32,
+    "substituted_cpu_invocations": 32,
+    "replaced_original_function_bodies_executed": false,
+    "directional_ycc_c_substitution_calls": 217344,
+    "max_difference": 0,
+    "output_domain": "linear RGB16, prior to main colour LUT, film/finishing and display",
+    "private_dng_source_image_published": false,
+    "reconstructed_full_original_pixel_loop": false
+  },
+  "eleven_component_original_cpu_substitution_parity": true,
+  "remaining_original_pixel_orchestration_and_noise_execute": true,
+  "non_graph_colournoise_noise_strength_positive_mode_equivalence": false,
+  "full_independent_gradient_demosaic": false
 }

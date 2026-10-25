@@ -1,0 +1,69 @@
+name: Stage72 Independent Scalar Host Regression
+on:
+  push:
+    branches:
+      - experimental/phocus-independent72
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  independent-scalar-host:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Syntax-check private-runner source without vendor inputs
+        run: |
+          set -euo pipefail
+          python -m py_compile hasselblad_native_audit/phocus_native_stage72/audit_independent72.py
+      - name: Compile all canonical independent interpolation components with ASan and UBSan
+        shell: bash
+        run: |
+          set -euo pipefail
+          D=hasselblad_native_audit
+          gcc -std=c11 -O1 -g -Wall -Wextra -Werror -fno-fast-math \
+            -ffp-contract=off -fsanitize=address,undefined -fno-sanitize-recover=all \
+            "$D/phocus_integrated_stage69/interpolate69.c" \
+            "$D/phocus_integrated_stage69/test_integrated69.c" \
+            "$D/phocus_schedule_stage66/schedule66.c" \
+            "$D/phocus_schedule_stage66/wiring66.c" \
+            "$D/phocus_gradient_stage61/gradient_maps61.c" \
+            "$D/phocus_interpolation_stage62/interpolation62.c" \
+            "$D/phocus_green_stage63/green63.c" \
+            "$D/phocus_inline_stage67/raw_gradient67.c" \
+            "$D/phocus_inline_stage67/green_site_mask67.c" \
+            "$D/phocus_coloursite_stage68/colour_gradient68.c" \
+            "$D/phocus_coloursite_stage68/colour_site68.c" \
+            -lm -o /tmp/hb-stage72-interpolation
+      - name: Test independent composition and register counters
+        run: |
+          set -euo pipefail
+          ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 /tmp/hb-stage72-interpolation
+      - name: Compile corrected independent ColorNoise/YCC with ASan and UBSan
+        shell: bash
+        run: |
+          set -euo pipefail
+          D=hasselblad_native_audit
+          gcc -std=c11 -O1 -g -Wall -Wextra -Werror -fno-fast-math \
+            -ffp-contract=off -fsanitize=address,undefined -fno-sanitize-recover=all \
+            "$D/phocus_noise_stage65/noise65.c" \
+            "$D/phocus_colour_stage64/ycc64.c" \
+            "$D/phocus_noise_stage65/test_noise65.c" \
+            -lm -o /tmp/hb-stage72-colournoise
+          ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 /tmp/hb-stage72-colournoise
+      - name: Independent Python ColorNoise oracle
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install 'numpy==2.3.5'
+          python hasselblad_native_audit/phocus_noise_stage65/test_host65.py \
+            --work /tmp/hb-stage72-noise-host --safe-receipt /tmp/hb-stage72-noise.json
+          python - <<'PY'
+          import json
+          d=json.load(open('/tmp/hb-stage72-noise.json'))
+          assert d['status']=='PASS_INDEPENDENT_SYNTHETIC_HOST_CHECKS',d
+          print('STAGE72_INDEPENDENT_HOST_TESTS_PASS')
+          PY

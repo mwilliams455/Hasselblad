@@ -1,0 +1,105 @@
+{
+  "schema": "hasselblad-stage72-independent-scalar-original-cpu-v1",
+  "status": "PASS_EXACT_INDEPENDENT_INTERPOLATERGB_AND_COLORNOISE_BOUNDED",
+  "source_checkpoint_parent": "4b715fc8ee254f039b4705ff96b83753a1b0c286",
+  "test_day": "2026-10-25",
+  "separate_original_cpu_and_fully_substituted_graphs": true,
+  "native_interpolate_rgb_body_executed_in_substituted_path": false,
+  "native_colornoise_body_executed_in_substituted_path": false,
+  "Stage61_to_Stage69_independent_C_interpolator_used": true,
+  "Stage64_Stage65_corrected_independent_C_colournoise_used": true,
+  "groups": {
+    "synthetic": {
+      "fixture_groups": 8,
+      "comparisons": 16,
+      "linear_rgb16_values_compared": 153432,
+      "maximum_absolute_difference": 0,
+      "independent_rgb_replacements": 16,
+      "independent_colornoise_replacements": 16
+    },
+    "fixed_private_dng": {
+      "fixture_groups": 4,
+      "comparisons": 8,
+      "linear_rgb16_values_compared": 24576,
+      "maximum_absolute_difference": 0,
+      "independent_rgb_replacements": 8,
+      "independent_colornoise_replacements": 8
+    },
+    "additional_private_dng": {
+      "fixture_groups": 4,
+      "comparisons": 8,
+      "linear_rgb16_values_compared": 9216,
+      "maximum_absolute_difference": 0,
+      "independent_rgb_replacements": 8,
+      "independent_colornoise_replacements": 8
+    }
+  },
+  "total_original_cpu_comparisons": 32,
+  "total_independent_replacement_comparisons": 32,
+  "total_exact_final_linear_rgb16_values": 187224,
+  "maximum_absolute_final_rgb16_difference": 0,
+  "original_cpu_return_status_and_output_guards_checked": true,
+  "source_apk_and_dng_unchanged": true,
+  "source_preparation": "Stage58 bounded common-range normalization and gain-map clamps; quantized to Bayer before interpolation, not the phone Stage58 display buffer",
+  "measured_native_scalar_configuration": {
+    "flags": "0xFFFF",
+    "optimized_view": false,
+    "additional_colour_noise_strength": 0,
+    "stride_elements": 1024,
+    "scale_threshold": 1.0,
+    "edge_gradient_floor": 32,
+    "raw_gradient_floor": 200,
+    "CFA": "aligned RGGB",
+    "working_width_height_pairs": [
+      [
+        128,
+        128
+      ],
+      [
+        96,
+        96
+      ],
+      [
+        88,
+        80
+      ],
+      [
+        104,
+        88
+      ]
+    ],
+    "specific_alignment_witness": {
+      "output_width": 34,
+      "output_height": 18,
+      "working_width": 104,
+      "working_height": 88
+    }
+  },
+  "independent_intermediate_plane_result": {
+    "synthetic_patterns": 6,
+    "interior_margin_pixels_each_side": 8,
+    "independently_matched_RGB16_plane_codes": 225792,
+    "independently_matched_packed_direction_codes": 75264,
+    "native_outer_mask_storage_matches_portable_all_sites": false,
+    "note": "The 8-pixel interior matches exactly; outside this declared interior the native and C direction-mask storage may differ, as native allocators leave some sites unwritten."
+  },
+  "host_sanitizer_self_tests": {
+    "Stage69_composition_16_cases": true,
+    "Stage65_corrected_colournoise_C11": true
+  },
+  "native_test_UBSan_smoke": {
+    "cases": 3,
+    "fixtures": "one neutral synthetic bypass and one fixed DNG tile both highlight modes",
+    "passed": true
+  },
+  "other_original_graph_wrappers_still_execute": true,
+  "standalone_original_DNG_import_port_complete": false,
+  "native_alignment_and_full_frame_edge_policy_proven": false,
+  "Android_JNI_device_pixel_parity": false,
+  "non_RGGB_modes_validated": false,
+  "physical_Hasselblad_camera_colour_equivalence_proven": false,
+  "full_Phocus_equivalence": false,
+  "camera_capture_renderer_changed": false,
+  "camera_build_remains": "0.1-hb-rawprep58 / 27197",
+  "private_vendor_APK_DNG_profiles_and_pixels_published": false
+}

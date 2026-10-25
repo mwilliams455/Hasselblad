@@ -33,6 +33,13 @@ jobs:
           (wheel_dir/'WHEEL_MANIFEST.json').write_text(json.dumps(record,indent=2)+'\n')
           print('STAGE70_PUBLIC_WHEELS_READY', names)
           PY
+      - name: Include checked-out public audit source only
+        shell: bash
+        run: |
+          set -euo pipefail
+          tar -czf /tmp/hb-public-native-wheels/HASSELDBLAD_PUBLIC_AUDIT_SOURCE.tar.gz \
+            hasselblad_native_audit
+          sha256sum /tmp/hb-public-native-wheels/HASSELDBLAD_PUBLIC_AUDIT_SOURCE.tar.gz
       - name: Upload public emulator toolchain only
         uses: actions/upload-artifact@v4
         with:

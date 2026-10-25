@@ -421,8 +421,8 @@ public final class HasselbladCaptureEvidence {
             dng.put("bytes", size);
             dng.put("sha256", toHex(digest.digest()));
             document.put("dng", dng);
-            if (!document.has("effective_photon_export"))
-                throw new IllegalStateException("effective Photon snapshot not captured");
+            if (!document.has("effective_photon_export") && !document.has("stage79_export"))
+                throw new IllegalStateException("capture export snapshot not captured");
             byte[] payload = document.toString(2).getBytes(java.nio.charset.StandardCharsets.UTF_8);
             try (OutputStream stream = openSavedSidecar(context, sidecarPath)) {
                 stream.write(payload);

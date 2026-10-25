@@ -52,7 +52,9 @@ public final class HasselbladDngActivity43 extends BaseActivity {
         });
         TextView title=new TextView(this);title.setText("Saved DNG colour");title.setTextSize(22);root.addView(title);
         status=new TextView(this);status.setText("Import your .hbc colour profile, then open a saved DNG. " +
-            "The preview uses that DNG’s calibration and white balance. Camera photos still use Photon.");root.addView(status);
+            "The preview uses that DNG’s calibration and white balance. Tone comparison uses the same saved-DNG calibration.");root.addView(status);
+        MaterialButton tone83=new MaterialButton(this);tone83.setText("Tone curve comparison");
+        tone83.setOnClickListener(v->{if(!busy)startActivity(new android.content.Intent(this,HasselbladTone83Activity.class));});root.addView(tone83);
         importProfile=new MaterialButton(this);importProfile.setText("Import colour profile");
         importProfile.setOnClickListener(v->{if(!busy)profilePicker.launch(new String[]{"*/*"});});root.addView(importProfile);
         open=new MaterialButton(this);open.setText("Open saved DNG");
@@ -311,7 +313,7 @@ public final class HasselbladDngActivity43 extends BaseActivity {
                     if(isFinishing()||isDestroyed()){result.recycle();enhanced.recycle();if(finish!=null)finish.recycle();if(auto!=null)auto.recycle();if(only!=null)only.recycle();if(raw!=null)raw.recycle();base.recycle();return;}
                     experiment=result;highlight=enhanced;finished=finish;automatic=auto;automaticOnly=only;rawPrepared=raw;baseline=base;report=receipt;previewMode=0;
                     previewSummary=p.width+" × "+p.height+" · "+(done-start)+" ms total\n"+
-                        automaticSummary+"Uses this DNG’s white balance. Camera photos still use Photon.";
+                        automaticSummary+"Uses this DNG’s white balance. Tone comparison uses the same saved-DNG calibration.";
                     setBusy(false);show();
                 });rendered=reconstructed=completed=autoCompleted=onlyCompleted=rawCompleted=reference=null;
             }catch(Exception|LinkageError e){fail(e);}

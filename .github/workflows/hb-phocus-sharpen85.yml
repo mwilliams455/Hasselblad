@@ -1,0 +1,35 @@
+name: Stage85 bounded CPU sharpening core
+"on":
+  push:
+    branches: [experimental/phocus-sharpen85]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Keep validated camera application unchanged
+        run: |
+          test -z "$(git diff --name-only 415fafef00d26a4df2af84d667bcc8f87ae9690b HEAD -- HasselbladPhoton)"
+      - name: Install synthetic test dependency
+        run: python -m pip install numpy==2.2.6
+      - name: Portable kernel and row partition checks
+        run: python hasselblad_native_audit/phocus_sharpen_stage85/check85.py --work "$RUNNER_TEMP/hb85"
+      - name: Address and undefined behaviour sanitizers
+        run: |
+          gcc -std=c11 -O1 -g -Wall -Wextra -Wconversion -Werror -ffp-contract=off -fsanitize=address,undefined -fno-omit-frame-pointer hasselblad_native_audit/phocus_sharpen_stage85/sharpen85.c hasselblad_native_audit/phocus_sharpen_stage85/check85.c -lm -o "$RUNNER_TEMP/hb85/sanitize85"
+          ASAN_OPTIONS=detect_leaks=1 "$RUNNER_TEMP/hb85/sanitize85"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Stage85-public-core-validation
+          path: ${{ runner.temp }}/hb85/STAGE85_HOST_VALIDATION.json
+          retention-days: 14

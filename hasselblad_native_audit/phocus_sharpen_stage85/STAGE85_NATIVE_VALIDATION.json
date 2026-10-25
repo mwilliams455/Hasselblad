@@ -1,0 +1,80 @@
+{
+  "schema": "hasselblad-stage85-native-sharpen-v1",
+  "status": "PASS_BOUNDED_CPU_SHARPENING",
+  "graph_binding": {
+    "sequence": [
+      "ColorCorrectAll",
+      "FilmCurve",
+      "16CGradationFilter",
+      "Sharpness",
+      "ColorSpaceConvert"
+    ],
+    "gradation_version": 1,
+    "full_resolution_sdr_settings": {
+      "amount": 100,
+      "radius": 1.0,
+      "noise_limit": 0,
+      "dark_limit": 10,
+      "scale": 1.0,
+      "normalization": 1.0
+    },
+    "original_sharpness_constructor_executed": true,
+    "graph_ownership_fixture": true,
+    "raw_description_fixture": {
+      "sensor_codes": [
+        22,
+        6
+      ],
+      "width": 64,
+      "height": 64,
+      "baseline_sharpness_field": 0.0,
+      "sharpness_compensation_field": 0
+    },
+    "phone_specific_sharpness_calibration_established": false
+  },
+  "host_checks": {
+    "portable_cases": 96,
+    "halo_partition_exact_cases": 56,
+    "invalid_input_cases": 18,
+    "inplace_exact": true,
+    "default_settings": [
+      100,
+      1.0,
+      0,
+      10
+    ]
+  },
+  "native_row_cases": 70,
+  "native_row_rgb14_channels": 135090,
+  "native_table_values_compared": 2097488,
+  "native_row_max_abs_difference": 0,
+  "native_full_wrapper_cases": 20,
+  "native_full_wrapper_rgb16_channels": 37500,
+  "native_full_wrapper_max_abs_difference": 0,
+  "guards_and_input_checks_passed": true,
+  "source_apk_unchanged": true,
+  "host_libm_fixture": true,
+  "first_and_horizontal_row_extension_executed_natively": true,
+  "last_row_replication_fixture": true,
+  "full_wrapper_interior_margin": 4,
+  "blur_conversion_singleton_fixture_unused_by_verified_path": true,
+  "graph_and_buffer_ownership_fixtures": true,
+  "android_integrated": false,
+  "capture_renderer_changed": false,
+  "demosaic_retested": false,
+  "private_payload_exported": false,
+  "parameters_fitted_to_photos": false,
+  "limits": [
+    "full-resolution SDR only; no resize compensation, blur or local adjustments",
+    "outer image boundary policy is not established by the interior wrapper comparison",
+    "host reference allocates luma planes; Android needs streaming rows and JNI integration",
+    "no GPU/live-preview or phone-specific sharpening calibration equivalence"
+  ],
+  "source_sha256": {
+    "audit85.py": "eb975f0f126e30788eda916979b11d3f7ce3e3097baa0b9b5b5434039ab54e12",
+    "check85.py": "09505fd99f12dcef62b9e573817e611216d4945b129997962af7fa44056af7f0",
+    "oracle85.py": "b1208c8fd7ad1f01d251d9fb2e7f7e45905bf245b2f50b628bda73f8a09c12a3",
+    "sharpen85.c": "65cc6a39fb3524255c7293d62f98658cd193077e970d14b2ba2af3e0f60a3fe9",
+    "sharpen85.h": "ea1baa84fb736ade7573e51287997c059048c40c16b42872fe5f53d70b2e807c"
+  }
+}

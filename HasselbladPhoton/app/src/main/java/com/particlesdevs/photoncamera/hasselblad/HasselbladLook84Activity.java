@@ -19,6 +19,8 @@ import java.util.*;
 public final class HasselbladLook84Activity extends BaseActivity {
     private TextView status,active,last;
     private MaterialButton curve0,curve1;
+    private CheckBox diagnostics;
+    private boolean updatingDiagnostics;
     private final List<MaterialButton> controls=new ArrayList<>();
     private boolean busy;
     private volatile boolean destroyed;
@@ -46,12 +48,20 @@ public final class HasselbladLook84Activity extends BaseActivity {
         button(root,"Import automatic colour profile (.hbc)",()->profilePicker.launch(new String[]{"*/*"}));
         button(root,"Import tone pack (.hbt)",()->packPicker.launch(new String[]{"*/*"}));
         button(root,"Compare tone curves on a saved DNG",()->startActivity(new Intent(this,HasselbladTone83Activity.class)));
+        button(root,"Compare sharpening on a saved DNG",()->startActivity(new Intent(this,HasselbladSharp86Activity.class)));
+        diagnostics=new CheckBox(this);diagnostics.setText("Capture diagnostics");
+        diagnostics.setChecked(HasselbladDiagnostics86.enabled(this));root.addView(diagnostics);
+        diagnostics.setOnCheckedChangeListener((button,checked)->{if(updatingDiagnostics||busy)return;
+            run("Saving diagnostic preference…",()->{HasselbladDiagnostics86.setEnabled(this,checked);
+                if(!checked){HasselbladCapture79.clearDiagnostics86(this);HasselbladSceneDiagnostics.reset();HasselbladDomainDiagnostics.clear();}
+                return checked?"Diagnostics enabled for new captures.":"Diagnostics off. New captures create no capture JSON or cached comparison files.";});});
+        TextView diagnosticHelp=new TextView(this);diagnosticHelp.setText("Leave diagnostics off for ordinary photos. Enable only for a requested capture investigation. Choose Save → JPEG in camera settings for JPEG-only shooting. Explicit saved-DNG comparisons remain available.");root.addView(diagnosticHelp);
         last=new TextView(this);last.setTextIsSelectable(true);root.addView(last);
         button(root,"Last photo details and export",()->startActivity(new Intent(this,HasselbladCapture79Activity.class)));
         button(root,"Refresh",()->refresh(null));button(root,"Back",this::finish);setContentView(scroll);
     }
     @Override protected void onResume(){super.onResume();if(!busy)refresh(null);}
-    private void busy(boolean value){busy=value;for(MaterialButton b:controls)b.setEnabled(!value);curve0.setEnabled(false);curve1.setEnabled(false);}
+    private void busy(boolean value){busy=value;if(diagnostics!=null)diagnostics.setEnabled(!value);for(MaterialButton b:controls)b.setEnabled(!value);curve0.setEnabled(false);curve1.setEnabled(false);}
     private interface Work {String run()throws Exception;}
     private void run(String message,Work task) {
         busy(true);status.setText(message);
@@ -90,7 +100,7 @@ public final class HasselbladLook84Activity extends BaseActivity {
             String capture;
             try {
                 String text=HasselbladCapture79.lastReport(this);
-                if(!text.startsWith("{"))capture="No camera photo report yet.";
+                if(!text.startsWith("{"))capture=text;
                 else {
                     JSONObject j=new JSONObject(text);String state=j.optString("status");
                     if("HASSELBLAD_SHUTTER_RENDERED".equals(state))
@@ -102,6 +112,7 @@ public final class HasselbladLook84Activity extends BaseActivity {
             }catch(Exception e){capture="Last photo report unavailable.";}
             final String a=activeText,d=detail,s=hash,c=capture;final int f=film;final boolean enabled=compatible;
             runOnUiThread(()->{if(destroyed)return;profileHash=s;active.setText(a);last.setText(c);status.setText((notice==null?"":notice+"\n")+d);
+                updatingDiagnostics=true;diagnostics.setChecked(HasselbladDiagnostics86.enabled(this));updatingDiagnostics=false;
                 busy(false);curve0.setEnabled(enabled&&f!=0);curve1.setEnabled(enabled&&f!=1);
                 curve0.setText(f==0?"Curve 0 · active":"Use curve 0 · brighter midtones");curve1.setText(f==1?"Curve 1 · active":"Use curve 1 · deeper midtones");});
         },"HB84-status");worker.start();

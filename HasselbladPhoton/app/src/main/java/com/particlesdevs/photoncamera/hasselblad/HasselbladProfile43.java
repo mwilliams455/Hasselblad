@@ -136,6 +136,11 @@ public final class HasselbladProfile43 {
         if(!hasNativeFinishing)throw new IllegalStateException("Import a finishing-enabled colour profile");
         return HasselbladRenderer42.outputSrgb16(HasselbladRenderer42.defaultGradation(rendered),outputMatrix,outputExponent);
     }
+    /** Output conversion for comparison streams already carrying default-gradated RGB16. */
+    public short[] outputGradatedRgb16(short[] gradated) {
+        if(!hasNativeFinishing)throw new IllegalStateException("Import a finishing-enabled colour profile");
+        return HasselbladRenderer42.outputSrgb16(gradated,outputMatrix,outputExponent);
+    }
     public static int[] srgb16ToArgb(short[] rgb) {
         if(rgb==null||rgb.length%3!=0)throw new IllegalArgumentException("Invalid sRGB16 input");
         int[] pixels=new int[rgb.length/3];

@@ -29,6 +29,9 @@ public final class HasselbladSceneRenderer79 {
         if (Thread.currentThread().isInterrupted()) throw new IOException("Capture cancelled");
     }
     public static Result render(File dng, HasselbladProfile43 profile, int workers, Sink sink) throws IOException {
+        return render(dng,profile,workers,true,sink);
+    }
+    public static Result render(File dng,HasselbladProfile43 profile,int workers,boolean diagnostics,Sink sink)throws IOException {
         interrupted();
         if (!profile.hasAutomaticIlluminant || !profile.hasNativeFinishing)
             throw new IOException("Import the Stage56 automatic .hbc profile on Saved DNG colour first.");
@@ -37,7 +40,7 @@ public final class HasselbladSceneRenderer79 {
         long t=System.nanoTime();
         var prepared=HasselbladDngTileReader.readPrepared78(dng).frame;
         r.preparationNs=System.nanoTime()-t; t=System.nanoTime();
-        r.checkedSites=HasselbladDngTileReader.validatePrepared78(dng,prepared);
+        r.checkedSites=diagnostics?HasselbladDngTileReader.validatePrepared78(dng,prepared):0;
         r.referenceNs=System.nanoTime()-t;
         var m=prepared.metadata;
         r.rawWidth=m.width; r.rawHeight=m.height;
@@ -58,7 +61,7 @@ public final class HasselbladSceneRenderer79 {
             short[] rgb=HasselbladFrame77.band(prepared.bayer,m.width,m.height,y,workers);
             r.demosaicNs+=System.nanoTime()-t;
             int rows=Math.min(64,r.height-y);
-            if (rows==64 && (y==0 || y==middle || y==last)) {
+            if (diagnostics && rows==64 && (y==0 || y==middle || y==last)) {
                 int tile=r.width>=256?256:64;
                 int x=Math.max(0,Math.min(r.width-64,((r.width/2)/tile)*tile-16))&~1;
                 short[] input=new short[128*128], out=new short[64*64*3];

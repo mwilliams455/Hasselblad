@@ -47,6 +47,8 @@ import java.util.Map;
  */
 public final class HasselbladCaptureEvidence {
     private static final String TAG = "HasselbladCaptureEvidence";
+    private final boolean diagnostics86 = HasselbladDiagnostics86.enabled(PhotonCamera.getAppContext());
+    public boolean diagnosticsEnabled86(){return diagnostics86;}
     private final JSONObject document = new JSONObject();
     private final JSONObject originalStill = new JSONObject();
     private final JSONObject effective = new JSONObject();
@@ -231,8 +233,10 @@ public final class HasselbladCaptureEvidence {
         document.put("pixel_rendering_changed_by_sidecar", false);
         // Cache only the proved original sensor calibration for an opt-in
         // later development-screen check; never run Domain1 in this capture path.
-        HasselbladDomainDiagnostics.rememberCapture(document);
-        document.put("scene_candidate_diagnostics", HasselbladSceneDiagnostics.run(document, frame));
+        if(diagnostics86) {
+            HasselbladDomainDiagnostics.rememberCapture(document);
+            document.put("scene_candidate_diagnostics", HasselbladSceneDiagnostics.run(document, frame));
+        }
     }
 
     /** Must be called before Camera2ApiAutoFix.ApplyRes (from HdrxProcessor.start). */
@@ -395,6 +399,9 @@ public final class HasselbladCaptureEvidence {
 
     /** Write only when a DNG is saved; never pretend success from a file path alone. */
     public void finishRawSave(Path dngPath, boolean dngSaved) {
+        if(!diagnostics86 || !HasselbladDiagnostics86.enabled(PhotonCamera.getAppContext())) {
+            HasselbladCaptureSaveStatus.skipped("Capture diagnostics are off; no capture JSON written.");return;
+        }
         if (!dngSaved || dngPath == null) {
             HasselbladCaptureSaveStatus.skipped("DNG was not saved; capture evidence cannot be paired.");
             return;

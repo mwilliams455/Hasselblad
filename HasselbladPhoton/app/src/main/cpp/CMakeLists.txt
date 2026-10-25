@@ -402,3 +402,11 @@ add_library(hbframe77 SHARED "${HB77_ROOT}/frame77.c" "${HB77_ROOT}/jni77.c")
 target_link_libraries(hbframe77 PRIVATE hbfinal74)
 target_compile_options(hbframe77 PRIVATE -O2 -Wall -Wextra -Werror -fno-fast-math -ffp-contract=off)
 set_target_properties(hbframe77 PROPERTIES C_STANDARD 11 C_STANDARD_REQUIRED ON LINK_FLAGS "-Wl,-z,defs,-z,max-page-size=16384")
+
+# Stage86 bounded sharpening comparison. The existing colour library is unchanged.
+get_filename_component(HB85_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/../../../../../hasselblad_native_audit/phocus_sharpen_stage85" ABSOLUTE)
+add_library(hbsharp86 SHARED hasselblad/hb_sharpen86_jni.c "${HB85_ROOT}/sharpen85.c")
+target_include_directories(hbsharp86 PRIVATE "${HB85_ROOT}")
+target_compile_options(hbsharp86 PRIVATE -O2 -Wall -Wextra -Werror -ffp-contract=off)
+target_link_libraries(hbsharp86 m)
+set_target_properties(hbsharp86 PROPERTIES C_STANDARD 11 C_STANDARD_REQUIRED ON LINK_FLAGS "-Wl,-z,defs,-z,max-page-size=16384")

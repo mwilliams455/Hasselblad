@@ -36,14 +36,15 @@ public final class HasselbladCapture79 {
         }
     }
     private static JSONObject report(String status) throws Exception {
-        return new JSONObject().put("schema","hasselblad-stage84-capture-v1").put("status",status)
+        return new JSONObject().put("schema","hasselblad-stage86-capture-v1").put("status",status)
                 .put("version_name",BuildConfig.VERSION_NAME).put("version_code",BuildConfig.VERSION_CODE)
-                .put("source_commit",BuildConfig.HB84_SOURCE).put("physical_sensor_colour_match_proved",false)
+                .put("source_commit",BuildConfig.HB86_SOURCE).put("physical_sensor_colour_match_proved",false)
                 .put("private_profile_or_full_dng_exported",false);
     }
-    private static void remember(Context context,JSONObject report,File results) {
+    private static void remember(Context context,JSONObject report,File results,boolean diagnostics) {
         synchronized(REPORT_LOCK) {
             File target=latest(context);remove(target);
+            if(!diagnostics||!HasselbladDiagnostics86.enabled(context))return;
             try {
                 if(!target.mkdir())throw new IOException("Cannot create capture report folder");
                 if(results!=null)for(File f:results.listFiles())
@@ -54,14 +55,21 @@ public final class HasselbladCapture79 {
         }
     }
     public static void fallback(Context context,String reason) {
-        try{remember(context,report("PHOTON_FALLBACK").put("reason",reason).put("capture_renderer_changed",false),null);}
+        try{remember(context,report("PHOTON_FALLBACK").put("reason",reason).put("capture_renderer_changed",false),null,HasselbladDiagnostics86.enabled(context));}
         catch(Exception e){Log.e(TAG,"Cannot record fallback",e);}
     }
+    public static void clearDiagnostics86(Context context) {
+        synchronized(REPORT_LOCK){remove(latest(context));}
+    }
     public static String lastReport(Context context) throws IOException {
+        if(!HasselbladDiagnostics86.enabled(context)) {
+            clearDiagnostics86(context);return "Capture diagnostics are off. Photos are saved normally; no capture report or comparison is retained.";
+        }
         synchronized(REPORT_LOCK){File f=new File(latest(context),"report.json");
             return f.isFile()?new String(Files.readAllBytes(f.toPath()),StandardCharsets.UTF_8):"Take a photo first. No capture report is available.";}
     }
     public static void export(Context context,OutputStream output) throws IOException {
+        if(!HasselbladDiagnostics86.enabled(context))throw new IOException("Enable capture diagnostics and take a new photo before exporting.");
         synchronized(REPORT_LOCK) {
             File folder=latest(context);File[] files=folder.listFiles();
             if(files==null || !new File(folder,"report.json").isFile())throw new IOException("No capture report available");
@@ -77,6 +85,7 @@ public final class HasselbladCapture79 {
             ProcessorBase.ProcessingCallback callback,ProcessingEventsListener events) {
         cleanupOnce(context);
         if(frames==null || frames.size()!=1 || evidence==null) {fallback(context,"Single RAW and matched original still metadata required");return false;}
+        final boolean diagnostics=evidence.diagnosticsEnabled86();
         File directory=null;Bitmap[] bitmap={null};boolean owned=false,publicationStarted=false;
         String stage="eligibility";
         boolean renderCompleted=false;
@@ -90,6 +99,7 @@ public final class HasselbladCapture79 {
                 if(!profile.hasAutomaticIlluminant || !profile.hasNativeFinishing)throw new IOException("Import the Stage56 automatic .hbc profile first");
             }
             receipt=report("PREPARING").put("save_mode",saveMode).put("metadata_source","original_matched_still_before_Photon_fix")
+                    .put("capture_diagnostics",diagnostics).put("sharpening_applied",false)
                     .put("dng_writer","existing_writer_original_metadata").put("raw_saved",false).put("jpeg_saved",false);
             if(profile!=null)receipt.put("film_curve_code",profile.film)
                     .put("profile_sha256",HasselbladLook84.sha256(profile.encoded()))
@@ -108,7 +118,7 @@ public final class HasselbladCapture79 {
                 if(!rawOnly) {
                     int workers=Math.max(1,Math.min(4,Runtime.getRuntime().availableProcessors()));
                     stage="rendering";
-                    rendered=HasselbladSceneRenderer79.render(dng,profile,workers,new HasselbladSceneRenderer79.Sink() {
+                    rendered=HasselbladSceneRenderer79.render(dng,profile,workers,diagnostics,new HasselbladSceneRenderer79.Sink() {
                         public void begin(int w,int h){bitmap[0]=Bitmap.createBitmap(w,h,Bitmap.Config.ARGB_8888);}
                         public void band(int y,int rows,int w,int[] pixels){bitmap[0].setPixels(pixels,0,w,0,y,w,rows);}
                     });
@@ -176,7 +186,7 @@ public final class HasselbladCapture79 {
                     .put("render_completed",renderCompleted).put("storage_backend","primary_DCIM_granted_document_tree")
                     .put("capture_renderer_changed",!rawOnly).put("raw_saved",rawSaved).put("jpeg_saved",jpegSaved)
                     .put("total_milliseconds",(System.nanoTime()-start)/1e6);
-            remember(context,receipt,directory);
+            remember(context,receipt,directory,diagnostics);
             event(()->events.onProcessingFinished("Hasselblad capture saved"));event(callback::onFinished);
             return true;
         } catch(Exception|LinkageError|OutOfMemoryError e) {
@@ -190,7 +200,7 @@ public final class HasselbladCapture79 {
                 JSONArray cleanupErrors=new JSONArray();
                 for(Throwable cleanup:e.getSuppressed())cleanupErrors.put(cleanup.toString());
                 receipt.put("cleanup_errors",cleanupErrors);
-                remember(context,receipt,renderCompleted?directory:null);}
+                remember(context,receipt,renderCompleted?directory:null,diagnostics);}
             catch(Exception ignored) {Log.e(TAG,"Could not record capture failure",e);}
             event(callback::onFailed);event(()->events.onProcessingError("Hasselblad capture stopped: "+reason));
             return true;

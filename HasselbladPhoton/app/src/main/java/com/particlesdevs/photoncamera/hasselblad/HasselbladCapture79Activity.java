@@ -38,17 +38,18 @@ public final class HasselbladCapture79Activity extends BaseActivity {
         ViewCompat.setOnApplyWindowInsetsListener(scroll,(v,insets)->{Insets b=insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(pad+b.left,pad+b.top,pad+b.right,pad+b.bottom);return WindowInsetsCompat.CONSUMED;});
         TextView title=new TextView(this);title.setText("Last camera photo");title.setTextSize(22);root.addView(title);
-        TextView help=new TextView(this);help.setText("Use the imported automatic .hbc profile, standard RAW, 4:3 and no digital zoom. Take a normal PHOTO. " +
+        TextView help=new TextView(this);help.setText("Capture diagnostics must be enabled in Hasselblad rendering before the photo is taken. Leave them off for ordinary shooting. " +
+                "Use the imported automatic .hbc profile, standard RAW, 4:3 and no digital zoom. " +
                 "Compatible captures use the validated colour renderer with a 32-pixel edge crop; other captures use Photon and record the reason below. " +
                 "New photos record the curve and profile used at capture time. " +
                 "The export includes the last JPEG, report and small Bayer/RGB samples, including a completed render if public saving fails. It excludes the full DNG and profile.");root.addView(help);
         status=new TextView(this);status.setTextIsSelectable(true);root.addView(status);
         MaterialButton refresh=new MaterialButton(this);refresh.setText("Refresh last capture report");refresh.setOnClickListener(v->refresh());root.addView(refresh);
         save=new MaterialButton(this);save.setText("Export last shutter comparison ZIP");
-        save.setOnClickListener(v->exporter.launch("Hasselblad_Stage84_Shutter_Comparison.zip"));root.addView(save);
+        save.setOnClickListener(v->exporter.launch("Hasselblad_Stage86_Shutter_Comparison.zip"));root.addView(save);
         MaterialButton back=new MaterialButton(this);back.setText("Back");back.setOnClickListener(v->finish());root.addView(back);
         setContentView(scroll);refresh();
     }
-    private void refresh(){try{status.setText(HasselbladCapture79.lastReport(this));}catch(Exception e){status.setText("Report unavailable: "+e.getMessage());}}
+    private void refresh(){save.setEnabled(HasselbladDiagnostics86.enabled(this));try{status.setText(HasselbladCapture79.lastReport(this));}catch(Exception e){status.setText("Report unavailable: "+e.getMessage());}}
     @Override protected void onDestroy(){destroyed=true;super.onDestroy();}
 }

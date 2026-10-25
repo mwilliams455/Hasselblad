@@ -1,0 +1,40 @@
+name: Stage69 Synthetic Host Composition
+on:
+  push:
+    branches:
+      - experimental/phocus-integrated69
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  supported-scalar-host:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile independent source with sanitizers
+        shell: bash
+        run: |
+          set -euo pipefail
+          D=hasselblad_native_audit
+          gcc -std=c11 -O1 -g -Wall -Wextra -Werror \
+            -fno-fast-math -ffp-contract=off \
+            -fsanitize=address,undefined -fno-sanitize-recover=all \
+            "$D/phocus_integrated_stage69/interpolate69.c" \
+            "$D/phocus_integrated_stage69/test_integrated69.c" \
+            "$D/phocus_schedule_stage66/schedule66.c" \
+            "$D/phocus_schedule_stage66/wiring66.c" \
+            "$D/phocus_gradient_stage61/gradient_maps61.c" \
+            "$D/phocus_interpolation_stage62/interpolation62.c" \
+            "$D/phocus_green_stage63/green63.c" \
+            "$D/phocus_inline_stage67/raw_gradient67.c" \
+            "$D/phocus_inline_stage67/green_site_mask67.c" \
+            "$D/phocus_coloursite_stage68/colour_gradient68.c" \
+            "$D/phocus_coloursite_stage68/colour_site68.c" \
+            -lm -o /tmp/hb_stage69_synthetic_host
+      - name: Run 16 independent-composition fixtures
+        shell: bash
+        run: |
+          set -euo pipefail
+          ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 \
+            /tmp/hb_stage69_synthetic_host

@@ -46,6 +46,8 @@
             android:theme="@style/Theme.Photon.SettingsActivity" />
         <activity android:name="com.particlesdevs.photoncamera.hasselblad.HasselbladScene76Activity"
             android:exported="false" />
+        <activity android:name="com.particlesdevs.photoncamera.hasselblad.HasselbladScene77Activity"
+            android:exported="false" />
         <activity android:name="com.particlesdevs.photoncamera.hasselblad.HasselbladDevice75Activity"
             android:exported="false" />
         <activity android:name="com.particlesdevs.photoncamera.hasselblad.HasselbladDngActivity43"

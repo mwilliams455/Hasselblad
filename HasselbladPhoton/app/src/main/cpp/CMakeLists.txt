@@ -395,3 +395,10 @@ add_library(hbframe76 SHARED "${HB76_ROOT}/frame76.c" "${HB76_ROOT}/jni76.c")
 target_link_libraries(hbframe76 PRIVATE hbfinal74)
 target_compile_options(hbframe76 PRIVATE -O2 -Wall -Wextra -Werror -fno-fast-math -ffp-contract=off)
 set_target_properties(hbframe76 PROPERTIES C_STANDARD 11 C_STANDARD_REQUIRED ON LINK_FLAGS "-Wl,-z,defs,-z,max-page-size=16384")
+
+# Stage77 compact wide tiles, up to four isolated workers.
+get_filename_component(HB77_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/../../../../../hasselblad_native_audit/phocus_speed_stage77" ABSOLUTE)
+add_library(hbframe77 SHARED "${HB77_ROOT}/frame77.c" "${HB77_ROOT}/jni77.c")
+target_link_libraries(hbframe77 PRIVATE hbfinal74)
+target_compile_options(hbframe77 PRIVATE -O2 -Wall -Wextra -Werror -fno-fast-math -ffp-contract=off)
+set_target_properties(hbframe77 PROPERTIES C_STANDARD 11 C_STANDARD_REQUIRED ON LINK_FLAGS "-Wl,-z,defs,-z,max-page-size=16384")

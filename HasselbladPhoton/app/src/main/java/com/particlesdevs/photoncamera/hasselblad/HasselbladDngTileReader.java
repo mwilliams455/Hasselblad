@@ -628,4 +628,110 @@ public final class HasselbladDngTileReader {
             result.preparation58=prep;return result;
         }
     }
+
+    /** Exact prepared mosaic for a bounded 64x64 output; never samples a frame edge.
+     *  Quantizes BEFORE interpolation. Does not assert original Phocus DNG import parity. */
+    public static final class Bounded75 {
+        public final ReadResult metadata;
+        public final short[] bayer;
+        public final int x,y,orientation;
+        public final long belowBlack,atWhite,gainClips;
+        Bounded75(ReadResult m,short[] b,int x,int y,int o,long below,long white,long clips) {
+            metadata=m;bayer=b;this.x=x;this.y=y;orientation=o;
+            belowBlack=below;atWhite=white;gainClips=clips;
+        }
+    }
+    public static Bounded75 readBounded75(File path,int region)throws IOException {
+        must(region>=0&&region<5,"stage75_region_invalid");
+        try(RandomAccessFile raf=new RandomAccessFile(path,"r")) {
+            Tiff tif=new Tiff(raf);Page[] pages=locate(tif);Page root=pages[0],p=choose(tif,pages);
+            long wide=tif.ints(p.tags.get(WIDTH),1)[0],high=tif.ints(p.tags.get(HEIGHT),1)[0];
+            must(wide>=128&&high>=128&&wide<=8192&&high<=8192&&wide*high<=16777216,
+                "stage75_standard_raw_dimensions_required");
+            int w=(int)wide,h=(int)high;
+            must(tif.ints(p.tags.get(BITS),1)[0]==16,"raw_not_16bit");
+            must(tif.ints(p.tags.get(COMPRESSION),1)[0]==1,"compressed_dng_not_supported");
+            must(tif.ints(p.tags.get(SAMPLES),1)[0]==1,"multisample_dng_not_supported");
+            must(inherited(p,root,DNG_VERSION)!=null,"not_dng_missing_version");
+            requireSceneReference(tif,p,root);
+            for(int tag:new int[]{PLANAR_CONFIG,266,339,50711}) {
+                Tag t=inherited(p,root,tag);
+                if(t!=null)must(tif.ints(t,1)[0]==1,"unsupported_raw_layout_"+tag);
+            }
+            must(Arrays.equals(tif.ints(inherited(p,root,CFA_DIMS),2),new long[]{2,2}),"unsupported_CFA_repeat");
+            must(Arrays.equals(tif.ints(inherited(p,root,CFA_PATTERN),4),new long[]{0,1,1,2}),"unsupported_CFA_not_RGGB");
+            for(int tag:new int[]{OPCODE1,OPCODE3,50712,50715,50716})
+                must(inherited(p,root,tag)==null,"unsupported_raw_correction_"+tag);
+            Tag active=inherited(p,root,50829);
+            if(active!=null)must(Arrays.equals(tif.ints(active,4),new long[]{0,0,h,w}),"active_area_crop_not_supported");
+            Tag origin=inherited(p,root,50719),crop=inherited(p,root,50720);
+            if(origin!=null)must(Arrays.equals(tif.numbers(origin,2),new double[]{0,0}),"default_crop_origin_not_supported");
+            if(crop!=null)must(Arrays.equals(tif.numbers(crop,2),new double[]{w,h}),"default_crop_size_not_supported");
+            Tag orient=inherited(p,root,274);int orientation=orient==null?1:(int)tif.ints(orient,1)[0];
+            must(orientation==1||orientation==3||orientation==6||orientation==8,"unsupported_orientation");
+            Tag bt=inherited(p,root,BLACK),wt=inherited(p,root,WHITE);
+            must(bt!=null&&(bt.count==1||bt.count==4),"unsupported_black_level_shape");
+            double[] black=tif.numbers(bt,(int)bt.count);
+            Tag repeat=inherited(p,root,50713);
+            if(black.length==4)must(repeat!=null&&Arrays.equals(tif.ints(repeat,2),new long[]{2,2}),"unsupported_black_level_repeat");
+            else if(repeat!=null)must(Arrays.equals(tif.ints(repeat,2),new long[]{1,1}),"unsupported_black_level_repeat");
+            must(wt!=null&&(wt.count==1||wt.count==4),"unsupported_white_level_shape");
+            double[] whites=tif.numbers(wt,(int)wt.count);double white=whites[0];
+            must(white>0&&white<=65535,"white_level_invalid");
+            for(double value:whites)must(value==white,"nonuniform_white_level_not_supported");
+            for(double value:black)must(value>=0&&value<white,"black_level_invalid");
+            boolean useCalibration=calibrationMatches(tif,p,root);
+            double[] fm1=optional(tif,p,root,FM1,9),fm2=optional(tif,p,root,FM2,9),
+                cc1=useCalibration?optional(tif,p,root,CC1,9):null,
+                cc2=useCalibration?optional(tif,p,root,CC2,9):null,
+                analog=optional(tif,p,root,ANALOG,3),neutral=optional(tif,p,root,NEUTRAL,3);
+            must(fm1!=null&&neutral!=null,"DNG_forward_matrix_and_neutral_required");
+            must((fm2==null||Arrays.equals(fm1,fm2))&&(cc2==null||(cc1!=null&&Arrays.equals(cc1,cc2))),
+                "dual_illuminant_interpolation_not_supported");
+            Tag opcode=inherited(p,root,OPCODE2);
+            List<Gain> maps=opcode==null?new ArrayList<>():gainMaps(tif.bytes(opcode),w,h);
+            long[] offsets=tif.ints(p.tags.get(STRIP_OFFSETS),8192),counts=tif.ints(p.tags.get(STRIP_COUNTS),8192);
+            long rowsPerStrip=tif.ints(p.tags.get(ROWS_PER_STRIP),1)[0];
+            must(rowsPerStrip>0&&rowsPerStrip<=Integer.MAX_VALUE&&offsets.length==counts.length&&
+                (h+rowsPerStrip-1)/rowsPerStrip==offsets.length,"strip_count_mismatch");
+            for(int i=0;i<offsets.length;i++) {
+                long rows=Math.min(rowsPerStrip,h-i*rowsPerStrip);
+                must(counts[i]>=rows*w*2L,"strip_not_contiguous_16bit_rows");tif.range(offsets[i],counts[i]);
+            }
+
+            // Regions are output origins in sensor coordinates. All halos contain real samples.
+            int x=((w-64)/2)&~1,y=((h-64)/2)&~1;
+            if(region>0){x=(region==1||region==3)?32:((w-96)&~1);
+                y=(region==1||region==2)?32:((h-96)&~1);}
+            must(x>=32&&y>=32&&x+96<=w&&y+96<=h,"stage75_halo_outside_sensor");
+            double maxBlack=black[0];for(double level:black)maxBlack=Math.max(maxBlack,level);
+            double commonRange=white-maxBlack;
+            short[] bayer=new short[128*128];byte[] bytes=new byte[256];
+            long below=0,atWhite=0,clips=0;int applied=0;
+            for(int row=0;row<128;row++) {
+                if(Thread.currentThread().isInterrupted())throw new IOException("DNG tile cancelled");
+                int gy=y-32+row,strip=(int)(gy/rowsPerStrip);
+                long position=offsets[strip]+(gy%rowsPerStrip)*w*2L+(x-32)*2L;
+                tif.range(position,bytes.length);raf.seek(position);raf.readFully(bytes);
+                ByteBuffer b=ByteBuffer.wrap(bytes).order(tif.endian);
+                for(int col=0;col<128;col++) {
+                    int gx=x-32+col,raw=b.getShort()&65535;
+                    double siteBlack=black.length==1?black[0]:black[((gy&1)<<1)|(gx&1)];
+                    if(raw<siteBlack)below++;if(raw>=white)atWhite++;
+                    float bounded=Math.max(0f,Math.min(1f,(float)((raw-siteBlack)/commonRange)));
+                    for(Gain g:maps)if(g.affects(gy,gx)) {
+                        double product=bounded*gainReference(g,gy,gx,w,h);
+                        if(product>1)clips++;
+                        bounded=(float)Math.min(product,1.);applied++;
+                    }
+                    must(Float.isFinite(bounded)&&bounded>=0,"stage75_gainmap_invalid_result");
+                    bayer[row*128+col]=(short)(int)(bounded*65535f);
+                }
+            }
+            ReadResult metadata=new ReadResult(w,h,16,offsets.length,
+                opcode==null?"absent":"opcode2_gainmap_only",maps.size(),applied,
+                fm1,fm2,cc1,cc2,analog,neutral,new double[0],illuminant(tif,p,root));
+            return new Bounded75(metadata,bayer,x,y,orientation,below,atWhite,clips);
+        }
+    }
 }

@@ -383,3 +383,8 @@ if (${ANDROID_ABI} STREQUAL "arm64-v8a"
             log
             dl)
 endif()
+
+# Stage75 saved-DNG diagnostic only: exact portable Stage74 target, both app ABIs.
+get_filename_component(HB74_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/../../../../../hasselblad_native_audit/phocus_output_stage74" ABSOLUTE)
+add_subdirectory("${HB74_ROOT}" "${CMAKE_CURRENT_BINARY_DIR}/hbfinal74")
+set_target_properties(hbfinal74 PROPERTIES LINK_FLAGS "-Wl,-z,defs,-z,max-page-size=16384")

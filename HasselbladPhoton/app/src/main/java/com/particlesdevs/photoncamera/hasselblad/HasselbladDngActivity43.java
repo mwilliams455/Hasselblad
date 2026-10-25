@@ -28,7 +28,7 @@ import java.io.IOException;
 public final class HasselbladDngActivity43 extends BaseActivity {
     private TextView status;
     private ImageView image;
-    private MaterialButton importProfile,open,toggle,copy;
+    private MaterialButton importProfile,open,toggle,copy,device75;
     private HasselbladProfile43 profile;
     private Bitmap experiment,highlight,finished,automatic,automaticOnly,rawPrepared,baseline;
     private boolean busy;
@@ -59,6 +59,9 @@ public final class HasselbladDngActivity43 extends BaseActivity {
         open.setOnClickListener(v->{if(!busy)dngPicker.launch(new String[]{"*/*"});});root.addView(open);
         toggle=new MaterialButton(this);toggle.setText("Show highlight reconstruction");
         toggle.setOnClickListener(v->{previewMode=nextMode();show();});root.addView(toggle);
+        device75=new MaterialButton(this);device75.setText("Stage75 · demosaic + colour tile test");
+        device75.setOnClickListener(v->{if(!busy)startActivity(new android.content.Intent(this,HasselbladDevice75Activity.class));});
+        root.addView(device75);
         copy=new MaterialButton(this);copy.setText("Copy render report");
         copy.setOnClickListener(v->{
             ClipboardManager clipboard=getSystemService(ClipboardManager.class);
@@ -78,7 +81,7 @@ public final class HasselbladDngActivity43 extends BaseActivity {
         },"HB43-profile-restore");worker.start();
     }
     private void setBusy(boolean value) {
-        busy=value;importProfile.setEnabled(!busy);open.setEnabled(!busy&&profile!=null);
+        busy=value;device75.setEnabled(!busy);importProfile.setEnabled(!busy);open.setEnabled(!busy&&profile!=null);
         toggle.setEnabled(!busy&&experiment!=null);copy.setEnabled(!busy&&report!=null);
     }
     private void clearPreview() {

@@ -23,6 +23,7 @@ public final class HasselbladSceneRenderer79 {
         public int rawWidth, rawHeight, width, height, orientation, kelvin, checkedSites, workers;
         public long preparationNs, referenceNs, demosaicNs, colourNs, belowBlack, atWhite, gainClips;
         public int gainMaps;
+        public boolean sharpeningApplied;
         public final List<Sample> samples=new ArrayList<>();
     }
     private static void interrupted() throws IOException {
@@ -32,6 +33,9 @@ public final class HasselbladSceneRenderer79 {
         return render(dng,profile,workers,true,sink);
     }
     public static Result render(File dng,HasselbladProfile43 profile,int workers,boolean diagnostics,Sink sink)throws IOException {
+        return render(dng,profile,workers,diagnostics,false,sink);
+    }
+    public static Result render(File dng,HasselbladProfile43 profile,int workers,boolean diagnostics,boolean sharpening,Sink sink)throws IOException {
         interrupted();
         if (!profile.hasAutomaticIlluminant || !profile.hasNativeFinishing)
             throw new IOException("Import the Stage56 automatic .hbc profile on Saved DNG colour first.");
@@ -56,26 +60,39 @@ public final class HasselbladSceneRenderer79 {
         double[] params=profile.parameters(camera), grid=profile.gridAtTemperature(r.kelvin);
         interrupted(); sink.begin(r.width,r.height);
         int middle=((r.height/2)/64)*64, last=((r.height-64)/64)*64;
-        for (int y=0;y<r.height;y+=64) {
-            interrupted(); t=System.nanoTime();
-            short[] rgb=HasselbladFrame77.band(prepared.bayer,m.width,m.height,y,workers);
-            r.demosaicNs+=System.nanoTime()-t;
-            int rows=Math.min(64,r.height-y);
-            if (diagnostics && rows==64 && (y==0 || y==middle || y==last)) {
-                int tile=r.width>=256?256:64;
-                int x=Math.max(0,Math.min(r.width-64,((r.width/2)/tile)*tile-16))&~1;
-                short[] input=new short[128*128], out=new short[64*64*3];
-                for(int yy=0;yy<128;yy++) System.arraycopy(prepared.bayer,(y+yy)*m.width+x,input,yy*128,128);
-                for(int yy=0;yy<64;yy++) System.arraycopy(rgb,(yy*r.width+x)*3,out,yy*64*3,64*3);
-                r.samples.add(new Sample(x+32,y+32,input,out));
-            }
-            t=System.nanoTime();
-            short[] automatic=profile.finishRgb16(HasselbladRenderer42.render(rgb,params,grid,profile.curve,
-                    profile.gridWidth,profile.gridHeight,1));
+        HasselbladSharpen86.Stream sharp=sharpening?new HasselbladSharpen86.Stream(r.width,r.height,(y,rows,gradated)->{
             interrupted();
-            sink.band(y,rows,r.width,HasselbladProfile43.srgb16ToArgb(automatic));
-            r.colourNs+=System.nanoTime()-t;
-        }
+            sink.band(y,rows,r.width,HasselbladProfile43.srgb16ToArgb(profile.outputGradatedRgb16(gradated)));
+        }):null;
+        try {
+            for (int y=0;y<r.height;y+=64) {
+                interrupted(); t=System.nanoTime();
+                short[] rgb=HasselbladFrame77.band(prepared.bayer,m.width,m.height,y,workers);
+                r.demosaicNs+=System.nanoTime()-t;
+                int rows=Math.min(64,r.height-y);
+                if (diagnostics && rows==64 && (y==0 || y==middle || y==last)) {
+                    int tile=r.width>=256?256:64;
+                    int x=Math.max(0,Math.min(r.width-64,((r.width/2)/tile)*tile-16))&~1;
+                    short[] input=new short[128*128], out=new short[64*64*3];
+                    for(int yy=0;yy<128;yy++) System.arraycopy(prepared.bayer,(y+yy)*m.width+x,input,yy*128,128);
+                    for(int yy=0;yy<64;yy++) System.arraycopy(rgb,(yy*r.width+x)*3,out,yy*64*3,64*3);
+                    r.samples.add(new Sample(x+32,y+32,input,out));
+                }
+                t=System.nanoTime();
+                short[] colour=HasselbladRenderer42.render(rgb,params,grid,profile.curve,
+                        profile.gridWidth,profile.gridHeight,1);
+                interrupted();
+                if(sharp==null) {
+                    short[] automatic=profile.finishRgb16(colour);
+                    sink.band(y,rows,r.width,HasselbladProfile43.srgb16ToArgb(automatic));
+                } else sharp.accept(y,rows,HasselbladRenderer42.defaultGradation(colour));
+                r.colourNs+=System.nanoTime()-t;
+            }
+            if(sharp!=null) {
+                t=System.nanoTime();sharp.finish();r.colourNs+=System.nanoTime()-t;
+                r.sharpeningApplied=true;
+            }
+        }finally{if(sharp!=null)sharp.abort();}
         interrupted(); return r;
     }
 }

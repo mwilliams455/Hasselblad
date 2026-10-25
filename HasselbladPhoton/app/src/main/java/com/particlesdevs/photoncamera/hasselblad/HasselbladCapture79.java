@@ -20,7 +20,7 @@ import java.util.UUID;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-/** Shutter integration; Stage84 records the selected look; publication uses the existing DCIM document-tree grant. */
+/** Shutter integration; Stage87 records the selected look and optional sharpening; publication uses the existing DCIM document-tree grant. */
 public final class HasselbladCapture79 {
     private static final String TAG="HasselbladCapture79";
     private static final Object REPORT_LOCK=new Object();
@@ -36,9 +36,9 @@ public final class HasselbladCapture79 {
         }
     }
     private static JSONObject report(String status) throws Exception {
-        return new JSONObject().put("schema","hasselblad-stage86-capture-v1").put("status",status)
+        return new JSONObject().put("schema","hasselblad-stage87-capture-v1").put("status",status)
                 .put("version_name",BuildConfig.VERSION_NAME).put("version_code",BuildConfig.VERSION_CODE)
-                .put("source_commit",BuildConfig.HB86_SOURCE).put("physical_sensor_colour_match_proved",false)
+                .put("source_commit",BuildConfig.HB87_SOURCE).put("physical_sensor_colour_match_proved",false)
                 .put("private_profile_or_full_dng_exported",false);
     }
     private static void remember(Context context,JSONObject report,File results,boolean diagnostics) {
@@ -86,6 +86,7 @@ public final class HasselbladCapture79 {
         cleanupOnce(context);
         if(frames==null || frames.size()!=1 || evidence==null) {fallback(context,"Single RAW and matched original still metadata required");return false;}
         final boolean diagnostics=evidence.diagnosticsEnabled86();
+        final boolean sharpening=evidence.sharpeningEnabled87();
         File directory=null;Bitmap[] bitmap={null};boolean owned=false,publicationStarted=false;
         String stage="eligibility";
         boolean renderCompleted=false;
@@ -99,7 +100,7 @@ public final class HasselbladCapture79 {
                 if(!profile.hasAutomaticIlluminant || !profile.hasNativeFinishing)throw new IOException("Import the Stage56 automatic .hbc profile first");
             }
             receipt=report("PREPARING").put("save_mode",saveMode).put("metadata_source","original_matched_still_before_Photon_fix")
-                    .put("capture_diagnostics",diagnostics).put("sharpening_applied",false)
+                    .put("capture_diagnostics",diagnostics).put("sharpening_requested",sharpening).put("sharpening_applied",false)
                     .put("dng_writer","existing_writer_original_metadata").put("raw_saved",false).put("jpeg_saved",false);
             if(profile!=null)receipt.put("film_curve_code",profile.film)
                     .put("profile_sha256",HasselbladLook84.sha256(profile.encoded()))
@@ -118,7 +119,7 @@ public final class HasselbladCapture79 {
                 if(!rawOnly) {
                     int workers=Math.max(1,Math.min(4,Runtime.getRuntime().availableProcessors()));
                     stage="rendering";
-                    rendered=HasselbladSceneRenderer79.render(dng,profile,workers,diagnostics,new HasselbladSceneRenderer79.Sink() {
+                    rendered=HasselbladSceneRenderer79.render(dng,profile,workers,diagnostics,sharpening,new HasselbladSceneRenderer79.Sink() {
                         public void begin(int w,int h){bitmap[0]=Bitmap.createBitmap(w,h,Bitmap.Config.ARGB_8888);}
                         public void band(int y,int rows,int w,int[] pixels){bitmap[0].setPixels(pixels,0,w,0,y,w,rows);}
                     });
@@ -132,7 +133,7 @@ public final class HasselbladCapture79 {
                     if(bridge.focalLength!=null)exif.FOCAL_LENGTH=((int)(bridge.focalLength*100))+"/100";
                     exif.COMPRESSION="6"; // TIFF/EXIF code for JPEG; encoder quality is separately 95.
                     exif.COLOR_SPACE="1";exif.IMAGE_WIDTH=Integer.toString(rendered.width);exif.IMAGE_LENGTH=Integer.toString(rendered.height);
-                    exif.IMAGE_DESCRIPTION="Hasselblad; curve "+profile.film+"; automatic LUT "+rendered.kelvin+" K; sensor interior crop32; sRGB";
+                    exif.IMAGE_DESCRIPTION="Hasselblad; curve "+profile.film+"; automatic LUT "+rendered.kelvin+" K; sharpening "+(rendered.sharpeningApplied?"recovered":"off")+"; sensor interior crop32; sRGB";
                     ExifInterface tags=ParseExif.setAllAttributes(jpeg,exif);
                     if(tags==null)throw new IOException("Cannot write JPEG metadata");
                     tags.setAttribute(ExifInterface.TAG_ORIENTATION,Integer.toString(bridge.orientation));
@@ -142,7 +143,10 @@ public final class HasselbladCapture79 {
                 }
             }
             if(rendered!=null) {
-                receipt.put("output_width",rendered.width).put("output_height",rendered.height)
+                receipt.put("sharpening_applied",rendered.sharpeningApplied)
+                        .put("sharpening_settings",rendered.sharpeningApplied?new JSONObject().put("amount",100).put("radius",1).put("noise_limit",0).put("dark_limit",10):JSONObject.NULL)
+                        .put("colour_and_bitmap_includes_sharpening",rendered.sharpeningApplied)
+                        .put("output_width",rendered.width).put("output_height",rendered.height)
                         .put("crop_left",32).put("crop_top",32).put("crop_right",rendered.rawWidth-32-rendered.width)
                         .put("crop_bottom",rendered.rawHeight-32-rendered.height).put("automatic_lut_kelvin",rendered.kelvin)
                         .put("prepared_reference_sites_checked",rendered.checkedSites).put("worker_limit",rendered.workers)

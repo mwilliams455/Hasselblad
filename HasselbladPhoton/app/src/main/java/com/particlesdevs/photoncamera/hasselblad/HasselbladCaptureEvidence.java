@@ -49,6 +49,8 @@ public final class HasselbladCaptureEvidence {
     private static final String TAG = "HasselbladCaptureEvidence";
     private final boolean diagnostics86 = HasselbladDiagnostics86.enabled(PhotonCamera.getAppContext());
     public boolean diagnosticsEnabled86(){return diagnostics86;}
+    private final boolean sharpening87 = HasselbladSharpen87Settings.enabled(PhotonCamera.getAppContext());
+    public boolean sharpeningEnabled87(){return sharpening87;}
     private final JSONObject document = new JSONObject();
     private final JSONObject originalStill = new JSONObject();
     private final JSONObject effective = new JSONObject();

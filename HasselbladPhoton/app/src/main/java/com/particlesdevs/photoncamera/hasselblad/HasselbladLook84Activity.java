@@ -19,8 +19,8 @@ import java.util.*;
 public final class HasselbladLook84Activity extends BaseActivity {
     private TextView status,active,last;
     private MaterialButton curve0,curve1;
-    private CheckBox diagnostics;
-    private boolean updatingDiagnostics;
+    private CheckBox diagnostics,sharpening;
+    private boolean updatingDiagnostics,updatingSharpening;
     private final List<MaterialButton> controls=new ArrayList<>();
     private boolean busy;
     private volatile boolean destroyed;
@@ -49,6 +49,12 @@ public final class HasselbladLook84Activity extends BaseActivity {
         button(root,"Import tone pack (.hbt)",()->packPicker.launch(new String[]{"*/*"}));
         button(root,"Compare tone curves on a saved DNG",()->startActivity(new Intent(this,HasselbladTone83Activity.class)));
         button(root,"Compare sharpening on a saved DNG",()->startActivity(new Intent(this,HasselbladSharp86Activity.class)));
+        sharpening=new CheckBox(this);sharpening.setText("Sharpen saved JPEGs");
+        sharpening.setChecked(HasselbladSharpen87Settings.enabled(this));root.addView(sharpening);
+        sharpening.setOnCheckedChangeListener((button,checked)->{if(updatingSharpening||busy)return;
+            run("Saving sharpening preference…",()->{HasselbladSharpen87Settings.setEnabled(this,checked);
+                return checked?"Recovered sharpening enabled for subsequent JPEGs.":"Sharpening off for subsequent JPEGs.";});});
+        TextView sharpHelp=new TextView(this);sharpHelp.setText("Adds fine edge detail using the recovered sharpening. It can make grain more visible in low light. Default off; RAW files and the live viewfinder are unchanged.");root.addView(sharpHelp);
         diagnostics=new CheckBox(this);diagnostics.setText("Capture diagnostics");
         diagnostics.setChecked(HasselbladDiagnostics86.enabled(this));root.addView(diagnostics);
         diagnostics.setOnCheckedChangeListener((button,checked)->{if(updatingDiagnostics||busy)return;
@@ -61,7 +67,7 @@ public final class HasselbladLook84Activity extends BaseActivity {
         button(root,"Refresh",()->refresh(null));button(root,"Back",this::finish);setContentView(scroll);
     }
     @Override protected void onResume(){super.onResume();if(!busy)refresh(null);}
-    private void busy(boolean value){busy=value;if(diagnostics!=null)diagnostics.setEnabled(!value);for(MaterialButton b:controls)b.setEnabled(!value);curve0.setEnabled(false);curve1.setEnabled(false);}
+    private void busy(boolean value){busy=value;if(diagnostics!=null)diagnostics.setEnabled(!value);if(sharpening!=null)sharpening.setEnabled(!value);for(MaterialButton b:controls)b.setEnabled(!value);curve0.setEnabled(false);curve1.setEnabled(false);}
     private interface Work {String run()throws Exception;}
     private void run(String message,Work task) {
         busy(true);status.setText(message);
@@ -104,7 +110,7 @@ public final class HasselbladLook84Activity extends BaseActivity {
                 else {
                     JSONObject j=new JSONObject(text);String state=j.optString("status");
                     if("HASSELBLAD_SHUTTER_RENDERED".equals(state))
-                        capture="Last saved photo: "+(j.has("film_curve_code")?HasselbladLook84.label(j.getInt("film_curve_code")):"curve not recorded by the older build")+"\nAutomatic LUT "+j.optInt("automatic_lut_kelvin")+" K";
+                        capture="Last saved photo: "+(j.has("film_curve_code")?HasselbladLook84.label(j.getInt("film_curve_code")):"curve not recorded by the older build")+"\nAutomatic LUT "+j.optInt("automatic_lut_kelvin")+" K\nSharpening: "+(j.has("sharpening_applied")?(j.optBoolean("sharpening_applied")?"on":"off"):"not recorded by the older build");
                     else if("RAW_ONLY_SAVED".equals(state))capture="Last capture: RAW only. No JPEG tone curve was applied.";
                     else if("PHOTON_FALLBACK".equals(state))capture="Last capture routed to Photon: "+j.optString("reason");
                     else capture="Last capture: "+state+"\n"+j.optString("reason");
@@ -112,6 +118,7 @@ public final class HasselbladLook84Activity extends BaseActivity {
             }catch(Exception e){capture="Last photo report unavailable.";}
             final String a=activeText,d=detail,s=hash,c=capture;final int f=film;final boolean enabled=compatible;
             runOnUiThread(()->{if(destroyed)return;profileHash=s;active.setText(a);last.setText(c);status.setText((notice==null?"":notice+"\n")+d);
+                updatingSharpening=true;sharpening.setChecked(HasselbladSharpen87Settings.enabled(this));updatingSharpening=false;
                 updatingDiagnostics=true;diagnostics.setChecked(HasselbladDiagnostics86.enabled(this));updatingDiagnostics=false;
                 busy(false);curve0.setEnabled(enabled&&f!=0);curve1.setEnabled(enabled&&f!=1);
                 curve0.setText(f==0?"Curve 0 · active":"Use curve 0 · brighter midtones");curve1.setText(f==1?"Curve 1 · active":"Use curve 1 · deeper midtones");});

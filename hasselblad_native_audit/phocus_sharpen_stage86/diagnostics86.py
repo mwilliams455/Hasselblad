@@ -36,6 +36,7 @@ class HasselbladIlluminant56 {
  static Selection estimate(double[] a,double[] b,int c,int d,double[] e,double[] f,double[] g,double[] h){return new Selection();}
 }
 class HasselbladRenderer42 {
+ static short[] defaultGradation(short[] rgb){return rgb;}
  static double[] cameraToD50(double[] a,double[] b,double[] c,double[] d,double[] e,double[] f){return new double[9];}
  static short[] render(short[] rgb,double[] p,double[] g,float[] c,int w,int h,int owner){return rgb;}
 }
@@ -44,6 +45,7 @@ class HasselbladProfile43 {
  double[] parameters(double[] camera){return new double[38];}
  double[] gridAtTemperature(int kelvin){return new double[8];}
  short[] finishRgb16(short[] input){return input;}
+ short[] outputGradatedRgb16(short[] input){return input;}
  static int[] srgb16ToArgb(short[] input){int[] out=new int[input.length/3];for(int i=0;i<out.length;i++)out[i]=input[3*i]&65535;return out;}
 }
 '''
@@ -73,6 +75,6 @@ def check(work,compiler):
  dest=work/'diagnostic-adapters';dest.mkdir(exist_ok=True);classes=dest/'classes';classes.mkdir(exist_ok=True)
  for name,text in [('Context.java',CONTEXT),('Stubs.java',STUBS),('Diagnostics86Check.java',CHECK)]: (dest/name).write_text(text)
  java=ROOT/'HasselbladPhoton/app/src/main/java/com/particlesdevs/photoncamera/hasselblad'
- sources=[dest/n for n in ('Context.java','Stubs.java','Diagnostics86Check.java')]+[java/n for n in ('HasselbladDiagnostics86.java','HasselbladSceneRenderer79.java')]
+ sources=[dest/n for n in ('Context.java','Stubs.java','Diagnostics86Check.java')]+[java/n for n in ('HasselbladDiagnostics86.java','HasselbladSceneRenderer79.java','HasselbladSharpen86.java')]
  subprocess.run(compiler+['--release','17','-d',str(classes),*map(str,sources)],check=True)
  return json.loads(subprocess.check_output(['java','-cp',str(classes),'com.particlesdevs.photoncamera.hasselblad.Diagnostics86Check'],text=True))

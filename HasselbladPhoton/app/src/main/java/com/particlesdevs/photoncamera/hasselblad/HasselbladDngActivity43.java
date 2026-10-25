@@ -63,6 +63,8 @@ public final class HasselbladDngActivity43 extends BaseActivity {
         scene76.setOnClickListener(v->{if(!busy)startActivity(new android.content.Intent(this,HasselbladScene76Activity.class));});root.addView(scene76);
         MaterialButton scene77=new MaterialButton(this);scene77.setText("Stage77 · faster full-scene colour and LUTs");
         scene77.setOnClickListener(v->{if(!busy)startActivity(new android.content.Intent(this,HasselbladScene77Activity.class));});root.addView(scene77);
+        MaterialButton scene78=new MaterialButton(this);scene78.setText("Stage78 · faster RAW preparation and colour");
+        scene78.setOnClickListener(v->{if(!busy)startActivity(new android.content.Intent(this,HasselbladScene78Activity.class));});root.addView(scene78);
         device75=new MaterialButton(this);device75.setText("Stage75 · demosaic + colour tile test");
         device75.setOnClickListener(v->{if(!busy)startActivity(new android.content.Intent(this,HasselbladDevice75Activity.class));});
         root.addView(device75);

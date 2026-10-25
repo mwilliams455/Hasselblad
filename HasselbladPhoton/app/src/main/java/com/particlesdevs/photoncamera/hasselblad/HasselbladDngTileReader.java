@@ -833,4 +833,168 @@ public final class HasselbladDngTileReader {
             return new Prepared76(metadata,bayer,orientation,below,atWhite,clips);
         }
     }
+    public static final class Prepared78 {
+        public final Prepared76 frame;
+        public final long cachePlanNanoseconds,rowReadNanoseconds,pixelPreparationNanoseconds;
+        Prepared78(Prepared76 f,long plan,long read,long preparation) {
+            frame=f;cachePlanNanoseconds=plan;rowReadNanoseconds=read;pixelPreparationNanoseconds=preparation;
+        }
+    }
+    /** Axis values are computed with the original operations, without reassociation. */
+    private static final class Gain78 {
+        final Gain source;
+        final int[] x0,x1;
+        final double[] dx,oneMinusDx;
+        int row0,row1;double dy,oneMinusDy;
+        Gain78(Gain g,int width) {
+            source=g;x0=new int[width];x1=new int[width];dx=new double[width];oneMinusDx=new double[width];
+            for(int col=0;col<width;col++) {
+                double x=Math.max(0,Math.min(g.pointsH-1,((col+.5)/width-g.originH)/g.spacingH));
+                x0[col]=(int)x;x1[col]=Math.min(x0[col]+1,g.pointsH-1);dx[col]=x-x0[col];oneMinusDx[col]=1-dx[col];
+            }
+        }
+        boolean activeRow(int row){return row>=source.top&&row<source.bottom&&(row-source.top)%source.rowPitch==0;}
+        void row(int row,int height) {
+            double y=Math.max(0,Math.min(source.pointsV-1,((row+.5)/height-source.originV)/source.spacingV));
+            int y0=(int)y,y1=Math.min(y0+1,source.pointsV-1);
+            row0=y0*source.pointsH;row1=y1*source.pointsH;dy=y-y0;oneMinusDy=1-dy;
+        }
+        double at(int col) {
+            float[] g=source.grid;int a=x0[col],b=x1[col];double x=dx[col],mx=oneMinusDx[col];
+            return g[row0+a]*oneMinusDy*mx+g[row1+a]*dy*mx+g[row0+b]*oneMinusDy*x+g[row1+b]*dy*x;
+        }
+    }
+
+    /** Stage78: the same validation and arithmetic with cached axes and normalization. */
+    public static Prepared78 readPrepared78(File path)throws IOException {
+        try(RandomAccessFile raf=new RandomAccessFile(path,"r")) {
+            Tiff tif=new Tiff(raf);Page[] pages=locate(tif);Page root=pages[0],p=choose(tif,pages);
+            long wide=tif.ints(p.tags.get(WIDTH),1)[0],high=tif.ints(p.tags.get(HEIGHT),1)[0];
+            must(wide>=128&&high>=128&&wide<=8192&&high<=8192&&wide*high<=16777216,
+                "stage76_standard_raw_dimensions_required");
+            int w=(int)wide,h=(int)high;
+            must(tif.ints(p.tags.get(BITS),1)[0]==16,"raw_not_16bit");
+            must(tif.ints(p.tags.get(COMPRESSION),1)[0]==1,"compressed_dng_not_supported");
+            must(tif.ints(p.tags.get(SAMPLES),1)[0]==1,"multisample_dng_not_supported");
+            must(inherited(p,root,DNG_VERSION)!=null,"not_dng_missing_version");
+            requireSceneReference(tif,p,root);
+            for(int tag:new int[]{PLANAR_CONFIG,266,339,50711}) {
+                Tag t=inherited(p,root,tag);
+                if(t!=null)must(tif.ints(t,1)[0]==1,"unsupported_raw_layout_"+tag);
+            }
+            must(Arrays.equals(tif.ints(inherited(p,root,CFA_DIMS),2),new long[]{2,2}),"unsupported_CFA_repeat");
+            must(Arrays.equals(tif.ints(inherited(p,root,CFA_PATTERN),4),new long[]{0,1,1,2}),"unsupported_CFA_not_RGGB");
+            for(int tag:new int[]{OPCODE1,OPCODE3,50712,50715,50716})
+                must(inherited(p,root,tag)==null,"unsupported_raw_correction_"+tag);
+            Tag active=inherited(p,root,50829);
+            if(active!=null)must(Arrays.equals(tif.ints(active,4),new long[]{0,0,h,w}),"active_area_crop_not_supported");
+            Tag origin=inherited(p,root,50719),crop=inherited(p,root,50720);
+            if(origin!=null)must(Arrays.equals(tif.numbers(origin,2),new double[]{0,0}),"default_crop_origin_not_supported");
+            if(crop!=null)must(Arrays.equals(tif.numbers(crop,2),new double[]{w,h}),"default_crop_size_not_supported");
+            Tag orient=inherited(p,root,274);int orientation=orient==null?1:(int)tif.ints(orient,1)[0];
+            must(orientation==1||orientation==3||orientation==6||orientation==8,"unsupported_orientation");
+            Tag bt=inherited(p,root,BLACK),wt=inherited(p,root,WHITE);
+            must(bt!=null&&(bt.count==1||bt.count==4),"unsupported_black_level_shape");
+            double[] black=tif.numbers(bt,(int)bt.count);
+            Tag repeat=inherited(p,root,50713);
+            if(black.length==4)must(repeat!=null&&Arrays.equals(tif.ints(repeat,2),new long[]{2,2}),"unsupported_black_level_repeat");
+            else if(repeat!=null)must(Arrays.equals(tif.ints(repeat,2),new long[]{1,1}),"unsupported_black_level_repeat");
+            must(wt!=null&&(wt.count==1||wt.count==4),"unsupported_white_level_shape");
+            double[] whites=tif.numbers(wt,(int)wt.count);double white=whites[0];
+            must(white>0&&white<=65535,"white_level_invalid");
+            for(double value:whites)must(value==white,"nonuniform_white_level_not_supported");
+            for(double value:black)must(value>=0&&value<white,"black_level_invalid");
+            boolean useCalibration=calibrationMatches(tif,p,root);
+            double[] fm1=optional(tif,p,root,FM1,9),fm2=optional(tif,p,root,FM2,9),
+                cc1=useCalibration?optional(tif,p,root,CC1,9):null,
+                cc2=useCalibration?optional(tif,p,root,CC2,9):null,
+                analog=optional(tif,p,root,ANALOG,3),neutral=optional(tif,p,root,NEUTRAL,3);
+            must(fm1!=null&&neutral!=null,"DNG_forward_matrix_and_neutral_required");
+            must((fm2==null||Arrays.equals(fm1,fm2))&&(cc2==null||(cc1!=null&&Arrays.equals(cc1,cc2))),
+                "dual_illuminant_interpolation_not_supported");
+            Tag opcode=inherited(p,root,OPCODE2);
+            List<Gain> maps=opcode==null?new ArrayList<>():gainMaps(tif.bytes(opcode),w,h);
+            long[] offsets=tif.ints(p.tags.get(STRIP_OFFSETS),8192),counts=tif.ints(p.tags.get(STRIP_COUNTS),8192);
+            long rowsPerStrip=tif.ints(p.tags.get(ROWS_PER_STRIP),1)[0];
+            must(rowsPerStrip>0&&rowsPerStrip<=Integer.MAX_VALUE&&offsets.length==counts.length&&
+                (h+rowsPerStrip-1)/rowsPerStrip==offsets.length,"strip_count_mismatch");
+            for(int i=0;i<offsets.length;i++) {
+                long rows=Math.min(rowsPerStrip,h-i*rowsPerStrip);
+                must(counts[i]>=rows*w*2L,"strip_not_contiguous_16bit_rows");tif.range(offsets[i],counts[i]);
+            }
+
+
+            long startPlan=System.nanoTime();
+            double maxBlack=black[0];for(double level:black)maxBlack=Math.max(maxBlack,level);
+            double commonRange=white-maxBlack;
+            float[][] normalized=new float[4][];
+            for(int phase=0;phase<4;phase++) {
+                double siteBlack=black.length==1?black[0]:black[phase];
+                for(int prior=0;prior<phase;prior++)if(Double.doubleToLongBits(siteBlack)==Double.doubleToLongBits(black.length==1?black[0]:black[prior])){normalized[phase]=normalized[prior];break;}
+                if(normalized[phase]!=null)continue;
+                normalized[phase]=new float[65536];
+                for(int raw=0;raw<65536;raw++)normalized[phase][raw]=Math.max(0f,Math.min(1f,(float)((raw-siteBlack)/commonRange)));
+            }
+            Gain78[] cached=new Gain78[maps.size()];
+            for(int i=0;i<cached.length;i++)cached[i]=new Gain78(maps.get(i),w);
+            Gain78[][] activeGains={new Gain78[cached.length],new Gain78[cached.length]};
+            int[] activeCount=new int[2];
+            long planNs=System.nanoTime()-startPlan,readNs=0,prepareNs=0;
+            short[] bayer=new short[w*h];byte[] bytes=new byte[w*2*32];
+            boolean little=tif.endian==ByteOrder.LITTLE_ENDIAN;
+            long below=0,atWhite=0,clips=0;int applied=0;
+            for(int batch=0;batch<h;) {
+                if(Thread.currentThread().isInterrupted())throw new IOException("DNG preparation cancelled");
+                int strip=(int)(batch/rowsPerStrip);
+                int rows=(int)Math.min(Math.min(32,h-batch),rowsPerStrip-batch%rowsPerStrip);
+                int length=rows*w*2;long position=offsets[strip]+(batch%rowsPerStrip)*w*2L;
+                long mark=System.nanoTime();tif.range(position,length);raf.seek(position);raf.readFully(bytes,0,length);readNs+=System.nanoTime()-mark;
+                mark=System.nanoTime();
+                for(int row=0;row<rows;row++) {
+                    if(Thread.currentThread().isInterrupted())throw new IOException("DNG preparation cancelled");
+                    int gy=batch+row;activeCount[0]=0;activeCount[1]=0;
+                    for(Gain78 gain:cached)if(gain.activeRow(gy)) {
+                        gain.row(gy,h);int phase=gain.source.left&1;activeGains[phase][activeCount[phase]++]=gain;
+                    }
+                    int phaseRow=(gy&1)<<1,byteStart=row*w*2,dest=gy*w;
+                    for(int parity=0;parity<2;parity++) {
+                        double siteBlack=black.length==1?black[0]:black[phaseRow|parity];
+                        float[] table=normalized[phaseRow|parity];Gain78[] gains=activeGains[parity];int n=activeCount[parity];
+                        for(int gx=parity;gx<w;gx+=2) {
+                            int at=byteStart+gx*2;
+                            int raw=little?(bytes[at]&255)|((bytes[at+1]&255)<<8):((bytes[at]&255)<<8)|(bytes[at+1]&255);
+                            if(raw<siteBlack)below++;if(raw>=white)atWhite++;
+                            float bounded=table[raw];
+                            for(int k=0;k<n;k++) {
+                                Gain78 gain=gains[k];if(gx<gain.source.left||gx>=gain.source.right)continue;
+                                double product=bounded*gain.at(gx);
+                                if(product>1)clips++;
+                                bounded=(float)Math.min(product,1.);applied++;
+                            }
+                            must(Float.isFinite(bounded)&&bounded>=0,"stage76_gainmap_invalid_result");
+                            bayer[dest+gx]=(short)(int)(bounded*65535f);
+                        }
+                    }
+                }
+                prepareNs+=System.nanoTime()-mark;batch+=rows;
+            }
+            ReadResult metadata=new ReadResult(w,h,16,offsets.length,
+                opcode==null?"absent":"opcode2_gainmap_only",maps.size(),applied,
+                fm1,fm2,cc1,cc2,analog,neutral,new double[0],illuminant(tif,p,root));
+            return new Prepared78(new Prepared76(metadata,bayer,orientation,below,atWhite,clips),planNs,readNs,prepareNs);
+        }
+    }
+    /** A small real-input preparation check, separate from demosaic research. */
+    public static int validatePrepared78(File file,Prepared76 frame)throws IOException {
+        int checked=0;
+        for(int region:new int[]{0,1,4}) {
+            if(Thread.currentThread().isInterrupted())throw new IOException("DNG preparation cancelled");
+            Bounded75 reference=readBounded75(file,region);
+            for(int y=0;y<128;y++)for(int x=0;x<128;x++) {
+                must(frame.bayer[(reference.y-32+y)*frame.metadata.width+reference.x-32+x]==reference.bayer[y*128+x],"stage78_preparation_reference_mismatch");checked++;
+            }
+        }
+        return checked;
+    }
+
 }

@@ -1,0 +1,47 @@
+name: Stage71 Public ColorNoise Regression
+on:
+  push:
+    branches:
+      - experimental/phocus-native71
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  corrected-native-host:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Syntax-check public native harnesses (no vendor input)
+        run: |
+          python -m py_compile \
+            hasselblad_native_audit/phocus_native_stage71/audit_colornoise_substitution71.py \
+            hasselblad_native_audit/phocus_inline_stage67/audit_native_inline67.py \
+            hasselblad_native_audit/phocus_coloursite_stage68/audit_native_colour68.py
+      - name: Compile and test corrected ColorNoise with memory sanitizers
+        shell: bash
+        run: |
+          set -euo pipefail
+          gcc -std=c11 -O2 -Wall -Wextra -Werror -fno-fast-math \
+            -ffp-contract=off -fsanitize=address,undefined -fno-sanitize-recover=all \
+            hasselblad_native_audit/phocus_noise_stage65/noise65.c \
+            hasselblad_native_audit/phocus_colour_stage64/ycc64.c \
+            hasselblad_native_audit/phocus_noise_stage65/test_noise65.c \
+            -o /tmp/stage71-noise-test
+          ASAN_OPTIONS=detect_leaks=0 /tmp/stage71-noise-test
+      - name: Independent synthetic Python cross-check
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install 'numpy==2.3.5'
+          python hasselblad_native_audit/phocus_noise_stage65/test_host65.py \
+            --work /tmp/stage71-host --safe-receipt /tmp/stage71-host.json
+          python - <<'PY'
+          import json
+          d=json.load(open('/tmp/stage71-host.json'))
+          assert d['status']=='PASS_INDEPENDENT_SYNTHETIC_HOST_CHECKS',d
+          print('STAGE71_CORRECTED_COLORNOISE_HOST_PASS')
+          PY

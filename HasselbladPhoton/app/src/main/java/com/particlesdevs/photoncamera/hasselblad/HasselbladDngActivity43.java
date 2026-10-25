@@ -63,7 +63,7 @@ public final class HasselbladDngActivity43 extends BaseActivity {
         scene76.setOnClickListener(v->{if(!busy)startActivity(new android.content.Intent(this,HasselbladScene76Activity.class));});root.addView(scene76);
         MaterialButton scene77=new MaterialButton(this);scene77.setText("Stage77 · faster full-scene colour and LUTs");
         scene77.setOnClickListener(v->{if(!busy)startActivity(new android.content.Intent(this,HasselbladScene77Activity.class));});root.addView(scene77);
-        MaterialButton capture79=new MaterialButton(this);capture79.setText("Stage80 · shutter colour and save report");
+        MaterialButton capture79=new MaterialButton(this);capture79.setText("Stage81 · shutter colour and save report");
         capture79.setOnClickListener(v->{if(!busy)startActivity(new android.content.Intent(this,HasselbladCapture79Activity.class));});root.addView(capture79);
         MaterialButton scene78=new MaterialButton(this);scene78.setText("Stage78 · faster RAW preparation and colour");
         scene78.setOnClickListener(v->{if(!busy)startActivity(new android.content.Intent(this,HasselbladScene78Activity.class));});root.addView(scene78);

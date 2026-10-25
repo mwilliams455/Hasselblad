@@ -29,7 +29,7 @@ public final class HasselbladCapture79Activity extends BaseActivity {
                     }catch(Exception e){message="Export stopped: "+e.getMessage();}
                     final String text=message;
                     runOnUiThread(()->{if(!destroyed){status.setText(text);save.setEnabled(true);}});
-                },"HB80-export").start();
+                },"HB81-export").start();
             });
     @Override protected void onCreate(Bundle state) {
         super.onCreate(state);ScrollView scroll=new ScrollView(this);LinearLayout root=new LinearLayout(this);
@@ -37,15 +37,15 @@ public final class HasselbladCapture79Activity extends BaseActivity {
         int pad=(int)(12*getResources().getDisplayMetrics().density);
         ViewCompat.setOnApplyWindowInsetsListener(scroll,(v,insets)->{Insets b=insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(pad+b.left,pad+b.top,pad+b.right,pad+b.bottom);return WindowInsetsCompat.CONSUMED;});
-        TextView title=new TextView(this);title.setText("Stage80 · shutter colour");title.setTextSize(22);root.addView(title);
+        TextView title=new TextView(this);title.setText("Stage81 · shutter colour");title.setTextSize(22);root.addView(title);
         TextView help=new TextView(this);help.setText("Use the imported automatic .hbc profile, standard RAW, 4:3 and no digital zoom. Take a normal PHOTO. " +
                 "Compatible captures use the validated colour renderer with a 32-pixel edge crop; other captures use Photon and record the reason below. " +
                 "For the first comparison, select RAW + JPEG and also render that saved DNG through Stage78. " +
-                "This export includes the last Stage80 JPEG, report and small Bayer/RGB samples, including a completed render if public saving fails. It excludes the full DNG and profile.");root.addView(help);
+                "This export includes the last Stage81 JPEG, report and small Bayer/RGB samples, including a completed render if public saving fails. It excludes the full DNG and profile.");root.addView(help);
         status=new TextView(this);status.setTextIsSelectable(true);root.addView(status);
         MaterialButton refresh=new MaterialButton(this);refresh.setText("Refresh last capture report");refresh.setOnClickListener(v->refresh());root.addView(refresh);
         save=new MaterialButton(this);save.setText("Export last shutter comparison ZIP");
-        save.setOnClickListener(v->exporter.launch("Hasselblad_Stage80_Shutter_Comparison.zip"));root.addView(save);
+        save.setOnClickListener(v->exporter.launch("Hasselblad_Stage81_Shutter_Comparison.zip"));root.addView(save);
         MaterialButton back=new MaterialButton(this);back.setText("Back");back.setOnClickListener(v->finish());root.addView(back);
         setContentView(scroll);refresh();
     }

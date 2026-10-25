@@ -16,7 +16,7 @@ public final class HasselbladPublication80 {
         boolean delete();
     }
     public interface Store {
-        boolean exists(String name);
+        boolean exists(String name) throws IOException;
         Document create(String mime,String name) throws IOException;
     }
     public static void publish(Path source,String name,Store store) throws IOException {

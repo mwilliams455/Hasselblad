@@ -1,0 +1,3 @@
+Stage74 source deliberately implements *internal linear RGB16*, not display-colour
+conversion. Do not treat uncalibrated Bayer tiles as the original sensor's colour.
+The normal phone capture pipeline was not modified in this checkpoint.

@@ -1,0 +1,42 @@
+name: Stage74 Bounded Final RGB16 and Android NDK
+on:
+  push:
+    branches:
+      - experimental/phocus-final74
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  host-reference-composition:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Run complete independent bounded C path with sanitizers
+        run: bash hasselblad_native_audit/phocus_output_stage74/run_host74.sh /tmp/hb74-host
+      - name: Run actual host JNI invocation
+        run: bash hasselblad_native_audit/phocus_output_stage74/run_jni_host74.sh /tmp/hb74-jni
+      - name: Check independent Python/C arithmetic on synthetic codes
+        run: python3 hasselblad_native_audit/phocus_output_stage74/test_output74.py
+  android-ndk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Cross compile real Android arm64-v8a and x86_64 JNI shared objects
+        run: |
+          bash hasselblad_native_audit/phocus_output_stage74/android_ndk74.sh /tmp/hb74-ndk
+          sha256sum /tmp/hb74-ndk/arm64-v8a/libhbfinal74.so /tmp/hb74-ndk/x86_64/libhbfinal74.so
+      - name: Preserve public research native libraries only
+        uses: actions/upload-artifact@v4
+        with:
+          name: hasselblad-stage74-android-ndk-libraries
+          path: |
+            /tmp/hb74-ndk/arm64-v8a/libhbfinal74.so
+            /tmp/hb74-ndk/x86_64/libhbfinal74.so
+          retention-days: 1
+          if-no-files-found: error

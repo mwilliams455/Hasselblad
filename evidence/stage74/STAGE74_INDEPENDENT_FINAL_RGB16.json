@@ -1,0 +1,74 @@
+{
+  "schema": "hasselblad-stage74-independent-bounded-final-rgb16-v1",
+  "status": "PASS_EXACT_BOUNDED_NATIVE_FINAL_RGB16",
+  "native_reference": "original supplied Phocus ARM64 CPU executed privately in Unicorn",
+  "independent_path": "prepared RGGB Bayer + measured 32px halo -> independent Stage69 InterpolateRGB -> independent corrected Stage65 ColorNoise / Stage64 YCC -> independent Stage74 YCC-to-final RGB16",
+  "original_vendor_executable_in_independent_C_execution": false,
+  "original_vendor_pixel_bodies_called_by_independent_renderer": false,
+  "native_reference_compared_separately": true,
+  "synthetic_original_cpu_comparisons": {
+    "cases": 6,
+    "fixtures": ["neutral_12x15", "random_12x15", "edge_12x15", "random_23x31", "random_32x32", "neutral_64x64"],
+    "exact_linear_rgb16_codes": 19119,
+    "max_absolute_difference": 0,
+    "changed_codes": 0
+  },
+  "saved_dng_original_cpu_comparisons": {
+    "cases": 6,
+    "fixtures": ["fixed1/highlight_bypass", "fixed1/highlight_bayer_chain", "fixed3/highlight_bypass", "held2/highlight_bypass", "held2/highlight_bayer_chain", "held4/highlight_bypass"],
+    "exact_linear_rgb16_codes": 12672,
+    "max_absolute_difference": 0,
+    "changed_codes": 0,
+    "dng_tiles_are_from_one_existing_capture_not_independent_cameras": true
+  },
+  "combined_original_cpu_checks": {
+    "cases": 12,
+    "exact_linear_rgb16_codes": 31791,
+    "max_absolute_difference": 0
+  },
+  "ycc_to_rgb_standalone_check": {
+    "python_independent_cases": 50972,
+    "exact_channel_values": 152916,
+    "max_absolute_difference": 0,
+    "original_cpu_scalar_and_simd_output_path_directly_checked": true,
+    "native_output_gain_observed": 1.0,
+    "output_luminance_code_ceiling": 65534
+  },
+  "independent_host_checks": {
+    "bounded_shapes_tested": 9,
+    "constant_and_impulse_fixtures": 18,
+    "alignment_tail_fill_invariance_checked": true,
+    "gcc_address_sanitizer_and_ubsan_passed": true,
+    "host_java_invoked_actual_jni": true,
+    "host_java_neutral_shapes": [[12,15],[23,31],[9,11]],
+    "host_jni_malformed_cfa_and_array_rejection": true
+  },
+  "scope": {
+    "supported_input": "already prepared uint16 RGGB with caller-provided 32px halo",
+    "working_stride": 1024,
+    "native_graph_flags": 65535,
+    "optimized_view": false,
+    "positive_noise_strength": 0,
+    "scale_threshold": 1.0,
+    "gradient_floors": [32,200],
+    "native_output_gain": 1.0,
+    "supported_bounded_tile_dimensions_only": true,
+    "full_frame_tiling_verified": false,
+    "native_outer_alignment_tail_policy_proven": false,
+    "general_sensor_cfa_phase_verified": false
+  },
+  "claims_not_established": {
+    "android_device_rgb16_parity": false,
+    "android_apk_built": false,
+    "complete_original_dng_import": false,
+    "dng_opcode2_gainmap_native_equivalence": false,
+    "native_full_frame_edge_extension": false,
+    "physical_hasselblad_phone_colour_equivalence": false,
+    "Phocus_LUT_film_sharpening_display_output_included": false,
+    "normal_photo_capture_renderer_changed": false,
+    "full_frame_12MP_renderer": false
+  },
+  "original_apk_and_user_dng_unchanged": true,
+  "original_executable_and_private_pixels_committed": false,
+  "scene_fitted_tuning_parameters": 0
+}

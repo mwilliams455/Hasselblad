@@ -1,0 +1,42 @@
+name: Stage70 Public Native Test Toolchain
+on:
+  push:
+    branches:
+      - experimental/phocus-native70
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  public-emulator-wheels:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Download only published Python emulator wheels
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip download --disable-pip-version-check --only-binary=:all: \
+            --no-deps --dest /tmp/hb-public-native-wheels \
+            unicorn==2.1.4 capstone==5.0.9 pyelftools==0.33
+          python - <<'PY'
+          import hashlib, json, pathlib
+          wheel_dir=pathlib.Path('/tmp/hb-public-native-wheels')
+          names=sorted(p.name for p in wheel_dir.glob('*.whl'))
+          assert len(names)==3, names
+          record={'schema':'hasselblad-stage70-public-toolchain-v1',
+                  'private_camera_or_vendor_data_present':False,
+                  'wheels':[{ 'name':p.name,'sha256':hashlib.sha256(p.read_bytes()).hexdigest(),'size':p.stat().st_size } for p in wheel_dir.glob('*.whl')]}
+          (wheel_dir/'WHEEL_MANIFEST.json').write_text(json.dumps(record,indent=2)+'\n')
+          print('STAGE70_PUBLIC_WHEELS_READY', names)
+          PY
+      - name: Upload public emulator toolchain only
+        uses: actions/upload-artifact@v4
+        with:
+          name: hasselblad-stage70-public-wheels
+          path: /tmp/hb-public-native-wheels/
+          retention-days: 1
+          if-no-files-found: error

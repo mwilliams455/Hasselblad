@@ -14,7 +14,7 @@ def main():
  javac=shutil.which('javac');jdk=Path(javac or shutil.which('java')).resolve().parents[1];jni=a.jni_include or jdk/'include'
  assert (jni/'jni.h').is_file(), 'JNI headers required'
  compiler=[javac] if javac else ['java','com.sun.tools.javac.Main']
- units=['HasselbladSharpen86','HasselbladProfile43','HasselbladRenderer42']
+ units=['HasselbladSharpen91','HasselbladSharpen86','HasselbladProfile43','HasselbladRenderer42']
  subprocess.run(compiler+['--release','17','-d',str(classes),*[str(java/(n+'.java')) for n in units],str(HERE/'Stage86Check.java')],check=True)
  includes=[jni,jni/'linux',AUDIT/'phocus_port_stage42/src',AUDIT/'isp_dng_stage18/src',AUDIT/'isp_colour_stage19/src',AUDIT/'phocus_highlight_stage53',AUDIT/'phocus_post_stage55',AUDIT/'phocus_finish_stage88',AUDIT/'phocus_sharpen_stage85']
  common=['gcc','-std=c11','-O2','-Wall','-Wextra','-Werror','-ffp-contract=off','-fPIC','-shared','-pthread',*['-I'+str(x) for x in includes]]

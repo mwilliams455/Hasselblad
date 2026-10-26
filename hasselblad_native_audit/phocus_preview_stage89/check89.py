@@ -10,7 +10,7 @@ def main():
     src=ROOT/'HasselbladPhoton/app/src/main';java=src/'java/com/particlesdevs/photoncamera/hasselblad';classes=work/'classes';classes.mkdir(exist_ok=True)
     javac=shutil.which('javac');jdk=Path(javac or shutil.which('java')).resolve().parents[1];jni=a.jni_include or jdk/'include'
     compiler=[javac] if javac else ['java','com.sun.tools.javac.Main']
-    units=['HasselbladPreview90Changes','HasselbladPreview90Cache','HasselbladLook84','HasselbladPreview89','HasselbladPreview89Loader','HasselbladPreview89Settings','HasselbladProfile43','HasselbladTone83','HasselbladRenderer42','HasselbladSharpen87Settings','HasselbladDiagnostics86']
+    units=['HasselbladSharpen91','HasselbladPreview90Changes','HasselbladPreview90Cache','HasselbladLook84','HasselbladPreview89','HasselbladPreview89Loader','HasselbladPreview89Settings','HasselbladProfile43','HasselbladTone83','HasselbladRenderer42','HasselbladSharpen87Settings','HasselbladDiagnostics86']
     subprocess.run(compiler+['--release','17','-d',str(classes),*[str(java/(n+'.java')) for n in units],str(AUDIT/'phocus_capture_stage87/Context.java'),str(HERE/'LookStoreAdapter89.java'),str(HERE/'Stage89Check.java')],check=True)
     inc=[jni,jni/'linux',AUDIT/'phocus_port_stage42/src',AUDIT/'isp_dng_stage18/src',AUDIT/'isp_colour_stage19/src',AUDIT/'phocus_highlight_stage53',AUDIT/'phocus_post_stage55',AUDIT/'phocus_finish_stage88']
     sources=[src/'cpp/hasselblad/hb_renderer42_jni.c',AUDIT/'phocus_port_stage42/src/hb42_colour.c',AUDIT/'isp_dng_stage18/src/hb_dng_pcs_bridge.c',AUDIT/'isp_colour_stage19/src/hb_colour_stage19.c',AUDIT/'phocus_highlight_stage53/highlight53.c',AUDIT/'phocus_post_stage55/post55.c',AUDIT/'phocus_finish_stage88/finish88.c']

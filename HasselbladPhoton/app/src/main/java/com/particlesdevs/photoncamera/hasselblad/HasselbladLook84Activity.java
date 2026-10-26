@@ -10,6 +10,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.particlesdevs.photoncamera.app.base.BaseActivity;
 import org.json.JSONObject;
 import java.io.*;
@@ -17,7 +18,7 @@ import java.util.*;
 
 /** Normal camera look controls. No profile is changed merely by opening this screen. */
 public final class HasselbladLook84Activity extends BaseActivity {
-    private TextView status,active,last;
+    private TextView status,active,last,sharpSelection;
     private MaterialButton curve0,curve1;
     private CheckBox diagnostics,sharpening,preview;
     private boolean updatingDiagnostics,updatingSharpening,updatingPreview;
@@ -59,8 +60,10 @@ public final class HasselbladLook84Activity extends BaseActivity {
         sharpening.setChecked(HasselbladSharpen87Settings.enabled(this));root.addView(sharpening);
         sharpening.setOnCheckedChangeListener((button,checked)->{if(updatingSharpening||busy)return;
             run("Saving sharpening preference…",()->{HasselbladSharpen87Settings.setEnabled(this,checked);
-                return checked?"Recovered sharpening enabled for subsequent JPEGs.":"Sharpening off for subsequent JPEGs.";});});
-        TextView sharpHelp=new TextView(this);sharpHelp.setText("Adds fine edge detail using the recovered sharpening. It can make grain more visible in low light. Default off; RAW files and the live viewfinder are unchanged.");root.addView(sharpHelp);
+                return checked?"Selected sharpening enabled for subsequent JPEGs.":"Sharpening off for subsequent JPEGs.";});});
+        sharpSelection=new TextView(this);root.addView(sharpSelection);
+        button(root,"Adjust sharpening…",this::adjustSharpening);
+        TextView sharpHelp=new TextView(this);sharpHelp.setText("Strength adds edge detail. A higher fine-detail threshold leaves smaller edges and grain unsharpened; it does not remove noise. Applies to saved JPEGs only, including RAW + JPEG. The live preview shows tone, not sharpening. Default off.");root.addView(sharpHelp);
         diagnostics=new CheckBox(this);diagnostics.setText("Capture diagnostics");
         diagnostics.setChecked(HasselbladDiagnostics86.enabled(this));root.addView(diagnostics);
         diagnostics.setOnCheckedChangeListener((button,checked)->{if(updatingDiagnostics||busy)return;
@@ -73,6 +76,32 @@ public final class HasselbladLook84Activity extends BaseActivity {
         button(root,"Refresh",()->refresh(null));button(root,"Back",this::finish);setContentView(scroll);
     }
     @Override protected void onResume(){super.onResume();if(!busy)refresh(null);}
+    private SeekBar sharpSlider(LinearLayout root,String name,int max,int initial) {
+        TextView label=new TextView(this);root.addView(label);
+        SeekBar slider=new SeekBar(this);slider.setMax(max);slider.setProgress(initial);
+        label.setText(name+": "+initial);slider.setContentDescription(name+": "+initial);root.addView(slider);
+        slider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
+            public void onProgressChanged(SeekBar bar,int value,boolean user){label.setText(name+": "+value);bar.setContentDescription(name+": "+value);}
+            public void onStartTrackingTouch(SeekBar bar){}
+            public void onStopTrackingTouch(SeekBar bar){}
+        });return slider;
+    }
+    private void adjustSharpening() {
+        var selected=HasselbladSharpen87Settings.snapshot(this);
+        LinearLayout fields=new LinearLayout(this);fields.setOrientation(LinearLayout.VERTICAL);
+        int padding=(int)(20*getResources().getDisplayMetrics().density);fields.setPadding(padding,0,padding,0);
+        TextView help=new TextView(this);help.setText("Saved JPEGs only. Strength 0 bypasses sharpening; 100 and threshold 0 reproduce the previous setting. The sharpening switch controls whether these values are used.");fields.addView(help);
+        SeekBar amount=sharpSlider(fields,"Strength",HasselbladSharpen91.MAX_AMOUNT,selected.amount);
+        SeekBar noise=sharpSlider(fields,"Fine-detail threshold",HasselbladSharpen91.MAX_NOISE,selected.noise);
+        MaterialButton reset=new MaterialButton(this);reset.setText("Restore 100 / 0");fields.addView(reset);
+        reset.setOnClickListener(v->{amount.setProgress(100);noise.setProgress(0);});
+        new MaterialAlertDialogBuilder(this).setTitle("JPEG sharpening").setView(fields)
+            .setNegativeButton("Cancel",null).setPositiveButton("Save",(dialog,which)->{
+                final int a=amount.getProgress(),n=noise.getProgress();
+                run("Saving sharpening controls…",()->{HasselbladSharpen87Settings.setParameters(this,a,n);
+                    return "Saved strength "+a+" and threshold "+n+". "+(HasselbladSharpen87Settings.snapshot(this).active()?"Applies to subsequent JPEGs.":"Sharpening is currently off.");});
+            }).show();
+    }
     private void busy(boolean value){busy=value;if(preview!=null)preview.setEnabled(!value);if(diagnostics!=null)diagnostics.setEnabled(!value);if(sharpening!=null)sharpening.setEnabled(!value);for(MaterialButton b:controls)b.setEnabled(!value);curve0.setEnabled(false);curve1.setEnabled(false);}
     private interface Work {String run()throws Exception;}
     private void run(String message,Work task) {
@@ -131,6 +160,8 @@ public final class HasselbladLook84Activity extends BaseActivity {
             final String a=activeText,d=detail,s=hash,c=capture;final int f=film;final boolean enabled=compatible;
             runOnUiThread(()->{if(destroyed)return;profileHash=s;active.setText(a);last.setText(c);status.setText((notice==null?"":notice+"\n")+d);
                 updatingSharpening=true;sharpening.setChecked(HasselbladSharpen87Settings.enabled(this));updatingSharpening=false;
+                var sharp=HasselbladSharpen87Settings.snapshot(this);
+                sharpSelection.setText("Saved strength: "+sharp.amount+" · Fine-detail threshold: "+sharp.noise+(sharp.active()?"":" · Currently off"));
                 updatingDiagnostics=true;diagnostics.setChecked(HasselbladDiagnostics86.enabled(this));updatingDiagnostics=false;
                 updatingPreview=true;preview.setChecked(HasselbladPreview89Settings.enabled(this));updatingPreview=false;
                 busy(false);curve0.setEnabled(enabled&&f!=0);curve1.setEnabled(enabled&&f!=1);

@@ -10,7 +10,7 @@ def main():
     src=ROOT/'HasselbladPhoton/app/src/main';java=src/'java/com/particlesdevs/photoncamera/hasselblad';classes=work/'classes';classes.mkdir(exist_ok=True)
     javac=shutil.which('javac');jdk=Path(javac or shutil.which('java')).resolve().parents[1];jni=a.jni_include or jdk/'include'
     compiler=[javac] if javac else ['java','com.sun.tools.javac.Main']
-    units=['HasselbladLookStore84','HasselbladPreview90Controller','HasselbladPreview90Changes','HasselbladPreview90Cache','HasselbladLook84','HasselbladPreview89','HasselbladPreview89Loader','HasselbladPreview89Settings','HasselbladProfile43','HasselbladTone83','HasselbladRenderer42','HasselbladSharpen87Settings','HasselbladDiagnostics86']
+    units=['HasselbladSharpen91','HasselbladLookStore84','HasselbladPreview90Controller','HasselbladPreview90Changes','HasselbladPreview90Cache','HasselbladLook84','HasselbladPreview89','HasselbladPreview89Loader','HasselbladPreview89Settings','HasselbladProfile43','HasselbladTone83','HasselbladRenderer42','HasselbladSharpen87Settings','HasselbladDiagnostics86']
     spec=importlib.util.spec_from_file_location('check84',AUDIT/'phocus_look_stage84/check84.py')
     old=importlib.util.module_from_spec(spec);spec.loader.exec_module(old)
     stubs=work/'stubs';stubs.mkdir(exist_ok=True)

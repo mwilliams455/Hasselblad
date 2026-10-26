@@ -9,16 +9,23 @@ public final class HasselbladSharpen86 {
     private HasselbladSharpen86() {}
     // The window contains one real neighbour row above/below the requested rows.
     static native short[] window(short[] gradated, int width, int rows);
+    static native short[] window91(short[] gradated,int width,int rows,int amount,int noise);
     public interface Sink {void band(int y,int rows,short[] rgb16)throws IOException;}
     public static final class Stream {
         private final int width,height;
         private final Sink sink;
+        private final HasselbladSharpen91 settings;
         private short[] pending,previous;
         private int pendingY,pendingRows,received;
         private boolean ended;
         public Stream(int width,int height,Sink sink) {
+            this(width,height,HasselbladSharpen91.DEFAULT,sink);
+        }
+        public Stream(int width,int height,HasselbladSharpen91 settings,Sink sink) {
             if(width<1||width>8192||height<1||height>8192||(long)width*height>16777216||sink==null)
                 throw new IllegalArgumentException("Invalid sharpening dimensions");
+            if(settings==null)throw new IllegalArgumentException("Missing sharpening controls");
+            this.settings=settings;
             this.width=width;this.height=height;this.sink=sink;
         }
         private void check()throws IOException {
@@ -41,7 +48,7 @@ public final class HasselbladSharpen86 {
             System.arraycopy(pending,0,window,stride,pending.length);
             System.arraycopy(next==null?pending:next,next==null?pending.length-stride:0,
                     window,window.length-stride,stride);
-            short[] output=HasselbladSharpen86.window(window,width,pendingRows);
+            short[] output=HasselbladSharpen86.window91(window,width,pendingRows,settings.active()?settings.amount:0,settings.noise);
             if(Thread.currentThread().isInterrupted())throw new IOException("Render cancelled");
             sink.band(pendingY,pendingRows,output);
             previous=Arrays.copyOfRange(pending,pending.length-stride,pending.length);

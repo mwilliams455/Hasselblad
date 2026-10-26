@@ -36,7 +36,11 @@ public final class HasselbladSceneRenderer79 {
         return render(dng,profile,workers,diagnostics,false,sink);
     }
     public static Result render(File dng,HasselbladProfile43 profile,int workers,boolean diagnostics,boolean sharpening,Sink sink)throws IOException {
+        return render(dng,profile,workers,diagnostics,sharpening?HasselbladSharpen91.DEFAULT:HasselbladSharpen91.OFF,sink);
+    }
+    public static Result render(File dng,HasselbladProfile43 profile,int workers,boolean diagnostics,HasselbladSharpen91 sharpening,Sink sink)throws IOException {
         interrupted();
+        if(sharpening==null)throw new IOException("Missing sharpening settings");
         if (!profile.hasAutomaticIlluminant || !profile.hasNativeFinishing)
             throw new IOException("Import the Stage56 automatic .hbc profile on Saved DNG colour first.");
         if (workers<1 || workers>4) throw new IOException("Invalid renderer worker count");
@@ -60,7 +64,7 @@ public final class HasselbladSceneRenderer79 {
         double[] params=profile.parameters(camera), grid=profile.gridAtTemperature(r.kelvin);
         interrupted(); sink.begin(r.width,r.height);
         int middle=((r.height/2)/64)*64, last=((r.height-64)/64)*64;
-        HasselbladSharpen86.Stream sharp=sharpening?new HasselbladSharpen86.Stream(r.width,r.height,(y,rows,gradated)->{
+        HasselbladSharpen86.Stream sharp=sharpening.active()?new HasselbladSharpen86.Stream(r.width,r.height,sharpening,(y,rows,gradated)->{
             interrupted();
             sink.band(y,rows,r.width,HasselbladProfile43.srgb16ToArgb(profile.outputGradatedRgb16(gradated)));
         }):null;

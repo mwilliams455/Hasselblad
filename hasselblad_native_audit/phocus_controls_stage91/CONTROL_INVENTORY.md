@@ -1,0 +1,43 @@
+# Hasselblad control inventory — Stage90 baseline, Stage91 increment
+
+26 October 2026. This is a source audit, not phone validation or a new catalogue
+of official camera menus. Camera/Phocus classifications follow the supplied
+Stage90 handoff's documented review. UI presence alone is not implementation.
+
+Java paths below are relative to
+`HasselbladPhoton/app/src/main/java/com/particlesdevs/photoncamera/`.
+
+| Control / origin | Actual consumer and ownership | Range/default and availability | Preview / remaining evidence |
+|---|---|---|---|
+| Auto WB — camera | `hasselblad/HasselbladDngBridge79` takes the matched original still `SENSOR_NEUTRAL_COLOR_POINT`; `HasselbladSceneRenderer79` builds camera-to-D50 and selects the LUT through `HasselbladIlluminant56`. Owns RAW colour, after demosaic. | Positive sensor neutral; LUT estimate clamped to 2000–10000 K. Profile WB multipliers and exposure scalar must remain unity. Integrated automatic route. | HAL preview owns its AWB. The tone guide does not apply RAW WB again. Full colour agreement unproven. |
+| Manual temperature / neutral-area WB — camera | `manual/ParamController.setWB/setSpotWB` sets HAL preview gains/transform; `capture/CaptureController.captureStillPicture` sends manual gains/transform. Hasselblad export still reads original reported sensor neutral, not these requested gains. | Existing Photon controls; manual requests for Kelvin ≥2000. End-to-end manual-neutral ownership is **not verified**. | Preview responds through HAL; need trace requested gains versus delivered neutral and renderer interpretation before promising JPEG agreement. |
+| Tint — camera / Phocus | Spot-WB has measured gains and a tint label; no independent renderer tint control found. Native colour preparation research does not make it an exposed phone control. | Disconnected/unknown mapping; do not add a second WB multiply without resolving the preceding row. | No independent matching control. |
+| ISO, shutter, exposure compensation — camera | `ParamController.setISO/setShutter/setEV` configures preview; `processing/parameters/IsoExpoSelector.setExpo/GenerateExpoPair` selects still exposure/ISO and consumes Photon exposure compensation. Hasselblad consumes the captured sensor counts; no second render EV scalar is enabled. | Camera2 capabilities determine ranges. Preview shutter is capped at 1/5 s in `setShutter`; still selection has its own policy. Connected Photon acquisition path, not a validated Hasselblad AE algorithm. | HAL-driven preview; audit the two compensation paths and manual/auto transitions before extending exposure rendering. |
+| Metering — camera | `CaptureController.applyAeMeteringRegions/getAEMeteringRectangles` sends center-weighted, full-frame-average, spot or initial HAL regions when supported. Affects acquisition before RAW rendering. | Preference -1/default, 0/center, 1/average, 2/spot; constrained by `CONTROL_MAX_REGIONS_AE`. Integrated request path. | Preview and still use these regions; HAL support/effect is device-dependent, not an exact recreation of camera metering. |
+| AE lock — camera | No active `CONTROL_AE_LOCK`/AE-lock control found in the inspected capture/manual/settings/UI Java paths. | Not established as integrated. Existing focus/manual exposure is not proof of AE-L. | Requires explicit preview/still lifetime and release semantics. |
+| Auto ISO / minimum shutter — camera | Photon has auto/manual ISO and `IsoExpoSelector` shutter-priority policy. Photo handheld cap constants ramp from 1/30 to 1/15 s. | Automatic acquisition exists; no user minimum-shutter or maximum-Auto-ISO control was found in this path. | Add explicit control only after exposure ownership audit; constants are not a user-selectable camera feature. |
+| Recovered curve 0/1 — Phocus rendering subset | `HasselbladLook84`, `HasselbladLookStore84`, `HasselbladProfile43`, renderer film table. | Integrated 0/1 selector; imported 7 reference allowed. User's current curve remains selected. No automatic relabeling as Standard/Reproduction. | Stage90 tone guide and reactive selection implemented; phone live switching pending. Approximate luminance only. |
+| Contrast / user curves — Phocus extension | Photon contrast/tone controls belong to its separate postpipeline; Hasselblad returns from `HdrxProcessor.Run` before that path. Native `defaultGradation`/Stage51 support unedited defaults only. | Photon settings are **not consumed by successful Hasselblad JPEG rendering**. Editable native gradation is not ported. | Need native parameter mapping, operation order and preview table integration. Existing default gradation is not an editable contrast control. |
+| Highlights/shadows — Phocus extension | `HasselbladRenderer42.reconstructHighlights` and Stage53 research exist, but `HasselbladSceneRenderer79` does not call them. Profile shadow/core terms are imported fixed data. | Recovered highlight operation disconnected; user highlight/shadow slider mappings unestablished. | Highlight reconstruction cannot recover clipped HAL preview pixels; keep off pending phone-domain work. |
+| Colour / saturation / selective colour — Phocus extension | Recovered automatic LUT applied in `HasselbladSceneRenderer79`; Photon saturation controls are in the bypassed postpipeline. | Look data integrated; user colour adjustment not connected. No validated new neutral/default adjustment here. | Full colour preview remains missing. Do not treat a visible Photon slider as affecting Hasselblad output. |
+| Sharpening — Phocus extension | After film/default gradation, before sRGB output: `HasselbladSharpen86.Stream` → JNI → unchanged `sharpen85.c`. | Stage90 enabled/off with amount100/radius1/noise0/dark10. Stage91 adds strength0–200, threshold0–32, default100/0. Kernel accepts amount0–1000, radius0.5–4, noise/dark0–255; wider ranges are deliberately not exposed. Default off. | Saved-JPEG only, explicitly labelled. Tone table independent. Zero bypasses exactly; enabled defaults retain prior result. |
+| Focus — camera | `ParamController.setFocus`, `CaptureController` AF request and touch regions; inherited Camera2 path. | Auto/manual and AF preference exist; availability depends on hardware. Not proof of X2D subject detection, tracking or focus-bracketing parity. | HAL lens focus is visible. Further mode-specific audit/device checks required. |
+| Timer — camera | `SettingsBarEntryProvider` retains timer; `PreferenceKeys.getCountdownTimerIndex` and `control/CountdownTimer` feed capture UI. | Existing Photon self-timer, not a new renderer parameter. | Delays capture; exact mode behaviour not phone-tested in this increment. |
+| Interval / exposure bracketing / focus bracketing — camera | `HasselbladDevelopmentPolicy` forces one frame and bracketing0; `SettingsBarEntryProvider` hides exposure bracketing in this build. No interval/focus-bracket integration established. | **Not enabled for this Hasselblad path.** Optional future separate captures, not merged HDR. | Need scheduling/cancellation and per-shot settings/metadata before enabling. |
+| RAW / JPEG — camera | `HasselbladCapture79`, `HasselbladCaptureFiles79/80`, `ImageFormatConfig`. | JPEG, RAW+JPEG, RAW-only integrated. JPEG-only still uses and deletes an internal temporary DNG. HEIC falls back; policy disables it. JPEG quality95, sRGB. | Tone guide excluded for RAW-only/HEIC. Sharpening affects JPEG only. |
+| Crop / aspect / high resolution — camera | Existing geometry eligibility and `HasselbladFrame77`; standard roughly12 MP RAW with fixed sensor-interior border removal. | 4:3/no digital zoom required for normal Hasselblad path; no user crop controls connected. Quad Bayer/remosaic/maximum resolution disabled by policy. | Preview eligibility is separate; no guarantee that a preview implies still eligibility. |
+
+## Next connected work
+
+1. Verify Stage91 controls and Stage90 live switching on the phone with diagnostics
+   off. No new demosaic or DNG comparison programme is required.
+2. Trace manual temperature/spot requests to the original still neutral used by
+   `HasselbladDngBridge79`, then define a single WB owner for auto/manual/tint.
+   Preserve phone-specific calibration and avoid multiplying HAL preview WB twice.
+3. Trace native editable gradation inputs before contrast/highlight/shadow controls.
+   A new finishing setting must participate in the capture snapshot and Stage90
+   preview table cache key/invalidation if it changes that table.
+
+Sharpening was chosen first because its existing parameterized kernel is verified
+and the operation order is already connected. This audit does not declare all
+agreed controls complete.

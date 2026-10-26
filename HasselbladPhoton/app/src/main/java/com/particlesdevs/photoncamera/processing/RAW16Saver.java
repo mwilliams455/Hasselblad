@@ -10,6 +10,7 @@ import com.particlesdevs.photoncamera.api.CameraMode;
 import com.particlesdevs.photoncamera.app.PhotonCamera;
 import com.particlesdevs.photoncamera.capture.CaptureController;
 import com.particlesdevs.photoncamera.hasselblad.HasselbladDevelopmentPolicy;
+import com.particlesdevs.photoncamera.hasselblad.HasselbladCapture79;
 
 public class RAW16Saver extends DefaultSaver{
     private static final String TAG = "RAW16Saver";
@@ -43,6 +44,13 @@ public class RAW16Saver extends DefaultSaver{
     @Override
     public void addImage(Image image, android.view.Surface sourceSurface) {
         if (HasselbladDevelopmentPolicy.isEnabled()) {
+            if (PhotonCamera.getSettings().selectedMode != CameraMode.PHOTO) {
+                try {HasselbladCapture79.reject94(PhotonCamera.getAppContext(),null,
+                        "This build supports single-frame Hasselblad Photo captures",
+                        processingCallback,processingEventsListener);}
+                finally {image.close();bufferLock=false;}
+                return;
+            }
             Image.Plane[] planes = image.getPlanes();
             HasselbladDevelopmentPolicy.recordDeliveredRawImage(image.getWidth(), image.getHeight(),
                     image.getFormat(), planes.length > 0 ? planes[0].getRowStride() : 0,

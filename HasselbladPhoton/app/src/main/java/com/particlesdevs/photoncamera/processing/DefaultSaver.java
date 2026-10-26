@@ -5,6 +5,8 @@ import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureResult;
 
 import com.particlesdevs.photoncamera.processing.processor.RawVideoProcessor;
+import com.particlesdevs.photoncamera.hasselblad.HasselbladDevelopmentPolicy;
+import com.particlesdevs.photoncamera.hasselblad.HasselbladCapture79;
 import com.particlesdevs.photoncamera.util.Log;
 import com.particlesdevs.photoncamera.api.ParseExif;
 import com.particlesdevs.photoncamera.app.PhotonCamera;
@@ -124,6 +126,12 @@ public class DefaultSaver extends SaverImplementation {
     }
 
     public void processStart(int imageFormat, CameraCharacteristics characteristics, CaptureResult captureResult, CaptureRequest captureRequest, int cameraRotation) {
+        if (HasselbladDevelopmentPolicy.isEnabled()) {
+            HasselbladCapture79.reject94(PhotonCamera.getAppContext(),null,
+                    "This build supports single-frame Hasselblad Photo captures",
+                    processingCallback,processingEventsListener);
+            return;
+        }
         super.processStart(imageFormat, characteristics, captureResult, captureRequest, cameraRotation);
         Path dngFile = ImagePath.newDNGFilePath();
         Path jpgFile = ImagePath.newImageFilePath();
@@ -160,6 +168,7 @@ public class DefaultSaver extends SaverImplementation {
     }
 
     public void processEnd() {
+        if (HasselbladDevelopmentPolicy.isEnabled()) return;
         switch (PhotonCamera.getSettings().selectedMode){
             case UNLIMITED:
                 mUnlimitedProcessor.unlimitedEnd();

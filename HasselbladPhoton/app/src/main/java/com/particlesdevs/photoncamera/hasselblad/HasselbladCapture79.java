@@ -36,9 +36,9 @@ public final class HasselbladCapture79 {
         }
     }
     private static JSONObject report(String status) throws Exception {
-        return new JSONObject().put("schema","hasselblad-stage87-capture-v1").put("status",status)
+        return new JSONObject().put("schema","hasselblad-stage88-capture-v1").put("status",status)
                 .put("version_name",BuildConfig.VERSION_NAME).put("version_code",BuildConfig.VERSION_CODE)
-                .put("source_commit",BuildConfig.HB87_SOURCE).put("physical_sensor_colour_match_proved",false)
+                .put("source_commit",BuildConfig.HB88_SOURCE).put("physical_sensor_colour_match_proved",false)
                 .put("private_profile_or_full_dng_exported",false);
     }
     private static void remember(Context context,JSONObject report,File results,boolean diagnostics) {
@@ -143,7 +143,7 @@ public final class HasselbladCapture79 {
                 }
             }
             if(rendered!=null) {
-                receipt.put("sharpening_applied",rendered.sharpeningApplied)
+                receipt.put("finishing_tables_cached",true).put("sharpening_applied",rendered.sharpeningApplied)
                         .put("sharpening_settings",rendered.sharpeningApplied?new JSONObject().put("amount",100).put("radius",1).put("noise_limit",0).put("dark_limit",10):JSONObject.NULL)
                         .put("colour_and_bitmap_includes_sharpening",rendered.sharpeningApplied)
                         .put("output_width",rendered.width).put("output_height",rendered.height)

@@ -46,7 +46,7 @@ public final class HasselbladCapture79Activity extends BaseActivity {
         status=new TextView(this);status.setTextIsSelectable(true);root.addView(status);
         MaterialButton refresh=new MaterialButton(this);refresh.setText("Refresh last capture report");refresh.setOnClickListener(v->refresh());root.addView(refresh);
         save=new MaterialButton(this);save.setText("Export last shutter comparison ZIP");
-        save.setOnClickListener(v->exporter.launch("Hasselblad_Stage87_Shutter_Comparison.zip"));root.addView(save);
+        save.setOnClickListener(v->exporter.launch("Hasselblad_Stage88_Shutter_Comparison.zip"));root.addView(save);
         MaterialButton back=new MaterialButton(this);back.setText("Back");back.setOnClickListener(v->finish());root.addView(back);
         setContentView(scroll);refresh();
     }

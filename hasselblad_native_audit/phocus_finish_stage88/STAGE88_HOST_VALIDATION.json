@@ -1,0 +1,41 @@
+{
+  "schema": "hasselblad-stage88-cache-v1",
+  "status": "PASS_EXACT_FINISHING_CACHE",
+  "numeric_cases": 57,
+  "rgb16_channels_compared": 11206656,
+  "max_abs_difference": 0,
+  "in_place_matches": true,
+  "concurrent_output_cases": 160,
+  "cold_concurrent_initialization_passed": true,
+  "gradation_table_builds": 1,
+  "decode_builds_for_47_same_exponent_bands": 1,
+  "cache_bytes": 393216,
+  "output_matrix_not_cached": true,
+  "sanitizers_passed": false,
+  "benchmark": {
+    "scope": "host only, finishing only, synthetic 4032x3008 workload; not Android or shutter timing",
+    "uncached_ms": [
+      2917.015447,
+      2560.852083,
+      2624.66763,
+      2818.259456,
+      2957.347832
+    ],
+    "cached_ms": [
+      2524.999232,
+      2547.316534,
+      2436.433124,
+      2444.676548,
+      2472.799777
+    ],
+    "uncached_median_ms": 2818.259456,
+    "cached_median_ms": 2472.799777,
+    "median_reduction_ms": 345.4596789999996,
+    "median_reduction_percent": 12.257908982245233
+  },
+  "original_native_oracle_retested": false,
+  "demosaic_retested": false,
+  "device_tested": false,
+  "local_address_undefined_sanitizers_without_leaks": true,
+  "local_leak_check_blocked_by_proc_restriction": true
+}

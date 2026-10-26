@@ -14,9 +14,9 @@ def main():
     compiler=[javac] if javac else ['java','com.sun.tools.javac.Main']
     units=['HasselbladSharpen86','HasselbladSharpen87Settings','HasselbladDiagnostics86','HasselbladProfile43','HasselbladRenderer42','HasselbladSceneRenderer79']
     subprocess.run(compiler+['--release','17','-d',str(classes),*[str(java/(n+'.java')) for n in units],*[str(HERE/n) for n in ('Context.java','RawAdapters87.java','Stage87Check.java')]],check=True)
-    includes=[jni,jni/'linux',AUDIT/'phocus_port_stage42/src',AUDIT/'isp_dng_stage18/src',AUDIT/'isp_colour_stage19/src',AUDIT/'phocus_highlight_stage53',AUDIT/'phocus_post_stage55',AUDIT/'phocus_sharpen_stage85']
-    common=['gcc','-std=c11','-O2','-Wall','-Wextra','-Werror','-ffp-contract=off','-fPIC','-shared',*['-I'+str(x) for x in includes]]
-    colour=[src/'cpp/hasselblad/hb_renderer42_jni.c',AUDIT/'phocus_port_stage42/src/hb42_colour.c',AUDIT/'isp_dng_stage18/src/hb_dng_pcs_bridge.c',AUDIT/'isp_colour_stage19/src/hb_colour_stage19.c',AUDIT/'phocus_highlight_stage53/highlight53.c',AUDIT/'phocus_post_stage55/post55.c']
+    includes=[jni,jni/'linux',AUDIT/'phocus_port_stage42/src',AUDIT/'isp_dng_stage18/src',AUDIT/'isp_colour_stage19/src',AUDIT/'phocus_highlight_stage53',AUDIT/'phocus_post_stage55',AUDIT/'phocus_finish_stage88',AUDIT/'phocus_sharpen_stage85']
+    common=['gcc','-std=c11','-O2','-Wall','-Wextra','-Werror','-ffp-contract=off','-fPIC','-shared','-pthread',*['-I'+str(x) for x in includes]]
+    colour=[src/'cpp/hasselblad/hb_renderer42_jni.c',AUDIT/'phocus_port_stage42/src/hb42_colour.c',AUDIT/'isp_dng_stage18/src/hb_dng_pcs_bridge.c',AUDIT/'isp_colour_stage19/src/hb_colour_stage19.c',AUDIT/'phocus_highlight_stage53/highlight53.c',AUDIT/'phocus_post_stage55/post55.c',AUDIT/'phocus_finish_stage88/finish88.c']
     for name,sources in [('hbsharp86',[src/'cpp/hasselblad/hb_sharpen86_jni.c',AUDIT/'phocus_sharpen_stage85/sharpen85.c']),('hasselblad_renderer42_jni',colour)]:
         subprocess.run(common+list(map(str,sources))+['-Wl,--no-undefined','-lm','-o',str(work/('lib'+name+'.so'))],check=True)
     # Synthetic automatic, finishing-enabled profile; identity matrices/curve, no calibration payload.

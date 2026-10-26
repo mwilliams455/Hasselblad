@@ -122,9 +122,10 @@ done:
 }
 
 #include "post55.h"
+#include "finish88.h"
 static jshortArray post55(JNIEnv *e,jshortArray input,jdoubleArray matrix,
                          double exponent,int gradation) {
-    uint16_t *src=NULL,*dst=NULL,*curve=NULL;
+    uint16_t *src=NULL,*dst=NULL;
     jshortArray result=NULL;
     const char *error="Invalid finishing input or output calibration";
     if(!input)goto done;
@@ -137,17 +138,13 @@ static jshortArray post55(JNIEnv *e,jshortArray input,jdoubleArray matrix,
     (*e)->GetShortArrayRegion(e,input,0,n,(jshort*)src);
     if((*e)->ExceptionCheck(e))goto done;
     int status;
-    if(gradation) {
-        curve=malloc(65536*sizeof(uint16_t));
-        if(!curve){error="Gradation allocation failed";goto done;}
-        status=hb55_default_curve(curve);
-        if(status==0)status=hb55_gradate(curve,src,(size_t)n/3,dst);
-    } else status=hb55_output_rgb16(src,(size_t)n/3,m,exponent,dst);
+    if(gradation)status=hb88_gradate(src,(size_t)n/3,dst);
+    else status=hb88_output_rgb16(src,(size_t)n/3,m,exponent,dst);
     if(status!=0)goto done;
     result=(*e)->NewShortArray(e,n);
     if(result)(*e)->SetShortArrayRegion(e,result,0,n,(jshort*)dst);
 done:
-    free(src);free(dst);free(curve);
+    free(src);free(dst);
     if(!result&&!(*e)->ExceptionCheck(e)) {
         jclass type=(*e)->FindClass(e,"java/lang/IllegalArgumentException");
         if(type)(*e)->ThrowNew(e,type,error);

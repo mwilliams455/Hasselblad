@@ -125,11 +125,13 @@ add_library(hasselblad_renderer42_jni SHARED
     hasselblad/hb_renderer42_jni.c "${HB42_ROOT}/src/hb42_colour.c"
     "${HB42_ROOT}/../phocus_highlight_stage53/highlight53.c"
     "${HB42_ROOT}/../phocus_post_stage55/post55.c"
+    "${HB42_ROOT}/../phocus_finish_stage88/finish88.c"
     "${HB42_ROOT}/../isp_dng_stage18/src/hb_dng_pcs_bridge.c"
     "${HB42_ROOT}/../isp_colour_stage19/src/hb_colour_stage19.c")
 target_include_directories(hasselblad_renderer42_jni PRIVATE "${HB42_ROOT}/src"
     "${HB42_ROOT}/../phocus_highlight_stage53"
     "${HB42_ROOT}/../phocus_post_stage55"
+    "${HB42_ROOT}/../phocus_finish_stage88"
     "${HB42_ROOT}/../isp_dng_stage18/src" "${HB42_ROOT}/../isp_colour_stage19/src")
 target_compile_options(hasselblad_renderer42_jni PRIVATE -O2 -Wall -Wextra -Werror -ffp-contract=off)
 target_link_libraries(hasselblad_renderer42_jni m)

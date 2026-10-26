@@ -55,7 +55,7 @@ public final class HasselbladLook84Activity extends BaseActivity {
         preview.setOnCheckedChangeListener((button,checked)->{if(updatingPreview||busy)return;
             run("Saving preview preference…",()->{HasselbladPreview89Settings.setEnabled(this,checked);
                 return checked?"JPEG colour preview enabled; it follows the active curve.":"Original camera preview restored.";});});
-        TextView previewHelp=new TextView(this);previewHelp.setText("Removes the controlled camera tone curve, colour transform and exposure boost, then applies the saved JPEG colour and finishing. Photo mode only. Clipped highlights, rapid lighting changes and fine detail can still differ. Unsupported camera metadata restores the original viewfinder.");root.addView(previewHelp);
+        TextView previewHelp=new TextView(this);previewHelp.setText("Removes the controlled camera tone curve, colour transform and exposure boost, then applies the saved JPEG colour and finishing. Photo and Motion modes. Clipped highlights, rapid lighting changes and fine detail can still differ. Unsupported camera metadata restores the original viewfinder.");root.addView(previewHelp);
         sharpening=new CheckBox(this);sharpening.setText("Sharpen saved JPEGs");
         sharpening.setChecked(HasselbladSharpen87Settings.enabled(this));root.addView(sharpening);
         sharpening.setOnCheckedChangeListener((button,checked)->{if(updatingSharpening||busy)return;

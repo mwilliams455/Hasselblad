@@ -26,7 +26,7 @@ public class Bitmap {public enum Config{ARGB_8888}public enum CompressFormat{JPE
 'org/json/JSONArray.java':'''package org.json;public class JSONArray {final java.util.List<Object> data=new java.util.ArrayList<>();public JSONArray put(Object v){data.add(v);return this;}public String toString(){return data.toString();}}''',
 PACKAGE+'.BuildConfig':'''public class BuildConfig {public static final String VERSION_NAME="0.1-hb-capture94",HB88_SOURCE="host-fixture";public static final int VERSION_CODE=27233;}''',
 PACKAGE+'.util.Log':'''public class Log {public static void e(String t,String m,Throwable e){} }''',
-PACKAGE+'.api.CameraMode':'''public enum CameraMode {PHOTO,NIGHT,UNLIMITED,RAWVIDEO}''',
+PACKAGE+'.api.CameraMode':'''public enum CameraMode {UNLIMITED,RAWVIDEO,MOTION,PHOTO,NIGHT,VIDEO}''',
 PACKAGE+'.control.GyroBurst':'''public class GyroBurst {}''',
 PACKAGE+'.capture.CaptureController':'''public class CaptureController {public static final int RAW_FORMAT=32;}''',
 PACKAGE+'.app.PhotonCamera':'''public class PhotonCamera {public static android.content.Context context;public static final Settings settings=new Settings();public static android.content.Context getAppContext(){return context;}public static Settings getSettings(){return settings;}public static class Settings {public boolean heic;public boolean isHeicSave(){return heic;}}}''',
@@ -51,17 +51,18 @@ PACKAGE+'.hasselblad.HasselbladSceneRenderer79':'''public class HasselbladSceneR
 }
 for name in ('CameraCharacteristics','CaptureResult','CaptureRequest'):
  STUBS['android/hardware/camera2/'+name+'.java']='package android.hardware.camera2;public class '+name+' {}'
-def run(work):
+def run(work,extra_sources=(),main="Stage94Check",receipt_name="STAGE94_HOST_VALIDATION.json"):
  work.mkdir(parents=True,exist_ok=True);src=work/'src';classes=work/'classes';classes.mkdir(exist_ok=True)
  for key,text in STUBS.items():
   if not key.endswith('.java'):
    package,_,name=key.rpartition('.');text='package '+package+';'+text;key=key.replace('.','/')+'.java'
   p=src/key;p.parent.mkdir(parents=True,exist_ok=True);p.write_text(text)
  java=ROOT/'HasselbladPhoton/app/src/main/java'/PACKAGE.replace('.','/')
- actual=['hasselblad/HasselbladCapture79.java','hasselblad/HasselbladDiagnostics86.java','processing/ProcessingEventsListener.java','processing/encoder/ImageFormatConfig.java','processing/processor/HdrxProcessor.java','processing/JPEGSaver.java','processing/YUVSaver.java']
+ actual=['hasselblad/HasselbladStillModes95.java','hasselblad/HasselbladCapture79.java','hasselblad/HasselbladDiagnostics86.java','processing/ProcessingEventsListener.java','processing/encoder/ImageFormatConfig.java','processing/processor/HdrxProcessor.java','processing/JPEGSaver.java','processing/YUVSaver.java']
  compiler=[shutil.which('javac')] if shutil.which('javac') else ['java','com.sun.tools.javac.Main']
- subprocess.run(compiler+['--release','17','-d',str(classes),*map(str,src.rglob('*.java')),*[str(java/p) for p in actual],str(HERE/'Stage94Check.java')],check=True)
- result=json.loads(subprocess.check_output(['java','-cp',str(classes),PACKAGE+'.hasselblad.Stage94Check',str(work)],text=True))
- (work/'STAGE94_HOST_VALIDATION.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result))
+ subprocess.run(compiler+['--release','17','-d',str(classes),*map(str,src.rglob('*.java')),*[str(java/p) for p in actual],str(HERE/'Stage94Check.java'),*map(str,extra_sources)],check=True)
+ output=subprocess.check_output(['java','-cp',str(classes),PACKAGE+'.hasselblad.'+main,str(work)],text=True)
+ result=json.loads(output.strip().splitlines()[-1])
+ (work/receipt_name).write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result))
 if __name__=='__main__':
  p=argparse.ArgumentParser();p.add_argument('--work',type=Path,required=True);run(p.parse_args().work.resolve())

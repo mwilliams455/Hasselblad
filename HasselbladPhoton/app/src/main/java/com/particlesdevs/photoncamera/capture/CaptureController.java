@@ -3848,6 +3848,9 @@ public class CaptureController implements MediaRecorder.OnInfoListener {
     }
 
     public boolean isZslMode() {
+        // The legacy ring pairs buffered pixels with the latest preview result.
+        // Hasselblad requires each RAW's own timestamp-matched metadata and source surface.
+        if (HasselbladDevelopmentPolicy.isEnabled()) return false;
         return PhotonCamera.getSettings().selectedMode == CameraMode.MOTION
                 && !IsoExpoSelector.HDR
                 && !isDualSession;

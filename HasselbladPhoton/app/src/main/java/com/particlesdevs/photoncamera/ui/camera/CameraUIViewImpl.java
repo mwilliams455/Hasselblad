@@ -1,5 +1,7 @@
 package com.particlesdevs.photoncamera.ui.camera;
 
+import com.particlesdevs.photoncamera.hasselblad.HasselbladStillModes95;
+
 import com.particlesdevs.photoncamera.hasselblad.HasselbladDevelopmentPolicy;
 
 import android.os.Bundle;
@@ -109,10 +111,10 @@ public class CameraUIViewImpl implements CameraUIView {
 
     private void initModeSwitcher() {
         if (HasselbladDevelopmentPolicy.isEnabled()) {
-            this.mModePicker.setValues(new String[]{cameraFragment.getString(R.string.mode_photo)});
+            this.mModePicker.setValues(new String[]{cameraFragment.getString(R.string.mode_photo), cameraFragment.getString(R.string.mode_motion)});
             this.mModePicker.setOverScrollMode(View.OVER_SCROLL_NEVER);
-            this.mModePicker.setOnItemSelectedListener(index -> switchToMode(CameraMode.PHOTO));
-            this.mModePicker.setSelectedItem(0);
+            this.mModePicker.setOnItemSelectedListener(index -> switchToMode(HasselbladStillModes95.at(index)));
+            this.mModePicker.setSelectedItem(HasselbladStillModes95.indexOf(PreferenceKeys.getCameraModeOrdinal()));
             return;
         }
         this.mModePicker.setValues(Arrays.stream(CameraMode.nameIds()).map(cameraFragment.activity::getString).toArray(String[]::new));

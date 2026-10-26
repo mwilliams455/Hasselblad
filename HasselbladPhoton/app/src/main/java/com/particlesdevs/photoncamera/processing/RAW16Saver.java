@@ -1,5 +1,7 @@
 package com.particlesdevs.photoncamera.processing;
 
+import com.particlesdevs.photoncamera.hasselblad.HasselbladStillModes95;
+
 import android.hardware.camera2.CameraCharacteristics;
 import android.media.Image;
 import android.os.AsyncTask;
@@ -44,9 +46,9 @@ public class RAW16Saver extends DefaultSaver{
     @Override
     public void addImage(Image image, android.view.Surface sourceSurface) {
         if (HasselbladDevelopmentPolicy.isEnabled()) {
-            if (PhotonCamera.getSettings().selectedMode != CameraMode.PHOTO) {
+            if (!HasselbladStillModes95.supports(PhotonCamera.getSettings().selectedMode)) {
                 try {HasselbladCapture79.reject94(PhotonCamera.getAppContext(),null,
-                        "This build supports single-frame Hasselblad Photo captures",
+                        "This build supports single-frame Hasselblad Photo or Motion captures",
                         processingCallback,processingEventsListener);}
                 finally {image.close();bufferLock=false;}
                 return;

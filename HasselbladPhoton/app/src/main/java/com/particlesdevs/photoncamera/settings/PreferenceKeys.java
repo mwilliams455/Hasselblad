@@ -1,5 +1,7 @@
 package com.particlesdevs.photoncamera.settings;
 
+import com.particlesdevs.photoncamera.hasselblad.HasselbladStillModes95;
+
 import com.particlesdevs.photoncamera.hasselblad.HasselbladDevelopmentPolicy;
 
 import android.app.Activity;
@@ -572,11 +574,12 @@ public class PreferenceKeys {
     }
 
     public static int getCameraModeOrdinal() {
-        if (HasselbladDevelopmentPolicy.isEnabled()) return com.particlesdevs.photoncamera.api.CameraMode.PHOTO.ordinal();
-        return preferenceKeys.settingsManager.getInteger(SCOPE_GLOBAL, Key.CAMERA_MODE);
+        int saved = preferenceKeys.settingsManager.getInteger(SCOPE_GLOBAL, Key.CAMERA_MODE);
+        return HasselbladDevelopmentPolicy.isEnabled() ? HasselbladStillModes95.allowedOrdinal(saved) : saved;
     }
 
     public static void setCameraModeOrdinal(int value) {
+        if (HasselbladDevelopmentPolicy.isEnabled()) value = HasselbladStillModes95.allowedOrdinal(value);
         preferenceKeys.settingsManager.set(SCOPE_GLOBAL, Key.CAMERA_MODE, value);
     }
 

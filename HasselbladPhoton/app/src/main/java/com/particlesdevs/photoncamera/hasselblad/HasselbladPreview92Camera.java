@@ -44,7 +44,7 @@ public final class HasselbladPreview92Camera implements AutoCloseable {
     }
     public static boolean eligible(){
         Settings s=PhotonCamera.getSettings();
-        return s!=null&&s.selectedMode==CameraMode.PHOTO&&!s.QuadBayer&&!s.heicSave&&!s.aspect169&&(s.rawSaver==0||s.rawSaver==1);
+        return s!=null&&HasselbladStillModes95.supports(s.selectedMode)&&!s.QuadBayer&&!s.heicSave&&!s.aspect169&&(s.rawSaver==0||s.rawSaver==1);
     }
     private void invalidate(){epoch++;colourEpoch++;frame=null;controlled=false;lastSample=0;if(worker!=null)worker.invalidate();}
     private void requestRebuild(){Runnable r; synchronized(this){r=rebuild;}if(r!=null)r.run();}

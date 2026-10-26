@@ -128,7 +128,7 @@ public class DefaultSaver extends SaverImplementation {
     public void processStart(int imageFormat, CameraCharacteristics characteristics, CaptureResult captureResult, CaptureRequest captureRequest, int cameraRotation) {
         if (HasselbladDevelopmentPolicy.isEnabled()) {
             HasselbladCapture79.reject94(PhotonCamera.getAppContext(),null,
-                    "This build supports single-frame Hasselblad Photo captures",
+                    "This build supports single-frame Hasselblad Photo or Motion captures",
                     processingCallback,processingEventsListener);
             return;
         }

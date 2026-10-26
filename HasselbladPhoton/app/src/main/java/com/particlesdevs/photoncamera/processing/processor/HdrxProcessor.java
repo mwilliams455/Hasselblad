@@ -1,5 +1,7 @@
 package com.particlesdevs.photoncamera.processing.processor;
 
+import com.particlesdevs.photoncamera.hasselblad.HasselbladStillModes95;
+
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureResult;
@@ -41,8 +43,8 @@ public final class HdrxProcessor extends ProcessorBase {
         var context=PhotonCamera.getAppContext();
         HasselbladCaptureEvidence evidence;int saveMode;
         try {
-            if(cameraMode!=CameraMode.PHOTO || imageFormat!=CaptureController.RAW_FORMAT)
-                throw new IOException("Hasselblad photos require Photo mode and a sensor RAW stream");
+            if(!HasselbladStillModes95.supports(cameraMode) || imageFormat!=CaptureController.RAW_FORMAT)
+                throw new IOException("Hasselblad photos require Photo or Motion mode and a sensor RAW stream");
             evidence=HasselbladCaptureEvidence.begin(frames,characteristics,captureResult,captureRequest);
             saveMode=ImageFormatConfig.resolve(saveRAW,PhotonCamera.getSettings().isHeicSave());
         } catch(Exception|LinkageError|OutOfMemoryError e) {

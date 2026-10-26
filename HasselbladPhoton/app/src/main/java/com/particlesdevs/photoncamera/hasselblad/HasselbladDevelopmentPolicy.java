@@ -21,7 +21,8 @@ public final class HasselbladDevelopmentPolicy {
         if (!isEnabled()) return;
         String scope = PreferenceKeys.SCOPE_GLOBAL;
         manager.set(scope, PreferenceKeys.Key.KEY_FRAME_COUNT, 1);
-        manager.set(scope, PreferenceKeys.Key.CAMERA_MODE, CameraMode.PHOTO.ordinal());
+        manager.set(scope, PreferenceKeys.Key.CAMERA_MODE, HasselbladStillModes95.allowedOrdinal(
+                manager.getInteger(scope, PreferenceKeys.Key.CAMERA_MODE, CameraMode.PHOTO.ordinal())));
         // In Photon, HDRX selects RAW input. It does not itself enable HDR output.
         manager.set(scope, PreferenceKeys.Key.KEY_HDRX, true);
         manager.set(scope, PreferenceKeys.Key.KEY_HDRX_NR, false);
@@ -62,7 +63,7 @@ public final class HasselbladDevelopmentPolicy {
     }
 
     public static String captureSummary() {
-        return "Development capture: PHOTO, one RAW input frame, SDR output. "
+        return "Development capture: PHOTO or MOTION, one RAW input frame, SDR output. "
                 + "Bracketing, stacking, video and maximum-resolution modes are disabled. "
                 + "The standard advertised RAW stream nearest 12.5 MP is preferred.\n\n"
                 + requestedRawMode + "\n\n" + deliveredRawMode;

@@ -47,7 +47,7 @@ public final class Stage94Check {
             if(frames!=null)for(ImageFrame frame:frames)if(frame!=null)check(frame.closes==1,"Frame not closed exactly once");
             try(var files=Files.list(context.getCacheDir().toPath())){check(files.noneMatch(p->p.getFileName().toString().startsWith("hb82-shot-")),"Temporary RAW/JPEG leaked");}
             check(!status().contains("Photon"),"Substitute renderer reported");
-            check(status().contains("0.1-hb-capture94"),"Missing result build");
+            check(status().contains(com.particlesdevs.photoncamera.BuildConfig.VERSION_NAME),"Missing result build");
             if(!Test94.diagnostics)check(!Files.exists(context.getCacheDir().toPath().resolve("hb82-latest")),"Diagnostics retained when off");
             else check(Files.readString(context.getCacheDir().toPath().resolve("hb82-latest/report.json")).contains("photon_colour_applied=false"),"Renderer requirement missing from report");
             check(success?!status().contains("failed"):(status().contains("failed")||status().contains("cancelled")),"Incorrect visible result");

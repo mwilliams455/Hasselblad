@@ -684,6 +684,7 @@ public class CaptureController implements MediaRecorder.OnInfoListener {
             mFlashed = state != null && state == CaptureResult.FLASH_STATE_PARTIAL || state == CaptureResult.FLASH_STATE_FIRED;
             mPreviewCaptureResult = result;
             mPreviewCaptureRequest = request;
+            if(session==mCaptureSession)preview92.result(CaptureController.this,request,result,surface);
 
             RggbChannelVector halGains = result.get(CaptureResult.COLOR_CORRECTION_GAINS);
             ColorSpaceTransform halTransform = result.get(CaptureResult.COLOR_CORRECTION_TRANSFORM);
@@ -1176,6 +1177,7 @@ public class CaptureController implements MediaRecorder.OnInfoListener {
      * Closes the current {@link CameraDevice}.
      */
     public void closeCamera() {
+        preview92.close();
         mCameraOpening.set(false);
         isCameraResumed = false;
         cancelLogicalZoom();
@@ -1374,6 +1376,16 @@ public class CaptureController implements MediaRecorder.OnInfoListener {
         }
     }
 
+    private final com.particlesdevs.photoncamera.hasselblad.HasselbladPreview92Camera preview92 = new com.particlesdevs.photoncamera.hasselblad.HasselbladPreview92Camera();
+    public com.particlesdevs.photoncamera.hasselblad.HasselbladPreview92Camera getPreview92(){return preview92;}
+    private CaptureRequest buildPreview92(){
+        return preview92.build(PhotonCamera.getAppContext(),mCameraManager,mPreviewRequestBuilder,surface,
+                mImageReaderRaw==null?null:mImageReaderRaw.getSurface(),()->{
+                    android.os.Handler handler=mBackgroundHandler;
+                    if(handler!=null)handler.post(()->{if(isCameraResumed)rebuildPreviewBuilder();});
+                });
+    }
+
     public void rebuildPreviewBuilder() {
         if(burst) return;
         if (mPreviewRequestBuilder == null || mCaptureSession == null) {
@@ -1381,7 +1393,7 @@ public class CaptureController implements MediaRecorder.OnInfoListener {
         }
         try {
 //            mCaptureSession.stopRepeating();
-            mPreviewInputRequest = mPreviewRequestBuilder.build();
+            mPreviewInputRequest = buildPreview92();
             submitVideoRepeating();
         } catch (IllegalStateException | IllegalArgumentException | NullPointerException e) {
             Logger.warnShort(TAG, "Cannot rebuildPreviewBuilder()!", e);
@@ -1421,7 +1433,7 @@ public class CaptureController implements MediaRecorder.OnInfoListener {
         }
         try {
             Log.d(TAG, "rebuildPreviewBuilderOneShot: " + mCaptureSession + " " + mPreviewRequestBuilder + " " + mCaptureCallback + " " + mBackgroundHandler);
-            mCaptureSession.capture(mPreviewRequestBuilder.build(), mCaptureCallback, mBackgroundHandler);
+            mCaptureSession.capture(buildPreview92(), mCaptureCallback, mBackgroundHandler);
         } catch (IllegalStateException | IllegalArgumentException | NullPointerException e) {
             Logger.warnShort(TAG, "Cannot rebuildPreviewBuilderOneShot()!", e);
         } catch (CameraAccessException e) {
@@ -2492,7 +2504,7 @@ public class CaptureController implements MediaRecorder.OnInfoListener {
         // Tell #mCaptureCallback to wait for the lock.
         mState = STATE_WAITING_LOCK;
         try {
-            mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(), mCaptureCallback,
+            mCaptureSession.setRepeatingRequest(buildPreview92(), mCaptureCallback,
                     mBackgroundHandler);
         } catch (CameraAccessException e) {
             Log.e(TAG, "Failed to start camera preview because it couldn't access camera", e);
@@ -2516,7 +2528,7 @@ public class CaptureController implements MediaRecorder.OnInfoListener {
                     CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_START);
             // Tell #mCaptureCallback to wait for the precapture sequence to be set.
             mState = STATE_WAITING_PRECAPTURE;
-            mCaptureSession.capture(mPreviewRequestBuilder.build(), mCaptureCallback,
+            mCaptureSession.capture(buildPreview92(), mCaptureCallback,
                     mBackgroundHandler);
         } catch (CameraAccessException | IllegalStateException e) {
             Log.e(TAG, Log.getStackTraceString(e));
@@ -2998,7 +3010,7 @@ public class CaptureController implements MediaRecorder.OnInfoListener {
                         // Finally, we start displaying the camera preview.
                         mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE,
                                 getSelectedFpsRange());
-                        mPreviewInputRequest = mPreviewRequestBuilder.build();
+                        mPreviewInputRequest = buildPreview92();
                         if (isBurstSession && isDualSession) {
                             switch (CameraFragment.mSelectedMode) {
                                 case NIGHT:
@@ -3655,7 +3667,7 @@ public class CaptureController implements MediaRecorder.OnInfoListener {
         else {
             try {
                 mState = STATE_WAITING_NON_PRECAPTURE;
-                mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(), mCaptureCallback,
+                mCaptureSession.setRepeatingRequest(buildPreview92(), mCaptureCallback,
                         mBackgroundHandler);
             } catch (CameraAccessException e) {
                 Log.e(TAG, "Failed to start camera preview because it couldn't access camera", e);
@@ -3694,11 +3706,11 @@ public class CaptureController implements MediaRecorder.OnInfoListener {
             paramController.setupPreview();
             /*mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,
                     CameraMetadata.CONTROL_AF_TRIGGER_CANCEL);
-            mCaptureSession.capture(mPreviewRequestBuilder.build(), mCaptureCallback,
+            mCaptureSession.capture(buildPreview92(), mCaptureCallback,
                     mBackgroundHandler);
             mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,
                     CameraMetadata.CONTROL_AF_TRIGGER_START);
-            mCaptureSession.capture(mPreviewRequestBuilder.build(), mCaptureCallback,
+            mCaptureSession.capture(buildPreview92(), mCaptureCallback,
                     mBackgroundHandler);*/
             // After this, the camera will go back to the normal state of preview.
             mState = STATE_PREVIEW;

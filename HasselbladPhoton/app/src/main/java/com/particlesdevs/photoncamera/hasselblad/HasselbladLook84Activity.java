@@ -41,7 +41,7 @@ public final class HasselbladLook84Activity extends BaseActivity {
             view.setPadding(pad+b.left,pad+b.top,pad+b.right,pad+b.bottom);return WindowInsetsCompat.CONSUMED;});
         TextView title=new TextView(this);title.setText("Hasselblad rendering");title.setTextSize(22);root.addView(title);
         active=new TextView(this);active.setTextSize(18);root.addView(active);
-        TextView help=new TextView(this);help.setText("The selected curve applies to saved JPEGs. Preview tone is an approximate guide; saved JPEG colour can differ. " +
+        TextView help=new TextView(this);help.setText("The selected curve applies to saved JPEGs. JPEG colour preview uses the same colour and finishing pipeline on supported cameras. " +
             "Use standard RAW, 4:3 and no digital zoom for the Hasselblad capture path.");root.addView(help);
         status=new TextView(this);root.addView(status);
         curve1=button(root,"Use curve 1 · deeper midtones",()->select(1));
@@ -50,12 +50,12 @@ public final class HasselbladLook84Activity extends BaseActivity {
         button(root,"Import tone pack (.hbt)",()->packPicker.launch(new String[]{"*/*"}));
         button(root,"Compare tone curves on a saved DNG",()->startActivity(new Intent(this,HasselbladTone83Activity.class)));
         button(root,"Compare sharpening on a saved DNG",()->startActivity(new Intent(this,HasselbladSharp86Activity.class)));
-        preview=new CheckBox(this);preview.setText("Preview tone curve (approximate)");
+        preview=new CheckBox(this);preview.setText("Preview JPEG colour and exposure");
         preview.setChecked(HasselbladPreview89Settings.enabled(this));root.addView(preview);
         preview.setOnCheckedChangeListener((button,checked)->{if(updatingPreview||busy)return;
             run("Saving preview preference…",()->{HasselbladPreview89Settings.setEnabled(this,checked);
-                return checked?"Tone guide enabled; it follows the active curve.":"Original camera preview restored.";});});
-        TextView previewHelp=new TextView(this);previewHelp.setText("Uses your selected curve and matching tone pack for a live tone guide in Photo mode. Colour, white balance and clipped highlights may differ from the JPEG. Turn off to compare with the original viewfinder. Missing or incompatible profiles leave the original preview visible.");root.addView(previewHelp);
+                return checked?"JPEG colour preview enabled; it follows the active curve.":"Original camera preview restored.";});});
+        TextView previewHelp=new TextView(this);previewHelp.setText("Removes the controlled camera tone curve, colour transform and exposure boost, then applies the saved JPEG colour and finishing. Photo mode only. Clipped highlights, rapid lighting changes and fine detail can still differ. Unsupported camera metadata restores the original viewfinder.");root.addView(previewHelp);
         sharpening=new CheckBox(this);sharpening.setText("Sharpen saved JPEGs");
         sharpening.setChecked(HasselbladSharpen87Settings.enabled(this));root.addView(sharpening);
         sharpening.setOnCheckedChangeListener((button,checked)->{if(updatingSharpening||busy)return;
@@ -63,7 +63,7 @@ public final class HasselbladLook84Activity extends BaseActivity {
                 return checked?"Selected sharpening enabled for subsequent JPEGs.":"Sharpening off for subsequent JPEGs.";});});
         sharpSelection=new TextView(this);root.addView(sharpSelection);
         button(root,"Adjust sharpening…",this::adjustSharpening);
-        TextView sharpHelp=new TextView(this);sharpHelp.setText("Strength adds edge detail. A higher fine-detail threshold leaves smaller edges and grain unsharpened; it does not remove noise. Applies to saved JPEGs only, including RAW + JPEG. The live preview shows tone, not sharpening. Default off.");root.addView(sharpHelp);
+        TextView sharpHelp=new TextView(this);sharpHelp.setText("Strength adds edge detail. A higher fine-detail threshold leaves smaller edges and grain unsharpened; it does not remove noise. Applies to saved JPEGs only, including RAW + JPEG. Preview sharpening is not applied. Default off.");root.addView(sharpHelp);
         diagnostics=new CheckBox(this);diagnostics.setText("Capture diagnostics");
         diagnostics.setChecked(HasselbladDiagnostics86.enabled(this));root.addView(diagnostics);
         diagnostics.setOnCheckedChangeListener((button,checked)->{if(updatingDiagnostics||busy)return;
@@ -133,14 +133,9 @@ public final class HasselbladLook84Activity extends BaseActivity {
                 HasselbladProfile43 p=HasselbladLookStore84.read(this);film=p.film;hash=HasselbladLook84.sha256(p.encoded());
                 activeText="Active look: "+HasselbladLook84.label(film);
                 detail=p.hasAutomaticIlluminant&&p.hasNativeFinishing?"Automatic LUT selection and native sRGB finishing enabled.":"This profile is not compatible with normal camera rendering. Import an automatic .hbc profile.";
-                try{HasselbladLookStore84.readPack(this).validateProfile(p);compatible=true;
-                    if(HasselbladPreview89Settings.enabled(this)){
-                        try{HasselbladPreview89Settings.load(this);detail+="\nPreview tone guide ready for Photo mode.";}
-                        catch(Exception|LinkageError e){detail+="\nPreview tone guide unavailable; original feed will be shown.";}
-                    }
-                    else detail+="\nPreview tone guide is off.";
-                }
-                catch(FileNotFoundException e){detail+="\nImport the matching tone pack to switch curves and enable the preview tone guide.";}
+                detail+=HasselbladPreview89Settings.enabled(this)?"\nLast camera status: "+HasselbladPreview92Camera.status():"\nJPEG colour preview is off.";
+                try{HasselbladLookStore84.readPack(this).validateProfile(p);compatible=true;}
+                catch(FileNotFoundException e){detail+="\nImport the matching tone pack to switch curves.";}
                 catch(Exception e){detail+="\nCurve switching unavailable: "+e.getMessage();}
             }catch(FileNotFoundException e) {/* First import. */}
             catch(Exception e){detail="Profile unavailable: "+e.getMessage();}

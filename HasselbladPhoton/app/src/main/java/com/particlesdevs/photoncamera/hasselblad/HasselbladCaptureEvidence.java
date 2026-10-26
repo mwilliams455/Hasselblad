@@ -86,6 +86,7 @@ public final class HasselbladCaptureEvidence {
         document.put("schema", "hasselblad-photon-capture-evidence-v1");
         document.put("purpose", "Original still metadata and effective export parameters; no camera colour fit is asserted.");
         document.put("input_frame_count", imageCount);
+        document.put("preview92_status", HasselbladPreview92Camera.status());
         document.put("delivered_raw", raw);
 
         originalStill.put("snapshot_point", "processor_start_before_existing_Photon_fix");

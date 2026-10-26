@@ -63,11 +63,12 @@ public final class HasselbladDngBridge79 implements AutoCloseable {
         float[] dynamic=r.get(CaptureResult.SENSOR_DYNAMIC_BLACK_LEVEL);
         BlackLevelPattern pattern=c.get(CameraCharacteristics.SENSOR_BLACK_LEVEL_PATTERN);
         require(dynamic!=null?dynamic.length==4:pattern!=null,"Original black levels missing");
-        short[] black=new short[4];
+        double[] exactBlack=new double[4];
+        short[] black=new short[4];boolean fractionalBlack=false;
         for(int i=0;i<4;i++) {
             double v=dynamic!=null?dynamic[i]:pattern.getOffsetForIndex(i%2,i/2);
-            require(Double.isFinite(v)&&v>=0&&v<white&&v==Math.rint(v),
-                    "Existing DNG writer requires integral original black levels");
+            require(Double.isFinite(v)&&v>=0&&v<white,"Invalid original black level");
+            exactBlack[i]=v;fractionalBlack|=v!=Math.rint(v);
             black[i]=(short)(int)v;
         }
         Rational[] n=r.get(CaptureResult.SENSOR_NEUTRAL_COLOR_POINT);
@@ -87,7 +88,9 @@ public final class HasselbladDngBridge79 implements AutoCloseable {
         require(light1!=null && light2!=null,"Original reference illuminants missing");
         try {
             writer=new DngCreator(); writer.setCompression(false);writer.setBinning(false);writer.setBitsPerSample(16);
-            writer.setWhiteLevel(white);writer.setBlackLevel(black);writer.setCFAPattern(0);writer.setOrientation(rotation/90);
+            writer.setWhiteLevel(white);
+            if(fractionalBlack)writer.setBlackLevelPrecise93(exactBlack);else writer.setBlackLevel(black);
+            writer.setCFAPattern(0);writer.setOrientation(rotation/90);
             writer.setColorMatrix1(matrix(c.get(CameraCharacteristics.SENSOR_COLOR_TRANSFORM1)));
             writer.setColorMatrix2(matrix(c.get(CameraCharacteristics.SENSOR_COLOR_TRANSFORM2)));
             writer.setForwardMatrix1(matrix(c.get(CameraCharacteristics.SENSOR_FORWARD_MATRIX1)));

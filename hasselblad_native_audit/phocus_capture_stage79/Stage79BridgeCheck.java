@@ -42,8 +42,11 @@ public final class Stage79BridgeCheck {
         }
         check(DngCreator.last.closed,"DNG writer leaked");
         r.set(SENSOR_DYNAMIC_BLACK_LEVEL,new float[]{60.5f,61,62,63});
-        boolean rejected=false;try(var ignored=new HasselbladDngBridge79(f,c,r,0)){}catch(java.io.IOException e){rejected=true;}
-        check(rejected,"Fractional black silently truncated");
+        try(var ignored=new HasselbladDngBridge79(f,c,r,0)){
+            check(Arrays.equals((double[])DngCreator.last.values.get("BlackLevelPrecise93"),new double[]{60.5,61,62,63}),"Fractional black not transported exactly");
+            check(!DngCreator.last.values.containsKey("BlackLevel"),"Fractional black was also sent through integer setter");
+        }
+        boolean rejected=false;
         r.set(SENSOR_DYNAMIC_BLACK_LEVEL,null);r.set(SENSOR_DYNAMIC_WHITE_LEVEL,null);
         try(var bridge=new HasselbladDngBridge79(f,c,r,0)) {
             check(DngCreator.last.values.get("WhiteLevel").equals(4095.0),"Static white fallback");

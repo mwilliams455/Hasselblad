@@ -17,6 +17,8 @@ struct DngMetadata {
     // White/Black levels
     double white_level = 1023.0;
     unsigned short black_level[4] = {0, 0, 0, 0};
+    double precise_black_level93[4] = {0, 0, 0, 0};
+    bool has_precise_black_level93 = false;
     
     // Color matrices
     double color_matrix1[9] = {0};
@@ -78,6 +80,9 @@ JNIEXPORT void JNICALL Java_com_particlesdevs_photoncamera_processing_DngCreator
 
 JNIEXPORT void JNICALL Java_com_particlesdevs_photoncamera_processing_DngCreator_setBlackLevel(
     JNIEnv *env, jobject obj, jlong creatorPtr, jshortArray blackLevel);
+
+JNIEXPORT jboolean JNICALL Java_com_particlesdevs_photoncamera_processing_DngCreator_setBlackLevelPrecise93(
+    JNIEnv *env, jobject obj, jlong creatorPtr, jdoubleArray blackLevel);
 
 JNIEXPORT void JNICALL Java_com_particlesdevs_photoncamera_processing_DngCreator_setColorMatrix1(
     JNIEnv *env, jobject obj, jlong creatorPtr, jdoubleArray matrix);

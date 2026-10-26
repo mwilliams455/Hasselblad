@@ -31,6 +31,7 @@ public class DngCreator {
     private native void setOrientation(long nativePtr, int orientation);
     private native void setWhiteLevel(long nativePtr, double whiteLevel);
     private native void setBlackLevel(long nativePtr, short[] blackLevel);
+    private native boolean setBlackLevelPrecise93(long nativePtr, double[] blackLevel);
     private native void setColorMatrix1(long nativePtr, double[] matrix);
     private native void setColorMatrix2(long nativePtr, double[] matrix);
     private native void setForwardMatrix1(long nativePtr, double[] matrix);
@@ -116,6 +117,15 @@ public class DngCreator {
             throw new IllegalArgumentException("Black level array must have 4 elements");
         }
         setBlackLevel(nativePtr, blackLevel);
+    }
+
+    /** Preserve Camera2 fractional black levels for unmodified, uncompressed 16-bit sensor RAW. */
+    public void setBlackLevelPrecise93(double[] blackLevel) {
+        if(nativePtr==0)throw new IllegalStateException("DNG writer is closed");
+        if(blackLevel==null||blackLevel.length!=4)throw new IllegalArgumentException("Four black levels required");
+        for(double level:blackLevel)if(!Double.isFinite(level)||level<0||level>65535)
+            throw new IllegalArgumentException("Invalid original black level");
+        if(!setBlackLevelPrecise93(nativePtr,blackLevel))throw new IllegalArgumentException("Cannot preserve original black levels");
     }
 
     /**

@@ -32,7 +32,7 @@ def run(root,work):
  setters={'boolean':['Compression','Binning'],'int':['BitsPerSample','CFAPattern','Orientation'],
   'double':['WhiteLevel','ExposureTime','Aperture','FocalLength'],'short[]':['BlackLevel'],
   'short':['CalibrationIlluminant1','CalibrationIlluminant2','Iso'],
-  'double[]':['ColorMatrix1','ColorMatrix2','ForwardMatrix1','ForwardMatrix2','CameraCalibration1','CameraCalibration2','AsShotNeutral','AnalogBalance'],
+  'double[]':['BlackLevelPrecise93','ColorMatrix1','ColorMatrix2','ForwardMatrix1','ForwardMatrix2','CameraCalibration1','CameraCalibration2','AsShotNeutral','AnalogBalance'],
   'String':['Make','Model','UniqueCameraModel','DateTime','Software','Description']}
  writer='''package com.particlesdevs.photoncamera.processing;import java.util.*;import java.nio.*;import java.io.*;
  public class DngCreator {public static DngCreator last;public static boolean failWrite;public boolean closed;public Map<String,Object> values=new HashMap<>();public DngCreator(){last=this;}

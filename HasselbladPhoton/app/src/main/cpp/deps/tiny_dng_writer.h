@@ -1749,13 +1749,10 @@ bool DNGImage::SetBlackLevel(const unsigned int num_components,
 
 bool DNGImage::SetBlackLevelRational(unsigned int num_samples,
                                      const double *values) {
-  // `SetSamplesPerPixel()` must be called in advance and SPP shoud be equal to
-  // `num_samples`.
-  if ((num_samples > 0) && (num_samples == samples_per_pixels_)) {
-    // OK
-  } else {
-    return false;
-  }
+  // DNG BlackLevel count is repeat rows * repeat columns * SamplesPerPixel.
+  // A 2x2 CFA needs four values even though SamplesPerPixel is one.
+  if (!values || !num_samples || !samples_per_pixels_ ||
+      num_samples % samples_per_pixels_ != 0) return false;
 
   std::vector<unsigned int> vs(num_samples * 2);
   for (size_t i = 0; i * 2 < vs.size(); i++) {
@@ -1764,6 +1761,14 @@ bool DNGImage::SetBlackLevelRational(unsigned int num_samples,
       // Couldn't represent fp value as integer rational value.
       return false;
     }
+
+    // Preserve representable original Camera2 float values exactly. Never silently
+    // truncate a fractional numerator/denominator or wrap an invalid unsigned value.
+    if (values[i] < 0 || numerator < 0 || denominator < 1 ||
+        numerator > std::numeric_limits<unsigned int>::max() ||
+        denominator > std::numeric_limits<unsigned int>::max() ||
+        std::floor(numerator) != numerator || std::floor(denominator) != denominator ||
+        numerator / denominator != values[i]) return false;
 
     vs[2 * i + 0] = static_cast<unsigned int>(numerator);
     vs[2 * i + 1] = static_cast<unsigned int>(denominator);

@@ -337,9 +337,17 @@ public:
     }
 
     void setBlackLevel(const unsigned short* blackLevel) {
+        metadata.has_precise_black_level93 = false;
         for (int i = 0; i < 4; i++) {
             metadata.black_level[i] = blackLevel[i];
         }
+    }
+
+    bool setBlackLevelPrecise93(const double* blackLevel) {
+        for(int i=0;i<4;i++)if(!std::isfinite(blackLevel[i])||blackLevel[i]<0||blackLevel[i]>65535)return false;
+        for(int i=0;i<4;i++)metadata.precise_black_level93[i]=blackLevel[i];
+        metadata.has_precise_black_level93=true;
+        return true;
     }
 
     void setColorMatrix1(const double* matrix) {
@@ -599,6 +607,12 @@ public:
             size = 0;
             return nullptr;
         }
+        // The exact metadata API is deliberately scoped to original sensor RAW.
+        // Existing integer/compressed/binned Photon output retains its established path.
+        if(metadata.has_precise_black_level93 && (metadata.binning || metadata.compression || metadata.bps!=16)) {
+            LOGE("Exact black levels require unmodified uncompressed 16-bit RAW");
+            size=0;return nullptr;
+        }
         metadata.original_width  = width;
         metadata.original_height = height;
 
@@ -661,7 +675,11 @@ public:
                 dng_image0->SetBlackLevel(4, compressedBlackLevel);
             }
         } else {
-            dng_image0->SetBlackLevel(4, metadata.black_level);
+            if(metadata.has_precise_black_level93) {
+                if(!dng_image0->SetBlackLevelRational(4,metadata.precise_black_level93)) {
+                    delete[] binnedData;size=0;return nullptr;
+                }
+            } else dng_image0->SetBlackLevel(4, metadata.black_level);
             if (!photon_dng::setWhiteLevel(*dng_image0, metadata.white_level)) {
                 delete[] binnedData;
                 size = 0;
@@ -868,6 +886,14 @@ public:
                 env->ReleaseShortArrayElements(blackLevel, levels, 0);
             }
         }
+    }
+
+    JNIEXPORT jboolean JNICALL Java_com_particlesdevs_photoncamera_processing_DngCreator_setBlackLevelPrecise93(JNIEnv *env, jobject obj, jlong creatorPtr, jdoubleArray blackLevel) {
+        DngCreator* creator=reinterpret_cast<DngCreator*>(creatorPtr);
+        if(!creator||!blackLevel||env->GetArrayLength(blackLevel)!=4)return JNI_FALSE;
+        jdouble levels[4];env->GetDoubleArrayRegion(blackLevel,0,4,levels);
+        if(env->ExceptionCheck())return JNI_FALSE;
+        return creator->setBlackLevelPrecise93(levels)?JNI_TRUE:JNI_FALSE;
     }
 
     JNIEXPORT void JNICALL Java_com_particlesdevs_photoncamera_processing_DngCreator_setColorMatrix1(JNIEnv *env, jobject obj, jlong creatorPtr, jdoubleArray matrix) {

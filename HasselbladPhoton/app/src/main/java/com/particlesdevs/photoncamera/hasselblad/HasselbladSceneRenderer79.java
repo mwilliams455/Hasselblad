@@ -24,6 +24,7 @@ public final class HasselbladSceneRenderer79 {
         public long preparationNs, referenceNs, demosaicNs, colourNs, belowBlack, atWhite, gainClips;
         public int gainMaps;
         public boolean sharpeningApplied;
+        public double[] chromaNeutral;
         public final List<Sample> samples=new ArrayList<>();
     }
     private static void interrupted() throws IOException {
@@ -54,6 +55,7 @@ public final class HasselbladSceneRenderer79 {
         r.rawWidth=m.width; r.rawHeight=m.height;
         r.width=HasselbladFrame77.width(m.width); r.height=HasselbladFrame77.width(m.height);
         r.orientation=prepared.orientation;
+        r.chromaNeutral=m.asShotNeutral.clone();
         r.belowBlack=prepared.belowBlack; r.atWhite=prepared.atWhite; r.gainClips=prepared.gainClips; r.gainMaps=m.gainMapCount;
         if (m.illuminant.error!=null) throw new IOException("Automatic LUT unavailable: "+m.illuminant.error);
         var selection=HasselbladIlluminant56.estimate(m.illuminant.colorMatrix1,m.illuminant.colorMatrix2,
@@ -71,7 +73,7 @@ public final class HasselbladSceneRenderer79 {
         try {
             for (int y=0;y<r.height;y+=64) {
                 interrupted(); t=System.nanoTime();
-                short[] rgb=HasselbladFrame77.band(prepared.bayer,m.width,m.height,y,workers);
+                short[] rgb=HasselbladFrame96.band(prepared.bayer,m.width,m.height,y,workers,r.chromaNeutral);
                 r.demosaicNs+=System.nanoTime()-t;
                 int rows=Math.min(64,r.height-y);
                 if (diagnostics && rows==64 && (y==0 || y==middle || y==last)) {

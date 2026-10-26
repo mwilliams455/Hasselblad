@@ -412,3 +412,10 @@ target_include_directories(hbsharp86 PRIVATE "${HB85_ROOT}")
 target_compile_options(hbsharp86 PRIVATE -O2 -Wall -Wextra -Werror -ffp-contract=off)
 target_link_libraries(hbsharp86 m)
 set_target_properties(hbsharp86 PROPERTIES C_STANDARD 11 C_STANDARD_REQUIRED ON LINK_FLAGS "-Wl,-z,defs,-z,max-page-size=16384")
+
+# Stage96 source-neutral adapter; original Phocus kernels remain in hbfinal74.
+get_filename_component(HB96_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/../../../../../hasselblad_native_audit/phocus_chroma_stage96" ABSOLUTE)
+add_library(hbframe96 SHARED "${HB96_ROOT}/frame96.c" "${HB96_ROOT}/jni96.c")
+target_link_libraries(hbframe96 PRIVATE hbfinal74 m)
+target_compile_options(hbframe96 PRIVATE -O2 -Wall -Wextra -Werror -fno-fast-math -ffp-contract=off)
+set_target_properties(hbframe96 PROPERTIES C_STANDARD 11 C_STANDARD_REQUIRED ON LINK_FLAGS "-Wl,-z,defs,-z,max-page-size=16384")

@@ -64,7 +64,7 @@ android {
             //noinspection ChromeOsAbiSupport
             abiFilters "arm64-v8a", "armeabi-v7a"
         }
-        versionName '0.1-hb-motion95'
+        versionName '0.1-hb-chroma96'
         versionProps['VERSION_NAME'] = versionName
         proguardFiles
     }

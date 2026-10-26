@@ -1,0 +1,16 @@
+{
+  "status": "PASS_REACTIVE_PREVIEW",
+  "checks": 2160,
+  "profile_sets": 2,
+  "selection_writes": 32,
+  "without_activity_restart": true,
+  "max_cached_tables": 3,
+  "cache_payload_bytes": 12288,
+  "android_device_tested": false,
+  "private_profile_sets_checked": 1,
+  "storage_adapter": "JVM AtomicFile fault injection and concurrent preferences; actual production store and controller",
+  "preview_pixel_math_changed": false,
+  "demosaic_retested": false,
+  "shader_math_retested": false,
+  "stage89_shader_proof_retained": true
+}

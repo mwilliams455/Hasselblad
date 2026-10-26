@@ -25,6 +25,10 @@ public final class HasselbladLookStore84 {
             ByteArrayOutputStream readback=new ByteArrayOutputStream();byte[] block=new byte[16384];int n;
             while((n=in.read(block))!=-1)readback.write(block,0,n);
             if(!Arrays.equals(bytes,readback.toByteArray()))throw new IOException("Profile storage verification failed. Refresh to check the active profile.");
+        } finally {
+            // A completed write can change the file even if verification then fails.
+            // Invalidate first; a subsequent load validates the actual stored data.
+            HasselbladPreview90Changes.changed();
         }
     }
     public static synchronized void importProfile(Context c,HasselbladProfile43 profile)throws Exception {

@@ -53,7 +53,7 @@ public final class HasselbladLook84Activity extends BaseActivity {
         preview.setChecked(HasselbladPreview89Settings.enabled(this));root.addView(preview);
         preview.setOnCheckedChangeListener((button,checked)->{if(updatingPreview||busy)return;
             run("Saving preview preference…",()->{HasselbladPreview89Settings.setEnabled(this,checked);
-                return checked?"Tone guide enabled when you return to the camera.":"Original camera preview restored when you return to the camera.";});});
+                return checked?"Tone guide enabled; it follows the active curve.":"Original camera preview restored.";});});
         TextView previewHelp=new TextView(this);previewHelp.setText("Uses your selected curve and matching tone pack for a live tone guide in Photo mode. Colour, white balance and clipped highlights may differ from the JPEG. Turn off to compare with the original viewfinder. Missing or incompatible profiles leave the original preview visible.");root.addView(previewHelp);
         sharpening=new CheckBox(this);sharpening.setText("Sharpen saved JPEGs");
         sharpening.setChecked(HasselbladSharpen87Settings.enabled(this));root.addView(sharpening);
@@ -83,7 +83,7 @@ public final class HasselbladLook84Activity extends BaseActivity {
     private void select(int film) {
         final String expected=profileHash;
         run("Saving curve selection…",()->{HasselbladProfile43 selected=HasselbladLookStore84.select(this,expected,film);
-            return HasselbladLook84.label(selected.film)+" saved for subsequent camera JPEGs.";});
+            return HasselbladLook84.label(selected.film)+" saved for camera JPEGs and the live tone guide.";});
     }
     private void importFile(Uri uri,boolean tonePack) {
         run("Checking imported file…",()->{

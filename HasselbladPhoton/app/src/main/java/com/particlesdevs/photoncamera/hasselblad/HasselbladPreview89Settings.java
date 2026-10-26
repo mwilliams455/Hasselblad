@@ -8,7 +8,10 @@ public final class HasselbladPreview89Settings {
     private HasselbladPreview89Settings() {}
     public static boolean enabled(Context c){return c!=null&&c.getSharedPreferences("hasselblad-preview89",Context.MODE_PRIVATE).getBoolean("enabled",true);}
     public static void setEnabled(Context c,boolean value)throws IOException {
-        if(!c.getSharedPreferences("hasselblad-preview89",Context.MODE_PRIVATE).edit().putBoolean("enabled",value).commit())
+        boolean committed=c.getSharedPreferences("hasselblad-preview89",Context.MODE_PRIVATE).edit().putBoolean("enabled",value).commit();
+        // Android may update in-memory preferences even when disk commit fails.
+        HasselbladPreview90Changes.changed();
+        if(!committed)
             throw new IOException("Could not save preview setting");
     }
     public static HasselbladPreview89.Tone load(Context c)throws Exception {
@@ -17,6 +20,6 @@ public final class HasselbladPreview89Settings {
         synchronized(HasselbladLookStore84.class) {
             profile=HasselbladLookStore84.read(c);pack=HasselbladLookStore84.readPack(c);
         }
-        return HasselbladPreview89.build(profile,pack);
+        return HasselbladPreview90Cache.get(profile,pack);
     }
 }

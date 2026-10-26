@@ -21,6 +21,7 @@ import com.particlesdevs.photoncamera.circularbarlib.api.ManualModeConsole;
 import com.particlesdevs.photoncamera.api.CameraMode;
 import com.particlesdevs.photoncamera.api.Settings;
 import com.particlesdevs.photoncamera.hasselblad.HasselbladPreview89;
+import com.particlesdevs.photoncamera.hasselblad.HasselbladPreview90Controller;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -43,7 +44,7 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
     private boolean mGLInit = false;
     private boolean mUpdateST = false;
     private volatile boolean mMirrorPreview;
-    private volatile HasselbladPreview89.Tone mTone89;
+    private volatile HasselbladPreview90Controller.Frame mTone90=HasselbladPreview90Controller.Frame.empty();
     private HasselbladPreview89.Tone mFrameTone89;
     private boolean mFrameToneEligible89;
     private HasselbladPreview89.Tone mUploadedTone89;
@@ -52,7 +53,7 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
     private boolean mToneUploadAttempted89;
     private int uSharpTone89,uSharpToneEnabled89,uBlurTone89,uBlurToneEnabled89;
 
-    public void setTonePreview89(HasselbladPreview89.Tone tone){mTone89=tone;mView.requestRender();}
+    public void setTonePreview90(HasselbladPreview90Controller.Frame frame){mTone90=frame;mView.requestRender();}
 
     /** A tone guide is meaningful only for the ordinary RAW-backed JPEG photo path. */
     private boolean toneEligible89() {
@@ -312,7 +313,7 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
     public void onDrawFrame(GL10 unused) {
         if (!mGLInit)
             return;
-        mFrameTone89=mTone89;
+        mFrameTone89=mTone90.currentTone();
         mFrameToneEligible89=mFrameTone89!=null&&mFrameTone89.film!=7&&toneEligible89();
         // Always start from the window framebuffer: a skipped pass must never
         // leave the blur FBO bound across frames.

@@ -14,7 +14,7 @@ import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.TextureView;
 import com.particlesdevs.photoncamera.circularbarlib.api.ManualModeConsole;
-import com.particlesdevs.photoncamera.hasselblad.HasselbladPreview89Loader;
+import com.particlesdevs.photoncamera.hasselblad.HasselbladPreview90Controller;
 import com.particlesdevs.photoncamera.hasselblad.HasselbladPreview89Settings;
 
 public class GLPreview extends GLSurfaceView {
@@ -23,19 +23,21 @@ public class GLPreview extends GLSurfaceView {
     private TextureView.SurfaceTextureListener surfaceTextureListener;
     private Handler handler;
     private boolean isPlaceholder;
-    private HasselbladPreview89Loader toneLoader89;
+    private HasselbladPreview90Controller toneController90;
+    private boolean toneResumed90;
 
     private void refreshTone89() {
-        if(isPlaceholder||mRenderer==null)return;
-        if(toneLoader89==null)toneLoader89=new HasselbladPreview89Loader();
-        Context app=getContext().getApplicationContext();
-        toneLoader89.load(()->HasselbladPreview89Settings.load(app),mRenderer::setTonePreview89);
+        if(isPlaceholder||mRenderer==null||!toneResumed90||!isAttachedToWindow())return;
+        if(toneController90==null){
+            Context app=getContext().getApplicationContext();
+            toneController90=new HasselbladPreview90Controller(()->HasselbladPreview89Settings.load(app),mRenderer::setTonePreview90);
+        }
+        toneController90.start();
     }
 
     @Override protected void onAttachedToWindow(){super.onAttachedToWindow();refreshTone89();}
     @Override protected void onDetachedFromWindow(){
-        if(toneLoader89!=null){toneLoader89.close();toneLoader89=null;}
-        if(mRenderer!=null)mRenderer.setTonePreview89(null);
+        if(toneController90!=null){toneController90.close();toneController90=null;}
         super.onDetachedFromWindow();
     }
     private final Paint placeholderPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -152,14 +154,15 @@ public class GLPreview extends GLSurfaceView {
     @Override
     public void onResume() {
         super.onResume();
+        toneResumed90=true;
         refreshTone89();
         // mRenderer.onResume();
     }
 
     @Override
     public void onPause() {
-        if(toneLoader89!=null)toneLoader89.cancel();
-        if(mRenderer!=null)mRenderer.setTonePreview89(null);
+        toneResumed90=false;
+        if(toneController90!=null)toneController90.stop();
         fireOnSurfaceTextureDestroyed(getSurfaceTexture());
         // mRenderer.onPause();
         super.onPause();

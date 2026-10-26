@@ -32,7 +32,7 @@ def main():
     (stubs/'Context.java').write_text(CONTEXT);(stubs/'AtomicFile.java').write_text(ATOMIC)
     java=ROOT/'HasselbladPhoton/app/src/main/java/com/particlesdevs/photoncamera/hasselblad'
     compiler=[shutil.which('javac')] if shutil.which('javac') else ['java','com.sun.tools.javac.Main']
-    sources=[java/(s+'.java') for s in ('HasselbladLook84','HasselbladLookStore84','HasselbladTone83','HasselbladProfile43','HasselbladRenderer42')]
+    sources=[java/(s+'.java') for s in ('HasselbladPreview90Changes','HasselbladLook84','HasselbladLookStore84','HasselbladTone83','HasselbladProfile43','HasselbladRenderer42')]
     subprocess.run(compiler+['--release','17','-d',str(classes),*map(str,sources),str(stubs/'Context.java'),str(stubs/'AtomicFile.java'),
                             str(HERE.parent/'phocus_tone_stage83/Stage83Check.java'),str(HERE/'Stage84Check.java')],check=True)
     args=['java','-cp',str(classes),'Stage84Check',str(work)]

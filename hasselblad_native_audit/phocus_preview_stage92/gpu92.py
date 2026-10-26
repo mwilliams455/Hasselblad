@@ -63,7 +63,7 @@ def check_gpu(assets,work):
     pixels[1,:8,:3]=np.array([[0,0,0],[255,255,255],[255,0,0],[0,255,0],[0,0,255],[255,255,0],[0,255,255],[255,0,255]])
     def upload(unit,name,data,w,h):
         active(0x84C0+unit);bind(0x0DE1,name)
-        for key,value in ((0x2801,0x2601 if unit==1 else 0x2600),(0x2800,0x2601 if unit==1 else 0x2600),(0x2802,0x812F),(0x2803,0x812F)):param(0x0DE1,key,value)
+        for key,value in ((0x2801,0x2600),(0x2800,0x2600),(0x2802,0x812F),(0x2803,0x812F)):param(0x0DE1,key,value)
         tex(0x0DE1,0,0x1908,w,h,0,0x1908,0x1401,data.ctypes.data)
     upload(0,names[0],pixels,width,height)
     bnames=(U*2)();gl('glGenBuffers',None,[I,C.POINTER(U)])(2,bnames)
@@ -118,7 +118,15 @@ def check_gpu(assets,work):
             assert d<=1,('CPU/GPU difference',d,index);assert on[:,:,3].min()==255;on_pixels+=width*height
             if index==0:assert np.max(np.abs(on.astype(int)-off.astype(int)))<=1,'identity table'
 
+    # Isolate production cube interpolation from the existing mediump preview caller.
+    # A deliberately discontinuous public table stresses fractional arithmetic.
+    probe=program(vertex,'precision highp float; uniform highp sampler2D sTexture; in vec2 texCoord; out vec4 Output;\n'+tone+'\nvoid main(){Output=vec4(hb89Tone(texture(sTexture,texCoord).rgb),1.0);}')
+    programs.append(probe)
+    steep=np.random.default_rng(9201).integers(0,256,(33,1089,4),dtype=np.uint8);steep[:,:,3]=255
+    upload(1,names[1],steep,1089,33)
+    off=render(probe,0);on=render(probe,1);probe_error=int(np.max(np.abs(on[:,:,:3].astype(int)-cpu(off[:,:,:3],steep).astype(int))))
+    assert probe_error<=1,('steep cube highp interpolation',probe_error)
     for p in programs:gl('glDeleteProgram',None,[U])(p)
     efn('eglMakeCurrent',U,[P,P,P,P])(display,None,None,None)
     efn('eglDestroySurface',U,[P,P])(display,surface);efn('eglDestroyContext',U,[P,P])(display,context);efn('eglTerminate',U,[P])(display)
-    return {'renderer':renderer,'gl_version':version,'production_oes_and_fallback_programs_linked':4,'off_pixels_exact':off_pixels,'on_pixels_compared':on_pixels,'max_rgb8_difference_from_cpu':worst,'blur_vs_cpu_before_filter_max_tolerance':2,'texture_adapter':'2D fixture; external-OES production shader separately compiled','android_surface_lifecycle_tested':False}
+    return {'renderer':renderer,'gl_version':version,'production_oes_and_fallback_programs_linked':4,'off_pixels_exact':off_pixels,'on_pixels_compared':on_pixels,'max_rgb8_difference_from_cpu':worst,'steep_table_interpolation_probe_pixels':width*height,'steep_table_interpolation_probe_max_error':probe_error,'blur_vs_cpu_before_filter_max_tolerance':2,'texture_adapter':'2D fixture; external-OES production shader separately compiled','android_surface_lifecycle_tested':False}

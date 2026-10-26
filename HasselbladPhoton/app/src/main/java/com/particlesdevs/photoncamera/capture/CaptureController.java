@@ -1177,9 +1177,9 @@ public class CaptureController implements MediaRecorder.OnInfoListener {
      * Closes the current {@link CameraDevice}.
      */
     public void closeCamera() {
-        preview92.close();
         mCameraOpening.set(false);
         isCameraResumed = false;
+        preview92.close();
         cancelLogicalZoom();
         mLogicalRenderRatio = 0f;
         // Cancel any queued/delayed lens switch and invalidate in-flight

@@ -19,8 +19,8 @@ import java.util.*;
 public final class HasselbladLook84Activity extends BaseActivity {
     private TextView status,active,last;
     private MaterialButton curve0,curve1;
-    private CheckBox diagnostics,sharpening;
-    private boolean updatingDiagnostics,updatingSharpening;
+    private CheckBox diagnostics,sharpening,preview;
+    private boolean updatingDiagnostics,updatingSharpening,updatingPreview;
     private final List<MaterialButton> controls=new ArrayList<>();
     private boolean busy;
     private volatile boolean destroyed;
@@ -40,7 +40,7 @@ public final class HasselbladLook84Activity extends BaseActivity {
             view.setPadding(pad+b.left,pad+b.top,pad+b.right,pad+b.bottom);return WindowInsetsCompat.CONSUMED;});
         TextView title=new TextView(this);title.setText("Hasselblad rendering");title.setTextSize(22);root.addView(title);
         active=new TextView(this);active.setTextSize(18);root.addView(active);
-        TextView help=new TextView(this);help.setText("The selected curve applies to saved JPEGs. The live viewfinder does not yet show this look. " +
+        TextView help=new TextView(this);help.setText("The selected curve applies to saved JPEGs. Preview tone is an approximate guide; saved JPEG colour can differ. " +
             "Use standard RAW, 4:3 and no digital zoom for the Hasselblad capture path.");root.addView(help);
         status=new TextView(this);root.addView(status);
         curve1=button(root,"Use curve 1 · deeper midtones",()->select(1));
@@ -49,6 +49,12 @@ public final class HasselbladLook84Activity extends BaseActivity {
         button(root,"Import tone pack (.hbt)",()->packPicker.launch(new String[]{"*/*"}));
         button(root,"Compare tone curves on a saved DNG",()->startActivity(new Intent(this,HasselbladTone83Activity.class)));
         button(root,"Compare sharpening on a saved DNG",()->startActivity(new Intent(this,HasselbladSharp86Activity.class)));
+        preview=new CheckBox(this);preview.setText("Preview tone curve (approximate)");
+        preview.setChecked(HasselbladPreview89Settings.enabled(this));root.addView(preview);
+        preview.setOnCheckedChangeListener((button,checked)->{if(updatingPreview||busy)return;
+            run("Saving preview preference…",()->{HasselbladPreview89Settings.setEnabled(this,checked);
+                return checked?"Tone guide enabled when you return to the camera.":"Original camera preview restored when you return to the camera.";});});
+        TextView previewHelp=new TextView(this);previewHelp.setText("Uses your selected curve and matching tone pack for a live tone guide in Photo mode. Colour, white balance and clipped highlights may differ from the JPEG. Turn off to compare with the original viewfinder. Missing or incompatible profiles leave the original preview visible.");root.addView(previewHelp);
         sharpening=new CheckBox(this);sharpening.setText("Sharpen saved JPEGs");
         sharpening.setChecked(HasselbladSharpen87Settings.enabled(this));root.addView(sharpening);
         sharpening.setOnCheckedChangeListener((button,checked)->{if(updatingSharpening||busy)return;
@@ -67,7 +73,7 @@ public final class HasselbladLook84Activity extends BaseActivity {
         button(root,"Refresh",()->refresh(null));button(root,"Back",this::finish);setContentView(scroll);
     }
     @Override protected void onResume(){super.onResume();if(!busy)refresh(null);}
-    private void busy(boolean value){busy=value;if(diagnostics!=null)diagnostics.setEnabled(!value);if(sharpening!=null)sharpening.setEnabled(!value);for(MaterialButton b:controls)b.setEnabled(!value);curve0.setEnabled(false);curve1.setEnabled(false);}
+    private void busy(boolean value){busy=value;if(preview!=null)preview.setEnabled(!value);if(diagnostics!=null)diagnostics.setEnabled(!value);if(sharpening!=null)sharpening.setEnabled(!value);for(MaterialButton b:controls)b.setEnabled(!value);curve0.setEnabled(false);curve1.setEnabled(false);}
     private interface Work {String run()throws Exception;}
     private void run(String message,Work task) {
         busy(true);status.setText(message);
@@ -98,8 +104,14 @@ public final class HasselbladLook84Activity extends BaseActivity {
                 HasselbladProfile43 p=HasselbladLookStore84.read(this);film=p.film;hash=HasselbladLook84.sha256(p.encoded());
                 activeText="Active look: "+HasselbladLook84.label(film);
                 detail=p.hasAutomaticIlluminant&&p.hasNativeFinishing?"Automatic LUT selection and native sRGB finishing enabled.":"This profile is not compatible with normal camera rendering. Import an automatic .hbc profile.";
-                try{HasselbladLookStore84.readPack(this).validateProfile(p);compatible=true;}
-                catch(FileNotFoundException e){detail+="\nImport the tone pack to switch curves.";}
+                try{HasselbladLookStore84.readPack(this).validateProfile(p);compatible=true;
+                    if(HasselbladPreview89Settings.enabled(this)){
+                        try{HasselbladPreview89Settings.load(this);detail+="\nPreview tone guide ready for Photo mode.";}
+                        catch(Exception|LinkageError e){detail+="\nPreview tone guide unavailable; original feed will be shown.";}
+                    }
+                    else detail+="\nPreview tone guide is off.";
+                }
+                catch(FileNotFoundException e){detail+="\nImport the matching tone pack to switch curves and enable the preview tone guide.";}
                 catch(Exception e){detail+="\nCurve switching unavailable: "+e.getMessage();}
             }catch(FileNotFoundException e) {/* First import. */}
             catch(Exception e){detail="Profile unavailable: "+e.getMessage();}
@@ -120,6 +132,7 @@ public final class HasselbladLook84Activity extends BaseActivity {
             runOnUiThread(()->{if(destroyed)return;profileHash=s;active.setText(a);last.setText(c);status.setText((notice==null?"":notice+"\n")+d);
                 updatingSharpening=true;sharpening.setChecked(HasselbladSharpen87Settings.enabled(this));updatingSharpening=false;
                 updatingDiagnostics=true;diagnostics.setChecked(HasselbladDiagnostics86.enabled(this));updatingDiagnostics=false;
+                updatingPreview=true;preview.setChecked(HasselbladPreview89Settings.enabled(this));updatingPreview=false;
                 busy(false);curve0.setEnabled(enabled&&f!=0);curve1.setEnabled(enabled&&f!=1);
                 curve0.setText(f==0?"Curve 0 · active":"Use curve 0 · brighter midtones");curve1.setText(f==1?"Curve 1 · active":"Use curve 1 · deeper midtones");});
         },"HB84-status");worker.start();

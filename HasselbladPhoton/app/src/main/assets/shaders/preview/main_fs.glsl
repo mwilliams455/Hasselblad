@@ -12,6 +12,7 @@ uniform float uCornerRadius;
 uniform vec2 uSharpOrigin;
 out vec4 Output;
 in vec2 texCoord;
+// HB89_TONE
 void main() {
     if (uCornerRadius > 0.0) {
         vec2 halfSize = resolution * 0.5;
@@ -40,6 +41,8 @@ void main() {
     // denoise
     float w = (diff * diff) /(denoiseK + (diff * diff));
     vec4 dc = vec4(1.0,0.0,1.0,0.0);
+    // Peaking is measured from the original feed and overlaid after tone mapping.
+    color.rgb = hb89Tone(color.rgb);
     if(enablePeak)
         color = color + dc*32.0*diff*w;
     Output = color;

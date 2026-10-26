@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.SurfaceTexture;
+import android.hardware.camera2.CameraCharacteristics;
 import android.opengl.GLES11Ext;
 import android.opengl.GLES20;
 import android.opengl.GLES30;
@@ -17,6 +18,9 @@ import com.particlesdevs.photoncamera.R;
 import com.particlesdevs.photoncamera.app.PhotonCamera;
 import com.particlesdevs.photoncamera.capture.CaptureController;
 import com.particlesdevs.photoncamera.circularbarlib.api.ManualModeConsole;
+import com.particlesdevs.photoncamera.api.CameraMode;
+import com.particlesdevs.photoncamera.api.Settings;
+import com.particlesdevs.photoncamera.hasselblad.HasselbladPreview89;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -39,6 +43,52 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
     private boolean mGLInit = false;
     private boolean mUpdateST = false;
     private volatile boolean mMirrorPreview;
+    private volatile HasselbladPreview89.Tone mTone89;
+    private HasselbladPreview89.Tone mFrameTone89;
+    private boolean mFrameToneEligible89;
+    private HasselbladPreview89.Tone mUploadedTone89;
+    private int mToneTexture89;
+    private boolean mToneTextureReady89;
+    private boolean mToneUploadAttempted89;
+    private int uSharpTone89,uSharpToneEnabled89,uBlurTone89,uBlurToneEnabled89;
+
+    public void setTonePreview89(HasselbladPreview89.Tone tone){mTone89=tone;mView.requestRender();}
+
+    /** A tone guide is meaningful only for the ordinary RAW-backed JPEG photo path. */
+    private boolean toneEligible89() {
+        Settings settings=PhotonCamera.getSettings();
+        CameraCharacteristics camera=CaptureController.mCameraCharacteristics;
+        if(settings==null||settings.selectedMode!=CameraMode.PHOTO||settings.QuadBayer||settings.heicSave||settings.aspect169||
+                (settings.rawSaver!=0&&settings.rawSaver!=1)||camera==null)return false;
+        int[] capabilities=camera.get(CameraCharacteristics.REQUEST_AVAILABLE_CAPABILITIES);
+        if(capabilities!=null)for(int c:capabilities)
+            if(c==CameraCharacteristics.REQUEST_AVAILABLE_CAPABILITIES_RAW)return true;
+        return false;
+    }
+
+    private void bindTone89(int sampler,int enabled) {
+        HasselbladPreview89.Tone tone=mFrameTone89;
+        GLES20.glActiveTexture(GLES20.GL_TEXTURE1);
+        if(mToneTexture89==0&&!mToneUploadAttempted89){int[] names=new int[1];GLES20.glGenTextures(1,names,0);mToneTexture89=names[0];}
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D,mToneTexture89);
+        if(tone!=mUploadedTone89||!mToneUploadAttempted89) {
+            byte[] bytes=tone==null?new byte[]{0,0,0,(byte)255}:tone.texture();
+            ByteBuffer data=ByteBuffer.allocateDirect(bytes.length);data.put(bytes).position(0);
+            // Discard prior GL errors before attributing an error to this optional upload.
+            for(int i=0;i<8&&GLES20.glGetError()!=GLES20.GL_NO_ERROR;i++){}
+            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D,GLES20.GL_TEXTURE_MIN_FILTER,GLES20.GL_NEAREST);
+            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D,GLES20.GL_TEXTURE_MAG_FILTER,GLES20.GL_NEAREST);
+            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D,GLES20.GL_TEXTURE_WRAP_S,GLES20.GL_CLAMP_TO_EDGE);
+            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D,GLES20.GL_TEXTURE_WRAP_T,GLES20.GL_CLAMP_TO_EDGE);
+            GLES20.glTexImage2D(GLES20.GL_TEXTURE_2D,0,GLES20.GL_RGBA,bytes.length/4,1,0,GLES20.GL_RGBA,GLES20.GL_UNSIGNED_BYTE,data);
+            mToneTextureReady89=mToneTexture89!=0&&GLES20.glGetError()==GLES20.GL_NO_ERROR;
+            mUploadedTone89=tone;
+            mToneUploadAttempted89=true;
+        }
+        GLES20.glUniform1i(sampler,1);
+        GLES20.glUniform1i(enabled,mToneTextureReady89&&mFrameToneEligible89?1:0);
+        GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
+    }
 
     /**
      * Live frosted-glass region (quick settings bar, lens/zoom pills, manual
@@ -262,6 +312,8 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
     public void onDrawFrame(GL10 unused) {
         if (!mGLInit)
             return;
+        mFrameTone89=mTone89;
+        mFrameToneEligible89=mFrameTone89!=null&&mFrameTone89.film!=7&&toneEligible89();
         // Always start from the window framebuffer: a skipped pass must never
         // leave the blur FBO bound across frames.
         GLES30.glBindFramebuffer(GLES30.GL_FRAMEBUFFER, 0);
@@ -334,6 +386,7 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
         GLES20.glUniform2f(resolution, sharpWidth, sharpHeight);
         GLES20.glUniform1f(uCornerRadius, mRoundCorners ? mRoundCornerRadiusPx : 0f);
         GLES20.glUniform2f(uSharpOrigin, sharpLeft, sharpBottom);
+        bindTone89(uSharpTone89,uSharpToneEnabled89);
         bindQuadAttributes(mSharpProgram);
         // The blur passes bind 2D textures to unit 0; re-bind the camera texture.
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
@@ -412,6 +465,7 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
         GLES20.glUniform1f(uOesCos, mTexRotateMatrix[0]);
         GLES20.glUniform1f(uOesSin, mTexRotateMatrix[1]);
         GLES20.glUniform1i(uOesMirror, mMirrorPreview ? 1 : 0);
+        bindTone89(uBlurTone89,uBlurToneEnabled89);
         bindQuadAttributes(mBlurOesProgram);
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
         GLES20.glBindTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, hTex[0]);
@@ -520,6 +574,8 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
 
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
+        // Names belong to the old context. Upload the current CPU table into the new one.
+        mToneTexture89=0;mUploadedTone89=null;mToneTextureReady89=false;mToneUploadAttempted89=false;
         // The EGL context is fresh: drop any GL resources from the previous one.
         releaseBlurTargets();
 
@@ -549,8 +605,7 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
     private void ensureGlPrograms() {
         if (mSharpProgram == 0) {
             String vss_default = loadAsset("shaders/preview/main_vs.glsl");
-            String fss_default = loadAsset("shaders/preview/main_fs.glsl");
-            mSharpProgram = loadShader(vss_default, fss_default);
+            mSharpProgram = loadPreviewProgram89(vss_default,"shaders/preview/main_fs.glsl");
             if (mSharpProgram != 0) {
                 GLES20.glUseProgram(mSharpProgram);
                 uTexRotateMatrix = GLES20.glGetUniformLocation(mSharpProgram, "uTexRotateMatrix");
@@ -562,6 +617,8 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
                 resolution = GLES20.glGetUniformLocation(mSharpProgram, "resolution");
                 uCornerRadius = GLES20.glGetUniformLocation(mSharpProgram, "uCornerRadius");
                 uSharpOrigin = GLES20.glGetUniformLocation(mSharpProgram, "uSharpOrigin");
+                uSharpTone89=GLES20.glGetUniformLocation(mSharpProgram,"uTone89");
+                uSharpToneEnabled89=GLES20.glGetUniformLocation(mSharpProgram,"uTone89Enabled");
                 GLES20.glVertexAttribPointer(vPosition, 2, GLES20.GL_FLOAT, false, 4 * 2, pVertex);
                 GLES20.glVertexAttribPointer(vTexCoord, 2, GLES20.GL_FLOAT, false, 4 * 2, pTexCoord);
                 GLES20.glEnableVertexAttribArray(vPosition);
@@ -575,7 +632,7 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
         if (mBlurOesProgram == 0 || mBlur2dProgram == 0 || mPanelBlurProgram == 0) {
             String vss_quad = loadAsset("shaders/preview/quad_vs.glsl");
             if (mBlurOesProgram == 0) {
-                mBlurOesProgram = loadShader(vss_quad, loadAsset("shaders/preview/blur_oes_fs.glsl"));
+                mBlurOesProgram = loadPreviewProgram89(vss_quad,"shaders/preview/blur_oes_fs.glsl");
                 if (mBlurOesProgram != 0) {
                     uOesViewSize = GLES20.glGetUniformLocation(mBlurOesProgram, "uViewSize");
                     uOesFboSize = GLES20.glGetUniformLocation(mBlurOesProgram, "uFboSize");
@@ -585,6 +642,8 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
                     uOesCos = GLES20.glGetUniformLocation(mBlurOesProgram, "uCos");
                     uOesSin = GLES20.glGetUniformLocation(mBlurOesProgram, "uSin");
                     uOesMirror = GLES20.glGetUniformLocation(mBlurOesProgram, "mirror");
+                    uBlurTone89=GLES20.glGetUniformLocation(mBlurOesProgram,"uTone89");
+                    uBlurToneEnabled89=GLES20.glGetUniformLocation(mBlurOesProgram,"uTone89Enabled");
                 }
             }
             if (mBlur2dProgram == 0) {
@@ -757,6 +816,13 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
 
     private static String GetSupportedVersion() {
         return "#version 300 es";
+    }
+
+    private int loadPreviewProgram89(String vertex,String path) {
+        String fragment=loadAsset(path),tone=loadAsset("shaders/preview/tone89.glsl");
+        int program=tone.isEmpty()?0:loadShader(vertex,fragment.replace("// HB89_TONE",tone));
+        // A driver rejection of the optional treatment must not black out the camera.
+        return program!=0?program:loadShader(vertex,fragment.replace("// HB89_TONE","vec3 hb89Tone(vec3 c){return c;}"));
     }
 
     /** Reads a shader asset safely; a missing asset must never kill the GL thread. */

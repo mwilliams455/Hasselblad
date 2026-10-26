@@ -13,6 +13,7 @@ uniform float uCos;
 uniform float uSin;
 uniform bool mirror;
 out vec4 Output;
+// HB89_TONE
 void main() {
     vec2 scale = uViewSize / uFboSize;
     vec3 sum = vec3(0.0);
@@ -27,7 +28,9 @@ void main() {
         if (mirror)
             uv.y = 1.0 - uv.y;
         float w = exp(-0.5 * float(i * i) / 18.0);
-        sum += texture(sTexture, clamp(uv, vec2(0.0), vec2(1.0))).rgb * w;
+        vec3 sampleColour = texture(sTexture, clamp(uv, vec2(0.0), vec2(1.0))).rgb;
+        sampleColour = hb89Tone(sampleColour);
+        sum += sampleColour * w;
         wsum += w;
     }
     Output = vec4(sum / wsum, 1.0);

@@ -1,0 +1,22 @@
+{
+  "status": "PASS_HOST_PREVIEW_ONLY",
+  "java": {
+    "checks": 6169,
+    "profiles": 3,
+    "status": "PASS"
+  },
+  "gpu": {
+    "renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+    "gl_version": "OpenGL ES 3.2 Mesa 25.2.8-0ubuntu0.24.04.2",
+    "production_oes_and_fallback_programs_linked": 4,
+    "off_pixels_exact": 327680,
+    "on_pixels_compared": 65536,
+    "max_rgb8_difference_from_cpu": 1,
+    "texture_adapter": "2D fixture; external-OES production shader separately compiled",
+    "android_surface_lifecycle_tested": false
+  },
+  "private_profiles_checked": 2,
+  "demosaic_retested": false,
+  "android_device_tested": false,
+  "preview_jpeg_colour_match_claimed": false
+}

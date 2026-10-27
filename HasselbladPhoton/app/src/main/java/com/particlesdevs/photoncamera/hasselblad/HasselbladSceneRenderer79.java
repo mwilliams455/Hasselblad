@@ -73,7 +73,7 @@ public final class HasselbladSceneRenderer79 {
         try {
             for (int y=0;y<r.height;y+=64) {
                 interrupted(); t=System.nanoTime();
-                short[] rgb=HasselbladFrame96.band(prepared.bayer,m.width,m.height,y,workers,r.chromaNeutral);
+                short[] rgb=HasselbladFrame97.band(prepared.bayer,m.width,m.height,y,workers,r.chromaNeutral);
                 r.demosaicNs+=System.nanoTime()-t;
                 int rows=Math.min(64,r.height-y);
                 if (diagnostics && rows==64 && (y==0 || y==middle || y==last)) {

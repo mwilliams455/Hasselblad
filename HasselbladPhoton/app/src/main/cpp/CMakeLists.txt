@@ -419,3 +419,10 @@ add_library(hbframe96 SHARED "${HB96_ROOT}/frame96.c" "${HB96_ROOT}/jni96.c")
 target_link_libraries(hbframe96 PRIVATE hbfinal74 m)
 target_compile_options(hbframe96 PRIVATE -O2 -Wall -Wextra -Werror -fno-fast-math -ffp-contract=off)
 set_target_properties(hbframe96 PROPERTIES C_STANDARD 11 C_STANDARD_REQUIRED ON LINK_FLAGS "-Wl,-z,defs,-z,max-page-size=16384")
+
+# Stage97 bounded colour-outlier correction; reference Stage96 remains intact.
+get_filename_component(HB97_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/../../../../../hasselblad_native_audit/phocus_edges_stage97" ABSOLUTE)
+add_library(hbframe97 SHARED "${HB97_ROOT}/frame97.c" "${HB97_ROOT}/chroma97.c" "${HB97_ROOT}/jni97.c")
+target_link_libraries(hbframe97 PRIVATE hbfinal74 m)
+target_compile_options(hbframe97 PRIVATE -O2 -Wall -Wextra -Werror -fno-fast-math -ffp-contract=off)
+set_target_properties(hbframe97 PROPERTIES C_STANDARD 11 C_STANDARD_REQUIRED ON LINK_FLAGS "-Wl,-z,defs,-z,max-page-size=16384")

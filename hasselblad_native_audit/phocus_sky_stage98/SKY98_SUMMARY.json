@@ -1,0 +1,48 @@
+{
+  "synthetic_only": true,
+  "does_not_prove_cause_in_new_jpeg": true,
+  "summary": [
+    {
+      "background": "grey",
+      "cases": 30,
+      "changed_edge_pct": 27.046887593040346,
+      "colour_guard_block_pct_of_potential": 0.0,
+      "stage96_rgb_rmse": 0.004563482029489414,
+      "stage97_rgb_rmse": 0.00450139499099341,
+      "stage96_chroma_rmse": 0.00617245095823909,
+      "stage97_chroma_rmse": 0.005854731183051479
+    },
+    {
+      "background": "pale_blue",
+      "cases": 30,
+      "changed_edge_pct": 34.134547006115774,
+      "colour_guard_block_pct_of_potential": 0.0,
+      "stage96_rgb_rmse": 0.005754767498592769,
+      "stage97_rgb_rmse": 0.005639673683202556,
+      "stage96_chroma_rmse": 0.008631992145807428,
+      "stage97_chroma_rmse": 0.00821094490497102
+    },
+    {
+      "background": "blue",
+      "cases": 30,
+      "changed_edge_pct": 0.0,
+      "colour_guard_block_pct_of_potential": 100.0,
+      "stage96_rgb_rmse": 0.007060765399341055,
+      "stage97_rgb_rmse": 0.007060765399341055,
+      "stage96_chroma_rmse": 0.010637289366950306,
+      "stage97_chroma_rmse": 0.010637289366950306
+    },
+    {
+      "background": "cyan",
+      "cases": 30,
+      "changed_edge_pct": 0.0,
+      "colour_guard_block_pct_of_potential": 100.0,
+      "stage96_rgb_rmse": 0.00709248681454146,
+      "stage97_rgb_rmse": 0.00709248681454146,
+      "stage96_chroma_rmse": 0.010679434511862982,
+      "stage97_chroma_rmse": 0.010679434511862982
+    }
+  ],
+  "application_changed": false,
+  "new_apk_built": false
+}

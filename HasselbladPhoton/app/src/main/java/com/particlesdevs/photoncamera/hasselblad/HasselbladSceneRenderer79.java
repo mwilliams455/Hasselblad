@@ -70,10 +70,11 @@ public final class HasselbladSceneRenderer79 {
             interrupted();
             sink.band(y,rows,r.width,HasselbladProfile43.srgb16ToArgb(profile.outputGradatedRgb16(gradated)));
         }):null;
+        HasselbladFrame99.Stream fringe=new HasselbladFrame99.Stream(prepared.bayer,m.width,m.height,workers,r.chromaNeutral);
         try {
             for (int y=0;y<r.height;y+=64) {
                 interrupted(); t=System.nanoTime();
-                short[] rgb=HasselbladFrame97.band(prepared.bayer,m.width,m.height,y,workers,r.chromaNeutral);
+                short[] rgb=fringe.band(y);
                 r.demosaicNs+=System.nanoTime()-t;
                 int rows=Math.min(64,r.height-y);
                 if (diagnostics && rows==64 && (y==0 || y==middle || y==last)) {
@@ -98,7 +99,7 @@ public final class HasselbladSceneRenderer79 {
                 t=System.nanoTime();sharp.finish();r.colourNs+=System.nanoTime()-t;
                 r.sharpeningApplied=true;
             }
-        }finally{if(sharp!=null)sharp.abort();}
+        }finally{fringe.abort();if(sharp!=null)sharp.abort();}
         interrupted(); return r;
     }
 }

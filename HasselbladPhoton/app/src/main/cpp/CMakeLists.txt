@@ -426,3 +426,10 @@ add_library(hbframe97 SHARED "${HB97_ROOT}/frame97.c" "${HB97_ROOT}/chroma97.c" 
 target_link_libraries(hbframe97 PRIVATE hbfinal74 m)
 target_compile_options(hbframe97 PRIVATE -O2 -Wall -Wextra -Werror -fno-fast-math -ffp-contract=off)
 set_target_properties(hbframe97 PROPERTIES C_STANDARD 11 C_STANDARD_REQUIRED ON LINK_FLAGS "-Wl,-z,defs,-z,max-page-size=16384")
+
+# Stage99 source-camera correction; previous reconstruction stays unchanged.
+get_filename_component(HB99_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/../../../../../hasselblad_native_audit/phocus_fringe_stage99" ABSOLUTE)
+add_library(hbfringe99 SHARED "${HB99_ROOT}/chroma99.c" "${HB99_ROOT}/jni99.c")
+target_link_libraries(hbfringe99 PRIVATE m)
+target_compile_options(hbfringe99 PRIVATE -O2 -Wall -Wextra -Werror -fno-fast-math -ffp-contract=off)
+set_target_properties(hbfringe99 PROPERTIES C_STANDARD 11 C_STANDARD_REQUIRED ON LINK_FLAGS "-Wl,-z,defs,-z,max-page-size=16384")

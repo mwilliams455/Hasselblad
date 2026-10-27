@@ -36,7 +36,7 @@ public final class HasselbladCapture79 {
         }
     }
     private static JSONObject report(String status) throws Exception {
-        return new JSONObject().put("schema","hasselblad-stage97-capture-v1").put("status",status)
+        return new JSONObject().put("schema","hasselblad-stage99-capture-v1").put("status",status)
                 .put("version_name",BuildConfig.VERSION_NAME).put("version_code",BuildConfig.VERSION_CODE)
                 .put("required_renderer","Hasselblad").put("photon_colour_applied",false)
                 .put("source_commit",BuildConfig.HB88_SOURCE).put("physical_sensor_colour_match_proved",false)
@@ -190,7 +190,7 @@ public final class HasselbladCapture79 {
                         .put("demosaic_milliseconds",rendered.demosaicNs/1e6).put("colour_and_bitmap_milliseconds",rendered.colourNs/1e6)
                         .put("raw_below_black",rendered.belowBlack).put("raw_at_white",rendered.atWhite)
                         .put("gain_clip_events",rendered.gainClips).put("gainmap_count",rendered.gainMaps)
-                        .put("reconstruction_revision","phocus-edges97")
+                        .put("reconstruction_revision","phocus-fringe99")
                         .put("chroma_correction_neutral",new JSONArray().put(rendered.chromaNeutral[0]).put(rendered.chromaNeutral[1]).put(rendered.chromaNeutral[2]))
                         .put("source_rgb_restored_before_colour",true)
                         .put("jpeg_quality",95).put("photon_colour_applied",false).put("no_white_balance_before_demosaic",true);
